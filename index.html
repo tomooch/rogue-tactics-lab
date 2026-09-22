@@ -1,0 +1,15 @@
+<!doctype html>
+<html lang="ja">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><title>戦術実験機 — 戦闘視認性 v0</title><link rel="stylesheet" href="style.css"></head>
+<body>
+<main class="device" aria-label="戦術実験機">
+  <header><h1>戦術実験機</h1><span id="status">待機</span></header>
+  <section class="arena" aria-label="戦闘画面"><svg id="scene" viewBox="0 0 360 570" role="img" aria-label="前衛Aと後衛、敵4体の戦闘"></svg><span id="endBadge" hidden>戦闘終了</span></section>
+  <footer>
+    <div class="transport"><button id="play" aria-label="再生"></button><button id="replay" hidden>↶ 見返す</button><button id="speed" aria-label="再生速度を変更">1×</button></div>
+    <div id="expanded"><div class="seekrow"><input id="seek" aria-label="再生位置" type="range" min="0" max="100" step="1" value="0"><output id="clock">0.0秒</output></div><div class="actions"><button id="details">詳細</button><button id="configure" class="outline">構成を変える</button></div><section id="inspection" hidden aria-label="停止中の詳細"></section></div>
+  </footer>
+</main>
+<dialog id="config"><form id="configForm"><div class="dialoghead"><h2>構成を変える</h2><button type="button" id="closeConfig" aria-label="閉じる">×</button></div><fieldset><legend>条件</legend><label><input type="radio" name="condition" value="base" checked><span>基準<small>A + B · 敵の攻撃9</small></span></label><label><input type="radio" name="condition" value="companion"><span>仲間変更<small>B → C · 回復なし、攻撃8</small></span></label><label><input type="radio" name="condition" value="growth"><span>A成長<small>最大HP 100 → 120</small></span></label><label><input type="radio" name="condition" value="danger"><span>敵変更<small>敵の攻撃 9 → 17</small></span></label></fieldset><fieldset class="tactics"><legend>戦術</legend><label><input type="radio" name="tactic" value="focus" checked><span>集中<small>4体と交戦</small></span></label><label><input type="radio" name="tactic" value="split"><span>分割<small>2体ずつ交戦</small></span></label></fieldset><button class="start" type="submit">この構成で再生</button></form></dialog>
+<script type="module" src="app.mjs"></script>
+</body></html>
