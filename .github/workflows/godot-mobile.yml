@@ -38,3 +38,6 @@ jobs:
 
       - name: Run Godot deterministic core tests
         run: /tmp/godot/Godot_v4.7.2-stable_linux.x86_64 --headless --path mobile --script res://tests/run_tests.gd
+
+      - name: Launch portrait scene smoke
+        run: /tmp/godot/Godot_v4.7.2-stable_linux.x86_64 --headless --path mobile --quit-after 2
