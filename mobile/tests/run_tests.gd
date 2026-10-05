@@ -122,18 +122,41 @@ func _test_intent_matches_next_actor_plan() -> void:
     c.leader_action()
     _check(c.party["A"]["pos"] == target, "A intent destination matches actual leader move")
 
+func _resolve_round(c) -> void:
+    c.leader_action()
+    for id in ["B", "C", "D"]:
+        if c.finished:
+            return
+        c.ally_action(id)
+    var enemy_ids = c.alive_enemy_ids().duplicate()
+    for enemy_id in enemy_ids:
+        if c.finished:
+            return
+        c.enemy_action(enemy_id)
+    if not c.finished:
+        c.end_round()
+
 func _test_canonical_floor_can_complete() -> void:
     var c = GameCore.new()
-    for enemy in c.enemies:
-        enemy["hp"] = 0
     var path := [
-        Vector2i(3, 8), Vector2i(3, 7), Vector2i(3, 6), Vector2i(3, 5),
-        Vector2i(3, 4), Vector2i(3, 3), Vector2i(3, 2), Vector2i(3, 1),
+        Vector2i(3, 8), Vector2i(3, 7), Vector2i(3, 6),
+        Vector2i(2, 6), Vector2i(2, 5), Vector2i(1, 5),
+        Vector2i(2, 5), Vector2i(3, 5), Vector2i(3, 4),
+        Vector2i(3, 3), Vector2i(3, 2), Vector2i(3, 1),
         Vector2i(4, 1), Vector2i(5, 1),
     ]
-    for step in path:
-        c.revealed[step] = true
-        c.set_waypoint(step)
-        c.leader_action()
-        c.end_round()
-    _check(c.finished and c.won, "canonical floor path reaches stairs and wins")
+    var index := 0
+    var rounds := 0
+    while not c.finished and rounds < 100:
+        var target: Vector2i = path[index]
+        if c.is_revealed(target):
+            c.set_waypoint(target)
+        _resolve_round(c)
+        if c.relic_choice_pending():
+            c.choose_relic("thorn")
+        if c.party["A"]["pos"] == target and index < path.size() - 1:
+            index += 1
+        rounds += 1
+    _check(c.finished and c.won, "canonical real-combat run reaches stairs and wins")
+    _check(c.stats["kills"] == 5, "canonical run defeats all five enemies")
+    _check(c.relic == "thorn", "canonical run includes the relic choice")
