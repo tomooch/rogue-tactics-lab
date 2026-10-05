@@ -1,0 +1,30 @@
+; Engine configuration file.
+; Rogue Tactics Lab mobile vertical slice.
+config_version=5
+
+[application]
+config/name="Rogue Tactics Lab"
+run/main_scene="res://main.tscn"
+config/features=PackedStringArray("4.7", "Mobile")
+
+[display]
+window/size/viewport_width=390
+window/size/viewport_height=844
+window/size/window_width_override=390
+window/size/window_height_override=844
+window/stretch/mode="canvas_items"
+window/handheld/orientation=1
+window/ios/hide_home_indicator=true
+window/ios/hide_status_bar=true
+window/energy_saving/keep_screen_on=true
+
+[input_devices]
+pointing/emulate_touch_from_mouse=true
+
+[rendering]
+renderer/rendering_method="mobile"
+renderer/rendering_method.mobile="mobile"
+textures/default_filters/use_nearest_mipmap_filter=false
+
+[gui]
+theme/default_font_multichannel_signed_distance_field=true
