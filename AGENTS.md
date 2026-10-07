@@ -19,7 +19,7 @@ Historical conversation / old docs だけから current state を断定しない
 
 本書は agent の運用契約であり、実装完了や追加 scope の承認ではない。docs、Issue、実装の食い違いは証拠で確認し、material な未解決の矛盾は Human に示して依存する作業だけ止める。許可済みの独立作業は進める。
 
-Issue #1 の旧 Web 維持 / npm regression 記述は、最新の明示的 Human 判断による retirement に置き換える。historical evidence は immutable commit `0d8a2a68c37902256f5123ef86017ce83a60a64e` / tag `archive/web-v0-final` で参照し、current tree に保持しない。PR #4 は merge 済み。accepted implementation は常に actual GitHub `main` HEAD。PR #5 は Draft / pending implementation。Stage 0 の実行証拠は pending HEAD `6a0879e8877cf0717d2ac5019a923ea11fbbd0af` に紐付け、main の実装済み evidence と混同しない。
+Issue #1 の旧 Web 維持 / npm regression 記述は、最新の明示的 Human 判断による retirement に置き換える。historical evidence は immutable commit `0d8a2a68c37902256f5123ef86017ce83a60a64e` / tag `archive/web-v0-final` で参照し、current tree に保持しない。PR #4 は merge 済み。accepted implementation は常に actual GitHub `main` HEAD。PR #5 は merge 済み（merge commit `ab9fa5dc729dcea07f8680e7b22544627c5e5bed`）で、Stage 0 の基盤は main に取り込み済み。実行済みテストは PR #5 の旧検証 HEAD `6a0879e8877cf0717d2ac5019a923ea11fbbd0af` に紐付け、merge commit や以後の HEAD で再実行した結果と混同しない。
 
 ## Design Office / Executor / Human
 
@@ -34,7 +34,7 @@ Issue #1 の旧 Web 維持 / npm regression 記述は、最新の明示的 Human
 - 未決 USER_DECISION を固定する gameplay 実装や frozen direction の変更には Human の決定が必要。決定待ちの箇所を実装で埋めない。
 - merge、default branch への直接 push、force push、共有履歴の書換え、branch 削除、Draft-to-Ready、auto-merge / merge queue、deployment / release / 外部公開、production-state write、権限変更、課金・有料サービス・新しい hosted dependency、secret / credential の導入、破壊的操作には明示的な許可が必要。
 - 承認済みの範囲内の編集・必要な検証・専用 branch への task-owned commit / push は進める。同じ対象と効果への有効な許可を再度求めない。検証成功だけで追加の権限を得ない。
-- 2026-10-08 の明示的 Human 指示で Unity Stage 0 を再開。PR #3 は closed / unmerged / historical audit evidence、branch 保持。PR #5 は Draft / pending で基盤のみ成立。Unity 6000.3.25f1、import / compile PASS、EditMode 5/5 PASS、PlayMode 1/1 PASS、390×844 portrait smoke PASS の対象 HEAD は `6a0879e8877cf0717d2ac5019a923ea11fbbd0af`。実機未検証、CI なし、human play 未実施。[Design Office comment](https://github.com/tomooch/rogue-tactics-lab/pull/5#issuecomment-6042899298) と最新 Human 指示で4文書の事実同期を承認済み。gameplay scope 拡大・merge・Draft-to-Ready の承認ではない。
+- 2026-10-08 の明示的 Human 指示で Unity Stage 0 を再開。PR #3 は closed / unmerged / historical audit evidence、branch 保持。PR #5 は main へ merge 済みで基盤のみ成立。Unity 6000.3.25f1、import / compile PASS、EditMode 5/5 PASS、PlayMode 1/1 PASS、390×844 portrait smoke PASS の対象 HEAD は `6a0879e8877cf0717d2ac5019a923ea11fbbd0af`。実機未検証、CI なし、human play 未実施。[Design Office comment](https://github.com/tomooch/rogue-tactics-lab/pull/5#issuecomment-6042899298) と最新 Human 指示で4文書の事実同期を承認済み。gameplay scope 拡大・merge・Draft-to-Ready の承認ではない。
 
 ## Core hypothesis
 
@@ -46,7 +46,7 @@ Issue #1 の旧 Web 維持 / npm regression 記述は、最新の明示的 Human
 
 以下は承認済みの方向であり、実装済みという意味ではない。
 
-- 最終製品は iOS / Android native game。Unity 6.3 LTS (6000.3.x)、C#、URP。将来の実装先は `unity/`。
+- 最終製品は iOS / Android native game。Unity 6.3 LTS (6000.3.x)、C#、URP。実装先は `unity/`。
 - portrait only、390×844 reference。landscape UI は作らない。小さな2.5D / diorama、orthographic または near-orthographic。
 - 探索と戦闘は同じ field。別 battle screen にしない。A / B / C / D は on-board、E は compact off-board UI のみ。E を pawn や正解を示す oracle にしない。
 - deterministic な離散 turn / step。ATB、real-time countdown、時間圧入力、各キャラの Attack / Heal command menu は採用しない。
@@ -62,7 +62,7 @@ Issue #1 の旧 Web 維持 / npm regression 記述は、最新の明示的 Human
 2. **Resolution chunk**: 1回の委譲でどこまで自律行動が解決され、どこで次の判断に戻るか。
 3. **Intent horizon**: 次の1行動か、複数手先か。次の1行動という候補も未承認。
 
-Stage 0 の環境監査・bootstrap はこれらを固定しない範囲に限る。Stage 0 の基盤 bootstrap は PR #5 の pending HEAD で成立し、停止中ではない。決定を得た際は根拠となる Human 指示と contract 更新を記録してから依存する実装へ進む。
+Stage 0 の環境監査・bootstrap はこれらを固定しない範囲に限る。Stage 0 の基盤 bootstrap は PR #5 で成立し、main へ merge 済み。決定を得た際は根拠となる Human 指示と contract 更新を記録してから依存する実装へ進む。
 
 ## Experiment governance
 
@@ -99,7 +99,7 @@ Stage 0 の環境監査・bootstrap はこれらを固定しない範囲に限�
 
 - 承認された task の受入条件と、重要な失敗を区別できる証拠を決める。観測可能な環境では implement → run → observe → compare → repair → rerun を完了する。
 - current repo に Web npm harness はない。retirement は Git diff / tree、historical commit / archive tag の参照、Web runtime / source / assets / tests / build scripts と Pages workflow の不在を確認する。旧 npm コマンドを current requirement にしない。
-- Unity Stage 0 の import / compile / EditMode scaffolding / portrait Scene Play smoke は PR #5 の pending HEAD で確認済み。対象 revision・command・結果・限界は VERIFICATION.md を参照し、今後の変更に応じて必要な再検証を行う。後続 gameplay は Issue #1 の pure Core gate と one-floor acceptance を満たす。Stage 0 に後続 gameplay の実装を混ぜない。
+- Unity Stage 0 の基盤は main へ merge 済み。import / compile / EditMode scaffolding / portrait Scene Play smoke の実行済み証拠は PR #5 の旧検証 HEAD `6a0879e8877cf0717d2ac5019a923ea11fbbd0af` に紐付く。対象 revision・command・結果・限界は VERIFICATION.md を参照し、今後の変更に応じて必要な再検証を行う。後続 gameplay は Issue #1 の pure Core gate と one-floor acceptance を満たす。Stage 0 に後続 gameplay の実装を混ぜない。
 - CI は既存設定と許可の範囲で使う。paid CI、license secrets、新しい recurring cost を追加しない。current tree に CI workflow はまだない。実行されていない CI 成功を主張しない。
 - branch、baseline / HEAD SHA、PR URL、changed files、実行した command と結果、environment / exact Editor、未実行事項と理由、USER_DECISION / blocker を報告する。
 - mocks / tests / HTTP smoke / Editor / simulator / real device / human play の証拠の範囲を区別する。観測していない UI・公開 deploy・実機成功を主張しない。
