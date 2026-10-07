@@ -28,3 +28,6 @@
 *.cer
 *.mobileprovision
 *.provisionprofile
+
+# IDE output generated locally by Unity
+**/.vscode/
