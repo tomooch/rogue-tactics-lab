@@ -1,6 +1,6 @@
 # Native mobile の設計方向
 
-正本は [Issue #1](https://github.com/tomooch/rogue-tactics-lab/issues/1)。本書は契約の要点であり、実装完了の記録ではない。Web v0 は retired historical evidence。[当時の設計](https://github.com/tomooch/rogue-tactics-lab/blob/0d8a2a68c37902256f5123ef86017ce83a60a64e/DESIGN.md) は immutable snapshot `0d8a2a68c37902256f5123ef86017ce83a60a64e`（tag `archive/web-v0-final`）に保持し、active tree に Web implementation を持たない。Pages は current product / runtime ではない。Unity implementation はまだ未作成。PR #4 未 merge の間は accepted GitHub main とこの pending tree を区別する。
+正本は [Issue #1](https://github.com/tomooch/rogue-tactics-lab/issues/1)。本書は契約の要点であり、実装完了の記録ではない。Web v0 は retired historical evidence。[当時の設計](https://github.com/tomooch/rogue-tactics-lab/blob/0d8a2a68c37902256f5123ef86017ce83a60a64e/DESIGN.md) は immutable snapshot `0d8a2a68c37902256f5123ef86017ce83a60a64e`（tag `archive/web-v0-final`）に保持し、active tree に Web implementation を持たない。Pages は current product / runtime ではなく、Human が Unpublish 済み。PR #4 は merge 済みで、Web v0 は retired 済み。accepted implementation は常に actual GitHub `main` HEAD。[PR #5](https://github.com/tomooch/rogue-tactics-lab/pull/5) の Unity Stage 0 は Draft / pending implementation。実行した HEAD `6a0879e8877cf0717d2ac5019a923ea11fbbd0af` で Unity 6000.3.25f1、import / compile PASS、EditMode 5/5 PASS、PlayMode 1/1 PASS、390×844 portrait smoke PASS。証拠は [VERIFICATION.md](VERIFICATION.md)。実機未検証、CI なし、human play 未実施。Stage 0 の成立を gameplay 仮説や frozen direction の採用証拠にはしない。
 
 ## Core hypothesis
 
@@ -36,4 +36,4 @@ strategist-dependent intervention hypothesis: E の experiment configuration に
 2. Resolution chunk: 1回の委譲でどこまで自律行動が解決され、どこで次の判断に戻るか。
 3. Intent horizon: 次の1行動か、複数手先か。
 
-今回の cleanup は上記 gameplay、Unity 実装、署名・実機検証を含まない。
+PR #5 の Stage 0 は Unity 基盤のみ。上記 USER_DECISION を固定する gameplay、署名・実機検証は含まない。

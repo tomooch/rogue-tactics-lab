@@ -1,0 +1,21 @@
+{
+  "name": "RogueTactics.Tests.EditMode",
+  "rootNamespace": "RogueTactics",
+  "references": [
+    "RogueTactics.Core"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false,
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ]
+}

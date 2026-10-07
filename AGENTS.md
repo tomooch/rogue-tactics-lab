@@ -19,7 +19,7 @@ Historical conversation / old docs だけから current state を断定しない
 
 本書は agent の運用契約であり、実装完了や追加 scope の承認ではない。docs、Issue、実装の食い違いは証拠で確認し、material な未解決の矛盾は Human に示して依存する作業だけ止める。許可済みの独立作業は進める。
 
-Issue #1 の旧 Web 維持 / npm regression 記述は、最新の明示的 Human 判断による retirement に置き換える。historical evidence は immutable commit `0d8a2a68c37902256f5123ef86017ce83a60a64e` / tag `archive/web-v0-final` で参照し、current tree に保持しない。PR #4 未 merge の間は accepted main と pending PR HEAD を区別する。
+Issue #1 の旧 Web 維持 / npm regression 記述は、最新の明示的 Human 判断による retirement に置き換える。historical evidence は immutable commit `0d8a2a68c37902256f5123ef86017ce83a60a64e` / tag `archive/web-v0-final` で参照し、current tree に保持しない。PR #4 は merge 済み。accepted implementation は常に actual GitHub `main` HEAD。PR #5 は Draft / pending implementation。Stage 0 の実行証拠は pending HEAD `6a0879e8877cf0717d2ac5019a923ea11fbbd0af` に紐付け、main の実装済み evidence と混同しない。
 
 ## Design Office / Executor / Human
 
@@ -34,7 +34,7 @@ Issue #1 の旧 Web 維持 / npm regression 記述は、最新の明示的 Human
 - 未決 USER_DECISION を固定する gameplay 実装や frozen direction の変更には Human の決定が必要。決定待ちの箇所を実装で埋めない。
 - merge、default branch への直接 push、force push、共有履歴の書換え、branch 削除、Draft-to-Ready、auto-merge / merge queue、deployment / release / 外部公開、production-state write、権限変更、課金・有料サービス・新しい hosted dependency、secret / credential の導入、破壊的操作には明示的な許可が必要。
 - 承認済みの範囲内の編集・必要な検証・専用 branch への task-owned commit / push は進める。同じ対象と効果への有効な許可を再度求めない。検証成功だけで追加の権限を得ない。
-- 現在の Unity bootstrap は Human 指示で停止中。PR #3 は Draft の audit evidence のみ。cleanup / 本書追加は Unity 再開の承認ではなく、PR #3 を変更しない。
+- 2026-10-08 の明示的 Human 指示で Unity Stage 0 を再開。PR #3 は closed / unmerged / historical audit evidence、branch 保持。PR #5 は Draft / pending で基盤のみ成立。Unity 6000.3.25f1、import / compile PASS、EditMode 5/5 PASS、PlayMode 1/1 PASS、390×844 portrait smoke PASS の対象 HEAD は `6a0879e8877cf0717d2ac5019a923ea11fbbd0af`。実機未検証、CI なし、human play 未実施。[Design Office comment](https://github.com/tomooch/rogue-tactics-lab/pull/5#issuecomment-6042899298) と最新 Human 指示で4文書の事実同期を承認済み。gameplay scope 拡大・merge・Draft-to-Ready の承認ではない。
 
 ## Core hypothesis
 
@@ -62,7 +62,7 @@ Issue #1 の旧 Web 維持 / npm regression 記述は、最新の明示的 Human
 2. **Resolution chunk**: 1回の委譲でどこまで自律行動が解決され、どこで次の判断に戻るか。
 3. **Intent horizon**: 次の1行動か、複数手先か。次の1行動という候補も未承認。
 
-Stage 0 の環境監査・bootstrap はこれらを固定しない範囲に限る。現在は bootstrap 自体も停止中。決定を得た際は根拠となる Human 指示と contract 更新を記録してから依存する実装へ進む。
+Stage 0 の環境監査・bootstrap はこれらを固定しない範囲に限る。Stage 0 の基盤 bootstrap は PR #5 の pending HEAD で成立し、停止中ではない。決定を得た際は根拠となる Human 指示と contract 更新を記録してから依存する実装へ進む。
 
 ## Experiment governance
 
@@ -93,13 +93,13 @@ Stage 0 の環境監査・bootstrap はこれらを固定しない範囲に限�
 - 変更前に git status / remote を監査し、origin/main を fetch。新規タスクは最新 origin/main から専用 worktree / `codex/` branch を作る。既存 PR 更新はその専用 worktree / head branch を使い、無断で rebase / history rewrite しない。
 - canonical main を直接編集しない。unrelated user changes を上書き・stage・commit・削除しない。task-owned 差分だけ commit / push する。
 - 実装 → 必要な検証 → adversarial self-review → 修正 → commit / push → Draft PR → 利用可能な CI 結果確認。既存 PR 更新ではその PR に push し、説明を最終 scope に合わせる。
-- **no auto merge**。merge / main push / Draft-to-Ready は Human の明示許可が必要。本 cleanup の tree に Pages deployment workflow はない。未 merge の accepted main には旧 workflow が残る。
+- **no auto merge**。merge / main push / Draft-to-Ready は Human の明示許可が必要。PR #4 merge 後の accepted main と PR #5 に Pages deployment workflow はない。Pages は Human が Unpublish 済み。
 
 ## Verification requirements
 
 - 承認された task の受入条件と、重要な失敗を区別できる証拠を決める。観測可能な環境では implement → run → observe → compare → repair → rerun を完了する。
 - current repo に Web npm harness はない。retirement は Git diff / tree、historical commit / archive tag の参照、Web runtime / source / assets / tests / build scripts と Pages workflow の不在を確認する。旧 npm コマンドを current requirement にしない。
-- Unity Stage 0 を再開したら import / compile / EditMode scaffolding / portrait Scene Play smoke、可能な batchmode evidence を確認する。後続 gameplay は Issue #1 の pure Core gate と one-floor acceptance を満たす。Stage 0 に後続 gameplay の実装を混ぜない。
+- Unity Stage 0 の import / compile / EditMode scaffolding / portrait Scene Play smoke は PR #5 の pending HEAD で確認済み。対象 revision・command・結果・限界は VERIFICATION.md を参照し、今後の変更に応じて必要な再検証を行う。後続 gameplay は Issue #1 の pure Core gate と one-floor acceptance を満たす。Stage 0 に後続 gameplay の実装を混ぜない。
 - CI は既存設定と許可の範囲で使う。paid CI、license secrets、新しい recurring cost を追加しない。current tree に CI workflow はまだない。実行されていない CI 成功を主張しない。
 - branch、baseline / HEAD SHA、PR URL、changed files、実行した command と結果、environment / exact Editor、未実行事項と理由、USER_DECISION / blocker を報告する。
 - mocks / tests / HTTP smoke / Editor / simulator / real device / human play の証拠の範囲を区別する。観測していない UI・公開 deploy・実機成功を主張しない。
@@ -109,7 +109,7 @@ Stage 0 の環境監査・bootstrap はこれらを固定しない範囲に限�
 - Web v0 の最終 accepted evidence は immutable commit `0d8a2a68c37902256f5123ef86017ce83a60a64e` と annotated tag `archive/web-v0-final`。source / tests / assets / 当時の docs は Git history から参照する。
 - current main を過去 prototype 運用のために汚さない。active tree に legacy/web-v0、Web runtime、npm wrapper、Pages artifact / deploy workflow を復活させない。再現は archive の別 checkout で行う。
 - historical automated / browser evidence は native runtime・人試遊・current execution の evidence へ誤変換しない。過去の revision と現在の観測対象を特定する。
-- Pages は current product / runtime ではない。workflow 削除だけで既存公開 site や GitHub Pages 設定が停止したと主張しない。外部設定の変更は明示的な許可の範囲で行う。
+- Pages は current product / runtime ではなく、Human が Unpublish 済み（[Human 報告](https://github.com/tomooch/rogue-tactics-lab/pull/5#issuecomment-6042899298)）。workflow 削除による停止とは扱わない。外部設定の追加変更は明示的な許可の範囲で行う。
 
 ## Todo / Decision / Tried & Learned governance
 
