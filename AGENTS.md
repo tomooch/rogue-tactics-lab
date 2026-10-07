@@ -19,7 +19,7 @@ Historical conversation / old docs だけから current state を断定しない
 
 本書は agent の運用契約であり、実装完了や追加 scope の承認ではない。docs、Issue、実装の食い違いは証拠で確認し、material な未解決の矛盾は Human に示して依存する作業だけ止める。許可済みの独立作業は進める。
 
-Issue の旧 root Web 配置記述に対して、Human が承認した cleanup の配置先は `legacy/web-v0/`。内容と再現性を保存する。
+Issue #1 の旧 Web 維持 / npm regression 記述は、最新の明示的 Human 判断による retirement に置き換える。historical evidence は immutable commit `0d8a2a68c37902256f5123ef86017ce83a60a64e` / tag `archive/web-v0-final` で参照し、current tree に保持しない。PR #4 未 merge の間は accepted main と pending PR HEAD を区別する。
 
 ## Design Office / Executor / Human
 
@@ -93,24 +93,23 @@ Stage 0 の環境監査・bootstrap はこれらを固定しない範囲に限�
 - 変更前に git status / remote を監査し、origin/main を fetch。新規タスクは最新 origin/main から専用 worktree / `codex/` branch を作る。既存 PR 更新はその専用 worktree / head branch を使い、無断で rebase / history rewrite しない。
 - canonical main を直接編集しない。unrelated user changes を上書き・stage・commit・削除しない。task-owned 差分だけ commit / push する。
 - 実装 → 必要な検証 → adversarial self-review → 修正 → commit / push → Draft PR → 利用可能な CI 結果確認。既存 PR 更新ではその PR に push し、説明を最終 scope に合わせる。
-- **no auto merge**。merge / main push / Draft-to-Ready は Human の明示許可が必要。main push は現在 Pages deployment を伴う。
+- **no auto merge**。merge / main push / Draft-to-Ready は Human の明示許可が必要。本 cleanup の tree に Pages deployment workflow はない。未 merge の accepted main には旧 workflow が残る。
 
 ## Verification requirements
 
 - 承認された task の受入条件と、重要な失敗を区別できる証拠を決める。観測可能な環境では implement → run → observe → compare → repair → rerun を完了する。
-- root `npm test` を維持する。Web packaging / path 変更なら `npm run check`、`npm run build`、8 configurations、relative paths、artifact、Pages YAML / upload path、可能な local HTTP smoke を確認する。今回の docs-only 追加は root npm test と差分確認で検証する。
+- current repo に Web npm harness はない。retirement は Git diff / tree、historical commit / archive tag の参照、Web runtime / source / assets / tests / build scripts と Pages workflow の不在を確認する。旧 npm コマンドを current requirement にしない。
 - Unity Stage 0 を再開したら import / compile / EditMode scaffolding / portrait Scene Play smoke、可能な batchmode evidence を確認する。後続 gameplay は Issue #1 の pure Core gate と one-floor acceptance を満たす。Stage 0 に後続 gameplay の実装を混ぜない。
-- CI は既存設定と許可の範囲で使う。paid CI、license secrets、新しい recurring cost を追加しない。既存 Pages workflow は main push / workflow_dispatch のみで、Draft PR に CI が走ったと主張しない。
+- CI は既存設定と許可の範囲で使う。paid CI、license secrets、新しい recurring cost を追加しない。current tree に CI workflow はまだない。実行されていない CI 成功を主張しない。
 - branch、baseline / HEAD SHA、PR URL、changed files、実行した command と結果、environment / exact Editor、未実行事項と理由、USER_DECISION / blocker を報告する。
 - mocks / tests / HTTP smoke / Editor / simulator / real device / human play の証拠の範囲を区別する。観測していない UI・公開 deploy・実機成功を主張しない。
 
-## legacy/web-v0 の扱い
+## Retired historical Web evidence
 
-- `legacy/web-v0/` は historical browser experiment の source / tests / assets / docs。native 実装や current gameplay contract の根拠へ誤変換しない。
-- cleanup では戦闘ルール・数値・runtime・当時の evidence を保持する。変更が必要なら明示的に scope と検証を定める。
-- root package.json は repo-level entrypoint。root から npm test / check / build / start が動く状態を維持する。
-- build output は `legacy/web-v0/_site/`、Git 管理外。runtime 5 files + revision.json + .nojekyll のみを Pages に upload。verification URL は公開 commit SHA の `legacy/web-v0/VERIFICATION.md` を指す。
-- generated artifact は untracked / ignored / 再生成可能と確認したものだけ削除する。historical docs は当時の確認範囲を保ち、新しい証拠は current VERIFICATION や PR に記録する。
+- Web v0 の最終 accepted evidence は immutable commit `0d8a2a68c37902256f5123ef86017ce83a60a64e` と annotated tag `archive/web-v0-final`。source / tests / assets / 当時の docs は Git history から参照する。
+- current main を過去 prototype 運用のために汚さない。active tree に legacy/web-v0、Web runtime、npm wrapper、Pages artifact / deploy workflow を復活させない。再現は archive の別 checkout で行う。
+- historical automated / browser evidence は native runtime・人試遊・current execution の evidence へ誤変換しない。過去の revision と現在の観測対象を特定する。
+- Pages は current product / runtime ではない。workflow 削除だけで既存公開 site や GitHub Pages 設定が停止したと主張しない。外部設定の変更は明示的な許可の範囲で行う。
 
 ## Todo / Decision / Tried & Learned governance
 

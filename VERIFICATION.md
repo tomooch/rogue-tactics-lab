@@ -1,39 +1,26 @@
 # 現在の実装・検証状況
 
-accepted main の実装は **historical Web v0 のみ**。Unity native implementation はまだ存在しない。
+最終製品は iOS / Android native Unity game。この cleanup の pending tree に Web implementation はなく、Unity implementation もまだ未作成。PR #4 未 merge の間、accepted GitHub main は historical snapshot `0d8a2a68c37902256f5123ef86017ce83a60a64e` のまま。merge 後の main 用の tree と現在の accepted main を混同しない。
 
-## Historical Web v0 evidence
+## Retired historical evidence
 
-当時の詳細は [legacy/web-v0/VERIFICATION.md](legacy/web-v0/VERIFICATION.md) に内容を保持した。2026-09-22 の Pages / browser 機能確認を今回の native play evidence として扱わない。
+Web v0 最終 accepted snapshot は [commit `0d8a2a68c37902256f5123ef86017ce83a60a64e`](https://github.com/tomooch/rogue-tactics-lab/tree/0d8a2a68c37902256f5123ef86017ce83a60a64e)。annotated tag `archive/web-v0-final` も同 commit を指す。
 
-- Web v0 の既存自動テストは11件。4条件 × 集中 / 分割の8 configurations、deterministic replay、HP会計、死亡後効果の禁止等を検証する。
-- [historical Pages URL](https://tomooch.github.io/rogue-tactics-lab/) と [初回公開 Actions](https://github.com/tomooch/rogue-tactics-lab/actions/runs/35730342366) の evidence がある。
-- 当時の機能確認は人の試遊、初見の因果理解、面白さ、native 実機成功の証明ではない。
+- [当時の VERIFICATION.md](https://github.com/tomooch/rogue-tactics-lab/blob/0d8a2a68c37902256f5123ef86017ce83a60a64e/VERIFICATION.md) に11 tests、8 configurations、2026-09-22 の Pages / browser evidence を保持する。
+- 旧 npm harness / runtime / source / assets / tests / build scripts は archive 内に残るが、current tree の実装・検証 requirement ではない。
+- 過去の cleanup revision に対する npm / build / HTTP 成功は Git history / PR 記録に残る。今回の removal 後の tree に対する runtime 成功とは主張しない。
+- human play evidence と native device play evidence はまだない。historical browser 機能確認を人試遊や Unity evidence に変換しない。
 
 ## Unity audit evidence
 
-[PR #3](https://github.com/tomooch/rogue-tactics-lab/pull/3) は Draft、environment audit only / blocked。2026-10-07 の監査で標準配置と Spotlight に Unity Hub / 6000.3.x Editor が見つからなかった。カスタム配置を完全に否定する監査ではない。
+[PR #3](https://github.com/tomooch/rogue-tactics-lab/pull/3) は Draft、environment audit only / blocked。2026-10-07 の標準配置 / Spotlight 監査では Unity Hub / 6000.3.x Editor 未検出。カスタム配置を完全に否定する監査ではない。Human 指示で Unity 作業は停止中。
 
-- exact Editor patch / iOS・Android Build Support は未確認。
-- Unity project / Core C# / Scene / EditMode tests は未作成。
-- import / compile / Play Mode / batchmode は未実行。
-- human play evidence と iOS / Android device play evidence はまだない。
-- gameplay の未決事項は [DESIGN.md](DESIGN.md) と Issue #1 に保持する。
+exact patch / build modules は未確認。Unity project / Core C# / Scene / EditMode tests は未作成、import / compile / Play / batchmode / device 検証は未実行。USER_DECISION は [DESIGN.md](DESIGN.md) と Issue #1 に保持する。
 
-## Repository cleanup verification（2026-10-07）
+## Web retirement verification（2026-10-07）
 
-baseline: `0d8a2a68c37902256f5123ef86017ce83a60a64e`。以下は cleanup worktree での実測結果。移動だけで Web v0 の戦闘ロジック・数値・runtime・tests・historical docs は変更しない。
+今回の受入条件は Git diff / tree と immutable archive の確認。npm コマンドは廃止済みで実行対象外。Web runtime / source / assets / tests / build scripts、root package.json、Pages workflow を削除し、Unity implementation は追加しない。検証の実測結果は PR #4 に記録する。
 
+Issue #1 の旧 Web 維持 / npm regression 要件は、今回の明示的な Human 方針変更で retirement に置き換える。Issue 自体は本作業で編集せず、後続 executor は最新 Human 判断と該当 PR の scope を合わせて読む。
 
-- root `npm test`: 11/11 PASS、fail 0、exit 0。8 configurations の既存 fixture と deterministic replay を再現。
-- root `npm run check`: PASS、8 configurations の生死・時刻・残HP・回復回数を出力。
-- root `npm run build`: PASS。`legacy/web-v0/_site/` の runtime 5 files + `revision.json` + `.nojekyll` を確認。runtime は移動前とバイト一致。
-- runtime / assets / tests / compare script / historical docs を baseline Git blob と照合し、バイト一致を確認。
-- Ruby YAML parser で Pages workflow の構文、root npm test/build、upload path を確認。revision の SHA と `legacy/web-v0/VERIFICATION.md` URL を確認。
-- root `npm start` と built Pages artifact をそれぞれローカル HTTP 配信。runtime の HTTP 200 / 内容一致、相対 imports、JavaScript MIME を確認。今回の smoke は HTTP 検証であり、ブラウザ描画・人の試遊の再検証ではない。
-- canonical root の旧 `_site/` は untracked / ignored、runtime 5 files が source と一致する7ファイルの generated artifact と再確認し、ローカルだけ削除。新生成物も commit しない。
-- PR #3 は Draft / HEAD `1a62aa6b7052bc3ad193587ddd73a97fae0c763b` を保持。Godot・Unity implementation は追加なし。
-
-Local raw evidence: `/private/tmp/rogue-tactics-cleanup-verification-20261007/completion.json`、`stdout.log`、`stderr.log`（一時領域、Git 管理外）。
-
-未検証: cleanup 後の live Pages deploy（merge / production publication は未実施）、ブラウザ描画の再確認、人の試遊、Unity / native device。既存 workflow は main push / workflow_dispatch のみで Draft PR では実行されない。今回の配置変更は Issue #1 の旧 root 配置記述に対する明示的なユーザー指示に従った。
+GitHub Pages API は `build_type: workflow`、URL `https://tomooch.github.io/rogue-tactics-lab/`、source `main:/` を返した。workflow 削除後の tree には main push による Pages deployment 定義がない。ただし現在は未 merge で GitHub main の旧 workflow は残る。Pages 設定 / 公開済み site の停止・削除は未実施。Pages は current product / runtime ではない。

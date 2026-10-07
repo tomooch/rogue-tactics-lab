@@ -1,6 +1,6 @@
 # Native mobile の設計方向
 
-正本は [Issue #1](https://github.com/tomooch/rogue-tactics-lab/issues/1)。本書は契約の要点であり、実装完了の記録ではない。[historical Web v0 の設計](legacy/web-v0/DESIGN.md) は別に保持する。
+正本は [Issue #1](https://github.com/tomooch/rogue-tactics-lab/issues/1)。本書は契約の要点であり、実装完了の記録ではない。Web v0 は retired historical evidence。[当時の設計](https://github.com/tomooch/rogue-tactics-lab/blob/0d8a2a68c37902256f5123ef86017ce83a60a64e/DESIGN.md) は immutable snapshot `0d8a2a68c37902256f5123ef86017ce83a60a64e`（tag `archive/web-v0-final`）に保持し、active tree に Web implementation を持たない。Pages は current product / runtime ではない。Unity implementation はまだ未作成。PR #4 未 merge の間は accepted GitHub main とこの pending tree を区別する。
 
 ## Core hypothesis
 
@@ -17,9 +17,10 @@
 - plain C# Core がルール・合法手・意図・結果・イベントを所有する。MonoBehaviour / GameObject / Animator / scene state に依存させない。
 - Presentation は Core の状態・イベント・計画を描く。同じ初期状態と入力列から同じ状態・イベント列を得る。animation timing が結果を変えない。
 - 意図は actor → target/destination の line、semantic icon、移動先 ghost で表す。通常プレイを4人同時の説明吹き出しに依存させない。表示 horizon は未決。
-- 高レベル party policy は最初の slice で最大3つ（バランス・慎重・攻める）。隠れた毎ターン micromanagement にしない。
 
 ## 意図修正の実験
+
+Issue #1 の高レベル party policy 最大3つ（バランス・慎重・攻める）は experiment parameter / prototype candidate。Human の最終採用や frozen product decision ではない。隠れた毎ターン micromanagement にしないという実験上の制約とともに評価する。
 
 encounter ごとに味方1体の意図修正を **1回** 使用可能。残数を表示し、次の distinct encounter で reset。広告や報酬で追加しない。修正後も Core が次の行動を決め、Presentation が偽装しない。
 

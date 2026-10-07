@@ -1,30 +1,21 @@
 # Rogue Tactics Lab
 
-最終製品は **iOS / Android 向け native game**。開発方向は **Unity 6.3 LTS (6000.3.x) / C# / URP / portrait mobile**。
+最終製品は **iOS / Android 向け native Unity game**。開発方向は **Unity 6.3 LTS (6000.3.x) / C# / URP / portrait mobile**。
 
-Current implementation contract は [GitHub Issue #1](https://github.com/tomooch/rogue-tactics-lab/issues/1)。設計概要は [DESIGN.md](DESIGN.md)、実装・検証の現在地は [VERIFICATION.md](VERIFICATION.md) を参照。
+Current design / experiment contract は [DESIGN.md](DESIGN.md)、[VERIFICATION.md](VERIFICATION.md)、[GitHub Issue #1](https://github.com/tomooch/rogue-tactics-lab/issues/1)。agent 運用は [AGENTS.md](AGENTS.md)。
 
 ## 現在地
 
-- accepted main の実装は historical browser v0 のみ。ソースと当時の記録は [legacy/web-v0/](legacy/web-v0/README.md) に保存している。
-- Unity native implementation はまだ存在しない。将来の配置先は `unity/`。
+この cleanup の tree は Unity native 開発用の入口であり、Web implementation / npm harness / Pages workflow を持たない。Unity implementation もまだ未作成。将来の配置先は `unity/`。
+
 - [Godot PR #2](https://github.com/tomooch/rogue-tactics-lab/pull/2) は closed / unmerged。流用しない。
-- [Unity bootstrap PR #3](https://github.com/tomooch/rogue-tactics-lab/pull/3) は Draft、environment audit only / blocked。Unity Hub / 6000.3.x Editor 未検出のため、プロジェクト生成は未実施。
-- gameplay controls は未決。探索操作・プレイヤーの立場、委譲の解決範囲、意図の表示手数を実装で確定しない。
+- [Unity bootstrap PR #3](https://github.com/tomooch/rogue-tactics-lab/pull/3) は Draft、environment audit only / blocked。Unity Hub / 6000.3.x 未検出という監査結果であり、実 Editor による生成は未実施。Human 指示で作業停止中。
+- 探索入力 / player embodiment、resolution chunk、intent horizon は USER_DECISION 未決。実装で固定しない。
 
-## Historical browser v0
+## Retired historical Web evidence
 
-[公開 Web v0](https://tomooch.github.io/rogue-tactics-lab/) は従来の戦闘視認性実験。native 製品や Unity 実装の証拠ではない。
+Web v0 は retired historical evidence。active tree に保持せず、[最終 accepted snapshot](https://github.com/tomooch/rogue-tactics-lab/tree/0d8a2a68c37902256f5123ef86017ce83a60a64e) **`0d8a2a68c37902256f5123ef86017ce83a60a64e`** と annotated tag `archive/web-v0-final` で参照する。再現が必要なら archive を別 checkout で使用し、current main に runtime や旧 tooling を戻さない。npm test / check / build / start は archive のコマンドであり、current repo requirement ではない。
 
-repo root をコマンド入口として維持する。Node.js と Python 3 が必要。追加パッケージ不要。
+[当時の検証記録](https://github.com/tomooch/rogue-tactics-lab/blob/0d8a2a68c37902256f5123ef86017ce83a60a64e/VERIFICATION.md) は historical browser の証拠であり、native 実装や人の試遊成功の証拠ではない。Pages は current product / runtime ではない。
 
-```sh
-npm test
-npm run check
-npm run build
-npm start
-```
-
-`npm start` は Web v0 を http://127.0.0.1:4173 で配信する。`npm run build` は `legacy/web-v0/_site/` に runtime 5 files、`revision.json`、`.nojekyll` を生成する。生成物は Git 管理外。
-
-Pages workflow は root でテストと build を実行し、この生成物を公開する。公開内容は Web v0 のまま。`revision.json` は公開 commit SHA と、その SHA の `legacy/web-v0/VERIFICATION.md` を指す。main push は Pages 公開を伴うため、明示的な承認なしに merge / main push しない。
+PR #4 が未 merge の間は GitHub main に旧 Web v0 が残る。この PR の merge 後の current main は Web implementation と Pages deployment workflow を持たない。既存 Pages 設定や公開済み site の停止は workflow 削除とは別操作であり、本 cleanup では変更しない。

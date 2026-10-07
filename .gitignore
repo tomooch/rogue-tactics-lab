@@ -1,6 +1,3 @@
-/_site/
-/legacy/web-v0/_site/
-node_modules/
 .DS_Store
 .env
 .env.*
