@@ -1,13 +1,13 @@
 # 現在の実装・検証状況
 
-accepted implementation は常に actual GitHub `main` HEAD。[PR #4](https://github.com/tomooch/rogue-tactics-lab/pull/4) は merge 済みで、historical Web v0 は retired 済み。main に Web runtime / npm harness / Pages workflow はない。Unity Stage 0 は main へ未 merge。
+accepted implementation は常に actual GitHub `main` HEAD。[PR #4](https://github.com/tomooch/rogue-tactics-lab/pull/4) は merge 済みで、historical Web v0 は retired 済み。main に Web runtime / npm harness / Pages workflow はない。Unity Stage 0 は PR #5 により main へ merge 済み。
 
-[PR #5](https://github.com/tomooch/rogue-tactics-lab/pull/5) は Draft / pending implementation。Stage 0 の実行済み evidence は **pending HEAD `6a0879e8877cf0717d2ac5019a923ea11fbbd0af`** に紐付く。以下はその revision の Local Mac evidence であり、accepted main、実機、人の試遊の成功へ読み替えない。docs status sync は [Design Office comment](https://github.com/tomooch/rogue-tactics-lab/pull/5#issuecomment-6042899298) と最新 Human 指示により承認済み。
+[PR #5](https://github.com/tomooch/rogue-tactics-lab/pull/5) は **2026-10-08 JST に merge 済み**（merge commit `ab9fa5dc729dcea07f8680e7b22544627c5e5bed`）。Stage 0 の実行済み evidence は **PR #5 の旧検証 HEAD `6a0879e8877cf0717d2ac5019a923ea11fbbd0af`** に紐付く。以下はその revision の Local Mac evidence であり、merge commit や以後の HEAD での新しい実行結果、実機、人の試遊の成功へ読み替えない。docs status sync は [Design Office comment](https://github.com/tomooch/rogue-tactics-lab/pull/5#issuecomment-6042899298) と最新 Human 指示により承認済み。
 
 ## Unity Stage 0 evidence（2026-10-08 JST）
 
-- branch: `codex/issue-1-unity-stage0`
-- baseline main: `daa00c50e0d43a1911b6df6d1f59eee36b797145`
+- 実行時 branch: `codex/issue-1-unity-stage0`
+- PR #5 baseline main: `daa00c50e0d43a1911b6df6d1f59eee36b797145`
 - Unity 実行済み HEAD: `6a0879e8877cf0717d2ac5019a923ea11fbbd0af`
 - environment: Local Mac / Apple Silicon arm64
 - Unity Hub: 3.22.2
@@ -48,7 +48,13 @@ Local evidence は Git 管理外の一時領域:
 - `/private/tmp/rogue-stage0-PlayMode.xml` / `.log`
 - `<worktree>/unity/Logs/stage0-portrait.png`（ignored local output）
 
-要約 evidence は PR #5 本文にも記録する。docs sync は4文書のみの変更であり、この実行済み HEAD から Unity source / assets / packages / settings / tests を変えない。docs sync 後の PR HEAD 自体で新たに Unity tests を実行したとは主張せず、Unity tree の一致を Git diff で確認する。
+要約 evidence は PR #5 本文にも記録済み。PR #5 の docs sync と今回の merge 後 docs 整合は4文書のみの変更であり、旧検証 HEAD から Unity source / assets / packages / settings / tests を変えない。merge commit と今回の docs HEAD の Unity tree の一致を Git diff で確認する。Unity tests は再実行しておらず、旧検証 HEAD の結果を新 HEAD の実行結果とは扱わない。
+
+## Merge 後の main 同期・docs 整合（2026-10-08 JST）
+
+- canonical main は clean を確認し、origin fetch 後に `git merge --ff-only origin/main` で `ab9fa5dc729dcea07f8680e7b22544627c5e5bed` へ同期した。この SHA は同期時の観測値であり、accepted implementation の定義は常に actual GitHub main HEAD。
+- 既存 worktree / branch は保持し、新規専用 worktree / `codex/stage0-merged-docs` branch で README / DESIGN / VERIFICATION / AGENTS の status 記述のみを修正する。
+- self-review と `git diff --check` を実施。Unity / .gitignore、gameplay scope、3つの USER_DECISION、party-policy experiment parameter は変更しない。
 
 ## 未実施 / 管理記録
 
