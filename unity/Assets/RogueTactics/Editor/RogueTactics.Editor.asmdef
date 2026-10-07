@@ -1,0 +1,19 @@
+{
+  "name": "RogueTactics.Editor",
+  "rootNamespace": "RogueTactics",
+  "references": [
+    "RogueTactics.Presentation",
+    "Unity.ugui"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}

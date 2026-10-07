@@ -2,3 +2,29 @@
 .env
 .env.*
 !.env.example
+
+# Unity local/generated output
+**/[Ll]ibrary/
+**/[Tt]emp/
+**/[Oo]bj/
+**/[Ll]ogs/
+**/[Bb]uild/
+**/[Bb]uilds/
+**/[Uu]ser[Ss]ettings/
+**/MemoryCaptures/
+**/Recordings/
+*.csproj
+*.sln
+*.slnx
+*.user
+*.pidb
+*.booproj
+*.unitypackage
+# Credentials and signing material
+*.keystore
+*.jks
+*.p12
+*.pfx
+*.cer
+*.mobileprovision
+*.provisionprofile
