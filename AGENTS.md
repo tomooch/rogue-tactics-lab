@@ -19,7 +19,7 @@ Historical conversation / old docs だけから current state を断定しない
 
 本書は agent の運用契約であり、実装完了や追加 scope の承認ではない。docs、Issue、実装の食い違いは証拠で確認し、material な未解決の矛盾は Human に示して依存する作業だけ止める。許可済みの独立作業は進める。
 
-Issue #1 の旧 Web 維持 / npm regression 記述は、最新の明示的 Human 判断による retirement に置き換える。historical evidence は immutable commit `0d8a2a68c37902256f5123ef86017ce83a60a64e` / tag `archive/web-v0-final` で参照し、current tree に保持しない。PR #4 は merge 済み。accepted implementation は GitHub `main`（`daa00c50e0d43a1911b6df6d1f59eee36b797145`）。PR #5 は Draft / pending implementation。Stage 0 の実行証拠は pending HEAD `6a0879e8877cf0717d2ac5019a923ea11fbbd0af` に紐付け、main の実装済み evidence と混同しない。
+Issue #1 の旧 Web 維持 / npm regression 記述は、最新の明示的 Human 判断による retirement に置き換える。historical evidence は immutable commit `0d8a2a68c37902256f5123ef86017ce83a60a64e` / tag `archive/web-v0-final` で参照し、current tree に保持しない。PR #4 は merge 済み。accepted implementation は常に actual GitHub `main` HEAD。PR #5 は Draft / pending implementation。Stage 0 の実行証拠は pending HEAD `6a0879e8877cf0717d2ac5019a923ea11fbbd0af` に紐付け、main の実装済み evidence と混同しない。
 
 ## Design Office / Executor / Human
 

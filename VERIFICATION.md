@@ -1,6 +1,6 @@
 # 現在の実装・検証状況
 
-accepted implementation は GitHub `main`（`daa00c50e0d43a1911b6df6d1f59eee36b797145`）。[PR #4](https://github.com/tomooch/rogue-tactics-lab/pull/4) は merge 済みで、historical Web v0 は retired 済み。main に Web runtime / npm harness / Pages workflow はない。Unity Stage 0 は main へ未 merge。
+accepted implementation は常に actual GitHub `main` HEAD。[PR #4](https://github.com/tomooch/rogue-tactics-lab/pull/4) は merge 済みで、historical Web v0 は retired 済み。main に Web runtime / npm harness / Pages workflow はない。Unity Stage 0 は main へ未 merge。
 
 [PR #5](https://github.com/tomooch/rogue-tactics-lab/pull/5) は Draft / pending implementation。Stage 0 の実行済み evidence は **pending HEAD `6a0879e8877cf0717d2ac5019a923ea11fbbd0af`** に紐付く。以下はその revision の Local Mac evidence であり、accepted main、実機、人の試遊の成功へ読み替えない。docs status sync は [Design Office comment](https://github.com/tomooch/rogue-tactics-lab/pull/5#issuecomment-6042899298) と最新 Human 指示により承認済み。
 
@@ -50,13 +50,13 @@ Local evidence は Git 管理外の一時領域:
 
 要約 evidence は PR #5 本文にも記録する。docs sync は4文書のみの変更であり、この実行済み HEAD から Unity source / assets / packages / settings / tests を変えない。docs sync 後の PR HEAD 自体で新たに Unity tests を実行したとは主張せず、Unity tree の一致を Git diff で確認する。
 
-## 未実施 / 未同期
+## 未実施 / 管理記録
 
 - iOS / Android 実機、署名・export / build は未検証。
 - CI workflow / PR checks はなし。CI 成功は主張しない。
 - human play 未実施。面白さや gameplay 仮説の成立は未検証。
 - one-floor gameplay と後続 pure Core gate は未実装・未検証。
-- Notion Todo / Decision Log / Tried & Learned は未同期。Issue / PR の evidence を Notion 正本に昇格させない。
+- PR #5 関連の Notion Todo / review tracking は Design Office 側で同期済み（[final review comment](https://github.com/tomooch/rogue-tactics-lab/pull/5#issuecomment-6047665493) と最新 Human 指示）。新しい gameplay Decision は発生していない。新しい Tried & Learned が必要とは現時点で判断していない。Issue / PR の evidence を Notion 正本に昇格させない。
 
 ## Historical Unity audit
 

@@ -6,7 +6,7 @@ Current design / experiment contract は [DESIGN.md](DESIGN.md)、[VERIFICATION.
 
 ## 現在地
 
-accepted implementation は GitHub `main`（`daa00c50e0d43a1911b6df6d1f59eee36b797145`）。PR #4 は merge 済みで、historical Web v0 は retired 済み。main に Web implementation / npm harness / Pages workflow はなく、Unity Stage 0 はまだ main に取り込まれていない。
+accepted implementation は常に actual GitHub `main` HEAD。PR #4 は merge 済みで、historical Web v0 は retired 済み。main に Web implementation / npm harness / Pages workflow はなく、Unity Stage 0 はまだ main に取り込まれていない。
 
 [PR #5](https://github.com/tomooch/rogue-tactics-lab/pull/5) は Draft / pending。`unity/` の URP・portrait 基盤と pure C# / asmdef / test scaffold が検証済み。Unity **6000.3.25f1**、import / compile PASS、EditMode **5/5 PASS**、PlayMode **1/1 PASS**、390×844 portrait smoke PASS。実行した pending HEAD は `6a0879e8877cf0717d2ac5019a923ea11fbbd0af`。証拠と限界は [VERIFICATION.md](VERIFICATION.md) に記録する。gameplay は未実装、実機未検証、CI なし、human play 未実施。
 
