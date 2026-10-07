@@ -21,6 +21,6 @@ exact patch / build modules は未確認。Unity project / Core C# / Scene / Edi
 
 今回の受入条件は Git diff / tree と immutable archive の確認。npm コマンドは廃止済みで実行対象外。Web runtime / source / assets / tests / build scripts、root package.json、Pages workflow を削除し、Unity implementation は追加しない。検証の実測結果は PR #4 に記録する。
 
-Issue #1 の旧 Web 維持 / npm regression 要件は、今回の明示的な Human 方針変更で retirement に置き換える。Issue 自体は本作業で編集せず、後続 executor は最新 Human 判断と該当 PR の scope を合わせて読む。
+Issue #1 は Design Office 側で current retirement 方針へ更新済み。Web v0 は `archive/web-v0-final` / `0d8a2a68c37902256f5123ef86017ce83a60a64e` に保持し、current main の運用として Web runtime / npm harness / Pages workflow を維持しない。Stage 0 の native Unity 作業も retired Web harness を前提にしない。PR #4 未 merge の間の accepted main と、この retirement contract に沿った pending tree は区別する。
 
 GitHub Pages API は `build_type: workflow`、URL `https://tomooch.github.io/rogue-tactics-lab/`、source `main:/` を返した。workflow 削除後の tree には main push による Pages deployment 定義がない。ただし現在は未 merge で GitHub main の旧 workflow は残る。Pages 設定 / 公開済み site の停止・削除は未実施。Pages は current product / runtime ではない。
