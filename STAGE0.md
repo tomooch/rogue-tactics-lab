@@ -46,7 +46,8 @@
 
 ## 検証
 
-- 既存 root `npm test`: 実行結果を確認後に追記。
+- 既存 root `npm test`: 11/11 成功、fail 0、exit 0。Node v22.18.0。専用 worktree で既存テストを変更せず実行。
+  - Local evidence: `/private/tmp/rogue-tactics-issue1-npm-test-20261007/completion.json` と `stdout.log` / `stderr.log`（一時領域、Git 管理外）。
 - Unity import / compile / EditMode / Play Mode / batchmode: 実 Editor 未検出のため未実行。
 - real-device iOS / Android: 未実行。署名・export・実機検証は今回の対象外。
 - GitHub CI: 既存 workflow は main push / workflow_dispatch のみ。Draft PR 作成だけでは実行されない。CI 設定、secret、有料サービスは変更しない。
