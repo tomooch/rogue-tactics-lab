@@ -2,11 +2,24 @@
 
 ## Source of Truth
 
-- current implementation contract は [GitHub Issue #1](https://github.com/tomooch/rogue-tactics-lab/issues/1)。着手時に最新本文と今回の Human 指示を読む。
-- Human の明示的な最新指示が今回の範囲と許可を定める。候補、提案、未決事項を承認済み仕様に読み替えない。上位の安全・権限境界は維持する。
-- [README.md](README.md) は入口、[DESIGN.md](DESIGN.md) は設計方向、[VERIFICATION.md](VERIFICATION.md) は実測済み evidence と未検証事項。本書は agent の運用契約であり、実装完了や追加 scope の承認ではない。
-- docs、Issue、実装の食い違いは証拠で確認する。material な未解決の矛盾は Human に示し、依存する作業だけ止める。許可済みの独立作業は進める。
-- Issue の旧 root Web 配置記述に対して、Human が承認した cleanup の配置先は `legacy/web-v0/`。内容と再現性を保存する。
+事実の種類ごとに、以下の正本を確認する。
+
+- **latest explicit Human judgment** = user intent / UX / priority。最新の明示的な Human 判断が今回の範囲と許可を定める。候補・提案・未決事項を承認済み仕様に読み替えず、上位の安全・権限境界を維持する。
+- **accepted implementation** = GitHub main。実際の main HEAD と内容を確認する。
+- **pending implementation** = exact PR / branch HEAD。PR 番号・branch・commit SHA を特定し、未 merge の実装を accepted main と混同しない。
+- **current design / experiment contract** = root [README.md](README.md) / [DESIGN.md](DESIGN.md) / [VERIFICATION.md](VERIFICATION.md) / applicable Issue。現在は [GitHub Issue #1](https://github.com/tomooch/rogue-tactics-lab/issues/1) が適用される。着手時に最新の本文と Human 指示を読む。設計方向と実測済み evidence・未検証事項を区別する。
+- **runtime behavior** = verified execution / preview evidence。観測した revision・環境・操作・結果の範囲で判断する。
+- **automated result** = target commit CI / reproducible local evidence。対象 commit と実行条件を特定し、別 revision の成功を転用しない。
+- **human play result** = 実際に記録された人試遊のみ。自動テスト・agent の preview 操作から人の試遊結果を推定しない。
+- **Todo** = Notion Todo。
+- **important WHY** = Notion Decision Log。
+- **reusable lesson** = Notion Tried & Learned。
+
+Historical conversation / old docs だけから current state を断定しない。現在の正本や evidence にアクセスできない場合は未確認と明示する。
+
+本書は agent の運用契約であり、実装完了や追加 scope の承認ではない。docs、Issue、実装の食い違いは証拠で確認し、material な未解決の矛盾は Human に示して依存する作業だけ止める。許可済みの独立作業は進める。
+
+Issue の旧 root Web 配置記述に対して、Human が承認した cleanup の配置先は `legacy/web-v0/`。内容と再現性を保存する。
 
 ## Design Office / Executor / Human
 
@@ -39,7 +52,6 @@
 - deterministic な離散 turn / step。ATB、real-time countdown、時間圧入力、各キャラの Attack / Heal command menu は採用しない。
 - Core が意図を生成し、Presentation が line / semantic icon / movement destination ghost を描く。表示手数は未決。
 - encounter ごとに味方1体の意図修正を1回使用可能。残数を明示し、次の distinct encounter で reset。広告・報酬で修正回数を増やさない。
-- 高レベル party policy は最初の slice で最大3つ（バランス・慎重・攻める）。隠れた毎ターン micromanagement にしない。
 - Godot PR #2 は closed / unmerged。`mobile/` のコード・履歴を流用しない。
 
 ## Unresolved USER_DECISION
@@ -54,6 +66,7 @@ Stage 0 の環境監査・bootstrap はこれらを固定しない範囲に限�
 
 ## Experiment governance
 
+- Issue #1 の高レベル party policy「最初の slice で最大3つ（バランス・慎重・攻める）」は **experiment parameter / prototype candidate**。隠れた毎ターン micromanagement にしないという実験上の制約とともに評価する。frozen product decision ではなく、Human が最終採用したとは扱わない。
 - 実験では問い、比較する変更、保持する条件、観察対象、採用・棄却判断の根拠を明示する。仮説、実測、推論、未検証を分ける。
 - interaction USER_DECISION の確定後、承認された experiment build で target / destination / hold-cancel / legal action alternative の correction superset を試す。Core の明示的 command と合法性判定に従い、play evidence から削減・簡略化する。
 - correction を永続 gambit / rule editor に変えない。E によって利用可能な intervention family を変える strategist-dependent intervention hypothesis は実験設定として扱い、隠れた戦闘結果の変更や最終 class system として固定しない。
@@ -101,9 +114,9 @@ Stage 0 の環境監査・bootstrap はこれらを固定しない範囲に限�
 
 ## Todo / Decision / Tried & Learned governance
 
-新しい docs 階層や管理サービスを増やさず、Issue / PR と既存 docs を使う。記録を作業の承認と取り違えない。
+Todo は Notion Todo、重要な WHY は Notion Decision Log、再利用できる lesson は Notion Tried & Learned を正本とする。Issue / PR と既存 docs には関連する contract・実装・検証 evidence と正本への参照を残す。新しい docs 階層や管理サービスを増やさず、記録を作業の承認と取り違えない。Notion にアクセスできない場合は未同期と明示し、別の記録を正本に昇格させない。
 
 - **Todo**: scope、受入条件、担当 role、依存する USER_DECISION、status / blocker を記録する。未承認案は実行対象にしない。完了は実測 evidence と紐付ける。
 - **Decision**: Human が決めた内容、理由、対象 scope、日付、元の指示 / Issue / PR を記録する。proposal / hypothesis と accepted decision を分け、既存 contract と矛盾する場合は整合させる。新しい material evidence がない限り settled decision を反復審議しない。
 - **Tried & Learned**: 問い、試した条件、command / revision / environment、観測結果、限界、得た理解と次の判断を記録する。失敗・未検証・停止理由も残し、同じ試行を新しい根拠なしに繰り返さない。
-- 重要な長期情報は既存 docs に、task の実行詳細は Issue / PR に残す。一時ログへのリンクは一時領域であると明示し、secret / 個人情報を含めない。
+- Todo / WHY / lesson は上記 Notion の各正本に、task の実行詳細と evidence は Issue / PR に残す。一時ログへのリンクは一時領域であると明示し、secret / 個人情報を含めない。
