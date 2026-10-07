@@ -1,1 +1,11 @@
-{"name":"tactical-visibility-v0","private":true,"type":"module","scripts":{"test":"node --test tests/*.test.mjs","check":"node scripts/compare.mjs","build":"node scripts/build.mjs","start":"python3 -m http.server 4173 --bind 127.0.0.1"}}
+{
+  "name": "tactical-visibility-v0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "test": "node --test legacy/web-v0/tests/*.test.mjs",
+    "check": "node legacy/web-v0/scripts/compare.mjs",
+    "build": "node legacy/web-v0/scripts/build.mjs",
+    "start": "python3 -m http.server 4173 --bind 127.0.0.1 --directory legacy/web-v0"
+  }
+}

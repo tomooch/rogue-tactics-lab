@@ -17,7 +17,7 @@ if (!commit) {
 const repository = process.env.GITHUB_REPOSITORY || 'tomooch/rogue-tactics-lab';
 await writeFile(new URL('revision.json', destination), JSON.stringify({
   commit,
-  verification: commit ? `https://github.com/${repository}/blob/${commit}/VERIFICATION.md` : null,
+  verification: commit ? `https://github.com/${repository}/blob/${commit}/legacy/web-v0/VERIFICATION.md` : null,
 }, null, 2) + '\n');
 await writeFile(new URL('.nojekyll', destination), '');
-console.log(`Published files prepared in _site/ (${files.length} runtime files).`);
+console.log(`Published files prepared in legacy/web-v0/_site/ (${files.length} runtime files).`);
