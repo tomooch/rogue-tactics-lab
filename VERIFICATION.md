@@ -1,53 +1,26 @@
-# 検証記録
+# 現在の実装・検証状況
 
-## 公開版との対応
+最終製品は iOS / Android native Unity game。この cleanup の pending tree に Web implementation はなく、Unity implementation もまだ未作成。PR #4 未 merge の間、accepted GitHub main は historical snapshot `0d8a2a68c37902256f5123ef86017ce83a60a64e` のまま。merge 後の main 用の tree と現在の accepted main を混同しない。
 
-実動URL: https://tomooch.github.io/rogue-tactics-lab/
+## Retired historical evidence
 
-Pagesはテストに成功したコミットの実行ファイルだけを配信します。公開中の `revision.json` にコミットSHAと、そのSHAの本ファイルへのリンクを記録します。GitHub Actionsの実行結果も同じSHAに対応します。
+Web v0 最終 accepted snapshot は [commit `0d8a2a68c37902256f5123ef86017ce83a60a64e`](https://github.com/tomooch/rogue-tactics-lab/tree/0d8a2a68c37902256f5123ef86017ce83a60a64e)。annotated tag `archive/web-v0-final` も同 commit を指す。
 
-Pages公開設定の追加では戦闘ルール・数値・演出・UIを変更していません。下記のローカル検証はその実装に対するものです。
+- [当時の VERIFICATION.md](https://github.com/tomooch/rogue-tactics-lab/blob/0d8a2a68c37902256f5123ef86017ce83a60a64e/VERIFICATION.md) に11 tests、8 configurations、2026-09-22 の Pages / browser evidence を保持する。
+- 旧 npm harness / runtime / source / assets / tests / build scripts は archive 内に残るが、current tree の実装・検証 requirement ではない。
+- 過去の cleanup revision に対する npm / build / HTTP 成功は Git history / PR 記録に残る。今回の removal 後の tree に対する runtime 成功とは主張しない。
+- human play evidence と native device play evidence はまだない。historical browser 機能確認を人試遊や Unity evidence に変換しない。
 
-## 公開URLでの確認（2026-09-22）
+## Unity audit evidence
 
-初回公開コミット `44dd2f2730ce09d9d436839f874e97b7c7738932` の [Actions実行](https://github.com/tomooch/rogue-tactics-lab/actions/runs/35730342366) で11テストとデプロイが成功。
+[PR #3](https://github.com/tomooch/rogue-tactics-lab/pull/3) は Draft、environment audit only / blocked。2026-10-07 の標準配置 / Spotlight 監査では Unity Hub / 6000.3.x Editor 未検出。カスタム配置を完全に否定する監査ではない。Human 指示で Unity 作業は停止中。
 
-- 公開されたHTML・CSS・3つのJavaScriptモジュールがすべてHTTP 200で取得でき、検証済みファイルとバイト単位で一致。モジュールのContent-TypeもJavaScript。
-- `revision.json` のコミットSHAが公開元と一致。
-- 公開URLをCodex In-app Browserで開き、基準集中を通常速度で最後まで再生し、8秒・HP63.8・回復1を確認。
-- 残る7通りは構成画面で選択し、再生→停止→末尾シーク→詳細の操作で、全8通りの生死・終了時刻・残HP・回復回数を比較表と照合。
-- 0.5倍での見返しと途中停止を確認。確認時のブラウザ警告・エラー0件。
+exact patch / build modules は未確認。Unity project / Core C# / Scene / EditMode tests は未作成、import / compile / Play / batchmode / device 検証は未実行。USER_DECISION は [DESIGN.md](DESIGN.md) と Issue #1 に保持する。
 
-この公開確認記録を追加したコミットは、上記で確認した実行ファイルを変更していない。自由試遊や140msの初見可読性を検証したという意味ではない。
+## Web retirement verification（2026-10-07）
 
-## 自動検証
+今回の受入条件は Git diff / tree と immutable archive の確認。npm コマンドは廃止済みで実行対象外。Web runtime / source / assets / tests / build scripts、root package.json、Pages workflow を削除し、Unity implementation は追加しない。検証の実測結果は PR #4 に記録する。
 
-`npm test`: 11件成功。提供された8結果、同一入力の再現性、HP会計、回復上限、オーバーキル除外、死亡後の反撃/回復禁止、前半を倒した束への後半不参加、味方が倒した敵の攻撃除外、表示圧縮、シークの履歴非依存を確認。
+Issue #1 は Design Office 側で current retirement 方針へ更新済み。Web v0 は `archive/web-v0-final` / `0d8a2a68c37902256f5123ef86017ce83a60a64e` に保持し、current main の運用として Web runtime / npm harness / Pages workflow を維持しない。Stage 0 の native Unity 作業も retired Web harness を前提にしない。PR #4 未 merge の間の accepted main と、この retirement contract に沿った pending tree は区別する。
 
-## ブラウザ
-
-Codex In-app Browserでローカル実動版を操作。1280×720と390×844で確認。横はみ出しなし。通常速度の基準集中、0.5倍、停止、シーク、構成変更、高火力集中の死亡、基準分割の再生を確認。基準集中の8秒・HP63.8・回復1を画面の詳細と照合。ブラウザ警告/エラーログ0件（確認時）。
-
-承認済みモックとブラウザスクリーンショットをview_imageで直接比較した。比較ボード全体の再現ではなく、その中の縦画面を操作可能にしたもの。
-
-## 見た目の照合
-
-|観点|モックとの照合・修正|
-|---|---|
-|配置|A・HP・目盛り・Bの座標を再生中/停止中で固定。終了バッジがHPに重なったため下へ移動|
-|色|暗紺、A青、敵珊瑚、反撃琥珀、吸血青緑、B支援緑を維持|
-|図形|簡素な駒と菱形を維持。製品アートを増やさない意図的なSVG実装|
-|効果|常設矢印を短いイベント軌跡へ置換。反撃と吸血は順番に出す|
-|操作|再生中は停止/速度のみ。停止・終了時に見返し/シーク/構成変更/詳細を表示|
-|待機|分割の待機敵を右上に分離、境界と濃さを調整|
-|文字|見出しと操作はモック準拠。意図・推薦・勝因解説なし。状態『停止中』、詳細、構成選択は合意済み操作を成立させるため追加|
-|レスポンシブ|390×844で中央戦闘と下部操作が同一画面に収まる|
-
-## 意図的な差分
-
-- 静止画の残HP・目盛り・回復回数は表示例だったので、実装は実データに置換。
-- 分割も反撃/吸血し、集中もB回復する。絵の分類に行動を固定しない。
-- 停止中詳細は任意。初期は再生待ちで、構成も変更できる。
-- 静止モックの岩装飾は因果観察に不要なので省略。プレースホルダーの駒は試験対象に合わせ維持。
-
-機能確認は試遊成功の証明ではない。とくに140msへ圧縮される区間の可読性は未検証。
+GitHub Pages API は `build_type: workflow`、URL `https://tomooch.github.io/rogue-tactics-lab/`、source `main:/` を返した。workflow 削除後の tree には main push による Pages deployment 定義がない。ただし現在は未 merge で GitHub main の旧 workflow は残る。Pages 設定 / 公開済み site の停止・削除は未実施。Pages は current product / runtime ではない。

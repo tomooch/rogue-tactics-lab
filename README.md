@@ -1,84 +1,21 @@
-# 戦闘視認性 v0 — 戦術実験機
+# Rogue Tactics Lab
 
-**製品版ではありません。数値・UIとも検証用です。**
+最終製品は **iOS / Android 向け native Unity game**。開発方向は **Unity 6.3 LTS (6000.3.x) / C# / URP / portrait mobile**。
 
-実動版: https://tomooch.github.io/rogue-tactics-lab/
+Current design / experiment contract は [DESIGN.md](DESIGN.md)、[VERIFICATION.md](VERIFICATION.md)、[GitHub Issue #1](https://github.com/tomooch/rogue-tactics-lab/issues/1)。agent 運用は [AGENTS.md](AGENTS.md)。
 
-「構成を変える」から四条件 × 集中／分割の8通りを試せます。操作の詳細と確認済み範囲は [VERIFICATION.md](VERIFICATION.md) を参照してください。
+## 現在地
 
-中心仮説: 自分の予想を仲間に託して戦いを観察すると、自分なりの理解が更新され、その理解を使って次の可能性を試したくなるか。
+この cleanup の tree は Unity native 開発用の入口であり、Web implementation / npm harness / Pages workflow を持たない。Unity implementation もまだ未作成。将来の配置先は `unity/`。
 
-今回は戦闘表示だけを試す静的な実動版。AI・意図表示・人格学習・探索・推薦・試遊データ収集は実装していない。元の戦闘ルール・数値を保持する。
+- [Godot PR #2](https://github.com/tomooch/rogue-tactics-lab/pull/2) は closed / unmerged。流用しない。
+- [Unity bootstrap PR #3](https://github.com/tomooch/rogue-tactics-lab/pull/3) は Draft、environment audit only / blocked。Unity Hub / 6000.3.x 未検出という監査結果であり、実 Editor による生成は未実施。Human 指示で作業停止中。
+- 探索入力 / player embodiment、resolution chunk、intent horizon は USER_DECISION 未決。実装で固定しない。
 
-## GitHub Pagesへの更新
+## Retired historical Web evidence
 
-`main`へのpushで、GitHub Actionsがテスト → 静的ファイル準備 → Pages公開を実行します。テストが失敗したコミットは公開されません。
+Web v0 は retired historical evidence。active tree に保持せず、[最終 accepted snapshot](https://github.com/tomooch/rogue-tactics-lab/tree/0d8a2a68c37902256f5123ef86017ce83a60a64e) **`0d8a2a68c37902256f5123ef86017ce83a60a64e`** と annotated tag `archive/web-v0-final` で参照する。再現が必要なら archive を別 checkout で使用し、current main に runtime や旧 tooling を戻さない。npm test / check / build / start は archive のコマンドであり、current repo requirement ではない。
 
-Viteは使用していません。HTML・CSS・JavaScriptモジュールを相対パスで読み込むため、リポジトリのサブパスに対応します。`npm run build` は実行に必要な5ファイルだけを `_site/` にコピーします。
+[当時の検証記録](https://github.com/tomooch/rogue-tactics-lab/blob/0d8a2a68c37902256f5123ef86017ce83a60a64e/VERIFICATION.md) は historical browser の証拠であり、native 実装や人の試遊成功の証拠ではない。Pages は current product / runtime ではない。
 
-公開中のコミットとその検証記録は [revision.json](https://tomooch.github.io/rogue-tactics-lab/revision.json) から確認できます。検証記録は各コミット時点の確認範囲であり、Actionsの成功だけで人の試遊成功を意味しません。
-
-## 起動
-
-Node.js（テスト）とPython 3（配信）のみ。追加パッケージ不要。
-
-```sh
-npm start
-```
-
-http://127.0.0.1:4173 を開く。停止中の「構成を変える」で四条件と集中/分割を選択できる。通常再生・0.5倍・停止・シーク・見返しに対応。停止中の「詳細」で数値を確認する。ブラウザを非表示にすると自動停止する。
-
-```sh
-npm test
-npm run check
-```
-
-## 分離
-
-- `core.mjs`: 整数msとHPの1/100単位で計算し、確定イベント束・前後スナップショットを生成。表示に依存しない。
-- `timeline.mjs`: 再生位置から確定イベントを表示用状態へ投影。戦術・致死・回復可否の判定を持たない。
-- `app.mjs`: 図形・軌跡・操作。単一の再生時計で進行。シークでコアを再判断しない。
-- `assets/accepted-mock.png`: 承認済み静止モック。
-
-HitBeatには timestamp、hpBefore、totalDamage、hpAfterDamage、gaugeBefore、gaugeDelta、counterTriggered、counterTargets、counterDamage、lifestealAmount、supportHealSource、supportHealAmount、hpAfterAll、died を含む。通常攻撃のみの束は ActionBeat。描画のため attacks、before/after、hpAfterLifesteal、gaugeAfterDamage、joined も記録する。
-
-## 明示したイベント境界
-
-- 初撃は各間隔経過後（A 1.4秒、後衛2秒、敵1.8秒）。
-- 同時刻の味方はA→後衛。毎回、交戦中の最小HPの敵を選ぶ。同HPはID順。
-- 味方攻撃で倒れた敵は、その時刻の敵攻撃に参加しない。
-- 敵の同時攻撃を全件合算し、その後に生存判定する。致死後の反撃・吸血・支援はない。
-- 反撃の余剰ゲージは持ち越す。オーバーキル分と最大HPを超える回復分は実回復に含めない。
-- Bは反撃・吸血後のHPで回復判定する。各攻撃イベント束の末尾で確認し、CD満了だけの独立イベントでは発動しない。
-- 分割の後半は前半を倒したイベント束の完了後に参加。敵の攻撃時計は全体の1.8秒周期を継続。
-
-提示された集計だけでは境界仕様を一意に推定できない。上記はこの実装の明示的な解釈であり、全8件の提示結果を再現した。数値を合わせるための調整は行っていない。
-
-## 比較結果
-
-|条件|戦術|生存|終了秒|A残HP|B回復消費|
-|---|---|---|---:|---:|---:|
-|基準|集中|○|8.0|63.8|1|
-|基準|分割|○|11.2|62.0|1|
-|Cへ変更|集中|○|8.0|38.8|なし|
-|Cへ変更|分割|○|11.2|42.45|なし|
-|A HP120|集中|○|8.0|83.8|1|
-|A HP120|分割|○|11.2|82.0|1|
-|敵攻撃17|集中|×|5.4|0|1|
-|敵攻撃17|分割|○|11.2|22.0|2|
-
-C/分割の42.45は表示1桁で42.5。生存率ではなく、この無乱数条件での生死。順位や推奨戦術は画面に表示しない。
-
-## 演出の暫定値と限界
-
-予備動作は最大120msの別枠。束の解決は最大520msで、次のイベント間隔の70%を上限として圧縮。被弾→反撃→吸血→B支援の順を保持する。各束の生死・反撃・回復の有無はコアの確定値に従う。
-
-1.8秒→2.0秒などの短い間隔では140msになる。『各演出を十分読める最低時間』『元の戦闘速度』『イベントを重ねない』を同時に保証するものではない。まず通常速度で試し、必要な見返しと混乱による見返しを区別する。0.5倍は表示全体を同じ時間軸で半速にする。
-
-最後の束を見せ切る時間は結果の撃破時刻に含めない。内部状態の確定と表示途中のHPは区別される。停止中詳細の被害・回復量は選択中イベント束の確定値。
-
-## 検証の限界
-
-自動テストとブラウザ機能確認は完了。人の試遊、初見の因果理解、自発的な次の変更、面白さ、実機iOS/Androidでの検証は未実施。
-
-自由試遊では推薦を出さず、本人が変更を選んだ後に予想を聞く。初見条件は参加者間で入れ替える。中心の観察対象は『自発的変更案→実行→予想→観察→行動に使える理解→次の自発的変更案』。
+PR #4 が未 merge の間は GitHub main に旧 Web v0 が残る。この PR の merge 後の current main は Web implementation と Pages deployment workflow を持たない。既存 Pages 設定や公開済み site の停止は workflow 削除とは別操作であり、本 cleanup では変更しない。
