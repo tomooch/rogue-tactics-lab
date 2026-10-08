@@ -1,4 +1,5 @@
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using NUnit.Framework;
 using RogueTactics.Presentation;
@@ -16,7 +17,14 @@ namespace RogueTactics.Tests
     {
         static void Click(Button button)
         {
-            var data = new PointerEventData(EventSystem.current) { button = PointerEventData.InputButton.Left };
+            Canvas.ForceUpdateCanvases();
+            var rect = button.GetComponent<RectTransform>();
+            var point = RectTransformUtility.WorldToScreenPoint(Camera.main, rect.TransformPoint(rect.rect.center));
+            var data = new PointerEventData(EventSystem.current) { button = PointerEventData.InputButton.Left, position = point };
+            var hits = new List<RaycastResult>();
+            EventSystem.current.RaycastAll(data, hits);
+            Assert.That(hits.Count, Is.GreaterThan(0), button.name + " hit target");
+            Assert.That(hits[0].gameObject.GetComponentInParent<Button>(), Is.EqualTo(button), button.name + " unobstructed");
             ExecuteEvents.Execute(button.gameObject, data, ExecuteEvents.pointerClickHandler);
         }
         [UnityTest]
