@@ -57,8 +57,8 @@ original 3D diorama. Remaining fidelity differences
 must be disclosed alongside the final screenshot.
 
 No merge, Draft-to-Ready, Pages publication, paid assets/service, signing secrets,
-real-device builds or human play are included. Notion is not available in this
-execution environment; Todo / WHY / lesson synchronization remains unverified.
+real-device builds or human play are included. Notion Todo / Tried & Learned synchronization is recorded below once the
+Draft PR and final evidence are available; no new gameplay decision is made.
 
 ## Reference protection
 
@@ -109,3 +109,26 @@ Observed in the real saved-scene 390×844 PlayMode render:
 
 This is a reviewable visual candidate. It is **not** declared visually accepted,
 a finished game, or a proof of the gameplay hypothesis.
+
+## Final verified source / evidence
+
+Tested source SHA: `a638712b7b4b4f7366c91a3b641c4bc958766f25`.
+Unity import/compile PASS at this source, C# compile errors absent.
+EditMode **5/5 PASS**, PlayMode **2/2 PASS**, both exit 0. PlayMode includes the
+unchanged Stage0 smoke and the new saved-scene benchmark render/bounds/profile
+restoration smoke. Canvas measured 390×843.9999; PNG is exactly 390×844.
+
+![Actual Unity PlayMode render](unity-390x844.png)
+
+`verification.json` records commands, target SHA and limits; `EditMode.xml` and
+`PlayMode.xml` are actual runner results. `changed-files.txt` is the complete
+baseline-to-delivery file inventory. Final evidence-only commit does not change
+the tested Unity source/assets/settings; Git tree equality is checked after it.
+License access-token refresh / usbmuxd diagnostics are non-blocking local Editor
+messages; credentials/tokens are not included in committed artifacts. The logs
+listed in verification.json are temporary local evidence, not durable storage.
+
+Notion sources: [Todo](https://app.notion.com/p/3e3ad38889158105a09df12a35b633a7),
+[Tried & Learned](https://app.notion.com/p/3e3ad388891581aba10ddf3e65a70047).
+Execution/PR evidence is synchronized after Draft PR creation; Human acceptance
+remains pending. No new gameplay Decision is made.

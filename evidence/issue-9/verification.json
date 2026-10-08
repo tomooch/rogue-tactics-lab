@@ -1,0 +1,115 @@
+{
+  "baseline": "ab9fa5dc729dcea07f8680e7b22544627c5e5bed",
+  "tested_source_sha": "a638712b7b4b4f7366c91a3b641c4bc958766f25",
+  "branch": "codex/issue-9-unity-visual",
+  "editor": "6000.3.25f1",
+  "environment": "Local Mac / Apple Silicon / graphics enabled batchmode",
+  "date_jst": "2026-10-08",
+  "import_compile": "PASS at tested source via Editor test invocation; C# compiler errors absent",
+  "tests": {
+    "EditMode": {
+      "result": "Passed",
+      "passed": 5,
+      "total": 5,
+      "exit_code": 0,
+      "start_time_utc": "2026-10-08 07:34:39Z",
+      "end_time_utc": "2026-10-08 07:34:39Z",
+      "test_cases": [
+        {
+          "name": "RogueTactics.Tests.ScaffoldTests.CoordinateOverflowFailsExplicitly",
+          "result": "Passed"
+        },
+        {
+          "name": "RogueTactics.Tests.ScaffoldTests.CoreReferencesNeitherUnityNorPresentation",
+          "result": "Passed"
+        },
+        {
+          "name": "RogueTactics.Tests.ScaffoldTests.PortraitConfigurationIsPinned",
+          "result": "Passed"
+        },
+        {
+          "name": "RogueTactics.Tests.ScaffoldTests.SameCoordinateOffsetsProduceSameSequence",
+          "result": "Passed"
+        },
+        {
+          "name": "RogueTactics.Tests.ScaffoldTests.UrpIsConfigured",
+          "result": "Passed"
+        }
+      ],
+      "command": [
+        "/Applications/Unity/Hub/Editor/6000.3.25f1/Unity.app/Contents/MacOS/Unity",
+        "-batchmode",
+        "-projectPath",
+        "<checkout>/unity",
+        "-runTests",
+        "-testPlatform",
+        "EditMode",
+        "-testResults",
+        "<results.xml>",
+        "-logFile",
+        "<log>"
+      ]
+    },
+    "PlayMode": {
+      "result": "Passed",
+      "passed": 2,
+      "total": 2,
+      "exit_code": 0,
+      "start_time_utc": "2026-10-08 07:34:52Z",
+      "end_time_utc": "2026-10-08 07:34:53Z",
+      "test_cases": [
+        {
+          "name": "RogueTactics.Tests.PortraitSmokeTests.Stage0RendersAtPortraitReferenceWithoutHorizontalClipping",
+          "result": "Passed"
+        },
+        {
+          "name": "RogueTactics.VisualBenchmark.Tests.VisualBenchmarkSmokeTests.HeroSceneRendersFourCompanionsAndReferenceMotifsWithoutClipping",
+          "result": "Passed"
+        }
+      ],
+      "command": [
+        "/Applications/Unity/Hub/Editor/6000.3.25f1/Unity.app/Contents/MacOS/Unity",
+        "-batchmode",
+        "-projectPath",
+        "<checkout>/unity",
+        "-runTests",
+        "-testPlatform",
+        "PlayMode",
+        "-testResults",
+        "<results.xml>",
+        "-logFile",
+        "<log>"
+      ]
+    }
+  },
+  "screenshot": {
+    "path": "unity-390x844.png",
+    "width": 390,
+    "height": 844,
+    "sha256": "987c83e4f018d0f3a3544dadd5e9fc971d1e46116443bb8982f5ca1abf1d05d2",
+    "capture": "Camera/URP RenderTexture, saved Scene loaded in PlayMode; no image compositing",
+    "canvas_bounds": "390 x 843.9999; assertions within 0.1 px"
+  },
+  "reference_protection": {
+    "read_only_files": 10,
+    "before_after_sha256_equal": true,
+    "tracked_staged_userwork_files": 0,
+    "canonical_exclude_pattern_count": 1,
+    "canonical_ignore": ".gitignore:35:/_userwork/",
+    "task_ignore": ".gitignore:36:/_userwork/",
+    "canonical_user_gitignore_edit": "preserved unchanged"
+  },
+  "unverified": [
+    "Human visual acceptance",
+    "iOS/Android build/signing/device/safe-area/touch",
+    "GPU performance",
+    "animation",
+    "human play",
+    "CI (no workflow/check configured)"
+  ],
+  "local_temporary_logs": [
+    "/private/tmp/rogue-issue9-final-EditMode.log",
+    "/private/tmp/rogue-issue9-final-PlayMode.log",
+    "/private/tmp/rogue-issue9-jobs/confirmed-tests-10/completion.json"
+  ]
+}
