@@ -88,6 +88,21 @@ Stage 0 の環境監査・bootstrap はこれらを固定しない範囲に限�
 - **Cloud**: repository / docs review、環境で実行可能な deterministic tests、pure C# Core の検証など、Unity GUI や Local credential を要しない承認済み作業に使える。Cloud の成功を Local Unity / 実機成功に読み替えない。
 - routing は環境適性の判断であり、別チャット作成や外部 I/O の許可ではない。環境不足は未検証として記録し、別 version・有料 CI・secret 追加で迂回しない。
 
+## Unity / AI development workflow
+
+2026-10-08 の Human 指示により、コストを抑えるため Unity 開発も **CLI 主体**で進め、この手法を repo の継続運用に残す。必要な検証・受入条件を減らす意味ではない。
+
+- task ごとに outcome、保持する仕様・依存境界、未決 USER_DECISION、必要な観測を先に明確にする。小さく review できる差分で実装し、未決の gameplay を AI の推測で補完しない。
+- インストール済み exact Editor / `ProjectVersion.txt` を使い、コード編集、import / compile、EditMode / PlayMode、実描画 PNG 生成を CLI で実行する。既存 Editor の command-line 引数で足りる作業に新しい Unity CLI 製品・MCP・package・サービスを追加しない。導入は別の対象・互換性・許可を確認する。
+- 既存の検証 command を再利用する。通常は `-batchmode -projectPath <unity> -runTests -testPlatform EditMode|PlayMode -testResults <xml> -logFile <log>`。test runner の終了を使い、テスト完了前に終了させる `-quit` を併用しない。描画の受入確認では graphics を有効にし、`-nographics` の成功を表示 evidence にしない。
+- 長い build / test の機械的な実行待ちは、終了コード・XML・log・artifact と完了通知を保存する deterministic runner に任せる。待機専用の AI や頻繁な polling を増やさない。AI は独立した必要作業、結果の判断、修正を担当する。
+- 検証は変更の risk に合わせる。pure Core の不変条件は EditMode、Scene / frame / UI / log は必要な PlayMode で確認する。asmdef の Core / Presentation 境界を保ち、compile 成功だけで runtime 成功を主張しない。
+- UI は実 Unity render の画像を確認し、文字切れ・重なりと必要な選択 / 開閉 / 復帰を観測する。ボタンの callback 直接呼出しだけでは hit target の証拠にならない。raycast や入力の検証では描画 frame を待ち、観測していない実機 touch や人の理解に読み替えない。
+- GUI / Computer Use は CLI では解消できない表示・操作の不確実性が残る場合に使う。CLI で観測できる受入条件に、GUI 操作を慣習的な gate として追加しない。
+- context には必要な files / diff と log の失敗箇所・要約を渡す。全 log の反復読取を避け、secret を出さない。対象 HEAD、exact Editor、command、結果、画像と未検証範囲を PR にまとめ、adversarial review 後に必要な修正だけ再検証する。
+
+調査根拠: [Codex best practices](https://learn.chatgpt.com/guides/best-practices)、[Claude Code best practices](https://code.claude.com/docs/en/best-practices)、[Unity Test Framework CLI](https://docs.unity3d.com/Packages/com.unity.test-framework@1.6/manual/reference-command-line.html)。AI 間の費用・成功率比較や新しい Unity CLI / MCP の互換性を実測済みとは扱わない。Human 判断の WHY は Notion Decision Log、調査と再利用する lesson は Notion Tried & Learned を正本とする。
+
 ## Git / worktree workflow
 
 - 変更前に git status / remote を監査し、origin/main を fetch。新規タスクは最新 origin/main から専用 worktree / `codex/` branch を作る。既存 PR 更新はその専用 worktree / head branch を使い、無断で rebase / history rewrite しない。

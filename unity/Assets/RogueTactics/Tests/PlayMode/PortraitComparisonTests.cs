@@ -63,12 +63,14 @@ namespace RogueTactics.Tests
                 }
             }
             Click(view.CorrectionButton);
+            yield return null; // Newly enabled graphics need a rendered frame before raycast.
             Assert.That(view.ExplanationOpen, Is.True);
             Assert.That(GameObject.Find("ExplanationTitle").GetComponent<Text>().text, Does.Contain("D"));
             CheckText(camera);
             Click(view.CloseButton);
             Assert.That(view.ExplanationOpen, Is.False);
             Click(view.EntrustButton);
+            yield return null;
             Assert.That(view.ExplanationOpen, Is.True);
             CheckText(camera);
             Click(view.CloseButton);
