@@ -31,3 +31,6 @@
 
 # IDE output generated locally by Unity
 **/.vscode/
+
+# User-owned local reference materials
+/_userwork/
