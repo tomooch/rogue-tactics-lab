@@ -1,0 +1,59 @@
+{
+  "tested_source_commit": "73f69023c41f77cadf1bed9ae1f6f23afe325361",
+  "baseline_main": "ab9fa5dc729dcea07f8680e7b22544627c5e5bed",
+  "branch": "codex/issue-7-portrait-ux",
+  "editor": "6000.3.25f1 (e1dba0a9aba4)",
+  "environment": "Local Mac / Apple Silicon arm64",
+  "tests": {
+    "EditMode": {
+      "result": "Passed",
+      "total": "5",
+      "passed": "5",
+      "failed": "0",
+      "start-time": "2026-10-08 02:02:27Z",
+      "end-time": "2026-10-08 02:02:28Z"
+    },
+    "PlayMode": {
+      "result": "Passed",
+      "total": "2",
+      "passed": "2",
+      "failed": "0",
+      "start-time": "2026-10-08 02:03:06Z",
+      "end-time": "2026-10-08 02:03:08Z"
+    }
+  },
+  "screenshots": {
+    "variant-a.png": {
+      "width": 390,
+      "height": 844,
+      "sha256": "a331d712bcb93b2d635ef69287646948e9e58fd3ceab537be3cb75b5f3909330",
+      "selected_companion": "A"
+    },
+    "variant-b.png": {
+      "width": 390,
+      "height": 844,
+      "sha256": "aa68484c225f27758ed1dbd3184bd47eca9a2610608fca0c78c0e046fec977a7",
+      "selected_companion": "A"
+    }
+  },
+  "observations": [
+    "actual Editor PlayMode render with graphics enabled",
+    "UI raycast and pointer-click handler, not physical touch",
+    "text width/height and viewport bounds checked",
+    "images visually inspected by agent"
+  ],
+  "limitations": [
+    "No iOS/Android device, touch, safe-area, signing/export or player build verification",
+    "No human play or A/B selection",
+    "No CI workflow",
+    "No Core battle logic, AI, trust, actual correction or execution",
+    "No freeze of resolution chunk or intent horizon",
+    "OS Japanese font on Local Mac; other platforms unverified"
+  ],
+  "local_temporary_logs": [
+    "/private/tmp/rogue-issue7-import.log",
+    "/private/tmp/rogue-issue7-EditMode.log",
+    "/private/tmp/rogue-issue7-PlayMode.log",
+    "/private/tmp/rogue-issue7-jobs/tests-3/completion.json"
+  ]
+}
