@@ -13,6 +13,8 @@ public class ShiroWalkPlaybackTests
     [UnityTest]
     public IEnumerator SixSlicesActuallyPlayAndRenderAtPortraitSize()
     {
+        // Editor-only assets are inspected by an EditMode coroutine that enters actual Play Mode.
+        yield return new EnterPlayMode();
         var scene = EditorSceneManager.LoadSceneAsyncInPlayMode(ShiroSpikeSetup.ScenePath,
             new LoadSceneParameters(LoadSceneMode.Single));
         yield return scene; yield return null;
@@ -61,5 +63,6 @@ public class ShiroWalkPlaybackTests
         Object.Destroy(image); Object.Destroy(target);
         LogAssert.NoUnexpectedReceived();
         Debug.Log("SHIRO_SPIKE_PLAYBACK_PASS 6 distinct sprites observed in real playback; 12 portrait renders");
+        yield return new ExitPlayMode();
     }
 }
