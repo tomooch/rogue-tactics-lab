@@ -1,0 +1,44 @@
+{
+  "shiro_walk_front_01.png": {
+    "foot_point": [
+      724,
+      1242
+    ],
+    "annotation": "Manually inspected bottom brown/black supporting sole edge, alpha >=128. Refined from provisional interior sole point; not a bounding-box corner."
+  },
+  "shiro_walk_front_02.png": {
+    "foot_point": [
+      711,
+      1244
+    ],
+    "annotation": "Manually inspected bottom brown/black supporting sole edge, alpha >=128. Refined from provisional interior sole point; not a bounding-box corner."
+  },
+  "shiro_walk_front_03.png": {
+    "foot_point": [
+      703,
+      1242
+    ],
+    "annotation": "Manually inspected bottom brown/black supporting sole edge, alpha >=128. Refined from provisional interior sole point; not a bounding-box corner."
+  },
+  "shiro_walk_front_04.png": {
+    "foot_point": [
+      582,
+      1242
+    ],
+    "annotation": "Manually inspected bottom brown/black supporting sole edge, alpha >=128. Refined from provisional interior sole point; not a bounding-box corner."
+  },
+  "shiro_walk_front_05.png": {
+    "foot_point": [
+      557,
+      1239
+    ],
+    "annotation": "Manually inspected bottom brown/black supporting sole edge, alpha >=128. Refined from provisional interior sole point; not a bounding-box corner."
+  },
+  "shiro_walk_front_06.png": {
+    "foot_point": [
+      584,
+      1243
+    ],
+    "annotation": "Manually inspected bottom brown/black supporting sole edge, alpha >=128. Refined from provisional interior sole point; not a bounding-box corner."
+  }
+}

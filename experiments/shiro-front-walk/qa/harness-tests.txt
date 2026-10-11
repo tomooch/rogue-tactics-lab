@@ -1,0 +1,11 @@
+test_removes_contamination_preserves_face_and_adjacent_antialiasing (test_contours.ContourTest.test_removes_contamination_preserves_face_and_adjacent_antialiasing) ... ok
+test_anchor_in_empty_gap_is_rejected (test_pipeline.PipelineTest.test_anchor_in_empty_gap_is_rejected) ... ok
+test_low_alpha_is_not_silently_cropped (test_pipeline.PipelineTest.test_low_alpha_is_not_silently_cropped) ... ok
+test_missing_anchors_rejected (test_pipeline.PipelineTest.test_missing_anchors_rejected) ... ok
+test_opaque_is_rejected (test_pipeline.PipelineTest.test_opaque_is_rejected) ... ok
+test_synthetic_sprite_harness (test_pipeline.PipelineTest.test_synthetic_sprite_harness) ... ok
+
+----------------------------------------------------------------------
+Ran 6 tests in 0.347s
+
+OK

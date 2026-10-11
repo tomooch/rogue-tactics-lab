@@ -1,0 +1,44 @@
+{
+  "shiro_walk_front_01.png": {
+    "foot_point": [
+      724,
+      1238
+    ],
+    "annotation": "Manually selected central brown outsole pixel of supporting boot; actual RGBA verified. Not a bounding-box corner."
+  },
+  "shiro_walk_front_02.png": {
+    "foot_point": [
+      711,
+      1238
+    ],
+    "annotation": "Manually selected central brown outsole pixel of supporting boot; actual RGBA verified. Not a bounding-box corner."
+  },
+  "shiro_walk_front_03.png": {
+    "foot_point": [
+      703,
+      1238
+    ],
+    "annotation": "Manually selected central brown outsole pixel of supporting boot; actual RGBA verified. Not a bounding-box corner."
+  },
+  "shiro_walk_front_04.png": {
+    "foot_point": [
+      582,
+      1238
+    ],
+    "annotation": "Manually selected central brown outsole pixel of supporting boot; actual RGBA verified. Not a bounding-box corner."
+  },
+  "shiro_walk_front_05.png": {
+    "foot_point": [
+      557,
+      1238
+    ],
+    "annotation": "Manually selected central brown outsole pixel of supporting boot; actual RGBA verified. Not a bounding-box corner."
+  },
+  "shiro_walk_front_06.png": {
+    "foot_point": [
+      584,
+      1238
+    ],
+    "annotation": "Manually selected central brown outsole pixel of supporting boot; actual RGBA verified. Not a bounding-box corner."
+  }
+}
