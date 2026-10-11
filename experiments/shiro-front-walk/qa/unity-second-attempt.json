@@ -1,0 +1,12 @@
+{
+  "source_commit": "ef8826f0c19378565b240aa140cbf0ba63282c86",
+  "EditMode": {
+    "passed": 5,
+    "failed": 1
+  },
+  "actual_Play_Mode_entered": true,
+  "distinct_sprites_observed": 1,
+  "required": 6,
+  "interpretation": "Legacy Animation was running but did not update the SpriteRenderer reference curve. Replaced with standard Animator and generated controller.",
+  "PlayMode_suite": "not reached; no Unity render acceptance yet"
+}
