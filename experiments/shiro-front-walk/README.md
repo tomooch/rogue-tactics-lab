@@ -20,7 +20,7 @@ python3 scripts/build_walk.py --input-dir input --output-dir output
 python3 scripts/validate_final.py
 ```
 
-Only the isolated `unity/Assets/ShiroSpike` scene is used for the import experiment. The default Stage0 scene and build settings stay intact. Texture: RGBA, 1536×1024, no rescale/compression/mips, bilinear/clamp, 100 pixels per unit. Six native Sprite.Create assets slice the atlas using exact 512×512 rects and shared pivot (256,42) in Unity's bottom-up coordinates. An 8fps legacy animation clip loops six sprites; an Editor coroutine entering actual Play Mode observes actual advancing sprites and renders light/dark 390×844 frames. No new Sprite Editor package dependency.
+Only the isolated `unity/Assets/ShiroSpike` scene is used for the import experiment. The default Stage0 scene and build settings stay intact. Texture: RGBA, 1536×1024, no rescale/compression/mips, bilinear/clamp, 100 pixels per unit. Six native Sprite.Create assets slice the atlas using exact 512×512 rects and shared pivot (256,42) in Unity's bottom-up coordinates. An 8fps Animator animation clip loops six sprites; an Editor coroutine entering actual Play Mode observes actual advancing sprites and renders light/dark 390×844 frames. No new Sprite Editor package dependency.
 
 The current explicit task requests Unity import/playback evidence as part of the spike, superseding the packet's earlier sequence that placed optional Unity proof after Human gait acceptance. Unity proof must not be called Human gait acceptance.
 

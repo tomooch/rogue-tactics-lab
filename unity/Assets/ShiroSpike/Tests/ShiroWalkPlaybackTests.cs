@@ -19,8 +19,8 @@ public class ShiroWalkPlaybackTests
             new LoadSceneParameters(LoadSceneMode.Single));
         yield return scene; yield return null;
         var renderer = Object.FindFirstObjectByType<SpriteRenderer>();
-        var animation = renderer.GetComponent<Animation>();
-        Assert.That(animation.IsPlaying("ShiroFrontWalk"), Is.True);
+        var animator = renderer.GetComponent<Animator>();
+        Assert.That(animator.GetCurrentAnimatorStateInfo(0).IsName("ShiroFrontWalk"), Is.True);
         var seen = new HashSet<string>();
         float deadline = Time.realtimeSinceStartup + 2;
         while (Time.realtimeSinceStartup < deadline)
@@ -30,7 +30,8 @@ public class ShiroWalkPlaybackTests
             yield return null;
         }
         Assert.That(seen.Count, Is.EqualTo(6), "Actual animation playback must reach all six sprites");
-        animation.Stop();
+        Assert.That(animator.GetCurrentAnimatorStateInfo(0).normalizedTime, Is.GreaterThan(1f));
+        animator.enabled = false;
         var camera = Camera.main;
         var target = new RenderTexture(390, 844, 24);
         camera.targetTexture = target;

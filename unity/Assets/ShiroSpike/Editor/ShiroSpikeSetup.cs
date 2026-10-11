@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEditor.SceneManagement;
 using UnityEngine;
 
@@ -50,14 +51,14 @@ public static class ShiroSpikeSetup
         }
         var clip = AssetDatabase.LoadAssetAtPath<AnimationClip>(ClipPath);
         if (clip == null) { clip = new AnimationClip(); AssetDatabase.CreateAsset(clip, ClipPath); }
-        clip.name = "ShiroFrontWalk"; clip.legacy = true; clip.frameRate = Fps; clip.wrapMode = WrapMode.Loop;
-        var keys = new ObjectReferenceKeyframe[7];
-        for (int i = 0; i < 7; i++)
+        clip.name = "ShiroFrontWalk"; clip.legacy = false; clip.frameRate = Fps; clip.wrapMode = WrapMode.Loop;
+        var keys = new ObjectReferenceKeyframe[6];
+        for (int i = 0; i < 6; i++)
             keys[i] = new ObjectReferenceKeyframe { time = i / Fps, value = sprites[i % 6] };
         AnimationUtility.SetObjectReferenceCurve(clip,
             EditorCurveBinding.PPtrCurve("", typeof(SpriteRenderer), "m_Sprite"), keys);
         var settings = AnimationUtility.GetAnimationClipSettings(clip);
-        settings.loopTime = true; AnimationUtility.SetAnimationClipSettings(clip, settings);
+        settings.loopTime = true; settings.stopTime = 6f / Fps; AnimationUtility.SetAnimationClipSettings(clip, settings);
         EditorUtility.SetDirty(clip);
         var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
         var camera = new GameObject("Shiro Spike Camera").AddComponent<Camera>();
@@ -71,9 +72,17 @@ public static class ShiroSpikeSetup
         var material = AssetDatabase.LoadAssetAtPath<Material>(materialPath);
         if (material == null) { material = renderer.sharedMaterial; AssetDatabase.CreateAsset(material, materialPath); }
         else { UnityEngine.Object.DestroyImmediate(renderer.sharedMaterial); renderer.sharedMaterial = material; }
-        var animation = actor.AddComponent<Animation>();
-        animation.AddClip(clip, "ShiroFrontWalk"); animation.clip = clip;
-        animation.playAutomatically = true; animation.wrapMode = WrapMode.Loop;
+        string controllerPath = Root + "/ShiroFrontWalk.controller";
+        var controller = AssetDatabase.LoadAssetAtPath<AnimatorController>(controllerPath);
+        if (controller == null) controller = AnimatorController.CreateAnimatorControllerAtPath(controllerPath);
+        var machine = controller.layers[0].stateMachine;
+        var state = machine.defaultState;
+        if (state == null) state = machine.AddState("ShiroFrontWalk");
+        state.motion = clip; machine.defaultState = state;
+        EditorUtility.SetDirty(controller);
+        var animator = actor.AddComponent<Animator>();
+        animator.runtimeAnimatorController = controller;
+        animator.cullingMode = AnimatorCullingMode.AlwaysAnimate;
         EditorSceneManager.SaveScene(scene, ScenePath);
         AssetDatabase.SaveAssets();
         Debug.Log("SHIRO_SPIKE_CONFIGURED six native Sprite.Create slices; 8fps loop; no build settings change");
