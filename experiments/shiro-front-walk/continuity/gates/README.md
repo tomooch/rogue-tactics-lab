@@ -24,7 +24,7 @@ Unity -batchmode -projectPath /private/tmp/shiro-R0-unity -executeMethod R0Probe
 ```
 Long actual Unity jobs use detached verification runner with exact command/log/completion records. Final actual runtime: run3 exit0, 180frames, 8loop wraps, 9 nonempty deformed SpriteSkin meshes / 10renderers / 32transforms, root fixed0. Three pose maximum bone deltas≈40°, mesh vertex moments change. Six light/dark390×844captures and H264/yuv420p6sec30fps movie. Official Animation13.0.0 / PSDImporter12.0.0 / resolved2D Common12.0.4. Visible cuffs/boot joins and layering look coherent in three poses; tunic conceals hips and staff is independent, so those relationships remain unverified. No Shiro art/Human gait acceptance. NUnit/Stage0 runtime suite not rerun; production Unitytree unchanged.
 
-R0 actual PlayMode job `3079bb85-be14-467f-9543-0e190bfea692` targets source `188eedf3e815341082295118be410f81c6f9a574`, importing Animation13.0.0/PSDImporter12.0.0 in isolated project. Results pending; no success inferred from source code.
+Historical first PlayMode job `3079bb85-be14-467f-9543-0e190bfea692` targeted source `188eedf3e815341082295118be410f81c6f9a574`. It failed with a QuickSearch startup exception; preserved in `attempt1/`. The final run3 result below supersedes this attempt, without deleting its failure evidence.
 
 ## Final execution binding / bounded repairs
 
