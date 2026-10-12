@@ -63,11 +63,11 @@ BはfaceX/torsoXの等重み複合点をセルX256へ整数pxで移動する。d
 - `alignment/trajectories.png`: 同一座標軸のface/torso X軌跡、6→1含む
 - `alignment/B/frames/`, `shiro_walk_front_atlas.png`, `manifest.json`, `unity_landmarks.json`: B成果物
 
-## Unity B — current verification pending
+## Unity B — current verified result
 
-実Unity6000.3.25f1でBを再importする。Bは全spriteに共通canvas-center pivot(256,256)。rootは固定(0,0,0)、per-frame root/sole補正を禁止。共通camera Yを2.6→0.46に変え、旧foot pivotからcanvas pivotへの共通座標原点差だけを相殺し、同倍率・同じ縦表示範囲を保持する。これはposeごとの補正ではない。8fps/0.75秒clipは同一。
+実Unity6000.3.25f1でBを再import・compile PASS。Bは全spriteに共通canvas-center pivot(256,256)。rootは固定(0,0,0)、per-frame root/sole補正を禁止。共通camera Yを2.6→0.46に変え、旧foot pivotからcanvas pivotへの共通座標原点差だけを相殺し、同倍率・同じ縦表示範囲を保持する。これはposeごとの補正ではない。8fps/0.75秒clipは同一。
 
-B atlasのfile SHAと実slice.texture参照、clipの6key順序/時刻、実PlayModeのphaseとsprite切替/wrap、root固定、body world座標、明暗12枚の390×844実描画、既存Stage0の非回帰を新commitで検証する。旧Unity PASSをBへ転用しない。検証完了後、この節とexact revision証拠を更新する。
+新検証source commit **`f0776ddfc7569edd381781b4ecae91bb736112ad`**。EditMode6/6 PASS（実PlayModeへ入るB test含む）、既存Stage0 PlayMode1/1 PASS。B atlas SHA=`8be8019ea74d4bcdb376f2bf6b6fd6d9e24174a185aa7b166dd0d096a5964810` と実slice.texture参照を確認。clip6key順序/時刻、実PlayMode phase一致、17回のsprite観測と順序/wrap、root固定、body world座標を確認。完全frame区間のgame-time差は平均0.125040秒（8fps）。明暗12枚の390×844実RenderTexture画像を視認。今回の新結果であり旧PASSを転用していない。`alignment/unity_verification.json`, `commit_verification.json`, `unity/playback-observation.json`, XML/PNGに保存。後続commitは証拠・記録のみ、画像/配置/Unity sourceに変更なし。
 
 ## UNRESOLVED / NEXT
 
