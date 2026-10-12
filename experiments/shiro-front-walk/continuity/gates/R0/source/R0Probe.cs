@@ -56,6 +56,7 @@ public static class R0Probe {
   var prefab=AssetDatabase.LoadAssetAtPath<GameObject>(path);if(prefab==null)throw new Exception("Official Fei PSB prefab not imported");
   var scene=EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);var actor=(GameObject)PrefabUtility.InstantiatePrefab(prefab);actor.name="R0_OfficialFei";actor.transform.position=Vector3.zero;
   var bones=actor.GetComponentsInChildren<Transform>();
+  AssetDatabase.DeleteAsset("Assets/R0_ThreePoses.anim");AssetDatabase.DeleteAsset("Assets/R0.controller");
   var clip=new AnimationClip{name="R0_ThreePoses",frameRate=4};
   var requested=new Dictionary<string,float[]>{{"bone_16",new[]{20f,0f,-20f,20f}},{"bone_17",new[]{-25f,15f,5f,-25f}},{"bone_19",new[]{-20f,0f,20f,-20f}},{"bone_20",new[]{5f,15f,-25f,5f}},{"bone_10",new[]{-12f,0f,12f,-12f}},{"bone_13",new[]{12f,0f,-12f,12f}}};
   foreach(var kv in requested){
