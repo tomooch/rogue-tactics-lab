@@ -95,6 +95,15 @@ One reactive repair removed those inner outlines and retained outer contours;
 fresh renders show less dark ring but visible shading/contour separation.
 Pre-repair files are preserved in `attempt2/before_joint_repair/`.
 
+Initial artifact QA failed: independently rasterizing the whole SVG for the
+ORA merged image differed by up to4 channel levels from its stored raster
+layers. `artifact_qa_attempt1.json` retains the failed source/job. The format
+repair recomposes those actual stored layers for ORA `mergedimage.png` and
+strengthens the validator from tolerance3 to **exact delta0**, without changing
+art paths/range PNGs. Pre-format-repair ORA bytes remain in source commit
+`b9dc941103f9c76b07010bf3e79fa1e1cd88e24f`. A fresh verification job is required;
+the failed run produced no accepted final QA/movie evidence.
+
 `visual_review.json` records the art verdict separately from artifact QA. A
 successful process/format/margin check cannot erase these failures. Do not
 claim every alternative method is impossible or a whole Shiro test failed:
@@ -132,8 +141,17 @@ Builder completes actual art rendering. Validator checks XML/layer sources,
 ORA structure/recomposition, RGBA/range margins, prior evidence preservation,
 and makes/decode-checks a390×844 H264/yuv420p diagnostic. It labels its output
 **S0 FAILED / NOT SHIRO / NOT WALKING / NOT UNITY**. Exit0 means artifact
-checks executed, never art acceptance. Target source SHA/actual job result
-belong in `qa.json` and `commit_verification.json` after completion.
+checks executed, never art acceptance.
+
+Final actual verification source `0e68e678e522cee6f1482e1331e64c02c8b55abc`,
+job `023ed5be-c98a-4d0d-b6a7-9b14e590e897`, exit0. Both nine-layer ORA
+compositions match their stored layers exactly (channel delta0), all six
+512×512 RGBA range images have at least41px clear margins. The freshly
+generated six-second390×844 H264/yuv420p diagnostic fully decodes. Existing
+source/input/output/alignment/C0/M0/R0/motion-reference and production Unity
+diff is empty. `qa.json`, `qa_execution.log` and `commit_verification.json`
+bind actual command/timestamps/source/artifact hashes. **These file checks
+PASS while S0 art remains FAIL.** No Unity or Shiro gait result is implied.
 
 Production `unity/`, old source/input/output/alignment/C0/M0/R0/motion-reference
 are unchanged. No relevant production tests are affected. No new Unity test,

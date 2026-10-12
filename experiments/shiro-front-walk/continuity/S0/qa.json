@@ -1,0 +1,113 @@
+{
+  "executed_source_commit": "0e68e678e522cee6f1482e1331e64c02c8b55abc",
+  "artifact_checks": [
+    {
+      "attempt": "attempt1",
+      "editable_SVG_XML": true,
+      "ORA_named_layers": 9,
+      "ORA_composite_max_channel_delta": 0,
+      "source_raster_embedded": false,
+      "frames": [
+        {
+          "file": "range_0.png",
+          "RGBA": true,
+          "margins_ltrb": [
+            111,
+            74,
+            65,
+            81
+          ],
+          "sha256": "2ed7ec44f86acb62cdada6fcbec79cd1980366ac0d80daed770cfe4eebbee7ce"
+        },
+        {
+          "file": "range_1.png",
+          "RGBA": true,
+          "margins_ltrb": [
+            41,
+            74,
+            65,
+            81
+          ],
+          "sha256": "d4ca9d152eee82a281792cea6288d6b93afffb88f0193444fd5643768734ea48"
+        },
+        {
+          "file": "range_2.png",
+          "RGBA": true,
+          "margins_ltrb": [
+            125,
+            74,
+            65,
+            81
+          ],
+          "sha256": "fb827182dc329346df443f75bd351d5c063c8a3ad9b6539b058ee5f83a746eb2"
+        }
+      ]
+    },
+    {
+      "attempt": "attempt2",
+      "editable_SVG_XML": true,
+      "ORA_named_layers": 9,
+      "ORA_composite_max_channel_delta": 0,
+      "source_raster_embedded": false,
+      "frames": [
+        {
+          "file": "range_0.png",
+          "RGBA": true,
+          "margins_ltrb": [
+            111,
+            74,
+            65,
+            81
+          ],
+          "sha256": "250d3a72b864462e690f2d29068041c419f575dd441c4bcc5f2d761d92428346"
+        },
+        {
+          "file": "range_1.png",
+          "RGBA": true,
+          "margins_ltrb": [
+            41,
+            74,
+            65,
+            81
+          ],
+          "sha256": "f6093adc8dcee4813c3151560dbf07d76637d15b6618f05d69780bb29a8d9dfd"
+        },
+        {
+          "file": "range_2.png",
+          "RGBA": true,
+          "margins_ltrb": [
+            125,
+            74,
+            65,
+            81
+          ],
+          "sha256": "729ff7e8306f32783db464f13289734fd7f006a4c11c4064760c316872150744"
+        }
+      ]
+    }
+  ],
+  "video": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 390,
+        "height": 844,
+        "pix_fmt": "yuv420p"
+      }
+    ],
+    "format": {
+      "duration": "6.000000"
+    }
+  },
+  "full_decode": "PASS",
+  "prior_evidence_and_production_tree_diff": "",
+  "tool_artifact_validation": "PASS",
+  "S0_source_art_gate": "FAIL; canonical master unresolved and new paint style/joints fail",
+  "S1": "NOT_EXECUTED",
+  "S2": "NOT_EXECUTED",
+  "S3": "NOT_EXECUTED",
+  "Human_GO": "NOT_OBTAINED",
+  "video_SHA256": "0cac571e68e24b06c6c253f0afb213c5dd8362316ff5b46da04cb9e57292300b"
+}
