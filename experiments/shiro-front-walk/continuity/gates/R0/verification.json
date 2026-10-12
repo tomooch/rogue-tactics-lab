@@ -1,0 +1,535 @@
+{
+  "source_commit": "127bb5441772f8f8e7176f2ef5b78cd5bbb6be65",
+  "editor": "6000.3.25f1",
+  "actual_animation_package": "13.0.0",
+  "actual_PSD_package": "12.0.0",
+  "observed_loop_wraps": 8,
+  "capture_frames": 180,
+  "root_fixed": "PASS",
+  "deformed_vertex_data_nonempty": "PASS",
+  "three_pose_bone_and_geometry_changes": "PASS",
+  "portrait_nonblank_and_not_boundary_clipped": "PASS",
+  "exception_errors": [],
+  "pose_deltas": [
+    {
+      "pose_pair": [
+        1,
+        2
+      ],
+      "max_bone_angle_delta_deg": 40.0000057220459,
+      "max_skin_vertex_weighted_moment_delta": 2102.289143709466
+    },
+    {
+      "pose_pair": [
+        2,
+        3
+      ],
+      "max_bone_angle_delta_deg": 40.000017166137695,
+      "max_skin_vertex_weighted_moment_delta": 1250.447117109783
+    },
+    {
+      "pose_pair": [
+        3,
+        1
+      ],
+      "max_bone_angle_delta_deg": 39.99998474121094,
+      "max_skin_vertex_weighted_moment_delta": 3352.736260819249
+    }
+  ],
+  "captures": [
+    {
+      "image": "light_pose1.png",
+      "frame": 66,
+      "phase": 0.15555858612060547,
+      "boneEulerZ": [
+        196.91783142089844,
+        332.55999755859375,
+        157.31497192382812,
+        6.594832420349121,
+        152.99884033203125,
+        220.2073974609375
+      ],
+      "skins": [
+        {
+          "name": "head",
+          "sprite": "head",
+          "order": 10,
+          "vertices": 80,
+          "geometrySum": 7932.194139942527
+        },
+        {
+          "name": "scarf",
+          "sprite": "scarf",
+          "order": 9,
+          "vertices": 51,
+          "geometrySum": 1510.9564602505416
+        },
+        {
+          "name": "hair",
+          "sprite": "hair",
+          "order": 8,
+          "vertices": 40,
+          "geometrySum": -483.3825282789767
+        },
+        {
+          "name": "right_arm",
+          "sprite": "right_arm",
+          "order": 7,
+          "vertices": 45,
+          "geometrySum": 405.4456610046327
+        },
+        {
+          "name": "amulet",
+          "sprite": "amulet",
+          "order": 6,
+          "vertices": 57,
+          "geometrySum": -267.1844965275377
+        },
+        {
+          "name": "body",
+          "sprite": "body",
+          "order": 5,
+          "vertices": 44,
+          "geometrySum": -3495.1317844465375
+        },
+        {
+          "name": "left_arm",
+          "sprite": "left_arm",
+          "order": 4,
+          "vertices": 50,
+          "geometrySum": -1301.356868404895
+        },
+        {
+          "name": "right_leg",
+          "sprite": "right_leg",
+          "order": 3,
+          "vertices": 44,
+          "geometrySum": -846.7448863238096
+        },
+        {
+          "name": "left_leg",
+          "sprite": "left_leg",
+          "order": 2,
+          "vertices": 45,
+          "geometrySum": -458.2705444730818
+        }
+      ],
+      "nonbackground_pixels": 63939,
+      "sha256": "9c5f29db6e05283d4aa500401fdcd1847e81a3f4cdc3e68ea10b12debf59fff1"
+    },
+    {
+      "image": "light_pose2.png",
+      "frame": 51,
+      "phase": 0.4888901710510254,
+      "boneEulerZ": [
+        176.9178466796875,
+        12.560003280639648,
+        177.31495666503906,
+        16.59483528137207,
+        164.99884033203125,
+        208.2073974609375
+      ],
+      "skins": [
+        {
+          "name": "head",
+          "sprite": "head",
+          "order": 10,
+          "vertices": 80,
+          "geometrySum": 7932.194139942527
+        },
+        {
+          "name": "scarf",
+          "sprite": "scarf",
+          "order": 9,
+          "vertices": 51,
+          "geometrySum": 1510.9564602505416
+        },
+        {
+          "name": "hair",
+          "sprite": "hair",
+          "order": 8,
+          "vertices": 40,
+          "geometrySum": -483.3825282789767
+        },
+        {
+          "name": "right_arm",
+          "sprite": "right_arm",
+          "order": 7,
+          "vertices": 45,
+          "geometrySum": -1696.8434827048331
+        },
+        {
+          "name": "amulet",
+          "sprite": "amulet",
+          "order": 6,
+          "vertices": 57,
+          "geometrySum": -267.1844965275377
+        },
+        {
+          "name": "body",
+          "sprite": "body",
+          "order": 5,
+          "vertices": 44,
+          "geometrySum": -3495.1317844465375
+        },
+        {
+          "name": "left_arm",
+          "sprite": "left_arm",
+          "order": 4,
+          "vertices": 50,
+          "geometrySum": -3227.89860243164
+        },
+        {
+          "name": "right_leg",
+          "sprite": "right_leg",
+          "order": 3,
+          "vertices": 44,
+          "geometrySum": -1434.8264730330557
+        },
+        {
+          "name": "left_leg",
+          "sprite": "left_leg",
+          "order": 2,
+          "vertices": 45,
+          "geometrySum": -1308.1025448180735
+        }
+      ],
+      "nonbackground_pixels": 64124,
+      "sha256": "5aa0112ac1abd7d3645b96351e85e1205bf9138fabb4394a23325c70273a6859"
+    },
+    {
+      "image": "light_pose3.png",
+      "frame": 81,
+      "phase": 0.8222270011901855,
+      "boneEulerZ": [
+        156.9178466796875,
+        2.560002326965332,
+        197.31495666503906,
+        336.5948181152344,
+        176.99884033203125,
+        196.2073974609375
+      ],
+      "skins": [
+        {
+          "name": "head",
+          "sprite": "head",
+          "order": 10,
+          "vertices": 80,
+          "geometrySum": 7932.194139942527
+        },
+        {
+          "name": "scarf",
+          "sprite": "scarf",
+          "order": 9,
+          "vertices": 51,
+          "geometrySum": 1510.9564602505416
+        },
+        {
+          "name": "hair",
+          "sprite": "hair",
+          "order": 8,
+          "vertices": 40,
+          "geometrySum": -483.3825282789767
+        },
+        {
+          "name": "right_arm",
+          "sprite": "right_arm",
+          "order": 7,
+          "vertices": 45,
+          "geometrySum": -2947.290599814616
+        },
+        {
+          "name": "amulet",
+          "sprite": "amulet",
+          "order": 6,
+          "vertices": 57,
+          "geometrySum": -267.1844965275377
+        },
+        {
+          "name": "body",
+          "sprite": "body",
+          "order": 5,
+          "vertices": 44,
+          "geometrySum": -3495.1317844465375
+        },
+        {
+          "name": "left_arm",
+          "sprite": "left_arm",
+          "order": 4,
+          "vertices": 50,
+          "geometrySum": -4162.008993415162
+        },
+        {
+          "name": "right_leg",
+          "sprite": "right_leg",
+          "order": 3,
+          "vertices": 44,
+          "geometrySum": -371.46086219884455
+        },
+        {
+          "name": "left_leg",
+          "sprite": "left_leg",
+          "order": 2,
+          "vertices": 45,
+          "geometrySum": -799.8583021685481
+        }
+      ],
+      "nonbackground_pixels": 61745,
+      "sha256": "0e1090f72e84c53309595d8017699fdc6c3015c6e34480ec2e9545b2d8c0c136"
+    },
+    {
+      "image": "dark_pose1.png",
+      "frame": 156,
+      "phase": 0.15556907653808594,
+      "boneEulerZ": [
+        196.91783142089844,
+        332.55999755859375,
+        157.31497192382812,
+        6.594832420349121,
+        152.99884033203125,
+        220.2073974609375
+      ],
+      "skins": [
+        {
+          "name": "head",
+          "sprite": "head",
+          "order": 10,
+          "vertices": 80,
+          "geometrySum": 7932.194139942527
+        },
+        {
+          "name": "scarf",
+          "sprite": "scarf",
+          "order": 9,
+          "vertices": 51,
+          "geometrySum": 1510.9564602505416
+        },
+        {
+          "name": "hair",
+          "sprite": "hair",
+          "order": 8,
+          "vertices": 40,
+          "geometrySum": -483.3825282789767
+        },
+        {
+          "name": "right_arm",
+          "sprite": "right_arm",
+          "order": 7,
+          "vertices": 45,
+          "geometrySum": 405.4456610046327
+        },
+        {
+          "name": "amulet",
+          "sprite": "amulet",
+          "order": 6,
+          "vertices": 57,
+          "geometrySum": -267.1844965275377
+        },
+        {
+          "name": "body",
+          "sprite": "body",
+          "order": 5,
+          "vertices": 44,
+          "geometrySum": -3495.1317844465375
+        },
+        {
+          "name": "left_arm",
+          "sprite": "left_arm",
+          "order": 4,
+          "vertices": 50,
+          "geometrySum": -1301.356868404895
+        },
+        {
+          "name": "right_leg",
+          "sprite": "right_leg",
+          "order": 3,
+          "vertices": 44,
+          "geometrySum": -846.7448863238096
+        },
+        {
+          "name": "left_leg",
+          "sprite": "left_leg",
+          "order": 2,
+          "vertices": 45,
+          "geometrySum": -458.2705444730818
+        }
+      ],
+      "nonbackground_pixels": 58375,
+      "sha256": "19a2c5969cd4db975603c7063df114d452ac949b78e71bd907f638070ad7232f"
+    },
+    {
+      "image": "dark_pose2.png",
+      "frame": 141,
+      "phase": 0.48890066146850586,
+      "boneEulerZ": [
+        176.9178466796875,
+        12.560003280639648,
+        177.31495666503906,
+        16.59483528137207,
+        164.99884033203125,
+        208.2073974609375
+      ],
+      "skins": [
+        {
+          "name": "head",
+          "sprite": "head",
+          "order": 10,
+          "vertices": 80,
+          "geometrySum": 7932.194139942527
+        },
+        {
+          "name": "scarf",
+          "sprite": "scarf",
+          "order": 9,
+          "vertices": 51,
+          "geometrySum": 1510.9564602505416
+        },
+        {
+          "name": "hair",
+          "sprite": "hair",
+          "order": 8,
+          "vertices": 40,
+          "geometrySum": -483.3825282789767
+        },
+        {
+          "name": "right_arm",
+          "sprite": "right_arm",
+          "order": 7,
+          "vertices": 45,
+          "geometrySum": -1696.8434827048331
+        },
+        {
+          "name": "amulet",
+          "sprite": "amulet",
+          "order": 6,
+          "vertices": 57,
+          "geometrySum": -267.1844965275377
+        },
+        {
+          "name": "body",
+          "sprite": "body",
+          "order": 5,
+          "vertices": 44,
+          "geometrySum": -3495.1317844465375
+        },
+        {
+          "name": "left_arm",
+          "sprite": "left_arm",
+          "order": 4,
+          "vertices": 50,
+          "geometrySum": -3227.89860243164
+        },
+        {
+          "name": "right_leg",
+          "sprite": "right_leg",
+          "order": 3,
+          "vertices": 44,
+          "geometrySum": -1434.8264730330557
+        },
+        {
+          "name": "left_leg",
+          "sprite": "left_leg",
+          "order": 2,
+          "vertices": 45,
+          "geometrySum": -1308.1025448180735
+        }
+      ],
+      "nonbackground_pixels": 58541,
+      "sha256": "e3b3b0abf72de8936950e444368018dfa9b4d27fc545f854cec7014fe7ff01ba"
+    },
+    {
+      "image": "dark_pose3.png",
+      "frame": 171,
+      "phase": 0.822237491607666,
+      "boneEulerZ": [
+        156.9178466796875,
+        2.560002326965332,
+        197.31495666503906,
+        336.5948181152344,
+        176.99884033203125,
+        196.2073974609375
+      ],
+      "skins": [
+        {
+          "name": "head",
+          "sprite": "head",
+          "order": 10,
+          "vertices": 80,
+          "geometrySum": 7932.194139942527
+        },
+        {
+          "name": "scarf",
+          "sprite": "scarf",
+          "order": 9,
+          "vertices": 51,
+          "geometrySum": 1510.9564602505416
+        },
+        {
+          "name": "hair",
+          "sprite": "hair",
+          "order": 8,
+          "vertices": 40,
+          "geometrySum": -483.3825282789767
+        },
+        {
+          "name": "right_arm",
+          "sprite": "right_arm",
+          "order": 7,
+          "vertices": 45,
+          "geometrySum": -2947.290599814616
+        },
+        {
+          "name": "amulet",
+          "sprite": "amulet",
+          "order": 6,
+          "vertices": 57,
+          "geometrySum": -267.1844965275377
+        },
+        {
+          "name": "body",
+          "sprite": "body",
+          "order": 5,
+          "vertices": 44,
+          "geometrySum": -3495.1317844465375
+        },
+        {
+          "name": "left_arm",
+          "sprite": "left_arm",
+          "order": 4,
+          "vertices": 50,
+          "geometrySum": -4162.008993415162
+        },
+        {
+          "name": "right_leg",
+          "sprite": "right_leg",
+          "order": 3,
+          "vertices": 44,
+          "geometrySum": -371.46086219884455
+        },
+        {
+          "name": "left_leg",
+          "sprite": "left_leg",
+          "order": 2,
+          "vertices": 45,
+          "geometrySum": -799.8583021685481
+        }
+      ],
+      "nonbackground_pixels": 56254,
+      "sha256": "b1bc81dc71840312584d08f2cf25497197714805dcc741d23139d54f1c4948a8"
+    }
+  ],
+  "visual_joint_occlusion": {
+    "result": "PASS_LIMITED_TO_VISIBLE_JOINS_IN_THREE_SAMPLE_POSES",
+    "observed": "lower-leg articulation; sleeve-to-hand and boot-to-leg joins closed; no obvious layer-order popping in hair/scarf/torso",
+    "limits": [
+      "tunic hides hip/upper-leg attachment",
+      "staff is independent sprite, no held-prop attachment test",
+      "three constant poses do not prove between-pose interpolation or natural walk",
+      "Fei is official sample, not Shiro"
+    ],
+    "review": "Executor image inspection and independent bounded actual-image adversarial review"
+  },
+  "Shiro_art": "NOT_EXECUTED",
+  "Human_gait": "NOT_ASSESSED",
+  "NUnit": "NOT_RUN; this is actual PlayMode capture probe, not Stage0 regression suite"
+}

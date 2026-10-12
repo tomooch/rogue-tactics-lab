@@ -1,3 +1,11 @@
+# Current M0 / R0 execution results — frontal marker PARTIAL / official rig tooling PASS
+
+M0/R0 were actually executed under [Design Office6125123428](https://github.com/tomooch/rogue-tactics-lab/pull/12#issuecomment-6125123428), independently of prior research. M0 downloaded/decode-viewed91frontal source frames; 12 shoulder/elbow/wrist/hip/knee/ankle markers, 4overlap frames explicitly null. **Head is absent in source, so M0 remains PARTIAL**, not full head/contact/neutral motion coverage. R0 used isolated actual Unity6000.3.25f1, official Animation13.0.0/PSDImporter12.0.0 Fei sample; final source `127bb5441772f8f8e7176f2ef5b78cd5bbb6be65`, 180PlayModeframes/8loopwraps/3bone+mesh signatures/6light-dark390×844captures, root0, no runtime exceptions. **R0 tooling PASS limited to these sample poses**; hips covered by tunic, staff independent, no Shiro art/natural walk acceptance.
+
+[Execution report and commands](continuity/gates/README.md), [M0 observations](continuity/gates/M0/observations.json), [M0 preview](continuity/gates/M0/frontal_markers_iPhone.mp4), [R0 measurements and exact source record](continuity/gates/R0/commit_verification.json), [R0 actual Unity preview](continuity/gates/R0/R0_actual_Unity_iPhone.mp4), [3actual poses](continuity/gates/R0/three_actual_Unity_poses.jpg). Initial exception and timeout evidence retained; old output not reused. New Shiro image generation/6-frame production/production Unity-Core changes/NUnitStage0rerun/merge not performed.
+
+---
+
 # Current existing-human-video motion-reference study — partial motion evidence / art not executed
 
 実歩行H1/H2をdecodeし、H1候補周期10.56–12.08sの手動下半身proxyを記録。正面全身の実動画はまだ再生確認できず、頭/胸/腕/荷重は未測定。共通0.75sの6点/8点側面骨格比較を作成したが、自然さ/シロartの成立証明ではない。AI歩行動画生成・シロ新画像生成・外部upload・新Unity実行なし。
