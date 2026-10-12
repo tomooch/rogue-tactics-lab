@@ -10,5 +10,5 @@ m=project/'Packages/manifest.json';j=json.loads(m.read_text());j['dependencies']
 tmp=Path('/private/tmp/R0-sample-source');tmp.mkdir(exist_ok=True)
 with tarfile.open(archive) as t:t.extractall(tmp,filter='data')
 src=tmp/'package/Samples~/AnimationSamples';dest=project/'Assets/Samples/2D Animation/13.0.0/Samples';dest.parent.mkdir(parents=True,exist_ok=True);shutil.copytree(src,dest,dirs_exist_ok=True)
-shutil.copy2(root/'continuity/gates/R0/source/R0Probe.cs',project/'Assets/R0Probe.cs')
+for source in (root/'continuity/gates/R0/source').glob('*.cs'):shutil.copy2(source,project/'Assets'/source.name)
 print('Isolated R0 configured: official samples+license, 2D Animation13.0.0 / PSDImporter12.0.0; production unity untouched')
