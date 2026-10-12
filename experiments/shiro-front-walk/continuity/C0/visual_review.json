@@ -1,0 +1,16 @@
+{
+  "executor_visual_gate": "FAIL",
+  "independent_bounded_visual_review": "FAIL",
+  "Human_art_judgment": "not solicited as completed walk; not observed",
+  "observed_failures": [
+    "Hard jagged/dashed cut contours around thighs and ankle/stocking joins in all three poses",
+    "Passing inner-thigh blue underpaint wedge; hip/skirt depth not coherently recovered",
+    "Grip/staff part retains adjacent white hair/cape/sleeve fragments",
+    "Boot/thigh/cape parts retain unrelated clothing fragments; partial mask cannot recover missing surfaces",
+    "Three labels denote intended Contact/Passing/opposite Contact; genuine weight transfer and single-foot contact not established"
+  ],
+  "limited_repair": "One local hidden-pelvis/upper-leg completion plus one hidden-clothing completion; repair still leaves seams/foreign paint and extra frill geometry risk",
+  "interpretation": "Numerical hinge equality and common face do not establish painted anatomical connections. Flat source lacks neutral/rest geometry and complementary hidden cloth.",
+  "decision": "Stop at C0. Do not produce six C frames or import failed candidate into Unity. Keep A/B and failed C0 evidence. No long-term production adoption.",
+  "next_proposal": "Prepare genuinely editable neutral/rest artwork with complete pelvis, full thighs/knees/shins, clean arm/staff and complementary skirt/cape/hair occlusions. Rerun only this three-pose gate. Video-derived production remains a separate proposal needing paid/upload GO if used."
+}

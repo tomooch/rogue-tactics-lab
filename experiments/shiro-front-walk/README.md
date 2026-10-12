@@ -1,19 +1,18 @@
-# Current PR #12 continuation: head/torso alignment A/B
+# Current C-0 feasibility gate: FAIL, C-1 not run
 
-Human watched A and judged the lateral head/torso shift unnatural. Current B is a reversible registration experiment, not accepted art. `RESULT.md` starts with current measurements/limits; the original sole-based result remains below as historical evidence.
+Latest Human: A/B naturalness NG; B foot sliding not bothersome; separate pictures/no continuity. This revision tests shared-part feasibility first, not a finished six-frame animation. See RESULT.md and continuity/C0/qa.json. A/B/source/input/output/alignment files stay unchanged.
 
-A=`output/` unchanged at baseline0572960. B=`alignment/B/`. Canonical source/input files remain unchanged. `build_alignment_ab.py` performs integer X translation only, using annotated eye midpoint and blue collar brooch composite. It preserves all existing resized RGBA pixels, scale and Y positions. The old sole QA is retained for A; B checks anatomical composite X and records both soles instead of fixing them.
+C-0 has 3 failed trial poses, common parts, hidden-paint candidates, manifests and seam diagnostics. One pelvis/upper-leg local completion and one bounded clothing repair still leave connected-paint/occlusion failures. C-1 six-frame generation/Unity is intentionally not run. No art adoption.
 
-Reproduce from this directory (Python/Pillow/NumPy/ffmpeg already available):
+Reproduce failed trials (from this directory):
 
 ```sh
-python3 scripts/build_alignment_ab.py
-python3 scripts/validate_alignment.py
-python3 -m unittest discover -s tests -v
+python3 scripts/build_c0_feasibility.py                  # first trial; original samples retained in C0/attempt1
+python3 scripts/build_c0_feasibility.py --clothing-repair # bounded repair trial
+python3 scripts/validate_c0_feasibility.py               # writes C0_gate FAIL honestly
+python3 scripts/make_c0_preview.py                      # holds 3 failed poses, not a walk
 ```
 
-B uses explicit `alignment/landmarks.json` source-coordinate annotations; annotated crops and trajectories explain their meaning. No ImageGen invocation is needed or permitted for this comparison. A/B standalone and stacked comparison movies use identical384px display size,390×844,H264/yuv420p,8fps,6sec with light/dark halves. Old A MP4 remains unchanged.
+The original candidate crops, built-in ImageGen prompts/hashes and final parts are retained. Source anatomy/pivots are inferred test values, not recovered invisible art. Numeric hinges and source face equality cannot qualify C0. The validator's successful process exit means evidence creation, not artistic or C0 gate PASS.
 
-To install generated B into the isolated Unity fixture, copy `alignment/B/shiro_walk_front_atlas.png` to `../../unity/Assets/ShiroSpike/Art/shiro_walk_front_atlas.png` and `alignment/B/unity_landmarks.json` to `../../unity/Assets/ShiroSpike/Art/shiro_walk_front_manifest.json`; then run exact6000.3.25f1 `ShiroSpikeSetup.Configure`. The Editor generates slices/controller/metadata. Common canvas pivot(256,256), stable root, no per-frame sole locking. Actual tests must use a committed B source revision; `verify_unity.py` records it.
-
-The earlier generation/cleanup pipeline and approvals remain documented in the historical result and Git baseline0572960. The private original references and rejected candidates are preserved outside tracked final assets. Human accepts/rejects naturalness and cuteness separately from technical QA.
+The earlier B alignment experiment remains in alignment/; B actual Unity source is f0776dd. Its 6frame/8fps/0.75s loop and evidence remain available unchanged. B Human naturalness is NG. No new C assets are imported into Unity.

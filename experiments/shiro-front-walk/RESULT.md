@@ -1,6 +1,72 @@
+# Current C-0 shared-parts feasibility — FAIL / C-1 not executed
+
+## Latest sources / Human result
+
+main `ab9fa5dc729dcea07f8680e7b22544627c5e5bed`、PR #12 latest baseline `8524ddb4a389deb878a5487611e02ecd196bd70c` をfetch/APIで照合。root README/DESIGN/VERIFICATION/AGENTS、Issue #9、最新[staged C handoff](https://github.com/tomooch/rogue-tactics-lab/pull/12#issuecomment-6121644343)を確認。専用worktree/branchを継続しcanonical mainの既存`.gitignore`変更には触れない。rootの旧Stage0 pending記述は現在mainと相違するが、無関係な修正はしない。
+
+Human確定: **A NG、B NG、Bの足滑りは気にならない、「バラバラの絵」「連続感がない」**。6コマ不足は疑問/仮説であり確定原因ではない。旧A/B証拠と全source/input/output/alignment hashを保存。旧Human GO待ち記述は歴史的状態で、現評価の正本ではない。
+
+## C-0 HYPOTHESIS
+
+同じ原画・共通部品から、骨盤→股関節→太もも→膝→すね/靴を接続し、胸/肩/髪/服を連動させるための隠れ画素を局所補描できるか。顔を共通化しても、関節と衣装が成立しなければ進めない。
+
+## C-0 EXPECTED RESULT
+
+左Contact、Passing、右Contactの3主要ポーズが、同じシロ、閉じた膝/股関節、離れない手/杖、自然なスカート遮蔽を保つ。3ポーズで成立した場合のみC-1を6コマ/8fps/0.75秒で制作する。
+
+## C-0 OBSERVED RESULT
+
+`continuity/C0/`に部品inventory、欠け領域、原画crop、local paint候補2枚、共通部品PNG、3試作ポーズ、source-space pose、part/pose manifest、onion skin、拡大診断、初回試作保存を作成。
+
+- masterは既存cleaned `input/shiro_walk_front_01.png`。承認参照は元ZIPのhashで識別、私有参照をGitへ追加しない。
+- 元の顔/帽子・衣装部品を共通sourceから管理。元部品をbind配置に戻すと元絵とbitwise一致。source顔ROIはhead部品内でbitwise一致。ただしexportは変換/再samplingを含むので全poseの顔pixel同一と主張しない。
+- 統合PNGの骨盤、股関節、膝背面、肩/袖の付け根、手/杖の後ろ、cape/hairの裏は未描画。マスク分離で回収できない。
+- Built-in ImageGenで下半身の隠れ領域を局所補描1案。靴まで再生成されたためcandidateの靴は不使用。骨盤/上腿のみ試用し、元front bootと明示的に反転した試験用companionを保持（元rear bootは保存）。この反転/再構成はCの変更でありB pixel一致ではない。
+- 左右の股関節・膝のparent transformを設計。胸をcounter-rotateし、共通頭部を小移動、腕と握り手/杖をgroup管理し、cape/hairに追従を与えた。脚全体の平行移動だけ、全身一括bobだけの試作ではない。
+- 初回3poseで膝/靴に切り抜き線、衣装の欠け・断片が見えた。脚後ろの隠れ衣装だけを局所補描する限定修正を1回追加。元paint・初回poseは`attempt1/`に保存。
+- 修正後も全3poseに太もも/靴下周辺のhard/jagged seam、Passingの股下に青いwedge、staff/腕/靴部品に隣接hair/cape/clothing fragmentが残る。新しいfrill構造の整合性も確立しない。
+- Executor視認と限定した独立read-only敵対レビューはともに**C-0 FAIL**。HumanによるC art評価ではない。
+
+## C-0 QA result
+
+`continuity/C0/qa.json`。RGBA512、四辺40px以上（最小44px）、境界非越境、alpha0 RGB0、旧A/B全hash不変、元bind復元、source face ROI、共通頭部source、rigid transform/数値上の関節長 constancyはPASS。膝hinge誤差は約1e-13 source px。
+
+しかし関節長は推定2D試験点の数値検査であり、隠れた実解剖学的形状の証明ではない。元画像への接続paint/遮蔽/歩行位相はFAILまたは未成立。既知外周mask色は最終各pose22/23/22画素でFAIL。alpha255も含むため顔・衣装の輪郭を無差別削除してPASSにしない。顔一致やgeometry PASSでC-0合格にしない。
+
+## C-0 DECISION / stop boundary
+
+**C-0不成立。C-1へ進行しない。** 原画から存在しない関節・背面衣装を少数の局所補描で整合させる方法は今回の限定試作では成立しなかった。これは真正のlayered rig一般が不可能という結論でも、6コマ不足の証明でもない。無制限な補描/全身生成を続けず停止する。
+
+## C-1 HYPOTHESIS / EXPECTED / OBSERVED / DECISION
+
+- HYPOTHESIS: 共通原画から一周期として6コマを制作すれば、独立した絵の切り替え感が減る可能性。
+- EXPECTED: 6frame/8fps/0.75秒の連続した歩行。
+- OBSERVED: **未実施**。C-0 gateがFAILのため6コマ、final atlas、B/C walking comparisonを作成しない。
+- DECISION: C-1の仮説は未検証。8/12コマにも増やさない。正式art/長期制作方式採用なし。
+
+## Unity / iPhone evidence
+
+C-0で停止したため、新CのUnity import/slice/Animator/PlayModeは未実施。Unity source/assetsは変更なし。旧Bのsource `f0776ddfc7569edd381781b4ecae91bb736112ad` に対するPASSは保存し、新Cへ転用しない。Core/Stage0/default scene/Packages/ProjectSettings変更なし。
+
+- C-0通常速度のwalk動画は存在しない。`C0_failed_three_pose_diagnostic_iPhone.mp4`は失敗した3静止poseを各2秒保持する診断表示。390×844 H264/yuv420p、6秒、全decode PASS。8fpsはcontainerの値で、6コマ歩行/0.75秒loopを装わない。
+- `three_pose_contact.jpg`, `joint_clothing_closeups.jpg`, `parts_contact.jpg`, `three_pose_onion.jpg`, `occlusion_inventory.jpg` をGitHubから閲覧できるようPRへ掲載する。
+- Bの通常歩行MP4は既存`alignment/B_iPhone.mp4`のまま保存。C単独/B-C同期/6→1 walking loopはC-1未実施のため提供しない。
+
+## Recommended next production proposal (not adopted)
+
+真正のeditable neutral/rest原画を先に準備する。必要なのは閉じた骨盤、各脚の完全な太もも/膝/すね/靴、きれいな袖/腕/握り手+杖、相補的なスカート/cape/髪の裏。可動範囲で必要なpaintが揃ったら、この3pose gateだけを再実行する。全身独立sprite追加ではなく、部位対応が一貫したsource rig artworkを制作する。別案の一周期動画から抽出はproposalのみ、外部有料サービス/追加uploadは実行しない。どちらも長期採用・正式Decisionではない。
+
+## Human / unresolved
+
+今回のC0失敗はExecutorの成立性判断。Humanに完成歩行として合否を求めない。次に確認すべきは、必要なlayer原画準備へ制作工程を移すか、別の一周期動画方式を比較対象として検討するか。次の有効なcandidateができた時の最重要評価は「同じシロが一連の動作として自然に歩いて見えるか」。物理iPhone/CI/新C Unity未観測。Draft維持、merge禁止。
+
+---
+
+## Preserved historical A/B technical evidence (latest Human rejection annotated)
+
 # Shiro front walk: sole vs head/torso alignment A/B — current experiment
 
-**AはHumanが動画を見て自然さNG。Bは技術QA PASS、自然さ・可愛さHuman GO待ち。** 同じ6枚を整数X移動するだけで比較し、画像生成・脚の描き直し・倍率/速度変更は行わない。
+**最新Human評価: A/Bとも自然さNG。Bの足滑りは気にならず、「バラバラの絵」「連続感がない」。可愛さ/identityの独立採否は未評価。Bの技術QA PASSは維持する。** 同じ6枚を整数X移動するだけで比較し、画像生成・脚の描き直し・倍率/速度変更は行わない。
 
 ## Human observation / HYPOTHESIS / EXPECTED / DECISION
 
@@ -71,7 +137,7 @@ BはfaceX/torsoXの等重み複合点をセルX256へ整数pxで移動する。d
 
 ## UNRESOLVED / NEXT
 
-Bの自然さ・可愛さHuman GOは未取得。数値で胴体揺れが小さくても正式採用しない。物理iPhone/iOS build・CIは未観測。HumanはA/Bを再生し、左右揺れが改善したか、足滑りや頭/胴体の静止感が増えていないか、03→04/06→01と顔一貫性が自然かを判断する。Draft維持、merge禁止。ゲームCore/他キャラ/他motion/有料サービス変更なし。
+Bの自然さはHuman NG。足滑りはHumanが「気にならない」と観測。可愛さの独立評価は未取得。数値で胴体揺れが小さくても正式採用しない。物理iPhone/iOS build・CIは未観測。HumanはA/Bを再生し、左右揺れが改善したか、足滑りや頭/胴体の静止感が増えていないか、03→04/06→01と顔一貫性が自然かを判断する。Draft維持、merge禁止。ゲームCore/他キャラ/他motion/有料サービス変更なし。
 
 ---
 

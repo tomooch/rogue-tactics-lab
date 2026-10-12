@@ -1,0 +1,18 @@
+{
+  "tool": "built-in image_gen",
+  "hypothesis": "shared parts may improve temporal identity; C0 must establish closed articulation before C1",
+  "jobs": [
+    {
+      "edit_target": "lower_body_edit_target.png",
+      "output": "lower_body_completion_candidate.png",
+      "prompt": "LOCAL ILLUSTRATION COMPLETION FOR AN ARTICULATED SPRITE, one lower-body component only. Edit target is the attached cropped Shiro legs. Keep the two visible blue boots, white flowers, gold stars and soles, skin paint style, and existing left-contact pose exactly as provided. Reconstruct only the missing upper leg roots/hips hidden by the skirt, as a modest fully clothed lower-body understructure: plain opaque blue bloomers/undershorts covering the pelvis, smooth nonsexual upper-thigh connection, consistent childlike chibi limb proportions. Remove the skirt/frills/cape and the diagonal staff from this component, including the staff overlapping viewer-right thigh, and deliberately complete the small missing skin contour behind it. Two complete connected thighs/knees down to the unchanged boots; no head, torso, hands, other props. The shorts are under the outer dress and not a costume redesign. RGBA transparent isolated component, same camera/frontal view and relative positions as the edit target, same illustration detail. Do not add extra fingers, feet, skin highlights, outlines, new decorations or a background. This is a hidden-region feasibility asset, not a new full-character drawing.",
+      "used_scope": "pelvis/upper thigh only; regenerated boots excluded"
+    },
+    {
+      "edit_target": "occluded_clothing_edit_target.png",
+      "output": "occluded_clothing_completion_candidate.png",
+      "prompt": "LOCAL HIDDEN-CLOTHING PAINT COMPLETION only. Edit target is Shiro's waist/skirt/cape crop. Produce one isolated RGBA garment layer, preserving exactly the existing blue/white/gold painted costume, flower-bow belt, star pattern and frill silhouettes. Remove ONLY the two legs/boots, hands/arms, staff and hanging white hair from this component; deliberately paint the modest inner blue underskirt/cape surfaces that were hidden behind those objects, preserving the continuous folds, outline thickness and existing cloth ornament layout. Do not extend clothes to cover places that were originally empty background beyond the skirt/cape outline. No skin, no new limbs, no head, no face, no background, no new accessory. This is underpaint for moving shared parts, not a new character or pose. Keep frontal camera and original crop framing and relative garment scale. Do not redesign the gold stars or blue bow. Need locally coherent illustrated hidden cloth; no isolated torn fragments or jagged holes.",
+      "used_scope": "one bounded hidden-cloth repair behind old leg regions"
+    }
+  ]
+}
