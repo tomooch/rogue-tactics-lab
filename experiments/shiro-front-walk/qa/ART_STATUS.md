@@ -1,3 +1,5 @@
+Historical A report; latest Human watched A and rejected its naturalness. Current B experiment is in `../alignment/` and `../RESULT.md`, Human B GO pending.
+
 # Art status — final candidates, Human acceptance pending
 
 ## FACT

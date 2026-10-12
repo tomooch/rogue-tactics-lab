@@ -38,9 +38,10 @@ public static class ShiroSpikeSetup
         var sprites = new Sprite[6];
         for (int i = 0; i < 6; i++)
         {
+            // B has a common canvas-center pivot, with no per-pose sole compensation.
             // PNG row order is top-down; Unity texture rects are bottom-up.
             var rect = new Rect((i % 3) * 512, (1 - i / 3) * 512, 512, 512);
-            var sprite = Sprite.Create(atlas, rect, new Vector2(0.5f, 42f / 512f), 100,
+            var sprite = Sprite.Create(atlas, rect, new Vector2(0.5f, 0.5f), 100,
                 0, SpriteMeshType.FullRect);
             sprite.name = $"shiro_walk_front_{i + 1:00}";
             string path = $"{Root}/Slices/{sprite.name}.asset";
@@ -63,9 +64,9 @@ public static class ShiroSpikeSetup
         var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
         var camera = new GameObject("Shiro Spike Camera").AddComponent<Camera>();
         camera.tag = "MainCamera"; camera.orthographic = true; camera.orthographicSize = 6;
-        camera.transform.position = new Vector3(0, 2.6f, -10);
+        camera.transform.position = new Vector3(0, 0.46f, -10);
         camera.clearFlags = CameraClearFlags.SolidColor; camera.backgroundColor = new Color(0.92f, 0.95f, 0.99f);
-        var actor = new GameObject("Shiro / provisional front walk");
+        var actor = new GameObject("Shiro / B head-torso alignment / Human pending");
         var renderer = actor.AddComponent<SpriteRenderer>(); renderer.sprite = sprites[0];
         renderer.sharedMaterial = new Material(Shader.Find("Sprites/Default"));
         string materialPath = Root + "/ShiroUnlit.mat";

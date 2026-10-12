@@ -13,10 +13,10 @@ Sprite:
     y: 0
     width: 512
     height: 512
-  m_Offset: {x: 0, y: -214}
+  m_Offset: {x: 0, y: 0}
   m_Border: {x: 0, y: 0, z: 0, w: 0}
   m_PixelsToUnits: 100
-  m_Pivot: {x: 0.5, y: 0.08203125}
+  m_Pivot: {x: 0.5, y: 0.5}
   m_Extrude: 0
   m_IsPolygon: 0
   m_PackingTag: 
@@ -102,7 +102,7 @@ Sprite:
         format: 0
         dimension: 0
       m_DataSize: 80
-      _typelessdata: 0ad723c066669640000000000ad7234066669640000000000ad723c03d0ad7be000000000ad723403d0ad7be000000000000000000000000000000000000000000000000000000000000000000000000
+      _typelessdata: 0ad723c00ad72340000000000ad723400ad72340000000000ad723c00ad723c0000000000ad723400ad723c0000000000000000000000000000000000000000000000000000000000000000000000000
     m_Bindpose: []
     textureRect:
       serializedVersion: 2
@@ -113,7 +113,7 @@ Sprite:
     textureRectOffset: {x: 0, y: 0}
     atlasRectOffset: {x: -1, y: -1}
     settingsRaw: 0
-    uvTransform: {x: 100, y: 1280, z: 100, w: 42}
+    uvTransform: {x: 100, y: 1280, z: 100, w: 256}
     downscaleMultiplier: 1
   m_AtlasRD:
     serializedVersion: 3
@@ -193,7 +193,7 @@ Sprite:
         format: 0
         dimension: 0
       m_DataSize: 80
-      _typelessdata: 0ad723c066669640000000000ad7234066669640000000000ad723c03d0ad7be000000000ad723403d0ad7be000000000000000000000000000000000000000000000000000000000000000000000000
+      _typelessdata: 0ad723c00ad72340000000000ad723400ad72340000000000ad723c00ad723c0000000000ad723400ad723c0000000000000000000000000000000000000000000000000000000000000000000000000
     m_Bindpose: []
     textureRect:
       serializedVersion: 2
@@ -204,7 +204,7 @@ Sprite:
     textureRectOffset: {x: 0, y: 0}
     atlasRectOffset: {x: -1, y: -1}
     settingsRaw: 0
-    uvTransform: {x: 100, y: 1280, z: 100, w: 42}
+    uvTransform: {x: 100, y: 1280, z: 100, w: 256}
     downscaleMultiplier: 1
   m_PhysicsShape: []
   m_Bones: []

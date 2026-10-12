@@ -1,31 +1,19 @@
-# Shiro front walk — Issue #9 spike
+# Current PR #12 continuation: head/torso alignment A/B
 
-Scope: one illustrated character, front walk in place, six independently generated poses. No gameplay changes. Art and gait remain provisional until Human judges the actual loop.
+Human watched A and judged the lateral head/torso shift unnatural. Current B is a reversible registration experiment, not accepted art. `RESULT.md` starts with current measurements/limits; the original sole-based result remains below as historical evidence.
 
-Baseline: `ab9fa5dc729dcea07f8680e7b22544627c5e5bed`. Exact Editor: `6000.3.25f1`.
-Packet SHA256: `e66a730a2aa5e349ec3b5c573421e137ce5730241e18c8e9c4af54aa4c493f42`.
+A=`output/` unchanged at baseline0572960. B=`alignment/B/`. Canonical source/input files remain unchanged. `build_alignment_ab.py` performs integer X translation only, using annotated eye midpoint and blue collar brooch composite. It preserves all existing resized RGBA pixels, scale and Y positions. The old sole QA is retained for A; B checks anatomical composite X and records both soles instead of fixing them.
 
-The Human explicitly approved the packet's displayed face/full-body candidates for this task (「よい」). Private original references remain outside Git. This establishes the spike's reference identity, not acceptance of generated animation or the product direction.
-
-Production method: built-in ImageGen, one actual pose per call, canonical face/full-body plus selected first pose as grounding. Independent RGBA sources; single uniform scale and explicit sole anchors; deterministic 3×2 atlas and QA. No prior rejected leg-cutout asset, no fabricated in-between pose, no paid/new external service.
-
-Order: L contact → L support → R swing → R contact → R support → L swing (character's left/right, not viewer's).
-
-Reproduce with Python, Pillow, NumPy and ffmpeg already available locally:
+Reproduce from this directory (Python/Pillow/NumPy/ffmpeg already available):
 
 ```sh
+python3 scripts/build_alignment_ab.py
+python3 scripts/validate_alignment.py
 python3 -m unittest discover -s tests -v
-python3 scripts/clean_contours.py --source source --input input --qa qa
-python3 scripts/build_walk.py --input-dir input --output-dir output
-python3 scripts/validate_final.py
 ```
 
-Only the isolated `unity/Assets/ShiroSpike` scene is used for the import experiment. The default Stage0 scene and build settings stay intact. Texture: RGBA, 1536×1024, no rescale/compression/mips, bilinear/clamp, 100 pixels per unit. Six native Sprite.Create assets slice the atlas using exact 512×512 rects and shared pivot (256,42) in Unity's bottom-up coordinates. An 8fps Animator animation clip loops six sprites; an Editor coroutine entering actual Play Mode observes actual advancing sprites and renders light/dark 390×844 frames. No new Sprite Editor package dependency.
+B uses explicit `alignment/landmarks.json` source-coordinate annotations; annotated crops and trajectories explain their meaning. No ImageGen invocation is needed or permitted for this comparison. A/B standalone and stacked comparison movies use identical384px display size,390×844,H264/yuv420p,8fps,6sec with light/dark halves. Old A MP4 remains unchanged.
 
-The current explicit task requests Unity import/playback evidence as part of the spike, superseding the packet's earlier sequence that placed optional Unity proof after Human gait acceptance. Unity proof must not be called Human gait acceptance.
+To install generated B into the isolated Unity fixture, copy `alignment/B/shiro_walk_front_atlas.png` to `../../unity/Assets/ShiroSpike/Art/shiro_walk_front_atlas.png` and `alignment/B/unity_landmarks.json` to `../../unity/Assets/ShiroSpike/Art/shiro_walk_front_manifest.json`; then run exact6000.3.25f1 `ShiroSpikeSetup.Configure`. The Editor generates slices/controller/metadata. Common canvas pivot(256,256), stable root, no per-frame sole locking. Actual tests must use a committed B source revision; `verify_unity.py` records it.
 
-Machine QA can establish geometry/transparency invariants and rendering, but cannot certify identity, natural gait, anatomical contact or a fringe-free painted contour. Record those separately in the final report. No iOS/Android device or Human play result is inferred from previews.
-
-Human AUTO-GO authorized contour-only cleanup and larger placement. Originals in `source/` are preserved by SHA256; per-frame face ROI and protected interiors are unchanged. `qa/*_difference.png` shows before/after/changed pixels. Final character height is approximately 414px; machine geometry/transparency/anchor/codec QA passes. Known exterior mask colors are removed, including low-alpha Lanczos ringing after normalization. This establishes technical candidate readiness only.
-
-`diagnostic/` and `qa/diagnostic-result.json` retain the early undersized, fringe-contaminated FAIL for comparison. They are not the final output. Rejected generation hashes and reasons remain recorded; rejected files stay local and are excluded from Git.
+The earlier generation/cleanup pipeline and approvals remain documented in the historical result and Git baseline0572960. The private original references and rejected candidates are preserved outside tracked final assets. Human accepts/rejects naturalness and cuteness separately from technical QA.

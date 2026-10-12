@@ -1,0 +1,14 @@
+test_gutter_failure_cannot_be_hidden_by_shrinking (test_alignment.AlignmentRegression.test_gutter_failure_cannot_be_hidden_by_shrinking) ... ok
+test_old_sole_anchor_rejected_for_B (test_alignment.AlignmentRegression.test_old_sole_anchor_rejected_for_B) ... ok
+test_translation_keeps_antialias_pixels_and_y (test_alignment.AlignmentRegression.test_translation_keeps_antialias_pixels_and_y) ... ok
+test_removes_contamination_preserves_face_and_adjacent_antialiasing (test_contours.ContourTest.test_removes_contamination_preserves_face_and_adjacent_antialiasing) ... ok
+test_anchor_in_empty_gap_is_rejected (test_pipeline.PipelineTest.test_anchor_in_empty_gap_is_rejected) ... ok
+test_low_alpha_is_not_silently_cropped (test_pipeline.PipelineTest.test_low_alpha_is_not_silently_cropped) ... ok
+test_missing_anchors_rejected (test_pipeline.PipelineTest.test_missing_anchors_rejected) ... ok
+test_opaque_is_rejected (test_pipeline.PipelineTest.test_opaque_is_rejected) ... ok
+test_synthetic_sprite_harness (test_pipeline.PipelineTest.test_synthetic_sprite_harness) ... ok
+
+----------------------------------------------------------------------
+Ran 9 tests in 0.393s
+
+OK

@@ -1,0 +1,52 @@
+{
+  "status": "PASS",
+  "checks": "independent actual pixels/bbox/atlas/hash/source/semantic landmark transform and old sole-lock rejection",
+  "frames": [
+    {
+      "file": "shiro_walk_front_01.png",
+      "dx": 10,
+      "composite_x": 255.94448438978242,
+      "painted_pixels_identical": true
+    },
+    {
+      "file": "shiro_walk_front_02.png",
+      "dx": 6,
+      "composite_x": 256.1146186440678,
+      "painted_pixels_identical": true
+    },
+    {
+      "file": "shiro_walk_front_03.png",
+      "dx": 3,
+      "composite_x": 255.91109879963068,
+      "painted_pixels_identical": true
+    },
+    {
+      "file": "shiro_walk_front_04.png",
+      "dx": -36,
+      "composite_x": 255.92672497570456,
+      "painted_pixels_identical": true
+    },
+    {
+      "file": "shiro_walk_front_05.png",
+      "dx": -45,
+      "composite_x": 255.64500453309157,
+      "painted_pixels_identical": true
+    },
+    {
+      "file": "shiro_walk_front_06.png",
+      "dx": -36,
+      "composite_x": 255.96150870406188,
+      "painted_pixels_identical": true
+    }
+  ],
+  "support_sole_x_measured": [
+    266.29990539262064,
+    262.23352165725044,
+    258.56509695290856,
+    220.44023323615158,
+    211.23118766999096,
+    220.25725338491293
+  ],
+  "source_commit": "0572960aaf21855dff0b05467e8c64339a4480c1",
+  "Human_B": "PENDING"
+}
