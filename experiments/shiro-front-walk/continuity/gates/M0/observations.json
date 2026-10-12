@@ -1,0 +1,5538 @@
+{
+  "source_url": "https://commons.wikimedia.org/wiki/File:Action-and-Emotion-Recognition-from-Point-Light-Displays-An-Investigation-of-Gender-Differences-pone.0020989.s004.ogv",
+  "source_sha256": "f0db2c533988fae5a7f473a9d49ef77028cc79b0d2b73cdc768f6fe34238aed3",
+  "credit": "Alaerts K, Nackaerts E, Meyns P, Swinnen S, Wenderoth N (2011), PLOS ONE Video S3, doi:10.1371/journal.pone.0020989",
+  "license_display": "CC BY 2.5",
+  "license_url": "https://creativecommons.org/licenses/by/2.5/",
+  "metadata_license": "CC BY 3.0 (also linked for provenance https://creativecommons.org/licenses/by/3.0/)",
+  "modification": "Decoded centroid tracks and resized/reannotated diagnostic. No raw motion capture coordinates or private Shiro art.",
+  "M0": "PARTIAL: frontal 12-marker decode/observation successful; head and sole/contact force absent",
+  "emotion": "sad actor; not neutral/cute Shiro specification",
+  "tracking": "initial image-left/right then nearest temporal matching; anatomical L/R and occlusion not certified",
+  "decoded_frames": 91,
+  "missing_marker_frames": [
+    61,
+    62,
+    63,
+    64
+  ],
+  "gap_policy": "null; no interpolated/imputed observation; prior point only assists next assignment",
+  "rows": [
+    {
+      "frame": 0,
+      "pts_s": 0.0,
+      "markers": {
+        "imageLeft_shoulder": [
+          847.2536585365854,
+          115.42926829268292
+        ],
+        "imageRight_shoulder": [
+          1098.2926829268292,
+          99.57073170731708
+        ],
+        "imageLeft_elbow": [
+          818.542288557214,
+          337.1641791044776
+        ],
+        "imageRight_elbow": [
+          1136.401913875598,
+          321.26794258373207
+        ],
+        "imageLeft_wrist": [
+          837.5769230769231,
+          530.5
+        ],
+        "imageRight_wrist": [
+          1114.2843601895734,
+          523.9336492890995
+        ],
+        "imageLeft_hip": [
+          888.5169082125603,
+          422.6135265700483
+        ],
+        "imageRight_hip": [
+          1053.6586538461538,
+          432.3557692307692
+        ],
+        "imageLeft_knee": [
+          904.3872549019608,
+          758.6127450980392
+        ],
+        "imageRight_knee": [
+          1047.318407960199,
+          771.2636815920398
+        ],
+        "imageLeft_ankle": [
+          942.5,
+          1065.949494949495
+        ],
+        "imageRight_ankle": [
+          1025.2871287128712,
+          1065.950495049505
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        971.0877810293571,
+        427.48464790040873
+      ]
+    },
+    {
+      "frame": 1,
+      "pts_s": 0.033367,
+      "markers": {
+        "imageLeft_shoulder": [
+          847.2536585365854,
+          115.42926829268292
+        ],
+        "imageRight_shoulder": [
+          1098.2857142857142,
+          99.52216748768473
+        ],
+        "imageLeft_elbow": [
+          818.5346534653465,
+          337.2029702970297
+        ],
+        "imageRight_elbow": [
+          1136.4086538461538,
+          321.3076923076923
+        ],
+        "imageLeft_wrist": [
+          837.5769230769231,
+          530.5
+        ],
+        "imageRight_wrist": [
+          1114.2952380952381,
+          523.8428571428572
+        ],
+        "imageLeft_hip": [
+          888.5,
+          422.5769230769231
+        ],
+        "imageRight_hip": [
+          1053.6586538461538,
+          432.3557692307692
+        ],
+        "imageLeft_knee": [
+          904.3823529411765,
+          758.6176470588235
+        ],
+        "imageRight_knee": [
+          1047.34,
+          771.23
+        ],
+        "imageLeft_ankle": [
+          942.5,
+          1065.949494949495
+        ],
+        "imageRight_ankle": [
+          1025.2587064676618,
+          1065.9253731343283
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        971.0793269230769,
+        427.4663461538462
+      ]
+    },
+    {
+      "frame": 2,
+      "pts_s": 0.066733,
+      "markers": {
+        "imageLeft_shoulder": [
+          840.74,
+          112.24
+        ],
+        "imageRight_shoulder": [
+          1095.0251256281408,
+          96.47236180904522
+        ],
+        "imageLeft_elbow": [
+          812.1734693877551,
+          334.1020408163265
+        ],
+        "imageRight_elbow": [
+          1133.2820512820513,
+          315.0051282051282
+        ],
+        "imageLeft_wrist": [
+          837.5679611650486,
+          527.3786407766991
+        ],
+        "imageRight_wrist": [
+          1117.4202898550725,
+          523.7729468599034
+        ],
+        "imageLeft_hip": [
+          885.3398058252427,
+          422.6067961165049
+        ],
+        "imageRight_hip": [
+          1050.5879396984924,
+          429.0753768844221
+        ],
+        "imageLeft_knee": [
+          898.0824742268042,
+          761.7216494845361
+        ],
+        "imageRight_knee": [
+          1050.56,
+          771.255
+        ],
+        "imageLeft_ankle": [
+          942.5,
+          1065.949494949495
+        ],
+        "imageRight_ankle": [
+          1025.39,
+          1062.89
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        967.9638727618676,
+        425.84108650046346
+      ]
+    },
+    {
+      "frame": 3,
+      "pts_s": 0.1001,
+      "markers": {
+        "imageLeft_shoulder": [
+          837.5990099009902,
+          112.25247524752476
+        ],
+        "imageRight_shoulder": [
+          1088.7156862745098,
+          96.5
+        ],
+        "imageLeft_elbow": [
+          805.9166666666666,
+          334.0885416666667
+        ],
+        "imageRight_elbow": [
+          1130.0208333333333,
+          311.9635416666667
+        ],
+        "imageLeft_wrist": [
+          834.536231884058,
+          527.3478260869565
+        ],
+        "imageRight_wrist": [
+          1123.5276381909548,
+          521.0251256281407
+        ],
+        "imageLeft_hip": [
+          878.9748743718593,
+          419.52763819095475
+        ],
+        "imageRight_hip": [
+          1044.234693877551,
+          429.1275510204082
+        ],
+        "imageLeft_knee": [
+          894.9639175257732,
+          761.7731958762887
+        ],
+        "imageRight_knee": [
+          1056.9438775510205,
+          771.3724489795918
+        ],
+        "imageLeft_ankle": [
+          942.4723618090452,
+          1065.9748743718592
+        ],
+        "imageRight_ankle": [
+          1028.3349514563106,
+          1056.485436893204
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        961.6047841247052,
+        424.3275946056815
+      ]
+    },
+    {
+      "frame": 4,
+      "pts_s": 0.133467,
+      "markers": {
+        "imageLeft_shoulder": [
+          837.5990099009902,
+          112.25247524752476
+        ],
+        "imageRight_shoulder": [
+          1088.7156862745098,
+          96.5
+        ],
+        "imageLeft_elbow": [
+          805.9166666666666,
+          334.0885416666667
+        ],
+        "imageRight_elbow": [
+          1130.0208333333333,
+          311.9635416666667
+        ],
+        "imageLeft_wrist": [
+          834.536231884058,
+          527.3478260869565
+        ],
+        "imageRight_wrist": [
+          1123.5276381909548,
+          521.0251256281407
+        ],
+        "imageLeft_hip": [
+          878.9748743718593,
+          419.52763819095475
+        ],
+        "imageRight_hip": [
+          1044.234693877551,
+          429.1275510204082
+        ],
+        "imageLeft_knee": [
+          894.9639175257732,
+          761.7731958762887
+        ],
+        "imageRight_knee": [
+          1056.9593908629442,
+          771.4111675126903
+        ],
+        "imageLeft_ankle": [
+          942.4723618090452,
+          1065.9748743718592
+        ],
+        "imageRight_ankle": [
+          1028.3349514563106,
+          1056.485436893204
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        961.6047841247052,
+        424.3275946056815
+      ]
+    },
+    {
+      "frame": 5,
+      "pts_s": 0.166833,
+      "markers": {
+        "imageLeft_shoulder": [
+          834.5544554455446,
+          112.18811881188118
+        ],
+        "imageRight_shoulder": [
+          1085.5,
+          93.20792079207921
+        ],
+        "imageLeft_elbow": [
+          799.5,
+          334.0
+        ],
+        "imageRight_elbow": [
+          1126.9748743718592,
+          305.52763819095475
+        ],
+        "imageLeft_wrist": [
+          828.0518134715026,
+          524.1139896373057
+        ],
+        "imageRight_wrist": [
+          1130.0251256281408,
+          514.5276381909548
+        ],
+        "imageLeft_hip": [
+          875.8817733990148,
+          419.48768472906403
+        ],
+        "imageRight_hip": [
+          1041.0575916230366,
+          429.05759162303667
+        ],
+        "imageLeft_knee": [
+          891.6188118811881,
+          761.8118811881188
+        ],
+        "imageRight_knee": [
+          1060.062176165803,
+          768.0518134715026
+        ],
+        "imageLeft_ankle": [
+          942.4723618090452,
+          1065.9748743718592
+        ],
+        "imageRight_ankle": [
+          1034.6381909547738,
+          1046.9145728643216
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        958.4696825110257,
+        424.27263817605035
+      ]
+    },
+    {
+      "frame": 6,
+      "pts_s": 0.2002,
+      "markers": {
+        "imageLeft_shoulder": [
+          828.0765306122449,
+          112.25
+        ],
+        "imageRight_shoulder": [
+          1079.2121212121212,
+          93.25252525252525
+        ],
+        "imageLeft_elbow": [
+          796.427135678392,
+          330.90954773869345
+        ],
+        "imageRight_elbow": [
+          1127.0,
+          302.5
+        ],
+        "imageLeft_wrist": [
+          825.0,
+          521.0
+        ],
+        "imageRight_wrist": [
+          1133.2843137254902,
+          511.5
+        ],
+        "imageLeft_hip": [
+          872.5970873786408,
+          419.59708737864077
+        ],
+        "imageRight_hip": [
+          1038.0,
+          426.0
+        ],
+        "imageLeft_knee": [
+          888.6188118811881,
+          761.8960396039604
+        ],
+        "imageRight_knee": [
+          1060.148717948718,
+          761.8564102564103
+        ],
+        "imageLeft_ankle": [
+          942.4723618090452,
+          1065.9748743718592
+        ],
+        "imageRight_ankle": [
+          1037.9119170984457,
+          1043.8704663212436
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        955.2985436893205,
+        422.79854368932035
+      ]
+    },
+    {
+      "frame": 7,
+      "pts_s": 0.233567,
+      "markers": {
+        "imageLeft_shoulder": [
+          828.0765306122449,
+          112.25
+        ],
+        "imageRight_shoulder": [
+          1079.2121212121212,
+          93.25252525252525
+        ],
+        "imageLeft_elbow": [
+          796.427135678392,
+          330.90954773869345
+        ],
+        "imageRight_elbow": [
+          1127.0,
+          302.5
+        ],
+        "imageLeft_wrist": [
+          825.0,
+          521.0
+        ],
+        "imageRight_wrist": [
+          1133.2843137254902,
+          511.5
+        ],
+        "imageLeft_hip": [
+          872.5970873786408,
+          419.59708737864077
+        ],
+        "imageRight_hip": [
+          1038.0,
+          426.0
+        ],
+        "imageLeft_knee": [
+          888.6188118811881,
+          761.8960396039604
+        ],
+        "imageRight_knee": [
+          1060.148717948718,
+          761.8564102564103
+        ],
+        "imageLeft_ankle": [
+          942.4723618090452,
+          1065.9748743718592
+        ],
+        "imageRight_ankle": [
+          1037.9119170984457,
+          1043.8704663212436
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        955.2985436893205,
+        422.79854368932035
+      ]
+    },
+    {
+      "frame": 8,
+      "pts_s": 0.266934,
+      "markers": {
+        "imageLeft_shoulder": [
+          824.9635416666666,
+          109.02083333333333
+        ],
+        "imageRight_shoulder": [
+          1076.0714285714287,
+          90.0204081632653
+        ],
+        "imageLeft_elbow": [
+          793.0761421319797,
+          327.66497461928935
+        ],
+        "imageRight_elbow": [
+          1123.6564102564103,
+          296.03076923076924
+        ],
+        "imageLeft_wrist": [
+          818.5,
+          517.9494949494949
+        ],
+        "imageRight_wrist": [
+          1133.3024390243902,
+          508.4634146341463
+        ],
+        "imageLeft_hip": [
+          866.1881188118812,
+          419.5495049504951
+        ],
+        "imageRight_hip": [
+          1034.6482412060302,
+          422.8743718592965
+        ],
+        "imageLeft_knee": [
+          885.4422110552764,
+          761.8592964824121
+        ],
+        "imageRight_knee": [
+          1060.050505050505,
+          755.5
+        ],
+        "imageLeft_ankle": [
+          939.4723618090452,
+          1065.9748743718592
+        ],
+        "imageRight_ankle": [
+          1037.937823834197,
+          1050.0518134715026
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        950.4181800089557,
+        421.2119384048958
+      ]
+    },
+    {
+      "frame": 9,
+      "pts_s": 0.3003,
+      "markers": {
+        "imageLeft_shoulder": [
+          821.6482412060302,
+          109.09547738693468
+        ],
+        "imageRight_shoulder": [
+          1072.953125,
+          90.09895833333333
+        ],
+        "imageLeft_elbow": [
+          789.94,
+          327.55
+        ],
+        "imageRight_elbow": [
+          1120.5276381909548,
+          296.0251256281407
+        ],
+        "imageLeft_wrist": [
+          815.3883495145631,
+          514.6116504854369
+        ],
+        "imageRight_wrist": [
+          1130.0416666666667,
+          505.0989583333333
+        ],
+        "imageLeft_hip": [
+          863.0251256281407,
+          419.52763819095475
+        ],
+        "imageRight_hip": [
+          1031.5,
+          422.949494949495
+        ],
+        "imageLeft_knee": [
+          885.4611650485436,
+          764.757281553398
+        ],
+        "imageRight_knee": [
+          1053.7205882352941,
+          752.3627450980392
+        ],
+        "imageLeft_ankle": [
+          939.4723618090452,
+          1065.9748743718592
+        ],
+        "imageRight_ankle": [
+          1034.7038834951456,
+          1056.4223300970873
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        947.2625628140704,
+        421.23856657022486
+      ]
+    },
+    {
+      "frame": 10,
+      "pts_s": 0.333667,
+      "markers": {
+        "imageLeft_shoulder": [
+          821.6482412060302,
+          109.09547738693468
+        ],
+        "imageRight_shoulder": [
+          1072.953125,
+          90.09895833333333
+        ],
+        "imageLeft_elbow": [
+          789.94,
+          327.55
+        ],
+        "imageRight_elbow": [
+          1120.5276381909548,
+          296.0251256281407
+        ],
+        "imageLeft_wrist": [
+          815.3883495145631,
+          514.6116504854369
+        ],
+        "imageRight_wrist": [
+          1130.0416666666667,
+          505.0989583333333
+        ],
+        "imageLeft_hip": [
+          863.0251256281407,
+          419.52763819095475
+        ],
+        "imageRight_hip": [
+          1031.5,
+          422.949494949495
+        ],
+        "imageLeft_knee": [
+          885.4611650485436,
+          764.757281553398
+        ],
+        "imageRight_knee": [
+          1053.7205882352941,
+          752.3627450980392
+        ],
+        "imageLeft_ankle": [
+          939.4723618090452,
+          1065.9748743718592
+        ],
+        "imageRight_ankle": [
+          1034.7038834951456,
+          1056.4223300970873
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        947.2625628140704,
+        421.23856657022486
+      ]
+    },
+    {
+      "frame": 11,
+      "pts_s": 0.367034,
+      "markers": {
+        "imageLeft_shoulder": [
+          821.6482412060302,
+          109.09547738693468
+        ],
+        "imageRight_shoulder": [
+          1069.55,
+          90.06
+        ],
+        "imageLeft_elbow": [
+          786.7437185929648,
+          330.8140703517588
+        ],
+        "imageRight_elbow": [
+          1117.4723618090452,
+          296.0251256281407
+        ],
+        "imageLeft_wrist": [
+          812.2413793103449,
+          511.5073891625616
+        ],
+        "imageRight_wrist": [
+          1126.9424083769634,
+          505.05759162303667
+        ],
+        "imageLeft_hip": [
+          859.8811881188119,
+          422.519801980198
+        ],
+        "imageRight_hip": [
+          1028.4773869346734,
+          422.9145728643216
+        ],
+        "imageLeft_knee": [
+          885.4611650485436,
+          764.757281553398
+        ],
+        "imageRight_knee": [
+          1047.4417475728155,
+          752.3349514563107
+        ],
+        "imageLeft_ankle": [
+          939.4723618090452,
+          1065.9748743718592
+        ],
+        "imageRight_ankle": [
+          1031.5,
+          1059.6796116504854
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        944.1792875267427,
+        422.7171874222598
+      ]
+    },
+    {
+      "frame": 12,
+      "pts_s": 0.4004,
+      "markers": {
+        "imageLeft_shoulder": [
+          818.5,
+          109.05050505050505
+        ],
+        "imageRight_shoulder": [
+          1069.5652173913043,
+          92.92270531400966
+        ],
+        "imageLeft_elbow": [
+          783.5,
+          330.949494949495
+        ],
+        "imageRight_elbow": [
+          1114.3517587939698,
+          299.1105527638191
+        ],
+        "imageLeft_wrist": [
+          809.0,
+          511.5
+        ],
+        "imageRight_wrist": [
+          1120.5,
+          508.2843137254902
+        ],
+        "imageLeft_hip": [
+          859.8811881188119,
+          422.519801980198
+        ],
+        "imageRight_hip": [
+          1028.4773869346734,
+          422.9145728643216
+        ],
+        "imageLeft_knee": [
+          885.4611650485436,
+          764.757281553398
+        ],
+        "imageRight_knee": [
+          1037.9746192893401,
+          752.3959390862944
+        ],
+        "imageLeft_ankle": [
+          939.4723618090452,
+          1065.9748743718592
+        ],
+        "imageRight_ankle": [
+          1028.4114832535886,
+          1056.5693779904307
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        944.1792875267427,
+        422.7171874222598
+      ]
+    },
+    {
+      "frame": 13,
+      "pts_s": 0.433767,
+      "markers": {
+        "imageLeft_shoulder": [
+          818.5,
+          109.05050505050505
+        ],
+        "imageRight_shoulder": [
+          1069.5652173913043,
+          92.92270531400966
+        ],
+        "imageLeft_elbow": [
+          783.5,
+          330.949494949495
+        ],
+        "imageRight_elbow": [
+          1114.3517587939698,
+          299.1105527638191
+        ],
+        "imageLeft_wrist": [
+          809.0,
+          511.5
+        ],
+        "imageRight_wrist": [
+          1120.5,
+          508.2843137254902
+        ],
+        "imageLeft_hip": [
+          859.8811881188119,
+          422.519801980198
+        ],
+        "imageRight_hip": [
+          1028.4773869346734,
+          422.9145728643216
+        ],
+        "imageLeft_knee": [
+          885.4611650485436,
+          764.757281553398
+        ],
+        "imageRight_knee": [
+          1037.9746192893401,
+          752.3959390862944
+        ],
+        "imageLeft_ankle": [
+          939.4723618090452,
+          1065.9748743718592
+        ],
+        "imageRight_ankle": [
+          1028.4114832535886,
+          1056.5693779904307
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        944.1792875267427,
+        422.7171874222598
+      ]
+    },
+    {
+      "frame": 14,
+      "pts_s": 0.467134,
+      "markers": {
+        "imageLeft_shoulder": [
+          818.505,
+          112.2
+        ],
+        "imageRight_shoulder": [
+          1069.5652173913043,
+          92.92270531400966
+        ],
+        "imageLeft_elbow": [
+          780.4773869346734,
+          330.9145728643216
+        ],
+        "imageRight_elbow": [
+          1114.3091787439614,
+          302.4154589371981
+        ],
+        "imageLeft_wrist": [
+          805.9045226130653,
+          514.5477386934673
+        ],
+        "imageRight_wrist": [
+          1114.2766990291261,
+          511.49029126213594
+        ],
+        "imageLeft_hip": [
+          859.9203980099503,
+          422.5124378109453
+        ],
+        "imageRight_hip": [
+          1025.34,
+          425.95
+        ],
+        "imageLeft_knee": [
+          885.4038461538462,
+          764.8125
+        ],
+        "imageRight_knee": [
+          1034.7156862745098,
+          755.5
+        ],
+        "imageLeft_ankle": [
+          939.435,
+          1065.955
+        ],
+        "imageRight_ankle": [
+          1018.765306122449,
+          1050.107142857143
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        942.6301990049751,
+        424.23121890547264
+      ]
+    },
+    {
+      "frame": 15,
+      "pts_s": 0.500501,
+      "markers": {
+        "imageLeft_shoulder": [
+          818.505,
+          112.2
+        ],
+        "imageRight_shoulder": [
+          1069.6280193236714,
+          96.42512077294685
+        ],
+        "imageLeft_elbow": [
+          780.4685990338164,
+          333.67149758454104
+        ],
+        "imageRight_elbow": [
+          1110.9748743718592,
+          305.52763819095475
+        ],
+        "imageLeft_wrist": [
+          802.5771144278607,
+          517.9154228855722
+        ],
+        "imageRight_wrist": [
+          1110.9639175257732,
+          517.8969072164948
+        ],
+        "imageLeft_hip": [
+          856.5555555555555,
+          426.0
+        ],
+        "imageRight_hip": [
+          1025.345,
+          429.045
+        ],
+        "imageLeft_knee": [
+          885.39,
+          768.11
+        ],
+        "imageRight_knee": [
+          1028.3152709359606,
+          755.4778325123152
+        ],
+        "imageLeft_ankle": [
+          939.435,
+          1065.955
+        ],
+        "imageRight_ankle": [
+          1009.2463054187192,
+          1037.5073891625616
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        940.9502777777777,
+        427.52250000000004
+      ]
+    },
+    {
+      "frame": 16,
+      "pts_s": 0.533867,
+      "markers": {
+        "imageLeft_shoulder": [
+          818.505,
+          112.2
+        ],
+        "imageRight_shoulder": [
+          1069.6280193236714,
+          96.42512077294685
+        ],
+        "imageLeft_elbow": [
+          780.4685990338164,
+          333.67149758454104
+        ],
+        "imageRight_elbow": [
+          1110.9748743718592,
+          305.52763819095475
+        ],
+        "imageLeft_wrist": [
+          802.5771144278607,
+          517.9154228855722
+        ],
+        "imageRight_wrist": [
+          1110.9639175257732,
+          517.8969072164948
+        ],
+        "imageLeft_hip": [
+          856.5555555555555,
+          426.0
+        ],
+        "imageRight_hip": [
+          1025.345,
+          429.045
+        ],
+        "imageLeft_knee": [
+          885.39,
+          768.11
+        ],
+        "imageRight_knee": [
+          1028.3152709359606,
+          755.4778325123152
+        ],
+        "imageLeft_ankle": [
+          939.435,
+          1065.955
+        ],
+        "imageRight_ankle": [
+          1009.2463054187192,
+          1037.5073891625616
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        940.9502777777777,
+        427.52250000000004
+      ]
+    },
+    {
+      "frame": 17,
+      "pts_s": 0.567234,
+      "markers": {
+        "imageLeft_shoulder": [
+          821.6057692307693,
+          115.39423076923077
+        ],
+        "imageRight_shoulder": [
+          1072.9095477386934,
+          99.51256281407035
+        ],
+        "imageLeft_elbow": [
+          783.5097087378641,
+          333.752427184466
+        ],
+        "imageRight_elbow": [
+          1114.045,
+          308.565
+        ],
+        "imageLeft_wrist": [
+          799.5123152709359,
+          523.8522167487685
+        ],
+        "imageRight_wrist": [
+          1111.0,
+          521.0
+        ],
+        "imageLeft_hip": [
+          856.5929648241206,
+          429.02010050251255
+        ],
+        "imageRight_hip": [
+          1025.2330097087379,
+          432.25728155339806
+        ],
+        "imageLeft_knee": [
+          885.39,
+          768.11
+        ],
+        "imageRight_knee": [
+          1028.3316831683169,
+          758.559405940594
+        ],
+        "imageLeft_ankle": [
+          939.435,
+          1065.955
+        ],
+        "imageRight_ankle": [
+          1006.0,
+          1033.579831932773
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        940.9129872664292,
+        430.6386910279553
+      ]
+    },
+    {
+      "frame": 18,
+      "pts_s": 0.600601,
+      "markers": {
+        "imageLeft_shoulder": [
+          821.6057692307693,
+          115.39423076923077
+        ],
+        "imageRight_shoulder": [
+          1075.9742268041236,
+          102.72164948453609
+        ],
+        "imageLeft_elbow": [
+          786.61,
+          337.11
+        ],
+        "imageRight_elbow": [
+          1117.4723618090452,
+          315.0251256281407
+        ],
+        "imageLeft_wrist": [
+          796.2843137254902,
+          530.5
+        ],
+        "imageRight_wrist": [
+          1114.075,
+          523.775
+        ],
+        "imageLeft_hip": [
+          859.9166666666666,
+          429.0885416666667
+        ],
+        "imageRight_hip": [
+          1025.264423076923,
+          435.34615384615387
+        ],
+        "imageLeft_knee": [
+          885.4195121951219,
+          771.3658536585366
+        ],
+        "imageRight_knee": [
+          1022.0052083333334,
+          761.9010416666666
+        ],
+        "imageLeft_ankle": [
+          939.435,
+          1065.955
+        ],
+        "imageRight_ankle": [
+          999.7156862745098,
+          1037.5
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        942.5905448717949,
+        432.2173477564103
+      ]
+    },
+    {
+      "frame": 19,
+      "pts_s": 0.633967,
+      "markers": {
+        "imageLeft_shoulder": [
+          821.6057692307693,
+          115.39423076923077
+        ],
+        "imageRight_shoulder": [
+          1075.9742268041236,
+          102.72164948453609
+        ],
+        "imageLeft_elbow": [
+          786.61,
+          337.11
+        ],
+        "imageRight_elbow": [
+          1117.4723618090452,
+          315.0251256281407
+        ],
+        "imageLeft_wrist": [
+          796.2843137254902,
+          530.5
+        ],
+        "imageRight_wrist": [
+          1114.075,
+          523.775
+        ],
+        "imageLeft_hip": [
+          859.9166666666666,
+          429.0885416666667
+        ],
+        "imageRight_hip": [
+          1025.264423076923,
+          435.34615384615387
+        ],
+        "imageLeft_knee": [
+          885.4195121951219,
+          771.3658536585366
+        ],
+        "imageRight_knee": [
+          1022.0052083333334,
+          761.9010416666666
+        ],
+        "imageLeft_ankle": [
+          939.435,
+          1065.955
+        ],
+        "imageRight_ankle": [
+          999.7156862745098,
+          1037.5
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        942.5905448717949,
+        432.2173477564103
+      ]
+    },
+    {
+      "frame": 20,
+      "pts_s": 0.667334,
+      "markers": {
+        "imageLeft_shoulder": [
+          824.7414634146342,
+          115.47317073170731
+        ],
+        "imageRight_shoulder": [
+          1079.2828282828282,
+          102.85858585858585
+        ],
+        "imageLeft_elbow": [
+          790.0,
+          334.0
+        ],
+        "imageRight_elbow": [
+          1120.495,
+          318.13
+        ],
+        "imageLeft_wrist": [
+          796.3623188405797,
+          536.6570048309179
+        ],
+        "imageRight_wrist": [
+          1120.5219512195122,
+          527.3170731707318
+        ],
+        "imageLeft_hip": [
+          859.8960396039604,
+          432.3811881188119
+        ],
+        "imageRight_hip": [
+          1025.264423076923,
+          435.34615384615387
+        ],
+        "imageLeft_knee": [
+          885.4195121951219,
+          771.3658536585366
+        ],
+        "imageRight_knee": [
+          1018.8659793814433,
+          761.8814432989691
+        ],
+        "imageLeft_ankle": [
+          939.4731707317073,
+          1068.790243902439
+        ],
+        "imageRight_ankle": [
+          993.4773869346734,
+          1050.0301507537688
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        942.5802313404417,
+        433.86367098248286
+      ]
+    },
+    {
+      "frame": 21,
+      "pts_s": 0.700701,
+      "markers": {
+        "imageLeft_shoulder": [
+          831.3578431372549,
+          112.32352941176471
+        ],
+        "imageRight_shoulder": [
+          1082.4472361809046,
+          102.85929648241206
+        ],
+        "imageLeft_elbow": [
+          793.0364583333334,
+          330.9791666666667
+        ],
+        "imageRight_elbow": [
+          1126.9020618556701,
+          318.0979381443299
+        ],
+        "imageLeft_wrist": [
+          793.1,
+          536.595
+        ],
+        "imageRight_wrist": [
+          1123.611650485437,
+          527.3883495145631
+        ],
+        "imageLeft_hip": [
+          856.6067961165048,
+          432.3398058252427
+        ],
+        "imageRight_hip": [
+          1025.183574879227,
+          432.3671497584541
+        ],
+        "imageLeft_knee": [
+          885.4195121951219,
+          771.3658536585366
+        ],
+        "imageRight_knee": [
+          1018.8659793814433,
+          761.8814432989691
+        ],
+        "imageLeft_ankle": [
+          939.435,
+          1065.955
+        ],
+        "imageRight_ankle": [
+          990.2390243902439,
+          1056.3804878048782
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        940.8951854978659,
+        432.3534777918484
+      ]
+    },
+    {
+      "frame": 22,
+      "pts_s": 0.734067,
+      "markers": {
+        "imageLeft_shoulder": [
+          831.3578431372549,
+          112.32352941176471
+        ],
+        "imageRight_shoulder": [
+          1082.4472361809046,
+          102.85929648241206
+        ],
+        "imageLeft_elbow": [
+          793.0364583333334,
+          330.9791666666667
+        ],
+        "imageRight_elbow": [
+          1126.9020618556701,
+          318.0979381443299
+        ],
+        "imageLeft_wrist": [
+          793.1,
+          536.595
+        ],
+        "imageRight_wrist": [
+          1123.611650485437,
+          527.3883495145631
+        ],
+        "imageLeft_hip": [
+          856.6067961165048,
+          432.3398058252427
+        ],
+        "imageRight_hip": [
+          1025.183574879227,
+          432.3671497584541
+        ],
+        "imageLeft_knee": [
+          885.4195121951219,
+          771.3658536585366
+        ],
+        "imageRight_knee": [
+          1018.8659793814433,
+          761.8814432989691
+        ],
+        "imageLeft_ankle": [
+          939.435,
+          1065.955
+        ],
+        "imageRight_ankle": [
+          990.2390243902439,
+          1056.3804878048782
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        940.8951854978659,
+        432.3534777918484
+      ]
+    },
+    {
+      "frame": 23,
+      "pts_s": 0.767434,
+      "markers": {
+        "imageLeft_shoulder": [
+          834.4723618090452,
+          109.0251256281407
+        ],
+        "imageRight_shoulder": [
+          1085.5,
+          102.91
+        ],
+        "imageLeft_elbow": [
+          799.4333333333333,
+          324.4952380952381
+        ],
+        "imageRight_elbow": [
+          1130.0309278350514,
+          318.180412371134
+        ],
+        "imageLeft_wrist": [
+          793.0796019900497,
+          533.5870646766169
+        ],
+        "imageRight_wrist": [
+          1123.611650485437,
+          527.3883495145631
+        ],
+        "imageLeft_hip": [
+          859.9166666666666,
+          429.0885416666667
+        ],
+        "imageRight_hip": [
+          1025.2602040816328,
+          429.0765306122449
+        ],
+        "imageLeft_knee": [
+          882.0753768844221,
+          771.4120603015075
+        ],
+        "imageRight_knee": [
+          1018.77,
+          758.625
+        ],
+        "imageLeft_ankle": [
+          936.3604060913706,
+          1065.979695431472
+        ],
+        "imageRight_ankle": [
+          986.9748743718593,
+          1059.5276381909548
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        942.5884353741496,
+        429.0825361394558
+      ]
+    },
+    {
+      "frame": 24,
+      "pts_s": 0.800801,
+      "markers": {
+        "imageLeft_shoulder": [
+          837.5,
+          106.0
+        ],
+        "imageRight_shoulder": [
+          1088.7227722772277,
+          99.53465346534654
+        ],
+        "imageLeft_elbow": [
+          802.5631067961165,
+          318.27669902912623
+        ],
+        "imageRight_elbow": [
+          1136.4874371859296,
+          318.09045226130655
+        ],
+        "imageLeft_wrist": [
+          793.0505050505051,
+          530.5
+        ],
+        "imageRight_wrist": [
+          1120.5323383084576,
+          524.1044776119403
+        ],
+        "imageLeft_hip": [
+          866.2268041237113,
+          425.9639175257732
+        ],
+        "imageRight_hip": [
+          1028.449494949495,
+          425.94444444444446
+        ],
+        "imageLeft_knee": [
+          875.7414634146342,
+          774.4731707317073
+        ],
+        "imageRight_knee": [
+          1021.959595959596,
+          758.5656565656566
+        ],
+        "imageLeft_ankle": [
+          933.0,
+          1066.0
+        ],
+        "imageRight_ankle": [
+          983.9045226130653,
+          1059.5427135678392
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        947.3381495366032,
+        425.9541809851088
+      ]
+    },
+    {
+      "frame": 25,
+      "pts_s": 0.834167,
+      "markers": {
+        "imageLeft_shoulder": [
+          837.5,
+          106.0
+        ],
+        "imageRight_shoulder": [
+          1088.7227722772277,
+          99.53465346534654
+        ],
+        "imageLeft_elbow": [
+          802.5631067961165,
+          318.27669902912623
+        ],
+        "imageRight_elbow": [
+          1136.4874371859296,
+          318.09045226130655
+        ],
+        "imageLeft_wrist": [
+          793.0505050505051,
+          530.5
+        ],
+        "imageRight_wrist": [
+          1120.5323383084576,
+          524.1044776119403
+        ],
+        "imageLeft_hip": [
+          866.2268041237113,
+          425.9639175257732
+        ],
+        "imageRight_hip": [
+          1028.449494949495,
+          425.94444444444446
+        ],
+        "imageLeft_knee": [
+          875.7414634146342,
+          774.4731707317073
+        ],
+        "imageRight_knee": [
+          1021.959595959596,
+          758.5656565656566
+        ],
+        "imageLeft_ankle": [
+          933.0,
+          1066.0
+        ],
+        "imageRight_ankle": [
+          983.9045226130653,
+          1059.5427135678392
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        947.3381495366032,
+        425.9541809851088
+      ]
+    },
+    {
+      "frame": 26,
+      "pts_s": 0.867534,
+      "markers": {
+        "imageLeft_shoulder": [
+          840.819587628866,
+          105.96907216494846
+        ],
+        "imageRight_shoulder": [
+          1091.8029556650247,
+          99.56650246305419
+        ],
+        "imageLeft_elbow": [
+          802.565,
+          315.045
+        ],
+        "imageRight_elbow": [
+          1136.4874371859296,
+          318.09045226130655
+        ],
+        "imageLeft_wrist": [
+          793.0251256281407,
+          527.4723618090452
+        ],
+        "imageRight_wrist": [
+          1117.5,
+          521.0
+        ],
+        "imageLeft_hip": [
+          869.4723618090452,
+          425.9748743718593
+        ],
+        "imageRight_hip": [
+          1031.5075376884422,
+          422.90954773869345
+        ],
+        "imageLeft_knee": [
+          866.2079207920792,
+          774.509900990099
+        ],
+        "imageRight_knee": [
+          1025.0555555555557,
+          758.5505050505051
+        ],
+        "imageLeft_ankle": [
+          929.9635416666666,
+          1065.9791666666667
+        ],
+        "imageRight_ankle": [
+          983.9045226130653,
+          1059.5427135678392
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        950.4899497487437,
+        424.4422110552764
+      ]
+    },
+    {
+      "frame": 27,
+      "pts_s": 0.900901,
+      "markers": {
+        "imageLeft_shoulder": [
+          843.9692307692308,
+          102.88717948717948
+        ],
+        "imageRight_shoulder": [
+          1095.0251256281408,
+          99.52763819095478
+        ],
+        "imageLeft_elbow": [
+          805.8102564102564,
+          315.05641025641023
+        ],
+        "imageRight_elbow": [
+          1136.4829268292683,
+          318.3219512195122
+        ],
+        "imageLeft_wrist": [
+          793.0251256281407,
+          527.4723618090452
+        ],
+        "imageRight_wrist": [
+          1114.2585365853658,
+          514.5268292682927
+        ],
+        "imageLeft_hip": [
+          869.4723618090452,
+          425.9748743718593
+        ],
+        "imageRight_hip": [
+          1034.6009615384614,
+          422.65384615384613
+        ],
+        "imageLeft_knee": [
+          863.030612244898,
+          771.3571428571429
+        ],
+        "imageRight_knee": [
+          1028.3830845771145,
+          761.8507462686567
+        ],
+        "imageLeft_ankle": [
+          917.0,
+          1056.4257425742574
+        ],
+        "imageRight_ankle": [
+          983.8542713567839,
+          1062.678391959799
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        952.0366616737533,
+        424.3143602628527
+      ]
+    },
+    {
+      "frame": 28,
+      "pts_s": 0.934268,
+      "markers": {
+        "imageLeft_shoulder": [
+          843.9692307692308,
+          102.88717948717948
+        ],
+        "imageRight_shoulder": [
+          1095.0251256281408,
+          99.52763819095478
+        ],
+        "imageLeft_elbow": [
+          805.8102564102564,
+          315.05641025641023
+        ],
+        "imageRight_elbow": [
+          1136.4829268292683,
+          318.3219512195122
+        ],
+        "imageLeft_wrist": [
+          793.0251256281407,
+          527.4723618090452
+        ],
+        "imageRight_wrist": [
+          1114.2585365853658,
+          514.5268292682927
+        ],
+        "imageLeft_hip": [
+          869.4723618090452,
+          425.9748743718593
+        ],
+        "imageRight_hip": [
+          1034.6009615384614,
+          422.65384615384613
+        ],
+        "imageLeft_knee": [
+          863.030612244898,
+          771.3571428571429
+        ],
+        "imageRight_knee": [
+          1028.3830845771145,
+          761.8507462686567
+        ],
+        "imageLeft_ankle": [
+          917.0,
+          1056.4257425742574
+        ],
+        "imageRight_ankle": [
+          983.8542713567839,
+          1062.678391959799
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        952.0366616737533,
+        424.3143602628527
+      ]
+    },
+    {
+      "frame": 29,
+      "pts_s": 0.967634,
+      "markers": {
+        "imageLeft_shoulder": [
+          843.9692307692308,
+          102.88717948717948
+        ],
+        "imageRight_shoulder": [
+          1095.050505050505,
+          96.5
+        ],
+        "imageLeft_elbow": [
+          808.9635416666666,
+          315.0208333333333
+        ],
+        "imageRight_elbow": [
+          1133.3623188405797,
+          318.3333333333333
+        ],
+        "imageLeft_wrist": [
+          793.0880829015545,
+          524.1761658031088
+        ],
+        "imageRight_wrist": [
+          1107.915422885572,
+          508.44278606965173
+        ],
+        "imageLeft_hip": [
+          872.5693069306931,
+          422.8168316831683
+        ],
+        "imageRight_hip": [
+          1037.865671641791,
+          422.64179104477614
+        ],
+        "imageLeft_knee": [
+          863.0257731958762,
+          765.0309278350516
+        ],
+        "imageRight_knee": [
+          1028.3830845771145,
+          761.8507462686567
+        ],
+        "imageLeft_ankle": [
+          898.0251256281407,
+          1053.4723618090452
+        ],
+        "imageRight_ankle": [
+          983.8542713567839,
+          1062.678391959799
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        955.2174892862421,
+        422.7293113639722
+      ]
+    },
+    {
+      "frame": 30,
+      "pts_s": 1.001001,
+      "markers": {
+        "imageLeft_shoulder": [
+          847.0663265306123,
+          102.83163265306122
+        ],
+        "imageRight_shoulder": [
+          1095.050505050505,
+          96.5
+        ],
+        "imageLeft_elbow": [
+          809.0208333333334,
+          311.9635416666667
+        ],
+        "imageRight_elbow": [
+          1133.3618090452262,
+          314.9849246231156
+        ],
+        "imageLeft_wrist": [
+          793.0880829015545,
+          524.1761658031088
+        ],
+        "imageRight_wrist": [
+          1098.4129353233832,
+          498.92039800995025
+        ],
+        "imageLeft_hip": [
+          875.592039800995,
+          422.7860696517413
+        ],
+        "imageRight_hip": [
+          1041.01,
+          422.66
+        ],
+        "imageLeft_knee": [
+          863.0251256281407,
+          758.5276381909548
+        ],
+        "imageRight_knee": [
+          1028.3830845771145,
+          761.8507462686567
+        ],
+        "imageLeft_ankle": [
+          882.0555555555555,
+          1053.449494949495
+        ],
+        "imageRight_ankle": [
+          983.8542713567839,
+          1062.678391959799
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        958.3010199004975,
+        422.7230348258706
+      ]
+    },
+    {
+      "frame": 31,
+      "pts_s": 1.034368,
+      "markers": {
+        "imageLeft_shoulder": [
+          847.0663265306123,
+          102.83163265306122
+        ],
+        "imageRight_shoulder": [
+          1095.050505050505,
+          96.5
+        ],
+        "imageLeft_elbow": [
+          809.0208333333334,
+          311.9635416666667
+        ],
+        "imageRight_elbow": [
+          1133.3618090452262,
+          314.9849246231156
+        ],
+        "imageLeft_wrist": [
+          793.0880829015545,
+          524.1761658031088
+        ],
+        "imageRight_wrist": [
+          1098.4129353233832,
+          498.92039800995025
+        ],
+        "imageLeft_hip": [
+          875.592039800995,
+          422.7860696517413
+        ],
+        "imageRight_hip": [
+          1041.01,
+          422.66
+        ],
+        "imageLeft_knee": [
+          863.0251256281407,
+          758.5276381909548
+        ],
+        "imageRight_knee": [
+          1028.3830845771145,
+          761.8507462686567
+        ],
+        "imageLeft_ankle": [
+          882.0555555555555,
+          1053.449494949495
+        ],
+        "imageRight_ankle": [
+          983.8542713567839,
+          1062.678391959799
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        958.3010199004975,
+        422.7230348258706
+      ]
+    },
+    {
+      "frame": 32,
+      "pts_s": 1.067734,
+      "markers": {
+        "imageLeft_shoulder": [
+          847.0663265306123,
+          102.83163265306122
+        ],
+        "imageRight_shoulder": [
+          1098.2772277227723,
+          96.49009900990099
+        ],
+        "imageLeft_elbow": [
+          812.0466321243523,
+          315.0673575129534
+        ],
+        "imageRight_elbow": [
+          1130.0,
+          315.0
+        ],
+        "imageLeft_wrist": [
+          793.0364583333334,
+          521.0208333333334
+        ],
+        "imageRight_wrist": [
+          1092.0050761421319,
+          489.4060913705584
+        ],
+        "imageLeft_hip": [
+          878.955,
+          419.565
+        ],
+        "imageRight_hip": [
+          1041.01,
+          422.66
+        ],
+        "imageLeft_knee": [
+          866.0904522613065,
+          755.5075376884422
+        ],
+        "imageRight_knee": [
+          1028.3830845771145,
+          761.8507462686567
+        ],
+        "imageLeft_ankle": [
+          875.6975609756098,
+          1056.4634146341464
+        ],
+        "imageRight_ankle": [
+          983.8542713567839,
+          1062.678391959799
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        959.9825000000001,
+        421.1125
+      ]
+    },
+    {
+      "frame": 33,
+      "pts_s": 1.101101,
+      "markers": {
+        "imageLeft_shoulder": [
+          847.0663265306123,
+          102.83163265306122
+        ],
+        "imageRight_shoulder": [
+          1098.2772277227723,
+          96.49009900990099
+        ],
+        "imageLeft_elbow": [
+          812.0466321243523,
+          315.0673575129534
+        ],
+        "imageRight_elbow": [
+          1130.0,
+          315.0
+        ],
+        "imageLeft_wrist": [
+          796.286432160804,
+          521.0050251256281
+        ],
+        "imageRight_wrist": [
+          1082.47,
+          479.89
+        ],
+        "imageLeft_hip": [
+          878.955,
+          419.565
+        ],
+        "imageRight_hip": [
+          1044.2892156862745,
+          422.6372549019608
+        ],
+        "imageLeft_knee": [
+          869.4271844660194,
+          752.3349514563107
+        ],
+        "imageRight_knee": [
+          1028.3830845771145,
+          761.8507462686567
+        ],
+        "imageLeft_ankle": [
+          878.9800995024875,
+          1056.4626865671642
+        ],
+        "imageRight_ankle": [
+          983.8542713567839,
+          1062.678391959799
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        961.6221078431372,
+        421.10112745098036
+      ]
+    },
+    {
+      "frame": 34,
+      "pts_s": 1.167834,
+      "markers": {
+        "imageLeft_shoulder": [
+          850.4207920792079,
+          102.81683168316832
+        ],
+        "imageRight_shoulder": [
+          1098.2772277227723,
+          96.49009900990099
+        ],
+        "imageLeft_elbow": [
+          812.1767676767677,
+          318.0858585858586
+        ],
+        "imageRight_elbow": [
+          1130.0,
+          315.0
+        ],
+        "imageLeft_wrist": [
+          796.384236453202,
+          517.7733990147783
+        ],
+        "imageRight_wrist": [
+          1072.89,
+          470.39
+        ],
+        "imageLeft_hip": [
+          878.955,
+          419.565
+        ],
+        "imageRight_hip": [
+          1044.3451776649747,
+          426.0253807106599
+        ],
+        "imageLeft_knee": [
+          872.5320197044335,
+          749.1822660098522
+        ],
+        "imageRight_knee": [
+          1025.3543689320388,
+          764.6504854368932
+        ],
+        "imageLeft_ankle": [
+          885.2836538461538,
+          1056.3413461538462
+        ],
+        "imageRight_ankle": [
+          983.8542713567839,
+          1062.678391959799
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        961.6500888324874,
+        422.79519035532996
+      ]
+    },
+    {
+      "frame": 35,
+      "pts_s": 1.201201,
+      "markers": {
+        "imageLeft_shoulder": [
+          847.2766990291262,
+          105.6504854368932
+        ],
+        "imageRight_shoulder": [
+          1098.2772277227723,
+          96.49009900990099
+        ],
+        "imageLeft_elbow": [
+          812.1421568627451,
+          321.2549019607843
+        ],
+        "imageRight_elbow": [
+          1130.0,
+          315.0
+        ],
+        "imageLeft_wrist": [
+          799.47,
+          517.875
+        ],
+        "imageRight_wrist": [
+          1066.5,
+          467.050505050505
+        ],
+        "imageLeft_hip": [
+          878.955,
+          419.565
+        ],
+        "imageRight_hip": [
+          1044.3451776649747,
+          426.0253807106599
+        ],
+        "imageLeft_knee": [
+          875.6470588235294,
+          749.2107843137255
+        ],
+        "imageRight_knee": [
+          1025.3543689320388,
+          764.6504854368932
+        ],
+        "imageLeft_ankle": [
+          891.5804878048781,
+          1053.3658536585365
+        ],
+        "imageRight_ankle": [
+          983.8542713567839,
+          1062.678391959799
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        961.6500888324874,
+        422.79519035532996
+      ]
+    },
+    {
+      "frame": 36,
+      "pts_s": 1.234568,
+      "markers": {
+        "imageLeft_shoulder": [
+          847.2766990291262,
+          105.6504854368932
+        ],
+        "imageRight_shoulder": [
+          1098.2772277227723,
+          96.49009900990099
+        ],
+        "imageLeft_elbow": [
+          812.1421568627451,
+          321.2549019607843
+        ],
+        "imageRight_elbow": [
+          1130.0,
+          315.0
+        ],
+        "imageLeft_wrist": [
+          799.47,
+          517.875
+        ],
+        "imageRight_wrist": [
+          1066.5,
+          467.050505050505
+        ],
+        "imageLeft_hip": [
+          878.955,
+          419.565
+        ],
+        "imageRight_hip": [
+          1044.3451776649747,
+          426.0253807106599
+        ],
+        "imageLeft_knee": [
+          875.6470588235294,
+          749.2107843137255
+        ],
+        "imageRight_knee": [
+          1025.3543689320388,
+          764.6504854368932
+        ],
+        "imageLeft_ankle": [
+          891.5804878048781,
+          1053.3658536585365
+        ],
+        "imageRight_ankle": [
+          983.8542713567839,
+          1062.678391959799
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        961.6500888324874,
+        422.79519035532996
+      ]
+    },
+    {
+      "frame": 37,
+      "pts_s": 1.267935,
+      "markers": {
+        "imageLeft_shoulder": [
+          847.2766990291262,
+          105.6504854368932
+        ],
+        "imageRight_shoulder": [
+          1098.2439024390244,
+          99.57073170731708
+        ],
+        "imageLeft_elbow": [
+          809.0098039215686,
+          321.27450980392155
+        ],
+        "imageRight_elbow": [
+          1126.9076923076923,
+          318.1333333333333
+        ],
+        "imageLeft_wrist": [
+          802.5870646766169,
+          520.9900497512438
+        ],
+        "imageRight_wrist": [
+          1063.4166666666667,
+          470.3186274509804
+        ],
+        "imageLeft_hip": [
+          878.955,
+          422.565
+        ],
+        "imageRight_hip": [
+          1044.3131313131314,
+          429.09090909090907
+        ],
+        "imageLeft_knee": [
+          878.974358974359,
+          749.1589743589743
+        ],
+        "imageRight_knee": [
+          1025.3543689320388,
+          764.6504854368932
+        ],
+        "imageLeft_ankle": [
+          898.0,
+          1047.0
+        ],
+        "imageRight_ankle": [
+          983.8542713567839,
+          1062.678391959799
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        961.6340656565658,
+        425.82795454545453
+      ]
+    },
+    {
+      "frame": 38,
+      "pts_s": 1.301301,
+      "markers": {
+        "imageLeft_shoulder": [
+          844.0,
+          109.0
+        ],
+        "imageRight_shoulder": [
+          1095.0251256281408,
+          99.52763819095478
+        ],
+        "imageLeft_elbow": [
+          809.0,
+          324.5
+        ],
+        "imageRight_elbow": [
+          1126.896551724138,
+          321.2463054187192
+        ],
+        "imageLeft_wrist": [
+          802.5870646766169,
+          520.9900497512438
+        ],
+        "imageRight_wrist": [
+          1063.4129353233832,
+          479.92039800995025
+        ],
+        "imageLeft_hip": [
+          879.0,
+          426.0
+        ],
+        "imageRight_hip": [
+          1044.3131313131314,
+          429.09090909090907
+        ],
+        "imageLeft_knee": [
+          882.1512195121951,
+          751.990243902439
+        ],
+        "imageRight_knee": [
+          1025.355,
+          768.12
+        ],
+        "imageLeft_ankle": [
+          904.4264705882352,
+          1040.6813725490197
+        ],
+        "imageRight_ankle": [
+          983.8542713567839,
+          1062.678391959799
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        961.6565656565657,
+        427.5454545454545
+      ]
+    },
+    {
+      "frame": 39,
+      "pts_s": 1.334668,
+      "markers": {
+        "imageLeft_shoulder": [
+          844.0,
+          109.0
+        ],
+        "imageRight_shoulder": [
+          1095.0251256281408,
+          99.52763819095478
+        ],
+        "imageLeft_elbow": [
+          809.0,
+          324.5
+        ],
+        "imageRight_elbow": [
+          1126.896551724138,
+          321.2463054187192
+        ],
+        "imageLeft_wrist": [
+          802.5870646766169,
+          520.9900497512438
+        ],
+        "imageRight_wrist": [
+          1063.4129353233832,
+          479.92039800995025
+        ],
+        "imageLeft_hip": [
+          879.0,
+          426.0
+        ],
+        "imageRight_hip": [
+          1044.3131313131314,
+          429.09090909090907
+        ],
+        "imageLeft_knee": [
+          882.1512195121951,
+          751.990243902439
+        ],
+        "imageRight_knee": [
+          1025.355,
+          768.12
+        ],
+        "imageLeft_ankle": [
+          904.4264705882352,
+          1040.6813725490197
+        ],
+        "imageRight_ankle": [
+          983.8542713567839,
+          1062.678391959799
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        961.6565656565657,
+        427.5454545454545
+      ]
+    },
+    {
+      "frame": 40,
+      "pts_s": 1.368035,
+      "markers": {
+        "imageLeft_shoulder": [
+          840.7313432835821,
+          112.38308457711443
+        ],
+        "imageRight_shoulder": [
+          1095.025641025641,
+          102.66666666666667
+        ],
+        "imageLeft_elbow": [
+          805.955,
+          327.565
+        ],
+        "imageRight_elbow": [
+          1123.7156862745098,
+          324.5
+        ],
+        "imageLeft_wrist": [
+          805.9108910891089,
+          523.7970297029703
+        ],
+        "imageRight_wrist": [
+          1066.485436893204,
+          489.3349514563107
+        ],
+        "imageLeft_hip": [
+          879.0,
+          429.0
+        ],
+        "imageRight_hip": [
+          1044.2718446601941,
+          432.40291262135923
+        ],
+        "imageLeft_knee": [
+          882.0251256281407,
+          755.5276381909548
+        ],
+        "imageRight_knee": [
+          1021.9895833333334,
+          768.1145833333334
+        ],
+        "imageLeft_ankle": [
+          910.6731707317073,
+          1034.4048780487806
+        ],
+        "imageRight_ankle": [
+          983.8542713567839,
+          1062.678391959799
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        961.6359223300971,
+        430.70145631067965
+      ]
+    },
+    {
+      "frame": 41,
+      "pts_s": 1.401401,
+      "markers": {
+        "imageLeft_shoulder": [
+          837.4876847290641,
+          112.24630541871922
+        ],
+        "imageRight_shoulder": [
+          1091.969543147208,
+          102.61421319796955
+        ],
+        "imageLeft_elbow": [
+          802.565,
+          330.955
+        ],
+        "imageRight_elbow": [
+          1120.5432692307693,
+          324.4567307692308
+        ],
+        "imageLeft_wrist": [
+          808.9748743718593,
+          530.5276381909548
+        ],
+        "imageRight_wrist": [
+          1072.9791666666667,
+          505.0364583333333
+        ],
+        "imageLeft_hip": [
+          875.6482412060302,
+          429.1256281407035
+        ],
+        "imageRight_hip": [
+          1044.2718446601941,
+          432.40291262135923
+        ],
+        "imageLeft_knee": [
+          885.3658536585366,
+          758.5804878048781
+        ],
+        "imageRight_knee": [
+          1021.9895833333334,
+          768.1145833333334
+        ],
+        "imageLeft_ankle": [
+          917.0251256281407,
+          1040.5276381909548
+        ],
+        "imageRight_ankle": [
+          983.8542713567839,
+          1062.678391959799
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        959.9600429331122,
+        430.76427038103134
+      ]
+    },
+    {
+      "frame": 42,
+      "pts_s": 1.434768,
+      "markers": {
+        "imageLeft_shoulder": [
+          837.4876847290641,
+          112.24630541871922
+        ],
+        "imageRight_shoulder": [
+          1091.969543147208,
+          102.61421319796955
+        ],
+        "imageLeft_elbow": [
+          802.565,
+          330.955
+        ],
+        "imageRight_elbow": [
+          1120.5432692307693,
+          324.4567307692308
+        ],
+        "imageLeft_wrist": [
+          808.9748743718593,
+          530.5276381909548
+        ],
+        "imageRight_wrist": [
+          1072.9791666666667,
+          505.0364583333333
+        ],
+        "imageLeft_hip": [
+          875.6482412060302,
+          429.1256281407035
+        ],
+        "imageRight_hip": [
+          1044.2718446601941,
+          432.40291262135923
+        ],
+        "imageLeft_knee": [
+          885.3658536585366,
+          758.5804878048781
+        ],
+        "imageRight_knee": [
+          1021.9895833333334,
+          768.1145833333334
+        ],
+        "imageLeft_ankle": [
+          917.0251256281407,
+          1040.5276381909548
+        ],
+        "imageRight_ankle": [
+          983.8542713567839,
+          1062.678391959799
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        959.9600429331122,
+        430.76427038103134
+      ]
+    },
+    {
+      "frame": 43,
+      "pts_s": 1.468135,
+      "markers": {
+        "imageLeft_shoulder": [
+          834.4663461538462,
+          115.39423076923077
+        ],
+        "imageRight_shoulder": [
+          1085.549019607843,
+          102.74019607843137
+        ],
+        "imageLeft_elbow": [
+          799.5169082125603,
+          333.7294685990338
+        ],
+        "imageRight_elbow": [
+          1117.360975609756,
+          324.5853658536585
+        ],
+        "imageLeft_wrist": [
+          808.9748743718593,
+          533.5276381909548
+        ],
+        "imageRight_wrist": [
+          1082.4723618090452,
+          517.9748743718593
+        ],
+        "imageLeft_hip": [
+          875.6482412060302,
+          429.1256281407035
+        ],
+        "imageRight_hip": [
+          1041.0594059405942,
+          435.3514851485148
+        ],
+        "imageLeft_knee": [
+          888.4251207729469,
+          758.6280193236715
+        ],
+        "imageRight_knee": [
+          1021.9895833333334,
+          768.1145833333334
+        ],
+        "imageLeft_ankle": [
+          923.4190476190477,
+          1056.4380952380952
+        ],
+        "imageRight_ankle": [
+          983.8542713567839,
+          1062.678391959799
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        958.3538235733122,
+        432.23855664460916
+      ]
+    },
+    {
+      "frame": 44,
+      "pts_s": 1.501502,
+      "markers": {
+        "imageLeft_shoulder": [
+          828.0,
+          112.36734693877551
+        ],
+        "imageRight_shoulder": [
+          1082.4471153846155,
+          99.59615384615384
+        ],
+        "imageLeft_elbow": [
+          799.5169082125603,
+          333.7294685990338
+        ],
+        "imageRight_elbow": [
+          1117.4780487804878,
+          321.35121951219514
+        ],
+        "imageLeft_wrist": [
+          805.955,
+          533.565
+        ],
+        "imageRight_wrist": [
+          1091.8669950738915,
+          523.8128078817734
+        ],
+        "imageLeft_hip": [
+          872.5,
+          426.0
+        ],
+        "imageRight_hip": [
+          1037.964824120603,
+          432.4221105527638
+        ],
+        "imageLeft_knee": [
+          885.3152709359606,
+          755.4778325123152
+        ],
+        "imageRight_knee": [
+          1018.741116751269,
+          768.1116751269036
+        ],
+        "imageLeft_ankle": [
+          923.4411764705883,
+          1059.6666666666667
+        ],
+        "imageRight_ankle": [
+          983.8542713567839,
+          1062.678391959799
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        955.2324120603015,
+        429.2110552763819
+      ]
+    },
+    {
+      "frame": 45,
+      "pts_s": 1.534868,
+      "markers": {
+        "imageLeft_shoulder": [
+          828.0,
+          112.36734693877551
+        ],
+        "imageRight_shoulder": [
+          1082.4471153846155,
+          99.59615384615384
+        ],
+        "imageLeft_elbow": [
+          799.5169082125603,
+          333.7294685990338
+        ],
+        "imageRight_elbow": [
+          1117.4780487804878,
+          321.35121951219514
+        ],
+        "imageLeft_wrist": [
+          805.955,
+          533.565
+        ],
+        "imageRight_wrist": [
+          1091.8669950738915,
+          523.8128078817734
+        ],
+        "imageLeft_hip": [
+          872.5,
+          426.0
+        ],
+        "imageRight_hip": [
+          1037.964824120603,
+          432.4221105527638
+        ],
+        "imageLeft_knee": [
+          885.3152709359606,
+          755.4778325123152
+        ],
+        "imageRight_knee": [
+          1018.741116751269,
+          768.1116751269036
+        ],
+        "imageLeft_ankle": [
+          923.4411764705883,
+          1059.6666666666667
+        ],
+        "imageRight_ankle": [
+          983.8542713567839,
+          1062.678391959799
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        955.2324120603015,
+        429.2110552763819
+      ]
+    },
+    {
+      "frame": 46,
+      "pts_s": 1.568235,
+      "markers": {
+        "imageLeft_shoulder": [
+          824.9114583333334,
+          109.08333333333333
+        ],
+        "imageRight_shoulder": [
+          1076.0,
+          96.5
+        ],
+        "imageLeft_elbow": [
+          793.0,
+          331.0
+        ],
+        "imageRight_elbow": [
+          1114.284263959391,
+          315.11167512690355
+        ],
+        "imageLeft_wrist": [
+          802.6487804878049,
+          533.5951219512195
+        ],
+        "imageRight_wrist": [
+          1104.585,
+          524.13
+        ],
+        "imageLeft_hip": [
+          869.5025125628141,
+          422.90954773869345
+        ],
+        "imageRight_hip": [
+          1034.5778894472362,
+          429.035175879397
+        ],
+        "imageLeft_knee": [
+          882.0505050505051,
+          755.5
+        ],
+        "imageRight_knee": [
+          1022.0,
+          768.0
+        ],
+        "imageLeft_ankle": [
+          923.4411764705883,
+          1059.6666666666667
+        ],
+        "imageRight_ankle": [
+          987.0,
+          1059.5
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        952.0402010050252,
+        425.9723618090452
+      ]
+    },
+    {
+      "frame": 47,
+      "pts_s": 1.601602,
+      "markers": {
+        "imageLeft_shoulder": [
+          821.6887755102041,
+          105.9438775510204
+        ],
+        "imageRight_shoulder": [
+          1072.953125,
+          90.09895833333333
+        ],
+        "imageLeft_elbow": [
+          789.9798994974874,
+          327.5929648241206
+        ],
+        "imageRight_elbow": [
+          1117.352657004831,
+          305.5217391304348
+        ],
+        "imageLeft_wrist": [
+          799.5213270142181,
+          530.4691943127962
+        ],
+        "imageRight_wrist": [
+          1111.0210526315789,
+          517.921052631579
+        ],
+        "imageLeft_hip": [
+          866.1442786069651,
+          419.547263681592
+        ],
+        "imageRight_hip": [
+          1031.5,
+          426.0
+        ],
+        "imageLeft_knee": [
+          879.0,
+          755.5
+        ],
+        "imageRight_knee": [
+          1031.5024630541873,
+          771.2463054187192
+        ],
+        "imageLeft_ankle": [
+          923.4411764705883,
+          1059.6666666666667
+        ],
+        "imageRight_ankle": [
+          987.0,
+          1059.5
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        948.8221393034826,
+        422.77363184079604
+      ]
+    },
+    {
+      "frame": 48,
+      "pts_s": 1.634968,
+      "markers": {
+        "imageLeft_shoulder": [
+          821.6887755102041,
+          105.9438775510204
+        ],
+        "imageRight_shoulder": [
+          1072.953125,
+          90.09895833333333
+        ],
+        "imageLeft_elbow": [
+          789.9798994974874,
+          327.5929648241206
+        ],
+        "imageRight_elbow": [
+          1117.352657004831,
+          305.5217391304348
+        ],
+        "imageLeft_wrist": [
+          799.5213270142181,
+          530.4691943127962
+        ],
+        "imageRight_wrist": [
+          1111.0210526315789,
+          517.921052631579
+        ],
+        "imageLeft_hip": [
+          866.1442786069651,
+          419.547263681592
+        ],
+        "imageRight_hip": [
+          1031.5,
+          426.0
+        ],
+        "imageLeft_knee": [
+          879.0,
+          755.5
+        ],
+        "imageRight_knee": [
+          1031.5024630541873,
+          771.2463054187192
+        ],
+        "imageLeft_ankle": [
+          923.4411764705883,
+          1059.6666666666667
+        ],
+        "imageRight_ankle": [
+          987.0,
+          1059.5
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        948.8221393034826,
+        422.77363184079604
+      ]
+    },
+    {
+      "frame": 49,
+      "pts_s": 1.668335,
+      "markers": {
+        "imageLeft_shoulder": [
+          818.5,
+          105.94949494949495
+        ],
+        "imageRight_shoulder": [
+          1069.5074626865671,
+          90.1044776119403
+        ],
+        "imageLeft_elbow": [
+          783.5294117647059,
+          327.7352941176471
+        ],
+        "imageRight_elbow": [
+          1117.439393939394,
+          299.1010101010101
+        ],
+        "imageLeft_wrist": [
+          799.4634146341464,
+          527.3024390243902
+        ],
+        "imageRight_wrist": [
+          1117.3024390243902,
+          511.4634146341463
+        ],
+        "imageLeft_hip": [
+          863.0251256281407,
+          416.47236180904525
+        ],
+        "imageRight_hip": [
+          1028.435,
+          426.005
+        ],
+        "imageLeft_knee": [
+          875.7536945812808,
+          755.4876847290641
+        ],
+        "imageRight_knee": [
+          1037.9424083769634,
+          768.0575916230366
+        ],
+        "imageLeft_ankle": [
+          923.4411764705883,
+          1059.6666666666667
+        ],
+        "imageRight_ankle": [
+          996.5,
+          1050.050505050505
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        945.7300628140704,
+        421.23868090452265
+      ]
+    },
+    {
+      "frame": 50,
+      "pts_s": 1.701702,
+      "markers": {
+        "imageLeft_shoulder": [
+          815.4723618090452,
+          105.9748743718593
+        ],
+        "imageRight_shoulder": [
+          1066.5,
+          87.0
+        ],
+        "imageLeft_elbow": [
+          780.4038461538462,
+          324.55288461538464
+        ],
+        "imageRight_elbow": [
+          1117.5,
+          292.949494949495
+        ],
+        "imageLeft_wrist": [
+          796.4494949494949,
+          524.0555555555555
+        ],
+        "imageRight_wrist": [
+          1120.5,
+          505.050505050505
+        ],
+        "imageLeft_hip": [
+          859.9748743718593,
+          416.52763819095475
+        ],
+        "imageRight_hip": [
+          1025.2727272727273,
+          422.83838383838383
+        ],
+        "imageLeft_knee": [
+          875.7536945812808,
+          755.4876847290641
+        ],
+        "imageRight_knee": [
+          1041.0,
+          765.0
+        ],
+        "imageLeft_ankle": [
+          923.4411764705883,
+          1059.6666666666667
+        ],
+        "imageRight_ankle": [
+          1009.3034825870647,
+          1043.6567164179105
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        942.6238008222933,
+        419.6830110146693
+      ]
+    },
+    {
+      "frame": 51,
+      "pts_s": 1.735068,
+      "markers": {
+        "imageLeft_shoulder": [
+          815.4723618090452,
+          105.9748743718593
+        ],
+        "imageRight_shoulder": [
+          1066.5,
+          87.0
+        ],
+        "imageLeft_elbow": [
+          780.4038461538462,
+          324.55288461538464
+        ],
+        "imageRight_elbow": [
+          1117.5,
+          292.949494949495
+        ],
+        "imageLeft_wrist": [
+          796.4494949494949,
+          524.0555555555555
+        ],
+        "imageRight_wrist": [
+          1120.5,
+          505.050505050505
+        ],
+        "imageLeft_hip": [
+          859.9748743718593,
+          416.52763819095475
+        ],
+        "imageRight_hip": [
+          1025.2727272727273,
+          422.83838383838383
+        ],
+        "imageLeft_knee": [
+          875.7536945812808,
+          755.4876847290641
+        ],
+        "imageRight_knee": [
+          1041.0,
+          765.0
+        ],
+        "imageLeft_ankle": [
+          923.4411764705883,
+          1059.6666666666667
+        ],
+        "imageRight_ankle": [
+          1009.3034825870647,
+          1043.6567164179105
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        942.6238008222933,
+        419.6830110146693
+      ]
+    },
+    {
+      "frame": 52,
+      "pts_s": 1.768435,
+      "markers": {
+        "imageLeft_shoulder": [
+          815.4623115577889,
+          102.92964824120602
+        ],
+        "imageRight_shoulder": [
+          1066.5,
+          87.0
+        ],
+        "imageLeft_elbow": [
+          777.11,
+          324.525
+        ],
+        "imageRight_elbow": [
+          1117.2843137254902,
+          286.5
+        ],
+        "imageLeft_wrist": [
+          796.3980099502487,
+          517.7860696517413
+        ],
+        "imageRight_wrist": [
+          1120.5,
+          498.949494949495
+        ],
+        "imageLeft_hip": [
+          856.7156862745098,
+          416.5
+        ],
+        "imageRight_hip": [
+          1022.0,
+          419.5
+        ],
+        "imageLeft_knee": [
+          875.7536945812808,
+          755.4876847290641
+        ],
+        "imageRight_knee": [
+          1044.2463054187192,
+          755.4975369458128
+        ],
+        "imageLeft_ankle": [
+          923.502487562189,
+          1062.8308457711444
+        ],
+        "imageRight_ankle": [
+          1015.5631067961165,
+          1043.7233009708739
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        939.3578431372549,
+        418.0
+      ]
+    },
+    {
+      "frame": 53,
+      "pts_s": 1.801802,
+      "markers": {
+        "imageLeft_shoulder": [
+          815.4623115577889,
+          102.92964824120602
+        ],
+        "imageRight_shoulder": [
+          1063.4444444444443,
+          87.0
+        ],
+        "imageLeft_elbow": [
+          777.0935960591133,
+          321.32512315270935
+        ],
+        "imageRight_elbow": [
+          1114.2756756756758,
+          283.1837837837838
+        ],
+        "imageLeft_wrist": [
+          796.2765957446809,
+          511.34574468085106
+        ],
+        "imageRight_wrist": [
+          1120.5,
+          498.6407766990291
+        ],
+        "imageLeft_hip": [
+          856.7156862745098,
+          416.5
+        ],
+        "imageRight_hip": [
+          1022.0,
+          416.5
+        ],
+        "imageLeft_knee": [
+          875.6538461538462,
+          758.6009615384615
+        ],
+        "imageRight_knee": [
+          1044.2772277227723,
+          749.2970297029703
+        ],
+        "imageLeft_ankle": [
+          923.502487562189,
+          1062.8308457711444
+        ],
+        "imageRight_ankle": [
+          1025.4588235294118,
+          1047.6
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        939.3578431372549,
+        416.5
+      ]
+    },
+    {
+      "frame": 54,
+      "pts_s": 1.835168,
+      "markers": {
+        "imageLeft_shoulder": [
+          815.4623115577889,
+          102.92964824120602
+        ],
+        "imageRight_shoulder": [
+          1063.4444444444443,
+          87.0
+        ],
+        "imageLeft_elbow": [
+          777.0935960591133,
+          321.32512315270935
+        ],
+        "imageRight_elbow": [
+          1114.2771739130435,
+          283.14130434782606
+        ],
+        "imageLeft_wrist": [
+          796.2780748663101,
+          511.3048128342246
+        ],
+        "imageRight_wrist": [
+          1120.5,
+          498.6407766990291
+        ],
+        "imageLeft_hip": [
+          856.7156862745098,
+          416.5
+        ],
+        "imageRight_hip": [
+          1022.0,
+          416.5
+        ],
+        "imageLeft_knee": [
+          875.6538461538462,
+          758.6009615384615
+        ],
+        "imageRight_knee": [
+          1044.2772277227723,
+          749.2970297029703
+        ],
+        "imageLeft_ankle": [
+          923.502487562189,
+          1062.8308457711444
+        ],
+        "imageRight_ankle": [
+          1025.6184971098266,
+          1047.4335260115606
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        939.3578431372549,
+        416.5
+      ]
+    },
+    {
+      "frame": 55,
+      "pts_s": 1.868535,
+      "markers": {
+        "imageLeft_shoulder": [
+          815.4623115577889,
+          102.92964824120602
+        ],
+        "imageRight_shoulder": [
+          1063.4444444444443,
+          87.0
+        ],
+        "imageLeft_elbow": [
+          774.0536585365853,
+          321.23414634146343
+        ],
+        "imageRight_elbow": [
+          1110.8918918918919,
+          286.7567567567568
+        ],
+        "imageLeft_wrist": [
+          796.25,
+          508.19565217391306
+        ],
+        "imageRight_wrist": [
+          1117.4782608695652,
+          498.60869565217394
+        ],
+        "imageLeft_hip": [
+          853.5533980582525,
+          416.3398058252427
+        ],
+        "imageRight_hip": [
+          1022.0,
+          416.5
+        ],
+        "imageLeft_knee": [
+          875.6538461538462,
+          758.6009615384615
+        ],
+        "imageRight_knee": [
+          1044.328282828283,
+          745.929292929293
+        ],
+        "imageLeft_ankle": [
+          923.502487562189,
+          1062.8308457711444
+        ],
+        "imageRight_ankle": [
+          1028.189349112426,
+          1053.0118343195265
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        937.7766990291262,
+        416.41990291262135
+      ]
+    },
+    {
+      "frame": 56,
+      "pts_s": 1.901902,
+      "markers": {
+        "imageLeft_shoulder": [
+          815.4623115577889,
+          102.92964824120602
+        ],
+        "imageRight_shoulder": [
+          1066.4723618090452,
+          86.9748743718593
+        ],
+        "imageLeft_elbow": [
+          774.0536585365853,
+          321.23414634146343
+        ],
+        "imageRight_elbow": [
+          1104.608938547486,
+          289.8659217877095
+        ],
+        "imageLeft_wrist": [
+          796.2185792349727,
+          505.1475409836066
+        ],
+        "imageRight_wrist": [
+          1114.3034825870648,
+          501.97014925373134
+        ],
+        "imageLeft_hip": [
+          853.5533980582525,
+          416.3398058252427
+        ],
+        "imageRight_hip": [
+          1022.0,
+          416.5
+        ],
+        "imageLeft_knee": [
+          878.9322916666666,
+          761.9010416666666
+        ],
+        "imageRight_knee": [
+          1041.121212121212,
+          742.6868686868687
+        ],
+        "imageLeft_ankle": [
+          923.502487562189,
+          1062.8308457711444
+        ],
+        "imageRight_ankle": [
+          1031.874251497006,
+          1052.9820359281437
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        937.7766990291262,
+        416.41990291262135
+      ]
+    },
+    {
+      "frame": 57,
+      "pts_s": 1.935269,
+      "markers": {
+        "imageLeft_shoulder": [
+          815.4623115577889,
+          102.92964824120602
+        ],
+        "imageRight_shoulder": [
+          1066.4723618090452,
+          86.9748743718593
+        ],
+        "imageLeft_elbow": [
+          774.0536585365853,
+          321.23414634146343
+        ],
+        "imageRight_elbow": [
+          1104.608938547486,
+          289.8659217877095
+        ],
+        "imageLeft_wrist": [
+          796.2185792349727,
+          505.1475409836066
+        ],
+        "imageRight_wrist": [
+          1114.3034825870648,
+          501.97014925373134
+        ],
+        "imageLeft_hip": [
+          853.5533980582525,
+          416.3398058252427
+        ],
+        "imageRight_hip": [
+          1022.0,
+          416.5
+        ],
+        "imageLeft_knee": [
+          878.9322916666666,
+          761.9010416666666
+        ],
+        "imageRight_knee": [
+          1041.121212121212,
+          742.6868686868687
+        ],
+        "imageLeft_ankle": [
+          923.502487562189,
+          1062.8308457711444
+        ],
+        "imageRight_ankle": [
+          1031.874251497006,
+          1052.9820359281437
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        937.7766990291262,
+        416.41990291262135
+      ]
+    },
+    {
+      "frame": 58,
+      "pts_s": 1.968635,
+      "markers": {
+        "imageLeft_shoulder": [
+          815.4623115577889,
+          102.92964824120602
+        ],
+        "imageRight_shoulder": [
+          1066.5276381909548,
+          90.0251256281407
+        ],
+        "imageLeft_elbow": [
+          777.093137254902,
+          321.27450980392155
+        ],
+        "imageRight_elbow": [
+          1101.5230769230768,
+          295.8666666666667
+        ],
+        "imageLeft_wrist": [
+          799.1397849462365,
+          502.10215053763443
+        ],
+        "imageRight_wrist": [
+          1114.2028985507247,
+          508.4154589371981
+        ],
+        "imageLeft_hip": [
+          856.6650485436893,
+          416.44174757281553
+        ],
+        "imageRight_hip": [
+          1022.0,
+          416.5
+        ],
+        "imageLeft_knee": [
+          878.9322916666666,
+          761.9010416666666
+        ],
+        "imageRight_knee": [
+          1038.0,
+          746.0
+        ],
+        "imageLeft_ankle": [
+          923.502487562189,
+          1062.8308457711444
+        ],
+        "imageRight_ankle": [
+          1031.9642857142858,
+          1050.5416666666667
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        939.3325242718447,
+        416.47087378640776
+      ]
+    },
+    {
+      "frame": 59,
+      "pts_s": 2.002002,
+      "markers": {
+        "imageLeft_shoulder": [
+          818.5170731707317,
+          105.6780487804878
+        ],
+        "imageRight_shoulder": [
+          1069.595238095238,
+          93.1047619047619
+        ],
+        "imageLeft_elbow": [
+          777.11,
+          324.545
+        ],
+        "imageRight_elbow": [
+          1101.570652173913,
+          302.6032608695652
+        ],
+        "imageLeft_wrist": [
+          802.7675675675675,
+          502.0810810810811
+        ],
+        "imageRight_wrist": [
+          1111.0251256281408,
+          514.5276381909548
+        ],
+        "imageLeft_hip": [
+          856.6975609756098,
+          419.5365853658537
+        ],
+        "imageRight_hip": [
+          1025.0,
+          419.5
+        ],
+        "imageLeft_knee": [
+          882.0248756218906,
+          764.6915422885572
+        ],
+        "imageRight_knee": [
+          1034.550505050505,
+          745.9444444444445
+        ],
+        "imageLeft_ankle": [
+          926.5297029702971,
+          1062.8564356435643
+        ],
+        "imageRight_ankle": [
+          1028.2987804878048,
+          1040.3902439024391
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        940.8487804878049,
+        419.5182926829268
+      ]
+    },
+    {
+      "frame": 60,
+      "pts_s": 2.035369,
+      "markers": {
+        "imageLeft_shoulder": [
+          818.5170731707317,
+          105.6780487804878
+        ],
+        "imageRight_shoulder": [
+          1069.595238095238,
+          93.1047619047619
+        ],
+        "imageLeft_elbow": [
+          777.11,
+          324.545
+        ],
+        "imageRight_elbow": [
+          1101.570652173913,
+          302.6032608695652
+        ],
+        "imageLeft_wrist": [
+          802.7675675675675,
+          502.0810810810811
+        ],
+        "imageRight_wrist": [
+          1111.0251256281408,
+          514.5276381909548
+        ],
+        "imageLeft_hip": [
+          856.6975609756098,
+          419.5365853658537
+        ],
+        "imageRight_hip": [
+          1025.0,
+          419.5
+        ],
+        "imageLeft_knee": [
+          882.0248756218906,
+          764.6915422885572
+        ],
+        "imageRight_knee": [
+          1034.550505050505,
+          745.9444444444445
+        ],
+        "imageLeft_ankle": [
+          926.5297029702971,
+          1062.8564356435643
+        ],
+        "imageRight_ankle": [
+          1028.2987804878048,
+          1040.3902439024391
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        940.8487804878049,
+        419.5182926829268
+      ]
+    },
+    {
+      "frame": 61,
+      "pts_s": 2.068735,
+      "markers": {
+        "imageLeft_shoulder": [
+          821.5505050505051,
+          109.05555555555556
+        ],
+        "imageRight_shoulder": [
+          1072.929648241206,
+          96.46231155778895
+        ],
+        "imageLeft_elbow": [
+          783.5365853658536,
+          327.69756097560975
+        ],
+        "imageRight_elbow": [
+          1104.5901639344263,
+          308.655737704918
+        ],
+        "imageLeft_wrist": [
+          805.7934782608696,
+          505.1902173913044
+        ],
+        "imageRight_wrist": [
+          1110.9896373056995,
+          517.9222797927462
+        ],
+        "imageLeft_hip": [
+          859.8762376237623,
+          419.46039603960395
+        ],
+        "imageRight_hip": [
+          1025.0796019900497,
+          422.58706467661693
+        ],
+        "imageLeft_knee": [
+          882.0248756218906,
+          764.6915422885572
+        ],
+        "imageRight_knee": [
+          1034.550505050505,
+          749.0555555555555
+        ],
+        "imageLeft_ankle": [
+          926.5297029702971,
+          1062.8564356435643
+        ],
+        "imageRight_ankle": null
+      },
+      "head": null,
+      "detected_count": 11,
+      "pelvis_midpoint_proxy": [
+        942.477919806906,
+        421.02373035811047
+      ]
+    },
+    {
+      "frame": 62,
+      "pts_s": 2.102102,
+      "markers": {
+        "imageLeft_shoulder": [
+          824.8375634517766,
+          109.00507614213198
+        ],
+        "imageRight_shoulder": [
+          1076.0,
+          96.5
+        ],
+        "imageLeft_elbow": [
+          786.6,
+          327.6341463414634
+        ],
+        "imageRight_elbow": [
+          1110.9839572192514,
+          312.01604278074865
+        ],
+        "imageLeft_wrist": [
+          808.9946808510638,
+          511.3031914893617
+        ],
+        "imageRight_wrist": [
+          1117.4070351758794,
+          521.0201005025126
+        ],
+        "imageLeft_hip": [
+          859.9009900990098,
+          422.5495049504951
+        ],
+        "imageRight_hip": [
+          1028.4120603015076,
+          425.9246231155779
+        ],
+        "imageLeft_knee": [
+          882.0575916230366,
+          768.0575916230366
+        ],
+        "imageRight_knee": [
+          1034.6367924528302,
+          752.1509433962265
+        ],
+        "imageLeft_ankle": [
+          923.5,
+          1062.87
+        ],
+        "imageRight_ankle": null
+      },
+      "head": null,
+      "detected_count": 11,
+      "pelvis_midpoint_proxy": [
+        944.1565252002588,
+        424.2370640330365
+      ]
+    },
+    {
+      "frame": 63,
+      "pts_s": 2.135469,
+      "markers": {
+        "imageLeft_shoulder": [
+          824.8010204081633,
+          109.01020408163265
+        ],
+        "imageRight_shoulder": [
+          1076.0251256281408,
+          96.47236180904522
+        ],
+        "imageLeft_elbow": [
+          786.5970873786408,
+          327.59708737864077
+        ],
+        "imageRight_elbow": [
+          1110.9358288770054,
+          312.0802139037433
+        ],
+        "imageLeft_wrist": [
+          809.0314136125654,
+          511.2565445026178
+        ],
+        "imageRight_wrist": [
+          1117.4444444444443,
+          521.0
+        ],
+        "imageLeft_hip": [
+          859.8472906403941,
+          422.5960591133005
+        ],
+        "imageRight_hip": [
+          1028.4070351758794,
+          425.97989949748745
+        ],
+        "imageLeft_knee": [
+          882.0466321243523,
+          768.0673575129533
+        ],
+        "imageRight_knee": [
+          1034.632075471698,
+          752.1037735849056
+        ],
+        "imageLeft_ankle": [
+          923.5,
+          1062.949494949495
+        ],
+        "imageRight_ankle": null
+      },
+      "head": null,
+      "detected_count": 11,
+      "pelvis_midpoint_proxy": [
+        944.1271629081368,
+        424.28797930539395
+      ]
+    },
+    {
+      "frame": 64,
+      "pts_s": 2.168836,
+      "markers": {
+        "imageLeft_shoulder": [
+          831.3774509803922,
+          112.32352941176471
+        ],
+        "imageRight_shoulder": [
+          1082.393203883495,
+          99.60679611650485
+        ],
+        "imageLeft_elbow": [
+          793.1139896373057,
+          330.8860103626943
+        ],
+        "imageRight_elbow": [
+          1120.5,
+          318.0531914893617
+        ],
+        "imageLeft_wrist": [
+          809.0,
+          518.0
+        ],
+        "imageRight_wrist": [
+          1123.5879396984924,
+          524.0753768844221
+        ],
+        "imageLeft_hip": [
+          863.0,
+          426.0
+        ],
+        "imageRight_hip": [
+          1031.4723618090452,
+          429.0251256281407
+        ],
+        "imageLeft_knee": [
+          885.4129353233831,
+          768.0796019900497
+        ],
+        "imageRight_knee": [
+          1037.949494949495,
+          755.5
+        ],
+        "imageLeft_ankle": [
+          923.5,
+          1062.949494949495
+        ],
+        "imageRight_ankle": null
+      },
+      "head": null,
+      "detected_count": 11,
+      "pelvis_midpoint_proxy": [
+        947.2361809045226,
+        427.51256281407035
+      ]
+    },
+    {
+      "frame": 65,
+      "pts_s": 2.202202,
+      "markers": {
+        "imageLeft_shoulder": [
+          837.5073170731707,
+          112.36585365853658
+        ],
+        "imageRight_shoulder": [
+          1088.61,
+          102.77
+        ],
+        "imageLeft_elbow": [
+          799.4623115577889,
+          330.92964824120605
+        ],
+        "imageRight_elbow": [
+          1129.915343915344,
+          321.1957671957672
+        ],
+        "imageLeft_wrist": [
+          812.0641711229947,
+          523.9893048128342
+        ],
+        "imageRight_wrist": [
+          1130.010101010101,
+          527.4343434343434
+        ],
+        "imageLeft_hip": [
+          866.1649484536083,
+          425.9742268041237
+        ],
+        "imageRight_hip": [
+          1031.4723618090452,
+          429.0251256281407
+        ],
+        "imageLeft_knee": [
+          888.5,
+          768.0505050505051
+        ],
+        "imageRight_knee": [
+          1037.9748743718592,
+          758.5276381909548
+        ],
+        "imageLeft_ankle": [
+          926.5226130653266,
+          1062.9145728643216
+        ],
+        "imageRight_ankle": [
+          1025.3882352941177,
+          1040.4588235294118
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        948.8186551313268,
+        427.49967621613223
+      ]
+    },
+    {
+      "frame": 66,
+      "pts_s": 2.235569,
+      "markers": {
+        "imageLeft_shoulder": [
+          837.5073170731707,
+          112.36585365853658
+        ],
+        "imageRight_shoulder": [
+          1088.61,
+          102.77
+        ],
+        "imageLeft_elbow": [
+          799.4623115577889,
+          330.92964824120605
+        ],
+        "imageRight_elbow": [
+          1129.915343915344,
+          321.1957671957672
+        ],
+        "imageLeft_wrist": [
+          812.0641711229947,
+          523.9893048128342
+        ],
+        "imageRight_wrist": [
+          1130.010101010101,
+          527.4343434343434
+        ],
+        "imageLeft_hip": [
+          866.1649484536083,
+          425.9742268041237
+        ],
+        "imageRight_hip": [
+          1031.4723618090452,
+          429.0251256281407
+        ],
+        "imageLeft_knee": [
+          888.5,
+          768.0505050505051
+        ],
+        "imageRight_knee": [
+          1037.9748743718592,
+          758.5276381909548
+        ],
+        "imageLeft_ankle": [
+          926.5226130653266,
+          1062.9145728643216
+        ],
+        "imageRight_ankle": [
+          1025.3882352941177,
+          1040.4588235294118
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        948.8186551313268,
+        427.49967621613223
+      ]
+    },
+    {
+      "frame": 67,
+      "pts_s": 2.268936,
+      "markers": {
+        "imageLeft_shoulder": [
+          844.0,
+          109.0
+        ],
+        "imageRight_shoulder": [
+          1098.2843137254902,
+          99.5
+        ],
+        "imageLeft_elbow": [
+          805.8423645320197,
+          327.58128078817737
+        ],
+        "imageRight_elbow": [
+          1136.2620320855615,
+          321.1550802139037
+        ],
+        "imageLeft_wrist": [
+          812.03125,
+          527.5104166666666
+        ],
+        "imageRight_wrist": [
+          1136.4878048780488,
+          523.8536585365854
+        ],
+        "imageLeft_hip": [
+          869.4723618090452,
+          425.9748743718593
+        ],
+        "imageRight_hip": [
+          1034.5276381909548,
+          428.9748743718593
+        ],
+        "imageLeft_knee": [
+          891.5505050505051,
+          768.0555555555555
+        ],
+        "imageRight_knee": [
+          1040.985,
+          758.54
+        ],
+        "imageLeft_ankle": [
+          926.5226130653266,
+          1062.9145728643216
+        ],
+        "imageRight_ankle": [
+          1021.8220858895705,
+          1050.435582822086
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        952.0,
+        427.4748743718593
+      ]
+    },
+    {
+      "frame": 68,
+      "pts_s": 2.302302,
+      "markers": {
+        "imageLeft_shoulder": [
+          850.44,
+          102.895
+        ],
+        "imageRight_shoulder": [
+          1104.6439024390245,
+          96.40975609756097
+        ],
+        "imageLeft_elbow": [
+          815.4195121951219,
+          321.3658536585366
+        ],
+        "imageRight_elbow": [
+          1142.808743169399,
+          318.0983606557377
+        ],
+        "imageLeft_wrist": [
+          812.0380434782609,
+          524.0163043478261
+        ],
+        "imageRight_wrist": [
+          1136.5,
+          517.9494949494949
+        ],
+        "imageLeft_hip": [
+          872.505,
+          422.87
+        ],
+        "imageRight_hip": [
+          1041.0984455958549,
+          422.8756476683938
+        ],
+        "imageLeft_knee": [
+          891.5505050505051,
+          768.0555555555555
+        ],
+        "imageRight_knee": [
+          1047.370731707317,
+          755.4585365853659
+        ],
+        "imageLeft_ankle": [
+          923.5,
+          1062.949494949495
+        ],
+        "imageRight_ankle": [
+          1021.8934911242603,
+          1052.8461538461538
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        956.8017227979274,
+        422.8728238341969
+      ]
+    },
+    {
+      "frame": 69,
+      "pts_s": 2.335669,
+      "markers": {
+        "imageLeft_shoulder": [
+          850.44,
+          102.895
+        ],
+        "imageRight_shoulder": [
+          1104.6439024390245,
+          96.40975609756097
+        ],
+        "imageLeft_elbow": [
+          815.4195121951219,
+          321.3658536585366
+        ],
+        "imageRight_elbow": [
+          1142.808743169399,
+          318.0983606557377
+        ],
+        "imageLeft_wrist": [
+          812.0380434782609,
+          524.0163043478261
+        ],
+        "imageRight_wrist": [
+          1136.5,
+          517.9494949494949
+        ],
+        "imageLeft_hip": [
+          872.505,
+          422.87
+        ],
+        "imageRight_hip": [
+          1041.0984455958549,
+          422.8756476683938
+        ],
+        "imageLeft_knee": [
+          891.5505050505051,
+          768.0555555555555
+        ],
+        "imageRight_knee": [
+          1047.370731707317,
+          755.4585365853659
+        ],
+        "imageLeft_ankle": [
+          923.5,
+          1062.949494949495
+        ],
+        "imageRight_ankle": [
+          1021.8934911242603,
+          1052.8461538461538
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        956.8017227979274,
+        422.8728238341969
+      ]
+    },
+    {
+      "frame": 70,
+      "pts_s": 2.369036,
+      "markers": {
+        "imageLeft_shoulder": [
+          859.9748743718593,
+          99.52763819095478
+        ],
+        "imageRight_shoulder": [
+          1110.9533678756477,
+          93.26424870466322
+        ],
+        "imageLeft_elbow": [
+          818.5,
+          315.0
+        ],
+        "imageRight_elbow": [
+          1152.2444444444445,
+          315.05555555555554
+        ],
+        "imageLeft_wrist": [
+          812.0380434782609,
+          524.0163043478261
+        ],
+        "imageRight_wrist": [
+          1136.3658536585365,
+          511.4634146341463
+        ],
+        "imageLeft_hip": [
+          878.955,
+          419.565
+        ],
+        "imageRight_hip": [
+          1047.4417475728155,
+          419.6650485436893
+        ],
+        "imageLeft_knee": [
+          891.5276381909548,
+          765.0251256281407
+        ],
+        "imageRight_knee": [
+          1053.7156862745098,
+          755.5
+        ],
+        "imageLeft_ankle": [
+          923.4611650485436,
+          1059.6456310679612
+        ],
+        "imageRight_ankle": [
+          1021.8934911242603,
+          1052.8461538461538
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        963.1983737864077,
+        419.6150242718446
+      ]
+    },
+    {
+      "frame": 71,
+      "pts_s": 2.402402,
+      "markers": {
+        "imageLeft_shoulder": [
+          866.2463054187192,
+          96.50246305418719
+        ],
+        "imageRight_shoulder": [
+          1117.3940886699506,
+          93.1576354679803
+        ],
+        "imageLeft_elbow": [
+          824.8217821782179,
+          308.6039603960396
+        ],
+        "imageRight_elbow": [
+          1158.8449197860962,
+          312.0802139037433
+        ],
+        "imageLeft_wrist": [
+          812.0546448087432,
+          520.9453551912568
+        ],
+        "imageRight_wrist": [
+          1136.5,
+          505.050505050505
+        ],
+        "imageLeft_hip": [
+          885.3091787439613,
+          419.5314009661836
+        ],
+        "imageRight_hip": [
+          1050.6601941747572,
+          416.4805825242718
+        ],
+        "imageLeft_knee": [
+          888.5,
+          765.0
+        ],
+        "imageRight_knee": [
+          1056.9748743718592,
+          755.4723618090452
+        ],
+        "imageLeft_ankle": [
+          920.3349514563107,
+          1059.5582524271845
+        ],
+        "imageRight_ankle": [
+          1021.8934911242603,
+          1052.8461538461538
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        967.9846864593592,
+        418.0059917452277
+      ]
+    },
+    {
+      "frame": 72,
+      "pts_s": 2.435769,
+      "markers": {
+        "imageLeft_shoulder": [
+          866.2463054187192,
+          96.50246305418719
+        ],
+        "imageRight_shoulder": [
+          1117.3940886699506,
+          93.1576354679803
+        ],
+        "imageLeft_elbow": [
+          824.8217821782179,
+          308.6039603960396
+        ],
+        "imageRight_elbow": [
+          1158.8449197860962,
+          312.0802139037433
+        ],
+        "imageLeft_wrist": [
+          812.0546448087432,
+          520.9453551912568
+        ],
+        "imageRight_wrist": [
+          1136.5,
+          505.050505050505
+        ],
+        "imageLeft_hip": [
+          885.3091787439613,
+          419.5314009661836
+        ],
+        "imageRight_hip": [
+          1050.6601941747572,
+          416.4805825242718
+        ],
+        "imageLeft_knee": [
+          888.5,
+          765.0
+        ],
+        "imageRight_knee": [
+          1056.9748743718592,
+          755.4723618090452
+        ],
+        "imageLeft_ankle": [
+          920.3349514563107,
+          1059.5582524271845
+        ],
+        "imageRight_ankle": [
+          1021.8934911242603,
+          1052.8461538461538
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        967.9846864593592,
+        418.0059917452277
+      ]
+    },
+    {
+      "frame": 73,
+      "pts_s": 2.469136,
+      "markers": {
+        "imageLeft_shoulder": [
+          872.5804878048781,
+          96.36585365853658
+        ],
+        "imageRight_shoulder": [
+          1120.4874371859296,
+          93.09045226130654
+        ],
+        "imageLeft_elbow": [
+          831.3497536945813,
+          308.67487684729065
+        ],
+        "imageRight_elbow": [
+          1161.9086021505377,
+          311.994623655914
+        ],
+        "imageLeft_wrist": [
+          812.0380434782609,
+          518.0163043478261
+        ],
+        "imageRight_wrist": [
+          1133.2626262626263,
+          498.85353535353534
+        ],
+        "imageLeft_hip": [
+          891.5922330097087,
+          419.55825242718447
+        ],
+        "imageRight_hip": [
+          1057.0,
+          416.5
+        ],
+        "imageLeft_knee": [
+          885.4723618090452,
+          764.9748743718593
+        ],
+        "imageRight_knee": [
+          1063.3152709359606,
+          755.4778325123152
+        ],
+        "imageLeft_ankle": [
+          917.0518134715026,
+          1050.062176165803
+        ],
+        "imageRight_ankle": [
+          1021.8934911242603,
+          1052.8461538461538
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        974.2961165048544,
+        418.02912621359224
+      ]
+    },
+    {
+      "frame": 74,
+      "pts_s": 2.502502,
+      "markers": {
+        "imageLeft_shoulder": [
+          875.6305418719212,
+          96.42364532019704
+        ],
+        "imageRight_shoulder": [
+          1126.9072164948454,
+          93.21649484536083
+        ],
+        "imageLeft_elbow": [
+          834.447619047619,
+          305.55238095238093
+        ],
+        "imageRight_elbow": [
+          1165.037234042553,
+          312.0531914893617
+        ],
+        "imageLeft_wrist": [
+          815.453125,
+          517.9166666666666
+        ],
+        "imageRight_wrist": [
+          1133.2794117647059,
+          492.4656862745098
+        ],
+        "imageLeft_hip": [
+          894.9095477386935,
+          416.4924623115578
+        ],
+        "imageRight_hip": [
+          1060.0251256281408,
+          416.47236180904525
+        ],
+        "imageLeft_knee": [
+          882.0251256281407,
+          758.5276381909548
+        ],
+        "imageRight_knee": [
+          1063.3152709359606,
+          755.4778325123152
+        ],
+        "imageLeft_ankle": [
+          914.0,
+          1047.0
+        ],
+        "imageRight_ankle": [
+          1021.8848484848485,
+          1056.0242424242424
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        977.4673366834172,
+        416.4824120603015
+      ]
+    },
+    {
+      "frame": 75,
+      "pts_s": 2.535869,
+      "markers": {
+        "imageLeft_shoulder": [
+          875.6305418719212,
+          96.42364532019704
+        ],
+        "imageRight_shoulder": [
+          1126.9072164948454,
+          93.21649484536083
+        ],
+        "imageLeft_elbow": [
+          834.447619047619,
+          305.55238095238093
+        ],
+        "imageRight_elbow": [
+          1165.037234042553,
+          312.0531914893617
+        ],
+        "imageLeft_wrist": [
+          815.453125,
+          517.9166666666666
+        ],
+        "imageRight_wrist": [
+          1133.2794117647059,
+          492.4656862745098
+        ],
+        "imageLeft_hip": [
+          894.9095477386935,
+          416.4924623115578
+        ],
+        "imageRight_hip": [
+          1060.0251256281408,
+          416.47236180904525
+        ],
+        "imageLeft_knee": [
+          882.0251256281407,
+          758.5276381909548
+        ],
+        "imageRight_knee": [
+          1063.3152709359606,
+          755.4778325123152
+        ],
+        "imageLeft_ankle": [
+          914.0,
+          1047.0
+        ],
+        "imageRight_ankle": [
+          1021.8848484848485,
+          1056.0242424242424
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        977.4673366834172,
+        416.4824120603015
+      ]
+    },
+    {
+      "frame": 76,
+      "pts_s": 2.569236,
+      "markers": {
+        "imageLeft_shoulder": [
+          878.9481865284974,
+          93.18652849740933
+        ],
+        "imageRight_shoulder": [
+          1130.0204081632653,
+          90.11224489795919
+        ],
+        "imageLeft_elbow": [
+          840.8507462686567,
+          305.5273631840796
+        ],
+        "imageRight_elbow": [
+          1168.1122994652405,
+          308.7647058823529
+        ],
+        "imageLeft_wrist": [
+          815.520618556701,
+          514.9175257731958
+        ],
+        "imageRight_wrist": [
+          1130.0,
+          483.0
+        ],
+        "imageLeft_hip": [
+          901.3546798029556,
+          413.2807881773399
+        ],
+        "imageRight_hip": [
+          1066.5,
+          416.38461538461536
+        ],
+        "imageLeft_knee": [
+          885.3333333333334,
+          755.4411764705883
+        ],
+        "imageRight_knee": [
+          1066.4223300970873,
+          755.4563106796116
+        ],
+        "imageLeft_ankle": [
+          907.5276381909548,
+          1046.9748743718592
+        ],
+        "imageRight_ankle": [
+          1021.8848484848485,
+          1056.0242424242424
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        983.9273399014778,
+        414.83270178097763
+      ]
+    },
+    {
+      "frame": 77,
+      "pts_s": 2.602603,
+      "markers": {
+        "imageLeft_shoulder": [
+          885.3582089552239,
+          93.13432835820896
+        ],
+        "imageRight_shoulder": [
+          1133.3781094527362,
+          90.18407960199005
+        ],
+        "imageLeft_elbow": [
+          843.9748743718593,
+          305.52763819095475
+        ],
+        "imageRight_elbow": [
+          1168.1122994652405,
+          308.7647058823529
+        ],
+        "imageLeft_wrist": [
+          818.5,
+          514.8681318681319
+        ],
+        "imageRight_wrist": [
+          1126.9748743718592,
+          476.52763819095475
+        ],
+        "imageLeft_hip": [
+          904.4166666666666,
+          413.3137254901961
+        ],
+        "imageRight_hip": [
+          1069.611650485437,
+          416.42233009708735
+        ],
+        "imageLeft_knee": [
+          888.4731707317073,
+          749.2585365853658
+        ],
+        "imageRight_knee": [
+          1066.4223300970873,
+          755.4563106796116
+        ],
+        "imageLeft_ankle": [
+          901.1224489795918,
+          1047.0051020408164
+        ],
+        "imageRight_ankle": [
+          1021.8848484848485,
+          1056.0242424242424
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        987.0141585760518,
+        414.8680277936417
+      ]
+    },
+    {
+      "frame": 78,
+      "pts_s": 2.635969,
+      "markers": {
+        "imageLeft_shoulder": [
+          885.3582089552239,
+          93.13432835820896
+        ],
+        "imageRight_shoulder": [
+          1133.3781094527362,
+          90.18407960199005
+        ],
+        "imageLeft_elbow": [
+          843.9748743718593,
+          305.52763819095475
+        ],
+        "imageRight_elbow": [
+          1168.1122994652405,
+          308.7647058823529
+        ],
+        "imageLeft_wrist": [
+          818.5,
+          514.8681318681319
+        ],
+        "imageRight_wrist": [
+          1126.9748743718592,
+          476.52763819095475
+        ],
+        "imageLeft_hip": [
+          904.4166666666666,
+          413.3137254901961
+        ],
+        "imageRight_hip": [
+          1069.611650485437,
+          416.42233009708735
+        ],
+        "imageLeft_knee": [
+          888.4731707317073,
+          749.2585365853658
+        ],
+        "imageRight_knee": [
+          1066.4223300970873,
+          755.4563106796116
+        ],
+        "imageLeft_ankle": [
+          901.1224489795918,
+          1047.0051020408164
+        ],
+        "imageRight_ankle": [
+          1021.8848484848485,
+          1056.0242424242424
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        987.0141585760518,
+        414.8680277936417
+      ]
+    },
+    {
+      "frame": 79,
+      "pts_s": 2.669336,
+      "markers": {
+        "imageLeft_shoulder": [
+          885.3582089552239,
+          93.13432835820896
+        ],
+        "imageRight_shoulder": [
+          1136.4723618090452,
+          90.0251256281407
+        ],
+        "imageLeft_elbow": [
+          847.0,
+          305.5
+        ],
+        "imageRight_elbow": [
+          1168.1122994652405,
+          308.7647058823529
+        ],
+        "imageLeft_wrist": [
+          821.9255319148937,
+          514.9734042553191
+        ],
+        "imageRight_wrist": [
+          1123.7156862745098,
+          473.5
+        ],
+        "imageLeft_hip": [
+          907.5276381909548,
+          410.0251256281407
+        ],
+        "imageRight_hip": [
+          1072.949494949495,
+          416.5
+        ],
+        "imageLeft_knee": [
+          895.0,
+          746.0
+        ],
+        "imageRight_knee": [
+          1066.4223300970873,
+          755.4563106796116
+        ],
+        "imageLeft_ankle": [
+          901.180412371134,
+          1050.0618556701031
+        ],
+        "imageRight_ankle": [
+          1021.8848484848485,
+          1056.0242424242424
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        990.2385665702249,
+        413.26256281407035
+      ]
+    },
+    {
+      "frame": 80,
+      "pts_s": 2.702703,
+      "markers": {
+        "imageLeft_shoulder": [
+          888.4417475728155,
+          96.33495145631068
+        ],
+        "imageRight_shoulder": [
+          1139.4778325123152,
+          90.11822660098522
+        ],
+        "imageLeft_elbow": [
+          850.3857142857142,
+          308.5952380952381
+        ],
+        "imageRight_elbow": [
+          1171.4684210526316,
+          308.7368421052632
+        ],
+        "imageLeft_wrist": [
+          824.8494623655914,
+          514.9301075268817
+        ],
+        "imageRight_wrist": [
+          1123.6650485436894,
+          470.44174757281553
+        ],
+        "imageLeft_hip": [
+          910.6893203883495,
+          409.75728155339806
+        ],
+        "imageRight_hip": [
+          1076.079207920792,
+          416.5049504950495
+        ],
+        "imageLeft_knee": [
+          897.9589743589744,
+          742.9333333333333
+        ],
+        "imageRight_knee": [
+          1066.4223300970873,
+          755.4563106796116
+        ],
+        "imageLeft_ankle": [
+          904.3883495145631,
+          1053.388349514563
+        ],
+        "imageRight_ankle": [
+          1021.8848484848485,
+          1056.0242424242424
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        993.3842641545707,
+        413.1311160242238
+      ]
+    },
+    {
+      "frame": 81,
+      "pts_s": 2.736069,
+      "markers": {
+        "imageLeft_shoulder": [
+          888.4417475728155,
+          96.33495145631068
+        ],
+        "imageRight_shoulder": [
+          1139.4778325123152,
+          90.11822660098522
+        ],
+        "imageLeft_elbow": [
+          850.3857142857142,
+          308.5952380952381
+        ],
+        "imageRight_elbow": [
+          1171.4684210526316,
+          308.7368421052632
+        ],
+        "imageLeft_wrist": [
+          824.8494623655914,
+          514.9301075268817
+        ],
+        "imageRight_wrist": [
+          1123.6650485436894,
+          470.44174757281553
+        ],
+        "imageLeft_hip": [
+          910.6893203883495,
+          409.75728155339806
+        ],
+        "imageRight_hip": [
+          1076.079207920792,
+          416.5049504950495
+        ],
+        "imageLeft_knee": [
+          897.9589743589744,
+          742.9333333333333
+        ],
+        "imageRight_knee": [
+          1066.4223300970873,
+          755.4563106796116
+        ],
+        "imageLeft_ankle": [
+          904.3883495145631,
+          1053.388349514563
+        ],
+        "imageRight_ankle": [
+          1021.8848484848485,
+          1056.0242424242424
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        993.3842641545707,
+        413.1311160242238
+      ]
+    },
+    {
+      "frame": 82,
+      "pts_s": 2.769436,
+      "markers": {
+        "imageLeft_shoulder": [
+          888.4417475728155,
+          96.33495145631068
+        ],
+        "imageRight_shoulder": [
+          1139.463768115942,
+          93.05314009661836
+        ],
+        "imageLeft_elbow": [
+          850.435,
+          311.955
+        ],
+        "imageRight_elbow": [
+          1171.5502645502645,
+          311.989417989418
+        ],
+        "imageLeft_wrist": [
+          828.081081081081,
+          514.8972972972973
+        ],
+        "imageRight_wrist": [
+          1120.4928229665072,
+          473.35406698564594
+        ],
+        "imageLeft_hip": [
+          910.6893203883495,
+          409.75728155339806
+        ],
+        "imageRight_hip": [
+          1079.2843137254902,
+          416.5
+        ],
+        "imageLeft_knee": [
+          904.4170854271357,
+          742.8743718592965
+        ],
+        "imageRight_knee": [
+          1066.4223300970873,
+          755.4563106796116
+        ],
+        "imageLeft_ankle": [
+          913.6984924623116,
+          1050.035175879397
+        ],
+        "imageRight_ankle": [
+          1021.8848484848485,
+          1056.0242424242424
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        994.9868170569198,
+        413.12864077669906
+      ]
+    },
+    {
+      "frame": 83,
+      "pts_s": 2.802803,
+      "markers": {
+        "imageLeft_shoulder": [
+          888.463768115942,
+          99.6231884057971
+        ],
+        "imageRight_shoulder": [
+          1139.463768115942,
+          93.05314009661836
+        ],
+        "imageLeft_elbow": [
+          850.435,
+          311.955
+        ],
+        "imageRight_elbow": [
+          1171.4526315789474,
+          315.0684210526316
+        ],
+        "imageLeft_wrist": [
+          831.0215053763441,
+          514.9623655913979
+        ],
+        "imageRight_wrist": [
+          1120.485,
+          479.87
+        ],
+        "imageLeft_hip": [
+          913.7871287128713,
+          413.4306930693069
+        ],
+        "imageRight_hip": [
+          1079.1641791044776,
+          419.4676616915423
+        ],
+        "imageLeft_knee": [
+          907.5,
+          745.9494949494949
+        ],
+        "imageRight_knee": [
+          1066.4830917874397,
+          758.6425120772947
+        ],
+        "imageLeft_ankle": [
+          920.3571428571429,
+          1046.954081632653
+        ],
+        "imageRight_ankle": [
+          1021.6,
+          1060.1875
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        996.4756539086745,
+        416.4491773804246
+      ]
+    },
+    {
+      "frame": 84,
+      "pts_s": 2.83617,
+      "markers": {
+        "imageLeft_shoulder": [
+          888.463768115942,
+          99.6231884057971
+        ],
+        "imageRight_shoulder": [
+          1139.463768115942,
+          93.05314009661836
+        ],
+        "imageLeft_elbow": [
+          850.435,
+          311.955
+        ],
+        "imageRight_elbow": [
+          1171.4526315789474,
+          315.0684210526316
+        ],
+        "imageLeft_wrist": [
+          831.0534759358288,
+          514.9358288770053
+        ],
+        "imageRight_wrist": [
+          1120.485,
+          479.87
+        ],
+        "imageLeft_hip": [
+          913.7871287128713,
+          413.4306930693069
+        ],
+        "imageRight_hip": [
+          1079.1641791044776,
+          419.4676616915423
+        ],
+        "imageLeft_knee": [
+          907.5,
+          745.9494949494949
+        ],
+        "imageRight_knee": [
+          1066.4830917874397,
+          758.6425120772947
+        ],
+        "imageLeft_ankle": [
+          920.3571428571429,
+          1046.954081632653
+        ],
+        "imageRight_ankle": [
+          1021.6,
+          1060.1875
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        996.4756539086745,
+        416.4491773804246
+      ]
+    },
+    {
+      "frame": 85,
+      "pts_s": 2.869536,
+      "markers": {
+        "imageLeft_shoulder": [
+          888.5024630541872,
+          102.79802955665025
+        ],
+        "imageRight_shoulder": [
+          1142.7414634146342,
+          96.47317073170731
+        ],
+        "imageLeft_elbow": [
+          850.4723618090452,
+          315.0251256281407
+        ],
+        "imageRight_elbow": [
+          1171.5291005291006,
+          318.14285714285717
+        ],
+        "imageLeft_wrist": [
+          831.0215053763441,
+          518.0376344086021
+        ],
+        "imageRight_wrist": [
+          1123.580487804878,
+          489.3658536585366
+        ],
+        "imageLeft_hip": [
+          913.7414634146342,
+          416.4682926829268
+        ],
+        "imageRight_hip": [
+          1082.3645320197045,
+          419.58128078817737
+        ],
+        "imageLeft_knee": [
+          913.7587939698492,
+          746.0150753768844
+        ],
+        "imageRight_knee": [
+          1063.370731707317,
+          758.5756097560976
+        ],
+        "imageLeft_ankle": [
+          926.6456310679612,
+          1037.495145631068
+        ],
+        "imageRight_ankle": [
+          1021.6,
+          1060.1875
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        998.0529977171693,
+        418.0247867355521
+      ]
+    },
+    {
+      "frame": 86,
+      "pts_s": 2.902903,
+      "markers": {
+        "imageLeft_shoulder": [
+          888.4902912621359,
+          105.70388349514563
+        ],
+        "imageRight_shoulder": [
+          1139.6504854368932,
+          96.5
+        ],
+        "imageLeft_elbow": [
+          847.3613861386139,
+          318.1287128712871
+        ],
+        "imageRight_elbow": [
+          1168.1021505376343,
+          321.0698924731183
+        ],
+        "imageLeft_wrist": [
+          831.0432432432433,
+          520.9945945945946
+        ],
+        "imageRight_wrist": [
+          1127.0,
+          502.0
+        ],
+        "imageLeft_hip": [
+          917.0251256281407,
+          419.52763819095475
+        ],
+        "imageRight_hip": [
+          1082.425120772947,
+          422.6280193236715
+        ],
+        "imageLeft_knee": [
+          917.0,
+          749.0
+        ],
+        "imageRight_knee": [
+          1063.3921568627452,
+          761.8186274509804
+        ],
+        "imageLeft_ankle": [
+          936.1948717948718,
+          1031.1025641025642
+        ],
+        "imageRight_ankle": [
+          1021.6,
+          1060.1875
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        999.7251232005437,
+        421.0778287573131
+      ]
+    },
+    {
+      "frame": 87,
+      "pts_s": 2.93627,
+      "markers": {
+        "imageLeft_shoulder": [
+          888.4902912621359,
+          105.70388349514563
+        ],
+        "imageRight_shoulder": [
+          1139.6504854368932,
+          96.5
+        ],
+        "imageLeft_elbow": [
+          847.3613861386139,
+          318.1287128712871
+        ],
+        "imageRight_elbow": [
+          1168.1021505376343,
+          321.0698924731183
+        ],
+        "imageLeft_wrist": [
+          831.0432432432433,
+          520.9945945945946
+        ],
+        "imageRight_wrist": [
+          1127.0,
+          502.0
+        ],
+        "imageLeft_hip": [
+          917.0251256281407,
+          419.52763819095475
+        ],
+        "imageRight_hip": [
+          1082.425120772947,
+          422.6280193236715
+        ],
+        "imageLeft_knee": [
+          917.0,
+          749.0
+        ],
+        "imageRight_knee": [
+          1063.3921568627452,
+          761.8186274509804
+        ],
+        "imageLeft_ankle": [
+          936.1948717948718,
+          1031.1025641025642
+        ],
+        "imageRight_ankle": [
+          1021.6,
+          1060.1875
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        999.7251232005437,
+        421.0778287573131
+      ]
+    },
+    {
+      "frame": 88,
+      "pts_s": 2.969636,
+      "markers": {
+        "imageLeft_shoulder": [
+          885.4070351758794,
+          109.02010050251256
+        ],
+        "imageRight_shoulder": [
+          1139.6650485436894,
+          99.55825242718447
+        ],
+        "imageLeft_elbow": [
+          844.0245098039215,
+          321.26960784313724
+        ],
+        "imageRight_elbow": [
+          1168.1021505376343,
+          321.0698924731183
+        ],
+        "imageLeft_wrist": [
+          831.0427807486631,
+          524.0
+        ],
+        "imageRight_wrist": [
+          1133.3658536585365,
+          514.5804878048781
+        ],
+        "imageLeft_hip": [
+          917.0251256281407,
+          419.52763819095475
+        ],
+        "imageRight_hip": [
+          1082.4723618090452,
+          425.9748743718593
+        ],
+        "imageLeft_knee": [
+          920.3170731707318,
+          752.2146341463415
+        ],
+        "imageRight_knee": [
+          1063.4347826086957,
+          764.671497584541
+        ],
+        "imageLeft_ankle": [
+          942.5276381909548,
+          1031.0251256281408
+        ],
+        "imageRight_ankle": [
+          1018.8443113772455,
+          1060.065868263473
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        999.748743718593,
+        422.751256281407
+      ]
+    },
+    {
+      "frame": 89,
+      "pts_s": 3.003003,
+      "markers": {
+        "imageLeft_shoulder": [
+          882.0466321243523,
+          109.06735751295336
+        ],
+        "imageRight_shoulder": [
+          1136.4589371980676,
+          99.59420289855072
+        ],
+        "imageLeft_elbow": [
+          844.0201005025126,
+          327.5929648241206
+        ],
+        "imageRight_elbow": [
+          1168.1344086021506,
+          324.86559139784947
+        ],
+        "imageLeft_wrist": [
+          831.0569948186528,
+          527.5595854922279
+        ],
+        "imageRight_wrist": [
+          1139.5631067961165,
+          523.8106796116505
+        ],
+        "imageLeft_hip": [
+          917.0555555555555,
+          422.550505050505
+        ],
+        "imageRight_hip": [
+          1082.4723618090452,
+          429.0251256281407
+        ],
+        "imageLeft_knee": [
+          923.4360189573459,
+          752.1374407582938
+        ],
+        "imageRight_knee": [
+          1060.035175879397,
+          764.7386934673367
+        ],
+        "imageLeft_ankle": [
+          952.0251256281407,
+          1040.5276381909548
+        ],
+        "imageRight_ankle": [
+          1018.8443113772455,
+          1060.065868263473
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        999.7639586823004,
+        425.78781533932283
+      ]
+    },
+    {
+      "frame": 90,
+      "pts_s": 3.03637,
+      "markers": {
+        "imageLeft_shoulder": [
+          882.0466321243523,
+          109.06735751295336
+        ],
+        "imageRight_shoulder": [
+          1136.4589371980676,
+          99.59420289855072
+        ],
+        "imageLeft_elbow": [
+          844.0201005025126,
+          327.5929648241206
+        ],
+        "imageRight_elbow": [
+          1168.1344086021506,
+          324.86559139784947
+        ],
+        "imageLeft_wrist": [
+          831.0569948186528,
+          527.5595854922279
+        ],
+        "imageRight_wrist": [
+          1139.5631067961165,
+          523.8106796116505
+        ],
+        "imageLeft_hip": [
+          917.0555555555555,
+          422.550505050505
+        ],
+        "imageRight_hip": [
+          1082.4723618090452,
+          429.0251256281407
+        ],
+        "imageLeft_knee": [
+          923.4360189573459,
+          752.1374407582938
+        ],
+        "imageRight_knee": [
+          1060.035175879397,
+          764.7386934673367
+        ],
+        "imageLeft_ankle": [
+          952.0251256281407,
+          1040.5276381909548
+        ],
+        "imageRight_ankle": [
+          1018.8443113772455,
+          1060.065868263473
+        ]
+      },
+      "head": null,
+      "detected_count": 12,
+      "pelvis_midpoint_proxy": [
+        999.7639586823004,
+        425.78781533932283
+      ]
+    }
+  ],
+  "range_xy_px": {
+    "imageLeft_shoulder": [
+      73.04015149639827,
+      22.338842373498352
+    ],
+    "imageRight_shoulder": [
+      79.29701897018981,
+      15.935125628140696
+    ],
+    "imageLeft_elbow": [
+      76.41870327245988,
+      31.702970297029708
+    ],
+    "imageRight_elbow": [
+      70.02718762718769,
+      41.724287050023406
+    ],
+    "imageLeft_wrist": [
+      44.551797448782395,
+      34.57592374983682
+    ],
+    "imageRight_wrist": [
+      76.15017147273329,
+      60.383838383838395
+    ],
+    "imageLeft_hip": [
+      63.502157497303074,
+      22.623906565413847
+    ],
+    "imageRight_hip": [
+      60.472361809045196,
+      18.966869763899467
+    ],
+    "imageLeft_knee": [
+      60.41089332920524,
+      31.635529130802524
+    ],
+    "imageRight_knee": [
+      47.74197503617063,
+      28.72429882582162
+    ],
+    "imageLeft_ankle": [
+      76.3275646525309,
+      37.765118274298175
+    ],
+    "imageRight_ankle": [
+      54.083552477413036,
+      32.370663116731976
+    ]
+  },
+  "missing": [
+    "head",
+    "heel",
+    "toe",
+    "force",
+    "true floor contact"
+  ],
+  "three_pose_frames": [
+    0,
+    17,
+    86
+  ],
+  "three_pose_note": "observed snapshots, NOT named leftContact/Passing/rightContact without contact evidence",
+  "pts_interval_min_max_s": [
+    0.03336599999999956,
+    0.06673299999999993
+  ],
+  "movie_timing": "CFR derivative using median PTS delta; original timestamps retained in JSON, not original VFR muxing"
+}
