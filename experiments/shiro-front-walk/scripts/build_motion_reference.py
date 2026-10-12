@@ -59,11 +59,11 @@ for i,r in enumerate(rows):
   for px,py in pts:d.ellipse((px-4,py-4,px+4,py+4),fill=col)
  d.text((x+8,y+280),'Estimated 8..15+px; L/R not verified',fill='black')
 d.text((8,680),'Macleod et al. 2014 Video S2 / CC BY 4.0 / estimated proxies; no source frames reproduced',fill='black');out.save(P/'manual_side_proxy_chart.jpg')
-# 96fps carrier: six holds=12ticks, eight holds=9ticks, cycle=72ticks=0.75s.
-args=['/opt/homebrew/bin/ffmpeg','-v','error','-y','-f','rawvideo','-pix_fmt','rgb24','-s','390x844','-r','96','-i','pipe:0','-an','-c:v','libx264','-pix_fmt','yuv420p','-movflags','+faststart',str(P/'skeleton_6_vs_8_iPhone.mp4')]
+# 32fps carrier: six holds=4ticks, eight holds=3ticks, cycle=24ticks=0.75s.
+args=['/opt/homebrew/bin/ffmpeg','-v','error','-y','-f','rawvideo','-pix_fmt','rgb24','-s','390x844','-r','32','-i','pipe:0','-an','-c:v','libx264','-pix_fmt','yuv420p','-movflags','+faststart',str(P/'skeleton_6_vs_8_iPhone.mp4')]
 p=subprocess.Popen(args,stdin=subprocess.PIPE)
-for t in range(576):
- u=(t%72)/72;im=Image.new('RGB',(390,844),'#f5f0e6');d=ImageDraw.Draw(im)
+for t in range(192):
+ u=(t%24)/24;im=Image.new('RGB',(390,844),'#f5f0e6');d=ImageDraw.Draw(im)
  for n,y in [(6,35),(8,435)]:
   im.paste(draw(math.floor(u*n)/n).resize((384,384)),(3,y));d.text((12,y-20),f'{n} samples / 0.75s / {n/.75:.4f} fps',fill='black')
  d.text((12,825),'NOT gait acceptance / no Shiro imagery',fill='black');p.stdin.write(im.tobytes())

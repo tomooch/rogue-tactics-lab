@@ -77,7 +77,7 @@ Source H1 SHA256 `21a1aaa44e6d93028950f9bacf22b77f740659f2ba55e83e3b789d75383d1b
 
 8点は平均誤差が小さくても最大jumpが大きい。測定誤差・phase samplingとの関係があり、**8枚なら自然になるという結果ではない**。6点ではDownとPassing/Upが近似混合され、遊脚屈曲のピーク/接地直前の伸展を飛ばす可能性。8点は分離する余地があるが、元の誤った関節/identity/phaseを増やせば悪化する。等時8点=4つの意味pose自動成立でもない。
 
-診断MP4は390×844,H264/yuv420p,96fps carrier、上6/下8、72tick=0.75sを8周期。同じ表示倍率/骨格、6点を12tick、8点を9tick保持。0.75秒比較を整数tickで厳密に表すためcarrier96fpsを使用。物理iPhoneの96fps再生可否/表示dropは未観測。診断を通常8fpsのシロwalkと呼ばない。
+診断MP4は390×844,H264/yuv420p,32fps carrier、上6/下8、24tick=0.75sを8周期。同じ表示倍率/骨格、6点を4tick、8点を3tick保持。0.75秒比較を整数tickで厳密に表すためcarrier32fpsを使用。物理iPhoneの32fps再生可否/表示dropは未観測。診断を通常8fpsのシロwalkと呼ばない。
 
 ## Art workflow options / actual availability
 

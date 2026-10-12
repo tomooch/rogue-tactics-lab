@@ -1,7 +1,7 @@
 {
   "baseline_head": "e456de252d4865e7202f087c942ddda9b3642999",
   "scope": "research and designed side skeleton; not Shiro art",
-  "source_script_sha256": "bcc7c7f11dbfabbc8eed477e8a89462aeb487fc033c5b6175fa9dd684e295a32",
+  "source_script_sha256": "b61006f3e68a5685acc7f7ed99c4fc68e85b4968234a03a37b5b14247f7b8f8b",
   "manual_input_sha256": "1a18cdf832ba93c2a70f35af007b50800551ce16cad1819be22c9aee393141e6",
   "video_probe": {
     "programs": [],
@@ -12,7 +12,7 @@
         "width": 390,
         "height": 844,
         "pix_fmt": "yuv420p",
-        "r_frame_rate": "96/1"
+        "r_frame_rate": "32/1"
       }
     ],
     "format": {
@@ -21,10 +21,6 @@
   },
   "video_full_decode": "PASS during build",
   "matched_cycle_s": 0.75,
-  "frame_holds_96fps": {
-    "6": 12,
-    "8": 9
-  },
   "old_A_B_C0_Unity_diff": "NONE",
   "front_human_full_body_observed": false,
   "new_Unity": "NOT_RUN",
@@ -33,8 +29,12 @@
   "Human_Shiro": "NOT_ASSESSED",
   "artifact_hashes": {
     "skeleton_6_poses.jpg": "1262ebf5c0a0b627026e1d48eff870e71a629fb8c21e6bd78c17273966f3574e",
-    "skeleton_6_vs_8_iPhone.mp4": "51030bb5987f52e8d730199091d28eb62720d7de79dda3bc06a55e84b7840346",
+    "skeleton_6_vs_8_iPhone.mp4": "9afea5e1cfeb4ff9cc6a61d790847d7582b0e4b329f07a3c2163e04cafe172c4",
     "manual_side_proxy_chart.jpg": "4e8d67218244d62ff5b57112087e30665cf8d32f52208b43077beb36016f901b",
     "skeleton_8_poses.jpg": "a5936f09afc253c28a1103ac42344ff536380776f153458ad648369a46655692"
+  },
+  "frame_holds_32fps": {
+    "6": 4,
+    "8": 3
   }
 }
