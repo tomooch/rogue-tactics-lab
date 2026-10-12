@@ -1,3 +1,11 @@
+# Current existing-human-video motion-reference study — partial motion evidence / art not executed
+
+実歩行H1/H2をdecodeし、H1候補周期10.56–12.08sの手動下半身proxyを記録。正面全身の実動画はまだ再生確認できず、頭/胸/腕/荷重は未測定。共通0.75sの6点/8点側面骨格比較を作成したが、自然さ/シロartの成立証明ではない。AI歩行動画生成・シロ新画像生成・外部upload・新Unity実行なし。
+
+[研究・出典・時刻・ライセンス・モーション設計・方式比較・READY_FOR_CODEX](continuity/motion-reference/RESEARCH.md)、[手動proxy](continuity/motion-reference/manual_landmarks.json)、[6/8設計値とseam残差](continuity/motion-reference/motion_samples.json)、[側面診断MP4](continuity/motion-reference/skeleton_6_vs_8_iPhone.mp4)。推奨案は真正neutral/restレイヤー原画＋実動画ガイドの3主要pose pilot。正面観察資料・complete artwork・その作画能力は未充足、正式採用なし。A/B Human NGとC-0 FAILを維持、以下の旧証拠は保全する。
+
+---
+
 # Current C-0 shared-parts feasibility — FAIL / C-1 not executed
 
 ## Latest sources / Human result

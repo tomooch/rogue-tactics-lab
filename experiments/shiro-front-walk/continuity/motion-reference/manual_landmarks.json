@@ -1,0 +1,340 @@
+{
+  "schema_version": 1,
+  "source_url": "https://commons.wikimedia.org/wiki/File:Reflex-Control-of-Robotic-Gait-Using-Human-Walking-Data-pone.0109959.s005.ogv",
+  "download_url": "https://upload.wikimedia.org/wikipedia/commons/f/fa/Reflex-Control-of-Robotic-Gait-Using-Human-Walking-Data-pone.0109959.s005.ogv",
+  "source_sha256": "21a1aaa44e6d93028950f9bacf22b77f740659f2ba55e83e3b789d75383d1bae",
+  "credit": "Macleod C, Meng L, Conway B, Porr B (2014), PLOS ONE Video S2; Wikimedia Commons transcription",
+  "license": "CC BY 4.0",
+  "license_url": "https://creativecommons.org/licenses/by/4.0/",
+  "video": {
+    "width": 640,
+    "height": 360,
+    "fps": 25,
+    "duration_s": 42.52
+  },
+  "observation": "decoded sequential frames; overview 0..42s, detailed 10.00..12.08s; no source footage rehosted",
+  "cycle_candidate_s": [
+    10.56,
+    12.08
+  ],
+  "cycle_duration_estimate_s": 1.52,
+  "cycle_uncertainty_s": 0.12,
+  "time_mapping": "source_time=10.56+1.52*(target_time/0.75); target is faster than observed person",
+  "camera": "static side/lower body; head/chest/shoulders/arm swing outside usable crop",
+  "left_right": "A/B are traced phase legs, NOT verified anatomical left/right; Shiro L=A is design mapping only",
+  "missing_landmarks": [
+    "head",
+    "chest",
+    "shoulders",
+    "arm swing",
+    "true pelvis centre",
+    "front-plane hip spread",
+    "heel/toe contact timing precision"
+  ],
+  "contact_windows_estimated_s": {
+    "A": [
+      10.52,
+      10.64
+    ],
+    "B": [
+      11.12,
+      11.32
+    ],
+    "next_A": [
+      11.96,
+      12.12
+    ]
+  },
+  "passing_windows_estimated_s": [
+    [
+      10.94,
+      11.06
+    ],
+    [
+      11.7,
+      11.9
+    ]
+  ],
+  "load_note": "No force measurement used; pressure graph not digitized; contact/load and hidden joint centres remain estimates",
+  "samples": [
+    {
+      "requested_time_s": 10.56,
+      "phase": 0.0,
+      "points": {
+        "A_hip_proxy": [
+          450,
+          135
+        ],
+        "A_knee_proxy": [
+          433,
+          197
+        ],
+        "A_ankle_proxy": [
+          390,
+          278
+        ],
+        "B_hip_proxy": [
+          507,
+          132
+        ],
+        "B_knee_proxy": [
+          548,
+          200
+        ],
+        "B_ankle_proxy": [
+          555,
+          280
+        ]
+      },
+      "quality": "manual estimates: ankle +/-8px, knee +/-10px, hidden hip +/-15px or more; crossed legs lower confidence; A/B identity uncertainty"
+    },
+    {
+      "requested_time_s": 10.75,
+      "phase": 0.125,
+      "points": {
+        "A_hip_proxy": [
+          459,
+          134
+        ],
+        "A_knee_proxy": [
+          445,
+          202
+        ],
+        "A_ankle_proxy": [
+          430,
+          280
+        ],
+        "B_hip_proxy": [
+          510,
+          127
+        ],
+        "B_knee_proxy": [
+          544,
+          195
+        ],
+        "B_ankle_proxy": [
+          577,
+          277
+        ]
+      },
+      "quality": "manual estimates: ankle +/-8px, knee +/-10px, hidden hip +/-15px or more; crossed legs lower confidence; A/B identity uncertainty"
+    },
+    {
+      "requested_time_s": 10.94,
+      "phase": 0.25,
+      "points": {
+        "A_hip_proxy": [
+          472,
+          137
+        ],
+        "A_knee_proxy": [
+          453,
+          215
+        ],
+        "A_ankle_proxy": [
+          469,
+          304
+        ],
+        "B_hip_proxy": [
+          493,
+          124
+        ],
+        "B_knee_proxy": [
+          534,
+          193
+        ],
+        "B_ankle_proxy": [
+          557,
+          263
+        ]
+      },
+      "quality": "manual estimates: ankle +/-8px, knee +/-10px, hidden hip +/-15px or more; crossed legs lower confidence; A/B identity uncertainty"
+    },
+    {
+      "requested_time_s": 11.13,
+      "phase": 0.375,
+      "points": {
+        "A_hip_proxy": [
+          489,
+          141
+        ],
+        "A_knee_proxy": [
+          479,
+          217
+        ],
+        "A_ankle_proxy": [
+          500,
+          294
+        ],
+        "B_hip_proxy": [
+          453,
+          138
+        ],
+        "B_knee_proxy": [
+          458,
+          217
+        ],
+        "B_ankle_proxy": [
+          438,
+          300
+        ]
+      },
+      "quality": "manual estimates: ankle +/-8px, knee +/-10px, hidden hip +/-15px or more; crossed legs lower confidence; A/B identity uncertainty"
+    },
+    {
+      "requested_time_s": 11.32,
+      "phase": 0.5,
+      "points": {
+        "A_hip_proxy": [
+          514,
+          145
+        ],
+        "A_knee_proxy": [
+          552,
+          220
+        ],
+        "A_ankle_proxy": [
+          558,
+          301
+        ],
+        "B_hip_proxy": [
+          462,
+          140
+        ],
+        "B_knee_proxy": [
+          432,
+          207
+        ],
+        "B_ankle_proxy": [
+          414,
+          294
+        ]
+      },
+      "quality": "manual estimates: ankle +/-8px, knee +/-10px, hidden hip +/-15px or more; crossed legs lower confidence; A/B identity uncertainty"
+    },
+    {
+      "requested_time_s": 11.51,
+      "phase": 0.625,
+      "points": {
+        "A_hip_proxy": [
+          515,
+          130
+        ],
+        "A_knee_proxy": [
+          552,
+          190
+        ],
+        "A_ankle_proxy": [
+          583,
+          271
+        ],
+        "B_hip_proxy": [
+          457,
+          132
+        ],
+        "B_knee_proxy": [
+          444,
+          200
+        ],
+        "B_ankle_proxy": [
+          438,
+          294
+        ]
+      },
+      "quality": "manual estimates: ankle +/-8px, knee +/-10px, hidden hip +/-15px or more; crossed legs lower confidence; A/B identity uncertainty"
+    },
+    {
+      "requested_time_s": 11.7,
+      "phase": 0.75,
+      "points": {
+        "A_hip_proxy": [
+          499,
+          147
+        ],
+        "A_knee_proxy": [
+          515,
+          214
+        ],
+        "A_ankle_proxy": [
+          548,
+          287
+        ],
+        "B_hip_proxy": [
+          459,
+          145
+        ],
+        "B_knee_proxy": [
+          474,
+          221
+        ],
+        "B_ankle_proxy": [
+          472,
+          310
+        ]
+      },
+      "quality": "manual estimates: ankle +/-8px, knee +/-10px, hidden hip +/-15px or more; crossed legs lower confidence; A/B identity uncertainty"
+    },
+    {
+      "requested_time_s": 11.89,
+      "phase": 0.875,
+      "points": {
+        "A_hip_proxy": [
+          464,
+          141
+        ],
+        "A_knee_proxy": [
+          457,
+          209
+        ],
+        "A_ankle_proxy": [
+          429,
+          310
+        ],
+        "B_hip_proxy": [
+          497,
+          139
+        ],
+        "B_knee_proxy": [
+          504,
+          213
+        ],
+        "B_ankle_proxy": [
+          481,
+          310
+        ]
+      },
+      "quality": "manual estimates: ankle +/-8px, knee +/-10px, hidden hip +/-15px or more; crossed legs lower confidence; A/B identity uncertainty"
+    },
+    {
+      "requested_time_s": 12.08,
+      "phase": 1.0,
+      "points": {
+        "A_hip_proxy": [
+          449,
+          145
+        ],
+        "A_knee_proxy": [
+          433,
+          212
+        ],
+        "A_ankle_proxy": [
+          389,
+          301
+        ],
+        "B_hip_proxy": [
+          506,
+          141
+        ],
+        "B_knee_proxy": [
+          550,
+          208
+        ],
+        "B_ankle_proxy": [
+          555,
+          301
+        ]
+      },
+      "quality": "manual estimates: ankle +/-8px, knee +/-10px, hidden hip +/-15px or more; crossed legs lower confidence; A/B identity uncertainty"
+    }
+  ]
+}
