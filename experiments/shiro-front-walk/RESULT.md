@@ -1,4 +1,12 @@
-# Current M0 / R0 execution results — frontal marker PARTIAL / official rig tooling PASS
+# Current S0 genuine source-art authoring trial — art FAIL / source identity unresolved
+
+Latest Human S0→S3 closed-loop AUTO-GO was executed as a bounded actual local authoring trial, not a research-only report. New closed SVG paint for hidden hip/knee/shoulder/elbow/cuff/skirt regions was authored and raster-rendered into nine named editable SVG/ORA layers. No C0 raster pieces or private reference image upload were used. Plain/detail variants plus one reactive joint-outline repair and fresh range renders were retained. Executor and independent actual-image review: simplified boot shape/material/ornaments and remaining knee/elbow shading/contour breaks fail the Shiro source-art quality gate. File authoring ability does not prove a complete Shiro neutral rig.
+
+**S0 art FAIL; canonical master identity also unresolved. S1/S2/S3 NOT EXECUTED**, because prerequisite artwork is not established. No new Shiro walk video, Unity/Shiro replay or Human naturalness acceptance is claimed. Existing M0/R0 PASS/PARTIAL statuses stay historical and are not substituted for new S3. [Executed S0 methods, artifacts, limited repair, source/tool blockers, next executable choices](continuity/S0/README.md), [new paint / pivots / missing layers](continuity/S0/authoring_manifest.json), [actual visual review](continuity/S0/visual_review.json). Artifact QA is separately executed by the detached runner and recorded without promoting art FAIL to PASS. A failed part-range diagnostic is explicitly labelled **NOT SHIRO / NOT WALKING / NOT UNITY**.
+
+---
+
+# Preserved M0 / R0 execution results — frontal marker PARTIAL / official rig tooling PASS
 
 M0/R0 were actually executed under [Design Office6125123428](https://github.com/tomooch/rogue-tactics-lab/pull/12#issuecomment-6125123428), independently of prior research. M0 downloaded/decode-viewed91frontal source frames; 12 shoulder/elbow/wrist/hip/knee/ankle markers, 4overlap frames explicitly null. **Head is absent in source, so M0 remains PARTIAL**, not full head/contact/neutral motion coverage. R0 used isolated actual Unity6000.3.25f1, official Animation13.0.0/PSDImporter12.0.0 Fei sample; final source `127bb5441772f8f8e7176f2ef5b78cd5bbb6be65`, 180PlayModeframes/8loopwraps/3bone+mesh signatures/6light-dark390×844captures, root0, no runtime exceptions. **R0 tooling PASS limited to these sample poses**; hips covered by tunic, staff independent, no Shiro art/natural walk acceptance.
 

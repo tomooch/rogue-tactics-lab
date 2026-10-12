@@ -88,9 +88,14 @@ def main():
         neutral=''.join(f'<g id="{k}" inkscape:groupmode="layer" inkscape:label="{k}">{body}</g>' for k,body in p.items())
         (target/'editable_pilot.svg').write_text(svg(neutral));render(args.node,args.sharp,neutral,target/'neutral.png')
         for key in reversed(p):ET.SubElement(xmlstack,'layer',{'name':key,'src':f'data/{key}.png','opacity':'1.0','visibility':'visible','composite-op':'svg:src-over','x':'0','y':'0'})
+        # OpenRaster's merged image must represent its actual raster layers,
+        # not a separately rasterized whole SVG with different AA rounding.
+        composite=Image.new('RGBA',(512,512))
+        for key in p:composite.alpha_composite(Image.open(target/'layers'/f'{key}.png').convert('RGBA'))
+        mergedbuf=io.BytesIO();composite.save(mergedbuf,format='PNG')
         with zipfile.ZipFile(target/'editable_pilot.ora','w') as z:
             z.writestr('mimetype','image/openraster',compress_type=zipfile.ZIP_STORED)
-            z.writestr('stack.xml',ET.tostring(stack));z.write(target/'neutral.png','mergedimage.png')
+            z.writestr('stack.xml',ET.tostring(stack));z.writestr('mergedimage.png',mergedbuf.getvalue())
             for key in p:z.write(target/'layers'/f'{key}.png',f'data/{key}.png')
             thumb=Image.open(target/'neutral.png');thumb.thumbnail((256,256));buf=io.BytesIO();thumb.save(buf,format='PNG');z.writestr('Thumbnails/thumbnail.png',buf.getvalue())
         poseinfo=[]

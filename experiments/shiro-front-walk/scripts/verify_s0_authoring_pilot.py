@@ -27,8 +27,8 @@ def main():
                 composite.alpha_composite(im)
             merged=Image.open(io.BytesIO(z.read('mergedimage.png'))).convert('RGBA')
             delta=np.abs(np.asarray(composite,dtype=int)-np.asarray(merged,dtype=int))
-            # Independent layer rasterization versus whole SVG can round AA.
-            maximum=int(delta.max());assert maximum<=3,maximum
+            # Require the ORA merged image to exactly represent its stored layers.
+            maximum=int(delta.max());assert maximum==0,maximum
         frames=[]
         for i in range(3):
             im=Image.open(target/f'range_{i}.png');assert im.mode=='RGBA' and im.size==(512,512)
