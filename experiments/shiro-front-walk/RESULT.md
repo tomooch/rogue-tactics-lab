@@ -29,6 +29,8 @@ Human確定: **A NG、B NG、Bの足滑りは気にならない、「バラバ�
 
 ## C-0 QA result
 
+Exact C-0 source `1ccc436894e56cd6d8a0389a048b2d23bf3f378c`でvalidatorを実行し、C-0 FAILを記録。既存Python回帰9/9 PASS（exit0）。command・時刻・QA hash・ログは`continuity/C0/commit_verification.json`。この後の証拠commitは画像/配置script/Unityを変更しない。
+
 `continuity/C0/qa.json`。RGBA512、四辺40px以上（最小44px）、境界非越境、alpha0 RGB0、旧A/B全hash不変、元bind復元、source face ROI、共通頭部source、rigid transform/数値上の関節長 constancyはPASS。膝hinge誤差は約1e-13 source px。
 
 しかし関節長は推定2D試験点の数値検査であり、隠れた実解剖学的形状の証明ではない。元画像への接続paint/遮蔽/歩行位相はFAILまたは未成立。既知外周mask色は最終各pose22/23/22画素でFAIL。alpha255も含むため顔・衣装の輪郭を無差別削除してPASSにしない。顔一致やgeometry PASSでC-0合格にしない。

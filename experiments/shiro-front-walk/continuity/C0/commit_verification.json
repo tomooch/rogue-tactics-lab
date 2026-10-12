@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "tested_source_commit": "1ccc436894e56cd6d8a0389a048b2d23bf3f378c",
+  "baseline_commit": "8524ddb4a389deb878a5487611e02ecd196bd70c",
+  "job_id": "24202693-1c58-4f4a-84af-2e56ebc16ab9",
+  "command": [
+    "/bin/zsh",
+    "-c",
+    "/Users/tomoki/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3 experiments/shiro-front-walk/scripts/validate_c0_feasibility.py && /Users/tomoki/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3 -m unittest discover -s experiments/shiro-front-walk/tests -v"
+  ],
+  "cwd": "/private/tmp/rogue-shiro-front-walk-spike",
+  "started_at": "2026-10-12T11:43:37.444538+00:00",
+  "completed_at": "2026-10-12T11:43:38.807227+00:00",
+  "environment": "Local Mac; Python 3.12 / Pillow 12.3 / NumPy 2.3.5",
+  "process_exit_code": 0,
+  "C0_gate": "FAIL",
+  "process_exit_note": "Exit 0 confirms evidence creation/guards/regressions, not C0 acceptance.",
+  "regression_tests": "9/9 PASS",
+  "qa_sha256": "67b8cc6bda8232183f332ea1f75aa67da2aa5825d5908fbbb1b47f440594f2d1",
+  "Unity_tree_unchanged_from_baseline": true,
+  "Unity_C": "NOT_RUN_BY_C0_GATE",
+  "C1": "NOT_RUN_BY_C0_GATE",
+  "Human_C": "NOT_ASSESSED",
+  "known_exterior_mask_pixels": [
+    22,
+    23,
+    22
+  ],
+  "artifact_scope": "Three intended key-pose trials, not final atlas or walk loop; sources and A/B preserved."
+}
