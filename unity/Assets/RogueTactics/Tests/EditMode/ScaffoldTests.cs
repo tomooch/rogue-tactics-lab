@@ -37,7 +37,8 @@ namespace RogueTactics.Tests
             Assert.That(PlayerSettings.allowedAutorotateToLandscapeRight, Is.False);
             Assert.That(PlayerSettings.defaultScreenWidth, Is.EqualTo(390));
             Assert.That(PlayerSettings.defaultScreenHeight, Is.EqualTo(844));
-            Assert.That(EditorBuildSettings.scenes.Single().path, Is.EqualTo("Assets/RogueTactics/Scenes/Stage0.unity"));
+            Assert.That(EditorBuildSettings.scenes.Any(s => s.enabled && s.path == "Assets/RogueTactics/Scenes/Stage0.unity"), Is.True);
+            Assert.That(EditorBuildSettings.scenes.First().path, Is.EqualTo("Assets/RogueTactics/Scenes/G1Battle.unity"));
         }
         [Test] public void UrpIsConfigured() => Assert.That(GraphicsSettings.defaultRenderPipeline, Is.Not.Null);
     }
