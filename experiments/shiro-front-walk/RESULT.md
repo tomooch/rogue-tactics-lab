@@ -1,4 +1,10 @@
-# Current S0 genuine source-art authoring trial — art FAIL / source identity unresolved
+# Current S0 raster pilot — canonical identity resolved / local hidden-paint art FAIL
+
+Human attached JPEG matches SHA `59e6186b126d1c7c5ac05e577340af79bb5eddb04d0aaff270398686c465d317`. ZIP full-body PNG has the same dimensions but different bytes and decoded pixels; attached JPEG is canonical. Original unchanged. Local CPU extraction retains exact RGB but has visible hair/staff halos. Two local inpainting methods plus one mask correction produced editable two-layer ORA diagnostics; both smear hidden skin/cloth structure. Executor and independent actual-image review: **S0 art FAIL; S1/S2/S3 NOT EXECUTED**. This bounded trial does not disprove all local raster authoring. No original/derived artwork upload, no vector redraw, no new Unity success, no Human GO. [Methods, private preview locations, measurements, limits and next executable choices](continuity/S0-raster/README.md).
+
+---
+
+# Preserved S0 vector trial — art FAIL / identity was unresolved at that time
 
 Latest Human S0→S3 closed-loop AUTO-GO was executed as a bounded actual local authoring trial, not a research-only report. New closed SVG paint for hidden hip/knee/shoulder/elbow/cuff/skirt regions was authored and raster-rendered into nine named editable SVG/ORA layers. No C0 raster pieces or private reference image upload were used. Plain/detail variants plus one reactive joint-outline repair and fresh range renders were retained. Executor and independent actual-image review: simplified boot shape/material/ornaments and remaining knee/elbow shading/contour breaks fail the Shiro source-art quality gate. File authoring ability does not prove a complete Shiro neutral rig.
 

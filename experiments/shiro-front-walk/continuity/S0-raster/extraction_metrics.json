@@ -1,0 +1,35 @@
+{
+  "source_sha256": "59e6186b126d1c7c5ac05e577340af79bb5eddb04d0aaff270398686c465d317",
+  "source_unchanged_after": true,
+  "model_sha256": "f15622d853e8260172812b657053460e20806f04b9e05147d49af7bed31a6e99",
+  "model_revision": "493cb60893f47441b26ec4fb9a306bce9e342982",
+  "model_license": "Apache-2.0",
+  "provider": [
+    "CPUExecutionProvider"
+  ],
+  "input_shape": [
+    1,
+    3,
+    1024,
+    1024
+  ],
+  "output_shape": [
+    1,
+    1,
+    1024,
+    1024
+  ],
+  "source_rgb_unchanged": true,
+  "nonzero_alpha_bbox": [
+    29,
+    0,
+    1060,
+    1357
+  ],
+  "alpha_soft_pixels": 257876,
+  "status": "MASKING_DIAGNOSTIC_REQUIRES_VISUAL_REVIEW",
+  "hidden_paint_created": false,
+  "rig_created": false,
+  "unity_run": false,
+  "external_source_upload": false
+}
