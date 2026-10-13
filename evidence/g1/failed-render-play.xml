@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="2" result="Failed(Child)" total="2" passed="1" failed="1" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-13 05:57:24Z" end-time="2026-10-13 05:57:27Z" duration="2.4287784">
+  <test-suite type="TestSuite" id="1011" name="Rogue Tactics Lab" fullname="Rogue Tactics Lab" runstate="Runnable" testcasecount="2" result="Failed" site="Child" start-time="2026-10-13 05:57:24Z" end-time="2026-10-13 05:57:27Z" duration="2.428778" total="2" passed="1" failed="1" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1005" name="RogueTactics.Tests.PlayMode.dll" fullname="/private/tmp/rogue-gameplay-g1/unity/Library/ScriptAssemblies/RogueTactics.Tests.PlayMode.dll" runstate="Runnable" testcasecount="2" result="Failed" site="Child" start-time="2026-10-13 05:57:24Z" end-time="2026-10-13 05:57:27Z" duration="2.424297" total="2" passed="1" failed="1" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="91180" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1006" name="RogueTactics" fullname="RogueTactics" runstate="Runnable" testcasecount="2" result="Failed" site="Child" start-time="2026-10-13 05:57:24Z" end-time="2026-10-13 05:57:27Z" duration="2.423958" total="2" passed="1" failed="1" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1007" name="Tests" fullname="RogueTactics.Tests" runstate="Runnable" testcasecount="2" result="Failed" site="Child" start-time="2026-10-13 05:57:24Z" end-time="2026-10-13 05:57:27Z" duration="2.423709" total="2" passed="1" failed="1" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestFixture" id="1001" name="G1InteractionTests" fullname="RogueTactics.Tests.G1InteractionTests" classname="RogueTactics.Tests.G1InteractionTests" runstate="Runnable" testcasecount="1" result="Failed" site="Child" start-time="2026-10-13 05:57:24Z" end-time="2026-10-13 05:57:27Z" duration="2.215396" total="1" passed="0" failed="1" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-case id="1002" name="InputToBattleToAlternativeComparisonRendersOnlyCoreEvents" fullname="RogueTactics.Tests.G1InteractionTests.InputToBattleToAlternativeComparisonRendersOnlyCoreEvents" methodname="InputToBattleToAlternativeComparisonRendersOnlyCoreEvents" classname="RogueTactics.Tests.G1InteractionTests" runstate="Runnable" seed="1399158399" result="Failed" start-time="2026-10-13 05:57:24Z" end-time="2026-10-13 05:57:27Z" duration="2.208843" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <failure>
+                <message><![CDATA[  Attack must be rendered and hit
+  Expected: greater than 0
+  But was:  0
+]]></message>
+                <stack-trace><![CDATA[at RogueTactics.Tests.G1InteractionTests.Click (RogueTactics.Presentation.G1View view, System.String id) [0x000a6] in /private/tmp/rogue-gameplay-g1/unity/Assets/RogueTactics/Tests/PlayMode/G1InteractionTests.cs:28
+at RogueTactics.Tests.G1InteractionTests+<InputToBattleToAlternativeComparisonRendersOnlyCoreEvents>d__4.MoveNext () [0x00212] in /private/tmp/rogue-gameplay-g1/unity/Assets/RogueTactics/Tests/PlayMode/G1InteractionTests.cs:63
+at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in ./Library/PackageCache/com.unity.test-framework@bd7f943e9647/UnityEngine.TestRunner/NUnitExtensions/Attributes/TestEnumerator.cs:44
+]]></stack-trace>
+              </failure>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1003" name="PortraitSmokeTests" fullname="RogueTactics.Tests.PortraitSmokeTests" classname="RogueTactics.Tests.PortraitSmokeTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-13 05:57:27Z" end-time="2026-10-13 05:57:27Z" duration="0.207656" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1004" name="Stage0RendersAtPortraitReferenceWithoutHorizontalClipping" fullname="RogueTactics.Tests.PortraitSmokeTests.Stage0RendersAtPortraitReferenceWithoutHorizontalClipping" methodname="Stage0RendersAtPortraitReferenceWithoutHorizontalClipping" classname="RogueTactics.Tests.PortraitSmokeTests" runstate="Runnable" seed="303272428" result="Passed" start-time="2026-10-13 05:57:27Z" end-time="2026-10-13 05:57:27Z" duration="0.206524" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[Saving results to: /Users/tomoki/Library/Application Support/Rogue Tactics Lab/Rogue Tactics Lab/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

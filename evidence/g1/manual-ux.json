@@ -1,0 +1,46 @@
+{
+  "source_head": "2d200ffb7769b1a286f7d0f3b8f60a4c0ecd2ee6",
+  "date_jst": "2026-10-13",
+  "environment": "macOS Apple Silicon / Unity Standalone player 6000.3.25f1",
+  "game_dimensions": [
+    390,
+    844
+  ],
+  "window_capture_dimensions": [
+    390,
+    900
+  ],
+  "input": "Computer Use real pointer (200ms press) and keyboard, not direct callback",
+  "observed_paths": [
+    "Attack > prediction > Start > Next > Play to end > result",
+    "Baseline > Protect > prediction > Start > Next > Play to end > comparison",
+    "Rules > Trials / predictions > retained predictions and hashes",
+    "Close > Baseline > ready to retry"
+  ],
+  "attack": {
+    "outcome": "Victory",
+    "actions": 14,
+    "hp": [
+      0,
+      16,
+      12,
+      10
+    ],
+    "alive": 3,
+    "heals_remaining": 1
+  },
+  "protect": {
+    "outcome": "Victory",
+    "actions": 14,
+    "hp": [
+      16,
+      16,
+      12,
+      10
+    ],
+    "alive": 4,
+    "heals_remaining": 0
+  },
+  "human_play": false,
+  "real_device": false
+}
