@@ -1,0 +1,92 @@
+{
+  "source_commit": "f0776ddfc7569edd381781b4ecae91bb736112ad",
+  "baseline_PR_head": "0572960aaf21855dff0b05467e8c64339a4480c1",
+  "prior_Unity_source": "6ed401b866d7a6c77cea8ad8a12ed067e3468740",
+  "editor": "6000.3.25f1",
+  "actual_Play_Mode": true,
+  "import_compile": "PASS",
+  "B_atlas_sha256": "8be8019ea74d4bcdb376f2bf6b6fd6d9e24174a185aa7b166dd0d096a5964810",
+  "actual_order_and_wrap": "PASS",
+  "frame_rate": 8,
+  "clip_seconds": 0.75,
+  "actual_transition_count": 17,
+  "full_frame_game_time_intervals_seconds": {
+    "min": 0.12483596801757812,
+    "max": 0.12550711631774902,
+    "mean": 0.12504029870033265,
+    "first_partial_interval_excluded": true
+  },
+  "root_position": {
+    "x": 0.0,
+    "y": 0.0,
+    "z": 0.0
+  },
+  "per_pose_root_compensation": false,
+  "pivot_bottom_left_px": [
+    256,
+    256
+  ],
+  "face_world_x_range": 0.010831298306584358,
+  "torso_world_x_range": 0.006825866177678108,
+  "tests": [
+    {
+      "phase": "EditMode",
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "exit_code": 0,
+      "source_commit": "f0776ddfc7569edd381781b4ecae91bb736112ad",
+      "command": [
+        "/Applications/Unity/Hub/Editor/6000.3.25f1/Unity.app/Contents/MacOS/Unity",
+        "-batchmode",
+        "-projectPath",
+        "/private/tmp/rogue-shiro-front-walk-spike/unity",
+        "-runTests",
+        "-testPlatform",
+        "EditMode",
+        "-logFile",
+        "/private/tmp/shiro-anchor-B-tests/EditMode.log",
+        "-testResults",
+        "/private/tmp/shiro-anchor-B-tests/EditMode.xml"
+      ]
+    },
+    {
+      "phase": "PlayMode",
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "exit_code": 0,
+      "source_commit": "f0776ddfc7569edd381781b4ecae91bb736112ad",
+      "command": [
+        "/Applications/Unity/Hub/Editor/6000.3.25f1/Unity.app/Contents/MacOS/Unity",
+        "-batchmode",
+        "-projectPath",
+        "/private/tmp/rogue-shiro-front-walk-spike/unity",
+        "-runTests",
+        "-testPlatform",
+        "PlayMode",
+        "-logFile",
+        "/private/tmp/shiro-anchor-B-tests/PlayMode.log",
+        "-testResults",
+        "/private/tmp/shiro-anchor-B-tests/PlayMode.xml"
+      ]
+    }
+  ],
+  "renders": {
+    "count": 12,
+    "size": [
+      390,
+      844
+    ],
+    "light_dark": true,
+    "visually_inspected": true
+  },
+  "source_changed_after_test": false,
+  "Human_B": "PENDING",
+  "limits": [
+    "Physical iPhone / iOS build not observed",
+    "No CI",
+    "World coordinates use measured source landmarks projected through actual renderer transform; not independent anatomical landmark detection",
+    "Human naturalness/cuteness cannot be inferred from technical PASS"
+  ]
+}

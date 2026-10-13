@@ -1,0 +1,159 @@
+{
+    "atlasSha256": "8be8019ea74d4bcdb376f2bf6b6fd6d9e24174a185aa7b166dd0d096a5964810",
+    "rootPosition": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 0.0
+    },
+    "transitions": [
+        {
+            "sprite": "shiro_walk_front_01",
+            "gameTime": 0.05176490917801857,
+            "normalizedTime": 0.011885997839272023
+        },
+        {
+            "sprite": "shiro_walk_front_02",
+            "gameTime": 0.16792336106300355,
+            "normalizedTime": 0.16676396131515504
+        },
+        {
+            "sprite": "shiro_walk_front_03",
+            "gameTime": 0.29304027557373049,
+            "normalizedTime": 0.3335861265659332
+        },
+        {
+            "sprite": "shiro_walk_front_04",
+            "gameTime": 0.41802287101745608,
+            "normalizedTime": 0.5002292990684509
+        },
+        {
+            "sprite": "shiro_walk_front_05",
+            "gameTime": 0.542924702167511,
+            "normalizedTime": 0.6667648553848267
+        },
+        {
+            "sprite": "shiro_walk_front_06",
+            "gameTime": 0.6679230332374573,
+            "normalizedTime": 0.8334287405014038
+        },
+        {
+            "sprite": "shiro_walk_front_01",
+            "gameTime": 0.7929313778877258,
+            "normalizedTime": 1.0001063346862794
+        },
+        {
+            "sprite": "shiro_walk_front_02",
+            "gameTime": 0.9180183410644531,
+            "normalizedTime": 1.1668891906738282
+        },
+        {
+            "sprite": "shiro_walk_front_03",
+            "gameTime": 1.0430307388305665,
+            "normalizedTime": 1.333573341369629
+        },
+        {
+            "sprite": "shiro_walk_front_04",
+            "gameTime": 1.1680327653884888,
+            "normalizedTime": 1.5002431869506837
+        },
+        {
+            "sprite": "shiro_walk_front_05",
+            "gameTime": 1.2930271625518799,
+            "normalizedTime": 1.6669025421142579
+        },
+        {
+            "sprite": "shiro_walk_front_06",
+            "gameTime": 1.417863130569458,
+            "normalizedTime": 1.8333505392074586
+        },
+        {
+            "sprite": "shiro_walk_front_01",
+            "gameTime": 1.5430325269699097,
+            "normalizedTime": 2.0002429485321047
+        },
+        {
+            "sprite": "shiro_walk_front_02",
+            "gameTime": 1.6679198741912842,
+            "normalizedTime": 2.1667582988739015
+        },
+        {
+            "sprite": "shiro_walk_front_03",
+            "gameTime": 1.79285728931427,
+            "normalizedTime": 2.333343744277954
+        },
+        {
+            "sprite": "shiro_walk_front_04",
+            "gameTime": 1.9180207252502442,
+            "normalizedTime": 2.500227212905884
+        },
+        {
+            "sprite": "shiro_walk_front_05",
+            "gameTime": 2.043527841567993,
+            "normalizedTime": 2.6675686836242677
+        }
+    ],
+    "faceWorld": [
+        {
+            "x": -0.027080077677965165,
+            "y": 0.6571406722068787,
+            "z": 0.0
+        },
+        {
+            "x": -0.02995803765952587,
+            "y": 0.6671806573867798,
+            "z": 0.0
+        },
+        {
+            "x": -0.03411407396197319,
+            "y": 0.6583331227302551,
+            "z": 0.0
+        },
+        {
+            "x": -0.026975708082318307,
+            "y": 0.6873266696929932,
+            "z": 0.0
+        },
+        {
+            "x": -0.037807006388902667,
+            "y": 0.6509425640106201,
+            "z": 0.0
+        },
+        {
+            "x": -0.03150482103228569,
+            "y": 0.6952877640724182,
+            "z": 0.0
+        }
+    ],
+    "torsoWorld": [
+        {
+            "x": 0.025969848036766053,
+            "y": 0.13736678659915925,
+            "z": 0.0
+        },
+        {
+            "x": 0.03225036710500717,
+            "y": 0.14254027605056764,
+            "z": 0.0
+        },
+        {
+            "x": 0.032336119562387469,
+            "y": 0.1425851434469223,
+            "z": 0.0
+        },
+        {
+            "x": 0.025510253384709359,
+            "y": 0.1842024177312851,
+            "z": 0.0
+        },
+        {
+            "x": 0.030707092955708505,
+            "y": 0.1072874441742897,
+            "z": 0.0
+        },
+        {
+            "x": 0.030734863132238389,
+            "y": 0.20949874818325044,
+            "z": 0.0
+        }
+    ]
+}

@@ -1,0 +1,76 @@
+{
+  "tested_Unity_source_commit": "127bb5441772f8f8e7176f2ef5b78cd5bbb6be65",
+  "baseline_PR_HEAD": "eef0b0eb15241ff349dd14d3926fe5d127943faa",
+  "environment": "Local Mac Apple Silicon / Unity6000.3.25f1(e1dba0a9aba4)",
+  "completion": {
+    "schema_version": 1,
+    "job_id": "efb98587-5848-4c03-a141-e004d7da6a34",
+    "root_thread_id": "01a12b8b-cc88-7592-9846-85a0ade0eb48",
+    "purpose": "R0 actual sample three poses fresh output with corrected Editor Play lifecycle",
+    "command": [
+      "/Applications/Unity/Hub/Editor/6000.3.25f1/Unity.app/Contents/MacOS/Unity",
+      "-batchmode",
+      "-projectPath",
+      "/private/tmp/shiro-R0-unity",
+      "-executeMethod",
+      "R0Probe.Run",
+      "-logFile",
+      "/private/tmp/shiro-R0-play-3.log"
+    ],
+    "cwd": "/private/tmp/rogue-shiro-front-walk-spike",
+    "started_at": "2026-10-12T16:27:16.226511+00:00",
+    "completed_at": "2026-10-12T16:27:29.912142+00:00",
+    "duration_seconds": 13.685859834076837,
+    "terminal_status": "completed",
+    "exit_code": 0,
+    "runner_status": "terminal_observed",
+    "runner_error": null,
+    "stdout_location": "/private/tmp/shiro-spike-jobs/R0-play-3/stdout.log",
+    "stderr_location": "/private/tmp/shiro-spike-jobs/R0-play-3/stderr.log",
+    "artifact_locations": [
+      "/private/tmp/shiro-R0-output/run3/runtime.json"
+    ],
+    "queue_delivery_status": "sent",
+    "queue_attempts": [
+      {
+        "attempt": 1,
+        "started_at": "2026-10-12T16:27:29.913376+00:00",
+        "exit_code": 0,
+        "error": null,
+        "stdout_location": "/private/tmp/shiro-spike-jobs/R0-play-3/queue-1.stdout.log",
+        "stderr_location": "/private/tmp/shiro-spike-jobs/R0-play-3/queue-1.stderr.log",
+        "completed_at": "2026-10-12T16:27:30.194044+00:00"
+      }
+    ],
+    "unverified_conditions": [],
+    "progress": {
+      "events_location": "/private/tmp/shiro-spike-jobs/R0-play-3/progress.jsonl",
+      "observed_events": 0,
+      "notifications": 0,
+      "delivery_failures": 0,
+      "last_output_at": null,
+      "coalesced_at_completion": [],
+      "errors": []
+    }
+  },
+  "runtime_is_fresh_after_run_start": true,
+  "R0_gate": "PASS_LIMITED_SAMPLE_TOOLING",
+  "M0_gate": "PARTIAL_NO_HEAD_OR_SOLE",
+  "harness_hashes": {
+    "R0Capture.cs": "16d1711a364c6bfd4fb4a09be29125be4937214cfbb1d58c825f91e80c3266ea",
+    "R0Probe.cs": "2ccb9eedd468121397538bf52c5e25415703cc36e95dfef3e1c96b265b4dd419"
+  },
+  "artifact_hashes": {
+    "three_actual_Unity_poses.jpg": "562b9b3fd1f7b8da35adf1955fc71d51c2c518e818b6162fd405149107e191c8",
+    "dark_pose3.png": "b1bc81dc71840312584d08f2cf25497197714805dcc741d23139d54f1c4948a8",
+    "dark_pose2.png": "e3b3b0abf72de8936950e444368018dfa9b4d27fc545f854cec7014fe7ff01ba",
+    "dark_pose1.png": "19a2c5969cd4db975603c7063df114d452ac949b78e71bd907f638070ad7232f",
+    "light_pose1.png": "9c5f29db6e05283d4aa500401fdcd1847e81a3f4cdc3e68ea10b12debf59fff1",
+    "light_pose2.png": "5aa0112ac1abd7d3645b96351e85e1205bf9138fabb4394a23325c70273a6859",
+    "light_pose3.png": "0e1090f72e84c53309595d8017699fdc6c3015c6e34480ec2e9545b2d8c0c136",
+    "R0_actual_Unity_iPhone.mp4": "0d841d53068330586fe95a579264d3ebb711363488dd1e2c17b466037350e979"
+  },
+  "production_Unity_unchanged": true,
+  "new_Unity_test_type": "actual PlayMode capture probe; NUnit/Stage0 rerun NOT_EXECUTED",
+  "formal_art_adoption": false
+}

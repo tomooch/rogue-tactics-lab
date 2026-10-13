@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="6" result="Passed" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-11 16:57:30Z" end-time="2026-10-11 16:57:36Z" duration="5.1968993">
+  <test-suite type="TestSuite" id="1000" name="Rogue Tactics Lab" fullname="Rogue Tactics Lab" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-10-11 16:57:30Z" end-time="2026-10-11 16:57:36Z" duration="5.196899" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1007" name="RogueTactics.Tests.EditMode.dll" fullname="${WORKTREE}/unity/Library/ScriptAssemblies/RogueTactics.Tests.EditMode.dll" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-11 16:57:29Z" end-time="2026-10-11 16:57:29Z" duration="0.018937" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="33247" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1008" name="RogueTactics" fullname="RogueTactics" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-11 16:57:29Z" end-time="2026-10-11 16:57:29Z" duration="0.018663" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1009" name="Tests" fullname="RogueTactics.Tests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-11 16:57:29Z" end-time="2026-10-11 16:57:29Z" duration="0.018403" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1001" name="ScaffoldTests" fullname="RogueTactics.Tests.ScaffoldTests" classname="RogueTactics.Tests.ScaffoldTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-11 16:57:29Z" end-time="2026-10-11 16:57:29Z" duration="0.017794" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1004" name="CoordinateOverflowFailsExplicitly" fullname="RogueTactics.Tests.ScaffoldTests.CoordinateOverflowFailsExplicitly" methodname="CoordinateOverflowFailsExplicitly" classname="RogueTactics.Tests.ScaffoldTests" runstate="Runnable" seed="268373984" result="Passed" start-time="2026-10-11 16:57:29Z" end-time="2026-10-11 16:57:29Z" duration="0.006102" asserts="0">
+              <properties />
+            </test-case>
+            <test-case id="1003" name="CoreReferencesNeitherUnityNorPresentation" fullname="RogueTactics.Tests.ScaffoldTests.CoreReferencesNeitherUnityNorPresentation" methodname="CoreReferencesNeitherUnityNorPresentation" classname="RogueTactics.Tests.ScaffoldTests" runstate="Runnable" seed="253751243" result="Passed" start-time="2026-10-11 16:57:29Z" end-time="2026-10-11 16:57:29Z" duration="0.000333" asserts="0">
+              <properties />
+            </test-case>
+            <test-case id="1005" name="PortraitConfigurationIsPinned" fullname="RogueTactics.Tests.ScaffoldTests.PortraitConfigurationIsPinned" methodname="PortraitConfigurationIsPinned" classname="RogueTactics.Tests.ScaffoldTests" runstate="Runnable" seed="1024808551" result="Passed" start-time="2026-10-11 16:57:29Z" end-time="2026-10-11 16:57:29Z" duration="0.002694" asserts="0">
+              <properties />
+            </test-case>
+            <test-case id="1002" name="SameCoordinateOffsetsProduceSameSequence" fullname="RogueTactics.Tests.ScaffoldTests.SameCoordinateOffsetsProduceSameSequence" methodname="SameCoordinateOffsetsProduceSameSequence" classname="RogueTactics.Tests.ScaffoldTests" runstate="Runnable" seed="237118979" result="Passed" start-time="2026-10-11 16:57:29Z" end-time="2026-10-11 16:57:29Z" duration="0.001008" asserts="0">
+              <properties />
+            </test-case>
+            <test-case id="1006" name="UrpIsConfigured" fullname="RogueTactics.Tests.ScaffoldTests.UrpIsConfigured" methodname="UrpIsConfigured" classname="RogueTactics.Tests.ScaffoldTests" runstate="Runnable" seed="1695624792" result="Passed" start-time="2026-10-11 16:57:29Z" end-time="2026-10-11 16:57:29Z" duration="0.000927" asserts="0">
+              <properties />
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+    <test-suite type="Assembly" id="1012" name="ShiroSpike.Tests.dll" fullname="${WORKTREE}/unity/Library/ScriptAssemblies/ShiroSpike.Tests.dll" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-11 16:57:31Z" end-time="2026-10-11 16:57:36Z" duration="5.157261" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="33247" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestFixture" id="1010" name="ShiroWalkPlaybackTests" fullname="ShiroWalkPlaybackTests" classname="ShiroWalkPlaybackTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-11 16:57:31Z" end-time="2026-10-11 16:57:36Z" duration="5.156779" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1011" name="SixSlicesActuallyPlayAndRenderAtPortraitSize" fullname="ShiroWalkPlaybackTests.SixSlicesActuallyPlayAndRenderAtPortraitSize" methodname="SixSlicesActuallyPlayAndRenderAtPortraitSize" classname="ShiroWalkPlaybackTests" runstate="Runnable" seed="215607109" result="Passed" start-time="2026-10-11 16:57:29Z" end-time="2026-10-11 16:57:36Z" duration="7.070464" asserts="0">
+          <properties>
+            <property name="_JOINTYPE" value="UnityCombinatorial" />
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[SHIRO_SPIKE_PLAYBACK_PASS 6 distinct sprites observed in real playback; 12 portrait renders
+Saving results to: ${USER_APPLICATION_SUPPORT}/Rogue Tactics Lab/Rogue Tactics Lab/TestResults.xml
+]]></output>
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

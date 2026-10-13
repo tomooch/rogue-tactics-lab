@@ -1,0 +1,8 @@
+{
+  "job_id": "f7906841-4f18-46f6-a879-84fc70971918",
+  "tested_source": "b9dc941103f9c76b07010bf3e79fa1e1cd88e24f",
+  "exit_code": 1,
+  "failure": "ORA stored mergedimage used independent full SVG raster instead of stored raster-layer composition; max channel delta4 vs guard3",
+  "fix": "recompose stored layers for mergedimage; validator strengthened to exact delta0; no art pixels/paths/range renders changed",
+  "art_gate": "FAIL remains"
+}

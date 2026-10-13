@@ -1,0 +1,218 @@
+{
+  "schema_version": 1,
+  "coordinate_space": "1254x1254 original source top-left; same coordinates on cleaned input",
+  "measurement": "Anatomically selected iris ROIs, x=manual eye center +/-26, y350..465 in each source; centroid of blue iris pixels (B-R>20,B-G>10,R<190), visually verified. Eye midpoint = face landmark. Manual blue collar brooch center = torso landmark. Estimated +/-4 source px (~1.34 cell px). Sole points manually chosen on central bottom outsole contour. All character L/R. Neither alpha bbox nor hat apex is a body landmark.",
+  "alignment": "B x = average(face_center.x,torso_center.x) mapped to 256 with integer translation; y and exact resized pixels inherited unchanged from A. No vertical freeze or new bob.",
+  "frames": [
+    {
+      "file": "shiro_walk_front_01.png",
+      "source_png_sha256": "31bd9597a500fe31f23ad7836396f7228eff22a9475c873d5ed00e2204d943c5",
+      "input_png_sha256": "e19eccab1a6e2a6ac2a214e6af76e2cd8d8202cc5496690e47fafc35dec98929",
+      "eye_centers": [
+        [
+          613.41,
+          412.49
+        ],
+        [
+          756.92,
+          398.65
+        ]
+      ],
+      "face_center": [
+        685.16,
+        405.57
+      ],
+      "torso_center": [
+        701,
+        561
+      ],
+      "sole_points": {
+        "left": [
+          724,
+          1242
+        ],
+        "right": [
+          544,
+          1138
+        ]
+      },
+      "support_foot": "left",
+      "phase": "left contact"
+    },
+    {
+      "file": "shiro_walk_front_02.png",
+      "source_png_sha256": "077df76fcde6f881accb2b567d1b843e2ebe2e3f6a1bf0b9f12244f8af00ae82",
+      "input_png_sha256": "0d198133480c7850cf306595e1940d473a1b405f35a219e66484d648dba88596",
+      "eye_centers": [
+        [
+          611.69,
+          411.46
+        ],
+        [
+          755.1,
+          399.02
+        ]
+      ],
+      "face_center": [
+        683.39,
+        405.24
+      ],
+      "torso_center": [
+        702,
+        562
+      ],
+      "sole_points": {
+        "left": [
+          711,
+          1244
+        ],
+        "right": [
+          559,
+          1136
+        ]
+      },
+      "support_foot": "left",
+      "phase": "left support"
+    },
+    {
+      "file": "shiro_walk_front_03.png",
+      "source_png_sha256": "74f61a4cfc4ae880daff9cbe9cc1f2318c1bc043d880bc8c4a9d1b96165981ee",
+      "input_png_sha256": "aa89b152329ed8f5afcf2bd97dc09e7bc93b5798040894bb8c928d18c89ce401",
+      "eye_centers": [
+        [
+          613.19,
+          412.8
+        ],
+        [
+          757.04,
+          399.0
+        ]
+      ],
+      "face_center": [
+        685.12,
+        405.9
+      ],
+      "torso_center": [
+        705,
+        560
+      ],
+      "sole_points": {
+        "left": [
+          703,
+          1242
+        ],
+        "right": [
+          562,
+          1082
+        ]
+      },
+      "support_foot": "left",
+      "phase": "right swing"
+    },
+    {
+      "file": "shiro_walk_front_04.png",
+      "source_png_sha256": "43da5e05c71cc6e8a17f69bbfa5c2d1e2df2ea50af2d57b77999518f318b29d4",
+      "input_png_sha256": "518bdd3dbfdfd6196f6fd728f76d2d092d63b5dcbde6607be30a153b5fa1f269",
+      "eye_centers": [
+        [
+          610.26,
+          402.36
+        ],
+        [
+          750.33,
+          388.74
+        ]
+      ],
+      "face_center": [
+        680.3,
+        395.55
+      ],
+      "torso_center": [
+        696,
+        546
+      ],
+      "sole_points": {
+        "left": [
+          733,
+          1123
+        ],
+        "right": [
+          582,
+          1242
+        ]
+      },
+      "support_foot": "right",
+      "phase": "right contact"
+    },
+    {
+      "file": "shiro_walk_front_05.png",
+      "source_png_sha256": "3a2b687dce248d70aab1b55eb3eebbfc8e579872469d9d7269fff1787a270a5b",
+      "input_png_sha256": "10d14369e81e277cac94aa1b88a5a2f98b221dd5a6b2f6af784dc7e941b14e71",
+      "eye_centers": [
+        [
+          608.27,
+          411.12
+        ],
+        [
+          750.77,
+          397.74
+        ]
+      ],
+      "face_center": [
+        679.52,
+        404.43
+      ],
+      "torso_center": [
+        700,
+        567
+      ],
+      "sole_points": {
+        "left": [
+          697,
+          1179
+        ],
+        "right": [
+          557,
+          1239
+        ]
+      },
+      "support_foot": "right",
+      "phase": "right support"
+    },
+    {
+      "file": "shiro_walk_front_06.png",
+      "source_png_sha256": "378d859edd0235c37d139167940f94ba253465c0bf9aa8fa0b85e812dcad0f17",
+      "input_png_sha256": "e25bb5fb3e70aa096ac64c428fdef93e37f9dd88735d5e3c24aa7cf8659b0462",
+      "eye_centers": [
+        [
+          611.26,
+          402.5
+        ],
+        [
+          751.54,
+          389.2
+        ]
+      ],
+      "face_center": [
+        681.4,
+        395.85
+      ],
+      "torso_center": [
+        700,
+        541
+      ],
+      "sole_points": {
+        "left": [
+          724,
+          1042
+        ],
+        "right": [
+          584,
+          1243
+        ]
+      },
+      "support_foot": "right",
+      "phase": "left swing"
+    }
+  ]
+}

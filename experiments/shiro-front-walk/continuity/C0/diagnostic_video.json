@@ -1,0 +1,23 @@
+{
+  "file": "C0_failed_three_pose_diagnostic_iPhone.mp4",
+  "sha256": "dbefeb80d309169b837d2ac5436f410cac253480c8d0d0fa454bcd62d535a352",
+  "probe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 390,
+        "height": 844,
+        "pix_fmt": "yuv420p",
+        "r_frame_rate": "8/1"
+      }
+    ],
+    "format": {
+      "duration": "6.000000"
+    }
+  },
+  "meaning": "3 static failed feasibility poses held 2 seconds each. 8fps container is NOT a six-frame walk, NOT 0.75s animation.",
+  "full_decode": "PASS",
+  "Human_naturalness": "not assessed"
+}

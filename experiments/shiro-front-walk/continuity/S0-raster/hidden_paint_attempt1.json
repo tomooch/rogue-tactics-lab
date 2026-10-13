@@ -1,0 +1,72 @@
+{
+  "source_sha256": "59e6186b126d1c7c5ac05e577340af79bb5eddb04d0aaff270398686c465d317",
+  "scope": "bounded staff occlusion fill, not whole-character separation",
+  "polygon_source_pixels": [
+    [
+      699,
+      960
+    ],
+    [
+      711,
+      976
+    ],
+    [
+      695,
+      1001
+    ],
+    [
+      707,
+      1018
+    ],
+    [
+      674,
+      1055
+    ],
+    [
+      641,
+      1031
+    ],
+    [
+      651,
+      1007
+    ],
+    [
+      665,
+      998
+    ],
+    [
+      679,
+      965
+    ]
+  ],
+  "dilation_px": 2,
+  "mask_pixels": 4329,
+  "crop": [
+    580,
+    920,
+    755,
+    1080
+  ],
+  "methods": [
+    {
+      "method": "telea",
+      "changed_pixels": 4329,
+      "outside_mask_changed_pixels": 0,
+      "editable_layers": 2,
+      "art_result": "REQUIRES_ACTUAL_IMAGE_REVIEW"
+    },
+    {
+      "method": "navier_stokes",
+      "changed_pixels": 4323,
+      "outside_mask_changed_pixels": 0,
+      "editable_layers": 2,
+      "art_result": "REQUIRES_ACTUAL_IMAGE_REVIEW"
+    }
+  ],
+  "original_unchanged": true,
+  "new_hidden_rgb_generated": true,
+  "complete_anatomy_or_layers": false,
+  "poses_created": false,
+  "external_upload": false,
+  "art_gate": "PENDING"
+}

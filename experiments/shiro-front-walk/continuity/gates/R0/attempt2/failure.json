@@ -1,0 +1,9 @@
+{
+  "job_id": "85a46b58-3a5e-44a3-88ad-f7c18627a3ec",
+  "source_commit": "7dacb82d9d802c07f4fc1f81669739855d4e220b",
+  "terminal_status": "timed_out",
+  "exit_code": -9,
+  "runtime_artifact": "STALE from attempt1; NOT reused",
+  "cause_hypothesis": "Entering Play immediately before QuickSearch startup setup skips creation of UserSettings/Search.index; lifecycle/capture persistence also needs explicit handling",
+  "repair": "defer Play one editor callback; split MonoBehaviour into matching file; exit directly after data flush; unique output directory"
+}

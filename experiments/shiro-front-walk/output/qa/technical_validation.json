@@ -1,0 +1,335 @@
+{
+  "status": "TECHNICAL_QA_ONLY",
+  "pass": true,
+  "frame_count": 6,
+  "frames_size": [
+    512,
+    512
+  ],
+  "atlas_size": [
+    1536,
+    1024
+  ],
+  "padding_px": 40,
+  "foot_pixel": [
+    256,
+    470
+  ],
+  "uniform_scale": 0.33452830188679245,
+  "natural_gait_human_approved": false,
+  "unity_tested": false,
+  "frames": [
+    {
+      "file": "shiro_walk_front_01.png",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        111,
+        7,
+        1168,
+        1245
+      ],
+      "foot_point": [
+        724.0,
+        1242.0
+      ],
+      "source_sha256": "38af7219ff386d98527560aa0f966b3788cf079e74e30d361b7ec45d6352f53a",
+      "removed_resampling_mask_pixels": 140,
+      "placed_bbox": [
+        51,
+        57,
+        405,
+        471
+      ],
+      "alpha_bbox": [
+        51,
+        57,
+        405,
+        471
+      ],
+      "cell": [
+        0,
+        0
+      ],
+      "atlas_rect_top_left": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "unity_rect_bottom_left": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "placed_foot_point": [
+        256.29990539262064,
+        469.9967689822294
+      ],
+      "sha256": "5ec32992c5a38d9403b9efcfd34778270f02502868aafa5be56cd50b54283ec8"
+    },
+    {
+      "file": "shiro_walk_front_02.png",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        109,
+        7,
+        1171,
+        1247
+      ],
+      "foot_point": [
+        711.0,
+        1244.0
+      ],
+      "source_sha256": "1842a1ab21cf32c2c4de1d35d280b452383549f0823779764590639e7c41ac7f",
+      "removed_resampling_mask_pixels": 142,
+      "placed_bbox": [
+        55,
+        56,
+        410,
+        471
+      ],
+      "alpha_bbox": [
+        55,
+        56,
+        410,
+        471
+      ],
+      "cell": [
+        1,
+        0
+      ],
+      "atlas_rect_top_left": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "unity_rect_bottom_left": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "placed_foot_point": [
+        256.23352165725044,
+        469.9959677419355
+      ],
+      "sha256": "207b9f1de5e4716ac5caf701810248b834b39263207ed17c801f2dbffb6f7ebe"
+    },
+    {
+      "file": "shiro_walk_front_03.png",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        91,
+        11,
+        1174,
+        1245
+      ],
+      "foot_point": [
+        703.0,
+        1242.0
+      ],
+      "source_sha256": "4bdcdf24eaac476f2fb53999252b29fb2b7ab40ce7ce437d0c09f07fd72f4162",
+      "removed_resampling_mask_pixels": 122,
+      "placed_bbox": [
+        51,
+        58,
+        413,
+        471
+      ],
+      "alpha_bbox": [
+        51,
+        58,
+        413,
+        471
+      ],
+      "cell": [
+        2,
+        0
+      ],
+      "atlas_rect_top_left": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "unity_rect_bottom_left": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "placed_foot_point": [
+        255.5650969529086,
+        469.9959481361426
+      ],
+      "sha256": "086a6c85ca75859ad8f79f2c6a19d9bbd501dff4fdc8f4babb445a7d03731d75"
+    },
+    {
+      "file": "shiro_walk_front_04.png",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        129,
+        9,
+        1158,
+        1244
+      ],
+      "foot_point": [
+        582.0,
+        1242.0
+      ],
+      "source_sha256": "40360a3afcc971ad47faf4a3daab5baf227e55e09acd5aa42c9f76a5106e3d41",
+      "removed_resampling_mask_pixels": 144,
+      "placed_bbox": [
+        105,
+        58,
+        449,
+        471
+      ],
+      "alpha_bbox": [
+        105,
+        58,
+        449,
+        471
+      ],
+      "cell": [
+        0,
+        1
+      ],
+      "atlas_rect_top_left": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "unity_rect_bottom_left": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "placed_foot_point": [
+        256.4402332361516,
+        470.33117408906884
+      ],
+      "sha256": "f0a80d960e718fc731da9ecc7e5cb9e2e6eda385c478256c080047b9972b198f"
+    },
+    {
+      "file": "shiro_walk_front_05.png",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        90,
+        7,
+        1193,
+        1242
+      ],
+      "foot_point": [
+        557.0,
+        1239.0
+      ],
+      "source_sha256": "b122d6a0d9b91e3d3a3910f7a639494ee0d7d1fe24332151cbdd0175c791af6e",
+      "removed_resampling_mask_pixels": 163,
+      "placed_bbox": [
+        100,
+        58,
+        469,
+        471
+      ],
+      "alpha_bbox": [
+        100,
+        58,
+        469,
+        471
+      ],
+      "cell": [
+        1,
+        1
+      ],
+      "atlas_rect_top_left": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "unity_rect_bottom_left": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "placed_foot_point": [
+        256.23118766999096,
+        469.99676113360323
+      ],
+      "sha256": "9839ecd3bdfc556f7d55500b0ead84a688ab9335825d7e53031bc680e91ebff8"
+    },
+    {
+      "file": "shiro_walk_front_06.png",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        126,
+        9,
+        1160,
+        1246
+      ],
+      "foot_point": [
+        584.0,
+        1243.0
+      ],
+      "source_sha256": "b57b2868c57f97274e11de0ed5ff08090ddf2e5a71ee8e3a37169f5689459f6c",
+      "removed_resampling_mask_pixels": 128,
+      "placed_bbox": [
+        103,
+        57,
+        449,
+        471
+      ],
+      "alpha_bbox": [
+        103,
+        57,
+        449,
+        471
+      ],
+      "cell": [
+        2,
+        1
+      ],
+      "atlas_rect_top_left": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "unity_rect_bottom_left": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "placed_foot_point": [
+        256.25725338491293,
+        469.99595796281324
+      ],
+      "sha256": "1995706e651b63514c25399d5dae7a87bea6ce23952e71346c3a8a523ebd628e"
+    }
+  ]
+}

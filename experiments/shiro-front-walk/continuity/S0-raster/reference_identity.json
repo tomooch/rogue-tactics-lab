@@ -1,0 +1,19 @@
+{
+  "human_approved_source": "/Users/tomoki/Downloads/shiro_approved_reference.jpeg",
+  "human_supplied_sha256": "59e6186b126d1c7c5ac05e577340af79bb5eddb04d0aaff270398686c465d317",
+  "measured_sha256": "59e6186b126d1c7c5ac05e577340af79bb5eddb04d0aaff270398686c465d317",
+  "size": [
+    1086,
+    1448
+  ],
+  "mode": "RGB",
+  "zip_candidate_sha256": "8d1323045422d60774adda005eb04f23dcfcbfe8ae9b6a728d8675da33f979d9",
+  "byte_identical": false,
+  "decoded_pixel_identical": false,
+  "decoded_mean_abs_channel_difference": 1.74577198837371,
+  "decoded_max_channel_difference": 55,
+  "selected_source": "Human attached JPEG; never substitute same-size ZIP PNG",
+  "original_modified": false,
+  "publication": "no source or derivative raster upload; local outputs only",
+  "decision_basis": "Human direct message 2026-10-13 and PR comment6135237549"
+}

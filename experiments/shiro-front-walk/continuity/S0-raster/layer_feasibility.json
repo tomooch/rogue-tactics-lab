@@ -1,0 +1,18 @@
+{
+  "status": "SOURCE_VISUAL_INVENTORY_NOT_COMPLETED_LAYERS",
+  "coordinate_system": "1086x1448 source pixels, origin upper-left; left/right below means image side",
+  "source_sha256": "59e6186b126d1c7c5ac05e577340af79bb5eddb04d0aaff270398686c465d317",
+  "protected": ["face and expression", "eyes and mouth", "hat ornaments", "garment patterns", "staff and gripping fingers", "boot ornaments"],
+  "regions": [
+    {"part": "head_hat", "visible": "face, front hair and decorated hat", "missing": "neck/head junction under chin and hair", "rule": "rigid shared raster; no facial repaint or nonrigid face deformation"},
+    {"part": "back_hair", "visible": "side curls overlapping shoulders and cape", "missing": "hair behind head, shoulders and forearms", "risk": "foreground/background blending and interleaved strands; segmentation alone does not separate hair layers"},
+    {"part": "torso_pelvis", "visible": "decorated bodice and skirt front", "missing": "pelvis, hip joints, torso under cape and sleeves", "risk": "large occluded anatomy cannot be recovered from pixels"},
+    {"part": "left_arm", "visible": "outstretched hand and foreshortened sleeve", "missing": "upper arm, elbow and sleeve interior", "risk": "front reference pose is not a neutral rig; changing arm pose exposes substantial unseen cloth"},
+    {"part": "right_arm_staff", "visible": "gripping hand, sleeve and staff", "missing": "finger/staff contact backside and elbow", "rule": "keep hand and staff group attached; do not infer independent fingers"},
+    {"part": "left_leg", "visible": "thigh/lower leg and decorated boot", "missing": "hip under frill and posterior knee", "risk": "leg rotation reveals skirt underside and cape previously hidden by limb"},
+    {"part": "right_leg", "visible": "thigh/lower leg and decorated boot", "missing": "hip under frill and posterior knee", "risk": "staff crosses leg/costume; its removal requires separate garment reconstruction"},
+    {"part": "skirt_cape", "visible": "multiple frill layers and patterned cape", "missing": "continuous cloth underneath legs, hands, staff and hair", "risk": "texture inpainting cannot establish unseen frill geometry or star continuity"}
+  ],
+  "bounded_trial": "After mask review, select one small joint/occlusion strip and compare local fill against untouched visible pixels before attempting whole-character layers.",
+  "gate": "Mask extraction is necessary but insufficient. Do not label cutout alone genuine layered source. No three-pose or loop acceptance without actual completed hidden regions and visual review."
+}

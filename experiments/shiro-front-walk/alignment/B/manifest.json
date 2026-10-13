@@ -1,0 +1,556 @@
+{
+  "schema_version": 2,
+  "atlas": "shiro_walk_front_atlas.png",
+  "atlas_size": [
+    1536,
+    1024
+  ],
+  "grid": [
+    3,
+    2
+  ],
+  "cell_size": [
+    512,
+    512
+  ],
+  "fps": 8,
+  "pivot_bottom_left_px": [
+    256,
+    256
+  ],
+  "art_approved": false,
+  "frames": [
+    {
+      "file": "shiro_walk_front_01.png",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        111,
+        7,
+        1168,
+        1245
+      ],
+      "source_sha256": "38af7219ff386d98527560aa0f966b3788cf079e74e30d361b7ec45d6352f53a",
+      "removed_resampling_mask_pixels": 140,
+      "placed_bbox": [
+        61,
+        57,
+        415,
+        471
+      ],
+      "alpha_bbox": [
+        61,
+        57,
+        415,
+        471
+      ],
+      "cell": [
+        0,
+        0
+      ],
+      "atlas_rect_top_left": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "unity_rect_bottom_left": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "sha256": "4044825edbcebd1b0d2f8784a8dc89cdd58b37d1a1e5790f678523f56cc0780f",
+      "alignment": "head_torso_horizontal_composite",
+      "translation_px": [
+        10,
+        0
+      ],
+      "anatomical_landmarks": {
+        "file": "shiro_walk_front_01.png",
+        "face_center": [
+          253.2919962157048,
+          190.28592891760906
+        ],
+        "torso_center": [
+          258.59697256386,
+          242.26332794830373
+        ],
+        "composite_center": [
+          255.94448438978242,
+          216.27462843295638
+        ],
+        "left_sole": [
+          266.29990539262064,
+          469.9967689822294
+        ],
+        "right_sole": [
+          206.01608325449385,
+          435.21809369951535
+        ],
+        "support_foot": "left",
+        "phase": "left contact",
+        "body_alpha_bbox": [
+          61,
+          57,
+          415,
+          471
+        ]
+      },
+      "source_contact_sole_point": [
+        724.0,
+        1242.0
+      ],
+      "measured_support_sole_point": [
+        266.29990539262064,
+        469.9967689822294
+      ]
+    },
+    {
+      "file": "shiro_walk_front_02.png",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        109,
+        7,
+        1171,
+        1247
+      ],
+      "source_sha256": "1842a1ab21cf32c2c4de1d35d280b452383549f0823779764590639e7c41ac7f",
+      "removed_resampling_mask_pixels": 142,
+      "placed_bbox": [
+        61,
+        56,
+        416,
+        471
+      ],
+      "alpha_bbox": [
+        61,
+        56,
+        416,
+        471
+      ],
+      "cell": [
+        1,
+        0
+      ],
+      "atlas_rect_top_left": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "unity_rect_bottom_left": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "sha256": "020d4a9ed4eabb923b72b699b8f119ea2110f6234de56c061bdd42fd71462ed6",
+      "alignment": "head_torso_horizontal_composite",
+      "translation_px": [
+        6,
+        0
+      ],
+      "anatomical_landmarks": {
+        "file": "shiro_walk_front_02.png",
+        "face_center": [
+          253.00419020715628,
+          189.28193548387097
+        ],
+        "torso_center": [
+          259.22504708097927,
+          241.7459677419355
+        ],
+        "composite_center": [
+          256.1146186440678,
+          215.5139516129032
+        ],
+        "left_sole": [
+          262.23352165725044,
+          469.9959677419355
+        ],
+        "right_sole": [
+          211.42372881355934,
+          433.8508064516129
+        ],
+        "support_foot": "left",
+        "phase": "left support",
+        "body_alpha_bbox": [
+          61,
+          56,
+          416,
+          471
+        ]
+      },
+      "source_contact_sole_point": [
+        711.0,
+        1244.0
+      ],
+      "measured_support_sole_point": [
+        262.23352165725044,
+        469.9959677419355
+      ]
+    },
+    {
+      "file": "shiro_walk_front_03.png",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        91,
+        11,
+        1174,
+        1245
+      ],
+      "source_sha256": "4bdcdf24eaac476f2fb53999252b29fb2b7ab40ce7ce437d0c09f07fd72f4162",
+      "removed_resampling_mask_pixels": 122,
+      "placed_bbox": [
+        54,
+        58,
+        416,
+        471
+      ],
+      "alpha_bbox": [
+        54,
+        58,
+        416,
+        471
+      ],
+      "cell": [
+        2,
+        0
+      ],
+      "atlas_rect_top_left": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "unity_rect_bottom_left": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "sha256": "551456baac19bf510dfc986c60ab511c8fe57ed81c43cd6a478d2ba8f0e028c2",
+      "alignment": "head_torso_horizontal_composite",
+      "translation_px": [
+        3,
+        0
+      ],
+      "anatomical_landmarks": {
+        "file": "shiro_walk_front_03.png",
+        "face_center": [
+          252.58858725761772,
+          190.16669367909236
+        ],
+        "torso_center": [
+          259.2336103416436,
+          241.74149108589953
+        ],
+        "composite_center": [
+          255.91109879963068,
+          215.95409238249596
+        ],
+        "left_sole": [
+          258.56509695290856,
+          469.9959481361426
+        ],
+        "right_sole": [
+          211.4349030470914,
+          416.44651539708263
+        ],
+        "support_foot": "left",
+        "phase": "right swing",
+        "body_alpha_bbox": [
+          54,
+          58,
+          416,
+          471
+        ]
+      },
+      "source_contact_sole_point": [
+        703.0,
+        1242.0
+      ],
+      "measured_support_sole_point": [
+        258.56509695290856,
+        469.9959481361426
+      ]
+    },
+    {
+      "file": "shiro_walk_front_04.png",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        129,
+        9,
+        1158,
+        1244
+      ],
+      "source_sha256": "40360a3afcc971ad47faf4a3daab5baf227e55e09acd5aa42c9f76a5106e3d41",
+      "removed_resampling_mask_pixels": 144,
+      "placed_bbox": [
+        69,
+        58,
+        413,
+        471
+      ],
+      "alpha_bbox": [
+        69,
+        58,
+        413,
+        471
+      ],
+      "cell": [
+        0,
+        1
+      ],
+      "atlas_rect_top_left": [
+        0,
+        512,
+        512,
+        512
+      ],
+      "unity_rect_bottom_left": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "sha256": "f6b29225337c94ec5ee19c7d29165f4aea1fbbd34342d437de10669810811b79",
+      "alignment": "head_torso_horizontal_composite",
+      "translation_px": [
+        -36,
+        0
+      ],
+      "anatomical_landmarks": {
+        "file": "shiro_walk_front_04.png",
+        "face_center": [
+          253.30242954324586,
+          187.26732793522268
+        ],
+        "torso_center": [
+          258.55102040816325,
+          237.57975708502025
+        ],
+        "composite_center": [
+          255.9267249757046,
+          212.42354251012148
+        ],
+        "left_sole": [
+          270.92031098153547,
+          430.53603238866395
+        ],
+        "right_sole": [
+          220.44023323615158,
+          470.33117408906884
+        ],
+        "support_foot": "right",
+        "phase": "right contact",
+        "body_alpha_bbox": [
+          69,
+          58,
+          413,
+          471
+        ]
+      },
+      "source_contact_sole_point": [
+        582.0,
+        1242.0
+      ],
+      "measured_support_sole_point": [
+        220.44023323615158,
+        470.33117408906884
+      ]
+    },
+    {
+      "file": "shiro_walk_front_05.png",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        90,
+        7,
+        1193,
+        1242
+      ],
+      "source_sha256": "b122d6a0d9b91e3d3a3910f7a639494ee0d7d1fe24332151cbdd0175c791af6e",
+      "removed_resampling_mask_pixels": 163,
+      "placed_bbox": [
+        55,
+        58,
+        424,
+        471
+      ],
+      "alpha_bbox": [
+        55,
+        58,
+        424,
+        471
+      ],
+      "cell": [
+        1,
+        1
+      ],
+      "atlas_rect_top_left": [
+        512,
+        512,
+        512,
+        512
+      ],
+      "unity_rect_bottom_left": [
+        512,
+        0,
+        512,
+        512
+      ],
+      "sha256": "6ed40833ec16ae15c1784c721884c910cd3e0c5acaaa4da13a5f588b353fbce2",
+      "alignment": "head_torso_horizontal_composite",
+      "translation_px": [
+        -45,
+        0
+      ],
+      "anatomical_landmarks": {
+        "file": "shiro_walk_front_05.png",
+        "face_center": [
+          252.21929283771533,
+          190.90574089068826
+        ],
+        "torso_center": [
+          259.0707162284678,
+          245.27125506072875
+        ],
+        "composite_center": [
+          255.64500453309154,
+          218.0884979757085
+        ],
+        "left_sole": [
+          258.06708975521303,
+          449.93198380566804
+        ],
+        "right_sole": [
+          211.23118766999096,
+          469.99676113360323
+        ],
+        "support_foot": "right",
+        "phase": "right support",
+        "body_alpha_bbox": [
+          55,
+          58,
+          424,
+          471
+        ]
+      },
+      "source_contact_sole_point": [
+        557.0,
+        1239.0
+      ],
+      "measured_support_sole_point": [
+        211.23118766999096,
+        469.99676113360323
+      ]
+    },
+    {
+      "file": "shiro_walk_front_06.png",
+      "source_size": [
+        1254,
+        1254
+      ],
+      "bbox": [
+        126,
+        9,
+        1160,
+        1246
+      ],
+      "source_sha256": "b57b2868c57f97274e11de0ed5ff08090ddf2e5a71ee8e3a37169f5689459f6c",
+      "removed_resampling_mask_pixels": 128,
+      "placed_bbox": [
+        67,
+        57,
+        413,
+        471
+      ],
+      "alpha_bbox": [
+        67,
+        57,
+        413,
+        471
+      ],
+      "cell": [
+        2,
+        1
+      ],
+      "atlas_rect_top_left": [
+        1024,
+        512,
+        512,
+        512
+      ],
+      "unity_rect_bottom_left": [
+        1024,
+        0,
+        512,
+        512
+      ],
+      "sha256": "0d5da400471d8df871f3b707d874865d046868c5b9416ae1fc534bbd148d584d",
+      "alignment": "head_torso_horizontal_composite",
+      "translation_px": [
+        -36,
+        0
+      ],
+      "anatomical_landmarks": {
+        "file": "shiro_walk_front_06.png",
+        "face_center": [
+          252.8495164410058,
+          186.47122069523041
+        ],
+        "torso_center": [
+          259.073500967118,
+          235.0501212611156
+        ],
+        "composite_center": [
+          255.96150870406188,
+          210.760670978173
+        ],
+        "left_sole": [
+          267.1044487427466,
+          402.7251414713015
+        ],
+        "right_sole": [
+          220.25725338491293,
+          469.99595796281324
+        ],
+        "support_foot": "right",
+        "phase": "left swing",
+        "body_alpha_bbox": [
+          67,
+          57,
+          413,
+          471
+        ]
+      },
+      "source_contact_sole_point": [
+        584.0,
+        1243.0
+      ],
+      "measured_support_sole_point": [
+        220.25725338491293,
+        469.99595796281324
+      ]
+    }
+  ],
+  "alignment": "head_torso_horizontal_composite",
+  "baseline_commit": "0572960aaf21855dff0b05467e8c64339a4480c1",
+  "uniform_scale": 0.33452830188679245,
+  "root_position_fixed": true
+}

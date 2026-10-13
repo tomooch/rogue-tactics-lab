@@ -19,6 +19,16 @@
 *.user
 *.pidb
 *.booproj
+
+# User-owned local references; not project assets
+/_userwork/
+
+# Rejected raw generations retained locally; hashes/reasons are recorded.
+/experiments/shiro-front-walk/rejected/
+
+# Local Python execution caches
+__pycache__/
+*.pyc
 *.unitypackage
 # Credentials and signing material
 *.keystore
