@@ -1,0 +1,19 @@
+{
+  "job_id": "a63bc365-8780-45bd-8768-a111bcc14e5f",
+  "command": [
+    "/Users/tomoki/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+    "experiments/shiro-front-walk/scripts/verify_s0_raster.py",
+    "--source",
+    "/Users/tomoki/Downloads/shiro_approved_reference.jpeg",
+    "--artifacts",
+    "/Users/tomoki/.codex/visualizations/2026/10/11/01a12b8b-cc88-7592-9846-85a0ade0eb48/shiro-raster-pilot",
+    "--report",
+    "/private/tmp/shiro-raster-verification.json"
+  ],
+  "cwd": "/private/tmp/rogue-shiro-front-walk-spike",
+  "started_at": "2026-10-13T02:25:57.678842+00:00",
+  "completed_at": "2026-10-13T02:25:58.752032+00:00",
+  "duration_seconds": 1.0729642920196056,
+  "terminal_status": "completed",
+  "exit_code": 0
+}

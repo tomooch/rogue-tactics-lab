@@ -41,7 +41,7 @@ DECISION: canonical JPEG selected by explicit Human instruction; no art or produ
 ## DECISION / gate status
 
 - Identity PASS; original byte hash unchanged.
-- RGB-preservation and bounded-edit checks measured separately; final ORA verification recorded in `verification.json` when complete.
+- RGB-preservation and bounded-edit checks measured separately; final verification [PASS](verification.json), exit0, source commit `a7df345ca27507b849d69781a0749c02144d2e6f`: all four ORA composites exact, mask-external changes0. [Command/time](verification_run.json). This evidence commit does not change the verified scripts or private images.
 - S0 art FAIL for the tested automatic interpolation workflow. Full layer feasibility remains unestablished; do not promote cutouts to finished joint art.
 - S1 three poses, S2 walk, S3 new Unity replay: NOT EXECUTED because prerequisite source art failed. No new walk MP4 exists.
 - Old A/B/C0/M0/R0 and vector-S0 evidence retained. No Core/Stage0 edits; no regression rerun required for these local diagnostic scripts.
