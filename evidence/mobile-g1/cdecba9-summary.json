@@ -1,0 +1,22 @@
+{
+  "source_head": "cdecba9abe2ebc163e27227aa0afb45892e6edca",
+  "unity": "6000.3.25f1",
+  "xcode": "27.0 (27A266a)",
+  "sdk": "iphoneos 27.0",
+  "edit": "14/14",
+  "play": "3/3",
+  "ios_export": "PASS",
+  "unsigned_build": "PASS",
+  "signed_archive_exit": 65,
+  "bundle_id": "com.tomooch.roguetacticslab",
+  "version": "0.1.0",
+  "build": "1",
+  "testflight": false,
+  "physical_device": false,
+  "source_core_tree": "50274c84cb56344d1394b4283833728c72cd7577",
+  "baseline_core_tree": "50274c84cb56344d1394b4283833728c72cd7577",
+  "native_ui_input": "unverified",
+  "play_scope": "Prior raycast + direct callback test, not the later Mouse/Touch device pipeline",
+  "archive_failure": "SDK-specific iPhone Developer identity overrides generic Distribution identity; existing Development identity is absent from the game profile",
+  "private_art_captures_included": false
+}

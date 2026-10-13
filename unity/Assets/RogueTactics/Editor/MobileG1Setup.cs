@@ -56,6 +56,21 @@ namespace RogueTactics.Editor
 #endif
             Debug.Log("MOBILE_IOS_EXPORT_COMPLETE");
         }
+        public static void ExportIosSimulator()
+        {
+            var sdk=PlayerSettings.iOS.sdkVersion;
+            var architecture=PlayerSettings.iOS.simulatorSdkArchitecture;
+            try
+            {
+                PlayerSettings.SetScriptingBackend(NamedBuildTarget.iOS,ScriptingImplementation.IL2CPP);
+                PlayerSettings.iOS.sdkVersion=iOSSdkVersion.SimulatorSDK;
+                PlayerSettings.iOS.simulatorSdkArchitecture=AppleMobileArchitectureSimulator.ARM64;
+                var result=BuildPipeline.BuildPlayer(new BuildPlayerOptions{scenes=new[]{ScenePath},locationPathName=Path.GetFullPath("../build/ios-simulator"),target=BuildTarget.iOS,options=BuildOptions.Development});
+                if(result.summary.result!=BuildResult.Succeeded)throw new Exception("Simulator export failed");
+                Debug.Log("MOBILE_IOS_SIM_EXPORT_COMPLETE");
+            }
+            finally{PlayerSettings.iOS.sdkVersion=sdk;PlayerSettings.iOS.simulatorSdkArchitecture=architecture;}
+        }
         public static void BuildMacPreview()
         {
             PlayerSettings.fullScreenMode=FullScreenMode.Windowed;
@@ -88,6 +103,8 @@ namespace RogueTactics.Editor
                 project.SetBuildProperty(target,"CODE_SIGN_STYLE","Manual");
                 project.SetBuildProperty(target,"DEVELOPMENT_TEAM","9HXM297A8U");
                 project.SetBuildProperty(target,"CODE_SIGN_IDENTITY",certificate);
+                // Unity emits this SDK-specific Developer identity; it overrides the generic setting.
+                project.SetBuildProperty(target,"CODE_SIGN_IDENTITY[sdk=iphoneos*]",certificate);
             }
             project.SetBuildProperty(app,"PROVISIONING_PROFILE_SPECIFIER",profile);
             project.SetBuildProperty(app,"PRODUCT_BUNDLE_IDENTIFIER","com.tomooch.roguetacticslab");

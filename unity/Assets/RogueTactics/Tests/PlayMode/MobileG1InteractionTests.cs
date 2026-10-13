@@ -9,6 +9,9 @@ using RogueTactics.Presentation;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.SceneManagement;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
 
@@ -51,6 +54,74 @@ namespace RogueTactics.Tests
             if(name=="02-mobile-rules" || name=="07-mobile-comparison")
                 Assert.That(texture.GetPixels(25,250,335,400).Count(p=>p.r>.45f && p.g>.45f && p.b>.45f),Is.GreaterThan(1000),"Actual modal body must be visible through stencil mask");
             Directory.CreateDirectory(Evidence);File.WriteAllBytes(Path.Combine(Evidence,name+".png"),texture.EncodeToPNG());RenderTexture.active=old;Object.Destroy(texture);
+        }
+        [UnityTest]
+        public IEnumerator QueuedMouseReachesButtonsThroughInputSystem() => DevicePipeline(false);
+        [UnityTest]
+        public IEnumerator QueuedTouchReachesButtonsThroughInputSystem() => DevicePipeline(true);
+        private static string lastDeviceSample;
+        private static IEnumerator DevicePipeline(bool touch)
+        {
+            yield return SceneManager.LoadSceneAsync("MobileG1");yield return null;yield return null;
+            var view=Object.FindFirstObjectByType<MobileG1View>();
+            Assert.That(EventSystem.current.currentInputModule,Is.TypeOf<InputSystemUIInputModule>());
+            var rt=new RenderTexture(390,844,24);Camera.main.targetTexture=rt;
+            var previousFocus=InputSystem.settings.backgroundBehavior;
+            var previousEditorRouting=InputSystem.settings.editorInputBehaviorInPlayMode;
+            // A batch Editor has no foreground window: simulate an active game for device routing only.
+            // This is not evidence of OS native delivery, an iPhone touch, or an IME.
+            InputSystem.settings.backgroundBehavior=InputSettings.BackgroundBehavior.IgnoreFocus;
+            InputSystem.settings.editorInputBehaviorInPlayMode=InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
+            InputDevice device=touch?(InputDevice)InputSystem.AddDevice<Touchscreen>():InputSystem.AddDevice<Mouse>();
+            try
+            {
+                yield return null;yield return null;
+                view.SetTestSafeArea(new Rect(0,0,390,844),390,844);yield return null;yield return null;
+                var baseline=view.Session.Replay.State.Serialize();
+                yield return DeviceClick(view,"Attack",device);Assert.That(view.Session.Preference,Is.EqualTo(Preference.DirectAttack),lastDeviceSample);
+                yield return DeviceClick(view,"Protect",device);Assert.That(view.Session.Preference,Is.EqualTo(Preference.ProtectAnchor),lastDeviceSample);
+                Assert.That(view.Session.Replay.State.Serialize(),Is.EqualTo(baseline));
+                yield return DeviceClick(view,"Details",device);Assert.That(view.Button("Close").gameObject.activeInHierarchy,Is.True);
+                yield return DeviceClick(view,"Close",device);Assert.That(view.Button("Close").gameObject.activeInHierarchy,Is.False);
+                yield return DeviceClick(view,"Start",device);Assert.That(view.Session.Started,Is.True);
+                while(view.Busy)yield return null;
+                Assert.That(view.Session.Replay.State.Step,Is.EqualTo(1));
+                yield return DeviceClick(view,"Next",device);while(view.Busy)yield return null;
+                Assert.That(view.Session.Replay.State.Step,Is.EqualTo(2));
+                yield return DeviceClick(view,"Play",device);Assert.That(view.Auto,Is.True);
+                yield return DeviceClick(view,"Play",device);Assert.That(view.Auto,Is.False);
+                while(view.Busy)yield return null;
+                var paused=view.Session.Replay.State.Serialize();yield return new WaitForSecondsRealtime(.3f);
+                Assert.That(view.Session.Replay.State.Serialize(),Is.EqualTo(paused));
+                yield return DeviceClick(view,"Reset",device);Assert.That(view.Session.Started,Is.False);
+                Assert.That(view.Session.Replay.State.Serialize(),Is.EqualTo(baseline));
+                LogAssert.NoUnexpectedReceived();
+            }
+            finally
+            {
+                InputSystem.RemoveDevice(device);InputSystem.settings.backgroundBehavior=previousFocus;InputSystem.settings.editorInputBehaviorInPlayMode=previousEditorRouting;
+                Camera.main.targetTexture=null;Object.Destroy(rt);
+            }
+        }
+        private static IEnumerator DeviceClick(MobileG1View view,string id,InputDevice device)
+        {
+            var button=view.Button(id);Assert.That(button.interactable,Is.True,id);
+            var r=button.GetComponent<RectTransform>();var camera=button.GetComponentInParent<Canvas>().worldCamera;
+            var point=RectTransformUtility.WorldToScreenPoint(camera,r.TransformPoint(r.rect.center));
+            var module=(InputSystemUIInputModule)EventSystem.current.currentInputModule;
+            Assert.That(module.point.action.enabled,Is.True,"UI point action enabled");
+            Assert.That(module.leftClick.action.enabled,Is.True,"UI click action enabled");
+            Assert.That(module.point.action.controls.Any(c=>c.device==device),Is.True,"Synthetic pointer resolves to point action");
+            if(device is Mouse mouse)InputSystem.QueueStateEvent(mouse,new MouseState{position=point});
+            yield return null;yield return null;
+            if(device is Mouse m)InputSystem.QueueStateEvent(m,new MouseState{position=point}.WithButton(MouseButton.Left));
+            else InputSystem.QueueStateEvent(device,new TouchState{touchId=1,phase=UnityEngine.InputSystem.TouchPhase.Began,position=point});
+            yield return null;yield return null;
+            lastDeviceSample="device="+device.name+" enabled="+device.enabled+" screen="+Screen.width+"x"+Screen.height+" camera="+camera.pixelRect+" queued="+point+" actionPoint="+module.point.action.ReadValue<Vector2>()+" pointControl="+module.point.action.activeControl?.path+" click="+module.leftClick.action.ReadValue<float>()+" clickControl="+module.leftClick.action.activeControl?.path+" lastHit="+module.GetLastRaycastResult(device.deviceId).gameObject?.name+" focused="+Application.isFocused+" esFocus="+EventSystem.current.isFocused+" moduleActive="+module.IsActive();
+            Assert.That(module.GetLastRaycastResult(device.deviceId).gameObject,Is.EqualTo(button.gameObject),lastDeviceSample);
+            if(device is Mouse up)InputSystem.QueueStateEvent(up,new MouseState{position=point});
+            else InputSystem.QueueStateEvent(device,new TouchState{touchId=1,phase=UnityEngine.InputSystem.TouchPhase.Ended,position=point});
+            yield return null;yield return null;
         }
         [UnityTest]
         public IEnumerator JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults()

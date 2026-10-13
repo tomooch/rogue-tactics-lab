@@ -154,7 +154,7 @@ native操作の前に、短すぎる自動クリックがframe pollingに届か�
 
 baseline：PR #15 HEAD `aa1fc05b154abcfa0e1a5c90574bf91adc97d881`。専用branch `codex/mobile-visual-g1`、worktree `/private/tmp/rogue-mobile-visual-g1`。最新origin/main取得済み（`ab9fa5dc729dcea07f8680e7b22544627c5e5bed`）。PR #15や他のPRのbranchは変更しない。Core treeはbaselineとbyte同一を検査する。
 
-環境：Unity6000.3.25f1 / URP、iOS Build Support installed、Xcode27.0 (27A266a)、iphoneos SDK27.0。game専用Bundle ID `com.tomooch.roguetacticslab`をApple Developerへ登録。ASCは本人ログイン待ち。game専用署名・ASC app・upload・本人限定Internal TestFlightはまだ完了していない。物理iPhone未接続、実機touch/IME/起動およびHUMAN評価は未観測。
+環境：Unity6000.3.25f1 / URP、iOS Build Support installed、Xcode27.0 (27A266a)、iphoneos SDK27.0。game専用Bundle ID `com.tomooch.roguetacticslab`をApple Developerへ登録。本人ログイン済み。game専用証明書/profileは作成・検証済み。ASC appは追加アクセス設定の回答待ちで、upload・本人限定Internal TestFlightは未完了。physical iPhoneはpairedだがtunnel unavailable、実機touch/IME/起動およびHUMAN評価は未観測。
 
 初回working-tree検証（2026-10-14 JST）：Configure/import/compile PASS、EditMode **14/14 PASS**、PlayMode **3/3 PASS**。新Mobile操作テストは390×844を維持し、ノッチsafe area、raycast top hit、戦術2条件、予想、start/next/auto/pause/reset/details/comparison、全表示event列一致・Core state projection・両frozen hashを確認。runner `/private/tmp/rogue-mobile-jobs/unity1/completion.json`、XMLとraw logs `/private/tmp/rogue-mobile-evidence/` は一時領域。private skin入り実Unity PNGは`unity/Logs/mobile-g1/private/`に保存し、公開Gitへ含めない。
 
@@ -165,3 +165,17 @@ baseline：PR #15 HEAD `aa1fc05b154abcfa0e1a5c90574bf91adc97d881`。専用branch
 ゲーム用の新しいDistribution証明書を発行し、生成した秘密鍵と証明書のmodulus一致を検査。ゲーム専用App Store profile `Rogue Tactics Lab Internal G1` はexplicit `9HXM297A8U.com.tomooch.roguetacticslab`／新規certificate1件／get-task-allow falseを検査しXcodeへ登録。既存SizeSnapや既存証明書は変更しない。ASC「アクセス制限あり」はUI上無効。現ユーザ本人1名でも「アクセス制限なし」は将来ユーザへ閲覧を広げるため自動承認reviewが拒否。限定された追加設定のHuman回答待ちで、アプリ登録・TestFlightはまだ未完了。証明書/profile/秘密鍵/Apple実画面はpublic Git外。
 
 Unity 6000.3公式[SetBuildProperty](https://docs.unity3d.com/6000.3/Documentation/ScriptReference/iOS.Xcode.PBXProject.SetBuildProperty.html)を使い、export時に明示したgame署名fingerprint/profileだけをmain targetへ設定する。UnityFrameworkにはapp profileを付けない。新しいiOS専用条件コードのcompile/exportとXcode buildは次のgateで実測する。
+
+### Mobile source cdecba9 fresh run / signing and device-input follow-up
+
+source **`cdecba9abe2ebc163e27227aa0afb45892e6edca`** を新Editor processでfresh検証。import PASS、EditMode14/14、PlayMode3/3、Mac preview build PASS、Unity iOS export PASS、Xcode27.0 / iphoneos27.0未署名build PASS。署名archiveはexit65でFAIL。生成projectのgeneric `CODE_SIGN_IDENTITY`は新game Distribution fingerprintだが、`CODE_SIGN_IDENTITY[sdk=iphoneos*] = iPhone Developer` が優先され、既存Development identityとgame profileが不一致になった。export helperでSDK別にも新game identityを指定する最小修正を追加し、再検証待ち。既存identity/profile自体を編集・流用しない。
+
+fresh job record `/private/tmp/rogue-mobile-jobs/fresh1/completion.json`、XML/log/summary `/private/tmp/rogue-mobile-evidence/fresh/`。これらは一時領域。Mac build/iOS exportが生成したURP prefilter・window/batching/backendの4設定だけを、完了後にsource commitへ戻した。public Draft [PR #17](https://github.com/tomooch/rogue-tactics-lab/pull/17) はPR15 branchにstack、対象HEAD cdecba9、Draft、checksなし。
+
+Mac previewのCUA実クリックは条件変更の到達を確認できていない。同Bundle IDの旧/新preview同時起動を確認して両方を閉じ、new単独起動・window raise・press duration/座標を切り分けたが未確認。Dock取得は操作ツールtimeout。これを実操作PASSにしない。旧PlayModeのraycast→`ExecuteEvents`はcallback直呼びで、InputDevice→InputAction→UIInputModule経路を検証していなかった。
+
+新たにMouse/Touch stateを実InputSystemUIInputModuleへqueueし、条件選択・開始/次行動/停止/再試行を確認する2回帰テストを追加。batch EditorでのみIgnoreFocusを設定しfinallyで復元する。これは実機touch/native OS delivery/IMEの証拠ではない。初回job device1はEdit14/14、Play3/5（Mouse/Touchの選択assert FAIL）。device3の観測ではactionはenabled、device controlも解決済みだったが、queueしたpointer/button値はactionへ届かなかった。installed InputSystem 1.20のEditor routing既定値が、非focus Game Viewへのpointer入力を送らないことを確認。
+
+最新devicectl JSONにはsimulatedとphysical双方が含まれる。physical iPhoneはpairedだがtunnel unavailableで、実機操作は未観測。ASC追加アクセス設定の回答待ちは継続。TestFlight upload/processing/本人限定提供/HUMANは未完了。上記の修正・新テストはcdecba9以降のworking treeであり、旧PASSを新sourceへ転用しない。
+
+追加回帰job **device4** はPlayMode **5/5 PASS**。test内のみ `AllDeviceInputAlwaysGoesToGameView` と `IgnoreFocus` を設定しfinallyで復元すると、Mouse/Touch両方で実UIInputModuleのraycastが各buttonを指し、選択・開始・次行動・auto/pause・resetが成功した。product入力設定は変更しない。これはbatch Editorの仮想device経路を証明し、native OS／Simulator／物理iPhone／IMEの実操作を代替しない。修正前後のXMLを`evidence/mobile-g1/`へ保存。SDK別署名修正とSimulator exportを含む次の固定commitで、fresh import/Edit14/Play5/署名archive/Simulator buildを検証する。
