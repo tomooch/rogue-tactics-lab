@@ -149,3 +149,19 @@ UIのHP・位置はCore eventを順に投影し、stepごとにCore stateとの�
 source `2d200ffb7769b1a286f7d0f3b8f60a4c0ecd2ee6`からbuildした `/private/tmp/rogue-gameplay-g1/build/G1Battle.app` を起動。Computer Useの実クリック（200ms press）と実keyboard入力で、Attack選択 → 自由予想 `I will compare remaining HP.` → Start → Next actionで被弾6/counter2 → Play to end → Victory/A0/3人生存/回復残1を観測。Baseline → Protect選択 → 自由予想 `I will observe protection.` → Start/Nextでguard軽減後の被弾3/counter2 → Play to end → Victory/A16/4人生存/回復残0を観測。Rules/Trialsで両予想と結果・trace hashが保持されることを実画面で確認し、最後にBaselineへ戻した。画面のgame領域は390×844（window chromeを含むcaptureは390×900）。これはagentによるnative Unity player操作であり、Human試遊や実機touchではない。
 
 native操作の前に、短すぎる自動クリックがframe pollingに届かなかった。press時間を200msにして実入力到達を確認した。通常のpointer経路はraycast PlayMode testでも確認済み。入力や戦闘のルールを変更した結果ではない。
+
+## Mobile Visual G1 / Issue #16 — implementation in progress
+
+baseline：PR #15 HEAD `aa1fc05b154abcfa0e1a5c90574bf91adc97d881`。専用branch `codex/mobile-visual-g1`、worktree `/private/tmp/rogue-mobile-visual-g1`。最新origin/main取得済み（`ab9fa5dc729dcea07f8680e7b22544627c5e5bed`）。PR #15や他のPRのbranchは変更しない。Core treeはbaselineとbyte同一を検査する。
+
+環境：Unity6000.3.25f1 / URP、iOS Build Support installed、Xcode27.0 (27A266a)、iphoneos SDK27.0。game専用Bundle ID `com.tomooch.roguetacticslab`をApple Developerへ登録。ASCは本人ログイン待ち。game専用署名・ASC app・upload・本人限定Internal TestFlightはまだ完了していない。物理iPhone未接続、実機touch/IME/起動およびHUMAN評価は未観測。
+
+初回working-tree検証（2026-10-14 JST）：Configure/import/compile PASS、EditMode **14/14 PASS**、PlayMode **3/3 PASS**。新Mobile操作テストは390×844を維持し、ノッチsafe area、raycast top hit、戦術2条件、予想、start/next/auto/pause/reset/details/comparison、全表示event列一致・Core state projection・両frozen hashを確認。runner `/private/tmp/rogue-mobile-jobs/unity1/completion.json`、XMLとraw logs `/private/tmp/rogue-mobile-evidence/` は一時領域。private skin入り実Unity PNGは`unity/Logs/mobile-g1/private/`に保存し、公開Gitへ含めない。
+
+初回画像でHPラベルの重なりを観測。label配置のみ修正し、Core位置は変更しない。独立reviewの指摘から、左右safe幅対応・詳細scroll・守護線の移動失効・Death eventまでpawnを残す修正も追加。回帰検査を追加して再検証中。正式resolution chunk/horizon、正式キャラの能力、HUMAN見た目評価を固定しない。
+
+修正後working-tree検証：2026-10-14、job unity5、EditMode **14/14 PASS**、PlayMode **3/3 PASS**。狭い左右safe area、非重複HPラベル、HP全文字幅、詳細/比較の本文contrast pixelを追加検査。rootが最新setup/rules/comparison実画像も視認。初回MaskはImage alpha0により本文が非表示だったためalpha1＋showMaskGraphic falseへ修正。白に近い画素の絶対数は短い比較本文を誤検出したため、中輝度以上の字形coverageを検査する。空白の旧比較画像は同範囲coverage0、修正後詳細本文は12,722px（RGB>115）を実測。
+
+ゲーム用の新しいDistribution証明書を発行し、生成した秘密鍵と証明書のmodulus一致を検査。ゲーム専用App Store profile `Rogue Tactics Lab Internal G1` はexplicit `9HXM297A8U.com.tomooch.roguetacticslab`／新規certificate1件／get-task-allow falseを検査しXcodeへ登録。既存SizeSnapや既存証明書は変更しない。ASC「アクセス制限あり」はUI上無効。現ユーザ本人1名でも「アクセス制限なし」は将来ユーザへ閲覧を広げるため自動承認reviewが拒否。限定された追加設定のHuman回答待ちで、アプリ登録・TestFlightはまだ未完了。証明書/profile/秘密鍵/Apple実画面はpublic Git外。
+
+Unity 6000.3公式[SetBuildProperty](https://docs.unity3d.com/6000.3/Documentation/ScriptReference/iOS.Xcode.PBXProject.SetBuildProperty.html)を使い、export時に明示したgame署名fingerprint/profileだけをmain targetへ設定する。UnityFrameworkにはapp profileを付けない。新しいiOS専用条件コードのcompile/exportとXcode buildは次のgateで実測する。

@@ -2,7 +2,8 @@
   "name": "RogueTactics.Tests.EditMode",
   "rootNamespace": "RogueTactics",
   "references": [
-    "RogueTactics.Core"
+    "RogueTactics.Core",
+    "RogueTactics.Presentation"
   ],
   "includePlatforms": [
     "Editor"

@@ -52,3 +52,15 @@ PR #5 の Stage 0 は Unity 基盤のみ。上記 USER_DECISION を固定する 
 - 期待：同一入力でsnapshot・event・SHA-256が同一、合法行動のみ、単一選好による実行trace差、HP／行動数等の少なくとも1指標差、実390×844操作で開始・観察・比較・再試行できる。仮説や面白さ成立の観測とは区別する。
 - stop条件：勝利／全味方死亡／120 actions上限。差が実規則で生じなければNOT ESTABLISHEDとしてfixtureを記録付きで修正し、偽の結果は作らない。
 - 対象外：floor探索、宝箱／relic／第二戦、1 correction UI、E提案・受諾、正式class／skill、アニメーション、LLM、network、課金、telemetry、merge。G2とHuman試遊はNotion Todoに残す。
+
+## Mobile-first Visual G1 — Issue #16
+
+PR #15 exact baseline `aa1fc05b154abcfa0e1a5c90574bf91adc97d881`へstackする専用branch `codex/mobile-visual-g1`。Core・初期戦況・数値・plan・event順序・両trace SHAは変更しない。表示・日本語UI・safe area・静止2D skins・3D dungeon・iOS build/署名/本人限定Internal TestFlightが今回の範囲。2026-10-13のHuman GOはゲーム専用Apple登録・署名・upload・本人限定配布を許可済み。一般公開・外部テスター・SizeSnap変更・原画の外部AI送信・main mergeは含まない。
+
+Human指定の4枚をローカルで確認：シロ（0FBC…）、ミャル（2F1A…）、モモ（65C7…）、ガル（FD16…）。顔/瞳/衣装のRGBを再描画しない。背景alphaだけをローカルの既存Apache-2.0 segmentation modelで準備し、元SHA不変・source RGB一致を検査。原画/派生texture/captureはprivate local出力に保持し、公開Gitへ画像を入れない。ゲーム専用内部配布のbuildへだけ含める。
+
+仮のvisual対応はAシロ/Bモモ/Cガル/Dミャル。匿名のfixture能力を正式class/skillに昇格しないことを詳細UIへ明記。動作は既存Coreが確定したeventだけを順に投影する。Coreのtransitionと演出queueを分離し、未表示eventから先のHPや意図を表示しない。守護・軽減・反撃・回復・戦闘不能を位置/線/短い日本語/HPで示す。
+
+画面はsafe area内に日本語HUD、約60%の3D field、戦術選択→任意予想→実行→比較→同一baseline再試行を置く。歩行を待たず静止skinを使う。resolution chunk/horizonはG1 adapterのままで正式採用しない。
+
+I0 export/Xcode build、I1本人限定TestFlightの提供状態、I2物理iPhone操作、V0承認skinと3D実描画、V1イベント/表示可読性、HUMAN本人評価を別ゲートとして記録する。未接続実機やApple認証待ちをPASSにしない。
