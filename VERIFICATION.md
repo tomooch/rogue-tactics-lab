@@ -1,8 +1,8 @@
 # 現在の実装・検証状況
 
-accepted implementation は常に actual GitHub `main` HEAD。[PR #4](https://github.com/tomooch/rogue-tactics-lab/pull/4) は merge 済みで、historical Web v0 は retired 済み。main に Web runtime / npm harness / Pages workflow はない。Unity Stage 0 は main へ未 merge。
+accepted implementation は常に actual GitHub `main` HEAD。[PR #4](https://github.com/tomooch/rogue-tactics-lab/pull/4) は merge 済みで、historical Web v0 は retired 済み。main に Web runtime / npm harness / Pages workflow はない。Unity Stage 0はPR #5でmainへmerge済み（G1 baseline `ab9fa5dc729dcea07f8680e7b22544627c5e5bed`）。
 
-[PR #5](https://github.com/tomooch/rogue-tactics-lab/pull/5) は Draft / pending implementation。Stage 0 の実行済み evidence は **pending HEAD `6a0879e8877cf0717d2ac5019a923ea11fbbd0af`** に紐付く。以下はその revision の Local Mac evidence であり、accepted main、実機、人の試遊の成功へ読み替えない。docs status sync は [Design Office comment](https://github.com/tomooch/rogue-tactics-lab/pull/5#issuecomment-6042899298) と最新 Human 指示により承認済み。
+[PR #5](https://github.com/tomooch/rogue-tactics-lab/pull/5) はmerge済み。以下はmerge前の実行対象revisionのhistorical evidence。Stage 0 の実行済み evidence は **pending HEAD `6a0879e8877cf0717d2ac5019a923ea11fbbd0af`** に紐付く。以下はその revision の Local Mac evidence であり、accepted main、実機、人の試遊の成功へ読み替えない。docs status sync は [Design Office comment](https://github.com/tomooch/rogue-tactics-lab/pull/5#issuecomment-6042899298) と最新 Human 指示により承認済み。
 
 ## Unity Stage 0 evidence（2026-10-08 JST）
 
@@ -75,3 +75,77 @@ Web v0 最終 accepted snapshot は [commit `0d8a2a68c37902256f5123ef86017ce83a6
 Pages は **Human が Unpublish 済み**（[Human の報告](https://github.com/tomooch/rogue-tactics-lab/pull/5#issuecomment-6042899298) と今回の明示指示）。agent が公開停止操作や現在の外部設定の live 検証を行ったという意味ではない。Pages は current product / runtime ではない。
 
 2026-10-07 の cleanup 時点で Pages API が `build_type: workflow`、source `main:/` と公開 URL を返した記録は過去の観測であり、現在の公開状態ではない。PR #4 の workflow 削除と Human の Unpublish は別操作として区別する。
+
+## Gameplay G1 — Issue #14 / 2026-10-13
+
+- baseline: actual `origin/main` **`ab9fa5dc729dcea07f8680e7b22544627c5e5bed`**、PR #5 merge済み。
+- branch / checkout: `codex/gameplay-g1-battle` / `/private/tmp/rogue-gameplay-g1`。
+- environment: Local Mac Apple Silicon、Unity **6000.3.25f1 (e1dba0a9aba4)**、URP、390×844、graphics有効のCLI。
+- Scope: [Issue #14](https://github.com/tomooch/rogue-tactics-lab/issues/14)と[Design Freeze G1](DESIGN.md#design-freeze-g1--2026-10-13--issue-14)。固定1戦闘、匿名A/B/C/D。承認済みcastとは対応しない。
+- Pending PR監査（変更・mergeなし）: #6 `7055394`、#8 `7767211`、#10 `7c3f2e0`、#11 `9405e1e`、#12 `47db820`、すべてOPEN/Draft。#13 animationは依存なし。
+
+### 閉ループ中の失敗と修正
+
+1. 初回Core importはテストの`Throws.ArgumentOutOfRangeException`がinstalled NUnitに存在せずcompile失敗。`Throws.TypeOf<ArgumentOutOfRangeException>()`へ修正。受入条件を緩めていない。
+2. Core 7/7 PASS後、既存scaffoldの`EditorBuildSettings.scenes.Single()`がG1 scene追加で失敗。Stage0の保持と先頭G1を確認するテストに変更。
+3. 初回実PNGは空白。Canvas rootがdefault layer0、UI cameraがlayer5のみを描画していた。rootをUI layerに統一。captureの一時RenderTexture解除で操作座標系も変わっていたため、全操作試験中390×844を維持。画像の色変化と文字pixel検査を追加し、空白を成功にしない。
+4. batchmodeで進まない`WaitForEndOfFrame`は初回compile/test段階の静的レビューで見つけ、描画frameを待つ`yield return null`へ変更（この待機が実際にtimeoutしたとは主張しない）。[Unity 6000.3 API](https://docs.unity3d.com/6000.3/Documentation/ScriptReference/WaitForEndOfFrame.html)。
+5. 敵対レビューで、予想がbaseline resetで消え、条件別に結果と照合できない問題を検出。完了trialの予想・結果・SHAを条件別に保存し、Rules→Trialsで参照できるよう修正。再試行後も前trialが保持される検証を追加。
+6. 実画像で役名/HPの重なりを視認。小さい二行labelとより上からのcameraへ修正。終了時の意図した`G1_RESULT`情報logはtestで明示的に期待し、予期しないerrorを無視しない。
+
+元失敗XMLは一時領域 `/private/tmp/rogue-g1-evidence/failed-initial/`、`failed-render/`、`failed-log/`に保持。raw Editor logはlicense diagnosticsを含み得るため公開packetには入れない。
+
+### 証拠の境界
+
+UIのHP・位置はCore eventを順に投影し、stepごとにCore stateとの一致をassert。planのactor/target/destination/reasonはCoreが生成する。敵AIもCoreの固定target選択規則であり、Presentationで偽のダメージや回復を作らない。
+
+テスト入力はraycastのtop hitとpointer handlerを含むagent操作。Humanの自由試遊ではない。Native Editor描画とmacOS previewの結果を実iPhone/Androidへ読み替えない。実機touch/safe area/IME、署名/store/export、Human可読性・面白さ・次の自発的変更は未検証。floor探索、relic、第二戦、correction、E提案はG2以降。
+
+### Final G1 source / fresh-run evidence
+
+検証済みsource commit: **`2d200ffb7769b1a286f7d0f3b8f60a4c0ecd2ee6`**。このcommitを固定して新しいEditor processでimport → EditMode → PlayMode → Mac preview buildを順次実行。exit0、Unity 6000.3.25f1。証拠追加commitはdocs/evidenceのみでUnity treeを変えない。
+
+| 検査 | 実測 |
+| --- | --- |
+| import / compile | PASS / exit0 |
+| EditMode | **12/12 PASS**（G1 Core 7件＋scaffold 5件） |
+| PlayMode | **2/2 PASS**（G1実入力経路＋Stage0描画） |
+| 390×844描画 | 7枚、空白検出・文字bounds・生存label重なり・44px以上のbutton・raycast top hitを検査。agentが実画像も確認 |
+| Core/UI projection | 全stepのHP/位置がCore eventからだけ更新され、Core stateと一致。全表示eventがCore event列と一致 |
+| replay / baseline | 2条件の同一初期snapshot、同条件再実行のbyte/hash一致、停止中のCore不変、予想のtrial別保持 |
+| macOS preview build | PASS。既存EditorのStandaloneOSX build、Development / windowed 390×844。iOS/Android buildではない |
+
+[evidence/g1](evidence/g1/)にfresh XML / summary、PNG、完全traceと結果、修正前XMLを保存。raw Editor logはGit外の一時領域 `/private/tmp/rogue-g1-evidence/fresh/`。runner recordは `/private/tmp/rogue-g1-jobs/fresh1/completion.json`。Mac buildはUnityが生成するshader prefilter/runtime settingsとStandalone window設定だけを書き換えたため、build完了後に4つのtask-owned生成差分を検証済みsourceへ戻した。preview binaryはbuild時のwindowed設定を持つ。Unity source treeのevidence追加前後の同一性をGit diffで確認。
+
+再実行（Editor引数）:
+
+```text
+-batchmode -quit -projectPath <worktree>/unity -executeMethod RogueTactics.Editor.G1Setup.Configure -logFile <configure.log>
+-batchmode -quit -projectPath <worktree>/unity -logFile <import.log>
+-batchmode -projectPath <worktree>/unity -runTests -testPlatform EditMode -testResults <edit.xml> -logFile <edit.log>
+-batchmode -projectPath <worktree>/unity -runTests -testPlatform PlayMode -testResults <play.xml> -logFile <play.log>
+-batchmode -quit -projectPath <worktree>/unity -executeMethod RogueTactics.Editor.G1Setup.BuildMac -logFile <build.log>
+```
+
+通常再検証はscene再生成不要。batchmodeでもgraphics有効。PlayMode testは操作中390×844 RenderTextureを維持して実描画し、raycastとpointer handlerでstart/next/play/pause/reset/setup/rules/trialsを操作する。
+
+### Counterfactual results / input and provenance
+
+各trialを `new Replay(Fixture.Baseline(), preference)` から開始し、terminalまで `Advance()` を14回。command sequenceはprotect=`0`を14個、attack=`1`を14個。予想はCore入力・結果に影響せず、Presentationのtrial記録にだけ保持する。
+
+| 条件（B選好のみ変更） | 結末 | actions | 味方HP A/B/C/D | 生存 | heal残数 | SHA-256 |
+| --- | --- | --- | --- | --- | --- | --- |
+| ProtectAnchor | Victory | 14 | 16 / 16 / 12 / 10 | 4 | 0 | `e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d` |
+| DirectAttack | Victory | 14 | 0 / 16 / 12 / 10 | 3 | 1 | `85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e` |
+
+双方のHP/生存/資源を独立指標として表示。単一scoreや推奨は作らない。実action差は最初のBのProtect対Moveから生じ、次のXの被弾はguard条件で3、direct条件で6。counterは生存Aだけ。完全なevent orderとterminal stateは`protect.trace` / `attack.trace`に残る。今回のfixtureで技術的な対照差は成立したが、普遍的な戦術価値や面白さ成立は未証明。
+
+### Adversarial review / deferred work
+
+読み取り専用の独立レビュー＋root自己レビューで、Core/Presentation境界、single preference fork、合法性と致死順、キャラ役混同、未決UX固定、main/既存PR保護を確認。予想喪失・空白capture・label重なりを修正し、回帰検査を追加。human playは未実施。G1 TECHはこの固定実験の範囲、G1 HUMANとG2は未完了。
+
+### Native previewの実操作観測
+
+source `2d200ffb7769b1a286f7d0f3b8f60a4c0ecd2ee6`からbuildした `/private/tmp/rogue-gameplay-g1/build/G1Battle.app` を起動。Computer Useの実クリック（200ms press）と実keyboard入力で、Attack選択 → 自由予想 `I will compare remaining HP.` → Start → Next actionで被弾6/counter2 → Play to end → Victory/A0/3人生存/回復残1を観測。Baseline → Protect選択 → 自由予想 `I will observe protection.` → Start/Nextでguard軽減後の被弾3/counter2 → Play to end → Victory/A16/4人生存/回復残0を観測。Rules/Trialsで両予想と結果・trace hashが保持されることを実画面で確認し、最後にBaselineへ戻した。画面のgame領域は390×844（window chromeを含むcaptureは390×900）。これはagentによるnative Unity player操作であり、Human試遊や実機touchではない。
+
+native操作の前に、短すぎる自動クリックがframe pollingに届かなかった。press時間を200msにして実入力到達を確認した。通常のpointer経路はraycast PlayMode testでも確認済み。入力や戦闘のルールを変更した結果ではない。
