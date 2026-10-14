@@ -1,0 +1,23 @@
+{
+  "source_head": "d19a135478131b2017c8b8c0ba2915a4e8730515",
+  "app": "Rogue Tactics Lab",
+  "version": "0.1.0",
+  "build": "3",
+  "asc_build_id": "7d4ef960-dc9e-4f84-8b62-b04e6c0a6ac8",
+  "processing": "complete",
+  "status": "Testing",
+  "internal_only": true,
+  "groups": [
+    {
+      "name": "本人限定 G1",
+      "type": "Internal",
+      "testers": 1
+    }
+  ],
+  "export_compliance": "Same unchanged local-only source as build2: none of listed encryption algorithms",
+  "test_notes": "Japanese changes and operation instructions saved and observed after reload",
+  "physical_install": "unverified for build3",
+  "human_play": "unverified for build3; build2 readability/appeal feedback not accepted",
+  "private_media": "Owner-local only; no private art/captures/signing assets in public Git",
+  "general_release": false
+}

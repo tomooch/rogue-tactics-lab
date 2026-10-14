@@ -11,5 +11,8 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/RogueTactics/Scenes/Stage0.unity
     guid: 375f46e6aa09d47e8bb6d18afefcee3f
+  - enabled: 1
+    path: Assets/RogueTactics/Scenes/MobileG1.unity
+    guid: 03a4ce3c908224e2cb0458e93fd3b017
   m_configObjects: {}
   m_UseUCBPForAssetBundles: 0

@@ -1,0 +1,19 @@
+{
+  "source_head": "32cba28058ae8069f065e0ac018a0572a4d91930",
+  "build": "2",
+  "environment": "dedicated iPhone17 / iOS27 Simulator",
+  "observations": [
+    "Keyboard-open Japanese composition かつ visible above keyboard",
+    "Confirm dismisses keyboard and restores prediction to original setup position",
+    "Protect Start/Next: Guard3, Damage3, Counter2",
+    "Protect terminal Victory14/A16/alive4/heal0/predictionかつ/hash prefix e6f35225a2e812bc",
+    "Reset returns all initial units and HP",
+    "Attack condition changes B action to Move",
+    "Attack terminal Victory14/A0/alive3/heal1/hash prefix85770bb4c9e2c4cd",
+    "Comparison preserves both results and Protect prediction"
+  ],
+  "physical_device": false,
+  "human_play": false,
+  "private_media_public_git": false,
+  "private_media": "Owner-local only; not included in public Git"
+}

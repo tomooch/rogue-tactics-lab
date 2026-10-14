@@ -1,0 +1,34 @@
+{
+  "source_head": "32cba28058ae8069f065e0ac018a0572a4d91930",
+  "observed_date_jst": "2026-10-14",
+  "asc_app_id": "6822532815",
+  "bundle_id": "com.tomooch.roguetacticslab",
+  "version": "0.1.0",
+  "build": "2",
+  "processing": "complete",
+  "build_status": "Testing",
+  "distribution": "Internal only",
+  "groups": [
+    {
+      "name": "本人限定 G1",
+      "type": "internal",
+      "testers": 1
+    }
+  ],
+  "test_notes": "Japanese operation instructions saved",
+  "physical_install": "ASC Installed 0.1.0 (2), 2026-10-14",
+  "human_play": "Readability feedback received; aesthetics/appeal not accepted",
+  "private_media": "Owner-local only",
+  "self_tester_status": "Invited (2026-10-14)",
+  "group_build_count": 1,
+  "human_device_report": "Success after opening invitation, followed by readability/appeal feedback",
+  "self_invitation_resend": "Requested via ASC, processing dialog completed",
+  "invitation_delivery": "Human confirmed invitation email",
+  "invitation_acceptance": "Accepted; ASC Installed status observed",
+  "end_to_end_distribution": "Build 2 install confirmed; full physical touch/IME/safe-area QA not independently observed",
+  "device": {
+    "model": "iPhone 17",
+    "os": "iOS 27.0",
+    "source": "ASC internal tester device column after fresh reload"
+  }
+}

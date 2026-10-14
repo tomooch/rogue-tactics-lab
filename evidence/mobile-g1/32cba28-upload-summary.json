@@ -1,0 +1,12 @@
+{
+  "source_head": "32cba28058ae8069f065e0ac018a0572a4d91930",
+  "bundle_id": "com.tomooch.roguetacticslab",
+  "version": "0.1.0",
+  "build": "2",
+  "archive_signature": "PASS",
+  "game_profile": "PASS",
+  "internal_testing_only": true,
+  "upload_exit": 0,
+  "processing": "unverified",
+  "tester_provision": "unverified"
+}

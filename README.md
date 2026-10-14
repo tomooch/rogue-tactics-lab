@@ -35,3 +35,21 @@ Unity **6000.3.25f1**でこのbranchの`unity/`を開き、`Assets/RogueTactics/
 5. 終了後`Baseline`へ戻り、もう一方の条件で再試行する。結果は独立に保持され、HP／生存数／行動数／残り回復を比較する。`Rules`→`Trials / predictions`で条件ごとの事前予想とtrace hashも確認できる。
 
 A/B/C/Dは匿名の実験役。正式キャラのシロ／ミャル／ガル／モモとは対応しない。1 action／encounter playbackや現在plan表示は検証adapterであり、正式resolution chunk／intent horizonの採用ではない。探索・relic・第二戦・意図修正・E提案はG2以降。[Design Freeze G1](DESIGN.md#design-freeze-g1--2026-10-13--issue-14)、実測・限界は[VERIFICATION.md](VERIFICATION.md)。
+
+## Mobile Visual G1 / Issue #16（未merge）
+
+PR #15のCoreを維持した専用scene `Assets/RogueTactics/Scenes/MobileG1.unity` をUnity **6000.3.25f1**でPlay。日本語UIでBの条件を選び、任意の予想を入力し、「この条件で戦闘開始」→「次の行動」または「続けて見る」で観察。「戻す」で初期状態へ戻り、もう一方を試して「結果・予想を比較」で照合する。「詳細」は匿名fixtureの数値・発動条件を表示する。
+
+外見はAシロ/Bモモ/Cガル/Dミャルの**一時的なskin対応**。匿名fixtureの能力を正式キャラの能力に採用していない。Coreの数値・event列・2条件のhashはPR #15と同じ。
+
+原画と派生skinは非公開のローカル入力であり、public Gitには含めない。source checkoutだけではskinは未設定になる。所有者の承認原画フォルダと下記offline toolを使い、`Tools/Rogue Tactics/Create Mobile G1`でscene参照を再生成する。原画のRGBは変更せずalphaだけ抽出する。モデルは開発時だけ使い、ゲームにAI runtimeを組み込まない。
+
+```text
+python tools/prepare_mobile_art.py --originals <approved-originals> --model <pinned-isnetis.onnx> --output unity/Assets/RogueTactics/Art/MobileG1/Private
+```
+
+依存：Pillow、numpy、opencv-python-headless、onnxruntime。モデル：[SkyTNT anime-seg](https://huggingface.co/skytnt/anime-seg/tree/493cb60893f47441b26ec4fb9a306bce9e342982)、Apache-2.0、`isnetis.onnx` SHA-256 `f15622d853e8260172812b657053460e20806f04b9e05147d49af7bed31a6e99`。原画を外部AIへ送信しない。
+
+iOS exportは`RogueTactics.Editor.MobileG1Setup.ExportIos`、game専用IDは`com.tomooch.roguetacticslab`、version0.1.0/build3。署名・TestFlight・実機はそれぞれ独立したgateであり、Editorテスト成功を配布成功とは扱わない。本人限定TestFlightの初回利用は、登録済み本人メールへの招待をiPhoneで開いて承諾する。ASCの「テスト中」だけでは端末到達を確認できないため、招待メール受信→承諾→アプリ表示→install/起動を別に確認する。private rasterを含むcapture/buildはGit外へ保存する。最新の実測と未検証は[VERIFICATION.md](VERIFICATION.md)に記録する。
+
+2026-10-14の試遊feedbackを受け、build3ではHPを頭上から足元へ移し、画角・表示間隔・人物を避ける矢印を調整。Core/両traceは不変。animation不足とHumanの見た目評価は別課題で、固定source d19a135でfresh Edit14/14・Play6/6、署名archive/Simulator実操作を確認し、本人限定TestFlightの0.1.0(3)はテスト中。iPhoneではTestFlightのRogue Tactics Labを更新する。修正後のHuman評価は未取得。詳細はVERIFICATION.mdを確認。

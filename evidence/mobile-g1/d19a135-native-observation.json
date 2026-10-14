@@ -1,0 +1,20 @@
+{
+  "source_head": "d19a135478131b2017c8b8c0ba2915a4e8730515",
+  "version": "0.1.0",
+  "build": "3",
+  "environment": "dedicated iPhone 17 / iOS 27.0 Simulator",
+  "install_launch": "PASS",
+  "input": "CUA native pointer, 200ms presses",
+  "observed": [
+    "Protect select/start/next: Guard3, Damage3, Counter2",
+    "Protect auto: Victory14, A16/B16/C12/D10, alive4, heal0",
+    "Reset restores initial state; Attack select/start: B Move",
+    "Attack auto: Victory14, A0/B16/C12/D10, alive3, heal1",
+    "Comparison retains both terminal results and frozen SHA prefixes",
+    "HP below feet; outlined arrows visible and avoid silhouettes"
+  ],
+  "prediction": "empty in this build3 native trial; native Japanese keyboard observed on build2 only",
+  "video": "owner-local /private/tmp/rogue-mobile-evidence/build3-readability.mp4 (temporary storage, private pixels excluded from public Git)",
+  "physical_device": false,
+  "human_build3_play": false
+}

@@ -31,3 +31,7 @@
 
 # IDE output generated locally by Unity
 **/.vscode/
+
+# User-approved private original/derived art; packaged locally only
+unity/Assets/RogueTactics/Art/MobileG1/Private/
+evidence/mobile-g1/private/
