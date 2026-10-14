@@ -1,0 +1,24 @@
+{
+  "source_head": "32cba28058ae8069f065e0ac018a0572a4d91930",
+  "observed_date_jst": "2026-10-14",
+  "asc_app_id": "6822532815",
+  "bundle_id": "com.tomooch.roguetacticslab",
+  "version": "0.1.0",
+  "build": "2",
+  "processing": "complete",
+  "build_status": "Testing",
+  "distribution": "Internal only",
+  "groups": [
+    {
+      "name": "本人限定 G1",
+      "type": "internal",
+      "testers": 1
+    }
+  ],
+  "test_notes": "Japanese operation instructions saved",
+  "physical_install": "unverified",
+  "human_play": "unverified",
+  "private_media": "Owner-local only",
+  "self_tester_status": "Invited (2026-10-14)",
+  "group_build_count": 1
+}
