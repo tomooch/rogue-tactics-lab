@@ -150,52 +150,68 @@ source `2d200ffb7769b1a286f7d0f3b8f60a4c0ecd2ee6`からbuildした `/private/tmp
 
 native操作の前に、短すぎる自動クリックがframe pollingに届かなかった。press時間を200msにして実入力到達を確認した。通常のpointer経路はraycast PlayMode testでも確認済み。入力や戦闘のルールを変更した結果ではない。
 
-## Mobile Visual G1 / Issue #16 — implementation in progress
+## Mobile Visual G1 / Issue #16 — build 2
 
-baseline：PR #15 HEAD `aa1fc05b154abcfa0e1a5c90574bf91adc97d881`。専用branch `codex/mobile-visual-g1`、worktree `/private/tmp/rogue-mobile-visual-g1`。最新origin/main取得済み（`ab9fa5dc729dcea07f8680e7b22544627c5e5bed`）。PR #15や他のPRのbranchは変更しない。Core treeはbaselineとbyte同一を検査する。
+専用branch `codex/mobile-visual-g1`、worktree `/private/tmp/rogue-mobile-visual-g1`。最新origin/main取得時のaccepted mainは`ab9fa5dc729dcea07f8680e7b22544627c5e5bed`。未mergeのPR #15 HEAD `aa1fc05b154abcfa0e1a5c90574bf91adc97d881`を明示的baselineにして、[Draft PR #17](https://github.com/tomooch/rogue-tactics-lab/pull/17)をそのbranchへstack。既存PRのbranch、main、Issue #13のanimationは変更しない。
 
-環境：Unity6000.3.25f1 / URP、iOS Build Support installed、Xcode27.0 (27A266a)、iphoneos SDK27.0。game専用Bundle ID `com.tomooch.roguetacticslab`をApple Developerへ登録。本人ログイン済み。game専用証明書/profileは作成・検証済み。ASC appはHumanのアクセス設定承認後に登録済み。upload開始、本人限定Internal TestFlightの提供は未確認。physical iPhoneはpairedだがtunnel unavailable、実機touch/IME/起動およびHUMAN評価は未観測。
+検証済みUnity source **`32cba28058ae8069f065e0ac018a0572a4d91930`**。Core tree `50274c84cb56344d1394b4283833728c72cd7577`はPR #15 baselineと同一。初期状態、行動順、数値、event列、上記2つの完全trace hashは維持する。Aシロ/Bモモ/Cガル/Dミャルは今回の静止skin対応で、fixtureの能力を正式キャラ能力へ採用しない。resolution chunk / intent horizonは未決。
 
-初回working-tree検証（2026-10-14 JST）：Configure/import/compile PASS、EditMode **14/14 PASS**、PlayMode **3/3 PASS**。新Mobile操作テストは390×844を維持し、ノッチsafe area、raycast top hit、戦術2条件、予想、start/next/auto/pause/reset/details/comparison、全表示event列一致・Core state projection・両frozen hashを確認。runner `/private/tmp/rogue-mobile-jobs/unity1/completion.json`、XMLとraw logs `/private/tmp/rogue-mobile-evidence/` は一時領域。private skin入り実Unity PNGは`unity/Logs/mobile-g1/private/`に保存し、公開Gitへ含めない。
+### Fresh run / I0
 
-初回画像でHPラベルの重なりを観測。label配置のみ修正し、Core位置は変更しない。独立reviewの指摘から、左右safe幅対応・詳細scroll・守護線の移動失効・Death eventまでpawnを残す修正も追加。回帰検査を追加して再検証中。正式resolution chunk/horizon、正式キャラの能力、HUMAN見た目評価を固定しない。
+環境はUnity **6000.3.25f1 (e1dba0a9aba4)** / URP、iOS Build Support、Xcode **27.0 (27A266a)** / iphoneos27.0、Apple Silicon。新Editor processを順次起動し、全command exit0を確認。
 
-修正後working-tree検証：2026-10-14、job unity5、EditMode **14/14 PASS**、PlayMode **3/3 PASS**。狭い左右safe area、非重複HPラベル、HP全文字幅、詳細/比較の本文contrast pixelを追加検査。rootが最新setup/rules/comparison実画像も視認。初回MaskはImage alpha0により本文が非表示だったためalpha1＋showMaskGraphic falseへ修正。白に近い画素の絶対数は短い比較本文を誤検出したため、中輝度以上の字形coverageを検査する。空白の旧比較画像は同範囲coverage0、修正後詳細本文は12,722px（RGB>115）を実測。
+| 対象 | 結果 |
+| --- | --- |
+| import / compile | PASS |
+| EditMode | **14/14 PASS**（deterministic Coreを含む） |
+| PlayMode | **6/6 PASS** |
+| Unity iOS IL2CPP export | PASS。実exportの1024×1024 Marketing icon存在も検査 |
+| game署名設定 | mainとUnityFrameworkがgame専用identity、profileはmainだけ |
+| Xcode Release / generic iOS archive | exit0 |
+| archive codesign / profile | deep/strict PASS、explicit game ID、新証明書1件、get-task-allow false |
+| Unity Simulator export / Xcode ARM64 Simulator build | 両方exit0 |
+| Internal-only upload | **exit0 / Upload succeeded**。ASC処理完了・本人提供は別gate |
 
-ゲーム用の新しいDistribution証明書を発行し、生成した秘密鍵と証明書のmodulus一致を検査。ゲーム専用App Store profile `Rogue Tactics Lab Internal G1` はexplicit `9HXM297A8U.com.tomooch.roguetacticslab`／新規certificate1件／get-task-allow falseを検査しXcodeへ登録。既存SizeSnapや既存証明書は変更しない。ASC「アクセス制限あり」はUI上無効。現ユーザ本人1名でも「アクセス制限なし」は将来ユーザへ閲覧を広げるため自動承認reviewが拒否。限定された追加設定のHuman回答待ちで、アプリ登録・TestFlightはまだ未完了。証明書/profile/秘密鍵/Apple実画面はpublic Git外。
+PlayModeは390×844実描画、ノッチ/狭い左右safe area、48px操作面、HP文字の幅と非重複、詳細/比較本文coverage、各条件の予想保持、pause不変、各stepのevent投影とCore state一致、frozen hashを確認。callbackテストだけでなく、実InputSystemUIInputModuleへMouse/Touch stateをqueueする経路も確認する。batch EditorだけIgnoreFocus / AllDeviceInputAlwaysGoesToGameViewを設定しfinallyで復元し、product設定は変えない。keyboard高さ300/420pxで予想欄が上に出て、閉じると元位置へ戻り、Coreを変えない回帰検査を含む。
 
-Unity 6000.3公式[SetBuildProperty](https://docs.unity3d.com/6000.3/Documentation/ScriptReference/iOS.Xcode.PBXProject.SetBuildProperty.html)を使い、export時に明示したgame署名fingerprint/profileだけをmain targetへ設定する。UnityFrameworkにはapp profileを付けない。新しいiOS専用条件コードのcompile/exportとXcode buildは次のgateで実測する。
+public XML/summaryは[evidence/mobile-g1](evidence/mobile-g1/)の`32cba28-*`。rawログは一時領域 `/private/tmp/rogue-mobile-evidence/build2-final/`、`upload2/`。runnerは`/private/tmp/rogue-mobile-jobs/build2-final/completion.json`と`upload2/completion.json`。buildによるURP prefilter/runtime settings・iOS backend/batchingの4つの生成差分だけを完了後にsourceへ戻し、検証後Unity treeを変更しない。
 
-### Mobile source cdecba9 fresh run / signing and device-input follow-up
+再実行のEditor引数（全てexact Editor、graphics有効）:
 
-source **`cdecba9abe2ebc163e27227aa0afb45892e6edca`** を新Editor processでfresh検証。import PASS、EditMode14/14、PlayMode3/3、Mac preview build PASS、Unity iOS export PASS、Xcode27.0 / iphoneos27.0未署名build PASS。署名archiveはexit65でFAIL。生成projectのgeneric `CODE_SIGN_IDENTITY`は新game Distribution fingerprintだが、`CODE_SIGN_IDENTITY[sdk=iphoneos*] = iPhone Developer` が優先され、既存Development identityとgame profileが不一致になった。export helperでSDK別にも新game identityを指定する最小修正を追加し、再検証待ち。既存identity/profile自体を編集・流用しない。
+```text
+-batchmode -quit -projectPath <worktree>/unity -logFile <import.log>
+-batchmode -projectPath <worktree>/unity -runTests -testPlatform EditMode -testResults <edit.xml> -logFile <edit.log>
+-batchmode -projectPath <worktree>/unity -runTests -testPlatform PlayMode -testResults <play.xml> -logFile <play.log>
+-batchmode -quit -projectPath <worktree>/unity -buildTarget iOS -executeMethod RogueTactics.Editor.MobileG1Setup.ExportIos -logFile <ios-export.log>
+-batchmode -quit -projectPath <worktree>/unity -buildTarget iOS -executeMethod RogueTactics.Editor.MobileG1Setup.ExportIosSimulator -logFile <sim-export.log>
+```
 
-fresh job record `/private/tmp/rogue-mobile-jobs/fresh1/completion.json`、XML/log/summary `/private/tmp/rogue-mobile-evidence/fresh/`。これらは一時領域。Mac build/iOS exportが生成したURP prefilter・window/batching/backendの4設定だけを、完了後にsource commitへ戻した。public Draft [PR #17](https://github.com/tomooch/rogue-tactics-lab/pull/17) はPR15 branchにstack、対象HEAD cdecba9、Draft、checksなし。
+device export時だけowner-local環境変数`ROGUE_IOS_SIGNING_SHA`と`ROGUE_IOS_PROFILE`でgame専用署名を指定。Xcodeは`-scheme Unity-iPhone -configuration Release -sdk iphoneos -destination generic/platform=iOS archive`。uploadは`xcodebuild -exportArchive`、manual signing、`method=app-store-connect`、`destination=upload`、`manageAppVersionAndBuildNumber=false`、**`testFlightInternalTestingOnly=true`**。署名鍵/profile/IPA/raw credential logsはpublic Git外。
 
-Mac previewのCUA実クリックは条件変更の到達を確認できていない。同Bundle IDの旧/新preview同時起動を確認して両方を閉じ、new単独起動・window raise・press duration/座標を切り分けたが未確認。Dock取得は操作ツールtimeout。これを実操作PASSにしない。旧PlayModeのraycast→`ExecuteEvents`はcallback直呼びで、InputDevice→InputAction→UIInputModule経路を検証していなかった。
+### Actual Simulator interaction / V0・V1技術観測
 
-新たにMouse/Touch stateを実InputSystemUIInputModuleへqueueし、条件選択・開始/次行動/停止/再試行を確認する2回帰テストを追加。batch EditorでのみIgnoreFocusを設定しfinallyで復元する。これは実機touch/native OS delivery/IMEの証拠ではない。初回job device1はEdit14/14、Play3/5（Mouse/Touchの選択assert FAIL）。device3の観測ではactionはenabled、device controlも解決済みだったが、queueしたpointer/button値はactionへ届かなかった。installed InputSystem 1.20のEditor routing既定値が、非focus Game Viewへのpointer入力を送らないことを確認。
+source32cba28、version **0.1.0 / build 2**、Bundle ID `com.tomooch.roguetacticslab`。専用iPhone17 / iOS27.0 Simulator **Rogue Tactics G1 QA**へXcodeBuildMCPでinstall/launch。semantic snapshotはremote automation timeoutのため、Device HubのCUA native pointerと日本語software keyboardで実操作した。
 
-最新devicectl JSONにはsimulatedとphysical双方が含まれる。physical iPhoneはpairedだがtunnel unavailableで、実機操作は未観測。ASC追加アクセス設定の回答待ちは継続。TestFlight upload/processing/本人限定提供/HUMANは未完了。上記の修正・新テストはcdecba9以降のworking treeであり、旧PASSを新sourceへ転用しない。
+1. 日本語「かつ」を入力中、keyboard上の入力面で文字が見えること、確定後に元の予想欄へ戻ることを実画面で確認。
+2. Protect開始→次行動で守護3 / Damage3 / Counter2→連続再生→Victory14 / A16 / 生存4 / 回復残0。
+3. 戻すで全初期HP/位置へ復元→Attackに変更→BがMove→連続再生→Victory14 / A0 / 生存3 / 回復残1。
+4. 比較画面で両結果・hash prefix・Protectの予想を保持。完全hashは同source PlayModeでも一致。
 
-追加回帰job **device4** はPlayMode **5/5 PASS**。test内のみ `AllDeviceInputAlwaysGoesToGameView` と `IgnoreFocus` を設定しfinallyで復元すると、Mouse/Touch両方で実UIInputModuleのraycastが各buttonを指し、選択・開始・次行動・auto/pause・resetが成功した。product入力設定は変更しない。これはbatch Editorの仮想device経路を証明し、native OS／Simulator／物理iPhone／IMEの実操作を代替しない。修正前後のXMLを`evidence/mobile-g1/`へ保存。SDK別署名修正とSimulator exportを含む次の固定commitで、fresh import/Edit14/Play5/署名archive/Simulator buildを検証する。
+private動画 `/private/tmp/rogue-mobile-evidence/build2-keyboard.mp4`、比較画像`build2-comparison.jpg`、keyboard開閉画像`build2-keyboard-{visible,restored}.png`はowner-local一時領域。publicには観測JSONだけを保存。独立reviewは最新keyboard開閉2画像でBLOCKER/MAJORなし。先行source7d3ec53の4実画像reviewもBLOCKER/MAJORなし、中央label/線の密度はMINOR。これはagentによるSimulator操作であり、実iPhoneやHuman試遊ではない。
 
-### Mobile source 7d3ec53 / I0 verified, I1 in progress
+### 修正と再検証の記録
 
-検証source **`7d3ec532b3c47b10775a741a4572fe2aa9bd3046`**。fresh import PASS、EditMode **14/14**、PlayMode **5/5**、Unity iOS IL2CPP export PASS。最初の検証scriptはschemeの `-showBuildSettings -json` にUnityFrameworkが含まれると仮定してStopIteration。アプリtargetの署名は正しく、frameworkを `-target UnityFramework` で個別取得するようscriptのみ修正し、成功済み同source exportを使って続行した。app/framework両方が新game署名を選ぶこと、mainだけがgame profileを持つことを確認後、Xcode Release / generic iOS **署名archive exit0**。既存credential資産の変更なし。
+- 初期実描画でHP重なり、詳細Mask alpha0による本文消失を検出。safe幅/label配置、Mask alpha1＋showMaskGraphic false、本文coverage検査を追加して再検証。
+- event順序から早くpawnを消す箇所と移動後のguard線を修正。Death event時にだけ消し、Coreと表示の一致を検査。
+- callback直呼びだけではnative入力の証明にならなかった。Mouse/Touch queue回帰を追加。device1/device3はbatch Editorの非focus routingで失敗し、test-only routing修正後device4はPlay5/5 PASS。
+- source cdecba9の署名archiveはSDK別`iPhone Developer`優先によりexit65。game専用identityを`CODE_SIGN_IDENTITY[sdk=iphoneos*]`にも設定し、7d3ec53で署名archive/export成功。既存certificateを変更しない。
+- build1のInternal uploadは必須1024px app icon不足でexit70。opaque RGB24のテスト用盤面emblemをUnityで生成し、全iOS icon slotsを設定。正式原画やbrandingの採用ではない。build2の実export gateとApple upload成功で修正を確認。
+- Simulator実操作でkeyboardが予想欄を隠すことを発見。表示位置を補正し、型名とRect helperの衝突CS0119も明示型で修正。prepare2 Edit14/Play6の後、固定source32cba28で全fresh runと実keyboard操作を再実施。
 
-archive実体のBundle ID `com.tomooch.roguetacticslab`、version **0.1.0**、build **1** を検査。`codesign --verify --deep --strict` PASS、embedded profileのgame application-identifier／get-task-allow false／新game certificate1件一致を検査。`xcodebuild -exportArchive` は **exit0、IPA1件**。exportは `method=app-store-connect`、`destination=export`、manual game signing、`manageAppVersionAndBuildNumber=false`、**`testFlightInternalTestingOnly=true`**。公開TestFlight／App Storeへ配布できないInternal専用設定。秘密鍵・profile・IPA・原画・private captureはpublic Git外。
+修正前XML、旧sourceのsummaryも同evidence directoryに対象revisionを付けて保持する。旧PASSを最新sourceの証明として使わない。Mac previewのMobile sceneクリックは未確認だったため、現在の操作成功は上記Simulator実測だけに基づく。
 
-public証拠は `evidence/mobile-g1/7d3ec53-*`。raw jobs/logは一時領域 `/private/tmp/rogue-mobile-jobs/final1/`（script取得失敗）、`final2/`（archive成功・Simulator継続）、`export1/`（署名検証とexport成功）。実際のappは`build/RogueTacticsG1.xcarchive`／`build/internal-export/`。Simulator成功・実機起動・IMEの代替にはしない。
+### Distribution / 残るgate
 
-Humanが2026-10-14にASC「アクセス制限なし」を明示承認し、ゲーム専用ASCアプリ **Rogue Tactics Lab / Apple ID6822532815** を登録。内部グループ **本人限定 G1** は自動配信OFFで作成し、本人Account Holder1名のみ追加、ビルド0件を実画面で確認。game source7d3ec53 / 0.1.0(1)のInternal-only uploadを開始した。**I0 PASS**、I1はupload/processing/対象buildの本人提供確認待ち、I2/HUMAN未検証。App Store審査・正式公開・外部テスター・公開リンクなし。
+Human承認の範囲でgame専用Bundle ID、Distribution certificate、explicit App Store profile、ASC **Rogue Tactics Lab / Apple ID6822532815**を作成。ASC「アクセス制限なし」は自動reviewで拒否後、2026-10-14の明示Human承認を受けて設定。内部グループ **本人限定 G1**は自動配信OFF、本人Account Holder1名のみ、作成時はビルド0件を確認。新game資産だけを用い、SizeSnapと既存credential資産を変更しない。
 
-### Simulator actual interaction / keyboard visibility follow-up
-
-source7d3ec53のSimulator export/buildともexit0。専用iPhone17 / iOS27.0 SimulatorへXcodeBuildMCPでinstall/launch成功。runtime semantic snapshotはremote automation timeoutのためDevice HubのCUA native pointerと日本語software keyboardで操作した。Attack選択→日本語「かつ」入力/確定/Return→開始→次行動でDamage6/Counter2→連続再生でVictory14/A0/生存3/回復1。戻す→Protect→守護線/軽減3→Damage3/Counter2→連続再生/一時停止で行動4→詳細開閉後も行動4→再開→Victory14/A16/生存4/回復0。比較で両hash prefixと予想保持、resetで初期HPを観測。private動画/実画像は`/private/tmp/rogue-mobile-evidence/simulator-*`（一時領域、public Git外）。これは実機/HUMANの証拠ではない。
-
-独立reviewは今回の4実画像でV0/V1技術BLOCKER/MAJORなし、中央label/線の密度はMINOR。rootは実入力中に予想欄がsoftware keyboardに隠れる問題を追加観測したため、編集中にkeyboard area上まで予想欄を持ち上げ、閉じると元へ戻す表示修正を追加。Core state不変/日本語保持/keyboard高さ300・420pxで可視/閉じたら元位置の回帰testを追加。修正版build2は再検証待ち、build1のPASSを転用しない。
-
-build2候補811a73aはimportでCS0119：`Rect`補助メソッドと型名が衝突。`UnityEngine.Rect.zero`明示に修正。build1のuploadはexit70、Apple検査で必須1024×1024 app icon不足。認証警告はあったがApple upload検査に到達し、資格情報の再導入が原因解決ではない。private原画を含まないopaque RGB24のテスト用盤面エンブレムをUnityで生成・目視確認し、実Editorが生成したmetaとiOS全icon slots（1024 Marketingを含む）を設定。正式キャラ原画/ロゴの採用判断ではない。公式[GetPlatformIcons / SetPlatformIcons](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/PlayerSettings.SetPlatformIcons.html)に従う。
-
-修正working treeのjob prepare2はicon生成/compile PASS、Edit14/14、Play **6/6 PASS**（keyboard可視回帰追加）。public XMLは`evidence/mobile-g1/prepare2-*.xml`。次の固定sourceからfresh iOS build2＋Simulator再buildを行い、実keyboard表示を再観測する。I1/TestFlight提供・I2/HUMANは未達。
+**I0 PASS**。build2 uploadはAppleで成功しprocessing開始までログ確認済み。**I1のASC処理完了と本人へのbuild提供は未確認**で、ブラウザ再ログイン待ち。I2はphysical iPhoneのtunnel unavailableのため起動/touch/IME未検証、HUMAN見た目・理解・面白さ・次の自発的変更は未評価。private原画を持たないpublic checkoutのV0は未設定。一般公開、外部tester、公開リンク、App Store審査/リリース、main merge、Draft-to-Readyなし。CI workflow/checksは未設定でCI PASSを主張しない。
