@@ -195,3 +195,7 @@ Humanが2026-10-14にASC「アクセス制限なし」を明示承認し、ゲ�
 source7d3ec53のSimulator export/buildともexit0。専用iPhone17 / iOS27.0 SimulatorへXcodeBuildMCPでinstall/launch成功。runtime semantic snapshotはremote automation timeoutのためDevice HubのCUA native pointerと日本語software keyboardで操作した。Attack選択→日本語「かつ」入力/確定/Return→開始→次行動でDamage6/Counter2→連続再生でVictory14/A0/生存3/回復1。戻す→Protect→守護線/軽減3→Damage3/Counter2→連続再生/一時停止で行動4→詳細開閉後も行動4→再開→Victory14/A16/生存4/回復0。比較で両hash prefixと予想保持、resetで初期HPを観測。private動画/実画像は`/private/tmp/rogue-mobile-evidence/simulator-*`（一時領域、public Git外）。これは実機/HUMANの証拠ではない。
 
 独立reviewは今回の4実画像でV0/V1技術BLOCKER/MAJORなし、中央label/線の密度はMINOR。rootは実入力中に予想欄がsoftware keyboardに隠れる問題を追加観測したため、編集中にkeyboard area上まで予想欄を持ち上げ、閉じると元へ戻す表示修正を追加。Core state不変/日本語保持/keyboard高さ300・420pxで可視/閉じたら元位置の回帰testを追加。修正版build2は再検証待ち、build1のPASSを転用しない。
+
+build2候補811a73aはimportでCS0119：`Rect`補助メソッドと型名が衝突。`UnityEngine.Rect.zero`明示に修正。build1のuploadはexit70、Apple検査で必須1024×1024 app icon不足。認証警告はあったがApple upload検査に到達し、資格情報の再導入が原因解決ではない。private原画を含まないopaque RGB24のテスト用盤面エンブレムをUnityで生成・目視確認し、実Editorが生成したmetaとiOS全icon slots（1024 Marketingを含む）を設定。正式キャラ原画/ロゴの採用判断ではない。公式[GetPlatformIcons / SetPlatformIcons](https://docs.unity3d.com/6000.0/Documentation/ScriptReference/PlayerSettings.SetPlatformIcons.html)に従う。
+
+修正working treeのjob prepare2はicon生成/compile PASS、Edit14/14、Play **6/6 PASS**（keyboard可視回帰追加）。public XMLは`evidence/mobile-g1/prepare2-*.xml`。次の固定sourceからfresh iOS build2＋Simulator再buildを行い、実keyboard表示を再観測する。I1/TestFlight提供・I2/HUMANは未達。

@@ -155,7 +155,7 @@ namespace RogueTactics.Presentation
         private void Update()
         {
             if(!testViewport && (Screen.width!=screenW || Screen.height!=screenH || Screen.safeArea!=safeRect))ApplySafeArea(Screen.safeArea,Screen.width,Screen.height);
-            ApplyKeyboardArea(Prediction.isFocused && TouchScreenKeyboard.visible ? TouchScreenKeyboard.area : Rect.zero);
+            ApplyKeyboardArea(Prediction.isFocused && TouchScreenKeyboard.visible ? TouchScreenKeyboard.area : UnityEngine.Rect.zero);
             if(floatUntil>Time.unscaledTime) {var p=floatAt;floating.rectTransform.anchoredPosition=new Vector2(p.x-55,-p.y-35-(1-(floatUntil-Time.unscaledTime))*20);}
             else floating.text="";
         }

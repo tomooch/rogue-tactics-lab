@@ -47,6 +47,9 @@ namespace RogueTactics.Editor
         }
         public static void ExportIos()
         {
+#if UNITY_IOS
+            MobileIosSigning.PrepareIosIcons();
+#endif
             PlayerSettings.SetScriptingBackend(NamedBuildTarget.iOS,ScriptingImplementation.IL2CPP);
             PlayerSettings.iOS.sdkVersion=iOSSdkVersion.DeviceSDK;
             var result=BuildPipeline.BuildPlayer(new BuildPlayerOptions{scenes=new[]{ScenePath},locationPathName=Path.GetFullPath("../build/ios"),target=BuildTarget.iOS,options=BuildOptions.None});
@@ -58,6 +61,9 @@ namespace RogueTactics.Editor
         }
         public static void ExportIosSimulator()
         {
+#if UNITY_IOS
+            MobileIosSigning.PrepareIosIcons();
+#endif
             var sdk=PlayerSettings.iOS.sdkVersion;
             var architecture=PlayerSettings.iOS.simulatorSdkArchitecture;
             try
@@ -88,6 +94,44 @@ namespace RogueTactics.Editor
     using UnityEditor.iOS.Xcode;
     public static class MobileIosSigning
     {
+        // A public, procedural test-build emblem; contains no private character raster.
+        public static void PrepareIosIcons()
+        {
+            const string path="Assets/RogueTactics/Art/MobileG1/InternalIcon.png";
+            if(!File.Exists(path))
+            {
+                var image=new Texture2D(1024,1024,TextureFormat.RGB24,false);var pixels=new Color32[1024*1024];
+                for(var y=0;y<1024;y++)for(var x=0;x<1024;x++)
+                {
+                    var u=(x-511.5f)/512;var v=(y-511.5f)/512;
+                    var glow=Mathf.Max(0,1-Mathf.Sqrt(u*u+v*v));
+                    var color=Color.Lerp(new Color(.025f,.065f,.09f),new Color(.09f,.22f,.24f),glow);
+                    var diamond=Mathf.Abs(u)/.77f+Mathf.Abs(v+.05f)/.44f;
+                    if(diamond<1)color=Color.Lerp(new Color(.22f,.34f,.34f),new Color(.42f,.53f,.48f),(v+.49f)/.88f);
+                    if(diamond>.94f && diamond<1)color=new Color(.72f,.65f,.40f);
+                    for(var i=0;i<4;i++)
+                    {
+                        var cx=(i%2==0?-.23f:.23f);var cy=(i<2?-.09f:.16f);
+                        if((u-cx)*(u-cx)+(v-cy)*(v-cy)<.013f)
+                            color=new[]{new Color(.54f,.72f,.94f),new Color(.96f,.65f,.74f),new Color(.88f,.75f,.43f),new Color(.47f,.81f,.65f)}[i];
+                    }
+                    var spark=Mathf.Abs(u)/.10f+Mathf.Abs(v-.59f)/.16f;
+                    if(spark<1)color=new Color(1,.84f,.43f);
+                    pixels[y*1024+x]=color;
+                }
+                image.SetPixels32(pixels);image.Apply();File.WriteAllBytes(path,image.EncodeToPNG());UnityEngine.Object.DestroyImmediate(image);
+                AssetDatabase.ImportAsset(path,ImportAssetOptions.ForceSynchronousImport);
+            }
+            var importer=(TextureImporter)AssetImporter.GetAtPath(path);importer.alphaSource=TextureImporterAlphaSource.None;importer.mipmapEnabled=false;importer.textureCompression=TextureImporterCompression.Uncompressed;importer.maxTextureSize=1024;importer.SaveAndReimport();
+            var texture=AssetDatabase.LoadAssetAtPath<Texture2D>(path);
+            foreach(var kind in PlayerSettings.GetSupportedIconKinds(NamedBuildTarget.iOS))
+            {
+                var icons=PlayerSettings.GetPlatformIcons(NamedBuildTarget.iOS,kind);
+                foreach(var icon in icons)icon.SetTextures(Enumerable.Repeat(texture,icon.minLayerCount).ToArray());
+                PlayerSettings.SetPlatformIcons(NamedBuildTarget.iOS,kind,icons);
+            }
+            AssetDatabase.SaveAssets();Debug.Log("MOBILE_IOS_ICONS_COMPLETE opaque1024");
+        }
         // Explicit game-only build metadata. Credentials/private keys never enter this project.
         public static void ConfigureExport(string directory)
         {
