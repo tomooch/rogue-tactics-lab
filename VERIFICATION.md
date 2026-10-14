@@ -154,7 +154,7 @@ native操作の前に、短すぎる自動クリックがframe pollingに届か�
 
 baseline：PR #15 HEAD `aa1fc05b154abcfa0e1a5c90574bf91adc97d881`。専用branch `codex/mobile-visual-g1`、worktree `/private/tmp/rogue-mobile-visual-g1`。最新origin/main取得済み（`ab9fa5dc729dcea07f8680e7b22544627c5e5bed`）。PR #15や他のPRのbranchは変更しない。Core treeはbaselineとbyte同一を検査する。
 
-環境：Unity6000.3.25f1 / URP、iOS Build Support installed、Xcode27.0 (27A266a)、iphoneos SDK27.0。game専用Bundle ID `com.tomooch.roguetacticslab`をApple Developerへ登録。本人ログイン済み。game専用証明書/profileは作成・検証済み。ASC appは追加アクセス設定の回答待ちで、upload・本人限定Internal TestFlightは未完了。physical iPhoneはpairedだがtunnel unavailable、実機touch/IME/起動およびHUMAN評価は未観測。
+環境：Unity6000.3.25f1 / URP、iOS Build Support installed、Xcode27.0 (27A266a)、iphoneos SDK27.0。game専用Bundle ID `com.tomooch.roguetacticslab`をApple Developerへ登録。本人ログイン済み。game専用証明書/profileは作成・検証済み。ASC appはHumanのアクセス設定承認後に登録済み。upload開始、本人限定Internal TestFlightの提供は未確認。physical iPhoneはpairedだがtunnel unavailable、実機touch/IME/起動およびHUMAN評価は未観測。
 
 初回working-tree検証（2026-10-14 JST）：Configure/import/compile PASS、EditMode **14/14 PASS**、PlayMode **3/3 PASS**。新Mobile操作テストは390×844を維持し、ノッチsafe area、raycast top hit、戦術2条件、予想、start/next/auto/pause/reset/details/comparison、全表示event列一致・Core state projection・両frozen hashを確認。runner `/private/tmp/rogue-mobile-jobs/unity1/completion.json`、XMLとraw logs `/private/tmp/rogue-mobile-evidence/` は一時領域。private skin入り実Unity PNGは`unity/Logs/mobile-g1/private/`に保存し、公開Gitへ含めない。
 
@@ -179,3 +179,13 @@ Mac previewのCUA実クリックは条件変更の到達を確認できていな
 最新devicectl JSONにはsimulatedとphysical双方が含まれる。physical iPhoneはpairedだがtunnel unavailableで、実機操作は未観測。ASC追加アクセス設定の回答待ちは継続。TestFlight upload/processing/本人限定提供/HUMANは未完了。上記の修正・新テストはcdecba9以降のworking treeであり、旧PASSを新sourceへ転用しない。
 
 追加回帰job **device4** はPlayMode **5/5 PASS**。test内のみ `AllDeviceInputAlwaysGoesToGameView` と `IgnoreFocus` を設定しfinallyで復元すると、Mouse/Touch両方で実UIInputModuleのraycastが各buttonを指し、選択・開始・次行動・auto/pause・resetが成功した。product入力設定は変更しない。これはbatch Editorの仮想device経路を証明し、native OS／Simulator／物理iPhone／IMEの実操作を代替しない。修正前後のXMLを`evidence/mobile-g1/`へ保存。SDK別署名修正とSimulator exportを含む次の固定commitで、fresh import/Edit14/Play5/署名archive/Simulator buildを検証する。
+
+### Mobile source 7d3ec53 / I0 verified, I1 in progress
+
+検証source **`7d3ec532b3c47b10775a741a4572fe2aa9bd3046`**。fresh import PASS、EditMode **14/14**、PlayMode **5/5**、Unity iOS IL2CPP export PASS。最初の検証scriptはschemeの `-showBuildSettings -json` にUnityFrameworkが含まれると仮定してStopIteration。アプリtargetの署名は正しく、frameworkを `-target UnityFramework` で個別取得するようscriptのみ修正し、成功済み同source exportを使って続行した。app/framework両方が新game署名を選ぶこと、mainだけがgame profileを持つことを確認後、Xcode Release / generic iOS **署名archive exit0**。既存credential資産の変更なし。
+
+archive実体のBundle ID `com.tomooch.roguetacticslab`、version **0.1.0**、build **1** を検査。`codesign --verify --deep --strict` PASS、embedded profileのgame application-identifier／get-task-allow false／新game certificate1件一致を検査。`xcodebuild -exportArchive` は **exit0、IPA1件**。exportは `method=app-store-connect`、`destination=export`、manual game signing、`manageAppVersionAndBuildNumber=false`、**`testFlightInternalTestingOnly=true`**。公開TestFlight／App Storeへ配布できないInternal専用設定。秘密鍵・profile・IPA・原画・private captureはpublic Git外。
+
+public証拠は `evidence/mobile-g1/7d3ec53-*`。raw jobs/logは一時領域 `/private/tmp/rogue-mobile-jobs/final1/`（script取得失敗）、`final2/`（archive成功・Simulator継続）、`export1/`（署名検証とexport成功）。実際のappは`build/RogueTacticsG1.xcarchive`／`build/internal-export/`。Simulator成功・実機起動・IMEの代替にはしない。
+
+Humanが2026-10-14にASC「アクセス制限なし」を明示承認し、ゲーム専用ASCアプリ **Rogue Tactics Lab / Apple ID6822532815** を登録。内部グループ **本人限定 G1** は自動配信OFFで作成し、本人Account Holder1名のみ追加、ビルド0件を実画面で確認。game source7d3ec53 / 0.1.0(1)のInternal-only uploadを開始した。**I0 PASS**、I1はupload/processing/対象buildの本人提供確認待ち、I2/HUMAN未検証。App Store審査・正式公開・外部テスター・公開リンクなし。
