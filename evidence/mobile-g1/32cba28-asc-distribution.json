@@ -20,5 +20,10 @@
   "human_play": "unverified",
   "private_media": "Owner-local only",
   "self_tester_status": "Invited (2026-10-14)",
-  "group_build_count": 1
+  "group_build_count": 1,
+  "human_device_report": "App absent from TestFlight; only existing other app visible",
+  "self_invitation_resend": "Requested via ASC, processing dialog completed",
+  "invitation_delivery": "unverified",
+  "invitation_acceptance": "unverified",
+  "end_to_end_distribution": "not yet verified"
 }
