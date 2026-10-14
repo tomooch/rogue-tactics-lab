@@ -50,4 +50,6 @@ python tools/prepare_mobile_art.py --originals <approved-originals> --model <pin
 
 依存：Pillow、numpy、opencv-python-headless、onnxruntime。モデル：[SkyTNT anime-seg](https://huggingface.co/skytnt/anime-seg/tree/493cb60893f47441b26ec4fb9a306bce9e342982)、Apache-2.0、`isnetis.onnx` SHA-256 `f15622d853e8260172812b657053460e20806f04b9e05147d49af7bed31a6e99`。原画を外部AIへ送信しない。
 
-iOS exportは`RogueTactics.Editor.MobileG1Setup.ExportIos`、game専用IDは`com.tomooch.roguetacticslab`、version0.1.0/build2。署名・TestFlight・実機はそれぞれ独立したgateであり、Editorテスト成功を配布成功とは扱わない。本人限定TestFlightの初回利用は、登録済み本人メールへの招待をiPhoneで開いて承諾する。ASCの「テスト中」だけでは端末到達を確認できないため、招待メール受信→承諾→アプリ表示→install/起動を別に確認する。private rasterを含むcapture/buildはGit外へ保存する。最新の実測と未検証は[VERIFICATION.md](VERIFICATION.md)に記録する。
+iOS exportは`RogueTactics.Editor.MobileG1Setup.ExportIos`、game専用IDは`com.tomooch.roguetacticslab`、version0.1.0/build3。署名・TestFlight・実機はそれぞれ独立したgateであり、Editorテスト成功を配布成功とは扱わない。本人限定TestFlightの初回利用は、登録済み本人メールへの招待をiPhoneで開いて承諾する。ASCの「テスト中」だけでは端末到達を確認できないため、招待メール受信→承諾→アプリ表示→install/起動を別に確認する。private rasterを含むcapture/buildはGit外へ保存する。最新の実測と未検証は[VERIFICATION.md](VERIFICATION.md)に記録する。
+
+2026-10-14の試遊feedbackを受け、build3候補ではHPを頭上から足元へ移し、画角・表示間隔・人物を避ける矢印を調整。Core/両traceは不変。animation不足とHumanの見た目評価は別課題で、build3の配布状況はVERIFICATION.mdを確認。

@@ -31,6 +31,8 @@ namespace RogueTactics.Presentation
         private readonly Dictionary<string,int> hp=new Dictionary<string,int>();
         private readonly Dictionary<string,GridPosition> positions=new Dictionary<string,GridPosition>();
         private readonly Dictionary<string,Transform> pawns=new Dictionary<string,Transform>();
+        private readonly Dictionary<string,Renderer> bodies=new Dictionary<string,Renderer>();
+        private readonly Dictionary<string,Rect> bodyRects=new Dictionary<string,Rect>();
         private readonly Dictionary<string,CanvasGroup> badges=new Dictionary<string,CanvasGroup>();
         private readonly Dictionary<string,Text> hpTexts=new Dictionary<string,Text>();
         private readonly Dictionary<string,Image> hpBars=new Dictionary<string,Image>();
@@ -52,8 +54,7 @@ namespace RogueTactics.Presentation
         private bool terminalSeen, testViewport;
         private int shownStep;
         private float floatUntil;
-        private Vector2 floatAt;
-        private const float Cell=1.6f;
+        private const float Cell=2.5f;
         private static readonly Color Ink=new Color(.93f,.94f,.88f), Gold=new Color(.96f,.79f,.40f), Jade=new Color(.35f,.85f,.76f);
         public Button Button(string id) => buttons[id];
         public bool HasAllArt => CharacterArt.Length==4 && CharacterArt.All(t=>t!=null);
@@ -79,14 +80,14 @@ namespace RogueTactics.Presentation
             ghost=Rect(Field,"Legal destination",0,0,34,18);ghost.gameObject.AddComponent<Image>().color=new Color(.8f,.95f,.8f,.25f);ghost.GetComponent<Image>().raycastTarget=false;
             foreach(var u in Fixture.Baseline().Units)
             {
-                var r=Rect(Field,"HP "+u.Id,0,0,62,32);r.gameObject.AddComponent<Image>().color=new Color(.025f,.06f,.065f,.87f);
+                var r=Rect(Field,"HP "+u.Id,0,0,62,26);r.gameObject.AddComponent<Image>().color=new Color(.025f,.06f,.065f,.96f);
                 badges[u.Id]=r.gameObject.AddComponent<CanvasGroup>();
                 hpTexts[u.Id]=Label(r,"Value",u.Id,2,0,58,20,13,TextAnchor.MiddleCenter);
-                var bar=Rect(r,"HP bar",4,23,54,5).gameObject.AddComponent<Image>();bar.color=u.Enemy?new Color(.92f,.44f,.38f):Jade;
+                var bar=Rect(r,"HP bar",4,21,54,3).gameObject.AddComponent<Image>();bar.color=u.Enemy?new Color(.92f,.44f,.38f):Jade;
                 hpBars[u.Id]=bar;
             }
-            shield=Rect(Field,"Protect",0,0,40,38);shield.gameObject.AddComponent<Image>().color=new Color(.1f,.7f,.7f,.4f);
-            Label(shield,"Shield","守",0,0,40,38,19,TextAnchor.MiddleCenter);
+            shield=Rect(Field,"Protect",0,0,24,24);shield.gameObject.AddComponent<Image>().color=new Color(.035f,.20f,.22f,.98f);
+            Label(shield,"Shield","守",0,0,24,24,16,TextAnchor.MiddleCenter);
             floating=Label(Field,"Event feedback","",0,0,110,40,23,TextAnchor.MiddleCenter);
             artNotice=Label(Field,"Missing original","承認原画未設定 — V0未達",14,10,362,26,14);artNotice.gameObject.SetActive(!HasAllArt);
             controls=Rect(SafeRoot,"Controls",0,580,390,244);
@@ -136,6 +137,7 @@ namespace RogueTactics.Presentation
             ResizeButton("Compare",12,193,w-24);ResizeButton("Close",18,modalH-58,w-56);ResizeButton("Details",w-68,6,56);
             buttons["Close"].GetComponent<RectTransform>().anchoredPosition=new Vector2(18,-(modalH-58));
             FieldCamera.aspect=w/fieldH;
+            if(hp.Count>0)Refresh();
         }
         public void SetTestSafeArea(Rect area,int width,int height) {testViewport=true;ApplySafeArea(area,width,height);}
         // Keep the editable value visible; native keyboards can cover the lower setup controls.
@@ -156,13 +158,15 @@ namespace RogueTactics.Presentation
         {
             if(!testViewport && (Screen.width!=screenW || Screen.height!=screenH || Screen.safeArea!=safeRect))ApplySafeArea(Screen.safeArea,Screen.width,Screen.height);
             ApplyKeyboardArea(Prediction.isFocused && TouchScreenKeyboard.visible ? TouchScreenKeyboard.area : UnityEngine.Rect.zero);
-            if(floatUntil>Time.unscaledTime) {var p=floatAt;floating.rectTransform.anchoredPosition=new Vector2(p.x-55,-p.y-35-(1-(floatUntil-Time.unscaledTime))*20);}
+            if(floatUntil>Time.unscaledTime)floating.rectTransform.anchoredPosition=new Vector2(12,-8);
             else floating.text="";
         }
         private void BuildStage()
         {
-            FieldCamera=new GameObject("Dungeon Camera").AddComponent<Camera>();FieldCamera.orthographic=true;FieldCamera.orthographicSize=4.8f;
-            FieldCamera.transform.position=new Vector3(9,14,-8);FieldCamera.transform.LookAt(new Vector3(3.2f,0,3.2f));FieldCamera.cullingMask=~(1<<5);
+            FieldCamera=new GameObject("Dungeon Camera").AddComponent<Camera>();FieldCamera.orthographic=true;FieldCamera.orthographicSize=5.4f;
+            // Presentation-only spacing and a straight, steeper view preserve every Core cell.
+            var center=new Vector3(2*Cell,0,2*Cell);
+            FieldCamera.transform.position=center+new Vector3(0,20,-5.35f);FieldCamera.transform.LookAt(center);FieldCamera.cullingMask=~(1<<5);
             FieldCamera.backgroundColor=new Color(.065f,.13f,.16f);FieldCamera.clearFlags=CameraClearFlags.SolidColor;
             FieldCamera.GetUniversalAdditionalCameraData().renderPostProcessing=true;
             fieldTarget=new RenderTexture(780,1040,24){name="Mobile dungeon actual render"};FieldCamera.targetTexture=fieldTarget;
@@ -170,18 +174,18 @@ namespace RogueTactics.Presentation
             var bloom=vol.profile.Add<Bloom>();bloom.intensity.Override(.3f);bloom.threshold.Override(1.1f);
             RenderSettings.ambientMode=AmbientMode.Trilight;RenderSettings.ambientSkyColor=new Color(.37f,.55f,.65f);RenderSettings.ambientEquatorColor=new Color(.23f,.34f,.38f);RenderSettings.ambientGroundColor=new Color(.10f,.15f,.18f);
             var sun=new GameObject("Soft dungeon light").AddComponent<Light>();sun.type=LightType.Directional;sun.intensity=1.15f;sun.color=new Color(1,.91f,.76f);sun.shadows=LightShadows.Soft;sun.transform.rotation=Quaternion.Euler(55,-35,0);
-            Box("Diorama base",new Vector3(3.2f,-.55f,3.2f),new Vector3(9.4f,.95f,9.4f),new Color(.14f,.24f,.26f));
+            Box("Diorama base",center+Vector3.down*.55f,new Vector3(Cell*5.9f,.95f,Cell*5.9f),new Color(.10f,.18f,.20f));
             for(var x=-1;x<=5;x++)for(var z=-1;z<=5;z++)
             {
-                var shade=((x*11+z*7)&3)*.023f;Box("Worn stone",new Vector3(x*Cell,-.02f,z*Cell),new Vector3(1.54f,.14f,1.54f),new Color(.43f+shade,.52f+shade,.49f+shade));
-                if((x*13+z*5)%4==0)Box("Stone seam",new Vector3(x*Cell+.27f,.06f,z*Cell+.14f),new Vector3(.55f,.015f,.025f),new Color(.31f,.39f,.38f));
+                var shade=((x*11+z*7)&3)*.012f;Box("Worn stone",new Vector3(x*Cell,-.02f,z*Cell),new Vector3(Cell-.06f,.14f,Cell-.06f),new Color(.22f+shade,.31f+shade,.32f+shade));
+                if((x*13+z*5)%4==0)Box("Stone seam",new Vector3(x*Cell+.27f,.06f,z*Cell+.14f),new Vector3(.55f,.015f,.025f),new Color(.18f,.25f,.26f));
             }
             for(var i=0;i<7;i++)
             {
-                Box("Back wall stone",new Vector3(-1.65f,.35f+i*.03f,i*Cell-1.4f),new Vector3(.7f,.85f,1.45f),new Color(.29f,.39f,.39f));
-                Box("Far wall stone",new Vector3(i*Cell-1.4f,.65f,8.45f),new Vector3(1.45f,1.4f,.75f),new Color(.25f,.36f,.36f));
+                Box("Back wall stone",new Vector3(-Cell,.35f+i*.03f,(i-1)*Cell),new Vector3(.7f,.85f,Cell-.08f),new Color(.22f,.31f,.33f));
+                Box("Far wall stone",new Vector3((i-1)*Cell,.65f,5.25f*Cell),new Vector3(Cell-.08f,1.4f,.75f),new Color(.21f,.30f,.32f));
             }
-            foreach(var p in new[]{new Vector3(-1.8f,0,-1.4f),new Vector3(-1.8f,0,8.4f),new Vector3(8.4f,0,8.4f)})
+            foreach(var p in new[]{new Vector3(-Cell,0,-Cell),new Vector3(-Cell,0,5*Cell),new Vector3(5*Cell,0,5*Cell)})
             {
                 Box("Old pillar plinth",p+Vector3.up*.15f,new Vector3(1.1f,.35f,1.1f),new Color(.36f,.46f,.44f));
                 Box("Old pillar",p+Vector3.up*1.4f,new Vector3(.66f,2.6f,.66f),new Color(.38f,.48f,.46f));
@@ -190,7 +194,7 @@ namespace RogueTactics.Presentation
                 var m=lamp.GetComponent<Renderer>().sharedMaterial;m.EnableKeyword("_EMISSION");m.SetColor("_EmissionColor",new Color(2.5f,1.1f,.18f));
                 var light=new GameObject("Lantern glow").AddComponent<Light>();light.type=LightType.Point;light.color=new Color(1,.55f,.19f);light.intensity=2.0f;light.range=4;light.transform.position=lamp.transform.position;
             }
-            foreach(var p in new[]{new Vector3(-.8f,0,4.8f),new Vector3(6.8f,0,6.8f)})
+            foreach(var p in new[]{new Vector3(.2f*Cell,0,3.5f*Cell),new Vector3(3.8f*Cell,0,3.5f*Cell)})
             {
                 Box("Lantern niche",p+Vector3.up*.7f,new Vector3(.7f,1.4f,.7f),new Color(.22f,.32f,.34f));
                 var lamp=Sphere("Dungeon ember",p+Vector3.up*1.45f,new Vector3(.25f,.35f,.25f),new Color(1,.65f,.19f));
@@ -199,7 +203,7 @@ namespace RogueTactics.Presentation
             }
             for(var i=0;i<16;i++)
             {
-                var x=(i%2==0?-1.4f:8.1f);var z=(i*1.31f)%9-1.3f;
+                var x=(i%2==0?-.85f*Cell:4.85f*Cell);var z=(i*1.31f)%(6*Cell)-Cell;
                 Sphere("Moss",new Vector3(x,.12f,z),new Vector3(.7f,.22f,.58f),new Color(.25f,.42f,.31f));
                 Box("Fallen rock",new Vector3(x+.2f,.25f,z+.38f),new Vector3(.4f,.4f,.5f),new Color(.35f,.45f,.42f)).transform.rotation=Quaternion.Euler(12,i*31,18);
             }
@@ -213,18 +217,21 @@ namespace RogueTactics.Presentation
                     if(index<CharacterArt.Length && CharacterArt[index]!=null)
                     {
                         var quad=GameObject.CreatePrimitive(PrimitiveType.Quad);quad.name="Private approved static skin";quad.transform.SetParent(root,false);
-                        quad.transform.localPosition=new Vector3(0,.90f,0);quad.transform.rotation=FieldCamera.transform.rotation;
-                        quad.transform.localScale=new Vector3(1.45f,1.92f,1);var m=new Material(SpriteTemplate);m.mainTexture=CharacterArt[index];materials.Add(m);quad.GetComponent<Renderer>().sharedMaterial=m;
+                        quad.transform.localPosition=Vector3.up*.12f+FieldCamera.transform.up*.75f;quad.transform.rotation=FieldCamera.transform.rotation;
+                        quad.transform.localScale=new Vector3(1.125f,1.50f,1);var m=new Material(SpriteTemplate);m.mainTexture=CharacterArt[index];materials.Add(m);quad.GetComponent<Renderer>().sharedMaterial=m;bodies[u.Id]=quad.GetComponent<Renderer>();
                     }
-                    else Sphere("Missing approved original (not final art)",Vector3.zero,new Vector3(.55f,.7f,.5f),new Color(.5f,.55f,.5f)).transform.SetParent(root,false);
+                    else {var missing=Sphere("Missing approved original (not final art)",Vector3.zero,new Vector3(.55f,.7f,.5f),new Color(.5f,.55f,.5f));missing.transform.SetParent(root,false);bodies[u.Id]=missing.GetComponent<Renderer>();}
                 }
                 else
                 {
-                    var body=Sphere("Fixture slime",Vector3.zero,new Vector3(1.2f,.8f,1.08f),u.Id=="X"?new Color(.4f,.65f,.57f):new Color(.63f,.40f,.63f));body.transform.SetParent(root,false);body.transform.localPosition=Vector3.up*.45f;
+                    // Anchor the front contact edge to the cell, like the static portraits' feet.
+                    // A centred sphere otherwise extends over the next row's portrait/foot HP.
+                    shadow.transform.localPosition+=Vector3.forward*.55f;
+                    var body=Sphere("Fixture slime",Vector3.zero,new Vector3(1.2f,.8f,1.08f),u.Id=="X"?new Color(.4f,.65f,.57f):new Color(.63f,.40f,.63f));body.transform.SetParent(root,false);body.transform.localPosition=new Vector3(0,.45f,.55f);bodies[u.Id]=body.GetComponent<Renderer>();
                     foreach(var dx in new[]{-.22f,.22f})
                     {
-                        var eye=Sphere("Slime eye",Vector3.zero,new Vector3(.2f,.22f,.12f),new Color(.96f,.95f,.85f));eye.transform.SetParent(root,false);eye.transform.localPosition=new Vector3(dx,.61f,-.47f);
-                        var pupil=Sphere("Slime pupil",Vector3.zero,new Vector3(.08f,.1f,.08f),new Color(.06f,.12f,.14f));pupil.transform.SetParent(root,false);pupil.transform.localPosition=new Vector3(dx,.6f,-.53f);
+                        var eye=Sphere("Slime eye",Vector3.zero,new Vector3(.2f,.22f,.12f),new Color(.96f,.95f,.85f));eye.transform.SetParent(root,false);eye.transform.localPosition=new Vector3(dx,.61f,.08f);
+                        var pupil=Sphere("Slime pupil",Vector3.zero,new Vector3(.08f,.1f,.08f),new Color(.06f,.12f,.14f));pupil.transform.SetParent(root,false);pupil.transform.localPosition=new Vector3(dx,.6f,.02f);
                     }
                 }
             }
@@ -269,15 +276,17 @@ namespace RogueTactics.Presentation
             switch(e.Kind)
             {
                 case EventKind.Move:positions[e.Target]=e.Position;
+                    actionLink.gameObject.SetActive(false);ghost.gameObject.SetActive(false);
                     if(e.Actor=="A" || e.Actor=="B"){shield.gameObject.SetActive(false);guardLink.gameObject.SetActive(false);}break;
                 case EventKind.Protect:
-                    shield.gameObject.SetActive(true);shield.anchoredPosition=Point(positions[e.Target],.7f)+new Vector2(-20,19);guardLink.gameObject.SetActive(true);Link(guardLink,positions[e.Actor],positions[e.Target]);break;
+                    shield.gameObject.SetActive(true);shield.anchoredPosition=(BodyRect(positions[e.Actor]).center+BodyRect(positions[e.Target]).center)/2+new Vector2(-12,12);
+                    guardLink.gameObject.SetActive(true);Link(guardLink,positions[e.Actor],positions[e.Target]);break;
                 case EventKind.Damage:case EventKind.Counter:case EventKind.Heal:
-                    hp[e.Target]=e.HpAfter;floating.text=(e.Kind==EventKind.Heal?"+":"−")+e.Amount;floating.color=e.Kind==EventKind.Heal?Jade:e.Kind==EventKind.Counter?Gold:new Color(1,.65f,.56f);
-                    var at=Point(positions[e.Target],1.8f);floatAt=new Vector2(at.x,-at.y);floatUntil=Time.unscaledTime+1;
+                    hp[e.Target]=e.HpAfter;floating.text=e.Target+"  "+(e.Kind==EventKind.Heal?"+":"−")+e.Amount;floating.color=e.Kind==EventKind.Heal?Jade:e.Kind==EventKind.Counter?Gold:new Color(1,.65f,.56f);
+                    floatUntil=Time.unscaledTime+1;
                     actionLink.gameObject.SetActive(true);Link(actionLink,positions[e.Actor],positions[e.Target]);
                     if(e.Detail.StartsWith("Guard"))captions.Add("守護でダメージ軽減");break;
-                case EventKind.Death:dead.Add(e.Target);if(e.Target=="A" || e.Target=="B"){shield.gameObject.SetActive(false);guardLink.gameObject.SetActive(false);}hp[e.Target]=0;pawns[e.Target].gameObject.SetActive(false);badges[e.Target].alpha=.45f;break;
+                case EventKind.Death:dead.Add(e.Target);actionLink.gameObject.SetActive(false);ghost.gameObject.SetActive(false);if(e.Target=="A" || e.Target=="B"){shield.gameObject.SetActive(false);guardLink.gameObject.SetActive(false);}hp[e.Target]=0;pawns[e.Target].gameObject.SetActive(false);badges[e.Target].alpha=.45f;break;
             }
             if(e.Kind!=EventKind.Action)captions.Add(Describe(e));
             if(e.Kind==EventKind.Action && e.Actor=="B"){shield.gameObject.SetActive(false);guardLink.gameObject.SetActive(false);}
@@ -298,20 +307,14 @@ namespace RogueTactics.Presentation
         }
         private void RefreshActors()
         {
-            var occupied=new List<Rect>();
+            bodyRects.Clear();
+            // HP belongs beneath its own silhouette, never on a face or a neighbour.
             foreach(var u in Session.Replay.State.Units)
             {
                 var p=positions[u.Id];pawns[u.Id].position=new Vector3(p.X*Cell,0,p.Y*Cell);pawns[u.Id].gameObject.SetActive(!dead.Contains(u.Id));
-                var at=Point(p,u.Enemy?1.1f:2.12f);var label=new Rect(at.x-31,-at.y-16,62,32);
-                // Pack only the HUD labels; the Core positions remain untouched.
-                foreach(var offset in new[]{Vector2.zero,new Vector2(0,-34),new Vector2(-64,0),new Vector2(64,0),new Vector2(0,-68),new Vector2(-64,-34),new Vector2(64,-34)})
-                {
-                    var candidate=new Rect(Mathf.Clamp(label.x+offset.x,2,Field.rect.width-64),Mathf.Clamp(label.y+offset.y,2,Field.rect.height-34),62,32);
-                    if(occupied.All(r=>!r.Overlaps(candidate))){label=candidate;break;}
-                }
-                if(!dead.Contains(u.Id))occupied.Add(label);
-                badges[u.Id].GetComponent<RectTransform>().anchoredPosition=new Vector2(label.x,-label.y);
-                badges[u.Id].gameObject.SetActive(!dead.Contains(u.Id));hpTexts[u.Id].text=u.Id+"  "+hp[u.Id]+"/"+u.MaxHp;hpBars[u.Id].rectTransform.sizeDelta=new Vector2(54f*hp[u.Id]/u.MaxHp,5);
+                var body=ProjectedBody(bodies[u.Id]);if(!dead.Contains(u.Id))bodyRects[u.Id]=body;
+                badges[u.Id].GetComponent<RectTransform>().anchoredPosition=new Vector2(body.center.x-31,body.yMin-5);
+                badges[u.Id].gameObject.SetActive(!dead.Contains(u.Id));hpTexts[u.Id].text=u.Id+"  "+hp[u.Id]+"/"+u.MaxHp;hpBars[u.Id].rectTransform.sizeDelta=new Vector2(54f*hp[u.Id]/u.MaxHp,3);
             }
         }
         private void Refresh()
@@ -326,7 +329,7 @@ namespace RogueTactics.Presentation
             }
             if(!Busy)
             {
-                var p=Rules.Preview(Session.Replay.State,new Command(Session.Preference));actionLink.gameObject.SetActive(p!=null && p.Kind!=ActionKind.Maintain);
+                var p=active?Rules.Preview(Session.Replay.State,new Command(Session.Preference)):null;actionLink.gameObject.SetActive(p!=null && p.Kind!=ActionKind.Maintain);
                 ghost.gameObject.SetActive(p?.Kind==ActionKind.Move);
                 if(p!=null){Link(actionLink,positions[p.Actor],p.Kind==ActionKind.Move?p.Destination:(p.Target!=""?positions[p.Target]:positions[p.Actor]));if(p.Kind==ActionKind.Move)ghost.anchoredPosition=Point(p.Destination,.05f)+new Vector2(-17,9);}
             }
@@ -355,10 +358,54 @@ namespace RogueTactics.Presentation
         }
         private Vector2 Point(GridPosition p,float y=.7f)
         {var v=FieldCamera.WorldToViewportPoint(new Vector3(p.X*Cell,y,p.Y*Cell));return new Vector2(v.x*Field.rect.width,-(1-v.y)*Field.rect.height);}
+        private Rect ProjectedBody(Renderer body)
+        {
+            var bounds=body.localBounds;var min=new Vector2(float.MaxValue,float.MaxValue);var max=new Vector2(float.MinValue,float.MinValue);
+            for(var i=0;i<8;i++)
+            {
+                var corner=bounds.center+Vector3.Scale(bounds.extents,new Vector3((i&1)==0?-1:1,(i&2)==0?-1:1,(i&4)==0?-1:1));
+                var v=FieldCamera.WorldToViewportPoint(body.transform.TransformPoint(corner));var p=new Vector2(v.x*Field.rect.width,-(1-v.y)*Field.rect.height);min=Vector2.Min(min,p);max=Vector2.Max(max,p);
+            }
+            return UnityEngine.Rect.MinMaxRect(min.x,min.y,max.x,max.y);
+        }
+        private Rect BodyRect(GridPosition p)
+        {
+            foreach(var item in bodyRects)if(positions[item.Key].Equals(p))return item.Value;
+            var at=Point(p,.12f);return new Rect(at.x-12,at.y-12,24,24);
+        }
+        private static Vector2 Outside(Rect r,Vector2 direction)
+        {
+            var n=direction.normalized;var distance=Mathf.Min(Mathf.Abs(n.x)>.001f?r.width/2/Mathf.Abs(n.x):float.MaxValue,Mathf.Abs(n.y)>.001f?r.height/2/Mathf.Abs(n.y):float.MaxValue);
+            return r.center+n*(distance+7);
+        }
         private void Link(RectTransform strip,GridPosition a,GridPosition b)
-        {var from=Point(a);var to=Point(b);var d=to-from;strip.pivot=new Vector2(0,.5f);strip.anchoredPosition=from;strip.sizeDelta=new Vector2(d.magnitude,3);strip.localRotation=Quaternion.Euler(0,0,Mathf.Atan2(d.y,d.x)*Mathf.Rad2Deg);}
+        {
+            var from=BodyRect(a);var to=BodyRect(b);var d=to.center-from.center;
+            var direct=new[]{Outside(from,d),Outside(to,-d)};
+            var routes=new List<Vector2[]>{direct};
+            // A short side lane keeps vertical arrows out of upright portraits and foot HP.
+            foreach(var x in new[]{(from.center.x+to.center.x)/2,Mathf.Max(from.xMax,to.xMax)+18,Mathf.Min(from.xMin,to.xMin)-18})
+            {
+                if(x>from.xMin-7 && x<from.xMax+7 || x>to.xMin-7 && x<to.xMax+7)continue;
+                var start=new Vector2(x>from.center.x?from.xMax+7:from.xMin-7,from.center.y);
+                var end=new Vector2(x>to.center.x?to.xMax+7:to.xMin-7,to.center.y);
+                routes.Add(new[]{start,new Vector2(x,start.y),new Vector2(x,end.y),end});
+            }
+            var obstacles=bodyRects.Values.Concat(badges.Values.Where(v=>v.gameObject.activeInHierarchy).Select(v=>{
+                var r=v.GetComponent<RectTransform>();return new Rect(r.anchoredPosition.x,r.anchoredPosition.y-r.rect.height,r.rect.width,r.rect.height);
+            })).ToArray();
+            var path=routes.OrderBy(r=>Crossings(r,obstacles)).ThenBy(r=>Enumerable.Range(1,r.Length-1).Sum(i=>Vector2.Distance(r[i-1],r[i]))).First();
+            strip.anchoredPosition=Vector2.zero;strip.sizeDelta=Field.rect.size;strip.GetComponent<MobileRouteGraphic>().SetPath(path);
+        }
+        private static int Crossings(Vector2[] path,Rect[] obstacles)
+        {
+            var count=0;
+            foreach(var r in obstacles)for(var i=1;i<path.Length;i++)
+                for(var s=0;s<=16;s++)if(new Rect(r.x-4,r.y-4,r.width+8,r.height+8).Contains(Vector2.Lerp(path[i-1],path[i],s/16f))){count++;break;}
+            return count;
+        }
         private static RectTransform Strip(Transform parent,string name,Color color)
-        {var r=Rect(parent,name,0,0,1,3);r.gameObject.AddComponent<Image>().color=color;r.GetComponent<Image>().raycastTarget=false;return r;}
+        {var r=Rect(parent,name,0,0,1,3);var g=r.gameObject.AddComponent<MobileRouteGraphic>();g.color=color;g.Dashed=name=="Guard link";g.raycastTarget=false;return r;}
         private static RectTransform Rect(Transform parent,string name,float x,float y,float w,float h)
         {var r=new GameObject(name,typeof(RectTransform)).GetComponent<RectTransform>();r.SetParent(parent,false);r.gameObject.layer=5;r.anchorMin=r.anchorMax=new Vector2(0,1);r.pivot=new Vector2(0,1);r.anchoredPosition=new Vector2(x,-y);r.sizeDelta=new Vector2(w,h);return r;}
         private Text Label(Transform parent,string name,string value,float x,float y,float w,float h,int size,TextAnchor anchor=TextAnchor.UpperLeft)
@@ -366,5 +413,38 @@ namespace RogueTactics.Presentation
         private void MakeButton(Transform parent,string id,string name,float x,float y,float w,float h,UnityEngine.Events.UnityAction action,int size)
         {var r=Rect(parent,id,x,y,w,h);var i=r.gameObject.AddComponent<Image>();i.color=new Color(.12f,.24f,.26f);var b=r.gameObject.AddComponent<Button>();b.targetGraphic=i;b.onClick.AddListener(action);buttons[id]=b;Label(r,"Label",name,4,2,w-8,h-4,size,TextAnchor.MiddleCenter);}
         private void OnDestroy(){if(fieldTarget!=null){fieldTarget.Release();Destroy(fieldTarget);}foreach(var m in materials)Destroy(m);}
+    }
+    // Draws only the supplied Presentation path; it never selects a gameplay target.
+    [RequireComponent(typeof(CanvasRenderer))]
+    public sealed class MobileRouteGraphic : MaskableGraphic
+    {
+        public bool Dashed;
+        private Vector2[] path=Array.Empty<Vector2>();
+        public IReadOnlyList<Vector2> Points => path;
+        public void SetPath(Vector2[] points){path=points;SetVerticesDirty();}
+        protected override void OnPopulateMesh(VertexHelper vh)
+        {
+            vh.Clear();if(path.Length<2)return;
+            var outline=new Color(.015f,.035f,.045f,.98f);
+            for(var i=1;i<path.Length;i++)Segment(vh,path[i-1],path[i],8,outline);
+            for(var i=1;i<path.Length;i++)
+            {
+                var d=path[i]-path[i-1];var length=d.magnitude;if(length<.01f)continue;
+                if(!Dashed)Segment(vh,path[i-1],path[i],4,color);
+                else for(var at=0f;at<length;at+=12)Segment(vh,path[i-1]+d.normalized*at,path[i-1]+d.normalized*Mathf.Min(at+7,length),4,color);
+            }
+            var end=path[path.Length-1];var last=end-path[path.Length-2];if(last.sqrMagnitude<1)return;
+            var n=last.normalized;var side=new Vector2(-n.y,n.x);var size=Mathf.Min(12,last.magnitude*.8f);
+            Triangle(vh,end+n*2,end-n*(size+2)+side*10,end-n*(size+2)-side*10,outline);
+            Triangle(vh,end,end-n*size+side*7,end-n*size-side*7,color);
+        }
+        private static void Segment(VertexHelper vh,Vector2 a,Vector2 b,float width,Color color)
+        {
+            var d=b-a;if(d.sqrMagnitude<.01f)return;var n=new Vector2(-d.y,d.x).normalized*(width/2);
+            var start=vh.currentVertCount;foreach(var p in new[]{a-n,b-n,b+n,a+n})vh.AddVert(p,color,Vector2.zero);
+            vh.AddTriangle(start,start+1,start+2);vh.AddTriangle(start,start+2,start+3);
+        }
+        private static void Triangle(VertexHelper vh,Vector2 a,Vector2 b,Vector2 c,Color color)
+        {var start=vh.currentVertCount;vh.AddVert(a,color,Vector2.zero);vh.AddVert(b,color,Vector2.zero);vh.AddVert(c,color,Vector2.zero);vh.AddTriangle(start,start+1,start+2);}
     }
 }

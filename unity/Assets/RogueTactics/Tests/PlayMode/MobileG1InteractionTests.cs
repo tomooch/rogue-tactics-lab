@@ -31,6 +31,7 @@ namespace RogueTactics.Tests
         private static void CheckLayout(MobileG1View view)
         {
             Canvas.ForceUpdateCanvases();
+            CheckActorReadability(view);
             var labels=Object.FindObjectsByType<CanvasGroup>(FindObjectsSortMode.None).Where(c=>c.name.StartsWith("HP ") && c.gameObject.activeInHierarchy).ToArray();
             for(var i=0;i<labels.Length;i++)for(var j=i+1;j<labels.Length;j++)
             {var a=labels[i].GetComponent<RectTransform>();var b=labels[j].GetComponent<RectTransform>();Assert.That(new Rect(a.anchoredPosition.x,-a.anchoredPosition.y,a.rect.width,a.rect.height).Overlaps(new Rect(b.anchoredPosition.x,-b.anchoredPosition.y,b.rect.width,b.rect.height)),Is.False,"HP labels must not overlap");}
@@ -45,11 +46,66 @@ namespace RogueTactics.Tests
                 foreach(var corner in c){var p=Camera.main.WorldToViewportPoint(corner);Assert.That(p.x,Is.InRange(-.005f,1.005f),text.name);Assert.That(p.y,Is.InRange(-.005f,1.005f),text.name);}
             }
         }
+        private static void CheckActorReadability(MobileG1View view)
+        {
+            var bodies=new Dictionary<string,Rect>();
+            foreach(var renderer in Object.FindObjectsByType<Renderer>(FindObjectsSortMode.None).Where(r=>r.gameObject.activeInHierarchy && (r.name=="Private approved static skin" || r.name=="Fixture slime")))
+            {
+                var bounds=renderer.bounds;var points=new List<Vector2>();
+                for(var i=0;i<8;i++)
+                {
+                    var corner=bounds.center+Vector3.Scale(bounds.extents,new Vector3((i&1)==0?-1:1,(i&2)==0?-1:1,(i&4)==0?-1:1));
+                    var p=view.FieldCamera.WorldToViewportPoint(corner);points.Add(new Vector2(p.x*view.Field.rect.width,(p.y-1)*view.Field.rect.height));
+                }
+                var rect=Rect.MinMaxRect(points.Min(p=>p.x),points.Min(p=>p.y),points.Max(p=>p.x),points.Max(p=>p.y));
+                bodies[renderer.transform.parent.name.Substring(8)]=rect;
+                Assert.That(rect.xMin,Is.GreaterThanOrEqualTo(2),renderer.name+" inside field");Assert.That(rect.xMax,Is.LessThanOrEqualTo(view.Field.rect.width-2));
+                Assert.That(rect.yMin,Is.GreaterThanOrEqualTo(-view.Field.rect.height+2));Assert.That(rect.yMax,Is.LessThanOrEqualTo(-2));
+            }
+            var all=bodies.ToArray();for(var i=0;i<all.Length;i++)for(var j=i+1;j<all.Length;j++)
+                Assert.That(all[i].Value.Overlaps(all[j].Value),Is.False,"Silhouette separation "+all[i].Key+" / "+all[j].Key);
+            var hpRects=new List<Rect>();
+            foreach(var badge in Object.FindObjectsByType<CanvasGroup>(FindObjectsSortMode.None).Where(c=>c.name.StartsWith("HP ") && c.gameObject.activeInHierarchy))
+            {
+                var t=badge.GetComponent<RectTransform>();var r=new Rect(t.anchoredPosition.x,t.anchoredPosition.y-t.rect.height,t.rect.width,t.rect.height);var own=bodies[badge.name.Substring(3)];
+                Assert.That(r.yMax,Is.LessThanOrEqualTo(own.yMin-3),badge.name+" beneath body, never across head");
+                Assert.That(r.xMin,Is.GreaterThanOrEqualTo(0));Assert.That(r.xMax,Is.LessThanOrEqualTo(view.Field.rect.width));Assert.That(r.yMin,Is.GreaterThanOrEqualTo(-view.Field.rect.height));
+                foreach(var b in bodies)Assert.That(r.Overlaps(b.Value),Is.False,badge.name+" must not cover "+b.Key);
+                hpRects.Add(r);
+            }
+            foreach(var route in Object.FindObjectsByType<MobileRouteGraphic>(FindObjectsSortMode.None).Where(g=>g.gameObject.activeInHierarchy))
+            {
+                Assert.That(route.raycastTarget,Is.False);
+                for(var i=1;i<route.Points.Count;i++)for(var step=0;step<=30;step++)
+                {
+                    var p=Vector2.Lerp(route.Points[i-1],route.Points[i],step/30f);
+                    foreach(var b in bodies)Assert.That(new Rect(b.Value.x-4,b.Value.y-4,b.Value.width+8,b.Value.height+8).Contains(p),Is.False,route.name+" avoids "+b.Key+" at step "+view.Session.Replay.State.Step);
+                    foreach(var r in hpRects)Assert.That(r.Contains(p),Is.False,route.name+" must not cross foot HP at step "+view.Session.Replay.State.Step);
+                }
+            }
+        }
         private static IEnumerator Capture(string name)
         {
             Canvas.ForceUpdateCanvases();yield return null;yield return null;
+            foreach(var route in Object.FindObjectsByType<MobileRouteGraphic>(FindObjectsSortMode.None).Where(g=>g.gameObject.activeInHierarchy))
+            {
+                Assert.That(route.GetComponent<CanvasRenderer>(),Is.Not.Null,route.name+" must have an actual UI renderer");
+                var mesh=route.canvasRenderer.GetMesh();
+                Assert.That(mesh,Is.Not.Null);Assert.That(mesh.vertexCount,Is.GreaterThanOrEqualTo(6),route.name+" actual arrow mesh");Assert.That(route.canvasRenderer.cull,Is.False);
+            }
             var rt=Camera.main.targetTexture;var old=RenderTexture.active;RenderTexture.active=rt;
             var texture=new Texture2D(390,844,TextureFormat.RGB24,false);texture.ReadPixels(new Rect(0,0,390,844),0,0);texture.Apply();
+            foreach(var route in Object.FindObjectsByType<MobileRouteGraphic>(FindObjectsSortMode.None).Where(g=>g.gameObject.activeInHierarchy))
+            {
+                var visible=0;var camera=route.canvas.worldCamera;
+                for(var i=1;i<route.Points.Count;i++)for(var sample=2;sample<29;sample++)
+                {
+                    var point=Vector2.Lerp(route.Points[i-1],route.Points[i],sample/30f);var pixel=camera.WorldToViewportPoint(route.rectTransform.TransformPoint(point));
+                    var c=texture.GetPixel(Mathf.Clamp(Mathf.RoundToInt(pixel.x*390),0,389),Mathf.Clamp(Mathf.RoundToInt(pixel.y*844),0,843));
+                    if(route.Dashed?c.g>.55f && c.b>.4f && c.r<c.g-.08f:c.r>.65f && c.g>.5f && c.b<.75f && c.r>c.b+.1f)visible++;
+                }
+                Assert.That(visible,Is.GreaterThanOrEqualTo(3),route.name+" must be visibly coloured in actual render");
+            }
             Assert.That(texture.GetPixels32().Count(p=>p.r>150 && p.g>150 && p.b>150),Is.GreaterThan(300),"Visible Japanese HUD and approved art");
             if(name=="02-mobile-rules" || name=="07-mobile-comparison")
                 Assert.That(texture.GetPixels(25,250,335,400).Count(p=>p.r>.45f && p.g>.45f && p.b>.45f),Is.GreaterThan(1000),"Actual modal body must be visible through stencil mask");
@@ -150,7 +206,7 @@ namespace RogueTactics.Tests
             var view=Object.FindFirstObjectByType<MobileG1View>();Assert.That(view.HasAllArt,Is.True,"Approved private originals are required for V0");
             var rt=new RenderTexture(390,844,24);Camera.main.targetTexture=rt;yield return null;yield return null;
             view.SetTestSafeArea(new Rect(0,34,390,763),390,844);yield return null;yield return null;
-            CheckLayout(view);yield return Capture("01-mobile-setup-safearea");
+            yield return Capture("01-mobile-setup-safearea");CheckLayout(view);
             view.SetTestSafeArea(new Rect(10,34,355,763),390,844);yield return null;yield return null;CheckLayout(view);
             foreach(var id in new[]{"Protect","Attack","Start","Details","Compare"})
             {var r=view.Button(id).GetComponent<RectTransform>();var c=new Vector3[4];r.GetWorldCorners(c);foreach(var corner in c){var v=Camera.main.WorldToViewportPoint(corner);Assert.That(v.x,Is.InRange(10f/390-.005f,365f/390+.005f),id+" inside safe width");}}
@@ -169,7 +225,7 @@ namespace RogueTactics.Tests
                 Click(view,"Play");yield return null;yield return null;Click(view,"Play");while(view.Busy)yield return null;
                 Assert.That(view.Paused,Is.True);var stopped=view.Session.Replay.State.Serialize();yield return new WaitForSecondsRealtime(.6f);
                 Assert.That(view.Session.Replay.State.Serialize(),Is.EqualTo(stopped));
-                Click(view,"Play");while(view.Busy || view.Session.Replay.State.Outcome==Outcome.Active)yield return null;
+                Click(view,"Play");while(view.Busy || view.Session.Replay.State.Outcome==Outcome.Active){CheckActorReadability(view);yield return null;}
                 Assert.That(view.Session.Replay.Hash(),Is.EqualTo(preference==Preference.ProtectAnchor?"e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d":"85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e"));
                 Assert.That(view.DisplayedEvents.Select(e=>e.Serialize()),Is.EqualTo(view.Session.Replay.Events.Select(e=>e.Serialize())));
                 CheckLayout(view);Click(view,"Reset");yield return null;yield return null;

@@ -219,3 +219,25 @@ Human承認の範囲でgame専用Bundle ID、Distribution certificate、explicit
 #### 招待到達の再確認
 
 2026-10-14、Humanから「TestFlightに来ていない、SizeSnapしかない」と報告。ASCの本人1名/ビルド1件と「招待済み」を再確認し、同じ本人だけを選択して再招待→再送信、処理dialog終了を観測。受信箱への配達・招待承諾・端末表示は未確認。したがってI1のASC設定PASSとend-to-end到達は分け、後者は未達のまま。新規招待はメールからTestFlightで承諾する[Apple公式手順](https://developer.apple.com/help/app-store-connect/test-a-beta-version/add-internal-testers/)をhandoffへ明示し、端末表示確認前にインストール可能と断定しない。SizeSnapや別アカウント/外部testerは変更しない。再送後のowner-local画像は`/private/tmp/rogue-mobile-evidence/asc-build2-reinvited.jpg`（一時領域）。
+
+### Human試遊feedbackと視認性修正（2026-10-14、進行中）
+
+Humanは招待メールを確認しiPhoneで開くと回答、その後「できた」と報告。さらに実際の見た目として、キャラが見づらい・キャラからの線が見づらい・斜め視点が見づらい・詰まって見える・キャラが大きすぎるかもしれない・アニメーションなしでは面白くなさそう、と報告。追加で「頭にバーを被せることが認識阻害。下もしくは分離」と指摘。V0/HUMANの視認性・期待感は未合格。端末model/iOS/実機capture/全操作QAは未取得であり、招待成功や感想から未観測の全I1をPASSにしない。
+
+旧build2のUnity実画像と独立reviewで、orthographic cameraのyawと浅い俯角による駒群の重なり、spriteに対するセル間隔不足、キャラ上を横切る細い線、頭上HPの問題を確認。Core座標・trace・初期条件を変えず、Presentationだけのセル倍率/俯角/余白、足元HP、縁取り方向矢印を修正中。頭上HPは採用せず、各シルエットの下かつ隣キャラとも重ならないことを回帰検査する。animationへの反応はレイアウトで解決したと扱わず、別Issue #13の未完課題として保持し、今回の静止キャラ契約を黙って拡大しない。
+
+job readability1でcompile/PlayMode/390×844実描画を再検証。修正後のHuman GOはまだない。旧画像はowner-local `/private/tmp/rogue-mobile-evidence/readability/build2-before-*.png`（一時領域）、private原画入り画像はpublic Git/Notionへ含めない。
+
+readability1はcompile PASS、PlayMode5/6。追加回帰が「HP X must not cover A」を検出。新画角でも中心pivotの球敵の前縁がcellより下へ伸び、足元HPが次行の味方へ入っていた。敵の表示本体/眼/影だけをcontact edgeがcellに揃うよう補正し、Core root位置やstateは維持。readability2で再描画・再検証中。失敗XMLは`evidence/mobile-g1/readability1-failed-play.xml`。
+
+readability2もcompile PASS、Play5/6。初期/守護/被弾の実画像で足元HP・人物非重複は確認したが、新矢印が描かれていないため未合格。testの事前LogAssert.Expectが後続assertの原因を「terminal log不在」で覆ったため、terminal/hash/event比較のassertは維持し不要な事前log期待だけ除去し、actual Canvas mesh/色/cull/pathを診断するreadability3を開始。画面は今回のowner-local private実Unity renderで、Humanの修正後GOではない。
+
+readability3の診断追加でUnity6のCanvasRenderer.GetMesh APIを旧1引数形式と誤記しcompile FAIL。実EditorのUIModule XMLを確認した0引数GetMeshへ修正し、readability4で診断を再実行。製品のCore/数値には変更なし。
+
+readability4はcompile PASS、Play5/6。actual Canvas mesh取得でMissingComponentExceptionとなり、新custom MaskableGraphicにCanvasRendererが無いことを特定。経路値があっても描画不能だった。RequireComponent(CanvasRenderer)を追加し、readability5でactual mesh頂点/cullに加えて画面上の経路から色付きpixelをsampleする回帰を追加。HP/人物の非重複と両trace gateは維持。
+
+readability5はcompile PASS、Play5/6。矢印actual mesh/cull/pixel検査と実画像確認は成功。戦闘途中の「Core intention avoids B」で、Move後もpreview用の古い矢印が残り、移動先Bに被ることを検出。Core Move/Death eventでaction arrow/ghostを消す表示修正を追加し、readability6で全frameの人物回避＋足元HP回避を再検証。Coreのevent生成や時刻は変えない。
+
+readability6はcompile PASS、全戦闘frameのsilhouette/足元HP/矢印回避、両terminal/hash/event比較まで通過。最後のNoUnexpectedReceivedが、診断時に期待登録を外した正常MOBILE_G1_RESULTログを未処理として検出しsuiteは5/6。元のLogAssert.Expectを復元しbuild3設定とともにreadability7でEdit14/Play6を再実行。独立reviewは最新初期/守護画像の範囲でBLOCKER/MAJORなし。MINORは矢印終点/上部event receiptの標的との距離、画角変更で盤面が平面grid寄りに見える点。Humanの再評価は必要で、animation不足は未解決。
+
+readability7はUnity6000.3.25f1でConfigure/import PASS、EditMode14/14、PlayMode6/6 PASS。全戦闘frameの人物間/足元HP/矢印非交差、actual arrow mesh/色pixel、両trace hashとCore event投影、狭いsafe幅、keyboard/Mouse/Touchを確認。実画像で頭上HP被りを解消。Editor再生成はsceneのobject IDだけ変えていたためsceneを元へ戻し、auto生成のiOS rendering flagだけも復元。buildNumber3はEditorが生成した差分を保持。sourceを固定してfresh import/tests・署名archive/Simulator再buildへ進む。
