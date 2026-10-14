@@ -52,4 +52,4 @@ python tools/prepare_mobile_art.py --originals <approved-originals> --model <pin
 
 iOS exportは`RogueTactics.Editor.MobileG1Setup.ExportIos`、game専用IDは`com.tomooch.roguetacticslab`、version0.1.0/build3。署名・TestFlight・実機はそれぞれ独立したgateであり、Editorテスト成功を配布成功とは扱わない。本人限定TestFlightの初回利用は、登録済み本人メールへの招待をiPhoneで開いて承諾する。ASCの「テスト中」だけでは端末到達を確認できないため、招待メール受信→承諾→アプリ表示→install/起動を別に確認する。private rasterを含むcapture/buildはGit外へ保存する。最新の実測と未検証は[VERIFICATION.md](VERIFICATION.md)に記録する。
 
-2026-10-14の試遊feedbackを受け、build3候補ではHPを頭上から足元へ移し、画角・表示間隔・人物を避ける矢印を調整。Core/両traceは不変。animation不足とHumanの見た目評価は別課題で、build3の配布状況はVERIFICATION.mdを確認。
+2026-10-14の試遊feedbackを受け、build3ではHPを頭上から足元へ移し、画角・表示間隔・人物を避ける矢印を調整。Core/両traceは不変。animation不足とHumanの見た目評価は別課題で、固定source d19a135でfresh Edit14/14・Play6/6、署名archive/Simulator実操作を確認し、本人限定TestFlightの0.1.0(3)はテスト中。iPhoneではTestFlightのRogue Tactics Labを更新する。修正後のHuman評価は未取得。詳細はVERIFICATION.mdを確認。

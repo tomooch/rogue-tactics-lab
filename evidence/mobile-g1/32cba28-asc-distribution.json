@@ -16,14 +16,19 @@
     }
   ],
   "test_notes": "Japanese operation instructions saved",
-  "physical_install": "unverified",
-  "human_play": "unverified",
+  "physical_install": "ASC Installed 0.1.0 (2), 2026-10-14",
+  "human_play": "Readability feedback received; aesthetics/appeal not accepted",
   "private_media": "Owner-local only",
   "self_tester_status": "Invited (2026-10-14)",
   "group_build_count": 1,
-  "human_device_report": "App absent from TestFlight; only existing other app visible",
+  "human_device_report": "Success after opening invitation, followed by readability/appeal feedback",
   "self_invitation_resend": "Requested via ASC, processing dialog completed",
-  "invitation_delivery": "unverified",
-  "invitation_acceptance": "unverified",
-  "end_to_end_distribution": "not yet verified"
+  "invitation_delivery": "Human confirmed invitation email",
+  "invitation_acceptance": "Accepted; ASC Installed status observed",
+  "end_to_end_distribution": "Build 2 install confirmed; full physical touch/IME/safe-area QA not independently observed",
+  "device": {
+    "model": "iPhone 17",
+    "os": "iOS 27.0",
+    "source": "ASC internal tester device column after fresh reload"
+  }
 }

@@ -220,7 +220,7 @@ Human承認の範囲でgame専用Bundle ID、Distribution certificate、explicit
 
 2026-10-14、Humanから「TestFlightに来ていない、SizeSnapしかない」と報告。ASCの本人1名/ビルド1件と「招待済み」を再確認し、同じ本人だけを選択して再招待→再送信、処理dialog終了を観測。受信箱への配達・招待承諾・端末表示は未確認。したがってI1のASC設定PASSとend-to-end到達は分け、後者は未達のまま。新規招待はメールからTestFlightで承諾する[Apple公式手順](https://developer.apple.com/help/app-store-connect/test-a-beta-version/add-internal-testers/)をhandoffへ明示し、端末表示確認前にインストール可能と断定しない。SizeSnapや別アカウント/外部testerは変更しない。再送後のowner-local画像は`/private/tmp/rogue-mobile-evidence/asc-build2-reinvited.jpg`（一時領域）。
 
-### Human試遊feedbackと視認性修正（2026-10-14、進行中）
+### Human試遊feedbackと視認性修正（2026-10-14、build3技術検証済み）
 
 Humanは招待メールを確認しiPhoneで開くと回答、その後「できた」と報告。さらに実際の見た目として、キャラが見づらい・キャラからの線が見づらい・斜め視点が見づらい・詰まって見える・キャラが大きすぎるかもしれない・アニメーションなしでは面白くなさそう、と報告。追加で「頭にバーを被せることが認識阻害。下もしくは分離」と指摘。V0/HUMANの視認性・期待感は未合格。端末model/iOS/実機capture/全操作QAは未取得であり、招待成功や感想から未観測の全I1をPASSにしない。
 
@@ -241,3 +241,11 @@ readability5はcompile PASS、Play5/6。矢印actual mesh/cull/pixel検査と実
 readability6はcompile PASS、全戦闘frameのsilhouette/足元HP/矢印回避、両terminal/hash/event比較まで通過。最後のNoUnexpectedReceivedが、診断時に期待登録を外した正常MOBILE_G1_RESULTログを未処理として検出しsuiteは5/6。元のLogAssert.Expectを復元しbuild3設定とともにreadability7でEdit14/Play6を再実行。独立reviewは最新初期/守護画像の範囲でBLOCKER/MAJORなし。MINORは矢印終点/上部event receiptの標的との距離、画角変更で盤面が平面grid寄りに見える点。Humanの再評価は必要で、animation不足は未解決。
 
 readability7はUnity6000.3.25f1でConfigure/import PASS、EditMode14/14、PlayMode6/6 PASS。全戦闘frameの人物間/足元HP/矢印非交差、actual arrow mesh/色pixel、両trace hashとCore event投影、狭いsafe幅、keyboard/Mouse/Touchを確認。実画像で頭上HP被りを解消。Editor再生成はsceneのobject IDだけ変えていたためsceneを元へ戻し、auto生成のiOS rendering flagだけも復元。buildNumber3はEditorが生成した差分を保持。sourceを固定してfresh import/tests・署名archive/Simulator再buildへ進む。
+
+ASCをfresh reloadし、本人の状態が**インストール済み0.1.0(2)**、device列が**iPhone17 / iOS27.0**になったことを観測。招待メール到達はHuman回答、承諾/インストールはASC実測とHuman「できた」報告、起動後の見た目はHuman feedbackとして記録する。専用Simulatorとは別のASC TestFlight実機配布証拠であり、全touch/IME/safe areaの独立QAや修正build3成功へ転用しない。private screenshot `/private/tmp/rogue-mobile-evidence/asc-build2-installed.jpg`（一時領域、public Git外）。
+
+固定source d19a135のbuild3-finalは全工程完了：fresh import、Edit14/14、Play6/6、iOS export、署名archive、Simulator export/build PASS。upload3もgame専用codesign/profile/Internal-only検査後exit0。両runner completion/artifactを読んで確認済み。build時に生成されたrendering/cacheの4設定差分だけを復元し、Unity sourceはd19a135と同一。
+
+専用SimulatorのCFBundleVersion3を確認してinstall/launch後、CUA native pointerでProtectの開始→次行動（Guard3/Damage3/Counter2）→連続再生（Victory14、A16/B16/C12/D10、生存4、回復残0）→戻す→Attack開始（B Move）→連続再生（Victory14、A0/B16/C12/D10、生存3、回復残1）→両結果/hash比較まで実画面で観測。頭にHPを重ねず足元へ置き、方向矢印が人物を迂回して描画されることを確認。build3 native試行の予想は空欄、日本語native keyboardの実操作はbuild2で観測した範囲。最新public観測JSONは`evidence/mobile-g1/d19a135-native-observation.json`。owner-local動画`/private/tmp/rogue-mobile-evidence/build3-readability.mp4`、画像`build3-native-guard.png`/`build3-comparison.jpg`（一時領域）を保存。build3のHuman/実機評価とアニメーション不足は未解決。
+
+2026-10-14、Apple処理後のbuild0.1.0(3)にbuild2と同じ暗号化回答を保存して「テスト準備完了」を確認。本人限定G1へ追加し「テスト中」、build詳細の内部グループ1件/テスター1名、日本語の変更点と操作説明の保存・reload後保持を確認。iOS一覧でもbuild3「テスト中」/本人限定G1を実画面で再確認。既存build2を期限切れにせず、外部グループ/公開リンクを追加しない。private証拠は`/private/tmp/rogue-mobile-evidence/asc-build3-testing.jpg`と`asc-build3-self-notes.jpg`（一時領域）。public記録は`evidence/mobile-g1/d19a135-asc-distribution.json`。build3の本人端末install/起動・Human再評価は未確認。Notion Todo/Tried & Learned同期成功。
