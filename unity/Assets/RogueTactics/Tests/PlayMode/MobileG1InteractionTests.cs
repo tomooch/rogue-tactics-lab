@@ -56,6 +56,26 @@ namespace RogueTactics.Tests
             Directory.CreateDirectory(Evidence);File.WriteAllBytes(Path.Combine(Evidence,name+".png"),texture.EncodeToPNG());RenderTexture.active=old;Object.Destroy(texture);
         }
         [UnityTest]
+        public IEnumerator PredictionStaysAboveKeyboardAndReturnsWithoutChangingCore()
+        {
+            yield return SceneManager.LoadSceneAsync("MobileG1");yield return null;yield return null;
+            var view=Object.FindFirstObjectByType<MobileG1View>();var rt=new RenderTexture(390,844,24);Camera.main.targetTexture=rt;
+            view.SetTestSafeArea(new Rect(0,34,390,763),390,844);yield return null;yield return null;
+            var state=view.Session.Replay.State.Serialize();var input=view.Prediction.GetComponent<RectTransform>();var origin=input.anchoredPosition;
+            view.Prediction.text="かつ";
+            foreach(var height in new[]{300,420})
+            {
+                view.ApplyKeyboardArea(new Rect(0,0,390,height));Canvas.ForceUpdateCanvases();
+                var corners=new Vector3[4];input.GetWorldCorners(corners);
+                Assert.That(RectTransformUtility.WorldToScreenPoint(Camera.main,corners[0]).y,Is.GreaterThanOrEqualTo(height+11));
+                Assert.That(RectTransformUtility.WorldToScreenPoint(Camera.main,corners[1]).y,Is.LessThan(797));
+                Assert.That(view.Prediction.text,Is.EqualTo("かつ"));
+                Assert.That(view.Session.Replay.State.Serialize(),Is.EqualTo(state));
+            }
+            view.ApplyKeyboardArea(Rect.zero);Assert.That(input.anchoredPosition,Is.EqualTo(origin));
+            Camera.main.targetTexture=null;Object.Destroy(rt);LogAssert.NoUnexpectedReceived();
+        }
+        [UnityTest]
         public IEnumerator QueuedMouseReachesButtonsThroughInputSystem() => DevicePipeline(false);
         [UnityTest]
         public IEnumerator QueuedTouchReachesButtonsThroughInputSystem() => DevicePipeline(true);

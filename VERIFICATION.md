@@ -189,3 +189,9 @@ archive実体のBundle ID `com.tomooch.roguetacticslab`、version **0.1.0**、bu
 public証拠は `evidence/mobile-g1/7d3ec53-*`。raw jobs/logは一時領域 `/private/tmp/rogue-mobile-jobs/final1/`（script取得失敗）、`final2/`（archive成功・Simulator継続）、`export1/`（署名検証とexport成功）。実際のappは`build/RogueTacticsG1.xcarchive`／`build/internal-export/`。Simulator成功・実機起動・IMEの代替にはしない。
 
 Humanが2026-10-14にASC「アクセス制限なし」を明示承認し、ゲーム専用ASCアプリ **Rogue Tactics Lab / Apple ID6822532815** を登録。内部グループ **本人限定 G1** は自動配信OFFで作成し、本人Account Holder1名のみ追加、ビルド0件を実画面で確認。game source7d3ec53 / 0.1.0(1)のInternal-only uploadを開始した。**I0 PASS**、I1はupload/processing/対象buildの本人提供確認待ち、I2/HUMAN未検証。App Store審査・正式公開・外部テスター・公開リンクなし。
+
+### Simulator actual interaction / keyboard visibility follow-up
+
+source7d3ec53のSimulator export/buildともexit0。専用iPhone17 / iOS27.0 SimulatorへXcodeBuildMCPでinstall/launch成功。runtime semantic snapshotはremote automation timeoutのためDevice HubのCUA native pointerと日本語software keyboardで操作した。Attack選択→日本語「かつ」入力/確定/Return→開始→次行動でDamage6/Counter2→連続再生でVictory14/A0/生存3/回復1。戻す→Protect→守護線/軽減3→Damage3/Counter2→連続再生/一時停止で行動4→詳細開閉後も行動4→再開→Victory14/A16/生存4/回復0。比較で両hash prefixと予想保持、resetで初期HPを観測。private動画/実画像は`/private/tmp/rogue-mobile-evidence/simulator-*`（一時領域、public Git外）。これは実機/HUMANの証拠ではない。
+
+独立reviewは今回の4実画像でV0/V1技術BLOCKER/MAJORなし、中央label/線の密度はMINOR。rootは実入力中に予想欄がsoftware keyboardに隠れる問題を追加観測したため、編集中にkeyboard area上まで予想欄を持ち上げ、閉じると元へ戻す表示修正を追加。Core state不変/日本語保持/keyboard高さ300・420pxで可視/閉じたら元位置の回帰testを追加。修正版build2は再検証待ち、build1のPASSを転用しない。

@@ -138,11 +138,24 @@ namespace RogueTactics.Presentation
             FieldCamera.aspect=w/fieldH;
         }
         public void SetTestSafeArea(Rect area,int width,int height) {testViewport=true;ApplySafeArea(area,width,height);}
+        // Keep the editable value visible; native keyboards can cover the lower setup controls.
+        public void ApplyKeyboardArea(Rect keyboardArea)
+        {
+            var input=Prediction.GetComponent<RectTransform>();input.anchoredPosition=new Vector2(12,-54);
+            if(keyboardArea.height<=0 || !setup.gameObject.activeInHierarchy)return;
+            Canvas.ForceUpdateCanvases();var corners=new Vector3[4];input.GetWorldCorners(corners);
+            var bottom=RectTransformUtility.WorldToScreenPoint(canvas.worldCamera,corners[0]).y;
+            var top=RectTransformUtility.WorldToScreenPoint(canvas.worldCamera,corners[1]).y;
+            var pixelsPerUnit=(top-bottom)/input.rect.height;
+            if(pixelsPerUnit>0)input.anchoredPosition+=Vector2.up*Mathf.Max(0,(keyboardArea.yMax+12-bottom)/pixelsPerUnit);
+        }
+
         private void ResizeButton(string id,float x,float y,float width)
         {var r=buttons[id].GetComponent<RectTransform>();r.anchoredPosition=new Vector2(x,-y);r.sizeDelta=new Vector2(width,48);buttons[id].GetComponentInChildren<Text>().rectTransform.sizeDelta=new Vector2(width-8,44);}
         private void Update()
         {
             if(!testViewport && (Screen.width!=screenW || Screen.height!=screenH || Screen.safeArea!=safeRect))ApplySafeArea(Screen.safeArea,Screen.width,Screen.height);
+            ApplyKeyboardArea(Prediction.isFocused && TouchScreenKeyboard.visible ? TouchScreenKeyboard.area : Rect.zero);
             if(floatUntil>Time.unscaledTime) {var p=floatAt;floating.rectTransform.anchoredPosition=new Vector2(p.x-55,-p.y-35-(1-(floatUntil-Time.unscaledTime))*20);}
             else floating.text="";
         }

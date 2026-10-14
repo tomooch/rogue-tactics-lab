@@ -33,7 +33,7 @@ namespace RogueTactics.Editor
             }
             PlayerSettings.defaultInterfaceOrientation=UIOrientation.Portrait;PlayerSettings.allowedAutorotateToLandscapeLeft=false;PlayerSettings.allowedAutorotateToLandscapeRight=false;
             PlayerSettings.defaultScreenWidth=390;PlayerSettings.defaultScreenHeight=844;
-            PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.iOS,"com.tomooch.roguetacticslab");PlayerSettings.bundleVersion="0.1.0";PlayerSettings.iOS.buildNumber="1";
+            PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.iOS,"com.tomooch.roguetacticslab");PlayerSettings.bundleVersion="0.1.0";PlayerSettings.iOS.buildNumber="2";
             PlayerSettings.iOS.appleDeveloperTeamID="9HXM297A8U";PlayerSettings.iOS.appleEnableAutomaticSigning=false;
             PlayerSettings.iOS.targetOSVersionString="16.0";
             EditorSceneManager.SaveScene(scene,ScenePath);
