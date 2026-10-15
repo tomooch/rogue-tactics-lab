@@ -16,5 +16,69 @@
       }
     ]
   },
-  "limitation": "Simulator video cadence only; does not prove physical iPhone fps or performance"
+  "limitation": "Simulator video cadence only; does not prove physical iPhone fps or performance",
+  "rejected_final_capture": {
+    "video": "/private/tmp/rogue-hq-pass2/build5-final-protect.mp4",
+    "source_head": "d5e8e08b0cd130cadfb0e9e100ed2bf1b571c884",
+    "frames": 1182,
+    "duration_seconds": 19.666667,
+    "reason": "Capture started too late; frame5 already late Death, frame16 ended. Insufficient active duration; not accepted as 10-20s active proof."
+  },
+  "rejected_attack_capture": {
+    "video": "/private/tmp/rogue-hq-pass2/build5-final-attack.mp4",
+    "source_head": "d5e8e08b0cd130cadfb0e9e100ed2bf1b571c884",
+    "frames": 1183,
+    "duration_seconds": 19.691667,
+    "reason": "frame1 already later combat, frame12 ended. Not accepted as 10-20s active proof."
+  },
+  "accepted_final_protect": {
+    "source_head": "d5e8e08b0cd130cadfb0e9e100ed2bf1b571c884",
+    "private_video": "/private/tmp/rogue-hq-pass2/build5-protect-15s.mp4",
+    "sha256": "58eaf886f8e57ffabd8ae385b797f6bbd4e536c79e8209381cc86fab0141af58",
+    "source_capture": "build5-active-protect2.mp4",
+    "trim_seconds": [
+      4,
+      19
+    ],
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "r_frame_rate": "60000/1001",
+          "avg_frame_rate": "54000000/899899",
+          "duration": "14.998317",
+          "nb_frames": "900"
+        }
+      ]
+    },
+    "observed": "4s Guard first action and 18s C attack after X Death, no pause/end screen in selected active segment",
+    "scope": "Simulator capture cadence, not physical iPhone performance"
+  },
+  "accepted_final_attack": {
+    "source_head": "d5e8e08b0cd130cadfb0e9e100ed2bf1b571c884",
+    "private_video": "/private/tmp/rogue-hq-pass2/build5-attack-13s.mp4",
+    "sha256": "3f2f827e83f18c5e1620e290f6c95cdd1299b49cd98053058607575cfb17756a",
+    "source_capture": "build5-active-attack2.mp4",
+    "trim_seconds": [
+      6,
+      19
+    ],
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "r_frame_rate": "60000/1001",
+          "avg_frame_rate": "4260000/70889",
+          "duration": "12.996317",
+          "nb_frames": "781"
+        }
+      ]
+    },
+    "observed": "6s X attack after B Move and 18s A attack, no pause/end screen in selected active segment",
+    "scope": "Simulator capture cadence, not physical iPhone performance"
+  },
+  "final_source_head": "d5e8e08b0cd130cadfb0e9e100ed2bf1b571c884",
+  "final_status": "accepted 15s Protect and 13s Attack active segments; earlier captures explicitly retained as historical or rejected"
 }
