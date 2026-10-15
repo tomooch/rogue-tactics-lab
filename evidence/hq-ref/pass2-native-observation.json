@@ -50,6 +50,6 @@
   ],
   "physical_device": false,
   "device_access": "devicectl failed CoreDeviceService initialization; current physical availability unknown",
-  "testflight_build5": "not uploaded; ASC fresh reload needs owner reauthentication",
+  "testflight_build5": "upload exit0; Apple transport processing reported; ASC completion and owner-group provision unverified",
   "human_visual_fun": "not observed"
 }

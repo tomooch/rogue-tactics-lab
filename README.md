@@ -72,3 +72,5 @@ python3 tools/verify_hq.py --editor /Applications/Unity/Hub/Editor/6000.3.25f1/U
 PR #21の[Pass2実装パケット](https://github.com/tomooch/rogue-tactics-lab/pull/21#issuecomment-6192468412)に沿い、環境は`tools/author_sky_ruins.py`で作る自作OBJとUnity Editor生成Mesh assetへ移行。再生成は同script→上記`--configure`の順です。非移動行動は局所actor/target表示と名前付きevent文、Moveだけ経路表示を使い、比較シートをrosterより前へ描画します。Coreの5×5・2敵・両traceと承認skinは維持します。
 
 Pass2の造形比較では浮島側面と滝の露出は改善した一方、石材の厚み・侵食、崖の重層感、植物の密度、滝の量感、遠景が原画の品質に届いていません。R2はV0 FAILを保持し、高品質完成とは扱いません。PRIMARY bytes未取得、Human評価・実機QA・Notion同期も未完了です。新しい実行結果はVERIFICATION.mdのPass2記録を参照してください。
+
+Pass2 final runtime source d5e8e08の0.1.0(5)はEdit14/14・Play9/9、署名archive・Simulator両戦闘/IME/再試行/比較を確認し、本人限定upload exit0。Apple transportはprocessingを返したが、ASC認証切れにより処理完了と本人限定グループ配布は未確認です。美術R2未達とHuman/実機評価待ちは継続します。

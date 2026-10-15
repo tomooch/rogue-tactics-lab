@@ -2,7 +2,8 @@
   "design_freeze": "HQ-REF-1",
   "authority": [
     "https://github.com/tomooch/rogue-tactics-lab/issues/20",
-    "https://github.com/tomooch/rogue-tactics-lab/issues/20#issuecomment-6184262380"
+    "https://github.com/tomooch/rogue-tactics-lab/issues/20#issuecomment-6184262380",
+    "https://github.com/tomooch/rogue-tactics-lab/pull/21#issuecomment-6192468412"
   ],
   "main": "ab9fa5dc729dcea07f8680e7b22544627c5e5bed",
   "stacked_baseline": "ce4ffac8d2216973c391d801cf5f6d41fbde66b5",

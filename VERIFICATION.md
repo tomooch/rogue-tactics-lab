@@ -339,3 +339,9 @@ R0 PRIMARY/Notion BLOCKED、R1 technical PASS、R2 V0 FAIL/BLOCKED、R3 event/ha
 Protect再取得の4–19秒を採用: 実14.9983秒/900frames（約60fps）。先頭Guardから後半C攻撃までactive、長いpause/終了画面を含まない15秒clipを確認。private `/private/tmp/rogue-hq-pass2/build5-protect-15s.mp4`。最終source d5e8e08の署名/profile/bundle/build/internal-onlyを再検査し、既存資格情報による本人限定uploadを開始。Appleブラウザ再ログインは回答待ちで、processing/グループ配布は未確認。
 
 最終native動画確定: Protect14.9983秒/900frames、Attack12.9963秒/781frames（各約60fps、詳細ffprobeはpass2-capture-cadence.json）。Attackはsource6–19秒でX攻撃から後半A攻撃まで、setup/pause/終了画面を除外。実active segmentを各10–20秒確保。owner-local `build5-protect-15s.mp4` / `build5-attack-13s.mp4` をprivate比較HTMLへ追加。capture cadenceとframe interval/実機性能を混同しない。
+
+### build5 upload result
+
+2026-10-15 23:57 JST、final runtime source d5e8e08の0.1.0(5)を既存ゲーム専用profile/署名・internal-only・管理version変更なしで再検査し、upload exit0 / EXPORT SUCCEEDED。Apple transportは「Uploaded package is processing」を返した。ASC画面は同アプリへ再接続してもauthResult=FAILEDで、処理完了・暗号化区分・既存「本人限定 G1」1 testerへの追加は未確認・未変更。本人Chrome再ログイン待ちでここだけ停止。旧build2/3/4をexpireせず、public link・外部tester・別app・新credentialなし。公開証拠pass2-internal-upload.json。署名archive/原画/動画/rawログはprivateのまま。
+
+今回の変更・修正・検証証拠は同PR21 branchへpushし、Draftを保持。R2 V0 FAILとPRIMARY fidelity未確認・Human visual/fun/実機未検証・Notion未同期を維持。CI checksなし。最終残作業はApple再ログイン後のbuild5処理/本人限定配布確認、および次の環境美術制作入力の具体化であり、高品質完成とは扱わない。
