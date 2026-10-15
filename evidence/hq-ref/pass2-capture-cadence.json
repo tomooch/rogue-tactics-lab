@@ -1,0 +1,20 @@
+{
+  "source_head": "f3051357c6c5760933a85d04804c7cc6ebdbfdf1",
+  "status": "Pre-retry-fix capture; final source will be recaptured",
+  "method": "xcrun simctl io dedicated QA recordVideo --codec=h264; ffprobe measured frames",
+  "private_video": "/private/tmp/rogue-hq-pass2/build5-protect-active.mp4",
+  "sha256": "8d28a4129fc37188b2084b6e751c8b77e56b3e41a9e0b25f50fbd7602384965c",
+  "probe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "r_frame_rate": "60000/1001",
+        "avg_frame_rate": "60/1",
+        "duration": "19.483333",
+        "nb_frames": "1169"
+      }
+    ]
+  },
+  "limitation": "Simulator video cadence only; does not prove physical iPhone fps or performance"
+}

@@ -1,0 +1,55 @@
+{
+  "source_head": "d5e8e08b0cd130cadfb0e9e100ed2bf1b571c884",
+  "runtime": "iPhone17 iOS27 dedicated Simulator / Metal",
+  "interaction": "CUA native pointer",
+  "outcomes": {
+    "ProtectAnchor": {
+      "actions": 14,
+      "alive": 4,
+      "hp": "A16 B16 C12 D10",
+      "heals_left": 0
+    },
+    "DirectAttack": {
+      "actions": 14,
+      "alive": 3,
+      "hp": "A0 B16 C12 D10",
+      "heals_left": 1
+    }
+  },
+  "hashes": [
+    "ProtectAnchor e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d",
+    "DirectAttack 85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e"
+  ],
+  "frame_intervals": [
+    {
+      "runtime": "Unity native player",
+      "unity": "6000.3.25f1",
+      "graphics": "Metal",
+      "samples": 1329,
+      "p50_ms": 16.666582107543945,
+      "p95_ms": 16.691879272460938,
+      "reduced_effects": false,
+      "limitation": "Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"
+    },
+    {
+      "runtime": "Unity native player",
+      "unity": "6000.3.25f1",
+      "graphics": "Metal",
+      "samples": 1281,
+      "p50_ms": 16.666667938232422,
+      "p95_ms": 16.683794021606445,
+      "reduced_effects": false,
+      "limitation": "Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"
+    }
+  ],
+  "observed": [
+    "both complete battles and comparison",
+    "Protect reset + Attack reset restore prediction and start, Compare hidden",
+    "Japanese kana a entered as あ after reset, confirmed and retained in comparison",
+    "opaque comparison sheet above portraits"
+  ],
+  "physical_device": false,
+  "device_access": "devicectl failed CoreDeviceService initialization; current physical availability unknown",
+  "testflight_build5": "not uploaded; ASC fresh reload needs owner reauthentication",
+  "human_visual_fun": "not observed"
+}

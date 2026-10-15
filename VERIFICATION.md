@@ -319,3 +319,17 @@ Pass B初回はConfigure PASS、Edit14/14・Play9/9 PASS。既存の全戦闘fra
 Pass2最終B: Configure PASS、EditMode14/14・PlayMode9/9 PASS（pass2-edit.xml / pass2-play.xml）。巨大floating非表示・暗色order header・不透明modalを再描画し、独立画像reviewでも旧指摘の解消と新規重大欠陥なしを確認。局所actor/target表示と名前receiptは実eventに整合。R2 V0 FAILは継続。capture SHAとowner-local一時パスはpass2-capture-manifest.json。build5向けsourceをこの記録とともにfreezeし、native検証は後続記録へ分離する。
 
 Native build5 source f305135: fresh Edit14/14・Play9/9、署名archive・Simulator build/install/launch PASS。日本語kana入力確定、Protect pause/姿勢保持/resume/14行動/HP A16 B16 C12 D10/予想保存/full SHAを実測。ただしnativeでreset後にCompareが予想欄/開始へ重なる未検出regressionを発見。配布前に修正し、Compareを終了画面の結果導線へ限定、reset後非表示の回帰assertionを既存全trace testへ追加。f305135は最終配布sourceにしない。
+
+Native vendor録画(f305135、再試行修正前): 19.483333秒/1169 frames、ffprobe実平均60fps。Pauseを含めず開始直後からの戦闘segmentを保存し、8秒/15秒の実frameも確認。旧7fps captureとの差を実測。これはSimulator録画cadenceであり実機fpsではない。最終修正sourceで再capture予定。private動画 `/private/tmp/rogue-hq-pass2/build5-protect-active.mp4`、公開metadata pass2-capture-cadence.json。
+
+修正source d5e8e08の最初のnative再検証はpreflightで停止。前exportによるInternalIcon importer/URP生成設定/iOS PlayerSettings差分を検出したため、テストは未実行。直前のtask生成差分5件を監査してHEADへ復元後、別jobで再実行。旧Simulator bundleを誤って再installしたが、修正後native証拠には使わない。
+
+### Pass2 最終source d5e8e08 — build5 local verification
+
+Unity6000.3.25f1 / Xcode27.0(27A266a) / iOS SDK27。fresh import/compile PASS、Edit14/14・Play9/9 PASS、ゲーム専用手動署名archive/codesign設定・1024icon・Simulator build/install/launch PASS。公開証拠pass2-*.xml / pass2-native-build.jsonはこのsourceへ更新。exportが更新する5件のUnity生成設定は監査後にHEADへ戻し、Coreやpackage差分へ混ぜない。Unity生成asset/metaの空欄末尾spaceは実Editor由来として保持し、手書きsourceのdiff-checkはPASS。
+
+専用iPhone17/iOS27 SimulatorでCUA実操作。Protect勝利14行動/4人生存/HP A16 B16 C12 D10/回復残0、reset後Attack勝利14行動/3人生存/HP A0 B16 C12 D10/回復残1、両full SHA固定一致。Protect後・Attack後ともresetで二択/予想欄/Startを確認し、Compareの遮蔽は解消。再試行後の日本語kana「あ」確定・通常位置復帰・比較への保存、不透明modal本文/操作の非遮蔽を実測。独立reviewの「DirectAttack-resetで入力が見えない」候補は、同じPNGのRoot再読で欄/Start描画を確認し、nativeでもAttack後resetを追加観察して再現しなかった。sheet外下端に終了画面のCompareが見える装飾上の残りはあるが、本文/操作を遮らない。
+
+native frame intervalはProtect sample1329 p50 16.6666ms/p95 16.6919ms、Attack sample1281 p50 16.6667ms/p95 16.6838ms。host/録画負荷を含むSimulator観測で実iPhone性能ではない。CoreDeviceService初期化失敗により実機接続状態を今回は取得できず、実機/thermal/memoryは未検証。build5は未upload。ASC最新reloadは認証切れで、本人の再ログイン回答待ち。既存本人限定build4の状態を新build5成功へ転用しない。Notion未同期。
+
+R0 PRIMARY/Notion BLOCKED、R1 technical PASS、R2 V0 FAIL/BLOCKED、R3 event/hash/局所表示/停止・比較の技術gate PASS（Human即読性評価は未実施）、R4 archive/Simulator PASS・新TestFlight認証待ち・I2未検証、R5 Human visual/fun PENDING、G2 NOT STARTED。高品質完成や原画一致を主張しない。

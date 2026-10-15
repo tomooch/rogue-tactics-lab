@@ -1,6 +1,5 @@
 {
-  "start_head": "72552b609d5b544cde5edb5233b5baa95e1a69b4",
-  "source": "Pass2 final B dirty task tree, frozen in following commit",
+  "source_head": "d5e8e08b0cd130cadfb0e9e100ed2bf1b571c884",
   "unity": "6000.3.25f1",
   "resolution": [
     390,
@@ -11,122 +10,132 @@
     {
       "file": "DirectAttack-comparison.png",
       "sha256": "8c60859afa48903216b0f8a6112076076d926ab91b74e41a01cf819ad37b5a75",
-      "private_path": "/private/tmp/rogue-hq-pass2/final-b-images/DirectAttack-comparison.png"
+      "private_path": "/private/tmp/rogue-hq-pass2/final-fixed-images/DirectAttack-comparison.png"
     },
     {
       "file": "DirectAttack-counter.png",
-      "sha256": "9a57443be7a421dd13ea6f7d2f9c50448d84f2506ec9ce937a7c48d95e08318d",
-      "private_path": "/private/tmp/rogue-hq-pass2/final-b-images/DirectAttack-counter.png"
+      "sha256": "b5c4c059bc05dd41a832a98dd493781444cf011c4c06a436c937293bd0a9cec7",
+      "private_path": "/private/tmp/rogue-hq-pass2/final-fixed-images/DirectAttack-counter.png"
     },
     {
       "file": "DirectAttack-death.png",
-      "sha256": "dddc77a5e1b289b9cf44ee7ed8d8d73b0914906d2306586d731fcd780d0e9f94",
-      "private_path": "/private/tmp/rogue-hq-pass2/final-b-images/DirectAttack-death.png"
+      "sha256": "14227ab659f061234796ddfd2f5f4847756a164d51961a3f628dcb489f2a64c1",
+      "private_path": "/private/tmp/rogue-hq-pass2/final-fixed-images/DirectAttack-death.png"
     },
     {
       "file": "DirectAttack-end.png",
-      "sha256": "a56461a167a10d682803c1e96e0319213febcd2b21630368e849fbe2729ce26b",
-      "private_path": "/private/tmp/rogue-hq-pass2/final-b-images/DirectAttack-end.png"
+      "sha256": "7a7c5f9fe63a14d287e48596cbda4a26f9ed2f44838112d2f2f4761fff74ae94",
+      "private_path": "/private/tmp/rogue-hq-pass2/final-fixed-images/DirectAttack-end.png"
     },
     {
       "file": "DirectAttack-heal.png",
-      "sha256": "5ee79b740b67403b9be172dc2d47e1f796979569b424b496a9838ccc73a740b1",
-      "private_path": "/private/tmp/rogue-hq-pass2/final-b-images/DirectAttack-heal.png"
+      "sha256": "15a9caa803dcd648d3d25907cc32178d54cf2cf181b9fb1936d3e3fef3b2e7d6",
+      "private_path": "/private/tmp/rogue-hq-pass2/final-fixed-images/DirectAttack-heal.png"
     },
     {
       "file": "DirectAttack-paused.png",
-      "sha256": "2eb103aaa2db38eebf8531bc24b6155dc178c7268b7082f28ddf31a8ca6b04a3",
-      "private_path": "/private/tmp/rogue-hq-pass2/final-b-images/DirectAttack-paused.png"
+      "sha256": "5ef559e93446c35275cbcf4db2cdb49f0449b495f3c619847c2ef7badb7e43b2",
+      "private_path": "/private/tmp/rogue-hq-pass2/final-fixed-images/DirectAttack-paused.png"
+    },
+    {
+      "file": "DirectAttack-reset.png",
+      "sha256": "ec551cc0e8eb7c1cfd46c539c827639d28832f604a1ac65dd0dc47528d51c683",
+      "private_path": "/private/tmp/rogue-hq-pass2/final-fixed-images/DirectAttack-reset.png"
     },
     {
       "file": "DirectAttack-start.png",
-      "sha256": "bbc791db1c5c3d73239a8ced3effdde429e839e41fbcc5647eb0e2279ceb7ed2",
-      "private_path": "/private/tmp/rogue-hq-pass2/final-b-images/DirectAttack-start.png"
+      "sha256": "b279876a00865e9402b622929c48571f28e40fd31ac2ac7908f76c4f69ec254e",
+      "private_path": "/private/tmp/rogue-hq-pass2/final-fixed-images/DirectAttack-start.png"
     },
     {
       "file": "ProtectAnchor-comparison.png",
-      "sha256": "2fe33cab5be5266d6dfcf754040f4f4be1077e95b7b017f8c675bc7d5bfcb626",
-      "private_path": "/private/tmp/rogue-hq-pass2/final-b-images/ProtectAnchor-comparison.png"
+      "sha256": "dd804febf17f9623f949e343344959b32797bfa330321f985cc482b39f51f214",
+      "private_path": "/private/tmp/rogue-hq-pass2/final-fixed-images/ProtectAnchor-comparison.png"
     },
     {
       "file": "ProtectAnchor-counter.png",
-      "sha256": "9e3b96c92f1aa0cd5d19a871219806f21ba5664f48db79f4162e39cf7bf4cd87",
-      "private_path": "/private/tmp/rogue-hq-pass2/final-b-images/ProtectAnchor-counter.png"
+      "sha256": "768aeaf7e4841534c8f20b60777a54736ce036829b35be820fcebbaef85ad3a3",
+      "private_path": "/private/tmp/rogue-hq-pass2/final-fixed-images/ProtectAnchor-counter.png"
     },
     {
       "file": "ProtectAnchor-death.png",
-      "sha256": "aa3db5c3d5362e2762bdfce1e8ddf819163f4ba52c5d080b2eb0511c90793825",
-      "private_path": "/private/tmp/rogue-hq-pass2/final-b-images/ProtectAnchor-death.png"
+      "sha256": "b4f9cb70072e7c9c89814a60de89d038a62378a129b0e63033dce09f4ffae4c1",
+      "private_path": "/private/tmp/rogue-hq-pass2/final-fixed-images/ProtectAnchor-death.png"
     },
     {
       "file": "ProtectAnchor-end.png",
-      "sha256": "8378b27aa87b724bbaa01ba202884372a452972c271bbbf2ede28a38543c7c56",
-      "private_path": "/private/tmp/rogue-hq-pass2/final-b-images/ProtectAnchor-end.png"
+      "sha256": "0b0eca914d658be5b3d8dad4e3d7eeee2da8c26e5157392c11e0156f345e9db1",
+      "private_path": "/private/tmp/rogue-hq-pass2/final-fixed-images/ProtectAnchor-end.png"
     },
     {
       "file": "ProtectAnchor-guard.png",
-      "sha256": "a57dc8b48b9ba2efeaaec37f41fb0ce1bc5ce6cb0fafd9076b29da9e1bf4f10f",
-      "private_path": "/private/tmp/rogue-hq-pass2/final-b-images/ProtectAnchor-guard.png"
+      "sha256": "b4dfa82261ba8d4b33ceab4aa51d436a44d5c80193c5e9b1bbf618db3f59db9b",
+      "private_path": "/private/tmp/rogue-hq-pass2/final-fixed-images/ProtectAnchor-guard.png"
     },
     {
       "file": "ProtectAnchor-heal.png",
-      "sha256": "d10b6b5fdf4307eeacc96980fcac7f7d9b6ca5779043d90ff29ee9f5d67b4138",
-      "private_path": "/private/tmp/rogue-hq-pass2/final-b-images/ProtectAnchor-heal.png"
+      "sha256": "1bc56dee7f6e81f652184b32528765e1726c7c54f6320b025a1e1d02031949e8",
+      "private_path": "/private/tmp/rogue-hq-pass2/final-fixed-images/ProtectAnchor-heal.png"
     },
     {
       "file": "ProtectAnchor-paused.png",
-      "sha256": "9063523a3bf8f2abc7c4bd2e981196aef73108122d81392122ce32d4cb9c639d",
-      "private_path": "/private/tmp/rogue-hq-pass2/final-b-images/ProtectAnchor-paused.png"
+      "sha256": "1a58cd0fdbb75032e3b27f0e724fcced837a35070155347480ea5b1075e55f4a",
+      "private_path": "/private/tmp/rogue-hq-pass2/final-fixed-images/ProtectAnchor-paused.png"
+    },
+    {
+      "file": "ProtectAnchor-reset.png",
+      "sha256": "d1e4884f190117ecb8de6c283b846d7c415bf7fa9c5d39e08e6d24e34366b1f1",
+      "private_path": "/private/tmp/rogue-hq-pass2/final-fixed-images/ProtectAnchor-reset.png"
     },
     {
       "file": "ProtectAnchor-start.png",
-      "sha256": "1fd708a213cbee47c63c1855a48e3fffad07b2c76e7bc7cdc1a4f49d9a2a1e79",
-      "private_path": "/private/tmp/rogue-hq-pass2/final-b-images/ProtectAnchor-start.png"
+      "sha256": "c1cca48208c6bd2d5b587ed6179f6540aa95cc02286c20849dea3dd15ab86f7d",
+      "private_path": "/private/tmp/rogue-hq-pass2/final-fixed-images/ProtectAnchor-start.png"
     },
     {
       "file": "camera-45-setup.png",
-      "sha256": "3b943dd6f1e856eb08604f3eb5c61eca91adcca58c6eb8a8b1822c535ce5a47d",
-      "private_path": "/private/tmp/rogue-hq-pass2/final-b-images/camera-45-setup.png"
+      "sha256": "fb43d2c920c0e7a6afa92346810ce9fea050ed9c23f4c8c0dca71302d23eb691",
+      "private_path": "/private/tmp/rogue-hq-pass2/final-fixed-images/camera-45-setup.png"
     },
     {
       "file": "camera-55-setup.png",
-      "sha256": "b9abd945df961b0fc0a8f9db9110cf7afdc98f499dad3074b5a5ebc7747d941c",
-      "private_path": "/private/tmp/rogue-hq-pass2/final-b-images/camera-55-setup.png"
+      "sha256": "8d140a4b8bb7f55fec2a954f1ecada5b6d8dcc3897763ec4c8ea98ed9b2f0ca2",
+      "private_path": "/private/tmp/rogue-hq-pass2/final-fixed-images/camera-55-setup.png"
     },
     {
       "file": "camera-55-yaw-minus18-setup.png",
-      "sha256": "35fcc8df55c2f1268b135090a1e89bdcdd7144c3a509c13469bf03fa0ea58f5b",
-      "private_path": "/private/tmp/rogue-hq-pass2/final-b-images/camera-55-yaw-minus18-setup.png"
+      "sha256": "394782cc089d26f11a3bb97f92bee3df72a9f9d422b46234be275cfff8062f78",
+      "private_path": "/private/tmp/rogue-hq-pass2/final-fixed-images/camera-55-yaw-minus18-setup.png"
     },
     {
       "file": "camera-63-guard.png",
-      "sha256": "8f8dd2a05497c83c3131cdb67f4b0fd7450e04289a85475d48b53c254e070e9b",
-      "private_path": "/private/tmp/rogue-hq-pass2/final-b-images/camera-63-guard.png"
+      "sha256": "38d167e7142b0f01f4a8744c6e2a68323cd405a9a8540b73ad5690d913ff4733",
+      "private_path": "/private/tmp/rogue-hq-pass2/final-fixed-images/camera-63-guard.png"
     },
     {
       "file": "camera-63-setup.png",
-      "sha256": "c16d0632c64473b213eebe27277a3b94760b7ccdc2541e4b47212a95a50bcbc6",
-      "private_path": "/private/tmp/rogue-hq-pass2/final-b-images/camera-63-setup.png"
+      "sha256": "8c3b3d01f23ecf78688cd3cd7887c90bc54aa3019704441f64eecfa84f30e10c",
+      "private_path": "/private/tmp/rogue-hq-pass2/final-fixed-images/camera-63-setup.png"
     },
     {
       "file": "camera-75-guard.png",
-      "sha256": "80089b431a8b38e15c65d736bb802822f7b4c61568ceb22975f29c4daafcf00c",
-      "private_path": "/private/tmp/rogue-hq-pass2/final-b-images/camera-75-guard.png"
+      "sha256": "4115c3098ea1dfbbd16f7010ed45fbfafdbae9158f53d8df1cd966900e500c56",
+      "private_path": "/private/tmp/rogue-hq-pass2/final-fixed-images/camera-75-guard.png"
     },
     {
       "file": "camera-75-setup.png",
-      "sha256": "9f257ccf17ee4d7ba235c8dbb190e122997729b31165966192d42ba80f3570e7",
-      "private_path": "/private/tmp/rogue-hq-pass2/final-b-images/camera-75-setup.png"
+      "sha256": "c166649a3c9fe3b9683edae516efaf4c6cb357ba18ea585d1d45f486a7293ca7",
+      "private_path": "/private/tmp/rogue-hq-pass2/final-fixed-images/camera-75-setup.png"
     },
     {
       "file": "r1-setup.png",
-      "sha256": "8ce6cd781d5f164560a0b7c0f01091caf12f7e1d9d01d2a1de0b5bf2604357e7",
-      "private_path": "/private/tmp/rogue-hq-pass2/final-b-images/r1-setup.png"
+      "sha256": "a8c77ddcd233a9caeae2ae7a2ba176694496944bd81faf61cf14f04d753e1013",
+      "private_path": "/private/tmp/rogue-hq-pass2/final-fixed-images/r1-setup.png"
     },
     {
       "file": "r3-paused-mid-move.png",
-      "sha256": "50944c2e394b2e908f1890b6a024ec733cc96b260c01879a744131c5bac94c13",
-      "private_path": "/private/tmp/rogue-hq-pass2/final-b-images/r3-paused-mid-move.png"
+      "sha256": "e6e0fc58ce5d1c3b76e16661d1eaf921d18713a487daf11465c394de40c67665",
+      "private_path": "/private/tmp/rogue-hq-pass2/final-fixed-images/r3-paused-mid-move.png"
     }
   ]
 }
