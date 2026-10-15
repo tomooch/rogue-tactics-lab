@@ -67,9 +67,25 @@
     ]
   },
   "environment": {
-    "source": "original offline authored C# runtime geometry in this branch",
+    "source": "original offline OBJ authoring tools/author_sky_ruins.py; real Editor AuthoredRuinsImport creates Mesh.asset including RGB, normals and UV",
     "external_asset": false,
-    "paid_dependency": false
+    "paid_dependency": false,
+    "runtime": "HqSkyRuins only composes serialized mesh/material assets; no runtime slab lattice",
+    "provenance": "unity/Assets/RogueTactics/Art/HqRuins/provenance.json",
+    "material": "AuthoredRuins.shader; source-authored vertex colour with local URP lighting; no original concept texture",
+    "quality": "Pass2 image review V0 FAIL; explicit production environment asset gap retained",
+    "source_objects": {
+      "Blue.obj": "c25d669ad1a17e806f7b60b83a32245928b4a81e0a93912a9c535fb1d5a7f538",
+      "Cliff.obj": "4636b8055d09acfc6d5e50d251c814bc2c06dd5c96aad5c17aba057d4bb544c2",
+      "Detail.obj": "cde18cbb91a682ddc09df29570a380057465faf69de929f36e06a36ac5d80bfb",
+      "Distant.obj": "0a82cd8192fd4fa2ec8fcde9f2bb26842ba4f9139e589dc0f3dc629333668abb",
+      "Flowers.obj": "268f32aaceaba73e9b2fe27d10bd34ec27a31b609e9d1711f40a9d21441a775a",
+      "Foliage.obj": "710847542b5d5e540ee29a4831e6297cee789922d67b29f0b77a541049784cd6",
+      "Gold.obj": "98a71c531c5cf6b92411eb2889b9b279f6a5b2868a098c8e71d8f217fda48c97",
+      "Limestone.obj": "0d70d9e5ee246aa550346ad1b4e8c654418b3f88c7d82fdcb440568595bc13cc",
+      "Warm.obj": "a5a68d1df19daa6c15ceec06bed4087beba83996aadc04c97e5885eeb6e59b24",
+      "Water.obj": "91c01f7e8b15da436193d173f614d4126e2e55712d5e7204d05893f2161ff742"
+    }
   },
   "font": {
     "family": "Noto Sans JP",

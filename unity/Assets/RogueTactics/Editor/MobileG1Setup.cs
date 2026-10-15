@@ -22,10 +22,16 @@ namespace RogueTactics.Editor
             var scene=EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
             var camera=new GameObject("Mobile HUD Camera").AddComponent<Camera>();camera.tag="MainCamera";camera.clearFlags=CameraClearFlags.SolidColor;camera.orthographic=true;camera.orthographicSize=5;camera.transform.position=new Vector3(0,0,-10);
             var view=new GameObject("Mobile G1 Experiment").AddComponent<MobileG1View>();
-            view.HqWorld=true;view.CameraPitch=55;view.CameraYaw=0;view.EventMotion=true;
+            view.HqWorld=true;view.CameraPitch=45;view.CameraYaw=0;view.EventMotion=true;
             view.JapaneseFont=AssetDatabase.LoadAssetAtPath<Font>(Art+"NotoSansJP.ttf");
+            var authoredPaths=Directory.GetFiles("Assets/RogueTactics/Art/HqRuins", "*.obj").OrderBy(p=>p).ToArray();
+            foreach(var path in authoredPaths)
+            {var importer=(ModelImporter)AssetImporter.GetAtPath(path);importer.globalScale=1;importer.importAnimation=false;importer.materialImportMode=ModelImporterMaterialImportMode.None;importer.SaveAndReimport();}
+            view.EnvironmentMeshes=authoredPaths.Select(AuthoredRuinsImport.Import).ToArray();
+            if(view.EnvironmentMeshes.Length==0)throw new Exception("Author sky ruins mesh assets before Configure");
             view.AmbientOcclusion=ConfigureContactLighting();
             view.SkyTemplate=Material("Sky.mat","RogueTactics/HqSky");
+            view.RuinsTemplate=Material("AuthoredRuins.mat","RogueTactics/AuthoredRuins");
             view.StoneTemplate=Material("Stone.mat","Universal Render Pipeline/Lit");
             view.SpriteTemplate=Material("StaticSkin.mat","RogueTactics/StaticSkin");
             var skins=new[]{"shiro","momo","garu","myaru"};
@@ -37,7 +43,7 @@ namespace RogueTactics.Editor
             }
             PlayerSettings.defaultInterfaceOrientation=UIOrientation.Portrait;PlayerSettings.allowedAutorotateToLandscapeLeft=false;PlayerSettings.allowedAutorotateToLandscapeRight=false;
             PlayerSettings.defaultScreenWidth=390;PlayerSettings.defaultScreenHeight=844;
-            PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.iOS,"com.tomooch.roguetacticslab");PlayerSettings.bundleVersion="0.1.0";PlayerSettings.iOS.buildNumber="4";
+            PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.iOS,"com.tomooch.roguetacticslab");PlayerSettings.bundleVersion="0.1.0";PlayerSettings.iOS.buildNumber="5";
             PlayerSettings.iOS.appleDeveloperTeamID="9HXM297A8U";PlayerSettings.iOS.appleEnableAutomaticSigning=false;
             PlayerSettings.iOS.targetOSVersionString="16.0";
             EditorSceneManager.SaveScene(scene,ScenePath);

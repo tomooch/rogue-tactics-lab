@@ -307,3 +307,13 @@ Private証拠（一時領域、public Git外）：`/private/tmp/rogue-hq-evidenc
 2026-10-15、Apple処理後の0.1.0(4)へ、以前の同gameと同じ暗号化区分（上記アルゴリズムのどれでもない）を保存。今回はPresentation追加のみで通信/暗号化実装・依存を追加していない。ASCの「テスト準備完了」を確認後、既存「本人限定 G1」だけへ追加して「テスト中」を観測。build詳細はグループ1件・内部テスター1名。source d782437/PR21、通常操作、原画との差・長い線・比較画面の重なり・実機未検証を明記した日本語テスト説明を保存し、reload後の保持を確認。新app/外部tester/公開リンクなし、旧build2/3を期限切れにしていない。
 
 **R4のarchive/Simulator/ASC本人限定配布はPASS、I2実機はPENDING HUMAN**。本人端末でのbuild4 install/起動・実機性能・見た目/面白さは未確認。R2 V0 FAIL・R3視認品質FAIL・R5未評価を配布成功で上書きしない。private証拠 `/private/tmp/rogue-hq-evidence/asc-build4-self-notes.png` と `asc-build4-testing.png`（owner-local一時領域）。Notion同期は未実施。CI checksなし。PR21はDraftのまま、main/#15/#17 HEADを維持。
+
+## HQ Pass2 開始 — packet 6192468412
+
+PR21の既存HEAD72552b6・同branchで再開。Pass Aはruntime反復舗装生成を廃止し、オフラインauthor scriptと10 layer別OBJ（不規則な破断石面、周縁層、前面滝、遠景等）をimportする方式へ変更中。中央のCore floorは描画meshを持たないため、actor下の非障害物surfaceもassetで用意する。初回はbuild4と同じ55°/yaw0°・Core位置・HUDで比較。OBJの生成成功を美術品質の成功とは扱わない。
+
+Build4録画をffprobeで再確認したところ、設定値30fpsに対して実ファイルは1052 frames/156.743s、平均約6.71fpsだった。前回のSimulator frame interval計測とは異なる値であり、録画の設定値を実capture cadenceと誤解しない。新passの10–20秒active clipはvendor simctl recordVideoで取得し、実frame数/時間/平均cadenceも記録する。
+
+Pass B初回はConfigure PASS、Edit14/14・Play9/9 PASS。既存の全戦闘frame/HP/route/pause/hash/event投影gateを維持し、非Move時のpath不在、実局所Graphic mesh、比較シートがrosterより前に描かれる回帰を追加した。実画像と独立reviewで守護/反撃/回復/死亡の名前receipt・HP結果は整合。旧floating labelを名前にした副作用で巨大文字がfield左上へ出ることを発見し、EventMotion中は局所frame/HP/receiptへ整理。order header暗色背景、sheet不透明化とともに再検証する。
+
+Pass2最終B: Configure PASS、EditMode14/14・PlayMode9/9 PASS（pass2-edit.xml / pass2-play.xml）。巨大floating非表示・暗色order header・不透明modalを再描画し、独立画像reviewでも旧指摘の解消と新規重大欠陥なしを確認。局所actor/target表示と名前receiptは実eventに整合。R2 V0 FAILは継続。capture SHAとowner-local一時パスはpass2-capture-manifest.json。build5向けsourceをこの記録とともにfreezeし、native検証は後続記録へ分離する。

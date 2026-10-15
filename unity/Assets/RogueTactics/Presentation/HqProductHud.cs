@@ -31,12 +31,13 @@ namespace RogueTactics.Presentation
                 if(!initiative.Contains(actor))initiative.Add(actor);
             }
             orderStrip=Rect(Field,"Discrete actor order",8,8,374,49);
-            orderLabel=Label(orderStrip,"Order caption","行動順",0,0,53,20,11);
+            var orderBackdrop=orderStrip.gameObject.AddComponent<Image>();orderBackdrop.color=new Color(.035f,.09f,.13f,.96f);orderBackdrop.raycastTarget=false;
+            orderLabel=Label(orderStrip,"Order caption","行動順",0,0,53,20,12);
             foreach(var id in initiative)
             {
-                var r=Rect(orderStrip,"Order "+id,0,17,45,30);var frame=r.gameObject.AddComponent<Image>();frame.color=new Color(.06f,.14f,.19f,.9f);frame.raycastTarget=false;orderFrames[id]=frame;
+                var r=Rect(orderStrip,"Order "+id,0,17,57,30);var frame=r.gameObject.AddComponent<Image>();frame.color=new Color(.06f,.14f,.19f,.9f);frame.raycastTarget=false;orderFrames[id]=frame;
                 if(id.Length==1 && id[0]>='A' && id[0]<='D'){var icon=Rect(r,"Actor portrait",0,0,24,28).gameObject.AddComponent<RawImage>();icon.texture=CharacterArt[id[0]-'A'];icon.uvRect=new Rect(.18f,.43f,.64f,.5f);icon.raycastTarget=false;}
-                Label(r,"Actor",id,25,3,17,23,11,TextAnchor.MiddleCenter);
+                Label(r,"Actor",HeroName(id),24,3,31,23,10,TextAnchor.MiddleCenter);
             }
             roster=Rect(SafeRoot,"Companion portraits",12,0,366,83);
             foreach(var id in CardOrder)
@@ -105,7 +106,7 @@ namespace RogueTactics.Presentation
                 f.rectTransform.anchoredPosition=new Vector2(slot*(Field.rect.width-24)/6,-19);slot++;
                 f.color=id==shownActor?new Color(.50f,.36f,.12f,.97f):new Color(.04f,.12f,.18f,.92f);
             }
-            orderLabel.text=reaction!=""?reaction:"行動順  •  "+(shownActor==""?"開始":HeroName(shownActor)+" 行動中");orderLabel.rectTransform.sizeDelta=new Vector2(340,19);
+            orderLabel.text=reaction!=""?reaction:relationActor!="" && relationTarget!=""?HeroName(relationActor)+" → "+HeroName(relationTarget)+" / "+PlanName(relationKind):"行動順  •  "+(shownActor==""?"開始":HeroName(shownActor)+" 行動中");orderLabel.rectTransform.sizeDelta=new Vector2(340,19);
         }
     }
 }

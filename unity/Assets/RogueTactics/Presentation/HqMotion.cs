@@ -16,7 +16,7 @@ namespace RogueTactics.Presentation
                 Display(e);Refresh();
                 actionLink.gameObject.SetActive(false);ghost.gameObject.SetActive(false);
                 var target=executingPlan.Kind==ActionKind.Move?executingPlan.Destination:executingPlan.Target!=""?positions[executingPlan.Target]:positions[e.Actor];
-                if(executingPlan.Kind!=ActionKind.Maintain)
+                if(executingPlan.Kind==ActionKind.Move)
                 {actionLink.gameObject.SetActive(true);Link(actionLink,positions[e.Actor],target);}
                 var route=actionLink.GetComponent<MobileRouteGraphic>();route.Progress=0;
                 var elapsed=0f;while(elapsed<.38f){if(!Paused){elapsed+=Time.unscaledDeltaTime;route.Progress=Mathf.Clamp01(elapsed/.38f);}yield return null;}
@@ -37,7 +37,7 @@ namespace RogueTactics.Presentation
                     {var destination=World(e.Position);actor.position=Vector3.Lerp(original,destination,t*t*(3-2*t))+Vector3.up*(pulse*.16f);}
                     if((e.Kind==EventKind.Damage || e.Kind==EventKind.Counter) && hasActor && hasTarget)
                     {
-                        actor.position=original+(targetPosition-original).normalized*(pulse*.28f);
+                        actor.position=original+(targetPosition-original).normalized*(pulse*.12f);
                         targetRoot.position=targetPosition+FieldCamera.transform.right*(Mathf.Sin(t*Mathf.PI*4)*.055f);
                     }
                     if(e.Kind==EventKind.Protect && hasActor)actor.position=original+Vector3.up*(pulse*.16f);
@@ -48,7 +48,7 @@ namespace RogueTactics.Presentation
                 bodyRects.Clear();
                 foreach(var unit in Session.Replay.State.Units)if(!dead.Contains(unit.Id))
                 {var r=ProjectedBody(bodies[unit.Id]);bodyRects[unit.Id]=r;badges[unit.Id].GetComponent<RectTransform>().anchoredPosition=new Vector2(r.center.x-22,r.yMin-5);}
-                LayoutFootBadges();
+                LayoutFootBadges();RefreshRelationCues();
                 if(guardLink.gameObject.activeSelf)Link(guardLink,positions["B"],positions["A"]);
                 if(actionLink.gameObject.activeSelf && hasActor && hasTarget)Link(actionLink,positions[e.Actor],positions[e.Target]);
                 yield return null;

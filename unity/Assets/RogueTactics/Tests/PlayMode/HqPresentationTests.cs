@@ -21,6 +21,8 @@ namespace RogueTactics.Tests
         private static IEnumerator Capture(string name)
         {
             Canvas.ForceUpdateCanvases();yield return null;yield return null;
+            foreach(var accent in Object.FindObjectsByType<RelationAccent>(FindObjectsSortMode.None).Where(a=>a.gameObject.activeInHierarchy))
+            {var mesh=accent.canvasRenderer.GetMesh();Assert.That(mesh,Is.Not.Null);Assert.That(mesh.vertexCount,Is.GreaterThanOrEqualTo(16),"Local actor/target accents must actually render");}
             var rt=Camera.main.targetTexture;var previous=RenderTexture.active;RenderTexture.active=rt;
             var image=new Texture2D(390,844,TextureFormat.RGB24,false);image.ReadPixels(new Rect(0,0,390,844),0,0);image.Apply();
             var path=Path.GetFullPath("Logs/hq/private");Directory.CreateDirectory(path);File.WriteAllBytes(Path.Combine(path,name+".png"),image.EncodeToPNG());
@@ -52,7 +54,7 @@ namespace RogueTactics.Tests
             var view=Object.FindFirstObjectByType<MobileG1View>();var rt=new RenderTexture(390,844,24);Camera.main.targetTexture=rt;
             view.SetTestSafeArea(new Rect(0,34,390,763),390,844);var initial=view.Session.Replay.State.Serialize();
             view.SetComparisonYaw(0);
-            foreach(var pitch in new[]{75f,63f,55f}){view.SetComparisonCamera(pitch);yield return Capture("camera-"+pitch+"-setup");Assert.That(view.Session.Replay.State.Serialize(),Is.EqualTo(initial));}
+            foreach(var pitch in new[]{75f,63f,55f,45f}){view.SetComparisonCamera(pitch);yield return Capture("camera-"+pitch+"-setup");Assert.That(view.Session.Replay.State.Serialize(),Is.EqualTo(initial));}
             view.SetComparisonCamera(55);view.SetComparisonYaw(-18);yield return Capture("camera-55-yaw-minus18-setup");Assert.That(view.Session.Replay.State.Serialize(),Is.EqualTo(initial));
             view.SetDeveloperMode(true);view.Button("Start").onClick.Invoke();while(view.Busy)yield return null;
             foreach(var pitch in new[]{75f,63f}){view.SetComparisonCamera(pitch);yield return Capture("camera-"+pitch+"-guard");}
@@ -79,6 +81,9 @@ namespace RogueTactics.Tests
                 while(view.Busy || view.Session.Replay.State.Outcome==Outcome.Active)
                 {
                     var events=view.DisplayedEvents;
+                    var action=events.LastOrDefault(e=>e.Kind==EventKind.Action);
+                    if(action!=null && !action.Detail.StartsWith("Move"))
+                        Assert.That(Object.FindObjectsByType<MobileRouteGraphic>(FindObjectsSortMode.None).Any(g=>g.gameObject.activeInHierarchy),Is.False,"Only Move may draw a trajectory; protect/attack/counter/heal must stay local");
                     if(!capturedGuard && events.Any(e=>e.Kind==EventKind.Protect)){capturedGuard=true;yield return Capture(preference+"-guard");}
                     if(!capturedCounter && events.Any(e=>e.Kind==EventKind.Counter)){capturedCounter=true;yield return Capture(preference+"-counter");}
                     if(!capturedHeal && events.Any(e=>e.Kind==EventKind.Heal)){capturedHeal=true;yield return Capture(preference+"-heal");}
@@ -87,7 +92,10 @@ namespace RogueTactics.Tests
                 }
                 Assert.That(view.Session.Replay.Hash(),Is.EqualTo(preference==Preference.ProtectAnchor?"e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d":"85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e"));
                 Assert.That(view.DisplayedEvents.Select(e=>e.Serialize()),Is.EqualTo(view.Session.Replay.Events.Select(e=>e.Serialize())));
-                InsideSafeArea(view,"Reset","Compare");yield return Capture(preference+"-end");Assert.That(view.Button("Compare").interactable,Is.True);view.Button("Compare").onClick.Invoke();yield return Capture(preference+"-comparison");view.Button("Close").onClick.Invoke();view.Button("Reset").onClick.Invoke();yield return null;
+                InsideSafeArea(view,"Reset","Compare");yield return Capture(preference+"-end");Assert.That(view.Button("Compare").interactable,Is.True);view.Button("Compare").onClick.Invoke();
+                var sheet=GameObject.Find("Details panel").transform;var roster=GameObject.Find("Companion portraits").transform;
+                Assert.That(sheet.GetSiblingIndex(),Is.GreaterThan(roster.GetSiblingIndex()),"Comparison sheet must render in front of the roster");
+                yield return Capture(preference+"-comparison");view.Button("Close").onClick.Invoke();view.Button("Reset").onClick.Invoke();yield return null;
             }
             Camera.main.targetTexture=null;Object.Destroy(rt);
         }

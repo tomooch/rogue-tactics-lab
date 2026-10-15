@@ -82,3 +82,13 @@ R2の最初の75°/63° fixed-yaw比較では、63°の奥行きの差は小さ�
 R3は実行中eventのpresentation phaseと完了したdisplay cursorを分離する。HPはimpact時、死亡skipはDeath表示時、結果・比較は全queue表示後に有効化。pauseは動きの位相もcursorも保持する。新Actionの待機では旧intentを消し、previewの青と実行の金・開始ring/伸びるline/arrowheadを区別する。局所tweenとflashは既存静止skinへのpresentationで、#13の歩行spriteアニメ完了ではない。
 
 接地表現は既存URP同梱のScreen Space Ambient OcclusionをMobile rendererへEditor APIで追加し、half resolution / low samplesで使う。新packageやhosted dependencyではない。軽量描画ではSSAO・post effects・装飾の動きと影を止める。原画RGBの再描画はせず、texture mipmap/trilinear samplingと表示用の短いevent tintだけを使う。cast接地は生成soft-alpha、石のgrainは局所生成textureで、元のreference PNGをfieldへ貼らない。
+
+### HQ-REF-1 Pass2 — 2026-10-15 packet 6192468412
+
+開始HEADはPR21 `72552b609d5b544cde5edb5233b5baa95e1a69b4`、既存branch `codex/hq-ref-vertical-slice`。新しいpackage/外部素材/課金/通信を追加せず、private原画/skinのRGB、Core/2敵/14行動の両traceを維持する。
+
+Pass A仮説：反復9×9舗装をruntimeで増やす手法から、固有の輪郭・破断面・石組み・側面・前面滝を持つoffline mesh assetへ変更すると、同じ55°/yaw0/同Core位置でも浮島遺跡の形が画面で読める。期待は場面の同定とpartyの主役性。比較ではbuild4と同じ390×844、同camera/actor/HUDを初回controlとして保持。最初のasset実描画後に必要な構図修正だけを分離し、画像に基づき判断する。期待を観測結果とは扱わない。
+
+Pass BはA画像レビュー後の別比較：Moveだけに軌跡を残し、非移動は実actor/targetの局所アクセントと名前/効果で区別する。Core eventのimpactでのみHP/Deathを更新し、pause pose/cursorとpreview/execution区別を維持。比較sheetをrosterより前へ置く。true sprite gait/G2/能力追加は範囲外。
+
+承認済みprivateローカルフォルダの再探索でもPRIMARY SHAは見つからず、指定原画と旧approved-combined画像は共に`99a76f33…`。このpassでPRIMARY fidelity PASSは主張しない。パケット内Protect hashの転記は一部省略があるため、実Coreと既存固定gateが使う完全値`e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d`を保持する。
