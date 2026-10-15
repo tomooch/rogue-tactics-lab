@@ -249,3 +249,27 @@ ASCをfresh reloadし、本人の状態が**インストール済み0.1.0(2)**�
 専用SimulatorのCFBundleVersion3を確認してinstall/launch後、CUA native pointerでProtectの開始→次行動（Guard3/Damage3/Counter2）→連続再生（Victory14、A16/B16/C12/D10、生存4、回復残0）→戻す→Attack開始（B Move）→連続再生（Victory14、A0/B16/C12/D10、生存3、回復残1）→両結果/hash比較まで実画面で観測。頭にHPを重ねず足元へ置き、方向矢印が人物を迂回して描画されることを確認。build3 native試行の予想は空欄、日本語native keyboardの実操作はbuild2で観測した範囲。最新public観測JSONは`evidence/mobile-g1/d19a135-native-observation.json`。owner-local動画`/private/tmp/rogue-mobile-evidence/build3-readability.mp4`、画像`build3-native-guard.png`/`build3-comparison.jpg`（一時領域）を保存。build3のHuman/実機評価とアニメーション不足は未解決。
 
 2026-10-14、Apple処理後のbuild0.1.0(3)にbuild2と同じ暗号化回答を保存して「テスト準備完了」を確認。本人限定G1へ追加し「テスト中」、build詳細の内部グループ1件/テスター1名、日本語の変更点と操作説明の保存・reload後保持を確認。iOS一覧でもbuild3「テスト中」/本人限定G1を実画面で再確認。既存build2を期限切れにせず、外部グループ/公開リンクを追加しない。private証拠は`/private/tmp/rogue-mobile-evidence/asc-build3-testing.jpg`と`asc-build3-self-notes.jpg`（一時領域）。public記録は`evidence/mobile-g1/d19a135-asc-distribution.json`。build3の本人端末install/起動・Human再評価は未確認。Notion Todo/Tried & Learned同期成功。
+
+## HQ-REF-1 実行中 — Issue #20
+
+基点PR #17 `ce4ffac8d2216973c391d801cf5f6d41fbde66b5`の独立control worktreeでUnity6000.3.25f1のMobileG1入力回帰4/4と390×844実captureを再取得。R1候補はEdit14/14、通常player flow/両frozen hash/全event投影/途中pauseのcursor固定/Mouse/Touch等6/7を確認し、残ったdeveloper Resetラベルの折返しを修正後、その戦闘・safe-area回帰1/1 PASS。これは最終統合sourceの全回帰を代替しない。
+
+R2初回の実Unity画像で75°/63°を固定yawで比較。Core状態不変、camera/product tests2/2 PASS。しかし規則的な舗装が広すぎ、原画の浮遊遺跡・花・滝・立体感が読めずV0 FAIL。独立画像reviewも同じ主因と小さなcast/portraitを指摘。テスト成功をHQ成功とは扱わず、camera framing、実3D奥行き、舗装形状、foot HPとcast scaleを修正中。63°の奥行きの差を観測したがHuman preferenceは未取得。
+
+Private実画像はcontrolの `unity/Logs/mobile-g1/private/`、R1記録 `/private/tmp/rogue-hq-evidence/r1-captures/`、R2初回 `/private/tmp/rogue-hq-evidence/r2-initial/`（owner-local一時領域）。公開Gitへ画像を入れない。最終source-linkedの画像hash・XML・段階別ledgerは完了後追記する。現在のTestFlightは既存build3までをfresh ASCで確認。HQ新buildの配布・実機評価は未実施。
+
+R3の途中停止regressionは実際に駒が移動し始めてからpauseを押し、押下瞬間・停止中のpose/cursor不変と再開時Moveが1件だけになることを確認。source修正後のPlay9件中8件が通過し、残ったfield内HP B/D重複は自動checkが検出した。labelをownerの下へ保ちつつ近傍で横避けする処理に変更して再描画中。HP/生存/2本のtraceは変更しない。
+
+フレーム間隔のowner-local計測は取得可能。先行R3のEditor/Metal・captureを含むsample1329でp50 16.692ms/p95 16.740ms等を記録。ただし最終sourceの値ではなく、Simulator・iPhone実機値でもない。物理device探索は0件で、実機QAは未実行。値をiPhoneの30fps/thermal/memory PASSへ読み替えない。
+
+### HQ candidate の品質判定と残るgate
+
+接地影/SSAO/skyと浮島構図のpivot後も、actual 390×844 renderは舗装の反復、植生・石材の簡素さ、滝/島側面の弱さ、2D人物と3D照明の差が残る。**V0 FAIL、R2品質BLOCKED**。同型の色/カメラ微調整を続けず、ローカルの造形asset passが必要と判断。実行可能な比較候補は保持するが、HQ完了やHuman GOとは報告しない。足元HPの非重複回避はX/Bなどを横へ離す場合があり、所有者との関係の読みやすさも残課題。
+
+User指定パスの941×1672画像は実測SHA `99a76f33c60e74d7fd890e9cf188531280e030e58a5893bafd90899ea2b965b8`。Issue PRIMARY `9b4ee65b5fe3dfeaa0938cb09aa928eb67bf99cfcb06b9ea1423208fe6aa6621`とは異なる。同一bytesと主張せず、supplied local reference比較とPRIMARY照合未完を区別する。
+
+R0はasset/provenance/control監査済みだがPRIMARY照合未完でPARTIAL。R1/R3の最終統合判定は固定sourceの全回帰結果へ紐付ける。R4はnative build/Simulator/ASCと実機を分けて記録する。R5はPENDING HUMAN、G2はNOT STARTED。真のsprite gaitは#13のまま。Notion正本の取得/更新能力がこのexecutorで得られず、今回の同期は未実施。Issue/PRの実行記録をNotion正本に昇格させない。
+
+最終統合candidate-finalはConfigure PASS、Edit14/14、Play8/9。守護hop後に最終poseへ戻した際、guard lineが旧投影のままでB輪郭へかかる失敗を検出。RefreshActors後にも守護線を再投影する修正を追加し、全Play9件で再検証する。失敗をテスト除去や回避assertで処理しない。
+
+修正後yaw-finalはConfigure/import PASS、Edit14/14、Play9/9 PASS。guard lineの最終投影と障害物迂回、yaw0°での全戦闘frame輪郭/HP/線回避、両hash/event投影、移動途中pause保持を確認。これをcommitで固定し、fresh runとnative再buildへ進む。品質V0 FAILとHuman未評価は維持。

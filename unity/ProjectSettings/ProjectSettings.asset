@@ -176,7 +176,7 @@ PlayerSettings:
   buildNumber:
     Standalone: 0
     VisionOS: 0
-    iPhone: 3
+    iPhone: 4
     tvOS: 0
   overrideDefaultApplicationIdentifier: 1
   AndroidBundleVersionCode: 1
@@ -567,7 +567,7 @@ PlayerSettings:
   m_TemplateCustomTags: {}
   mobileMTRendering:
     Android: 1
-    iPhone: 2
+    iPhone: 1
     tvOS: 1
   m_BuildTargetGroupLightmapEncodingQuality:
   - serializedVersion: 2

@@ -1,0 +1,84 @@
+{
+  "design_freeze": "HQ-REF-1",
+  "authority": [
+    "https://github.com/tomooch/rogue-tactics-lab/issues/20",
+    "https://github.com/tomooch/rogue-tactics-lab/issues/20#issuecomment-6184262380"
+  ],
+  "main": "ab9fa5dc729dcea07f8680e7b22544627c5e5bed",
+  "stacked_baseline": "ce4ffac8d2216973c391d801cf5f6d41fbde66b5",
+  "pr15": "aa1fc05b154abcfa0e1a5c90574bf91adc97d881",
+  "reference": {
+    "name": "天穹の遺跡、12階の冒険.png",
+    "width": 941,
+    "height": 1672,
+    "local_sha256": "99a76f33c60e74d7fd890e9cf188531280e030e58a5893bafd90899ea2b965b8",
+    "issue_primary_sha256": "9b4ee65b5fe3dfeaa0938cb09aa928eb67bf99cfcb06b9ea1423208fe6aa6621",
+    "byte_identity_to_issue_primary": false,
+    "human_local_path_supplied": "2026-10-15",
+    "use": "latest Human supplied local comparison image; retain hash discrepancy explicitly",
+    "original_unchanged": true,
+    "public_git": false,
+    "external_upload": false
+  },
+  "characters": {
+    "model_sha256": "f15622d853e8260172812b657053460e20806f04b9e05147d49af7bed31a6e99",
+    "model_revision": "493cb60893f47441b26ec4fb9a306bce9e342982",
+    "model_license": "Apache-2.0",
+    "external_image_upload": false,
+    "hidden_paint": false,
+    "artifacts_private": true,
+    "sources": [
+      {
+        "character": "shiro",
+        "original_filename": "0FBCFEF0-C983-48B1-827B-0D0FD6FBF45A.png",
+        "source_sha256": "8d1323045422d60774adda005eb04f23dcfcbfe8ae9b6a728d8675da33f979d9",
+        "source_rgb_preserved": true,
+        "original_unchanged": true,
+        "skin_sha256": "5f9bd5d0f8f7569987f0df3393d2236a032b75091e7af9c6f10ba17b3c7a7c73",
+        "alpha_foreground_pixels": 725352
+      },
+      {
+        "character": "myaru",
+        "original_filename": "2F1AAC49-C1E3-48BF-8BA1-AB7707D371AF.png",
+        "source_sha256": "481daf11317d5f55d95173c987225b2c2ee9a43757a02a774a7dd46e40b685f6",
+        "source_rgb_preserved": true,
+        "original_unchanged": true,
+        "skin_sha256": "3f064518faf44e308614ddaaaa81eb108d909c116e0a0a21cadf8d33e64a8fd5",
+        "alpha_foreground_pixels": 743072
+      },
+      {
+        "character": "momo",
+        "original_filename": "65C78C53-3B13-4A93-B04C-3E15AAFF9FD9.png",
+        "source_sha256": "4041f81033a699d8e163eb1fa2c0a1f488adb2462c1f162eec197d851f0c79e4",
+        "source_rgb_preserved": true,
+        "original_unchanged": true,
+        "skin_sha256": "d8f62c2299c2772ce21ded771ec2faf6c50f9d18d4f585ba2fe7a63d698daa74",
+        "alpha_foreground_pixels": 728998
+      },
+      {
+        "character": "garu",
+        "original_filename": "FD16E637-CAD0-472A-A024-9B05D07BC049.png",
+        "source_sha256": "c2c9165e1f729b4b8b80e38b6c5a1510c6834e0c385411d06d461ff0831ffb6f",
+        "source_rgb_preserved": true,
+        "original_unchanged": true,
+        "skin_sha256": "04051f21042b365c767124f4931f8189502a24eab9896089e8850b3e8e76c015",
+        "alpha_foreground_pixels": 719837
+      }
+    ]
+  },
+  "environment": {
+    "source": "original offline authored C# runtime geometry in this branch",
+    "external_asset": false,
+    "paid_dependency": false
+  },
+  "font": {
+    "family": "Noto Sans JP",
+    "license": "SIL OFL 1.1",
+    "file": "unity/Assets/RogueTactics/Art/MobileG1/OFL.txt"
+  },
+  "pipeline": {
+    "unity": "6000.3.25f1",
+    "urp": "existing pinned manifest/lock; no new packages",
+    "sprite_shader": "existing local StaticSkin.shader; source RGB texture unmodified"
+  }
+}

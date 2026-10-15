@@ -50,6 +50,20 @@ python tools/prepare_mobile_art.py --originals <approved-originals> --model <pin
 
 依存：Pillow、numpy、opencv-python-headless、onnxruntime。モデル：[SkyTNT anime-seg](https://huggingface.co/skytnt/anime-seg/tree/493cb60893f47441b26ec4fb9a306bce9e342982)、Apache-2.0、`isnetis.onnx` SHA-256 `f15622d853e8260172812b657053460e20806f04b9e05147d49af7bed31a6e99`。原画を外部AIへ送信しない。
 
-iOS exportは`RogueTactics.Editor.MobileG1Setup.ExportIos`、game専用IDは`com.tomooch.roguetacticslab`、version0.1.0/build3。署名・TestFlight・実機はそれぞれ独立したgateであり、Editorテスト成功を配布成功とは扱わない。本人限定TestFlightの初回利用は、登録済み本人メールへの招待をiPhoneで開いて承諾する。ASCの「テスト中」だけでは端末到達を確認できないため、招待メール受信→承諾→アプリ表示→install/起動を別に確認する。private rasterを含むcapture/buildはGit外へ保存する。最新の実測と未検証は[VERIFICATION.md](VERIFICATION.md)に記録する。
+iOS exportは`RogueTactics.Editor.MobileG1Setup.ExportIos`、game専用IDは`com.tomooch.roguetacticslab`、version0.1.0/build4 candidate。署名・TestFlight・実機はそれぞれ独立したgateであり、Editorテスト成功を配布成功とは扱わない。本人限定TestFlightの初回利用は、登録済み本人メールへの招待をiPhoneで開いて承諾する。ASCの「テスト中」だけでは端末到達を確認できないため、招待メール受信→承諾→アプリ表示→install/起動を別に確認する。private rasterを含むcapture/buildはGit外へ保存する。最新の実測と未検証は[VERIFICATION.md](VERIFICATION.md)に記録する。
 
 2026-10-14の試遊feedbackを受け、build3ではHPを頭上から足元へ移し、画角・表示間隔・人物を避ける矢印を調整。Core/両traceは不変。animation不足とHumanの見た目評価は別課題で、固定source d19a135でfresh Edit14/14・Play6/6、署名archive/Simulator実操作を確認し、本人限定TestFlightの0.1.0(3)はテスト中。iPhoneではTestFlightのRogue Tactics Labを更新する。修正後のHuman評価は未取得。詳細はVERIFICATION.mdを確認。
+
+## HQ Reference G1 candidate — Issue #20
+
+[Issue #20](https://github.com/tomooch/rogue-tactics-lab/issues/20) と監査コメントを基に、PR #17 exact HEADへstackするHQ-REF-1候補です。上のbuild3操作説明に代わり、通常画面は「シロを守る / 敵へ攻める」→任意予想→「仲間に託す」。仲間が自動行動し、「一時停止 / 再開」で観察します。終了後「結果・予想を比較」と「方針を変えて、もう一度」で両条件を試せます。「記録」はルール・開発用単発操作・軽量描画への導線です。正式chunk/horizonの採用ではありません。
+
+実Unity 3D遺跡、既存承認skin、portrait/実HP、Core由来actor order、表示カーソルを保持するpause、Core eventだけの動きとfeedbackを比較します。最終画質・面白さのHuman GO、実機QA、true authored gait #13、G2探索は別ゲートです。
+
+同じprivate素材を用意したLocal checkoutでの再検証：
+
+```text
+python3 tools/verify_hq.py --editor /Applications/Unity/Hub/Editor/6000.3.25f1/Unity.app/Contents/MacOS/Unity --output <owner-local-evidence> --configure
+```
+
+実captureはignored `unity/Logs/hq/private/`。公開証拠は `evidence/hq-ref/`、source/限界はVERIFICATION.md。元画像・派生skin・capture・署名資産はpublic Gitに含めません。floor/minimap/chest/正式skillは追加していません。

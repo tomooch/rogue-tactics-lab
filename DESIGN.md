@@ -64,3 +64,21 @@ Human指定の4枚をローカルで確認：シロ（0FBC…）、ミャル（2
 画面はsafe area内に日本語HUD、約60%の3D field、戦術選択→任意予想→実行→比較→同一baseline再試行を置く。歩行を待たず静止skinを使う。resolution chunk/horizonはG1 adapterのままで正式採用しない。
 
 I0 export/Xcode build、I1本人限定TestFlightの提供状態、I2物理iPhone操作、V0承認skinと3D実描画、V1イベント/表示可読性、HUMAN本人評価を別ゲートとして記録する。未接続実機やApple認証待ちをPASSにしない。
+
+## HQ-REF-1 — Issue #20 / 2026-10-15
+
+Source contractは[Issue #20](https://github.com/tomooch/rogue-tactics-lab/issues/20)と[監査コメント](https://github.com/tomooch/rogue-tactics-lab/issues/20#issuecomment-6184262380)。baselineはPR #17 `ce4ffac8d2216973c391d801cf5f6d41fbde66b5`。Core G1を維持してR1 HUD、R2遺跡・camera、R3 event描画だけを比較する。G2・階層・minimap・箱・正式能力・8 skill buttonsは追加しない。通常の自動観察は今回のG1 adapter候補で、正式chunk/horizon採用ではない。
+
+Humanは今回のLocal実行で `_userwork/image/天穹の遺跡、12階の冒険.png` を比較用に指定。941×1672、実SHA `99a76f33c60e74d7fd890e9cf188531280e030e58a5893bafd90899ea2b965b8`。Issue PRIMARYのSHA `9b4ee65b…`とは異なる。指定ファイルを最新のHuman指定ローカル比較基準として扱うが、Issue原本とのbyte一致・同一原本によるfidelityは未証明。元画像/skin/実captureはpublic Git外、外部AIへ送信しない。provenanceは `evidence/hq-ref/asset-manifest.json`。
+
+構図：主役は光の当たるcream stoneと青空の浮遊遺跡、立体的な縁・水流・蔦・小花・blue/gold banner。盤面はCoreの5×5のまま、地面と装飾は独立3D geometry、4人は既存承認skin。HUDは上の小さなタイトルと離散actor順、下のシロ/ミャル/ガル/モモportraitと実HP、方針/任意予想/開始→停止再開→結果比較。匿名A/B/C/D mappingや数値は維持する。portrait順が戦闘順や能力を再定義しない。
+
+観測契約：R1は旧camera/environmentでHUD比較、R2は同HUD/fieldで75°と63°の固定yaw比較、R3はその後にintent/effectを比較。画像は実390×844 Unity render、setup/guard/counter/heal/death/endを記録。重要な失敗は人物・足元HP・矢印の被り、未表示のHP/死亡/結果の露出、pause中のcursor進行、queue脱落、Core trace差、generic flat terrain感。V0/Human評価は自動テストからPASSにしない。
+
+端末予算は暫定30fps以上、最大60fps、780×1040 field render target、mesh/material共有、定常フレームでgeometry再生成しない。実測は環境とrevisionを付け、Editor/SimulatorからiPhone実機性能を推定しない。描画負荷に問題があれば装飾の低品質設定で軽減する。新package/有料asset/network/analyticsは追加しない。
+
+R2の最初の75°/63° fixed-yaw比較では、63°の奥行きの差は小さく、双方とも参考画像へのV0はFAIL。単なる色替えを続けず、表示空間の奥行き間隔、足元ラベルの可読性、視野内の実3D植生・column・water、skinのmipmap samplingを修正。その後の55°/yaw0と55°/yaw−18°を別snapshotで比較する。55°/−18°候補は全戦闘frame回帰でX/Cの輪郭重複を検出したため、55°/yaw0°へ戻して検証する。Humanのcamera preference採用ではない。表示用セルのZ間隔はXとは別倍率だが、Coreの全座標・距離・行動・数値は変更しない。
+
+R3は実行中eventのpresentation phaseと完了したdisplay cursorを分離する。HPはimpact時、死亡skipはDeath表示時、結果・比較は全queue表示後に有効化。pauseは動きの位相もcursorも保持する。新Actionの待機では旧intentを消し、previewの青と実行の金・開始ring/伸びるline/arrowheadを区別する。局所tweenとflashは既存静止skinへのpresentationで、#13の歩行spriteアニメ完了ではない。
+
+接地表現は既存URP同梱のScreen Space Ambient OcclusionをMobile rendererへEditor APIで追加し、half resolution / low samplesで使う。新packageやhosted dependencyではない。軽量描画ではSSAO・post effects・装飾の動きと影を止める。原画RGBの再描画はせず、texture mipmap/trilinear samplingと表示用の短いevent tintだけを使う。cast接地は生成soft-alpha、石のgrainは局所生成textureで、元のreference PNGをfieldへ貼らない。
