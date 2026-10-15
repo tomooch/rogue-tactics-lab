@@ -129,6 +129,14 @@ namespace RogueTactics.Tests
                 Assert.That(view.Session.Replay.State.Serialize(),Is.EqualTo(state));
             }
             view.ApplyKeyboardArea(Rect.zero);Assert.That(input.anchoredPosition,Is.EqualTo(origin));
+            foreach(var developer in new[]{false,true})
+            {
+                view.SetDeveloperMode(developer);view.ApplyKeyboardArea(Rect.zero,true);Canvas.ForceUpdateCanvases();
+                var docked=new Vector3[4];input.GetWorldCorners(docked);
+                Assert.That(RectTransformUtility.WorldToScreenPoint(Camera.main,docked[0]).y,Is.GreaterThan(600),"Editing stays above tall keyboard even before area is reported");
+                view.ApplyKeyboardArea(Rect.zero);
+                Assert.That(input.anchoredPosition.y,Is.EqualTo(developer?-54:-51));
+            }
             Camera.main.targetTexture=null;Object.Destroy(rt);
         }
         [UnityTest]

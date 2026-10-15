@@ -153,9 +153,11 @@ namespace RogueTactics.Presentation
         }
         public void SetTestSafeArea(Rect area,int width,int height) {testViewport=true;ApplySafeArea(area,width,height);}
         // Keep the editable value visible; native keyboards can cover the lower setup controls.
-        public void ApplyKeyboardArea(Rect keyboardArea)
+        public void ApplyKeyboardArea(Rect keyboardArea,bool editing=false)
         {
-            var input=Prediction.GetComponent<RectTransform>();input.anchoredPosition=new Vector2(12,-54);
+            var input=Prediction.GetComponent<RectTransform>();input.anchoredPosition=new Vector2(12,DeveloperMode?-54:-51);
+            // Dock below the title while native editing owns focus. This also works during keyboard opening/area=0.
+            if(editing && setup.gameObject.activeInHierarchy){input.position=SafeRoot.TransformPoint(new Vector3(12,-100,0));return;}
             if(keyboardArea.height<=0 || !setup.gameObject.activeInHierarchy)return;
             Canvas.ForceUpdateCanvases();var corners=new Vector3[4];input.GetWorldCorners(corners);
             var bottom=RectTransformUtility.WorldToScreenPoint(canvas.worldCamera,corners[0]).y;
@@ -170,7 +172,7 @@ namespace RogueTactics.Presentation
         {
             SampleFrame();
             if(!testViewport && (Screen.width!=screenW || Screen.height!=screenH || Screen.safeArea!=safeRect))ApplySafeArea(Screen.safeArea,Screen.width,Screen.height);
-            ApplyKeyboardArea(Prediction.isFocused && TouchScreenKeyboard.visible ? TouchScreenKeyboard.area : UnityEngine.Rect.zero);
+            ApplyKeyboardArea(UnityEngine.Rect.zero,Prediction.isFocused && TouchScreenKeyboard.isSupported);
             if(Paused && floatUntil>Time.unscaledTime)floatUntil+=Time.unscaledDeltaTime;
             if(floatUntil>Time.unscaledTime)floating.rectTransform.anchoredPosition=new Vector2(12,-62);
             else floating.text="";
