@@ -1,0 +1,13 @@
+{
+  "source_head": "d7824378755d52cffbdb6add558bef0f50baefe8",
+  "bundle_id": "com.tomooch.roguetacticslab",
+  "version": "0.1.0",
+  "build": "4",
+  "archive_signature": "PASS",
+  "game_profile": "PASS",
+  "internal_testing_only": true,
+  "upload_exit": 0,
+  "processing": "observed Processing in fresh App Store Connect",
+  "tester_provision": "unverified",
+  "observed_at": "2026-10-15T16:05+09:00"
+}
