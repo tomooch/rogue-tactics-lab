@@ -76,7 +76,8 @@ namespace RogueTactics.Presentation
                 buttons["Next"].gameObject.SetActive(false);
                 buttons["Play"].gameObject.SetActive(active && !terminalSeen);
                 buttons["Reset"].gameObject.SetActive(terminalSeen);
-                buttons["Compare"].gameObject.SetActive(!active && Session.Trials.Count>0 || terminalSeen);
+                // Completed trials are compared before leaving the result shelf; setup owns input/start space.
+                buttons["Compare"].gameObject.SetActive(terminalSeen);
                 eventCaption.rectTransform.anchoredPosition=new Vector2(16,0);eventCaption.rectTransform.sizeDelta=new Vector2(SafeRoot.rect.width-32,42);eventCaption.fontSize=14;
                 ResizeButton("Play",12,44,SafeRoot.rect.width-24);ResizeButton("Reset",12,44,SafeRoot.rect.width-24);
                 buttons["Reset"].GetComponentInChildren<Text>().text="方針を変えて、もう一度";

@@ -317,3 +317,5 @@ Build4録画をffprobeで再確認したところ、設定値30fpsに対して�
 Pass B初回はConfigure PASS、Edit14/14・Play9/9 PASS。既存の全戦闘frame/HP/route/pause/hash/event投影gateを維持し、非Move時のpath不在、実局所Graphic mesh、比較シートがrosterより前に描かれる回帰を追加した。実画像と独立reviewで守護/反撃/回復/死亡の名前receipt・HP結果は整合。旧floating labelを名前にした副作用で巨大文字がfield左上へ出ることを発見し、EventMotion中は局所frame/HP/receiptへ整理。order header暗色背景、sheet不透明化とともに再検証する。
 
 Pass2最終B: Configure PASS、EditMode14/14・PlayMode9/9 PASS（pass2-edit.xml / pass2-play.xml）。巨大floating非表示・暗色order header・不透明modalを再描画し、独立画像reviewでも旧指摘の解消と新規重大欠陥なしを確認。局所actor/target表示と名前receiptは実eventに整合。R2 V0 FAILは継続。capture SHAとowner-local一時パスはpass2-capture-manifest.json。build5向けsourceをこの記録とともにfreezeし、native検証は後続記録へ分離する。
+
+Native build5 source f305135: fresh Edit14/14・Play9/9、署名archive・Simulator build/install/launch PASS。日本語kana入力確定、Protect pause/姿勢保持/resume/14行動/HP A16 B16 C12 D10/予想保存/full SHAを実測。ただしnativeでreset後にCompareが予想欄/開始へ重なる未検出regressionを発見。配布前に修正し、Compareを終了画面の結果導線へ限定、reset後非表示の回帰assertionを既存全trace testへ追加。f305135は最終配布sourceにしない。

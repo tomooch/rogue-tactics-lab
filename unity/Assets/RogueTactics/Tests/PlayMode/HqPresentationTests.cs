@@ -96,6 +96,8 @@ namespace RogueTactics.Tests
                 var sheet=GameObject.Find("Details panel").transform;var roster=GameObject.Find("Companion portraits").transform;
                 Assert.That(sheet.GetSiblingIndex(),Is.GreaterThan(roster.GetSiblingIndex()),"Comparison sheet must render in front of the roster");
                 yield return Capture(preference+"-comparison");view.Button("Close").onClick.Invoke();view.Button("Reset").onClick.Invoke();yield return null;
+                Assert.That(view.Button("Compare").gameObject.activeInHierarchy,Is.False,"After reset the result button must not cover prediction/start");
+                InsideSafeArea(view,"Protect","Attack","Start");yield return Capture(preference+"-reset");
             }
             Camera.main.targetTexture=null;Object.Destroy(rt);
         }

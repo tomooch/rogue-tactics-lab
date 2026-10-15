@@ -1,0 +1,17 @@
+{
+  "source_head": "f3051357c6c5760933a85d04804c7cc6ebdbfdf1",
+  "unity": "6000.3.25f1",
+  "xcode": "27.0 (27A266a)",
+  "sdk": "iphoneos 27.0",
+  "edit": "14/14",
+  "play": "9/9",
+  "ios_export": "PASS",
+  "signed_archive_exit": 0,
+  "simulator_export_exit": 0,
+  "simulator_build_exit": 0,
+  "bundle_id": "com.tomooch.roguetacticslab",
+  "version": "0.1.0",
+  "build": "5",
+  "testflight": false,
+  "physical_device": false
+}
