@@ -7,7 +7,13 @@
   "game_profile": "PASS",
   "internal_testing_only": true,
   "upload_exit": 0,
-  "processing": "observed Processing in fresh App Store Connect",
-  "tester_provision": "unverified",
-  "observed_at": "2026-10-15T16:05+09:00"
+  "processing": "complete",
+  "tester_provision": "Testing; existing internal group 本人限定 G1; group count1; tester count1",
+  "observed_at": "2026-10-15T16:05+09:00",
+  "export_compliance": "same no-encryption-algorithm answer as previous game build; no new networking/encryption implementation",
+  "notes": "source d782437, normal flow and unmet quality recorded; persisted after reload",
+  "physical_install": "unverified",
+  "external_testers": false,
+  "public_link": false,
+  "app_store_release": false
 }

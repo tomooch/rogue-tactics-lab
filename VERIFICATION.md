@@ -301,3 +301,9 @@ Private証拠（一時領域、public Git外）：`/private/tmp/rogue-hq-evidenc
 2026-10-15 16:05 JST、source d782437の0.1.0(4)はゲーム専用archive/codesign/profile/internal-only検査後にupload exit0。ASCをfresh表示し、同gameのbuild4「処理中」を観測。旧build3/2の本人限定G1配布を維持。新build4のグループ追加/本人の端末installは、この時点では未確認。public `internal-upload.json` とprivate `/private/tmp/rogue-hq-evidence/asc-build4-processing.png` を保持。
 
 最終独立reviewはd782437のGuard/Counter/Heal/Death実画像とnative停止/比較画像を確認。長い折れ線による非移動effectの誤読、上部表示の小ささ/低コントラスト、足元ラベルの密度、比較modal下部にportraitが重なる階層競合を残課題として認定。比較文・両結果は読め、event/hash/HPの新たなデータ不整合は観測なし。これらを品質PASSに読み替えず、現candidateをDraftに保持。
+
+### build4 本人限定TestFlight配布の実測
+
+2026-10-15、Apple処理後の0.1.0(4)へ、以前の同gameと同じ暗号化区分（上記アルゴリズムのどれでもない）を保存。今回はPresentation追加のみで通信/暗号化実装・依存を追加していない。ASCの「テスト準備完了」を確認後、既存「本人限定 G1」だけへ追加して「テスト中」を観測。build詳細はグループ1件・内部テスター1名。source d782437/PR21、通常操作、原画との差・長い線・比較画面の重なり・実機未検証を明記した日本語テスト説明を保存し、reload後の保持を確認。新app/外部tester/公開リンクなし、旧build2/3を期限切れにしていない。
+
+**R4のarchive/Simulator/ASC本人限定配布はPASS、I2実機はPENDING HUMAN**。本人端末でのbuild4 install/起動・実機性能・見た目/面白さは未確認。R2 V0 FAIL・R3視認品質FAIL・R5未評価を配布成功で上書きしない。private証拠 `/private/tmp/rogue-hq-evidence/asc-build4-self-notes.png` と `asc-build4-testing.png`（owner-local一時領域）。Notion同期は未実施。CI checksなし。PR21はDraftのまま、main/#15/#17 HEADを維持。
