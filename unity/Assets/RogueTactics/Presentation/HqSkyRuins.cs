@@ -18,7 +18,8 @@ namespace RogueTactics.Presentation
                 material.SetColor("_BaseColor",Color.white);
                 material.SetFloat("_Leaves",mesh.name.Contains("Foliage") || mesh.name.Contains("Flowers")?1:0);
                 material.SetFloat("_Emission",mesh.name.Contains("Warm")?1.2f:0);
-                material.SetFloat("_SrgbPalette",mesh.name.StartsWith("HeroLedge")?1:0);
+                material.SetFloat("_SrgbPalette",mesh.name.StartsWith("HeroLedge") || mesh.name=="Courtyard"?1:0);
+                material.SetFloat("_WeatheredStone",mesh.name=="Courtyard"?1:0);
                 material.SetFloat("_FlowWater",mesh.name=="HeroLedgeWater"?1:0);
                 if(mesh.name.Contains("Blue") || mesh.name.Contains("Water") || mesh.name.Contains("Foliage") || mesh.name.Contains("Flowers"))material.SetFloat("_Cull",0);
                 if(mesh.name.Contains("Warm")){material.EnableKeyword("_EMISSION");material.SetColor("_EmissionColor",new Color(1.4f,.65f,.18f));}

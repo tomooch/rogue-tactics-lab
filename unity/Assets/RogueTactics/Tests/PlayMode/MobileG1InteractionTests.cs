@@ -131,11 +131,18 @@ namespace RogueTactics.Tests
             view.ApplyKeyboardArea(Rect.zero);Assert.That(input.anchoredPosition,Is.EqualTo(origin));
             foreach(var developer in new[]{false,true})
             {
-                view.SetDeveloperMode(developer);view.ApplyKeyboardArea(Rect.zero,true);Canvas.ForceUpdateCanvases();
+                view.SetDeveloperMode(developer);var resting=input.anchoredPosition;
+                view.ApplyKeyboardArea(Rect.zero,true);Canvas.ForceUpdateCanvases();
                 var docked=new Vector3[4];input.GetWorldCorners(docked);
                 Assert.That(RectTransformUtility.WorldToScreenPoint(Camera.main,docked[0]).y,Is.GreaterThan(600),"Editing stays above tall keyboard even before area is reported");
                 view.ApplyKeyboardArea(Rect.zero);
-                Assert.That(input.anchoredPosition.y,Is.EqualTo(developer?-54:-51));
+                Assert.That(input.anchoredPosition,Is.EqualTo(resting),"Editing returns to the actual layout in each mode");
+                if(!developer)
+                {
+                    var a=new Vector3[4];var b=new Vector3[4];input.GetWorldCorners(a);view.Button("Start").GetComponent<RectTransform>().GetWorldCorners(b);
+                    Assert.That(new Rect(a[0],a[2]-a[0]).Overlaps(new Rect(b[0],b[2]-b[0])),Is.False,"Returned prediction must not cover Start");
+                    Assert.That(input.rect.height,Is.GreaterThanOrEqualTo(44));
+                }
             }
             Camera.main.targetTexture=null;Object.Destroy(rt);
         }

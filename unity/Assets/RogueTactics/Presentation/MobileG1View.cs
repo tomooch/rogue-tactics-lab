@@ -136,7 +136,7 @@ namespace RogueTactics.Presentation
             safeRect=area;screenW=width;screenH=height;
             SafeRoot.anchorMin=new Vector2(area.x/width,area.y/height);SafeRoot.anchorMax=new Vector2(area.xMax/width,area.yMax/height);SafeRoot.offsetMin=SafeRoot.offsetMax=Vector2.zero;
             Canvas.ForceUpdateCanvases();var h=SafeRoot.rect.height;var w=SafeRoot.rect.width;
-            var fieldH=Mathf.Max(280,h-(DeveloperMode?310:332));Field.sizeDelta=new Vector2(w,fieldH);controls.anchoredPosition=new Vector2(0,-(60+fieldH+8));
+            var fieldH=Mathf.Max(280,h-(DeveloperMode?310:264));Field.anchoredPosition=new Vector2(0,-60);Field.sizeDelta=new Vector2(w,fieldH);controls.anchoredPosition=new Vector2(0,-(60+fieldH+8));
             var modalH=Mathf.Min(628,h-90);modal.sizeDelta=new Vector2(w-20,modalH);
             detailsViewport.sizeDelta=new Vector2(w-56,modalH-126);modalText.rectTransform.sizeDelta=new Vector2(w-56,modalText.rectTransform.sizeDelta.y);
             headline.rectTransform.sizeDelta=new Vector2(w-56,32);
@@ -156,7 +156,7 @@ namespace RogueTactics.Presentation
         // Keep the editable value visible; native keyboards can cover the lower setup controls.
         public void ApplyKeyboardArea(Rect keyboardArea,bool editing=false)
         {
-            var input=Prediction.GetComponent<RectTransform>();input.anchoredPosition=new Vector2(12,DeveloperMode?-54:-51);
+            var input=Prediction.GetComponent<RectTransform>();input.anchoredPosition=new Vector2(12,DeveloperMode?-54:-56);
             // Dock below the title while native editing owns focus. This also works during keyboard opening/area=0.
             if(editing && setup.gameObject.activeInHierarchy){input.position=SafeRoot.TransformPoint(new Vector3(12,-100,0));return;}
             if(keyboardArea.height<=0 || !setup.gameObject.activeInHierarchy)return;

@@ -14,7 +14,7 @@ PALETTE = {
     "Limestone": (.91,.83,.67), "Cliff": (.57,.50,.40), "Detail": (.73,.65,.50),
     "Foliage": (.20,.43,.27), "Flowers": (.98,.88,.82), "Blue": (.12,.42,.69),
     "Gold": (.91,.64,.23), "Water": (.32,.76,.88), "Distant": (.68,.76,.76),
-    "Warm": (1.0,.57,.19),
+    "Warm": (1.0,.57,.19), "Courtyard": (.66,.68,.62),
 }
 
 class Obj:
@@ -75,7 +75,7 @@ def prism_ring(obj,outer,inner,y,color):
                  (inner[j][0],y,inner[j][1]),(inner[i][0],y,inner[i][1]),color)
 
 def island_layers(cliff,limestone,detail):
-    # Open center is deliberately left free of authored faces; Core's 5x5 floor owns it.
+    # Center is filled by the authored courtyard; Core owns only pure board data.
     outer=[(-7,-5),(-6.2,-9.4),(-4,-10.8),(0,-11),(4.4,-10.4),(6.6,-8.7),(7,-4.1),(6.8,5.8),(5.4,9.7),(2,10.8),(-2.8,10.9),(-5.8,9.5),(-7,6)]
     lower=[(x*.91,z*.91) for x,z in outer]
     # Cliff wall is a tapered, broken extruded ring around the field, top under/behind floor edge.
@@ -120,8 +120,7 @@ def clip_halfplane(poly,nx,nz,c):
             t=fa/(fa-fb);out.append((a[0]+(b[0]-a[0])*t,a[1]+(b[1]-a[1])*t))
     return out
 
-def courtyard(limestone,detail):
-    """Non-repeating broken-stone floor beneath actors; Core itself is pure data."""
+def courtyard_polygons():
     rng=random.Random(2187); sites=[]
     for row in range(9):
         for col in range(7):
@@ -134,23 +133,40 @@ def courtyard(limestone,detail):
             if j==idx:continue
             poly=clip_halfplane(poly,tx-sx,tz-sz,(tx*tx+tz*tz-sx*sx-sz*sz)*.5)
             if not poly:break
-        if len(poly)<3:continue
-        cx=sum(p[0] for p in poly)/len(poly); cz=sum(p[1] for p in poly)/len(poly)
-        top=[(cx+(x-cx)*.986,cz+(z-cz)*.986) for x,z in poly]
-        tops=[(x,-.02,z) for x,z in top]
-        shoulders=[(x,-.075,z) for x,z in poly]
-        bottoms=[(cx+(x-cx)*1.006,-.17,cz+(z-cz)*1.006) for x,z in poly]
-        shade=(idx*17)%9; color=(.88+.012*shade,.80+.012*shade,.64+.011*shade)
+        if len(poly)>=3:yield idx,poly,sum(p[0] for p in poly)/len(poly),sum(p[1] for p in poly)/len(poly)
+
+def worn_courtyard(obj):
+    """Irregular weathered flags: relief and moss belong to the same cut joints.
+    Stone tops remain at/below -0.02; moss skin -0.015 avoids z-fighting. No rules/colliders.
+    """
+    obj.quad((-6.35,-.22,-10.8),(-6.35,-.22,10.8),(6.35,-.22,10.8),(6.35,-.22,-10.8),(.44,.47,.38))
+    for idx,poly,cx,cz in courtyard_polygons():
+        rng=random.Random(600+idx)
+        # Worn face and broad bevel, not a coplanar polygon network or repeated brick grid.
+        inset=[(cx+(x-cx)*.93,cz+(z-cz)*.93) for x,z in poly]
+        shoulders=[(cx+(x-cx)*.99,-.13,cz+(z-cz)*.99) for x,z in poly]
+        top=[(x,-.02-rng.uniform(0,.018),z) for x,z in inset]
+        bottom=[(x,-.21,z) for x,z in poly]
+        v=rng.uniform(-.035,.035);stone=(.72+v,.72+v,.65+v)
         for k in range(len(poly)):
             q=(k+1)%len(poly)
-            limestone.quad(bottoms[q],bottoms[k],shoulders[k],shoulders[q],(.61,.53,.42))
-            limestone.quad(shoulders[q],shoulders[k],tops[k],tops[q],color)
-        for k in range(1,len(poly)-1):limestone.tri(tops[0],tops[k+1],tops[k],color)
-        if idx%7==2:
-            a=(cx-.17,-.014,cz-.09); b=(cx+.13,-.014,cz+.12)
-            dx,dz=b[0]-a[0],b[2]-a[2]; length=math.hypot(dx,dz); nx,nz=-dz/length*.012,dx/length*.012
-            detail.quad((a[0]+nx,a[1],a[2]+nz),(b[0]+nx,b[1],b[2]+nz),
-                        (b[0]-nx,b[1],b[2]-nz),(a[0]-nx,a[1],a[2]-nz),(.46,.40,.31))
+            obj.quad(bottom[q],bottom[k],shoulders[k],shoulders[q],(.48,.50,.40))
+            obj.quad(shoulders[q],shoulders[k],top[k],top[q],(.77+v,.76+v,.67+v))
+            obj.tri((cx,-.06,cz),top[q],top[k],stone)
+        if idx%3!=1:continue
+        # Two connected lobes grow from one chosen joint, leaving most edges as stone.
+        k=idx%len(poly);q=(k+1)%len(poly);a,b=poly[k],poly[q]
+        vx,vz=b[0]-a[0],b[1]-a[1];length=math.hypot(vx,vz)
+        if length<.3:continue
+        nx,nz=-vz/length,vx/length
+        # Inset points towards this stone's center regardless of polygon winding.
+        if nx*(cx-a[0])+nz*(cz-a[1])<0:nx,nz=-nx,-nz
+        for j in range(7):
+            t0=.12+j*.10;t1=t0+.10
+            w0=.04+.23*math.sin(j*.83)**2;w1=.04+.23*math.sin((j+1)*.83)**2
+            p0=(a[0]+vx*t0,-.015,a[1]+vz*t0);p1=(a[0]+vx*t1,-.015,a[1]+vz*t1)
+            obj.quad(p0,(p0[0]+nx*w0,p0[1],p0[2]+nz*w0),
+                     (p1[0]+nx*w1,p1[1],p1[2]+nz*w1),p1,(.41,.49,.30))
 
 def column(obj,c,r,h,seed):
     # A faceted, tapering column with a broad crown; no primitive cubes.
@@ -264,7 +280,7 @@ def lantern(detail,warm,base):
 def make_assets():
     objs={name:Obj(name) for name in PALETTE}
     outer=island_layers(objs["Cliff"],objs["Limestone"],objs["Detail"])
-    courtyard(objs["Limestone"],objs["Detail"])
+    worn_courtyard(objs["Courtyard"])
     terrace(objs["Limestone"],objs["Cliff"],objs["Detail"])
     arch(objs["Limestone"],objs["Cliff"],objs["Detail"])
     # A handful of unequal floating islets in the near background create readable depth.
@@ -322,7 +338,7 @@ def main():
               "coordinate_space":"Unity local X/Y/Z, Y-up; origin is board center; Z already uses DisplayDepth=2 spacing; do not stretch Z",
               "source_art":"User-provided local concept image was viewed read-only for composition; not copied, embedded, uploaded, or used as a texture.",
               "license":"Original procedural geometry authored for this repository; no third-party mesh or texture source.",
-              "core_floor":"Core is pure data and has no mesh. Limestone contains a non-repeating broken-stone courtyard at y=-0.02..-0.17 beneath actors; it has no collider or gameplay semantics.",
+              "core_floor":"Courtyard contains irregular worn flagstones across the courtyard, with shallow relief and selected connected moss joints, explicitly sRGB; no rules/colliders. Core is pure data and has no mesh. Courtyard stone tops are at/below y=-0.02, shallow moss skins at -0.015, and joint bed at -0.22; no collider or gameplay semantics.",
               "layers":{}}
     for name,obj in objs.items():
         path=OUT/(name+".obj"); obj.export(path)

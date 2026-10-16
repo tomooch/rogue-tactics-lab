@@ -10,6 +10,7 @@ Shader "RogueTactics/AuthoredRuins" {
   _SrgbPalette("Offline sRGB palette", Float)=0
   _FlowWater("Curved waterfall", Float)=0
   _FlowSpeed("Water motion", Float)=1
+  _WeatheredStone("Authored paving surface", Float)=0
  }
  SubShader {
   Tags { "RenderType"="Opaque" "RenderPipeline"="UniversalPipeline" "Queue"="Geometry" }
@@ -26,7 +27,7 @@ Shader "RogueTactics/AuthoredRuins" {
    #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Lighting.hlsl"
    CBUFFER_START(UnityPerMaterial)
    half4 _BaseColor;
-   half _Leaves,_Emission,_SrgbPalette,_FlowWater,_FlowSpeed;
+   half _Leaves,_Emission,_SrgbPalette,_FlowWater,_FlowSpeed,_WeatheredStone;
    CBUFFER_END
    struct Attributes {float4 positionOS:POSITION;float3 normalOS:NORMAL;half4 color:COLOR;float2 uv:TEXCOORD0;};
    struct Varyings {float4 positionCS:SV_POSITION;float3 positionWS:TEXCOORD0;half3 normalWS:TEXCOORD1;half4 color:COLOR;float2 uv:TEXCOORD2;};
@@ -41,6 +42,13 @@ Shader "RogueTactics/AuthoredRuins" {
     // into its explicitly authored display palette; approved sprite sampling is separate.
     half3 palette=lerp(i.color.rgb,SRGBToLinear(i.color.rgb),_SrgbPalette);
     half3 rgb=palette*_BaseColor.rgb*(shade*sky+_Emission);
+    if(_WeatheredStone>.5h){
+     // Broad mineral mottling and fine grain use stable object/world position, not screen noise.
+     float2 p=i.positionWS.xz;
+     float cloud=sin(p.x*2.1+sin(p.y*1.7))*sin(p.y*2.4-p.x*.8);
+     float grain=frac(sin(dot(floor(p*180),float2(127.1,311.7)))*43758.5453);
+     rgb*=.94+cloud*.055+(grain-.5)*.035;
+    }
     if(_FlowWater>.5h){
      float fall=i.uv.y-_Time.y*.48*_FlowSpeed;
      float threads=sin(i.uv.x*89+sin(fall*8)*.35)*.5+.5;

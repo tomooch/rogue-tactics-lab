@@ -70,7 +70,12 @@ namespace RogueTactics.Tests
             yield return SceneManager.LoadSceneAsync("MobileG1");yield return null;yield return null;
             var view=Object.FindFirstObjectByType<MobileG1View>();var rt=new RenderTexture(390,844,24);Camera.main.targetTexture=rt;
             view.SetTestSafeArea(new Rect(0,34,390,763),390,844);yield return null;
-            InsideSafeArea(view,"Protect","Attack","Start");Assert.That(view.DeveloperMode,Is.False);yield return Capture("r1-setup");
+            InsideSafeArea(view,"Protect","Attack","Start");Assert.That(view.DeveloperMode,Is.False);
+            // Compact product shelves must retain visible title, companion names and actual HP.
+            foreach(var label in Object.FindObjectsByType<UnityEngine.UI.Text>(FindObjectsSortMode.None))
+                if(label.gameObject.activeInHierarchy && (label.name=="Title" || label.name=="Name" || label.name=="Actual HP"))
+                    Assert.That(label.preferredHeight,Is.LessThanOrEqualTo(label.rectTransform.rect.height+.1f),label.name+" fits without vertical clipping");
+            yield return Capture("r1-setup");
             foreach(var preference in new[]{Preference.ProtectAnchor,Preference.DirectAttack})
             {
                 view.Button(preference==Preference.ProtectAnchor?"Protect":"Attack").onClick.Invoke();view.Prediction.text="守るか攻めるか、結果を見る";

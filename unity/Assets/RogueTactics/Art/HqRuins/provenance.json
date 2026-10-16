@@ -3,11 +3,11 @@
   "coordinate_space": "Unity local X/Y/Z, Y-up; origin is board center; Z already uses DisplayDepth=2 spacing; do not stretch Z",
   "source_art": "User-provided local concept image was viewed read-only for composition; not copied, embedded, uploaded, or used as a texture.",
   "license": "Original procedural geometry authored for this repository; no third-party mesh or texture source.",
-  "core_floor": "Core is pure data and has no mesh. Limestone contains a non-repeating broken-stone courtyard at y=-0.02..-0.17 beneath actors; it has no collider or gameplay semantics.",
+  "core_floor": "Courtyard contains irregular worn flagstones across the courtyard, with shallow relief and selected connected moss joints, explicitly sRGB; no rules/colliders. Core is pure data and has no mesh. Courtyard stone tops are at/below y=-0.02, shallow moss skins at -0.015, and joint bed at -0.22; no collider or gameplay semantics.",
   "layers": {
     "Limestone": {
       "file": "Limestone.obj",
-      "triangles": 3543,
+      "triangles": 1929,
       "bounds": [
         [
           -7.109,
@@ -45,7 +45,7 @@
     },
     "Detail": {
       "file": "Detail.obj",
-      "triangles": 270,
+      "triangles": 252,
       "bounds": [
         [
           -6.72,
@@ -57,7 +57,7 @@
         ],
         [
           -9.63,
-          9.432
+          9.324
         ]
       ],
       "material_key": "Detail"
@@ -194,6 +194,25 @@
         ]
       ],
       "material_key": "Warm"
+    },
+    "Courtyard": {
+      "file": "Courtyard.obj",
+      "triangles": 2022,
+      "bounds": [
+        [
+          -6.35,
+          6.35
+        ],
+        [
+          -0.22,
+          -0.015
+        ],
+        [
+          -10.8,
+          10.8
+        ]
+      ],
+      "material_key": "Courtyard"
     }
   }
 }
