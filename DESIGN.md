@@ -102,3 +102,7 @@ Issue #20 [最新照合](https://github.com/tomooch/rogue-tactics-lab/issues/20#
 前景左端だけに独自の欠けた石積み、複数の割れた崖、丸みのある葉と花、垂れた蔦、曲面の滝を作成。`tools/author_hero_ledge.py` と実Editor生成Meshで再現する。旧front-left滝だけを置換し、盤面のCore座標・床・camera45°yaw0°・人物source RGB・既存HUDを保持。新しい角のpaletteだけsRGBを明示し、他の環境材質には適用しない。独立実画像レビューでcorner Aの立体感は改善と観測したが、部品の寄せ集め感/水の横帯を検出したため同じ角で自己修正。島全体への複製や美術方向の採用は行わない。全画面V0/Human合格を意味しない。比較と残欠陥は `evidence/hq-ref/pass3-review.md`。
 
 C-fixedの同camera/skin/geometry比較で、HQ world cameraのpostprocess ONは人物・空の色/輪郭を弱め、OFFは視認性を改善した。独立実画像reviewも確認。DoF単独では原因を特定できず、より広いpostprocess経路として切り分ける。HQだけこの経路を回避し、SSAO/接地影/水流は保持する。非HQの処理は変更しない。処理の除去を原画RGBの補正や全体V0合格とは扱わない。
+
+### HQ-REF-1 Pass4 composition candidate (2026-10-17, pending PR21)
+
+Runtime `fc005d4` preserves G1/5x5/initial placement/two enemies, approved four RGB assets and camera. Product shelf is compacted with prediction beside Start and terminal comparison beside retry. Authored courtyard now has worn relief, restrained joints and selected connected moss; A/B grid/flat candidates were rejected from actual Unity images before full-floor adoption. Source and comparison evidence: `evidence/hq-ref/pass4-review.md`. This is a visible whole-screen step beyond Pass3, not Human V0/V1/fun acceptance; R2 V0 remains FAIL. No new gameplay, abilities, gait, service, merge or release.

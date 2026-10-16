@@ -79,11 +79,12 @@
     "runtime": "HqSkyRuins only composes serialized mesh/material assets; no runtime slab lattice",
     "provenance": "unity/Assets/RogueTactics/Art/HqRuins/provenance.json",
     "material": "AuthoredRuins.shader; source-authored vertex colour with local URP lighting; no original concept texture",
-    "quality": "Pass3 corner A silhouette improvement observed; whole-screen R2 V0 FAIL remains. Final corner comparison recorded separately.",
+    "quality": "Pass4 whole-screen comparison shows clearer party/ground separation and authored stone relief after rejected A/B and repaired D seam contrast; overall R2 V0 FAIL and Human acceptance pending.",
     "source_objects": {
       "Blue.obj": "c25d669ad1a17e806f7b60b83a32245928b4a81e0a93912a9c535fb1d5a7f538",
       "Cliff.obj": "4636b8055d09acfc6d5e50d251c814bc2c06dd5c96aad5c17aba057d4bb544c2",
-      "Detail.obj": "cde18cbb91a682ddc09df29570a380057465faf69de929f36e06a36ac5d80bfb",
+      "Courtyard.obj": "1e10beab2e7a3d134064fa5eff1a86412e01f4155b591de68ab6e752da98e12b",
+      "Detail.obj": "bbf183571609f34ee69d0dc35e56058c8873e51928fdf18ac7c208db80570523",
       "Distant.obj": "0a82cd8192fd4fa2ec8fcde9f2bb26842ba4f9139e589dc0f3dc629333668abb",
       "Flowers.obj": "268f32aaceaba73e9b2fe27d10bd34ec27a31b609e9d1711f40a9d21441a775a",
       "Foliage.obj": "710847542b5d5e540ee29a4831e6297cee789922d67b29f0b77a541049784cd6",
@@ -95,7 +96,7 @@
       "HeroLedgeFoliage.obj": "03700bbca1ab9d5016ca5e14f27db10781e8087ab4ecea606262e20f3558f990",
       "HeroLedgeLimestone.obj": "58d337f0470ba2f9a4fef17a7291a917b75291ea8d0a04a2a7a9bdf5c78ba90e",
       "HeroLedgeWater.obj": "1e92d13b072588f5696273a4e4855312beb6f2c9a43dcb9189479737c03c4938",
-      "Limestone.obj": "0d70d9e5ee246aa550346ad1b4e8c654418b3f88c7d82fdcb440568595bc13cc",
+      "Limestone.obj": "68bac484a019b526751edb225a7a0902ddad66bcda0027d01e24f9b0fb548966",
       "Warm.obj": "a5a68d1df19daa6c15ceec06bed4087beba83996aadc04c97e5885eeb6e59b24",
       "Water.obj": "c48427f964501ce18ad19365b2ac85844e5cfec9458b5f73f56ee8934fa27d02"
     },
@@ -106,6 +107,13 @@
       "material": "sRGB authored vertex palette for HeroLedge only; curved continuous UV flowing waterfall; legacy default unchanged",
       "no_external_assets": true,
       "no_private_rgb_edits": true
+    },
+    "courtyard": {
+      "runtime_source": "fc005d4ddee3edc5ac5b035ecfefb5e132f5e25a",
+      "generator": "tools/author_sky_ruins.py",
+      "material": "Courtyard explicitly sRGB with shallow worn faces, restrained bevel/joint contrast and selected connected moss; legacy ruins and approved sprite RGB unchanged",
+      "scope": "entire authored courtyard, no collider/Core semantics",
+      "private_reference_uploaded": false
     }
   },
   "font": {
