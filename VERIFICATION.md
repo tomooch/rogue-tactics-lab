@@ -357,3 +357,15 @@ Issue #20 [最新照合](https://github.com/tomooch/rogue-tactics-lab/issues/20#
 ASC認証は今回利用可能。build5内部は「コンプライアンスがありません」、グループ未設定と実画面で確認した。build4は本人限定 G1でテスト中。build5 upload成功と配布完了を区別する。今回は状態のreadのみでApple回答/グループ/資格情報は未変更。ローカル証拠・具体的比較は `evidence/hq-ref/pass3-review.md`。メディアはowner-local一時領域のみ。WebGPTからの直接参照可能な安全な共有経路は未確認であり、共有成功とは報告しない。
 
 Pass3 final: Unity6000.3.25f1 Configure/import PASS、Edit14/14、Play9/9 PASS。既存の両固定hash、event/visible cursor、移動中pause、予想・結果比較・再試行、camera/足元HP/intent投影に加え、描画設定往復で遠景を含む元のshadow modeへ戻る回帰を確認。HQ world postprocess回避後のsetup/guard/heal実画像で人物の色・輪郭改善とcornerの層を確認。公開テストXML `pass3-editmode.xml` / `pass3-playmode.xml`、画像のSHAとowner-local所在 `pass3-capture-manifest.json`。Core tree `50274c84cb56344d1394b4283833728c72cd7577`・package・private4skin SHAは基準と一致。R2全体V0 FAIL、Human/I2/Notion未評価・未同期は維持。Simulatorはこの固定sourceで後続実行する。
+
+Pass3 runtime commitは `9e5fd06eda2c1fe11cf883335c316b988a3f1845`。最終テストの全sourceファイルSHAとconfigured scene SHAがcommit内容と一致（`pass3-source-verification.json`）。公開メディアは追加せず、同branchへ通常push、Draft維持。[実行パケット](https://github.com/tomooch/rogue-tactics-lab/pull/21#issuecomment-6205066312)。
+
+Notion接続が今回利用可能となり、既存[Todo](https://app.notion.com/p/3e3ad38889158105a09df12a35b633a7)と[Tried & Learned](https://app.notion.com/p/3e3ad388891581aba10ddf3e65a70047)へPass3実測・棄却したDoF仮説・局所改善/V0未達・ASC build5状態を同期しreadback確認した。以前のNotion未同期記録は当時の状態として保持。新しいHuman製品DecisionやHuman GOは作成していない。private画像/動画のNotionアップロードなし。
+
+### Pass3 current-source Simulator result
+
+runtime `9e5fd06eda2c1fe11cf883335c316b988a3f1845` のUnity export / Xcode Simulator build exit0、専用QA iOS27.0へinstall/launch PASS。実画面で新corner・人物/空の鮮明化を確認。ProtectはA13/X5/Y12の途中停止を保持→再開→14行動/生存4/HP16・16・12・10/回復残0。Attackは14行動/生存3/HP0・16・12・10/回復残1。比較modal/再試行/初期配置/IME確定文字の保存を実観測し、この起動sessionのnativeログで両full SHA一致。IMEテストでは入力操作から確定したliteral `aattackcheck` の保持のみを確認、指定英語の完全再現や日本語IME全ケース合格とは主張しない。
+
+新DeviceHub録画はProtect55.333333秒/3322frames（意図的pauseを含む）、Attack30.956667秒/1873frames、1206×2622。Live観測とQuickTime通常再生で時間経過・姿勢/HP/receiptを確認。詳細・SHA・frame intervalsは `pass3-native-observation.json`。一時所在 `/private/tmp/rogue-hq-pass3/simulator/`。旧pass2動画とsourceを混同せず、今回のローカル開発binary番号5をAppleへupload済のd5e8e08/build5と区別する。新upload/配布は行っていない。ASTC decompression2件とURP depth fallback警告を記録、crash/exception/描画破損は観測せず。実iPhone性能・Human合格は未検証。export生成5設定は監査/差分保存後にruntime commitへ復元、Core/package/skin不変。追加commitは文書/検証メタデータのみ。
+
+NotionはPass3の初回Todo/Learned同期とreadback済み。native最終結果はTodo更新のtool成功を確認したが、Tried & Learnedへの最終追記は自動承認レビューの利用上限により**未実行**（unsafe判定ではなくreview実行不可）。その追記は未同期として残す。許可回避・別経路での再送は行っていない。

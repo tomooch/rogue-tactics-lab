@@ -1,6 +1,6 @@
 {
   "baseline_pr_head": "cc3f81aa383d1bea931304b43fcbe22a7346ed4b",
-  "runtime_source": "final/source-and-results.json file hashes + configured scene SHA; matched to runtime commit after freeze",
+  "runtime_source": "9e5fd06eda2c1fe11cf883335c316b988a3f1845",
   "images": [
     {
       "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/DirectAttack-comparison.png",
