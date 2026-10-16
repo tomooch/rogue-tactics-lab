@@ -186,11 +186,17 @@ namespace RogueTactics.Presentation
             FieldCamera.transform.position=center+Quaternion.Euler(0,CameraYaw,0)*new Vector3(0,Mathf.Sin(CameraPitch*Mathf.Deg2Rad)*21,-Mathf.Cos(CameraPitch*Mathf.Deg2Rad)*21);FieldCamera.transform.LookAt(center);FieldCamera.cullingMask=~(1<<5);
             if(HqWorld)FieldCamera.orthographicSize=10f;
             FieldCamera.backgroundColor=HqWorld?new Color(.56f,.77f,.89f):new Color(.065f,.13f,.16f);FieldCamera.clearFlags=CameraClearFlags.SolidColor;
-            FieldCamera.GetUniversalAdditionalCameraData().renderPostProcessing=true;
+            // Same-camera Unity A/B showed the HQ post-process path dulling approved
+            // sprites and sky. Keep their unprocessed sampling; retain local contact light.
+            FieldCamera.GetUniversalAdditionalCameraData().renderPostProcessing=!HqWorld;
             fieldTarget=new RenderTexture(780,1040,24){antiAliasing=4,name="Mobile dungeon actual render"};FieldCamera.targetTexture=fieldTarget;
-            var vol=new GameObject("Dungeon light bloom").AddComponent<Volume>();vol.isGlobal=true;vol.profile=runtimeProfile=ScriptableObject.CreateInstance<VolumeProfile>();
-            var dof=vol.profile.Add<DepthOfField>();dof.mode.Override(DepthOfFieldMode.Gaussian);dof.gaussianStart.Override(25);dof.gaussianEnd.Override(45);dof.gaussianMaxRadius.Override(.7f);FieldCamera.GetUniversalAdditionalCameraData().requiresDepthTexture=true;
-            var bloom=vol.profile.Add<Bloom>();bloom.intensity.Override(.3f);bloom.threshold.Override(1.1f);
+            FieldCamera.GetUniversalAdditionalCameraData().requiresDepthTexture=true;
+            if(!HqWorld)
+            {
+                var vol=new GameObject("Dungeon light bloom").AddComponent<Volume>();vol.isGlobal=true;vol.profile=runtimeProfile=ScriptableObject.CreateInstance<VolumeProfile>();
+                var dof=vol.profile.Add<DepthOfField>();dof.mode.Override(DepthOfFieldMode.Gaussian);dof.gaussianStart.Override(25);dof.gaussianEnd.Override(45);dof.gaussianMaxRadius.Override(.7f);
+                var bloom=vol.profile.Add<Bloom>();bloom.intensity.Override(.3f);bloom.threshold.Override(1.1f);
+            }
             RenderSettings.ambientMode=AmbientMode.Trilight;RenderSettings.ambientSkyColor=new Color(.37f,.55f,.65f);RenderSettings.ambientEquatorColor=new Color(.23f,.34f,.38f);RenderSettings.ambientGroundColor=new Color(.10f,.15f,.18f);
             var sun=new GameObject("Soft dungeon light").AddComponent<Light>();sun.type=LightType.Directional;sun.intensity=1.15f;sun.color=new Color(1,.91f,.76f);sun.shadows=LightShadows.Soft;sun.transform.rotation=Quaternion.Euler(55,-35,0);
             if(HqWorld)

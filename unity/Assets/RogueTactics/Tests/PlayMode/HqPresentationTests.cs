@@ -53,6 +53,10 @@ namespace RogueTactics.Tests
             yield return SceneManager.LoadSceneAsync("MobileG1");yield return null;yield return null;
             var view=Object.FindFirstObjectByType<MobileG1View>();var rt=new RenderTexture(390,844,24);Camera.main.targetTexture=rt;
             view.SetTestSafeArea(new Rect(0,34,390,763),390,844);var initial=view.Session.Replay.State.Serialize();
+            var ambient=Object.FindFirstObjectByType<HqAmbient>();
+            var shadows=ambient.GetComponentsInChildren<MeshRenderer>().ToDictionary(r=>r,r=>r.shadowCastingMode);
+            ambient.SetReduced(true);ambient.SetReduced(false);
+            foreach(var pair in shadows)Assert.That(pair.Key.shadowCastingMode,Is.EqualTo(pair.Value),"Effect round-trip must restore distant and near shadow settings");
             view.SetComparisonYaw(0);
             foreach(var pitch in new[]{75f,63f,55f,45f}){view.SetComparisonCamera(pitch);yield return Capture("camera-"+pitch+"-setup");Assert.That(view.Session.Replay.State.Serialize(),Is.EqualTo(initial));}
             view.SetComparisonCamera(55);view.SetComparisonYaw(-18);yield return Capture("camera-55-yaw-minus18-setup");Assert.That(view.Session.Replay.State.Serialize(),Is.EqualTo(initial));

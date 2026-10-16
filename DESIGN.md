@@ -92,3 +92,13 @@ Pass A仮説：反復9×9舗装をruntimeで増やす手法から、固有の輪
 Pass BはA画像レビュー後の別比較：Moveだけに軌跡を残し、非移動は実actor/targetの局所アクセントと名前/効果で区別する。Core eventのimpactでのみHP/Deathを更新し、pause pose/cursorとpreview/execution区別を維持。比較sheetをrosterより前へ置く。true sprite gait/G2/能力追加は範囲外。
 
 承認済みprivateローカルフォルダの再探索でもPRIMARY SHAは見つからず、指定原画と旧approved-combined画像は共に`99a76f33…`。このpassでPRIMARY fidelity PASSは主張しない。パケット内Protect hashの転記は一部省略があるため、実Coreと既存固定gateが使う完全値`e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d`を保持する。
+
+### 2026-10-16 PRIMARY RGB同一性の更新
+
+Issue #20 [最新照合](https://github.com/tomooch/rogue-tactics-lab/issues/20#issuecomment-6203653575)により、PRIMARY 9b4ee65b… とMac指定PNG 99a76f33… はPNG bytesは異なるが941×1672の復号RGB全1,573,352画素が一致。LocalでもRGB SHA `fd52b3654adc91c3e086b21cc83a4d9cb1d2057a5cd527b0fbc5cbb3a15a3ce4` を再現した。以前のPRIMARY fidelity未照合という記載のうち、比較原画の同一性ブロッカーは解消。実描画の原画fidelity・R2 V0 FAIL・Human未評価・Notion未同期は別であり維持する。
+
+### Pass3 bounded environment prototype
+
+前景左端だけに独自の欠けた石積み、複数の割れた崖、丸みのある葉と花、垂れた蔦、曲面の滝を作成。`tools/author_hero_ledge.py` と実Editor生成Meshで再現する。旧front-left滝だけを置換し、盤面のCore座標・床・camera45°yaw0°・人物source RGB・既存HUDを保持。新しい角のpaletteだけsRGBを明示し、他の環境材質には適用しない。独立実画像レビューでcorner Aの立体感は改善と観測したが、部品の寄せ集め感/水の横帯を検出したため同じ角で自己修正。島全体への複製や美術方向の採用は行わない。全画面V0/Human合格を意味しない。比較と残欠陥は `evidence/hq-ref/pass3-review.md`。
+
+C-fixedの同camera/skin/geometry比較で、HQ world cameraのpostprocess ONは人物・空の色/輪郭を弱め、OFFは視認性を改善した。独立実画像reviewも確認。DoF単独では原因を特定できず、より広いpostprocess経路として切り分ける。HQだけこの経路を回避し、SSAO/接地影/水流は保持する。非HQの処理は変更しない。処理の除去を原画RGBの補正や全体V0合格とは扱わない。

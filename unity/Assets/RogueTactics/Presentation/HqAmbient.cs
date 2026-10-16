@@ -8,6 +8,7 @@ namespace RogueTactics.Presentation
         private Transform water,cloth,foliage;
         public bool Reduced {get;private set;}
         private float phase;
+        private readonly Dictionary<MeshRenderer,UnityEngine.Rendering.ShadowCastingMode> originalShadows=new Dictionary<MeshRenderer,UnityEngine.Rendering.ShadowCastingMode>();
         private void Start()
         {
             water=transform.Find("Water");cloth=transform.Find("Blue");foliage=transform.Find("Foliage");
@@ -19,7 +20,12 @@ namespace RogueTactics.Presentation
             if(water!=null)water.localPosition=Vector3.zero;
             if(cloth!=null)cloth.localRotation=Quaternion.identity;
             if(foliage!=null)foliage.localRotation=Quaternion.identity;
-            foreach(var r in GetComponentsInChildren<MeshRenderer>())r.shadowCastingMode=reduced?UnityEngine.Rendering.ShadowCastingMode.Off:UnityEngine.Rendering.ShadowCastingMode.On;
+            foreach(var r in GetComponentsInChildren<MeshRenderer>())
+            {
+                if(!originalShadows.TryGetValue(r,out var original)){original=r.shadowCastingMode;originalShadows.Add(r,original);}
+                r.shadowCastingMode=reduced?UnityEngine.Rendering.ShadowCastingMode.Off:original;
+                if(r.sharedMaterial.HasProperty("_FlowSpeed"))r.sharedMaterial.SetFloat("_FlowSpeed",reduced?0:1);
+            }
         }
         private void Update()
         {

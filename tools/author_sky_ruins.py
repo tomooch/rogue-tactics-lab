@@ -276,7 +276,7 @@ def make_assets():
     # Cascades from both sides and clearly visible across the foreground edge.
     waterfall(objs["Water"],-6.75,-1.2,1.55,3.9,1)
     waterfall(objs["Water"],6.72,2.4,1.4,3.7,2)
-    waterfall(objs["Water"],-2.4,-11.18,2.0,4.1,3)
+    # Front-left cascade is replaced by the bounded HeroLedge authored sheet.
     waterfall(objs["Water"],2.9,-11.16,1.35,3.5,4)
     # Floral clusters mark four ruin bases and the far arch rather than every tile.
     for c,n,r,s in (((-6.25,0,3.8),65,.78,1),((6.2,0,4.5),58,.75,2),((-6.2,.05,8.0),50,.72,3),((6.15,.05,8.5),48,.7,4),((-6.15,2.8,7.3),42,.68,5)):

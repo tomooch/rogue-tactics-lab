@@ -345,3 +345,15 @@ Protect再取得の4–19秒を採用: 実14.9983秒/900frames（約60fps）。�
 2026-10-15 23:57 JST、final runtime source d5e8e08の0.1.0(5)を既存ゲーム専用profile/署名・internal-only・管理version変更なしで再検査し、upload exit0 / EXPORT SUCCEEDED。Apple transportは「Uploaded package is processing」を返した。ASC画面は同アプリへ再接続してもauthResult=FAILEDで、処理完了・暗号化区分・既存「本人限定 G1」1 testerへの追加は未確認・未変更。本人Chrome再ログイン待ちでここだけ停止。旧build2/3/4をexpireせず、public link・外部tester・別app・新credentialなし。公開証拠pass2-internal-upload.json。署名archive/原画/動画/rawログはprivateのまま。
 
 今回の変更・修正・検証証拠は同PR21 branchへpushし、Draftを保持。R2 V0 FAILとPRIMARY fidelity未確認・Human visual/fun/実機未検証・Notion未同期を維持。CI checksなし。最終残作業はApple再ログイン後のbuild5処理/本人限定配布確認、および次の環境美術制作入力の具体化であり、高品質完成とは扱わない。
+
+### 2026-10-16 PRIMARY RGB同一性の更新
+
+Issue #20 [最新照合](https://github.com/tomooch/rogue-tactics-lab/issues/20#issuecomment-6203653575)により、PRIMARY 9b4ee65b… とMac指定PNG 99a76f33… はPNG bytesは異なるが941×1672の復号RGB全1,573,352画素が一致。LocalでもRGB SHA `fd52b3654adc91c3e086b21cc83a4d9cb1d2057a5cd527b0fbc5cbb3a15a3ce4` を再現した。以前のPRIMARY fidelity未照合という記載のうち、比較原画の同一性ブロッカーは解消。実描画の原画fidelity・R2 V0 FAIL・Human未評価・Notion未同期は別であり維持する。
+
+### Pass3 representative corner closed loop (2026-10-16)
+
+基準PR21 HEAD `cc3f81aa383d1bea931304b43fcbe22a7346ed4b`。private比較HTMLの実参照、26PNG、Protect15秒/Attack13秒のSHAとsourceを監査し、原画/build4/build5を同じ390px幅で直接比較。QuickTimeの通常再生と経過時刻/姿勢/HP/receiptの変化を観測。全frameを個別検査したとは主張しない。前縁の造形・材質・植物・滝を一角で試作→実Unity描画→独立敵対レビュー→同じ角の横帯/材質を修正→旧滝との重複除去。A/Bは各Configure PASS/filtered Play1/1 PASS（Edit0、全回帰とは別）。全回帰/最終実画像は後続の固定source証拠へ記録する。DoF Off単独診断は改善を示さずrevert。原画RGBは変更なし。
+
+ASC認証は今回利用可能。build5内部は「コンプライアンスがありません」、グループ未設定と実画面で確認した。build4は本人限定 G1でテスト中。build5 upload成功と配布完了を区別する。今回は状態のreadのみでApple回答/グループ/資格情報は未変更。ローカル証拠・具体的比較は `evidence/hq-ref/pass3-review.md`。メディアはowner-local一時領域のみ。WebGPTからの直接参照可能な安全な共有経路は未確認であり、共有成功とは報告しない。
+
+Pass3 final: Unity6000.3.25f1 Configure/import PASS、Edit14/14、Play9/9 PASS。既存の両固定hash、event/visible cursor、移動中pause、予想・結果比較・再試行、camera/足元HP/intent投影に加え、描画設定往復で遠景を含む元のshadow modeへ戻る回帰を確認。HQ world postprocess回避後のsetup/guard/heal実画像で人物の色・輪郭改善とcornerの層を確認。公開テストXML `pass3-editmode.xml` / `pass3-playmode.xml`、画像のSHAとowner-local所在 `pass3-capture-manifest.json`。Core tree `50274c84cb56344d1394b4283833728c72cd7577`・package・private4skin SHAは基準と一致。R2全体V0 FAIL、Human/I2/Notion未評価・未同期は維持。Simulatorはこの固定sourceで後続実行する。

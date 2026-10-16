@@ -3,7 +3,8 @@
   "authority": [
     "https://github.com/tomooch/rogue-tactics-lab/issues/20",
     "https://github.com/tomooch/rogue-tactics-lab/issues/20#issuecomment-6184262380",
-    "https://github.com/tomooch/rogue-tactics-lab/pull/21#issuecomment-6192468412"
+    "https://github.com/tomooch/rogue-tactics-lab/pull/21#issuecomment-6192468412",
+    "https://github.com/tomooch/rogue-tactics-lab/issues/20#issuecomment-6203653575"
   ],
   "main": "ab9fa5dc729dcea07f8680e7b22544627c5e5bed",
   "stacked_baseline": "ce4ffac8d2216973c391d801cf5f6d41fbde66b5",
@@ -16,10 +17,14 @@
     "issue_primary_sha256": "9b4ee65b5fe3dfeaa0938cb09aa928eb67bf99cfcb06b9ea1423208fe6aa6621",
     "byte_identity_to_issue_primary": false,
     "human_local_path_supplied": "2026-10-15",
-    "use": "latest Human supplied local comparison image; retain hash discrepancy explicitly",
+    "use": "Canonical visual reference: decoded RGB identical; PNG container bytes differ. No claim of rendered fidelity.",
     "original_unchanged": true,
     "public_git": false,
-    "external_upload": false
+    "external_upload": false,
+    "decoded_rgb_identity_to_issue_primary": true,
+    "decoded_rgb_sha256": "fd52b3654adc91c3e086b21cc83a4d9cb1d2057a5cd527b0fbc5cbb3a15a3ce4",
+    "decoded_rgb_pixels": 1573352,
+    "identity_evidence": "Independent WebGPT byte/RGB verification in Issue20 comment6203653575; local decoded RGB SHA reproduced 2026-10-16"
   },
   "characters": {
     "model_sha256": "f15622d853e8260172812b657053460e20806f04b9e05147d49af7bed31a6e99",
@@ -74,7 +79,7 @@
     "runtime": "HqSkyRuins only composes serialized mesh/material assets; no runtime slab lattice",
     "provenance": "unity/Assets/RogueTactics/Art/HqRuins/provenance.json",
     "material": "AuthoredRuins.shader; source-authored vertex colour with local URP lighting; no original concept texture",
-    "quality": "Pass2 image review V0 FAIL; explicit production environment asset gap retained",
+    "quality": "Pass3 corner A silhouette improvement observed; whole-screen R2 V0 FAIL remains. Final corner comparison recorded separately.",
     "source_objects": {
       "Blue.obj": "c25d669ad1a17e806f7b60b83a32245928b4a81e0a93912a9c535fb1d5a7f538",
       "Cliff.obj": "4636b8055d09acfc6d5e50d251c814bc2c06dd5c96aad5c17aba057d4bb544c2",
@@ -83,9 +88,24 @@
       "Flowers.obj": "268f32aaceaba73e9b2fe27d10bd34ec27a31b609e9d1711f40a9d21441a775a",
       "Foliage.obj": "710847542b5d5e540ee29a4831e6297cee789922d67b29f0b77a541049784cd6",
       "Gold.obj": "98a71c531c5cf6b92411eb2889b9b279f6a5b2868a098c8e71d8f217fda48c97",
+      "HeroLedgeCliff.obj": "29e957182bdb04a83441d5ba431e1d093f9521cebaee0212d7076b95a915e25e",
+      "HeroLedgeDetail.obj": "12c35a97644e16346acd71be0f07c57d7a13b5d01a7f9314e74f249af3d5932f",
+      "HeroLedgeFlowers.obj": "166b903ad387ef2457cbe962bd460b9e7bcefae685b2bf0dfafcdb9fa0511ca4",
+      "HeroLedgeFoam.obj": "21620aa32962e3d1cce8fc33a3791cf06655592d5a9e8160a6b2ca79048b6699",
+      "HeroLedgeFoliage.obj": "03700bbca1ab9d5016ca5e14f27db10781e8087ab4ecea606262e20f3558f990",
+      "HeroLedgeLimestone.obj": "58d337f0470ba2f9a4fef17a7291a917b75291ea8d0a04a2a7a9bdf5c78ba90e",
+      "HeroLedgeWater.obj": "1e92d13b072588f5696273a4e4855312beb6f2c9a43dcb9189479737c03c4938",
       "Limestone.obj": "0d70d9e5ee246aa550346ad1b4e8c654418b3f88c7d82fdcb440568595bc13cc",
       "Warm.obj": "a5a68d1df19daa6c15ceec06bed4087beba83996aadc04c97e5885eeb6e59b24",
-      "Water.obj": "91c01f7e8b15da436193d173f614d4126e2e55712d5e7204d05893f2161ff742"
+      "Water.obj": "c48427f964501ce18ad19365b2ac85844e5cfec9458b5f73f56ee8934fa27d02"
+    },
+    "representative_ledge": {
+      "generator": "tools/author_hero_ledge.py",
+      "provenance": "unity/Assets/RogueTactics/Art/HqRuins/HeroLedge_provenance.json",
+      "scope": "front-left corner only; local x[-6.7,-.5], y[-4.2,.15], z[-11.4,-9.3]",
+      "material": "sRGB authored vertex palette for HeroLedge only; curved continuous UV flowing waterfall; legacy default unchanged",
+      "no_external_assets": true,
+      "no_private_rgb_edits": true
     }
   },
   "font": {

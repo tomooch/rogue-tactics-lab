@@ -1,0 +1,217 @@
+{
+  "baseline_pr_head": "cc3f81aa383d1bea931304b43fcbe22a7346ed4b",
+  "runtime_source": "final/source-and-results.json file hashes + configured scene SHA; matched to runtime commit after freeze",
+  "images": [
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/DirectAttack-comparison.png",
+      "sha256": "6531a0595b379aa8d8b4398f4e66e30be87a4a9ebd4c090049d9f537f7dafa5a",
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/DirectAttack-counter.png",
+      "sha256": "c863f9f412b42fc2b55c2d957f0b1e842d3b444438419749669530ff96f80a90",
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/DirectAttack-death.png",
+      "sha256": "e6c40c98d2bd43b2f9c594dc0f88c2341e4a6786e8842bc7e4bec1610bdc31b7",
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/DirectAttack-end.png",
+      "sha256": "4d4407f884f6dd5e4f46272963843ab6b0a4acc1a08a85f38f2dfd0a6808f330",
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/DirectAttack-heal.png",
+      "sha256": "c521e22018dbccf45173a8257e07d9df62cd635dd24d538ea5b215cad26ecbb2",
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/DirectAttack-paused.png",
+      "sha256": "2e698d02ca754aa61513412cd99b8652c0f18530261a46dfd2569b85880ee238",
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/DirectAttack-reset.png",
+      "sha256": "9e3c994a1fdf0d987e12544de74b1eabaf24a4b0dbc1dd5045531265352e20f8",
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/DirectAttack-start.png",
+      "sha256": "0322edebb1d5b9e9af025bc68d2b51945bbcf2696b45a6e030544b8594292450",
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/ProtectAnchor-comparison.png",
+      "sha256": "73296463e8118188a263c457dc10910298c5e2c6cb84c3ed257102548de51819",
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/ProtectAnchor-counter.png",
+      "sha256": "2332b7f4b53d6e6dfacd82477e0fa5fd996499d1a64189c98168d12625d3dc24",
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/ProtectAnchor-death.png",
+      "sha256": "a416c85d8f57e4b3294a27e6703bdcb7fee65e5e422a95279d054f237744117c",
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/ProtectAnchor-end.png",
+      "sha256": "f64e82108e814153149144e55a4b6ad2d4f206b2f12292d6b620226dac9e4611",
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/ProtectAnchor-guard.png",
+      "sha256": "ad47e23be478069dede4d02992786ed32cddded63c64a7930a295705ed33f415",
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/ProtectAnchor-heal.png",
+      "sha256": "f053b8ccc807486b9cb186c54b10a00f19ffb0c6cb603923a475316fa7429501",
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/ProtectAnchor-paused.png",
+      "sha256": "fe4b391f8c477d910669615e47233e9d2a48be61944a167f8acd553099e9d546",
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/ProtectAnchor-reset.png",
+      "sha256": "31db4a6c9097f0e892a031d2116579ad7b38dfec47fe74584ea1227340c1f508",
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/ProtectAnchor-start.png",
+      "sha256": "f402ae5beff828532c03b16d8fc5c90073eb2c92b797b31a5777676343126749",
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/camera-45-setup.png",
+      "sha256": "1227a15f1e6a0894350f37542f0d979de3ee3b2e7258c390fdb598dc92aa86a0",
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/camera-55-setup.png",
+      "sha256": "8ae1267c6e92b0ae0f2c5438172629e8eda0afa19b72c309e5eeccaab4db5ae9",
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/camera-55-yaw-minus18-setup.png",
+      "sha256": "dde6400b96a4eb605087ee750cf104d8830fe11a36afac3fa23cb3fdcd4c7529",
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/camera-63-guard.png",
+      "sha256": "3b62bf97b9bbef37256c60fb6bce1e95cf24c7338a800cb0b5a80e8e09abd4e2",
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/camera-63-setup.png",
+      "sha256": "2d7d6d9ca7217624665dfc756fb649badc0efc0199f224794f3bf4fbb1c0fb02",
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/camera-75-guard.png",
+      "sha256": "67618d42f9022727fbc5fe6b7b5e5eac607fcb4c8a32e9dce8609d78c7170047",
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/camera-75-setup.png",
+      "sha256": "4398c72b683c5dea29887a870c2d2c0165e9bf2f218b447c56ec238b97dca8ee",
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/r1-setup.png",
+      "sha256": "b00e80368d118d99369220d52da4189d120a371b996542c1e6fa42499b8df86d",
+      "size": [
+        390,
+        844
+      ]
+    },
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/final-images/r3-paused-mid-move.png",
+      "sha256": "7c066a2c1e3ad82d1613fb57d19c12acc070924f54d6f56f8400ad6d30c39684",
+      "size": [
+        390,
+        844
+      ]
+    }
+  ],
+  "public_media": false,
+  "remote_session_access": false,
+  "human_acceptance": false
+}

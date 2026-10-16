@@ -25,6 +25,9 @@ def main():
     delta = subprocess.check_output(['git', 'diff', '--binary', 'HEAD', '--', 'unity'], cwd=root)
     files = list((project / 'Assets').rglob('*.cs'))
     files += list((project / 'Assets').rglob('*.shader'))
+    # Include newly authored geometry too: a tracked diff omits untracked prototypes.
+    files += list((project / 'Assets/RogueTactics/Art/HqRuins').glob('*.obj'))
+    files += list((project / 'Assets/RogueTactics/Art/HqRuins').glob('*.json'))
     manifest = {str(p.relative_to(root)): hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(files)}
     summary = {'head': head, 'unity_diff_sha256': hashlib.sha256(delta).hexdigest(),
                'source_files': manifest, 'editor': args.editor, 'filter': args.filter,
@@ -44,6 +47,8 @@ def main():
         if name != 'configure' and (output / (name + '.xml')).exists():
             record['tests'] = ET.parse(output / (name + '.xml')).getroot().attrib
         summary['results'][name] = record
+        scene = project / 'Assets/RogueTactics/Scenes/MobileG1.unity'
+        summary['configured_scene_sha256'] = hashlib.sha256(scene.read_bytes()).hexdigest()
         (output / 'source-and-results.json').write_text(json.dumps(summary, indent=2) + '\n')
         print(name + '_COMPLETE', result.returncode, flush=True)
         if result.returncode or name != 'configure' and record.get('tests', {}).get('result') != 'Passed':
