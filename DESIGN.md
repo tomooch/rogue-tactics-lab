@@ -106,3 +106,7 @@ C-fixedの同camera/skin/geometry比較で、HQ world cameraのpostprocess ONは
 ### HQ-REF-1 Pass4 composition candidate (2026-10-17, pending PR21)
 
 Runtime `fc005d4` preserves G1/5x5/initial placement/two enemies, approved four RGB assets and camera. Product shelf is compacted with prediction beside Start and terminal comparison beside retry. Authored courtyard now has worn relief, restrained joints and selected connected moss; A/B grid/flat candidates were rejected from actual Unity images before full-floor adoption. Source and comparison evidence: `evidence/hq-ref/pass4-review.md`. This is a visible whole-screen step beyond Pass3, not Human V0/V1/fun acceptance; R2 V0 remains FAIL. No new gameplay, abilities, gait, service, merge or release.
+
+### HQ-REF-1 Pass5 representative environment experiment (2026-10-17)
+
+Following [review5554614607](https://github.com/tomooch/rogue-tactics-lab/pull/21#pullrequestreview-5554614607), camera/HUD/floor/heroes/Core/tests were held fixed while one front-left ledge was authored, rendered at390×844, reviewed, repaired and rerendered. A's disconnected shelves/tiny blooms and B's smooth extruded cliff failed the representative art gate despite partial water/flower gains. Neither candidate is retained or expanded. Runtime remainsfc005d4, R2 V0 FAIL. The missing step is intentional phone-scale cliff/masonry modeling, not more procedural density or a floor tweak. [Failure evidence and bounded production option](evidence/hq-ref/pass5-review.md); no art purchase, external upload or production choice approved.
