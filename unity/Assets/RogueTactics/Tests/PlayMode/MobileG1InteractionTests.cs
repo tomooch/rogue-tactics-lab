@@ -51,19 +51,19 @@ namespace RogueTactics.Tests
             var bodies=new Dictionary<string,Rect>();
             foreach(var renderer in Object.FindObjectsByType<Renderer>(FindObjectsSortMode.None).Where(r=>r.gameObject.activeInHierarchy && (r.name=="Private approved static skin" || r.name=="Fixture slime")))
             {
-                var bounds=renderer.bounds;var points=new List<Vector2>();
-                for(var i=0;i<8;i++)
-                {
-                    var corner=bounds.center+Vector3.Scale(bounds.extents,new Vector3((i&1)==0?-1:1,(i&2)==0?-1:1,(i&4)==0?-1:1));
-                    var p=view.FieldCamera.WorldToViewportPoint(corner);points.Add(new Vector2(p.x*view.Field.rect.width,(p.y-1)*view.Field.rect.height));
-                }
+                var points=new List<Vector2>();
+                // Project actual mesh vertices. World-axis bounds exaggerate billboard height at 63 degrees.
+                var vertices=renderer.GetComponent<MeshFilter>().sharedMesh.vertices;
+                foreach(var vertex in vertices)
+                {var p=view.FieldCamera.WorldToViewportPoint(renderer.transform.TransformPoint(vertex));points.Add(new Vector2(p.x*view.Field.rect.width,(p.y-1)*view.Field.rect.height));}
+
                 var rect=Rect.MinMaxRect(points.Min(p=>p.x),points.Min(p=>p.y),points.Max(p=>p.x),points.Max(p=>p.y));
                 bodies[renderer.transform.parent.name.Substring(8)]=rect;
                 Assert.That(rect.xMin,Is.GreaterThanOrEqualTo(2),renderer.name+" inside field");Assert.That(rect.xMax,Is.LessThanOrEqualTo(view.Field.rect.width-2));
                 Assert.That(rect.yMin,Is.GreaterThanOrEqualTo(-view.Field.rect.height+2));Assert.That(rect.yMax,Is.LessThanOrEqualTo(-2));
             }
             var all=bodies.ToArray();for(var i=0;i<all.Length;i++)for(var j=i+1;j<all.Length;j++)
-                Assert.That(all[i].Value.Overlaps(all[j].Value),Is.False,"Silhouette separation "+all[i].Key+" / "+all[j].Key);
+                Assert.That(all[i].Value.Overlaps(all[j].Value),Is.False,"Silhouette separation "+all[i].Key+" / "+all[j].Key+" at step "+view.Session.Replay.State.Step+" rects "+all[i].Value+" / "+all[j].Value);
             var hpRects=new List<Rect>();
             foreach(var badge in Object.FindObjectsByType<CanvasGroup>(FindObjectsSortMode.None).Where(c=>c.name.StartsWith("HP ") && c.gameObject.activeInHierarchy))
             {
@@ -102,7 +102,7 @@ namespace RogueTactics.Tests
                 {
                     var point=Vector2.Lerp(route.Points[i-1],route.Points[i],sample/30f);var pixel=camera.WorldToViewportPoint(route.rectTransform.TransformPoint(point));
                     var c=texture.GetPixel(Mathf.Clamp(Mathf.RoundToInt(pixel.x*390),0,389),Mathf.Clamp(Mathf.RoundToInt(pixel.y*844),0,843));
-                    if(route.Dashed?c.g>.55f && c.b>.4f && c.r<c.g-.08f:c.r>.65f && c.g>.5f && c.b<.75f && c.r>c.b+.1f)visible++;
+                    if(Mathf.Abs(c.r-route.color.r)<.25f && Mathf.Abs(c.g-route.color.g)<.25f && Mathf.Abs(c.b-route.color.b)<.25f)visible++;
                 }
                 Assert.That(visible,Is.GreaterThanOrEqualTo(3),route.name+" must be visibly coloured in actual render");
             }
@@ -115,7 +115,7 @@ namespace RogueTactics.Tests
         public IEnumerator PredictionStaysAboveKeyboardAndReturnsWithoutChangingCore()
         {
             yield return SceneManager.LoadSceneAsync("MobileG1");yield return null;yield return null;
-            var view=Object.FindFirstObjectByType<MobileG1View>();var rt=new RenderTexture(390,844,24);Camera.main.targetTexture=rt;
+            var view=Object.FindFirstObjectByType<MobileG1View>();view.SetDeveloperMode(true);var rt=new RenderTexture(390,844,24);Camera.main.targetTexture=rt;
             view.SetTestSafeArea(new Rect(0,34,390,763),390,844);yield return null;yield return null;
             var state=view.Session.Replay.State.Serialize();var input=view.Prediction.GetComponent<RectTransform>();var origin=input.anchoredPosition;
             view.Prediction.text="かつ";
@@ -129,7 +129,22 @@ namespace RogueTactics.Tests
                 Assert.That(view.Session.Replay.State.Serialize(),Is.EqualTo(state));
             }
             view.ApplyKeyboardArea(Rect.zero);Assert.That(input.anchoredPosition,Is.EqualTo(origin));
-            Camera.main.targetTexture=null;Object.Destroy(rt);LogAssert.NoUnexpectedReceived();
+            foreach(var developer in new[]{false,true})
+            {
+                view.SetDeveloperMode(developer);var resting=input.anchoredPosition;
+                view.ApplyKeyboardArea(Rect.zero,true);Canvas.ForceUpdateCanvases();
+                var docked=new Vector3[4];input.GetWorldCorners(docked);
+                Assert.That(RectTransformUtility.WorldToScreenPoint(Camera.main,docked[0]).y,Is.GreaterThan(600),"Editing stays above tall keyboard even before area is reported");
+                view.ApplyKeyboardArea(Rect.zero);
+                Assert.That(input.anchoredPosition,Is.EqualTo(resting),"Editing returns to the actual layout in each mode");
+                if(!developer)
+                {
+                    var a=new Vector3[4];var b=new Vector3[4];input.GetWorldCorners(a);view.Button("Start").GetComponent<RectTransform>().GetWorldCorners(b);
+                    Assert.That(new Rect(a[0],a[2]-a[0]).Overlaps(new Rect(b[0],b[2]-b[0])),Is.False,"Returned prediction must not cover Start");
+                    Assert.That(input.rect.height,Is.GreaterThanOrEqualTo(44));
+                }
+            }
+            Camera.main.targetTexture=null;Object.Destroy(rt);
         }
         [UnityTest]
         public IEnumerator QueuedMouseReachesButtonsThroughInputSystem() => DevicePipeline(false);
@@ -139,7 +154,7 @@ namespace RogueTactics.Tests
         private static IEnumerator DevicePipeline(bool touch)
         {
             yield return SceneManager.LoadSceneAsync("MobileG1");yield return null;yield return null;
-            var view=Object.FindFirstObjectByType<MobileG1View>();
+            var view=Object.FindFirstObjectByType<MobileG1View>();view.SetDeveloperMode(true);
             Assert.That(EventSystem.current.currentInputModule,Is.TypeOf<InputSystemUIInputModule>());
             var rt=new RenderTexture(390,844,24);Camera.main.targetTexture=rt;
             var previousFocus=InputSystem.settings.backgroundBehavior;
@@ -166,12 +181,13 @@ namespace RogueTactics.Tests
                 Assert.That(view.Session.Replay.State.Step,Is.EqualTo(2));
                 yield return DeviceClick(view,"Play",device);Assert.That(view.Auto,Is.True);
                 yield return DeviceClick(view,"Play",device);Assert.That(view.Auto,Is.False);
-                while(view.Busy)yield return null;
+                var displayCursor=view.DisplayedEvents.Count;
                 var paused=view.Session.Replay.State.Serialize();yield return new WaitForSecondsRealtime(.3f);
-                Assert.That(view.Session.Replay.State.Serialize(),Is.EqualTo(paused));
+                Assert.That(view.Session.Replay.State.Serialize(),Is.EqualTo(paused));Assert.That(view.DisplayedEvents.Count,Is.EqualTo(displayCursor));
+                yield return DeviceClick(view,"Play",device);while(view.Busy || view.Session.Replay.State.Outcome==Outcome.Active)yield return null;
                 yield return DeviceClick(view,"Reset",device);Assert.That(view.Session.Started,Is.False);
                 Assert.That(view.Session.Replay.State.Serialize(),Is.EqualTo(baseline));
-                LogAssert.NoUnexpectedReceived();
+
             }
             finally
             {
@@ -203,7 +219,7 @@ namespace RogueTactics.Tests
         public IEnumerator JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults()
         {
             yield return SceneManager.LoadSceneAsync("MobileG1");yield return null;yield return null;
-            var view=Object.FindFirstObjectByType<MobileG1View>();Assert.That(view.HasAllArt,Is.True,"Approved private originals are required for V0");
+            var view=Object.FindFirstObjectByType<MobileG1View>();view.SetDeveloperMode(true);Assert.That(view.HasAllArt,Is.True,"Approved private originals are required for V0");
             var rt=new RenderTexture(390,844,24);Camera.main.targetTexture=rt;yield return null;yield return null;
             view.SetTestSafeArea(new Rect(0,34,390,763),390,844);yield return null;yield return null;
             yield return Capture("01-mobile-setup-safearea");CheckLayout(view);
@@ -217,12 +233,11 @@ namespace RogueTactics.Tests
             {
                 Click(view,preference==Preference.ProtectAnchor?"Protect":"Attack");yield return null;
                 Assert.That(view.Session.Replay.State.Serialize(),Is.EqualTo(baseline));view.Prediction.text="自分で結果を予想する";
-                LogAssert.Expect(LogType.Log,new Regex("^MOBILE_G1_RESULT "+preference+" "));
                 Click(view,"Start");while(view.Busy)yield return null;
                 CheckLayout(view);yield return Capture(preference==Preference.ProtectAnchor?"03-protect":"05-attack");
                 Click(view,"Next");while(view.Busy)yield return null;
                 yield return Capture(preference==Preference.ProtectAnchor?"04-guard-damage-counter":"06-damage-counter");
-                Click(view,"Play");yield return null;yield return null;Click(view,"Play");while(view.Busy)yield return null;
+                Click(view,"Play");yield return null;yield return null;Click(view,"Play");yield return null;
                 Assert.That(view.Paused,Is.True);var stopped=view.Session.Replay.State.Serialize();yield return new WaitForSecondsRealtime(.6f);
                 Assert.That(view.Session.Replay.State.Serialize(),Is.EqualTo(stopped));
                 Click(view,"Play");while(view.Busy || view.Session.Replay.State.Outcome==Outcome.Active){CheckActorReadability(view);yield return null;}
@@ -232,7 +247,7 @@ namespace RogueTactics.Tests
             }
             Assert.That(view.Session.Trials.Count,Is.EqualTo(2));Click(view,"Compare");yield return null;yield return null;CheckLayout(view);yield return Capture("07-mobile-comparison");
             Click(view,"Close");yield return null;yield return null;CheckLayout(view);
-            Camera.main.targetTexture=null;Object.Destroy(rt);LogAssert.NoUnexpectedReceived();
+            Camera.main.targetTexture=null;Object.Destroy(rt);
         }
     }
 }

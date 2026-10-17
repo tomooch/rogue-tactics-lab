@@ -64,3 +64,53 @@ Human指定の4枚をローカルで確認：シロ（0FBC…）、ミャル（2
 画面はsafe area内に日本語HUD、約60%の3D field、戦術選択→任意予想→実行→比較→同一baseline再試行を置く。歩行を待たず静止skinを使う。resolution chunk/horizonはG1 adapterのままで正式採用しない。
 
 I0 export/Xcode build、I1本人限定TestFlightの提供状態、I2物理iPhone操作、V0承認skinと3D実描画、V1イベント/表示可読性、HUMAN本人評価を別ゲートとして記録する。未接続実機やApple認証待ちをPASSにしない。
+
+## HQ-REF-1 — Issue #20 / 2026-10-15
+
+Source contractは[Issue #20](https://github.com/tomooch/rogue-tactics-lab/issues/20)と[監査コメント](https://github.com/tomooch/rogue-tactics-lab/issues/20#issuecomment-6184262380)。baselineはPR #17 `ce4ffac8d2216973c391d801cf5f6d41fbde66b5`。Core G1を維持してR1 HUD、R2遺跡・camera、R3 event描画だけを比較する。G2・階層・minimap・箱・正式能力・8 skill buttonsは追加しない。通常の自動観察は今回のG1 adapter候補で、正式chunk/horizon採用ではない。
+
+Humanは今回のLocal実行で `_userwork/image/天穹の遺跡、12階の冒険.png` を比較用に指定。941×1672、実SHA `99a76f33c60e74d7fd890e9cf188531280e030e58a5893bafd90899ea2b965b8`。Issue PRIMARYのSHA `9b4ee65b…`とは異なる。指定ファイルを最新のHuman指定ローカル比較基準として扱うが、Issue原本とのbyte一致・同一原本によるfidelityは未証明。元画像/skin/実captureはpublic Git外、外部AIへ送信しない。provenanceは `evidence/hq-ref/asset-manifest.json`。
+
+構図：主役は光の当たるcream stoneと青空の浮遊遺跡、立体的な縁・水流・蔦・小花・blue/gold banner。盤面はCoreの5×5のまま、地面と装飾は独立3D geometry、4人は既存承認skin。HUDは上の小さなタイトルと離散actor順、下のシロ/ミャル/ガル/モモportraitと実HP、方針/任意予想/開始→停止再開→結果比較。匿名A/B/C/D mappingや数値は維持する。portrait順が戦闘順や能力を再定義しない。
+
+観測契約：R1は旧camera/environmentでHUD比較、R2は同HUD/fieldで75°と63°の固定yaw比較、R3はその後にintent/effectを比較。画像は実390×844 Unity render、setup/guard/counter/heal/death/endを記録。重要な失敗は人物・足元HP・矢印の被り、未表示のHP/死亡/結果の露出、pause中のcursor進行、queue脱落、Core trace差、generic flat terrain感。V0/Human評価は自動テストからPASSにしない。
+
+端末予算は暫定30fps以上、最大60fps、780×1040 field render target、mesh/material共有、定常フレームでgeometry再生成しない。実測は環境とrevisionを付け、Editor/SimulatorからiPhone実機性能を推定しない。描画負荷に問題があれば装飾の低品質設定で軽減する。新package/有料asset/network/analyticsは追加しない。
+
+R2の最初の75°/63° fixed-yaw比較では、63°の奥行きの差は小さく、双方とも参考画像へのV0はFAIL。単なる色替えを続けず、表示空間の奥行き間隔、足元ラベルの可読性、視野内の実3D植生・column・water、skinのmipmap samplingを修正。その後の55°/yaw0と55°/yaw−18°を別snapshotで比較する。55°/−18°候補は全戦闘frame回帰でX/Cの輪郭重複を検出したため、55°/yaw0°へ戻して検証する。Humanのcamera preference採用ではない。表示用セルのZ間隔はXとは別倍率だが、Coreの全座標・距離・行動・数値は変更しない。
+
+R3は実行中eventのpresentation phaseと完了したdisplay cursorを分離する。HPはimpact時、死亡skipはDeath表示時、結果・比較は全queue表示後に有効化。pauseは動きの位相もcursorも保持する。新Actionの待機では旧intentを消し、previewの青と実行の金・開始ring/伸びるline/arrowheadを区別する。局所tweenとflashは既存静止skinへのpresentationで、#13の歩行spriteアニメ完了ではない。
+
+接地表現は既存URP同梱のScreen Space Ambient OcclusionをMobile rendererへEditor APIで追加し、half resolution / low samplesで使う。新packageやhosted dependencyではない。軽量描画ではSSAO・post effects・装飾の動きと影を止める。原画RGBの再描画はせず、texture mipmap/trilinear samplingと表示用の短いevent tintだけを使う。cast接地は生成soft-alpha、石のgrainは局所生成textureで、元のreference PNGをfieldへ貼らない。
+
+### HQ-REF-1 Pass2 — 2026-10-15 packet 6192468412
+
+開始HEADはPR21 `72552b609d5b544cde5edb5233b5baa95e1a69b4`、既存branch `codex/hq-ref-vertical-slice`。新しいpackage/外部素材/課金/通信を追加せず、private原画/skinのRGB、Core/2敵/14行動の両traceを維持する。
+
+Pass A仮説：反復9×9舗装をruntimeで増やす手法から、固有の輪郭・破断面・石組み・側面・前面滝を持つoffline mesh assetへ変更すると、同じ55°/yaw0/同Core位置でも浮島遺跡の形が画面で読める。期待は場面の同定とpartyの主役性。比較ではbuild4と同じ390×844、同camera/actor/HUDを初回controlとして保持。最初のasset実描画後に必要な構図修正だけを分離し、画像に基づき判断する。期待を観測結果とは扱わない。
+
+Pass BはA画像レビュー後の別比較：Moveだけに軌跡を残し、非移動は実actor/targetの局所アクセントと名前/効果で区別する。Core eventのimpactでのみHP/Deathを更新し、pause pose/cursorとpreview/execution区別を維持。比較sheetをrosterより前へ置く。true sprite gait/G2/能力追加は範囲外。
+
+承認済みprivateローカルフォルダの再探索でもPRIMARY SHAは見つからず、指定原画と旧approved-combined画像は共に`99a76f33…`。このpassでPRIMARY fidelity PASSは主張しない。パケット内Protect hashの転記は一部省略があるため、実Coreと既存固定gateが使う完全値`e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d`を保持する。
+
+### 2026-10-16 PRIMARY RGB同一性の更新
+
+Issue #20 [最新照合](https://github.com/tomooch/rogue-tactics-lab/issues/20#issuecomment-6203653575)により、PRIMARY 9b4ee65b… とMac指定PNG 99a76f33… はPNG bytesは異なるが941×1672の復号RGB全1,573,352画素が一致。LocalでもRGB SHA `fd52b3654adc91c3e086b21cc83a4d9cb1d2057a5cd527b0fbc5cbb3a15a3ce4` を再現した。以前のPRIMARY fidelity未照合という記載のうち、比較原画の同一性ブロッカーは解消。実描画の原画fidelity・R2 V0 FAIL・Human未評価・Notion未同期は別であり維持する。
+
+### Pass3 bounded environment prototype
+
+前景左端だけに独自の欠けた石積み、複数の割れた崖、丸みのある葉と花、垂れた蔦、曲面の滝を作成。`tools/author_hero_ledge.py` と実Editor生成Meshで再現する。旧front-left滝だけを置換し、盤面のCore座標・床・camera45°yaw0°・人物source RGB・既存HUDを保持。新しい角のpaletteだけsRGBを明示し、他の環境材質には適用しない。独立実画像レビューでcorner Aの立体感は改善と観測したが、部品の寄せ集め感/水の横帯を検出したため同じ角で自己修正。島全体への複製や美術方向の採用は行わない。全画面V0/Human合格を意味しない。比較と残欠陥は `evidence/hq-ref/pass3-review.md`。
+
+C-fixedの同camera/skin/geometry比較で、HQ world cameraのpostprocess ONは人物・空の色/輪郭を弱め、OFFは視認性を改善した。独立実画像reviewも確認。DoF単独では原因を特定できず、より広いpostprocess経路として切り分ける。HQだけこの経路を回避し、SSAO/接地影/水流は保持する。非HQの処理は変更しない。処理の除去を原画RGBの補正や全体V0合格とは扱わない。
+
+### HQ-REF-1 Pass4 composition candidate (2026-10-17, pending PR21)
+
+Runtime `fc005d4` preserves G1/5x5/initial placement/two enemies, approved four RGB assets and camera. Product shelf is compacted with prediction beside Start and terminal comparison beside retry. Authored courtyard now has worn relief, restrained joints and selected connected moss; A/B grid/flat candidates were rejected from actual Unity images before full-floor adoption. Source and comparison evidence: `evidence/hq-ref/pass4-review.md`. This is a visible whole-screen step beyond Pass3, not Human V0/V1/fun acceptance; R2 V0 remains FAIL. No new gameplay, abilities, gait, service, merge or release.
+
+### HQ-REF-1 Pass5 representative environment experiment (2026-10-17)
+
+Following [review5554614607](https://github.com/tomooch/rogue-tactics-lab/pull/21#pullrequestreview-5554614607), camera/HUD/floor/heroes/Core/tests were held fixed while one front-left ledge was authored, rendered at390×844, reviewed, repaired and rerendered. A's disconnected shelves/tiny blooms and B's smooth extruded cliff failed the representative art gate despite partial water/flower gains. Neither candidate is retained or expanded. Runtime remainsfc005d4, R2 V0 FAIL. The missing step is intentional phone-scale cliff/masonry modeling, not more procedural density or a floor tweak. [Failure evidence and bounded production option](evidence/hq-ref/pass5-review.md); no art purchase, external upload or production choice approved.
+
+### ART-CAPABILITY gate (2026-10-17)
+
+[Review5555468771](https://github.com/tomooch/rogue-tactics-lab/pull/21#pullrequestreview-5555468771) triggered a distinct production-capability investigation at retainedfc005d4. Existing Unity sample sculpted FBX plus editable local mesh/control source was actually imported, authored, repaired and rendered at390×844; no slab/extrusion generation repeated. A/B failed recognizable stratified limestone and B weakened ivy attachment. Programmatic edit/save/reload works; actual GUI editing/Undo/reopen is unverified. **BLOCKED_ART_CAPABILITY**, no candidate adopted; runtime unchanged. [Concrete missing capability, source/license and cost/privacy options](evidence/hq-ref/art-capability-review.md). No installation/commission/purchase/reference upload approved or performed.

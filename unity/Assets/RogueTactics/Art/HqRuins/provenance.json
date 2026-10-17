@@ -1,0 +1,218 @@
+{
+  "authoring": "tools/author_sky_ruins.py (deterministic local Python standard library; no external assets)",
+  "coordinate_space": "Unity local X/Y/Z, Y-up; origin is board center; Z already uses DisplayDepth=2 spacing; do not stretch Z",
+  "source_art": "User-provided local concept image was viewed read-only for composition; not copied, embedded, uploaded, or used as a texture.",
+  "license": "Original procedural geometry authored for this repository; no third-party mesh or texture source.",
+  "core_floor": "Courtyard contains irregular worn flagstones across the courtyard, with shallow relief and selected connected moss joints, explicitly sRGB; no rules/colliders. Core is pure data and has no mesh. Courtyard stone tops are at/below y=-0.02, shallow moss skins at -0.015, and joint bed at -0.22; no collider or gameplay semantics.",
+  "layers": {
+    "Limestone": {
+      "file": "Limestone.obj",
+      "triangles": 1929,
+      "bounds": [
+        [
+          -7.109,
+          7.109
+        ],
+        [
+          -1.31,
+          3.425
+        ],
+        [
+          -11,
+          10.936
+        ]
+      ],
+      "material_key": "Limestone"
+    },
+    "Cliff": {
+      "file": "Cliff.obj",
+      "triangles": 1151,
+      "bounds": [
+        [
+          -7.185,
+          7.185
+        ],
+        [
+          -3.8,
+          1.98
+        ],
+        [
+          -11,
+          10.9
+        ]
+      ],
+      "material_key": "Cliff"
+    },
+    "Detail": {
+      "file": "Detail.obj",
+      "triangles": 252,
+      "bounds": [
+        [
+          -6.72,
+          6.52
+        ],
+        [
+          -0.99,
+          3.276
+        ],
+        [
+          -9.63,
+          9.324
+        ]
+      ],
+      "material_key": "Detail"
+    },
+    "Foliage": {
+      "file": "Foliage.obj",
+      "triangles": 1270,
+      "bounds": [
+        [
+          -7.423,
+          7.311
+        ],
+        [
+          -2.168,
+          3.137
+        ],
+        [
+          -9.213,
+          9.502
+        ]
+      ],
+      "material_key": "Foliage"
+    },
+    "Flowers": {
+      "file": "Flowers.obj",
+      "triangles": 1278,
+      "bounds": [
+        [
+          -7.12,
+          6.96
+        ],
+        [
+          -1.928,
+          3.187
+        ],
+        [
+          -8.778,
+          9.155
+        ]
+      ],
+      "material_key": "Flowers"
+    },
+    "Blue": {
+      "file": "Blue.obj",
+      "triangles": 8,
+      "bounds": [
+        [
+          -6.25,
+          7.2
+        ],
+        [
+          0.05,
+          2.65
+        ],
+        [
+          5.2,
+          5.935
+        ]
+      ],
+      "material_key": "Blue"
+    },
+    "Gold": {
+      "file": "Gold.obj",
+      "triangles": 130,
+      "bounds": [
+        [
+          -6.314,
+          7.15
+        ],
+        [
+          0.0,
+          2.376
+        ],
+        [
+          5.139,
+          5.89
+        ]
+      ],
+      "material_key": "Gold"
+    },
+    "Water": {
+      "file": "Water.obj",
+      "triangles": 15,
+      "bounds": [
+        [
+          -7.525,
+          7.42
+        ],
+        [
+          -4.18,
+          -0.015
+        ],
+        [
+          -11.26,
+          2.6
+        ]
+      ],
+      "material_key": "Water"
+    },
+    "Distant": {
+      "file": "Distant.obj",
+      "triangles": 400,
+      "bounds": [
+        [
+          -8.723,
+          8.341
+        ],
+        [
+          0.7,
+          4.485
+        ],
+        [
+          2.432,
+          8.353
+        ]
+      ],
+      "material_key": "Distant"
+    },
+    "Warm": {
+      "file": "Warm.obj",
+      "triangles": 4,
+      "bounds": [
+        [
+          -5.675,
+          5.725
+        ],
+        [
+          1.22,
+          1.7
+        ],
+        [
+          6.1,
+          6.6
+        ]
+      ],
+      "material_key": "Warm"
+    },
+    "Courtyard": {
+      "file": "Courtyard.obj",
+      "triangles": 2022,
+      "bounds": [
+        [
+          -6.35,
+          6.35
+        ],
+        [
+          -0.22,
+          -0.015
+        ],
+        [
+          -10.8,
+          10.8
+        ]
+      ],
+      "material_key": "Courtyard"
+    }
+  }
+}

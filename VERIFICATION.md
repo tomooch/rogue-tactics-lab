@@ -249,3 +249,146 @@ ASCをfresh reloadし、本人の状態が**インストール済み0.1.0(2)**�
 専用SimulatorのCFBundleVersion3を確認してinstall/launch後、CUA native pointerでProtectの開始→次行動（Guard3/Damage3/Counter2）→連続再生（Victory14、A16/B16/C12/D10、生存4、回復残0）→戻す→Attack開始（B Move）→連続再生（Victory14、A0/B16/C12/D10、生存3、回復残1）→両結果/hash比較まで実画面で観測。頭にHPを重ねず足元へ置き、方向矢印が人物を迂回して描画されることを確認。build3 native試行の予想は空欄、日本語native keyboardの実操作はbuild2で観測した範囲。最新public観測JSONは`evidence/mobile-g1/d19a135-native-observation.json`。owner-local動画`/private/tmp/rogue-mobile-evidence/build3-readability.mp4`、画像`build3-native-guard.png`/`build3-comparison.jpg`（一時領域）を保存。build3のHuman/実機評価とアニメーション不足は未解決。
 
 2026-10-14、Apple処理後のbuild0.1.0(3)にbuild2と同じ暗号化回答を保存して「テスト準備完了」を確認。本人限定G1へ追加し「テスト中」、build詳細の内部グループ1件/テスター1名、日本語の変更点と操作説明の保存・reload後保持を確認。iOS一覧でもbuild3「テスト中」/本人限定G1を実画面で再確認。既存build2を期限切れにせず、外部グループ/公開リンクを追加しない。private証拠は`/private/tmp/rogue-mobile-evidence/asc-build3-testing.jpg`と`asc-build3-self-notes.jpg`（一時領域）。public記録は`evidence/mobile-g1/d19a135-asc-distribution.json`。build3の本人端末install/起動・Human再評価は未確認。Notion Todo/Tried & Learned同期成功。
+
+## HQ-REF-1 実行中 — Issue #20
+
+基点PR #17 `ce4ffac8d2216973c391d801cf5f6d41fbde66b5`の独立control worktreeでUnity6000.3.25f1のMobileG1入力回帰4/4と390×844実captureを再取得。R1候補はEdit14/14、通常player flow/両frozen hash/全event投影/途中pauseのcursor固定/Mouse/Touch等6/7を確認し、残ったdeveloper Resetラベルの折返しを修正後、その戦闘・safe-area回帰1/1 PASS。これは最終統合sourceの全回帰を代替しない。
+
+R2初回の実Unity画像で75°/63°を固定yawで比較。Core状態不変、camera/product tests2/2 PASS。しかし規則的な舗装が広すぎ、原画の浮遊遺跡・花・滝・立体感が読めずV0 FAIL。独立画像reviewも同じ主因と小さなcast/portraitを指摘。テスト成功をHQ成功とは扱わず、camera framing、実3D奥行き、舗装形状、foot HPとcast scaleを修正中。63°の奥行きの差を観測したがHuman preferenceは未取得。
+
+Private実画像はcontrolの `unity/Logs/mobile-g1/private/`、R1記録 `/private/tmp/rogue-hq-evidence/r1-captures/`、R2初回 `/private/tmp/rogue-hq-evidence/r2-initial/`（owner-local一時領域）。公開Gitへ画像を入れない。最終source-linkedの画像hash・XML・段階別ledgerは完了後追記する。現在のTestFlightは既存build3までをfresh ASCで確認。HQ新buildの配布・実機評価は未実施。
+
+R3の途中停止regressionは実際に駒が移動し始めてからpauseを押し、押下瞬間・停止中のpose/cursor不変と再開時Moveが1件だけになることを確認。source修正後のPlay9件中8件が通過し、残ったfield内HP B/D重複は自動checkが検出した。labelをownerの下へ保ちつつ近傍で横避けする処理に変更して再描画中。HP/生存/2本のtraceは変更しない。
+
+フレーム間隔のowner-local計測は取得可能。先行R3のEditor/Metal・captureを含むsample1329でp50 16.692ms/p95 16.740ms等を記録。ただし最終sourceの値ではなく、Simulator・iPhone実機値でもない。物理device探索は0件で、実機QAは未実行。値をiPhoneの30fps/thermal/memory PASSへ読み替えない。
+
+### HQ candidate の品質判定と残るgate
+
+接地影/SSAO/skyと浮島構図のpivot後も、actual 390×844 renderは舗装の反復、植生・石材の簡素さ、滝/島側面の弱さ、2D人物と3D照明の差が残る。**V0 FAIL、R2品質BLOCKED**。同型の色/カメラ微調整を続けず、ローカルの造形asset passが必要と判断。実行可能な比較候補は保持するが、HQ完了やHuman GOとは報告しない。足元HPの非重複回避はX/Bなどを横へ離す場合があり、所有者との関係の読みやすさも残課題。
+
+User指定パスの941×1672画像は実測SHA `99a76f33c60e74d7fd890e9cf188531280e030e58a5893bafd90899ea2b965b8`。Issue PRIMARY `9b4ee65b5fe3dfeaa0938cb09aa928eb67bf99cfcb06b9ea1423208fe6aa6621`とは異なる。同一bytesと主張せず、supplied local reference比較とPRIMARY照合未完を区別する。
+
+R0はasset/provenance/control監査済みだがPRIMARY照合未完でPARTIAL。R1/R3の最終統合判定は固定sourceの全回帰結果へ紐付ける。R4はnative build/Simulator/ASCと実機を分けて記録する。R5はPENDING HUMAN、G2はNOT STARTED。真のsprite gaitは#13のまま。Notion正本の取得/更新能力がこのexecutorで得られず、今回の同期は未実施。Issue/PRの実行記録をNotion正本に昇格させない。
+
+最終統合candidate-finalはConfigure PASS、Edit14/14、Play8/9。守護hop後に最終poseへ戻した際、guard lineが旧投影のままでB輪郭へかかる失敗を検出。RefreshActors後にも守護線を再投影する修正を追加し、全Play9件で再検証する。失敗をテスト除去や回避assertで処理しない。
+
+修正後yaw-finalはConfigure/import PASS、Edit14/14、Play9/9 PASS。guard lineの最終投影と障害物迂回、yaw0°での全戦闘frame輪郭/HP/線回避、両hash/event投影、移動途中pause保持を確認。これをcommitで固定し、fresh runとnative再buildへ進む。品質V0 FAILとHuman未評価は維持。
+
+固定source c51aab1のnative4はfresh import、Edit14/14、Play9/9、iOS export/署名archive、Simulator export/buildすべてPASS。build0.1.0(4)の実install/launchを確認。しかしnative日本語keyboardを開くと予想欄が隠れ、on-screen kana入力は閉じた後だけ確認できた。旧mock-areaテストだけでは検出できなかった不具合。uploadを保留し、入力focus中はtitle直下へdockする修正をd782437にcommit、通常/developer両layout・reported area0の回帰を追加。新sourceで全検証・archive/Simulatorを再実行中。c51aab1の成功を新sourceへ転用しない。
+
+### HQ final native evidence — source d782437
+
+Source `d7824378755d52cffbdb6add558bef0f50baefe8`。Unity6000.3.25f1 / Xcode27.0(27A266a) / SDK27。fresh import、Edit14/14、Play9/9、iOS export/ゲーム専用署名archive、Simulator export/build PASS。ビルド生成のcache/rendering差分のみ復元し、保持するUnity sourceは固定commitと同一。公開結果は `evidence/hq-ref/{native-build.json,edit.xml,play.xml}`。
+
+専用iPhone17/iOS27 Simulatorへ0.1.0(4)をinstall/launchし、CUA native pointerで日本語kana「あ」の入力・確定・欄の復帰、Protect開始→途中pause→表示保持→再開→勝利14行動、生存4/HP A16 B16 C12 D10/回復残0、reset→Attack開始→勝利14行動、生存3/HP A0 B16 C12 D10/回復残1、両結果と保存予想・hash比較を実画面で確認。実ログでも両full SHAが固定値と一致。`native-observation.json`は操作/結果/限界を記録。
+
+Simulator native Metalのframe intervalはProtect sample1328 p50 16.666ms/p95 17.268ms、Attack sample1281 p50 16.666ms/p95 16.697ms。録画/host負荷を含む。実iPhoneのfps/thermal/memoryは未観測。Editorの最終source frame intervalは別JSONとして保持し、混同しない。
+
+Private証拠（一時領域、public Git外）：`/private/tmp/rogue-hq-evidence/build4-final-native.mp4`、30秒抜粋`build4-action-clip.mp4`、`build4-paused.jpg`、`build4-comparison.jpg`。比較用`private-comparison.html`はHuman指定画像と実Unity guard画像を並べる。Unity 390×844イベント画像のSHA/所在は`capture-manifest.json`。原画/skin本体・動画・署名資産・rawログは公開Gitへ含めない。所有者はローカルファイルを直接開いて確認できる。
+
+| Stage | 判定 | 範囲と未達 |
+| --- | --- | --- |
+| R0 | BLOCKED（監査は実施） | control/provenance/許可境界を確認。PRIMARY bytesは指定ローカル画像と不一致、Notion同期不可。 |
+| R1 | PASS（技術検証範囲） | 通常導線、actor order、safe area/44pt、入力/停止/比較を自動/nativeで確認。Human UX評価は未実施。 |
+| R2 | BLOCKED / V0 FAIL | 実3D環境を実装・複数比較/修正したが原画の造形・密度・浮島感へ未達。ローカル造形asset passが必要。 |
+| R3 | FAIL（視認品質） | event順/HP/死亡/両hashとmotion/pause整合はPASS。長い迂回矢印が移動経路に見えやすく、actor/targetの即読性は未達。true gait #13は別。 |
+| R4 | BLOCKED（実機） | archive/Simulator/IME/両戦闘はPASS。本人限定build4 upload実行中。I2実iPhone・thermal/memoryはPENDING HUMAN。 |
+| R5 | BLOCKED / PENDING HUMAN | HUMAN_VISUAL_GOとHUMAN_FUN_HYPOTHESISは未評価。 |
+| G2 | NOT STARTED | HQ gateの先に進めていない。 |
+
+仮説H-HQ1の期待は魅力・因果理解・視聴継続意欲。観測は上記agent実操作と独立reviewに限定され、Humanの理解/面白さを証明しない。判断：比較可能な実行候補をDraft PR #21として保存し、V0 FAILを保持。同型の平面scene微調整は止める。次の有効な変更はローカル造形assetと長い意図線の視認性を対象にした別の可逆pass。既存Core・原画RGB・承認境界は維持する。
+
+2026-10-15 16:05 JST、source d782437の0.1.0(4)はゲーム専用archive/codesign/profile/internal-only検査後にupload exit0。ASCをfresh表示し、同gameのbuild4「処理中」を観測。旧build3/2の本人限定G1配布を維持。新build4のグループ追加/本人の端末installは、この時点では未確認。public `internal-upload.json` とprivate `/private/tmp/rogue-hq-evidence/asc-build4-processing.png` を保持。
+
+最終独立reviewはd782437のGuard/Counter/Heal/Death実画像とnative停止/比較画像を確認。長い折れ線による非移動effectの誤読、上部表示の小ささ/低コントラスト、足元ラベルの密度、比較modal下部にportraitが重なる階層競合を残課題として認定。比較文・両結果は読め、event/hash/HPの新たなデータ不整合は観測なし。これらを品質PASSに読み替えず、現candidateをDraftに保持。
+
+### build4 本人限定TestFlight配布の実測
+
+2026-10-15、Apple処理後の0.1.0(4)へ、以前の同gameと同じ暗号化区分（上記アルゴリズムのどれでもない）を保存。今回はPresentation追加のみで通信/暗号化実装・依存を追加していない。ASCの「テスト準備完了」を確認後、既存「本人限定 G1」だけへ追加して「テスト中」を観測。build詳細はグループ1件・内部テスター1名。source d782437/PR21、通常操作、原画との差・長い線・比較画面の重なり・実機未検証を明記した日本語テスト説明を保存し、reload後の保持を確認。新app/外部tester/公開リンクなし、旧build2/3を期限切れにしていない。
+
+**R4のarchive/Simulator/ASC本人限定配布はPASS、I2実機はPENDING HUMAN**。本人端末でのbuild4 install/起動・実機性能・見た目/面白さは未確認。R2 V0 FAIL・R3視認品質FAIL・R5未評価を配布成功で上書きしない。private証拠 `/private/tmp/rogue-hq-evidence/asc-build4-self-notes.png` と `asc-build4-testing.png`（owner-local一時領域）。Notion同期は未実施。CI checksなし。PR21はDraftのまま、main/#15/#17 HEADを維持。
+
+## HQ Pass2 開始 — packet 6192468412
+
+PR21の既存HEAD72552b6・同branchで再開。Pass Aはruntime反復舗装生成を廃止し、オフラインauthor scriptと10 layer別OBJ（不規則な破断石面、周縁層、前面滝、遠景等）をimportする方式へ変更中。中央のCore floorは描画meshを持たないため、actor下の非障害物surfaceもassetで用意する。初回はbuild4と同じ55°/yaw0°・Core位置・HUDで比較。OBJの生成成功を美術品質の成功とは扱わない。
+
+Build4録画をffprobeで再確認したところ、設定値30fpsに対して実ファイルは1052 frames/156.743s、平均約6.71fpsだった。前回のSimulator frame interval計測とは異なる値であり、録画の設定値を実capture cadenceと誤解しない。新passの10–20秒active clipはvendor simctl recordVideoで取得し、実frame数/時間/平均cadenceも記録する。
+
+Pass B初回はConfigure PASS、Edit14/14・Play9/9 PASS。既存の全戦闘frame/HP/route/pause/hash/event投影gateを維持し、非Move時のpath不在、実局所Graphic mesh、比較シートがrosterより前に描かれる回帰を追加した。実画像と独立reviewで守護/反撃/回復/死亡の名前receipt・HP結果は整合。旧floating labelを名前にした副作用で巨大文字がfield左上へ出ることを発見し、EventMotion中は局所frame/HP/receiptへ整理。order header暗色背景、sheet不透明化とともに再検証する。
+
+Pass2最終B: Configure PASS、EditMode14/14・PlayMode9/9 PASS（pass2-edit.xml / pass2-play.xml）。巨大floating非表示・暗色order header・不透明modalを再描画し、独立画像reviewでも旧指摘の解消と新規重大欠陥なしを確認。局所actor/target表示と名前receiptは実eventに整合。R2 V0 FAILは継続。capture SHAとowner-local一時パスはpass2-capture-manifest.json。build5向けsourceをこの記録とともにfreezeし、native検証は後続記録へ分離する。
+
+Native build5 source f305135: fresh Edit14/14・Play9/9、署名archive・Simulator build/install/launch PASS。日本語kana入力確定、Protect pause/姿勢保持/resume/14行動/HP A16 B16 C12 D10/予想保存/full SHAを実測。ただしnativeでreset後にCompareが予想欄/開始へ重なる未検出regressionを発見。配布前に修正し、Compareを終了画面の結果導線へ限定、reset後非表示の回帰assertionを既存全trace testへ追加。f305135は最終配布sourceにしない。
+
+Native vendor録画(f305135、再試行修正前): 19.483333秒/1169 frames、ffprobe実平均60fps。Pauseを含めず開始直後からの戦闘segmentを保存し、8秒/15秒の実frameも確認。旧7fps captureとの差を実測。これはSimulator録画cadenceであり実機fpsではない。最終修正sourceで再capture予定。private動画 `/private/tmp/rogue-hq-pass2/build5-protect-active.mp4`、公開metadata pass2-capture-cadence.json。
+
+修正source d5e8e08の最初のnative再検証はpreflightで停止。前exportによるInternalIcon importer/URP生成設定/iOS PlayerSettings差分を検出したため、テストは未実行。直前のtask生成差分5件を監査してHEADへ復元後、別jobで再実行。旧Simulator bundleを誤って再installしたが、修正後native証拠には使わない。
+
+### Pass2 最終source d5e8e08 — build5 local verification
+
+Unity6000.3.25f1 / Xcode27.0(27A266a) / iOS SDK27。fresh import/compile PASS、Edit14/14・Play9/9 PASS、ゲーム専用手動署名archive/codesign設定・1024icon・Simulator build/install/launch PASS。公開証拠pass2-*.xml / pass2-native-build.jsonはこのsourceへ更新。exportが更新する5件のUnity生成設定は監査後にHEADへ戻し、Coreやpackage差分へ混ぜない。Unity生成asset/metaの空欄末尾spaceは実Editor由来として保持し、手書きsourceのdiff-checkはPASS。
+
+専用iPhone17/iOS27 SimulatorでCUA実操作。Protect勝利14行動/4人生存/HP A16 B16 C12 D10/回復残0、reset後Attack勝利14行動/3人生存/HP A0 B16 C12 D10/回復残1、両full SHA固定一致。Protect後・Attack後ともresetで二択/予想欄/Startを確認し、Compareの遮蔽は解消。再試行後の日本語kana「あ」確定・通常位置復帰・比較への保存、不透明modal本文/操作の非遮蔽を実測。独立reviewの「DirectAttack-resetで入力が見えない」候補は、同じPNGのRoot再読で欄/Start描画を確認し、nativeでもAttack後resetを追加観察して再現しなかった。sheet外下端に終了画面のCompareが見える装飾上の残りはあるが、本文/操作を遮らない。
+
+native frame intervalはProtect sample1329 p50 16.6666ms/p95 16.6919ms、Attack sample1281 p50 16.6667ms/p95 16.6838ms。host/録画負荷を含むSimulator観測で実iPhone性能ではない。CoreDeviceService初期化失敗により実機接続状態を今回は取得できず、実機/thermal/memoryは未検証。build5は未upload。ASC最新reloadは認証切れで、本人の再ログイン回答待ち。既存本人限定build4の状態を新build5成功へ転用しない。Notion未同期。
+
+R0 PRIMARY/Notion BLOCKED、R1 technical PASS、R2 V0 FAIL/BLOCKED、R3 event/hash/局所表示/停止・比較の技術gate PASS（Human即読性評価は未実施）、R4 archive/Simulator PASS・新TestFlight認証待ち・I2未検証、R5 Human visual/fun PENDING、G2 NOT STARTED。高品質完成や原画一致を主張しない。
+
+最終source最初のProtect録画は19.67秒/1182framesだが、5秒frameで既に終盤Death、16秒frameで終了画面。10–20秒active証拠として不採用。録画先行→native pointer Startへ手順を修正して再取得する。録画ファイル成立だけで契約達成としない。
+
+Protect再取得の4–19秒を採用: 実14.9983秒/900frames（約60fps）。先頭Guardから後半C攻撃までactive、長いpause/終了画面を含まない15秒clipを確認。private `/private/tmp/rogue-hq-pass2/build5-protect-15s.mp4`。最終source d5e8e08の署名/profile/bundle/build/internal-onlyを再検査し、既存資格情報による本人限定uploadを開始。Appleブラウザ再ログインは回答待ちで、processing/グループ配布は未確認。
+
+最終native動画確定: Protect14.9983秒/900frames、Attack12.9963秒/781frames（各約60fps、詳細ffprobeはpass2-capture-cadence.json）。Attackはsource6–19秒でX攻撃から後半A攻撃まで、setup/pause/終了画面を除外。実active segmentを各10–20秒確保。owner-local `build5-protect-15s.mp4` / `build5-attack-13s.mp4` をprivate比較HTMLへ追加。capture cadenceとframe interval/実機性能を混同しない。
+
+### build5 upload result
+
+2026-10-15 23:57 JST、final runtime source d5e8e08の0.1.0(5)を既存ゲーム専用profile/署名・internal-only・管理version変更なしで再検査し、upload exit0 / EXPORT SUCCEEDED。Apple transportは「Uploaded package is processing」を返した。ASC画面は同アプリへ再接続してもauthResult=FAILEDで、処理完了・暗号化区分・既存「本人限定 G1」1 testerへの追加は未確認・未変更。本人Chrome再ログイン待ちでここだけ停止。旧build2/3/4をexpireせず、public link・外部tester・別app・新credentialなし。公開証拠pass2-internal-upload.json。署名archive/原画/動画/rawログはprivateのまま。
+
+今回の変更・修正・検証証拠は同PR21 branchへpushし、Draftを保持。R2 V0 FAILとPRIMARY fidelity未確認・Human visual/fun/実機未検証・Notion未同期を維持。CI checksなし。最終残作業はApple再ログイン後のbuild5処理/本人限定配布確認、および次の環境美術制作入力の具体化であり、高品質完成とは扱わない。
+
+### 2026-10-16 PRIMARY RGB同一性の更新
+
+Issue #20 [最新照合](https://github.com/tomooch/rogue-tactics-lab/issues/20#issuecomment-6203653575)により、PRIMARY 9b4ee65b… とMac指定PNG 99a76f33… はPNG bytesは異なるが941×1672の復号RGB全1,573,352画素が一致。LocalでもRGB SHA `fd52b3654adc91c3e086b21cc83a4d9cb1d2057a5cd527b0fbc5cbb3a15a3ce4` を再現した。以前のPRIMARY fidelity未照合という記載のうち、比較原画の同一性ブロッカーは解消。実描画の原画fidelity・R2 V0 FAIL・Human未評価・Notion未同期は別であり維持する。
+
+### Pass3 representative corner closed loop (2026-10-16)
+
+基準PR21 HEAD `cc3f81aa383d1bea931304b43fcbe22a7346ed4b`。private比較HTMLの実参照、26PNG、Protect15秒/Attack13秒のSHAとsourceを監査し、原画/build4/build5を同じ390px幅で直接比較。QuickTimeの通常再生と経過時刻/姿勢/HP/receiptの変化を観測。全frameを個別検査したとは主張しない。前縁の造形・材質・植物・滝を一角で試作→実Unity描画→独立敵対レビュー→同じ角の横帯/材質を修正→旧滝との重複除去。A/Bは各Configure PASS/filtered Play1/1 PASS（Edit0、全回帰とは別）。全回帰/最終実画像は後続の固定source証拠へ記録する。DoF Off単独診断は改善を示さずrevert。原画RGBは変更なし。
+
+ASC認証は今回利用可能。build5内部は「コンプライアンスがありません」、グループ未設定と実画面で確認した。build4は本人限定 G1でテスト中。build5 upload成功と配布完了を区別する。今回は状態のreadのみでApple回答/グループ/資格情報は未変更。ローカル証拠・具体的比較は `evidence/hq-ref/pass3-review.md`。メディアはowner-local一時領域のみ。WebGPTからの直接参照可能な安全な共有経路は未確認であり、共有成功とは報告しない。
+
+Pass3 final: Unity6000.3.25f1 Configure/import PASS、Edit14/14、Play9/9 PASS。既存の両固定hash、event/visible cursor、移動中pause、予想・結果比較・再試行、camera/足元HP/intent投影に加え、描画設定往復で遠景を含む元のshadow modeへ戻る回帰を確認。HQ world postprocess回避後のsetup/guard/heal実画像で人物の色・輪郭改善とcornerの層を確認。公開テストXML `pass3-editmode.xml` / `pass3-playmode.xml`、画像のSHAとowner-local所在 `pass3-capture-manifest.json`。Core tree `50274c84cb56344d1394b4283833728c72cd7577`・package・private4skin SHAは基準と一致。R2全体V0 FAIL、Human/I2/Notion未評価・未同期は維持。Simulatorはこの固定sourceで後続実行する。
+
+Pass3 runtime commitは `9e5fd06eda2c1fe11cf883335c316b988a3f1845`。最終テストの全sourceファイルSHAとconfigured scene SHAがcommit内容と一致（`pass3-source-verification.json`）。公開メディアは追加せず、同branchへ通常push、Draft維持。[実行パケット](https://github.com/tomooch/rogue-tactics-lab/pull/21#issuecomment-6205066312)。
+
+Notion接続が今回利用可能となり、既存[Todo](https://app.notion.com/p/3e3ad38889158105a09df12a35b633a7)と[Tried & Learned](https://app.notion.com/p/3e3ad388891581aba10ddf3e65a70047)へPass3実測・棄却したDoF仮説・局所改善/V0未達・ASC build5状態を同期しreadback確認した。以前のNotion未同期記録は当時の状態として保持。新しいHuman製品DecisionやHuman GOは作成していない。private画像/動画のNotionアップロードなし。
+
+### Pass3 current-source Simulator result
+
+runtime `9e5fd06eda2c1fe11cf883335c316b988a3f1845` のUnity export / Xcode Simulator build exit0、専用QA iOS27.0へinstall/launch PASS。実画面で新corner・人物/空の鮮明化を確認。ProtectはA13/X5/Y12の途中停止を保持→再開→14行動/生存4/HP16・16・12・10/回復残0。Attackは14行動/生存3/HP0・16・12・10/回復残1。比較modal/再試行/初期配置/IME確定文字の保存を実観測し、この起動sessionのnativeログで両full SHA一致。IMEテストでは入力操作から確定したliteral `aattackcheck` の保持のみを確認、指定英語の完全再現や日本語IME全ケース合格とは主張しない。
+
+新DeviceHub録画はProtect55.333333秒/3322frames（意図的pauseを含む）、Attack30.956667秒/1873frames、1206×2622。Live観測とQuickTime通常再生で時間経過・姿勢/HP/receiptを確認。詳細・SHA・frame intervalsは `pass3-native-observation.json`。一時所在 `/private/tmp/rogue-hq-pass3/simulator/`。旧pass2動画とsourceを混同せず、今回のローカル開発binary番号5をAppleへupload済のd5e8e08/build5と区別する。新upload/配布は行っていない。ASTC decompression2件とURP depth fallback警告を記録、crash/exception/描画破損は観測せず。実iPhone性能・Human合格は未検証。export生成5設定は監査/差分保存後にruntime commitへ復元、Core/package/skin不変。追加commitは文書/検証メタデータのみ。
+
+NotionはPass3の初回Todo/Learned同期とreadback済み。native最終結果はTodo更新のtool成功を確認したが、Tried & Learnedへの最終追記は自動承認レビューの利用上限により**未実行**（unsafe判定ではなくreview実行不可）。その追記は未同期として残す。許可回避・別経路での再送は行っていない。
+
+## HQ-REF-1 Pass4 / fc005d4 (2026-10-17 Local Mac)
+
+Unity6000.3.25f1 Configure PASS, EditMode14/14 and PlayMode9/9 PASS, actual390x844 product/camera captures. `evidence/hq-ref/pass4-source-verification.json` maps tested source-file/scene hashes to frozen runtime fc005d4; `pass4-editmode.xml`, `pass4-playmode.xml`, `pass4-capture-manifest.json`, `pass4-review.md`. Both G1 fixed hashes and all approved skin SHA preserved; Core tree unchanged. Keyboard return compares actual resting layout and verifies input/Start do not overlap; title/companion-name/HP vertical fit regression catches the observed rejected layout-A text loss.
+
+Whole-screen comparison supports party/ground separation and stone-relief progress, not R2 V0/Human GO. Final26 PNG/contact/HTML remain private temporary local artifacts under `/private/tmp/rogue-hq-pass4/`; no cross-session media delivery. Current-source Simulator run pending. ASC refresh reached login; current compliance/group state unverified, no upload or new owner distribution. Apple old build5 is not fc005d4.
+
+Pass4 native completion: frozenfc005d4 export/build/install/launch PASS, both14-action outcomes and full hashes match. Protect paused/held/resumed; both results/close/retry/initial state checked. Native on-screen Japanese composition「かつ」confirmed, input restored and exact value retained in result. Actual recordings82.22s Protect (pause/terminal included),47.90s Attack (terminal/comparison included),1206x2622; normal-speed Attack playback observed movement, local attack/HP11→5/receipt transition and terminal. Detailed limits/source/SHA in `evidence/hq-ref/pass4-native-observation.json`; this is Simulator evidence, not actual iPhone or TestFlight.5 export-generated settings diffs audited/restored, private patch retained. Current ASC login required; no new archive/upload/distribution.
+
+
+## HQ-REF-1 Pass5 rejected art experiment / retained runtime fc005d4 (2026-10-17)
+
+[WebGPT review5554614607](https://github.com/tomooch/rogue-tactics-lab/pull/21#pullrequestreview-5554614607) was executed from ca550012. CONTROL/A/B each ran actual Unity6000.3.25f1 Configure + filtered ProductFlow1/1, with seven fresh390×844 stages per variant. A improved water opacity but left disconnected shelves/tiny blooms. Repair B exposed the buried flower crown and improved grouped flowers/source connection, but its cliff reads as a uniform extruded wall. Root and bounded independent local image review rejected both whole vignettes; all19 candidate files restored, no art/code adopted or expanded. R2 V0 FAIL/Human pending remain.
+
+Fresh retained-source full regression: Configure exit0, EditMode14/14, PlayMode9/9 PASS, both full frozen hashes and approved4skin SHA preserved. All tested C#/shader/OBJ/provenance bytes match retained HEAD; Core/tests unchanged. Generated Scene only differed in local object/fileIDs; normalized full serialized graph equivalence was asserted, tested raw Scene SHA retained in evidence, and task-generated ID churn restored. This is not a raw Scene byte-identity claim. `evidence/hq-ref/pass5-source-verification.json`, `pass5-editmode.xml`, `pass5-playmode.xml`, `pass5-experiment.json`, `pass5-review.md` record precise scope, source/hash, failure and production-capability gap.
+
+Owner-local temporary `/private/tmp/rogue-hq-pass5/` holds21 CONTROL/A/B actualPNG, same-stage pairs/crops/contact/HTML, rejected-source patch and26 fresh retained images. No candidate motion/Simulator PASS; retained fc005d4 has previous Pass4 source-linked Simulator evidence. Historical Pass4 Attack video replay0.422→8.441→14.139s confirmed the opaque strip silhouette persists during movement; this is not new native execution. Current ASC DOM again shows sign-in: live build/compliance/group unverified, no new upload/archive/writes, real iPhone/Human pending. Public GitHub/Notion receive text/hash only; cross-session private-media sharing remains unestablished. Existing Notion Todo/Learned updated, no duplicate task/new product Decision. PR21 stays Draft.
+
+## ART-CAPABILITY / retained fc005d4 (2026-10-17)
+
+Existing offline tool/package/source audit found no installed DCC or Unity mesh-authoring package, but did find cached ShaderGraph17.3.0 rock FBX. Actual Unity6000.3.25f1 inspection exit0 (6 previews/9 LODs) preceded an editable source+four local edits+Mesh probe. A edit/save/reload/topology/bounds checks passed; actual390×844 A failed art. B repaired source-face visibility, editor preview and invalid-radius handling; data checks plus ProductFlow1/1 passed, but phone image and independent local reviewer still reject limestone form and floating ivy. A/B each filtered Edit0/Play1, not full regression. GUI drag/save/reopen/Undo unobserved. **BLOCKED_ART_CAPABILITY**; no new full-suite, native/device or Human PASS claimed.
+
+Only tracked scene Mesh reference restored; all temporary probe entries removed after private source/meta preservation. Final Unity/tools, Core/tests, approved skins, package files and retained Scene equal baseline. Previous retained-source14/14・9/9 remains prior evidence. Public `evidence/hq-ref/art-capability-review.md`, JSON,2PlayMode XML and noncompiled probe-source text record actual conditions, failure, provenance/license and cost/privacy options. Private source/comparison artifacts remain `/private/tmp/rogue-art-capability/`; no external original/skin/media/model upload. PR21 Draft, no merge/Ready/distribution/installation/purchase.
