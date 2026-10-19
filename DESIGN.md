@@ -122,3 +122,9 @@ Following [review5554614607](https://github.com/tomooch/rogue-tactics-lab/pull/2
 保持runtime `fc005d4` の前左cliffだけを変える3案（破断Boolean、個別patch cage、実GUI大面sculpt）をそれぞれUnity390×844の7場面で比較・独立local画像review・修正した。全案が層状石灰岩/既存cap・水・蔦との接続/全画面改善を示せず棄却、採用0。**BLOCKED_ART_PRODUCTION、R2 V0 FAIL**。Astra実native `gpt-6-astra` / highは4回のsanitized text-only助言であり、private画素を見たレビューではない。Human可愛い/見やすい/楽しいと実iPhoneは未検証。G1/4skin/5×5/2敵/HUD/床/カメラ/表示event契約は維持。
 
 次の不足はソフトではなく、代表領域の見える輪郭・大きな破断層・植生支持面・水との前後関係を一体で設計し、電話サイズで成立させる制作。単一mesh固定は今回の実験条件で、cap変更をHumanが永久禁止したものではない。失敗案を他領域に展開しない。private source/画像はMac内、公開は[source-free実行記録](evidence/hq-ref/longrun-review.md)/hash/テスト証拠。新規課金/外部制作/原画送信/製品採用/merge/Readyの承認を推定しない。
+
+## Integrated rim visibility gate — 2026-10-19
+
+[Human支持のreview5566270401](https://github.com/tomooch/rogue-tactics-lab/pull/21#pullrequestreview-5566270401)に従い、cap/崖/水源-lip/蔦支持を一体で扱うGate0を実行。fixed camera/床/HUD/4人/Coreのまま、編集可能なoriginal Blender blockout A→Unity390×844→local独立画素review→重複する旧rim/壁を許可外周内だけ除くB→再描画を行った。Aの遮蔽はBで減ったが、一体棚/側方開口/水・蔦の接触が電話で読めず、両FAIL・採用0。詳細sculptや他領域へ展開せず保持runtimefc005d4へ完全復元。BLOCKED_ART_PRODUCTION/R2 V0 FAIL。Astra実native2相談はsanitized text-only・画素未閲覧で、別local reviewerがA/B各7場面を実閲覧した。
+
+次の制作入力は、同じcamera条件でcapから支持塊・水路・植生根元を統合したartist sourceを優先する提案。無料CC0/有料編集sourceの具体的な費用・権利・適合限界と、別Human判断を要する非interactive環境hybrid案を[source-free記録](evidence/hq-ref/integrated-rim-review.md)に記載。購入/download/外部依頼/原画送信/表現方式変更は未実施・未採用。Human品質や物理iPhoneの合格を代行しない。
