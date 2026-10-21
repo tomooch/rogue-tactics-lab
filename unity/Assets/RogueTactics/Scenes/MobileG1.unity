@@ -261,10 +261,10 @@ MonoBehaviour:
   - {fileID: 4300000, guid: c7b10173f91834d00abf220cb6342108, type: 2}
   AmbientOcclusion: {fileID: 2079753342062040102, guid: 65bc7dbf4170f435aa868c779acfb082, type: 2}
   CharacterArt:
-  - {fileID: 2800000, guid: 153b698f9fe424cb4bb1aecc568ae4ea, type: 3}
-  - {fileID: 2800000, guid: 3cd2f9f03994749ccb0da237c5ba26de, type: 3}
-  - {fileID: 2800000, guid: e422418c950e34f929e80d0733070989, type: 3}
-  - {fileID: 2800000, guid: f6684e7afc01341c3b5b0387cf6d85ea, type: 3}
+  - {fileID: 2800000, guid: 4c3c530c8c336469592c215d68b978b9, type: 3}
+  - {fileID: 2800000, guid: cdb1a2854d46c4918945f769dbeb0245, type: 3}
+  - {fileID: 2800000, guid: 48eabe396efe64099a6347b0ee18c872, type: 3}
+  - {fileID: 2800000, guid: 3f731afb213754ed4bd2993462915d3f, type: 3}
 --- !u!4 &1984033444
 Transform:
   m_ObjectHideFlags: 0

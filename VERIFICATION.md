@@ -406,3 +406,11 @@ A/B/CのOBJ/native Mesh/helperをprivate保存してtask-owned差分のみ撤去
 失敗source/画像/helperをprivate保全し18tracked artファイルを復元、2一時helperを除去。復元後の新full Edit14/14・Play9/9各exit0（2026-10-19 12:35:59–12:38:41 UTC）、両full SHA一致、Scene/承認4skin SHA一致、Unity/tools byte差分0・untracked source0をassert。新7場面再取得しsetup復元を実閲覧。raw XML/source条件/hash/失敗runは`evidence/hq-ref/integrated-rim-{editmode.xml,playmode.xml,evidence.json,review.md}`に記録。初期Blender removed-object参照、sandbox Metal起動/通知DB拒否、検証準備のGit lock/harness未作成失敗も成功runと分離。
 
 今回Simulator/ASC/TestFlight/物理iPhone/候補動画の新規検証はなし。前回保持sourceのSimulatorはhistorical longrun証拠、Apple旧build5(d5e8e08)は別source。private PNG28枚（CONTROL/A/B/復元後各7）、比較HTML/`.blend`/OBJ/native MeshはMac一時領域`/private/tmp/rogue-hq-rim-integrated/`。公開はtext/hash/XMLのみ、WebGPTの別sessionからのprivate画素共有は未成立。Humanの可愛い/見やすい/楽しい・物理iPhone・新build配布・CIは未合格/未実行のまま。
+
+## Free CC0 source closed loop and approved-skin recovery — 2026-10-21
+
+開始HEAD `a86b6c29ce09395391360f80eedd0200c45bfa34`、同PR21 Draft/base維持を再確認。消失した4skinを既存offline工程で全承認SHA一致に復旧し、実Editorが生成した4texture metadataとSceneの4GUIDだけを修復した。他のScene bytes一致をassert、raw Scene SHAは`01c8235530465fbeac2e6c999333fd9f8dcfe93f87e394ed91cfecdf55c8129f`へ変わり、旧raw SHA不変とはしない。private PNGを公開せず生成metadataのみ追跡する。
+
+無料Coastal Cliff01のA/B/Cは各実Unity390×844の7場面・filtered ProductFlow Play1/1（Edit0）と両固定結果を検証。独立local reviewerはrootの採用意図/予想を受けずA/C計12画像を実閲覧。Cの局所量感/lipには小差があるが支持/窪み/植物接触と全体の美術向上は未達、採用0・R2 V0 FAIL。片面/両面の診断でカリング主因を棄却。初回診断はtemporary Debug.Log未処理で失敗し、限定修正後の診断Play1/1・3実PNGで切り分けた。失敗runを成功へ置き換えない。
+
+不採用6artファイルを検査してHEADへ戻した後、新規全Edit14/14・Play9/9各exit0（2026-10-20 22:22:50–22:25:30 UTC）、両full fixed hash、Core/tests tree、承認4skin/凍結source/復旧Scene保持を確認し、復元7PNGを新取得。sourceは開始HEAD＋4参照修復、Unity diff SHA `4e1e2823ee5ac5050518a4dc71c9ff47ea0f267ec20c72d21490743020b7f014`。[source-free各test・run・SHA記録](evidence/hq-ref/free-source-evidence.json)、[実画像の観察/修正/棄却記録](evidence/hq-ref/artist-source-pilot.md)。raw XML/log/`.blend`/PNG/比較HTMLは既存ignoreのowner-local `_userwork/hq-evidence/2026-10-20-free-source/`へ保持。新Simulator/候補動画/TestFlight/実iPhone/Human fun/CI成功を主張しない。旧Apple5(d5e8e08)と混同しない。

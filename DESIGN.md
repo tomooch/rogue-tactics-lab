@@ -128,3 +128,7 @@ Following [review5554614607](https://github.com/tomooch/rogue-tactics-lab/pull/2
 [Human支持のreview5566270401](https://github.com/tomooch/rogue-tactics-lab/pull/21#pullrequestreview-5566270401)に従い、cap/崖/水源-lip/蔦支持を一体で扱うGate0を実行。fixed camera/床/HUD/4人/Coreのまま、編集可能なoriginal Blender blockout A→Unity390×844→local独立画素review→重複する旧rim/壁を許可外周内だけ除くB→再描画を行った。Aの遮蔽はBで減ったが、一体棚/側方開口/水・蔦の接触が電話で読めず、両FAIL・採用0。詳細sculptや他領域へ展開せず保持runtimefc005d4へ完全復元。BLOCKED_ART_PRODUCTION/R2 V0 FAIL。Astra実native2相談はsanitized text-only・画素未閲覧で、別local reviewerがA/B各7場面を実閲覧した。
 
 次の制作入力は、同じcamera条件でcapから支持塊・水路・植生根元を統合したartist sourceを優先する提案。無料CC0/有料編集sourceの具体的な費用・権利・適合限界と、別Human判断を要する非interactive環境hybrid案を[source-free記録](evidence/hq-ref/integrated-rim-review.md)に記載。購入/download/外部依頼/原画送信/表現方式変更は未実施・未採用。Human品質や物理iPhoneの合格を代行しない。
+
+## Free local production boundary and source gate — 2026-10-21
+
+最新Human指示で**有料素材NG・外部委託NO**。無料CC0 source＋Codex自身のlocal制作に限定し、Astraは助言。Poly Havenの編集scanをA→実Unity→独立画像review→配置修正B→片面/両面/単独診断→構造保持Cへ進めたが、狭い外周でcap/奥壁/支持/水/蔦を一体に読めず全案棄却、採用0・R2 V0 FAIL。小幅な石面/lipの改善を全体の美術合格にしない。同じ切出しの倍率/法線調整は終了し、無料の編集可能な閉じた形状sourceを調査中。製品方向/原画/4人/Coreは維持。[実行・棄却・復旧証拠](evidence/hq-ref/artist-source-pilot.md)。
