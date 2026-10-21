@@ -414,3 +414,11 @@ A/B/CのOBJ/native Mesh/helperをprivate保存してtask-owned差分のみ撤去
 無料Coastal Cliff01のA/B/Cは各実Unity390×844の7場面・filtered ProductFlow Play1/1（Edit0）と両固定結果を検証。独立local reviewerはrootの採用意図/予想を受けずA/C計12画像を実閲覧。Cの局所量感/lipには小差があるが支持/窪み/植物接触と全体の美術向上は未達、採用0・R2 V0 FAIL。片面/両面の診断でカリング主因を棄却。初回診断はtemporary Debug.Log未処理で失敗し、限定修正後の診断Play1/1・3実PNGで切り分けた。失敗runを成功へ置き換えない。
 
 不採用6artファイルを検査してHEADへ戻した後、新規全Edit14/14・Play9/9各exit0（2026-10-20 22:22:50–22:25:30 UTC）、両full fixed hash、Core/tests tree、承認4skin/凍結source/復旧Scene保持を確認し、復元7PNGを新取得。sourceは開始HEAD＋4参照修復、Unity diff SHA `4e1e2823ee5ac5050518a4dc71c9ff47ea0f267ec20c72d21490743020b7f014`。[source-free各test・run・SHA記録](evidence/hq-ref/free-source-evidence.json)、[実画像の観察/修正/棄却記録](evidence/hq-ref/artist-source-pilot.md)。raw XML/log/`.blend`/PNG/比較HTMLは既存ignoreのowner-local `_userwork/hq-evidence/2026-10-20-free-source/`へ保持。新Simulator/候補動画/TestFlight/実iPhone/Human fun/CI成功を主張しない。旧Apple5(d5e8e08)と混同しない。
+
+## 2026-10-21 無料stylized native A〜Dと保持版の新全回帰
+
+作者Quaterniusの公式CC0 nativeを実Blender5.2.2 LTSで検査。missing textureの依存取得は最初のLicense.txtがDrive quota exceededとなり失敗、必要4PNGは0。制限迂回せず既存paletteで構造のみ実験した。A〜D各7実PNG・filtered ProductFlow Play1/1/Edit0・両fixed結果。Cは各石のclosed/outward/切削前後の正体積と全cap boundsで欠損を修復、通常scene-focused .blend再openを確認。Dは既存leaf/花の根元と面姿勢だけ変更し、石/水等7OBJはCとSHA一致。中立reviewerは実PNG、D時は承認原画も見て、接合/植物根付き/水出口の弱さから材質仕上げへNO寄り。rootも全案棄却し18task-owned artファイルをSHA検査後にHEADへ復元した。
+
+復元job `0761a270-4a6b-4ae6-8441-a6a00db45188` は193.34秒/exit0。実Unity6000.3.25f1、新全Edit14/14（01:35:23 UTC）・Play9/9（01:35:46〜01:38:14 UTC）、両full fixed hash、承認4skin、55凍結source、Core tree50274c84…/Tests tree1ecdc31d…、復旧Scene SHA01c82355…を維持。実行HEAD `f64e04c58b003ed5bc79cb7374b3d8f5caccaf97`、Unity diff SHA `e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855`（差分0）。新7PNGを取得しrootは復元setupを実閲覧した。
+
+[source-free実行JSON](evidence/hq-ref/free-stylized-evidence.json)にA〜D/復元各source・test名/結果/XML SHA/PNG SHAを収録。raw証拠はowner-local `_userwork/hq-evidence/2026-10-21-free-stylized/`。原画/CONTROL/A〜D計16PNGをbytes不変で埋込んだprivate比較HTMLとmanifestも保持。browser file URLはpolicy拒否、迂回せずHTML表示検証は未実施、観測は直接PNG閲覧。外部sessionへの媒体共有は未成立。Astraはtext-only助言で画素未閲覧、新GUI編集・動画・Simulator・TestFlight・実iPhone・Human品質・CI成功は主張しない。R2全体V0 FAIL、採用0、旧Apple build5(d5e8e08)とは別。

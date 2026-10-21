@@ -132,3 +132,9 @@ Following [review5554614607](https://github.com/tomooch/rogue-tactics-lab/pull/2
 ## Free local production boundary and source gate — 2026-10-21
 
 最新Human指示で**有料素材NG・外部委託NO**。無料CC0 source＋Codex自身のlocal制作に限定し、Astraは助言。Poly Havenの編集scanをA→実Unity→独立画像review→配置修正B→片面/両面/単独診断→構造保持Cへ進めたが、狭い外周でcap/奥壁/支持/水/蔦を一体に読めず全案棄却、採用0・R2 V0 FAIL。小幅な石面/lipの改善を全体の美術合格にしない。同じ切出しの倍率/法線調整は終了し、無料の編集可能な閉じた形状sourceを調査中。製品方向/原画/4人/Coreは維持。[実行・棄却・復旧証拠](evidence/hq-ref/artist-source-pilot.md)。
+
+## 2026-10-21 無料native統合外周pilot：全案棄却
+
+Quaterniusの編集可能なCC0 rockをcap/支持/水路/植物へ統合し、A〜D各実Unity390×844の7場面と中立画像reviewまで実行した。Booleanによる石縁欠損をCで修復し、Dで既存植物を根元から岩面へ接触させたが、cap/緑帯/褐色岩の重ね置き感と不鮮明な水出口が残り、代表領域の構造gate不合格。材質・細部・密度で救済せず全案を戻した。採用0・R2 V0 FAILを維持する。素材が編集可能なことと美術を設計できることを分ける。
+
+[実画像観察/修正/棄却](evidence/hq-ref/artist-source-pilot.md)、[各run/source/test/SHA](evidence/hq-ref/free-stylized-evidence.json)。保持版は実行HEAD f64e04c、Unity差分0、新Edit14/14・Play9/9と両fixed hash/4skinを確認。private媒体はowner-local、支出/委託0、製品方向/原画/Core/4人/Draftを維持。Human品質合格や新Simulator/TestFlight/実機の成功はない。

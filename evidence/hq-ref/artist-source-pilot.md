@@ -2,6 +2,8 @@
 
 **2026-10-20 最新Human境界：有料素材NG・外部委託NO。** これ以降は無料で権利が明確なsourceとCodex自身のローカル制作に限定する。以下の有料素材/artist発注案は調査時の履歴であり、承認待ちの現行候補でも実行対象でもない。モデルをOpusへ切り替えたり新しい推論サービスへprivate素材を送ったりせず、公開された制作/検証方法を調査して再現可能な部分を使う。Astraは引き続きアドバイザー、Codexが実行責任者。
 
+**最新native実測 2026-10-21：QuaterniusのA〜Dも全棄却・採用0。** 制作・Unity各7場面・中立画素reviewを閉ループで実施。CでBooleanによるcap欠損を修復、Dでleaf根元/面姿勢を修正したが、接合/植生/水源を原画の一体構造として成立させられず、塗装仕上げへは進めない。候補18artファイルを復元後、新全Edit14/14・Play9/9と両hash/4skin/55凍結sourceを確認、実行HEAD f64e04c・Unity差分0。[native A〜D/復元後のsource-free証拠](free-stylized-evidence.json)。private媒体・編集source・比較HTMLはowner-local、新Simulator/動画/TestFlight/実iPhone/Human品質PASSなし。以下のscan A/B/Cとは別実験。
+
 **最新実測 2026-10-21：無料scanのA/B/Cは採用0・R2 V0 FAIL。** Cは石の量感/滝lipがわずかに明瞭になったが、張り出し・奥壁・不均等支持と植生接触を一体で読めず、全体の品質改善を示せないため棄却した。局所改善を合格へ水増ししない。6つの試作OBJ/native meshファイルをtask-owned検査後にHEADへ復元した。保持美術/挙動はfc005d4、今回の実装変更は失われた承認4PNGへのScene参照復旧と実Unity生成4metadataのみ。4PNG自体はprivateのまま、publicにはmetadataを明示的に追跡する。
 
 復元後の新規全回帰はUnity6000.3.25f1 EditMode14/14・PlayMode9/9各exit0、両full fixed hash・承認4skin SHA・全凍結sourceを維持。実行sourceはHEAD `a86b6c29ce09395391360f80eedd0200c45bfa34`＋4参照GUID修復、Unity diff SHA `4e1e2823ee5ac5050518a4dc71c9ff47ea0f267ec20c72d21490743020b7f014`。新7場面と復元setupを実閲覧した。[source-free検証JSON](free-source-evidence.json)にrun別のsource/delta・各test名/結果・raw XML SHA・画像SHA・metadata SHAを記録した。raw XML/ログと媒体はowner-local。新Simulator/TestFlight/実iPhone/Human品質PASSはない。
@@ -61,6 +63,32 @@ job `4e977d12-c887-49fc-9bc3-6f2391df8e65` は144.94秒/exit0、filtered Play1/1
 同じ独立local reviewerへ、rootの判定を渡さずX=CONTROL/Y=Cのsetup/Guard/Counter計6実画像を提示。Cは石の量感と水源lipが少し明瞭、CONTROLは蔦の根付きが強い、人物優先度/戦闘可読性は同等、どちらも明確な支持部はない、との判断。rootは小幅な差だけでは代表領域のgateを満たさないとしてCを棄却。**このsource切出しを狭い外周へfitする経路は終了**し、同じ倍率・法線・RGBの反復をしない。CC0素材全体の利用不能やHumanの美術判断へ一般化しない。失敗patch/`.blend`/実画像はprivate保持、公開の美術meshは変更0。
 
 次の無料sourceは作者[Quaternius Ultimate Stylized Nature Pack](https://quaternius.com/packs/ultimatestylizednature.html)の公式CC0/Blend提供を確認した。新MegaKitのBlend/engine sourceは有料版なので除外。旧パック公式download先にある`AllModels.blend`を取得し、36,730,024 bytes・SHA `6dbd16ccc5bbbf5f59306c4e49fa875552d35fd95a7bfc84f521af8fb35a60cd`・BLENDER headerを実確認。別private root `_userwork/hq-evidence/2026-10-21-free-stylized/`でautoexec無効のBlender実検査を開始した。編集可能な閉じたrockの形状/UV/material/依存fileを確認する段階で、美術採用・Unity成功は未判定。支出/外部委託/private原画送信0。
+
+### Stylized native source：A〜Dを実制作・実描画で棄却、採用0
+
+2026-10-21、Quaterniusの実native sourceをBlender5.2.2 LTSで検査し、5種類の異なるrock mesh/UVを確認した。rootは中立clayのRock1/3/4/5を実閲覧した。大きい面と不均一な輪郭はあるが、それだけで石灰岩の美術品質とはしない。sourceのRocks画像はmissing依存。公式folderの依存取得jobは最初のLicense.txt応答がGoogle Driveのquota exceeded HTMLとなりexit1、必要4PNGは取得0。制限の迂回や別accountは使わない。公式CC0ページを権利根拠とし、package内License.txtを読了したとはしない。
+
+今回は作者のtextureを再現せず、既存のstone sRGB(.59,.51,.41)で構造gateだけを試す。作者の元rock topologyにpeak切断/接触面、既存capへの浅い水路切削、実surfaceへの既存植物の接触、既存滝への水面接続を施す。単純押出しや細部密度の増量へ戻らない。9つのart OBJ/native mesh組以外のcode/shader/床/カメラ/照明/HUD/4skin/復旧Sceneは凍結する。
+
+**Native A** job `ba863109-653b-4241-b108-5cdd3394c2cc` は114.75秒/exit0、実Unity7場面、filtered Play1/1・Edit0、両固定結果。実行sourceは`f64e04c58b003ed5bc79cb7374b3d8f5caccaf97`＋9art組、Unity diff SHA `5e5681f22197e479240b5851e8730801de89ec82c05217a0f53706c131d7044a`。rootはCONTROL/A/setupと承認原画を実閲覧した。岩面・水源は明瞭になるが、離れた支持が脚のように見え、capから連続する崖には未達。中立reviewerは6実画像でAの局所石面/滝を優位としたが、支持の分節と蔦の根元の弱さを指摘。Aを採用せず接続の修復へ進めた。
+
+**Native B** job `62b25d67-487e-4672-aece-9fcdca0dad21` は119.09秒/exit0、同7場面/filtered Play1/1・Edit0。capの高さを元に戻し、4種類の異なるrockを接触面で重ね、texture samplingに未使用だったcoplanar subdivisionを除去した。rootはA/B setupとB Guard/Counterを実閲覧。中立reviewerはCONTROL/A/B setupとB Guard/CounterでBの支持連続性を優位としたが、接合の暗い隙間・岩/根/苔の曖昧さ・水源との競合を指摘した。
+
+rootが出力boundsを照合すると、Bのcap最大Xが本来の-.50648から-3.39336へ縮み、切削後に右2石が欠落していた。局所reviewの好評価だけで採用しない。閉鎖と面向きを石ごとに整え、各石の切削前後の正体積と右端boundsをassertするCを実行中。複合meshのinside/outside判定が原因との仮説は修正後実画像で再検証する。またA/Bの保存はlibrary datablockとして再open検査を通ったが、起動sceneが空との警告がある。GUIで開いて直ちに編集できるsource成立とは主張せず、通常のscene-focused .blend保存とactive scene検査へ修復する。
+
+**Native C** job `813d33d4-c3ab-488a-88d3-5b7806e317fc` は115.90秒/exit0、同7場面/filtered Play1/1・Edit0。各capの切削前後の正体積と4石保持、全bounds x[-6.65248,-.50648]、通常の.blend保存後に対象sceneがactiveな再openを確認。rootはCONTROL/C setup、C Guard/Counterを実閲覧した。欠損は修復したが、暗い接合・褐色の独立支持・乏しい植生が残る。GUI編集を新規確認したとはしない。
+
+**Native D** job `613f5dde-e39f-4fdd-976b-ba69ebca76af` は113.50秒/exit0、同7場面/filtered Play1/1・Edit0、両固定結果。主変数を植物接触だけに限定。既存leafの中心ではなく根元、花は中心を実cap/rockへraycastし、horizontal面から吊下がる面へ全体をrigid poseした。元191leaf/36blossomから、許可bounds/接触を満たす88leaf/19blossomのみを保持し、新instance追加0。C/Dの石・水・detail・旧重複2meshの7OBJ SHA完全一致を確認した。
+
+rootはCONTROL/C/Dのsetupを全画面で実閲覧。Dの葉はcap下面へ接触するが、濃緑の帯・褐色岩・ベージュcapが別部材として見え、原画の量感と一体の根付きへは届かない。中立reviewerはCONTROL/C/DとD Guard/Counter、今回は承認原画も実閲覧し、Dの浮きは減るが、capとの暗い継目、岩塊の重ね置き、水源出口の曖昧さ、根や蔓の走りの不足を指摘。**材質仕上げへ進める構造にはNO寄り**と判断した。rootも代表領域のgate不合格としてA〜Dを全棄却。局所の差をR2合格やHumanの好みへ読み替えない。大きい面の塗装や微細化で接合問題を隠す経路には進まない。
+
+AstraはC後にもsanitized text-onlyで、Dの接触/水路/支持が読めなければ材質へ進めない、暗い接合を断面/交差/法線で確認し幾何の溝を塗装で救済しない、構造通過後だけ既存UVに沿う低周波の自作面塗りを一回試す、との助言。画素は見ておらず合格判定ではない。D不合格のため面塗り試験も未実施。
+
+候補Dの18task-owned artファイルを記録済みSHAと照合し、private `native-d-rejected.patch`へ保存してからHEADのbytesへ正確に復元した。canonicalのユーザー`.gitignore`差分は保持。保持版の新全Edit14/14・Play9/9各exit0（2026-10-21 01:35:23〜01:38:14 UTC）と新7場面を確認。実行HEADはf64e04c、Unity diffは空のSHA e3b0c442…、55凍結source・両full fixed hash・承認4skin・復旧Scene01c82355…を維持。復元setupをrootが実閲覧した。[source-free A〜D検証JSON](free-stylized-evidence.json)へsource/diff/OBJ/native元SHA/画像SHA/各XML SHAと限定test結果を記録。復元後の全suite XML SHA/各test名/結果とsource/capture SHAも同JSONへ収録した。
+
+private `private-comparison.html`へ原画とCONTROL/A/B/C/Dのsetup/Guard/Counter計16PNGを元bytesのまま埋込み、390 CSS px/縦横比保持で比較可能にした。`comparison-manifest.json`へPNG/HTML SHAを保存。browser file URL拒否の制限を迂回せず、HTML browser表示は未確認。実観測は直接PNG閲覧による。別session/WebGPTの外部画素共有は未成立で、public GitHubへ媒体は載せない。
+
+Astraの助言はsanitized text-onlyで、実画素は未閲覧。cap＋独立岩の卓上構造、水路→lip→落下の不連続、床境界の穴/二重縁や人物/HP/event遮蔽を棄却条件とした。rootと中立local reviewerの実画像観測とは分離する。現時点でnative試作の採用0、R2全体V0 FAIL、新full14/9・Simulator・動画・TestFlight・実iPhone・Human品質PASSは未実施。private証拠は`_userwork/hq-evidence/2026-10-21-free-stylized/`の`inspection/`、`module-a/`、`module-b/`、`unity-a/`、`unity-b/`、各`jobs/`に保持し、外部画素共有は未成立。
 
 2026-10-20。最新Human指示「高品質に仕上げる為に努力を惜しまない」「Astraをメインにせずアドバイザーとして活用」を受けた具体化。**Codexが実装・実行・実画像の採否・自己修正・証拠・pushを所有し、Astraは美術方針と重大な失敗原因への助言を担当する。** rootのmodel変更、Astraへの主担当移管、判断の丸投げはしない。今回Astraは実native gpt-6-astra/highへ1回、sanitized text-onlyで仕様を敵対点検した。画像/private path/meshを渡しておらず、Astraは画素未閲覧。前日の2相談とは別。
 
