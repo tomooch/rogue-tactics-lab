@@ -1,5 +1,5 @@
 {
-  "status": "PROPOSED; HUMAN_DIRECTION_PENDING; IMPLEMENTATION_STOPPED",
+  "status": "B_SELECTED_AS_VISUAL_DIRECTION; IMPLEMENTATION_NOT_RESTARTED; R2_V0_FAIL",
   "packet": "https://github.com/tomooch/rogue-tactics-lab/pull/21#issuecomment-6316622356",
   "starting_pr_head": "62e2580f041e4b0c65bf71563b22b5844563e1cc",
   "retained_runtime_source": "f64e04c58b003ed5bc79cb7374b3d8f5caccaf97",
@@ -85,7 +85,7 @@
     },
     "reference_montage": true,
     "runtime_implementation": false,
-    "human_direction": "PENDING",
+    "human_direction": "B selected by Human2026-10-22; static direction only",
     "designs": {
       "A": {
         "proposed": true,
@@ -484,7 +484,7 @@
   },
   "qa": {
     "proposal_only": true,
-    "human_direction": "PENDING",
+    "human_direction": "B selected by Human2026-10-22; not quality acceptance",
     "product_source_unchanged": true,
     "input_sha_unchanged": true,
     "outputs": {
@@ -592,5 +592,20 @@
       470,
       475
     ]
+  },
+  "human_direction_choice": {
+    "date": "2026-10-22",
+    "user_reply": "B",
+    "selected_frame": "B-scenic-diorama.png",
+    "selected_frame_sha256": "9a318b8a2f1e1c6d4060b8f1caa4b7de124fc86fc73349ea79413764e6b09f76",
+    "scope": "Whole-screen visual hierarchy: scenic sky ruins plus recognizable party",
+    "not_approved": [
+      "Production use of reference-image montage or 2D hybrid",
+      "Unity implementation completion or art quality PASS",
+      "New Blender/Unity production in this acknowledgement",
+      "TestFlight, release, merge or Ready"
+    ],
+    "reference_values_not_immutable_game_spec": true,
+    "reason": "Human selected B; no further preference reason stated"
   }
 }

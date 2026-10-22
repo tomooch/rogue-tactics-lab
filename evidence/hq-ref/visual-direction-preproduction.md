@@ -1,4 +1,12 @@
-# Visual Direction Preproduction — A/B PROPOSED / Human判断待ち
+# Visual Direction Preproduction — B SELECTED / 実装未再開
+
+## VISUAL_DIRECTION_FREEZE — B / 2026-10-22
+
+Humanは本チャットで選択質問へ **「B」** と回答した。B「天空遺跡と仲間」の390×844静止frame（SHA `9a318b8a2f1e1c6d4060b8f1caa4b7de124fc86fc73349ea79413764e6b09f76`）を全画面の視覚方向の基準とする。空・遠景・縦の遺跡・滝のcanvasと4人の視認性を両立する。Humanが理由を別途述べたとはしない。[Notion Decision Log](https://app.notion.com/p/3e3ad3888915816caa0bcca7c5128c4b)へ選択を記録。
+
+選択画像のworld584px/stage308px/4人89px/roster80pxは再現用のreference値であり、今後の実装で可読性を犠牲にして固定する新gameplay仕様ではない。G1初期state/5×5/承認4人/2敵/実HP/既存操作とprivate境界を維持し、密集セルと動的遮蔽は未検証のriskとして残す。
+
+これは構図方向の選択。背景合成/2D hybridの本番方式、Unity実装・R2美術品質・実機/Human funの合格ではない。今回の応答でUnity/Blender制作を再開しない。Draftを維持し、原画/元画像・watermark・SHAは書き換えない。以下は選択前の制作/検証記録として保持する。
 
 [Human-GO packet](https://github.com/tomooch/rogue-tactics-lab/pull/21#issuecomment-6316622356)に従い、追加造形・Unity実装を止め、Mac内の承認原画・4skin・実Unity CONTROLで390×844静止全画面2案を制作した。開始PR HEAD62e2580f041e4b0c65bf71563b22b5844563e1cc/Draft、既存runtime f64e04cを保持。A/Bを承認済みdirectionとせず、R2全体V0 FAIL・Humanの可愛い/見やすい/楽しい未検証を維持する。
 
@@ -50,4 +58,4 @@ owner-local durable ignore配下 `_userwork/hq-evidence/2026-10-21-visual-direct
 
 画像パネルへA/B/並列をopen要求したが、結果はすべて **queued**。MacのCodexで当タスクを開けば表示予約が反映されるが、既にwindowへ表示されたとは未確認。直接PNGのpathも保持する。これはowner-localでありWebGPT別sessionへの画素共有ではない。public GitHub/Notionへ原画・skin・mock・派生画像・ORA・scriptをアップロードしない。PRへはこのtextとSHA/数値だけを記録する。
 
-**停止gate:** A/B/Neither/組合せのHuman判断待ち。追加制作/Unity/Blender/方向freezeへ進めない。Notion TodoをHuman review pendingにし、Decision Logは選択後まで作成しない。Draft/no merge/no Ready、ユーザー未commit作業を保持する。
+**選択後のgate:** Humanが2026-10-22にBを選択済み。静止方向の選択とDecision Log同期は完了。追加制作/Unity/Blenderは今回再開していない。R2 V0 FAIL、Draft/no merge/no Ready、ユーザー未commit作業を保持する。
