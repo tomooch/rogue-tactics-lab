@@ -1,0 +1,370 @@
+{
+  "base_head": "36d5a288a49bdc67d89cbfe96d3f479da48f6bd7",
+  "private_evidence_root": "_userwork/hq-evidence/2026-10-23-b-quarter-view/",
+  "trials": [
+    {
+      "name": "quarter-a",
+      "source_head": "36d5a288a49bdc67d89cbfe96d3f479da48f6bd7",
+      "unity_diff_sha256": "d2b98ee581fe448b8ca32c95fefcf92550ca51246400a3df02a7caef434cd044",
+      "results": {
+        "EditMode": {
+          "total": "0",
+          "passed": "0",
+          "failed": "0",
+          "result": "Passed"
+        },
+        "PlayMode": {
+          "total": "1",
+          "passed": "1",
+          "failed": "0",
+          "result": "Passed"
+        }
+      },
+      "capture_sha256": {
+        "DirectAttack-comparison.png": "0fb83adcc589db6facdc2d98d3802024ab8213ed578fd5b0f4272f147fb556dd",
+        "DirectAttack-counter.png": "5be8458d95d284926abbbfccd9ed913d62960c2f1880a8bff9cf6be181477516",
+        "DirectAttack-death.png": "9c9cd6f948800fa4c781c8ea8cbb7d67dd4f8de1c9a736924ab9e044dec98633",
+        "ProtectAnchor-comparison.png": "9e2b805918d8fcde71f24a74c2208980c05912cc61b16f7ddc3fed463ab931f0",
+        "ProtectAnchor-guard.png": "c4c69d8e57174915934914412e2cd7793b1fcac82fe24af2ef2c8f21319799e2",
+        "ProtectAnchor-heal.png": "8cce4abf669df52df4011841180be57b8a36246981750c45a54d0ce19fb9b395",
+        "r1-setup.png": "16c349c30be39eba8ffc71fd50db2e46641fc7de598072320cda9ecdd98e097e"
+      },
+      "adopted": false
+    },
+    {
+      "name": "quarter-b",
+      "source_head": "36d5a288a49bdc67d89cbfe96d3f479da48f6bd7",
+      "unity_diff_sha256": "195c5fbcebba6cb083ada7785f79f6da209ac46f21a795c3891a216aa72e1c47",
+      "results": {
+        "EditMode": {
+          "total": "0",
+          "passed": "0",
+          "failed": "0",
+          "result": "Passed"
+        },
+        "PlayMode": {
+          "total": "1",
+          "passed": "1",
+          "failed": "0",
+          "result": "Passed"
+        }
+      },
+      "capture_sha256": {
+        "DirectAttack-comparison.png": "da07286b8c9ecefb31301f037afda1aa14582a685f615460ec78d141ed25f64c",
+        "DirectAttack-counter.png": "3be3c903eea5d3083c957ec87e4cdbc68a828dee04797445575280cbad3fe8f5",
+        "DirectAttack-death.png": "fe12fe66c5f326fba1acb32395944587cd2fe83b81e9009a553c368f754ac62d",
+        "ProtectAnchor-comparison.png": "1ba827390fd8e73efd54347f1c67a2d9e87fdc7298053f923804a588ce73dbb4",
+        "ProtectAnchor-guard.png": "694234fe059198d2e04edd8c66c799aff8e8467f74a942cbb4e1385a69dd01fe",
+        "ProtectAnchor-heal.png": "a056d2782fc65c330dbf27ccf9c56dd8f7267ad935f6b81859ce60f01cc4daa2",
+        "r1-setup.png": "e47cd66f761ec3f95eee9012a564ef41ad902e9b9867048dcf595c146864cbc7"
+      },
+      "adopted": false
+    },
+    {
+      "name": "quarter-c",
+      "source_head": "36d5a288a49bdc67d89cbfe96d3f479da48f6bd7",
+      "unity_diff_sha256": "7de0f12c392f8405566d40457e9c4205a80159ed575120c4292107260619cdb7",
+      "results": {
+        "EditMode": {
+          "total": "0",
+          "passed": "0",
+          "failed": "0",
+          "result": "Passed"
+        },
+        "PlayMode": {
+          "total": "1",
+          "passed": "1",
+          "failed": "0",
+          "result": "Passed"
+        }
+      },
+      "capture_sha256": {
+        "DirectAttack-comparison.png": "55b2f98f8aa18958532a588c13900fe2a3a735bb3d9170d2322524eb1ab3b3f5",
+        "DirectAttack-counter.png": "ed8244488e051aaf288569f8ff6c53df714f092297919a434d42fb659f05898a",
+        "DirectAttack-death.png": "251d9392797ff9ce92a2fff9582d53fb156682ceacfecdd40980728fff593652",
+        "ProtectAnchor-comparison.png": "92b57e4c030f8054390a2ed823ce3ea5a0a8742207143c09be892127a0d981c1",
+        "ProtectAnchor-guard.png": "dbe1eaf796a8425b01a0c171874fa58acd560218a213ea0064586f2714978bdd",
+        "ProtectAnchor-heal.png": "ea1031eedaa07fedd3c10d692376e5eb5a94b199d6e822a22ad42c1d89c2fcfe",
+        "r1-setup.png": "9d4c033e8ddf563d910508e5956af81bee683a36c58117320e7c2bd4c94788c3"
+      },
+      "adopted": false
+    },
+    {
+      "name": "quarter-d",
+      "source_head": "36d5a288a49bdc67d89cbfe96d3f479da48f6bd7",
+      "unity_diff_sha256": "390160f62d12bc125f578c21a85011398cd6794b6e8138d4ec18b1f8da477577",
+      "results": {
+        "EditMode": {
+          "total": "0",
+          "passed": "0",
+          "failed": "0",
+          "result": "Passed"
+        },
+        "PlayMode": {
+          "total": "1",
+          "passed": "1",
+          "failed": "0",
+          "result": "Passed"
+        }
+      },
+      "capture_sha256": {
+        "DirectAttack-comparison.png": "55b2f98f8aa18958532a588c13900fe2a3a735bb3d9170d2322524eb1ab3b3f5",
+        "DirectAttack-counter.png": "935163960d5bc3a535b98c02c88bf933e4695d31a57d8f8da60c9aeb46c5870c",
+        "DirectAttack-death.png": "1be856d654b7c86e0ffcc852f140185ad92391414f9c10f618496f6acaa14f16",
+        "ProtectAnchor-comparison.png": "92b57e4c030f8054390a2ed823ce3ea5a0a8742207143c09be892127a0d981c1",
+        "ProtectAnchor-guard.png": "3ef46e1f8a7aff67915ce1aa6cdad42a2836cd83e1e63becadc9da4cd2b66453",
+        "ProtectAnchor-heal.png": "59532ff740ef956418ec13974dd220ab93a413eae152d6d4f6cefffcffa62900",
+        "r1-setup.png": "e78103c3dba393ceb03fb337d72a5df919a42b1301e58f94818592d4e153b802"
+      },
+      "adopted": false
+    },
+    {
+      "name": "quarter-e-full",
+      "source_head": "36d5a288a49bdc67d89cbfe96d3f479da48f6bd7",
+      "unity_diff_sha256": "5950ae189e90738f2632b2d2021487c9a25c11db2af58eed2e7b627a3a0a658a",
+      "results": {
+        "EditMode": {
+          "total": "14",
+          "passed": "14",
+          "failed": "0",
+          "result": "Passed"
+        },
+        "PlayMode": {
+          "total": "9",
+          "passed": "8",
+          "failed": "1",
+          "result": "Failed(Child)"
+        }
+      },
+      "capture_sha256": {
+        "DirectAttack-comparison.png": "67e22feefde6157b625b77a3cfeba0ae708f5bfcbbc8a601cc3af9e431446fe0",
+        "DirectAttack-counter.png": "f91ea7bb92c1c76db4ce2c4bda87a7f7727d7cbcf5453bc89a74ca28255a4e73",
+        "DirectAttack-death.png": "925f76790434ec79671bc7ddd744f1d257c2abc694f7ca9626464b86c165f593",
+        "ProtectAnchor-comparison.png": "92b57e4c030f8054390a2ed823ce3ea5a0a8742207143c09be892127a0d981c1",
+        "ProtectAnchor-guard.png": "0f935cb4be0155a3c552c634b42a517da0ab9f0f21481ecac317e16a519e0d23",
+        "ProtectAnchor-heal.png": "3efc77aa2faf892a39b6b800702776ab775549bc786df57e573086cde8c386d3",
+        "r1-setup.png": "eafa75d71b8736784cb79e4a8965d75116196b065f5f83251bfc122676e92c0f"
+      },
+      "adopted": false
+    },
+    {
+      "name": "quarter-f-full",
+      "source_head": "36d5a288a49bdc67d89cbfe96d3f479da48f6bd7",
+      "unity_diff_sha256": "b01d5bd83422358c27954d2ac8204d964b77deace0592835183234a6c975beee",
+      "results": {
+        "EditMode": {
+          "total": "14",
+          "passed": "14",
+          "failed": "0",
+          "result": "Passed"
+        },
+        "PlayMode": {
+          "total": "9",
+          "passed": "8",
+          "failed": "1",
+          "result": "Failed(Child)"
+        }
+      },
+      "capture_sha256": {
+        "DirectAttack-comparison.png": "86bc398d2718dac5494f50509dfe4668f8efe626146f11e3f819acd0e27846da",
+        "DirectAttack-counter.png": "abb276fb5f7c474b0eee529e79fdffa1ee75ba6aa8e99756dfec3f4951b8a963",
+        "DirectAttack-death.png": "84bbe71bcdf6af126ccc1119f8e174f5bcbeebc52e7221259ba4adcb9686dbb5",
+        "ProtectAnchor-comparison.png": "be2f6463f1113907d1c20b8c6ab0959a12ddb14617d23f8ac71bfd4f4f8aa33d",
+        "ProtectAnchor-guard.png": "f7d8907d271c539e457e0d1c13c00d273d0342206e14715ce3af2ea252305444",
+        "ProtectAnchor-heal.png": "47ea6f90f2889ccd446acaee57d047d34edbcad2d550e89e319b469771515fe1",
+        "r1-setup.png": "7a7321b506cbf35e0cae747a12a9526f8946228651fe492185541b72c4345226"
+      },
+      "adopted": false
+    },
+    {
+      "name": "quarter-g-full",
+      "source_head": "36d5a288a49bdc67d89cbfe96d3f479da48f6bd7",
+      "unity_diff_sha256": "c64d992a43424db77fa6873678ed85f90abb3f2beb9f3d9f9e897bad8bb7fa04",
+      "results": {
+        "EditMode": {
+          "total": "14",
+          "passed": "14",
+          "failed": "0",
+          "result": "Passed"
+        },
+        "PlayMode": {
+          "total": "9",
+          "passed": "8",
+          "failed": "1",
+          "result": "Failed(Child)"
+        }
+      },
+      "capture_sha256": {
+        "DirectAttack-comparison.png": "457c5b68f356de26b008ca94e7c3b425d1558712218a23e0cd1ee9bc4f5af308",
+        "DirectAttack-counter.png": "2e8c6e736af3c2efc83f29446493b477a9b0446905a14acbf688f0a4c3bb3182",
+        "DirectAttack-death.png": "d12e6d09b5b0c282c85ff6021f3b098667900c8974f579350c447e4cac15c470",
+        "ProtectAnchor-comparison.png": "130131964ae56fbba330e56d08855ae4f563495b0f96e6a7604cd82fdcee36fb",
+        "ProtectAnchor-guard.png": "ae05d04ac1314306b35d73dca012763cbdd75bac67fae44f6ebbb6399898df08",
+        "ProtectAnchor-heal.png": "d1e4238b20b1ba6f13ed14f530f65560cc4e43a004ef391f1a2e3de5ba3cda09",
+        "r1-setup.png": "ae2b25809622f1c504d369101ff99ce2580e6a644e275176f084865325c95d9e"
+      },
+      "adopted": false
+    },
+    {
+      "name": "quarter-h-full",
+      "source_head": "36d5a288a49bdc67d89cbfe96d3f479da48f6bd7",
+      "unity_diff_sha256": "59f3fa6e28594485ff1e4651604e9c9b29354b50033435ef100eb714f125c85c",
+      "results": {
+        "EditMode": {
+          "total": "14",
+          "passed": "14",
+          "failed": "0",
+          "result": "Passed"
+        },
+        "PlayMode": {
+          "total": "9",
+          "passed": "8",
+          "failed": "1",
+          "result": "Failed(Child)"
+        }
+      },
+      "capture_sha256": {
+        "DirectAttack-comparison.png": "250cfbb039843be99a24ddd93a3f1bdcb219b6dfffdca62986098c228087c50e",
+        "DirectAttack-counter.png": "80894b22050099be73b447d71f81aafc37811321f95c814709a6546b7a75020e",
+        "DirectAttack-death.png": "b25511e3cbe75fb986e0af6e1d32d8581ffcbb37501bb124753ca5454a619f85",
+        "ProtectAnchor-comparison.png": "20b55a8499dd985cbf27cdb9b503c0b9770af5ff966ecd736d1bb7c627d9fef5",
+        "ProtectAnchor-guard.png": "fe7c34c5318cccffcad0f9a40f628769c803f32010e31ef4d253e5f9aecdb75b",
+        "ProtectAnchor-heal.png": "20514d69fa2035a5c29081c6cfc2f4bd46836b8e0623bd5f73ce154c0b4932c9",
+        "r1-setup.png": "38f1432ead8ba2d5399f67861785e5412a24800e2f31c5f6ab1630d1bc1a2785"
+      },
+      "adopted": false
+    }
+  ],
+  "camera_experiment_adopted": false,
+  "human_criterion_decision": "pending async question; no answer assumed",
+  "font_generation": {
+    "source_head": "36d5a288a49bdc67d89cbfe96d3f479da48f6bd7",
+    "source_sha256": "c2f3b4d463500a2ddcd3849cded1fceeb9fd6d1c32e6cbecd568453ba50fc68f",
+    "output_sha256": "9235091dd518cd58e6d643f048fa3f3cabe9fdb6631dc9f1f82375c05b67f1e5",
+    "fonttools": "4.60.1",
+    "weight": 400,
+    "license": "Existing SIL OFL 1.1 retained; Reserved Font Name Source not used in primary Noto Sans JP name",
+    "external_media_upload": false
+  },
+  "font_only_full_verification": {
+    "source_head": "36d5a288a49bdc67d89cbfe96d3f479da48f6bd7",
+    "unity_diff_sha256": "5a989b2a0745e0c25e90e83c97128ba922924ae8174c7dbfb8d035fec7a25e59",
+    "results": {
+      "EditMode": {
+        "id": "2",
+        "testcasecount": "14",
+        "result": "Passed",
+        "total": "14",
+        "passed": "14",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-22 17:28:24Z",
+        "end-time": "2026-10-22 17:28:24Z",
+        "duration": "0.0479263"
+      },
+      "PlayMode": {
+        "id": "2",
+        "testcasecount": "9",
+        "result": "Passed",
+        "total": "9",
+        "passed": "9",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-22 17:28:38Z",
+        "end-time": "2026-10-22 17:31:03Z",
+        "duration": "144.7435635"
+      }
+    },
+    "frozen_source": {
+      "unity/Assets/RogueTactics/Art/MobileG1/NotoSansJP.ttf": "9235091dd518cd58e6d643f048fa3f3cabe9fdb6631dc9f1f82375c05b67f1e5",
+      "unity/Assets/RogueTactics/Core/G1Battle.cs": "2adfee6c34152df63a9a25221531f81795829919d577925730594fd8a5bfb2f1",
+      "unity/Assets/RogueTactics/Core/GridPosition.cs": "c7f045f52ea00da6daae60939c7a8e1184794c034ea8b61a2289c479c6c21bb0",
+      "unity/Assets/RogueTactics/Tests/PlayMode/PortraitSmokeTests.cs": "2852678be1568dfd456cf5663a3c5941c417294c7d96bc362aeb456cd03e5419",
+      "unity/Assets/RogueTactics/Tests/PlayMode/G1InteractionTests.cs": "b79226cc0fbd212bd46a53c3d6fb5181983ce8e0389f20de014c4ad7f8980fd1",
+      "unity/Assets/RogueTactics/Tests/PlayMode/MobileG1InteractionTests.cs": "e3893f8aa73f67166fd8aa293c20218665a5d0dd1da8ed6ce0cc703b719fd079",
+      "unity/Assets/RogueTactics/Tests/PlayMode/HqPresentationTests.cs": "fd403609b2b5097ca5633941087629714c83157de5bc5c4ebb1930783ccc0ca4",
+      "unity/Assets/RogueTactics/Tests/EditMode/ScaffoldTests.cs": "8bf95d20902252052479e5e543998281afd3682a7803e8a59029f7f0b2a8c76f",
+      "unity/Assets/RogueTactics/Tests/EditMode/G1CoreTests.cs": "7e223b549d520b947810642d07ee3bf440692575da1ba78e99731d4b2b6e7f69",
+      "unity/Assets/RogueTactics/Tests/EditMode/MobileG1SessionTests.cs": "f9ca45ffc81b9996aa40d7ec7c43e5655a48c1ffd5708dd6dcd7e4dd208f5cae",
+      "unity/Assets/RogueTactics/Presentation/HqFootBadges.cs": "2c5fcd5cfb3b467b9578ef5dd6853686d5ddcacfd242fa9216abb15f7acb0ece",
+      "unity/Assets/RogueTactics/Presentation/HqRoute.cs": "28de45517dac327dce222dc16c59e61d4560464a15bb6e3955ae9f9bb4e7a7c3",
+      "unity/Assets/RogueTactics/Presentation/MobileG1View.cs": "e50be6533580aefed234a59212c0c70443b58d04844f79222ba0fd94c7cc7dbd",
+      "unity/Assets/RogueTactics/Presentation/HqRelations.cs": "8992072881f55a81f9e2928b3d692effe2e3015bd440b1fda5828de036d52a61",
+      "unity/Assets/RogueTactics/Presentation/HqKnownPositions.cs": "12d4ac07b6b4a01b0b043b06dcbedda39536be25e873c1c39e0d45b9e6af04ac",
+      "unity/Assets/RogueTactics/Presentation/HqProductHud.cs": "995eb6397a0ed7696ae0cc7939ce7326e374a898bcdfb65a52673863b0845665",
+      "unity/Assets/RogueTactics/Presentation/G1View.cs": "328ddcee9d46df30fe4987ec0ac324d9a360184f02b5d514622734ebf61a11ef",
+      "unity/Assets/RogueTactics/Presentation/HqCreature.cs": "fb3a8be6b0622c3edbe370427269d8fb03be7d3641ac8b4098d6529ed4e4cd46",
+      "unity/Assets/RogueTactics/Presentation/HqSkyRuins.cs": "2c7d7ae33a2a064b8f36cb2c2bb32841aa0607c58a8229f05e05f248bb6ff3ae",
+      "unity/Assets/RogueTactics/Presentation/MobileG1Session.cs": "fd0a2c0932f68104fb5d5b1846535f1a9f64905478070e9eb30d9f6b1edaa7d0",
+      "unity/Assets/RogueTactics/Presentation/HqContactShadow.cs": "de447c08670bb6c724af678918bbb94d40fd7b908aa5947981235d417cbb6c03",
+      "unity/Assets/RogueTactics/Presentation/HqAmbient.cs": "4fb77deeb841d7357a32bfb4ab8887f2bf8c2983a4d5e283bd46dd2c2937747c",
+      "unity/Assets/RogueTactics/Presentation/HqMotion.cs": "67ddbba29b391fac5b5d5899bf29597ff1034258f24dbaf7ec91bc8b30e5c217",
+      "unity/Assets/RogueTactics/Presentation/HqCamera.cs": "aed8a87c72dea0d038bb16c7c42ddfa40835588328607f921b3f3daaf33a2e6b",
+      "unity/Assets/RogueTactics/Presentation/Stage0View.cs": "ae3ec1510f7d6e96d3f7e6ee5f30000695023e494d562f71c4f8697149eb3249",
+      "unity/Assets/RogueTactics/Presentation/HqFrameMetrics.cs": "3ea28b598a60aaf621c5c56d4004f0edc21f2bb4c16819388d02209d7eb195a0",
+      "unity/Assets/RogueTactics/Editor/MobileG1Setup.cs": "c9cb5471a93f224498392449067e1116900307dac215f0c458280648d6a32a69",
+      "unity/Assets/RogueTactics/Editor/Stage0Setup.cs": "14f9a36c43cebcbc26fdc5e1e798bb08e5f27f57213182b9d09c861c831a9b33",
+      "unity/Assets/RogueTactics/Editor/G1Setup.cs": "ab582ac0c48c5d10b652a6a7708b79056c7216c96f8c2a8aa8deacf2f720fcc6",
+      "unity/Assets/RogueTactics/Editor/AuthoredRuinsImport.cs": "76e57788d266bfa04e576a09ea811cc4eb1f673f58cc3794cd846232d83c05e0",
+      "unity/Assets/RogueTactics/Art/MobileG1/HqSky.shader": "469dfc46d58d92e093b2febe902b4ec718fbdfb1920d789dca4c553bb2aaec32",
+      "unity/Assets/RogueTactics/Art/MobileG1/AuthoredRuins.shader": "54eac6cdb8574caa5fc6cf976e46f3666e7550013218404e7aa80ce029553101",
+      "unity/Assets/RogueTactics/Art/MobileG1/StaticSkin.shader": "b7190c80e376509ac7cb2ba6fd54561e1e486388115eb2a053e557358a17d40e",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeLimestone.obj": "58d337f0470ba2f9a4fef17a7291a917b75291ea8d0a04a2a7a9bdf5c78ba90e",
+      "unity/Assets/RogueTactics/Art/HqRuins/Distant.obj": "0a82cd8192fd4fa2ec8fcde9f2bb26842ba4f9139e589dc0f3dc629333668abb",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.obj": "29e957182bdb04a83441d5ba431e1d093f9521cebaee0212d7076b95a915e25e",
+      "unity/Assets/RogueTactics/Art/HqRuins/Blue.obj": "c25d669ad1a17e806f7b60b83a32245928b4a81e0a93912a9c535fb1d5a7f538",
+      "unity/Assets/RogueTactics/Art/HqRuins/Flowers.obj": "268f32aaceaba73e9b2fe27d10bd34ec27a31b609e9d1711f40a9d21441a775a",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeWater.obj": "1e92d13b072588f5696273a4e4855312beb6f2c9a43dcb9189479737c03c4938",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoliage.obj": "03700bbca1ab9d5016ca5e14f27db10781e8087ab4ecea606262e20f3558f990",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoam.obj": "21620aa32962e3d1cce8fc33a3791cf06655592d5a9e8160a6b2ca79048b6699",
+      "unity/Assets/RogueTactics/Art/HqRuins/Limestone.obj": "68bac484a019b526751edb225a7a0902ddad66bcda0027d01e24f9b0fb548966",
+      "unity/Assets/RogueTactics/Art/HqRuins/Gold.obj": "98a71c531c5cf6b92411eb2889b9b279f6a5b2868a098c8e71d8f217fda48c97",
+      "unity/Assets/RogueTactics/Art/HqRuins/Warm.obj": "a5a68d1df19daa6c15ceec06bed4087beba83996aadc04c97e5885eeb6e59b24",
+      "unity/Assets/RogueTactics/Art/HqRuins/Detail.obj": "bbf183571609f34ee69d0dc35e56058c8873e51928fdf18ac7c208db80570523",
+      "unity/Assets/RogueTactics/Art/HqRuins/Cliff.obj": "4636b8055d09acfc6d5e50d251c814bc2c06dd5c96aad5c17aba057d4bb544c2",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeDetail.obj": "12c35a97644e16346acd71be0f07c57d7a13b5d01a7f9314e74f249af3d5932f",
+      "unity/Assets/RogueTactics/Art/HqRuins/Water.obj": "c48427f964501ce18ad19365b2ac85844e5cfec9458b5f73f56ee8934fa27d02",
+      "unity/Assets/RogueTactics/Art/HqRuins/Courtyard.obj": "1e10beab2e7a3d134064fa5eff1a86412e01f4155b591de68ab6e752da98e12b",
+      "unity/Assets/RogueTactics/Art/HqRuins/Foliage.obj": "710847542b5d5e540ee29a4831e6297cee789922d67b29f0b77a541049784cd6",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFlowers.obj": "166b903ad387ef2457cbe962bd460b9e7bcefae685b2bf0dfafcdb9fa0511ca4",
+      "unity/Assets/RogueTactics/Art/MobileG1/Private/myaru.png": "3f064518faf44e308614ddaaaa81eb108d909c116e0a0a21cadf8d33e64a8fd5",
+      "unity/Assets/RogueTactics/Art/MobileG1/Private/momo.png": "d8f62c2299c2772ce21ded771ec2faf6c50f9d18d4f585ba2fe7a63d698daa74",
+      "unity/Assets/RogueTactics/Art/MobileG1/Private/garu.png": "04051f21042b365c767124f4931f8189502a24eab9896089e8850b3e8e76c015",
+      "unity/Assets/RogueTactics/Art/MobileG1/Private/shiro.png": "5f9bd5d0f8f7569987f0df3393d2236a032b75091e7af9c6f10ba17b3c7a7c73",
+      "unity/Assets/RogueTactics/Scenes/MobileG1.unity": "01c8235530465fbeac2e6c999333fd9f8dcfe93f87e394ed91cfecdf55c8129f"
+    },
+    "captures": {
+      "r1-setup": "b525f3e893e94c370bc9b6342e5ddf85734fa6a4a4c1590feb461404afd263d0",
+      "ProtectAnchor-guard": "84c482a6f94ff6f09cfc02c09fd5afb2aa218f350f54ea72cea46a8114ac7e9f",
+      "ProtectAnchor-heal": "1015334f68fbf1fa1497257704888ed498d8c9e9b6f829a78d27444ba9dee398",
+      "DirectAttack-counter": "f26ac36cb3e08a4c296dccfeac0920d77d89ef26a9f87304154d3281036549b8",
+      "DirectAttack-death": "a8f48a75761aff76ac2edae23b16095fea7c966a9871f6aa226734ef7698cef5",
+      "ProtectAnchor-comparison": "080526d6e5a8cc4c7350f7480b5e82f907d628e03f41c6679420879aebe0d658",
+      "DirectAttack-comparison": "5c2e9dff7d982d2711c9e5aa5fa722fcde7e58f4e403ef23f7d38a020a2e9024"
+    },
+    "independent_pixel_review": "Setup, guard, counter, comparison: clearer Japanese and HP, no new clipping or glyph corruption. Camera experiments remain rejected.",
+    "simulator": "fresh build pending"
+  },
+  "invariants": {
+    "core_tree": "50274c84cb56344d1394b4283833728c72cd7577",
+    "scene_sha256": "01c8235530465fbeac2e6c999333fd9f8dcfe93f87e394ed91cfecdf55c8129f",
+    "approved_skins": {
+      "garu.png": "04051f21042b365c767124f4931f8189502a24eab9896089e8850b3e8e76c015",
+      "momo.png": "d8f62c2299c2772ce21ded771ec2faf6c50f9d18d4f585ba2fe7a63d698daa74",
+      "myaru.png": "3f064518faf44e308614ddaaaa81eb108d909c116e0a0a21cadf8d33e64a8fd5",
+      "shiro.png": "5f9bd5d0f8f7569987f0df3393d2236a032b75091e7af9c6f10ba17b3c7a7c73"
+    }
+  },
+  "R2_V0": "FAIL",
+  "physical_device_verified": false,
+  "human_fun_verified": false,
+  "private_media_uploaded": false
+}

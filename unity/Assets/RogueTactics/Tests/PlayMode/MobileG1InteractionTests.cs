@@ -70,7 +70,7 @@ namespace RogueTactics.Tests
                 var t=badge.GetComponent<RectTransform>();var r=new Rect(t.anchoredPosition.x,t.anchoredPosition.y-t.rect.height,t.rect.width,t.rect.height);var own=bodies[badge.name.Substring(3)];
                 Assert.That(r.yMax,Is.LessThanOrEqualTo(own.yMin-3),badge.name+" beneath body, never across head");
                 Assert.That(r.xMin,Is.GreaterThanOrEqualTo(0));Assert.That(r.xMax,Is.LessThanOrEqualTo(view.Field.rect.width));Assert.That(r.yMin,Is.GreaterThanOrEqualTo(-view.Field.rect.height));
-                foreach(var b in bodies)Assert.That(r.Overlaps(b.Value),Is.False,badge.name+" must not cover "+b.Key);
+                foreach(var b in bodies)Assert.That(r.Overlaps(b.Value),Is.False,badge.name+" must not cover "+b.Key+" at step "+view.Session.Replay.State.Step+" rects "+r+" / "+b.Value);
                 hpRects.Add(r);
             }
             foreach(var route in Object.FindObjectsByType<MobileRouteGraphic>(FindObjectsSortMode.None).Where(g=>g.gameObject.activeInHierarchy))

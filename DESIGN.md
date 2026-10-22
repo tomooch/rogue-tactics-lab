@@ -138,3 +138,8 @@ Following [review5554614607](https://github.com/tomooch/rogue-tactics-lab/pull/2
 Quaterniusの編集可能なCC0 rockをcap/支持/水路/植物へ統合し、A〜D各実Unity390×844の7場面と中立画像reviewまで実行した。Booleanによる石縁欠損をCで修復し、Dで既存植物を根元から岩面へ接触させたが、cap/緑帯/褐色岩の重ね置き感と不鮮明な水出口が残り、代表領域の構造gate不合格。材質・細部・密度で救済せず全案を戻した。採用0・R2 V0 FAILを維持する。素材が編集可能なことと美術を設計できることを分ける。
 
 [実画像観察/修正/棄却](evidence/hq-ref/artist-source-pilot.md)、[各run/source/test/SHA](evidence/hq-ref/free-stylized-evidence.json)。保持版は実行HEAD f64e04c、Unity差分0、新Edit14/14・Play9/9と両fixed hash/4skinを確認。private媒体はowner-local、支出/委託0、製品方向/原画/Core/4人/Draftを維持。Human品質合格や新Simulator/TestFlight/実機の成功はない。
+
+
+### B / quarter-view experiment — 2026-10-23
+
+Human selected static B and explicitly resumed implementation, then supplied a quarter-view angle reference. A–H actual Unity trials improved side/depth or local HUD readability, but large billboards conflict with existing strict rectangle separation and reduced sprites make empty pavement dominant. All camera/HUD trials were rejected; no frozen direction or test criterion was changed. Human criterion choice (face/eyes/target clarity versus whole billboard separation) is pending. The independently verified retained change is static Regular400 from the existing OFL Noto font, fixing thin UI text without synthetic Bold. No Core/skin/mesh/Presentation C# runtime changes retained; R2 V0 FAIL/Human pending remain. [Experiment and evidence](evidence/hq-ref/quarter-view-review.md).

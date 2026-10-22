@@ -81,6 +81,11 @@ namespace RogueTactics.Tests
                 view.Button(preference==Preference.ProtectAnchor?"Protect":"Attack").onClick.Invoke();view.Prediction.text="守るか攻めるか、結果を見る";
                 view.Button("Start").onClick.Invoke();yield return null;
                 Assert.That(view.Auto,Is.True);Assert.That(view.Button("Next").gameObject.activeInHierarchy,Is.False);
+                // Scenic headers must not hide the active initiative strip (observed quarter-A regression).
+                var order=view.Field.Find("Discrete actor order").GetComponent<RectTransform>();
+                var orderCorners=new Vector3[4];order.GetWorldCorners(orderCorners);
+                var titleCorners=new Vector3[4];view.SafeRoot.Find("Boundary").GetComponent<RectTransform>().GetWorldCorners(titleCorners);
+                Assert.That(orderCorners[1].y,Is.LessThan(titleCorners[0].y),"Initiative stays below the title/subtitle");
                 yield return Capture(preference+"-start");
                 view.Button("Play").onClick.Invoke();var count=view.DisplayedEvents.Count;var state=view.Session.Replay.State.Serialize();
                 yield return new WaitForSecondsRealtime(.4f);
