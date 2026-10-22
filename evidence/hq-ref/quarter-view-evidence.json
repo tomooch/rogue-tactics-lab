@@ -351,7 +351,7 @@
       "DirectAttack-comparison": "5c2e9dff7d982d2711c9e5aa5fa722fcde7e58f4e403ef23f7d38a020a2e9024"
     },
     "independent_pixel_review": "Setup, guard, counter, comparison: clearer Japanese and HP, no new clipping or glyph corruption. Camera experiments remain rejected.",
-    "simulator": "fresh build pending"
+    "simulator": "Source8c71051 export/build/install/launch and actual both-condition/input/pause/comparison observations PASS; see quarter-font-native-observation.json. Not real iPhone/TestFlight."
   },
   "invariants": {
     "core_tree": "50274c84cb56344d1394b4283833728c72cd7577",
