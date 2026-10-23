@@ -143,3 +143,8 @@ Quaterniusの編集可能なCC0 rockをcap/支持/水路/植物へ統合し、A�
 ### B / quarter-view experiment — 2026-10-23
 
 Human selected static B and explicitly resumed implementation, then supplied a quarter-view angle reference. A–H actual Unity trials improved side/depth or local HUD readability, but large billboards conflict with existing strict rectangle separation and reduced sprites make empty pavement dominant. All camera/HUD trials were rejected; no frozen direction or test criterion was changed. Human criterion choice (face/eyes/target clarity versus whole billboard separation) is pending. The independently verified retained change is static Regular400 from the existing OFL Noto font, fixing thin UI text without synthetic Bold. No Core/skin/mesh/Presentation C# runtime changes retained; R2 V0 FAIL/Human pending remain. [Experiment and evidence](evidence/hq-ref/quarter-view-review.md).
+
+
+## 2026-10-23 Human参考角度の再確認
+
+Humanが箱庭画像を再添付し「こんな感じの想像してた」「やってみて！」。上面と二側面が見える参考角度を基準へ戻し、検査都合で俯瞰/正面へ戻す方向を採らない。35.264/−45は数値承認ではなく実測候補。角度のみ→表示奥行き比率のみ→撮影倍率のみの3条件を実Unityで比較し、最後は全Edit14/14・Play8/9（A/B全身矩形接触）。角度適合と浮島の二面は改善、4顔も確認できたが、人物主役性低下/HP所属の弱さを棄却理由とした。全候補を保持runtime8c71051へ完全復元し、[画像を含まない比較記録](evidence/hq-ref/quarter-view-review.md)を追加。R2 V0 FAIL、既存受入基準の緩和/Human品質合格は推定しない。
