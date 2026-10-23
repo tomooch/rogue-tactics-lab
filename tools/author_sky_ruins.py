@@ -178,27 +178,56 @@ def column(obj,c,r,h,seed):
             j=(i+1)%n; obj.quad(rings[k][j],rings[k][i],rings[k+1][i],rings[k+1][j],(.71,.63,.49) if (i+k+seed)%4 else (.91,.83,.68))
     for i in range(1,n-1): obj.tri(rings[-1][0],rings[-1][i+1],rings[-1][i])
 
-def arch(limestone,cliff,detail):
-    # Broken, open-backed arch on the far rim, z=+7 to +9.5; ring blocks follow a real curve.
-    z=8.0; cx=0; radius=2.65; centerY=.95
+def arch_ring_stones():
+    """Closed, bevelled voussoirs in the vertical XY plane, behind the play cells."""
+    stones=[]
     for i in range(15):
-        a=math.pi*i/14
-        x=cx+math.cos(a)*radius; y=centerY+math.sin(a)*2.15
-        tang=(-math.sin(a),math.cos(a))
-        block=rounded(.62,.78,.17,i)
-        # horizontal tangent and vertical normal map a local beveled stone footprint into arch plane.
-        points=[]
-        for px,pz in block:
-            points.append((x+tang[0]*px,y+pz,z))
-        lo=[(px,y-.22,pz) for px,_,pz in points]; hi=[(px,y+.22,pz) for px,_,pz in points]
-        for j in range(len(lo)):
-            k=(j+1)%len(lo); limestone.quad(lo[k],lo[j],hi[j],hi[k],(.90,.82,.67) if i%3 else (.81,.74,.61))
-        for j in range(1,len(hi)-1):limestone.tri(hi[0],hi[j+1],hi[j])
-        # Fine gold leaf in selected joints, not a continuous outline.
+        lo,hi=math.pi*i/15,math.pi*(i+1)/15
+        # Shared radial boundaries make adjacent stones bear on one another;
+        # independent tangent-aligned blocks leave air gaps around the ellipse.
+        corners=[(rx*math.cos(a),2.2+ry*math.sin(a)) for rx,ry,a in
+                 ((2.31,1.81,lo),(2.99,2.49,lo),(2.99,2.49,hi),(2.31,1.81,hi))]
+        profile=[]
+        for j,v in enumerate(corners):
+            for neighbour in (corners[(j-1)%4],corners[(j+1)%4]):
+                profile.append((v[0]+(neighbour[0]-v[0])*.12,v[1]+(neighbour[1]-v[1])*.12))
+        cx=sum(v[0] for v in corners)/4; cy=sum(v[1] for v in corners)/4; rings=[]
+        for scale,z in ((.90,11.18),(1,11.28),(1,11.72),(.90,11.82)):
+            rings.append([(cx+scale*(x-cx),cy+scale*(y-cy),z) for x,y in profile])
+        block=Obj("Limestone"); color=(.90,.82,.67) if i%3 else (.81,.74,.61)
+        for band in range(3):
+            for j in range(8):
+                k=(j+1)%8; block.quad(rings[band][j],rings[band][k],rings[band+1][k],rings[band+1][j],color)
+        for j in range(1,7):
+            block.tri(rings[0][0],rings[0][j+1],rings[0][j],color)
+            block.tri(rings[-1][0],rings[-1][j],rings[-1][j+1],color)
+        if signed_volume(block)<0:
+            reversed_block=Obj("Limestone")
+            for (p,q,r),_,c in block.tris:reversed_block.tri(p,r,q,c)
+            block=reversed_block
+        assert signed_volume(block)>.02, "Arch stone must enclose solid volume"
+        stones.append(block)
+    return stones
+
+def signed_volume(obj):
+    return sum(a[0]*(b[1]*c[2]-b[2]*c[1])+a[1]*(b[2]*c[0]-b[0]*c[2])+a[2]*(b[0]*c[1]-b[1]*c[0])
+               for (a,b,c),_,_ in obj.tris)/6
+
+def arch(limestone,cliff,detail):
+    # Both piers land on one rim foundation, beyond the last Core cell centre (z=10).
+    # The old ring discarded its computed Y coordinates and had zero Z thickness.
+    z=11.5; radius=2.65
+    for i,block in enumerate(arch_ring_stones()):
+        limestone.tris.extend(block.tris)
         if i in (2,5,8,11):
-            detail.quad((x-.22,y+.21,z-.41),(x+.22,y+.21,z-.41),(x+.22,y+.23,z-.41),(x-.22,y+.23,z-.41),(.73,.53,.25))
+            a=math.pi*(i+.5)/15; x=math.cos(a)*radius; y=2.2+math.sin(a)*2.15
+            tx,ty=-radius*math.sin(a),2.15*math.cos(a); length=math.hypot(tx,ty)
+            tx,ty=tx/length,ty/length; nx,ny=ty,-tx
+            points=[(x+tx*u+nx*v,y+ty*u+ny*v,z-.335) for u,v in ((-.18,.12),(.18,.12),(.18,.14),(-.18,.14))]
+            detail.quad(*points,(.73,.53,.25))
+    slab(limestone,(0,-.225,11.05),6.15,1.60,.45,.10,6)
     column(cliff,(-radius,0,z),.66,2.25,1); column(limestone,(radius,0,z),.66,2.25,2)
-    slab(limestone,(0,3.25,z),1.15,.92,.35,.12,5)
+    slab(limestone,(0,4.85,z),1.15,.92,.35,.12,5)
 
 def terrace(limestone,cliff,detail):
     # Narrow side shelves step down from the island without entering the 5x5 walk zone.
@@ -335,7 +364,8 @@ def main():
     OUT.mkdir(parents=True,exist_ok=True)
     objs=make_assets(); validate(objs)
     manifest={"authoring":"tools/author_sky_ruins.py (deterministic local Python standard library; no external assets)",
-              "coordinate_space":"Unity local X/Y/Z, Y-up; origin is board center; Z already uses DisplayDepth=2 spacing; do not stretch Z",
+              "coordinate_space":"Unity local X/Y/Z, Y-up; origin is board center; authored Z uses reference spacing 2. Presentation scales Z by current DepthSpacing/2 (currently 1.25/2). Core coordinates remain independent.",
+              "rear_arch_structure":"Closed bevelled elliptical-sector voussoirs with shared radial joints and a common rear-rim footing; decorative geometry only, no colliders or Core rules.",
               "source_art":"User-provided local concept image was viewed read-only for composition; not copied, embedded, uploaded, or used as a texture.",
               "license":"Original procedural geometry authored for this repository; no third-party mesh or texture source.",
               "core_floor":"Courtyard contains irregular worn flagstones across the courtyard, with shallow relief and selected connected moss joints, explicitly sRGB; no rules/colliders. Core is pure data and has no mesh. Courtyard stone tops are at/below y=-0.02, shallow moss skins at -0.015, and joint bed at -0.22; no collider or gameplay semantics.",

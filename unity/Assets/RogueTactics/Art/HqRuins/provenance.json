@@ -1,13 +1,14 @@
 {
   "authoring": "tools/author_sky_ruins.py (deterministic local Python standard library; no external assets)",
-  "coordinate_space": "Unity local X/Y/Z, Y-up; origin is board center; Z already uses DisplayDepth=2 spacing; do not stretch Z",
+  "coordinate_space": "Unity local X/Y/Z, Y-up; origin is board center; authored Z uses reference spacing 2. Presentation scales Z by current DepthSpacing/2 (currently 1.25/2). Core coordinates remain independent.",
+  "rear_arch_structure": "Closed bevelled elliptical-sector voussoirs with shared radial joints and a common rear-rim footing; decorative geometry only, no colliders or Core rules.",
   "source_art": "User-provided local concept image was viewed read-only for composition; not copied, embedded, uploaded, or used as a texture.",
   "license": "Original procedural geometry authored for this repository; no third-party mesh or texture source.",
   "core_floor": "Courtyard contains irregular worn flagstones across the courtyard, with shallow relief and selected connected moss joints, explicitly sRGB; no rules/colliders. Core is pure data and has no mesh. Courtyard stone tops are at/below y=-0.02, shallow moss skins at -0.015, and joint bed at -0.22; no collider or gameplay semantics.",
   "layers": {
     "Limestone": {
       "file": "Limestone.obj",
-      "triangles": 1929,
+      "triangles": 2659,
       "bounds": [
         [
           -7.109,
@@ -15,11 +16,11 @@
         ],
         [
           -1.31,
-          3.425
+          5.025
         ],
         [
           -11,
-          10.936
+          12.272
         ]
       ],
       "material_key": "Limestone"
@@ -38,7 +39,7 @@
         ],
         [
           -11,
-          10.9
+          12.27
         ]
       ],
       "material_key": "Cliff"
@@ -53,11 +54,11 @@
         ],
         [
           -0.99,
-          3.276
+          4.472
         ],
         [
           -9.63,
-          9.324
+          11.165
         ]
       ],
       "material_key": "Detail"
