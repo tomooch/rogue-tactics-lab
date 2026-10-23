@@ -47,7 +47,7 @@ namespace RogueTactics.Presentation
                 // Geometry follows the visible pose while pause/resume retains the tween's exact phase.
                 bodyRects.Clear();
                 foreach(var unit in Session.Replay.State.Units)if(!dead.Contains(unit.Id))
-                {var r=ProjectedBody(bodies[unit.Id]);bodyRects[unit.Id]=r;badges[unit.Id].GetComponent<RectTransform>().anchoredPosition=new Vector2(r.center.x-22,r.yMin-5);}
+                {bodyRects[unit.Id]=ProjectedBody(bodies[unit.Id]);}
                 LayoutFootBadges();RefreshRelationCues();
                 if(guardLink.gameObject.activeSelf)Link(guardLink,positions["B"],positions["A"]);
                 if(actionLink.gameObject.activeSelf && hasActor && hasTarget)Link(actionLink,positions[e.Actor],positions[e.Target]);

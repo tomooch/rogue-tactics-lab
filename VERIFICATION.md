@@ -443,3 +443,10 @@ Fresh font-only native source8c71051: Unity export exit0 (initial invariant guar
 実行sourceはHEAD4d19223＋各frozen diff。Unity6000.3.25f1でangle-only/compact-depthは各filtered Edit0/Play1、compact-fit-fullは新全Edit14/14・Play8/9。両fixed結果/表示event/pause/prediction/comparison/retryのProductFlowは通り、既存Mobile readabilityがstep0 A/B全quad矩形接触で失敗。検査を緩めず棄却。3条件各7fresh390×844を保存し、root/中立local画像reviewはsetup/guard/counterの各3実画像を実閲覧。参考角度/二側面は改善したが、cast emphasis/HP ownership不足。新しい動画/Simulator/TestFlight/実iPhoneの検証なし。
 
 4task-owned candidate filesをHEADへ完全復元し、Unity差分0確認。復元後に全suiteを再実行したとは書かない。復元runtime8c71051の既存14/9・Simulator証拠は新候補の成功証拠に転用しない。[source/result/failure/media SHA](evidence/hq-ref/reference-angle-evidence.json)、[実画面観察](evidence/hq-ref/quarter-view-review.md)。private原画/skin/PNG/動画は公開せず、owner-local `_userwork/hq-evidence/2026-10-23-reference-angle/`。R2 V0 FAIL・Human基準質問未回答・Draft維持。
+
+
+## 2026-10-23 Integrated screen meaning / owner HP — Editor final candidate
+
+Human指摘によりHPだけでなく画面構成と操作意味を修正。原画を実閲覧し、実Unity B→独立画像review→CのfullCanvas/方針時の同角度上方framing/compact結果→Keyboard手順修正→E全回帰を実行。B filtered Edit0/Play1、C/D全14/14・7/9、Keyboard targeted Edit0/Play1 PASS、E全**Edit14/14・Play8/9**。残る1testは既存全mesh矩形分離（最初のB/D接触step0）。検査を緩めず未解決とする。HP所属/表示済event比率/死亡/再試行、実EventSystemhitによるモモ→方針/任意予想→開始→停止再開→比較/再試行、条件別予想保持、両fixedhash/全表示event、queued mouse/touch、keyboard回避/復帰はPASS。
+
+[統合UI観察と限界](evidence/hq-ref/integrated-ui-review.md)、[source/result/capture SHA](evidence/hq-ref/integrated-ui-evidence.json)、`integrated-ui-editmode.xml` / `integrated-ui-playmode.xml`。実行sourceは9ef6731＋凍結Unitydiffで、commitfilesをmanifest照合。rootは最終setup/policy/counter/比較を実閲覧、独立reviewerは原画/B/C実画像と限定sourceを検査。Core/Art差分0、承認4PNG/Regular400維持。private実画像/patch/logはowner-local `_userwork/hq-evidence/2026-10-23-integrated-hud/`、公開媒体なし。新Simulatorはこれから検証、過去8c71051の成功を転用しない。R2 V0 FAIL/Human/実iPhone未検証、Draftレビュー候補として保持し、旧黒札画面を新候補の拒否根拠にしない。

@@ -233,8 +233,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: RogueTactics.Presentation::RogueTactics.Presentation.MobileG1View
   JapaneseFont: {fileID: 12800000, guid: 520cf6147ea264a5b97acf42b4f63f04, type: 3}
   HqWorld: 1
-  CameraPitch: 45
-  CameraYaw: 0
+  CameraPitch: 35.264
+  CameraYaw: -45
   EventMotion: 1
   StoneTemplate: {fileID: 2100000, guid: e3b5c6d55bf564f3385e9fbb03d087bd, type: 2}
   SpriteTemplate: {fileID: 2100000, guid: 0275195f72d2e4c3a8866574f650ddc5, type: 2}

@@ -148,3 +148,10 @@ Human selected static B and explicitly resumed implementation, then supplied a q
 ## 2026-10-23 Human参考角度の再確認
 
 Humanが箱庭画像を再添付し「こんな感じの想像してた」「やってみて！」。上面と二側面が見える参考角度を基準へ戻し、検査都合で俯瞰/正面へ戻す方向を採らない。35.264/−45は数値承認ではなく実測候補。角度のみ→表示奥行き比率のみ→撮影倍率のみの3条件を実Unityで比較し、最後は全Edit14/14・Play8/9（A/B全身矩形接触）。角度適合と浮島の二面は改善、4顔も確認できたが、人物主役性低下/HP所属の弱さを棄却理由とした。全候補を保持runtime8c71051へ完全復元し、[画像を含まない比較記録](evidence/hq-ref/quarter-view-review.md)を追加。R2 V0 FAIL、既存受入基準の緩和/Human品質合格は推定しない。
+
+
+## 2026-10-23 Human指摘：画面の意味と遮蔽を解決してから評価する
+
+Humanは参考角度を「いいね！」とした後、B16等の開発札と分かりにくい下部操作、原画にない上下帯を解消せず人物/構図を判定するなと指摘。原画の景観の連続性、局所的な隅の情報、仲間→敵の視線とカード/操作の対応を再分析した。現在のDraft UI候補はfullCanvas景観＋safe内の局所HUD、モモcard→本人の二方針/任意予想→明示的な戦闘開始、本人の足元に追従するHPbar、名前/実HPカード、停止再開/比較/再試行。原画にない全幅黒帯/常設formを取り除き、方針panel時は同じ角度・倍率の上方framingで滝を保ち、結果から開発用controlを除く。8skill/MP/minimap/階層/新Coreは作らない。
+
+旧黒札画像を新候補の人物主役性判定へ転用しない。修正後の実画像でroot/独立local reviewがHP所属と操作の意味・背景連続性の改善を確認した範囲を記録する。Human品質合格/R2完成は別。既存の全mesh矩形分離gateはそのままで、参考角度のX/C重複は未解決。詳細とsourceを[統合UI比較](evidence/hq-ref/integrated-ui-review.md)へ記録し、未実行のSimulatorや別sourceの14/9を成功として転用しない。

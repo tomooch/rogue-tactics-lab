@@ -38,9 +38,9 @@ namespace RogueTactics.Presentation
         private readonly Dictionary<string,GridPosition> positions=new Dictionary<string,GridPosition>();
         private readonly Dictionary<string,Transform> pawns=new Dictionary<string,Transform>();
         private readonly Dictionary<string,Renderer> bodies=new Dictionary<string,Renderer>();
+        private readonly Dictionary<Renderer,Vector3[]> bodyVertices=new Dictionary<Renderer,Vector3[]>();
         private readonly Dictionary<string,Rect> bodyRects=new Dictionary<string,Rect>();
         private readonly Dictionary<string,CanvasGroup> badges=new Dictionary<string,CanvasGroup>();
-        private readonly Dictionary<string,Text> hpTexts=new Dictionary<string,Text>();
         private readonly Dictionary<string,Image> hpBars=new Dictionary<string,Image>();
         private readonly Dictionary<string,Button> buttons=new Dictionary<string,Button>();
         private readonly List<Material> materials=new List<Material>();
@@ -60,10 +60,10 @@ namespace RogueTactics.Presentation
         private Rect safeRect;
         private int screenW, screenH;
         private Plan executingPlan;
-        private bool terminalSeen, testViewport;
+        private bool terminalSeen, testViewport, showingResults;
         private int shownStep;
         private float floatUntil;
-        private const float Cell=2.5f, DepthSpacing=2.0f;
+        private const float Cell=2.5f, DepthSpacing=1.25f;
         private static Vector3 World(GridPosition p,float y=0)=>new Vector3(p.X*Cell,y,p.Y*Cell*DepthSpacing);
         private static readonly Color Ink=new Color(.93f,.94f,.88f), Gold=new Color(.96f,.79f,.40f), Jade=new Color(.35f,.85f,.76f);
         public Button Button(string id) => buttons[id];
@@ -82,19 +82,19 @@ namespace RogueTactics.Presentation
             var scaler=canvas.GetComponent<CanvasScaler>();scaler.uiScaleMode=CanvasScaler.ScaleMode.ScaleWithScreenSize;scaler.referenceResolution=new Vector2(390,844);scaler.matchWidthOrHeight=0;
             var es=new GameObject("Mobile Input",typeof(EventSystem),typeof(InputSystemUIInputModule));es.GetComponent<InputSystemUIInputModule>().AssignDefaultActions();
             SafeRoot=Rect(canvas.transform,"SafeArea",0,0,390,844);SafeRoot.anchorMin=Vector2.zero;SafeRoot.anchorMax=Vector2.one;SafeRoot.offsetMin=SafeRoot.offsetMax=Vector2.zero;
-            Label(SafeRoot,"Title","天空の遺跡",16,0,250,37,22);
-            Label(SafeRoot,"Boundary","仲間に託す、小さな戦い  /  G1",16,36,300,22,12);
+            var titlePlate=Rect(SafeRoot,"Title plate",12,10,266,56).gameObject.AddComponent<Image>();titlePlate.color=new Color(.035f,.09f,.13f,.84f);titlePlate.raycastTarget=false;
+            Label(SafeRoot,"Title","天空の遺跡",24,13,242,30,20);
+            Label(SafeRoot,"Boundary","モモのカードで方針を選ぶ",24,44,242,18,11);
             MakeButton(SafeRoot,"Details","記録",322,6,56,44,()=>OpenDetails(false),14);
             BuildStage();
-            Field=Rect(SafeRoot,"Field",0,60,390,520);fieldImage=Field.gameObject.AddComponent<RawImage>();fieldImage.texture=fieldTarget;fieldImage.raycastTarget=false;
+            Field=Rect(SafeRoot,"Field",0,60,390,520);fieldImage=Field.gameObject.AddComponent<RawImage>();fieldImage.texture=fieldTarget;fieldImage.raycastTarget=false;Field.SetAsFirstSibling();
             guardLink=Strip(Field,"Guard link",Jade);actionLink=Strip(Field,"Core intention",Gold);
             ghost=Rect(Field,"Legal destination",0,0,34,18);ghost.gameObject.AddComponent<Image>().color=new Color(.8f,.95f,.8f,.25f);ghost.GetComponent<Image>().raycastTarget=false;
             foreach(var u in Fixture.Baseline().Units)
             {
-                var r=Rect(Field,"HP "+u.Id,0,0,44,22);r.gameObject.AddComponent<Image>().color=new Color(.025f,.06f,.065f,.96f);
-                badges[u.Id]=r.gameObject.AddComponent<CanvasGroup>();
-                hpTexts[u.Id]=Label(r,"Value",u.Id,1,0,42,18,10,TextAnchor.MiddleCenter);
-                var bar=Rect(r,"HP bar",4,20,36,2).gameObject.AddComponent<Image>();bar.color=u.Enemy?new Color(.92f,.44f,.38f):Jade;
+                var r=Rect(Field,"HP "+u.Id,0,0,24,6);var track=r.gameObject.AddComponent<Image>();track.color=new Color(.025f,.06f,.065f,.96f);track.raycastTarget=false;
+                badges[u.Id]=r.gameObject.AddComponent<CanvasGroup>();badges[u.Id].blocksRaycasts=false;
+                var bar=Rect(r,"HP bar",1,1,22,4).gameObject.AddComponent<Image>();bar.color=u.Enemy?new Color(.92f,.44f,.38f):Jade;bar.raycastTarget=false;
                 hpBars[u.Id]=bar;
             }
             shield=Rect(Field,"Protect",0,0,24,24);shield.gameObject.AddComponent<Image>().color=new Color(.035f,.20f,.22f,.98f);
@@ -136,7 +136,11 @@ namespace RogueTactics.Presentation
             safeRect=area;screenW=width;screenH=height;
             SafeRoot.anchorMin=new Vector2(area.x/width,area.y/height);SafeRoot.anchorMax=new Vector2(area.xMax/width,area.yMax/height);SafeRoot.offsetMin=SafeRoot.offsetMax=Vector2.zero;
             Canvas.ForceUpdateCanvases();var h=SafeRoot.rect.height;var w=SafeRoot.rect.width;
-            var fieldH=Mathf.Max(280,h-(DeveloperMode?310:264));Field.anchoredPosition=new Vector2(0,-60);Field.sizeDelta=new Vector2(w,fieldH);controls.anchoredPosition=new Vector2(0,-(60+fieldH+8));
+            var fieldH=DeveloperMode?Mathf.Max(280,h-310):h;
+            Field.SetParent(DeveloperMode?SafeRoot:canvas.transform,false);Field.anchorMin=Field.anchorMax=new Vector2(0,1);Field.pivot=new Vector2(0,1);
+            var fullCanvas=canvas.GetComponent<RectTransform>().rect;
+            Field.anchoredPosition=new Vector2(0,DeveloperMode?-60:0);Field.sizeDelta=DeveloperMode?new Vector2(w,fieldH):fullCanvas.size;Field.SetAsFirstSibling();
+            controls.anchoredPosition=new Vector2(0,-(60+fieldH+8));
             var modalH=Mathf.Min(628,h-90);modal.sizeDelta=new Vector2(w-20,modalH);
             detailsViewport.sizeDelta=new Vector2(w-56,modalH-126);modalText.rectTransform.sizeDelta=new Vector2(w-56,modalText.rectTransform.sizeDelta.y);
             headline.rectTransform.sizeDelta=new Vector2(w-56,32);
@@ -149,14 +153,14 @@ namespace RogueTactics.Presentation
             ResizeButton("Compare",12,193,w-24);ResizeButton("Close",18,modalH-58,w-56);ResizeButton("Details",w-68,6,56);
             buttons["Close"].GetComponent<RectTransform>().anchoredPosition=new Vector2(18,-(modalH-58));
             LayoutProductHud(w,h,fieldH);
-            FieldCamera.aspect=w/fieldH;if(skyBackdrop!=null)skyBackdrop.localScale=new Vector3(FieldCamera.orthographicSize*2*FieldCamera.aspect,FieldCamera.orthographicSize*2,1);
+            FieldCamera.aspect=Field.rect.width/Field.rect.height;if(HqWorld)FieldCamera.orthographicSize=9.375f/FieldCamera.aspect;if(skyBackdrop!=null)skyBackdrop.localScale=new Vector3(FieldCamera.orthographicSize*2*FieldCamera.aspect,FieldCamera.orthographicSize*2,1);
             if(hp.Count>0)Refresh();
         }
         public void SetTestSafeArea(Rect area,int width,int height) {testViewport=true;ApplySafeArea(area,width,height);}
         // Keep the editable value visible; native keyboards can cover the lower setup controls.
         public void ApplyKeyboardArea(Rect keyboardArea,bool editing=false)
         {
-            var input=Prediction.GetComponent<RectTransform>();input.anchoredPosition=new Vector2(12,DeveloperMode?-54:-56);
+            var input=Prediction.GetComponent<RectTransform>();input.anchoredPosition=new Vector2(12,DeveloperMode?-54:-102);
             // Dock below the title while native editing owns focus. This also works during keyboard opening/area=0.
             if(editing && setup.gameObject.activeInHierarchy){input.position=SafeRoot.TransformPoint(new Vector3(12,-100,0));return;}
             if(keyboardArea.height<=0 || !setup.gameObject.activeInHierarchy)return;
@@ -182,9 +186,9 @@ namespace RogueTactics.Presentation
         {
             FieldCamera=new GameObject("Dungeon Camera").AddComponent<Camera>();FieldCamera.orthographic=true;FieldCamera.orthographicSize=5.4f;
             // Presentation-only spacing and a straight, steeper view preserve every Core cell.
-            var center=new Vector3(2*Cell,-1.4f,2*Cell*DepthSpacing-.4f);
+            var center=new Vector3(2*Cell,HqWorld?-2f-(!DeveloperMode && policyEditing?3.5f:0):-1.4f,2*Cell*DepthSpacing-.4f);
             FieldCamera.transform.position=center+Quaternion.Euler(0,CameraYaw,0)*new Vector3(0,Mathf.Sin(CameraPitch*Mathf.Deg2Rad)*21,-Mathf.Cos(CameraPitch*Mathf.Deg2Rad)*21);FieldCamera.transform.LookAt(center);FieldCamera.cullingMask=~(1<<5);
-            if(HqWorld)FieldCamera.orthographicSize=10f;
+            if(HqWorld)FieldCamera.orthographicSize=12f;
             FieldCamera.backgroundColor=HqWorld?new Color(.56f,.77f,.89f):new Color(.065f,.13f,.16f);FieldCamera.clearFlags=CameraClearFlags.SolidColor;
             // Same-camera Unity A/B showed the HQ post-process path dulling approved
             // sprites and sky. Keep their unprocessed sampling; retain local contact light.
@@ -201,7 +205,7 @@ namespace RogueTactics.Presentation
             var sun=new GameObject("Soft dungeon light").AddComponent<Light>();sun.type=LightType.Directional;sun.intensity=1.15f;sun.color=new Color(1,.91f,.76f);sun.shadows=LightShadows.Soft;sun.transform.rotation=Quaternion.Euler(55,-35,0);
             if(HqWorld)
             {
-                var ruins=HqSkyRuins.Build(RuinsTemplate,new Vector3(2*Cell,0,2*Cell*DepthSpacing),EnvironmentMeshes);ruins.AddComponent<HqAmbient>();
+                var ruins=HqSkyRuins.Build(RuinsTemplate,new Vector3(2*Cell,0,2*Cell*DepthSpacing),EnvironmentMeshes);ruins.transform.localScale=new Vector3(1,1,DepthSpacing/2f);ruins.AddComponent<HqAmbient>();
                 if(SkyTemplate!=null){var sky=GameObject.CreatePrimitive(PrimitiveType.Quad);sky.name="Procedural sky haze";Destroy(sky.GetComponent<Collider>());sky.transform.SetParent(FieldCamera.transform,false);skyBackdrop=sky.transform;sky.GetComponent<Renderer>().shadowCastingMode=ShadowCastingMode.Off;sky.transform.localPosition=new Vector3(0,0,90);sky.transform.localScale=new Vector3(50,50,1);sky.GetComponent<Renderer>().sharedMaterial=SkyTemplate;}
                 RenderSettings.ambientSkyColor=new Color(.58f,.70f,.80f);RenderSettings.ambientEquatorColor=new Color(.40f,.49f,.53f);RenderSettings.ambientGroundColor=new Color(.23f,.29f,.25f);sun.intensity=1.55f;sun.color=new Color(1,.93f,.78f);
             }
@@ -284,13 +288,13 @@ namespace RogueTactics.Presentation
         }
         public void Select(Preference p) {if(Session.Started || Busy)return;Session.Select(p);ResetProjection();Prediction.text="";Refresh();}
         public void ResetBaseline()
-        { if(Busy)return;Auto=false;Paused=false;Session.Reset();Prediction.text="";ResetProjection();Refresh(); }
+        { if(Busy)return;policyEditing=false;Auto=false;Paused=false;Session.Reset();Prediction.text="";ResetProjection();SetComparisonCamera(CameraPitch); }
         private void ResetProjection()
         {
             ClearRelation();frameIntervals.Clear();LastFrameReport=null;displayed.Clear();captions.Clear();dead.Clear();hp.Clear();positions.Clear();terminalSeen=false;shownStep=0;shownActor="";reaction="";foreach(var u in Session.Replay.State.Units){hp[u.Id]=u.Hp;positions[u.Id]=u.Position;}
             shield.gameObject.SetActive(false);guardLink.gameObject.SetActive(false);floating.text="";foreach(var b in badges.Values)b.alpha=1;
         }
-        private void StartBattle() {if(Session.Started || Busy)return;Session.Start(Prediction.text);Auto=!DeveloperMode;Next();}
+        private void StartBattle() {if(Session.Started || Busy)return;policyEditing=false;Prediction.DeactivateInputField();SetComparisonCamera(CameraPitch);Session.Start(Prediction.text);Auto=!DeveloperMode;Next();}
         private void Next() {if(Busy || !Session.Started || Session.Replay.State.Outcome!=Outcome.Active)return;StartCoroutine(ResolveAndDisplay());}
         private void ToggleAuto()
         { if(!Session.Started || terminalSeen)return;Auto=!Auto;Paused=!Auto;Refresh();if(Auto && !Busy)Next(); }
@@ -353,8 +357,7 @@ namespace RogueTactics.Presentation
             {
                 var p=positions[u.Id];if(!visualTweenActive)pawns[u.Id].position=World(p);pawns[u.Id].gameObject.SetActive(!dead.Contains(u.Id));
                 var body=ProjectedBody(bodies[u.Id]);if(!dead.Contains(u.Id))bodyRects[u.Id]=body;
-                badges[u.Id].GetComponent<RectTransform>().anchoredPosition=new Vector2(body.center.x-22,body.yMin-5);
-                badges[u.Id].gameObject.SetActive(!dead.Contains(u.Id));hpTexts[u.Id].text=u.Id+" "+hp[u.Id];hpBars[u.Id].rectTransform.sizeDelta=new Vector2(36f*hp[u.Id]/u.MaxHp,2);
+                badges[u.Id].gameObject.SetActive(!dead.Contains(u.Id));hpBars[u.Id].rectTransform.sizeDelta=new Vector2(22f*hp[u.Id]/u.MaxHp,4);
             }
             LayoutFootBadges();RefreshRelationCues();
         }
@@ -386,11 +389,12 @@ namespace RogueTactics.Presentation
         private static string PlanName(ActionKind kind) => kind==ActionKind.Protect?"守護":kind==ActionKind.Attack?"攻撃":kind==ActionKind.Heal?"回復":kind==ActionKind.Move?"移動":"待機";
         private void OpenDetails(bool trials)
         {
+            showingResults=trials;
             if(trials)
             {
                 headline.text="結果と事前予想";
                 modalText.text=string.Join("\n\n",new[]{Preference.ProtectAnchor,Preference.DirectAttack}.Where(p=>Session.Trials.ContainsKey(p)).Select(p=>{
-                    var t=Session.Trials[p];return (p==Preference.ProtectAnchor?"B：Aを守る":"B：直接攻撃")+"\n"+(t.Outcome==Outcome.Victory?"勝利":"終了")+" / "+t.Actions+"行動 / 生存 "+t.Alive+"人\nHP "+t.Hp+"\n回復残数 "+t.Heals+"\n予想："+(t.Prediction==""?"（未入力）":t.Prediction)+"\nSHA "+t.Hash.Substring(0,16);
+                    var t=Session.Trials[p];return (p==Preference.ProtectAnchor?"モモ：シロのそばで守る":"モモ：近くの敵を攻める")+"\n"+(t.Outcome==Outcome.Victory?"勝利":"終了")+" / "+t.Actions+"行動 / 生存 "+t.Alive+"人\nHP "+t.Hp.Replace("A:","シロ:").Replace("B:","モモ:").Replace("C:","ガル:").Replace("D:","ミャル:")+"\n回復残数 "+t.Heals+"\n予想："+(t.Prediction==""?"（未入力）":t.Prediction)+(DeveloperMode?"\nSHA "+t.Hash.Substring(0,16):"");
                 }));
             }
             else
@@ -399,17 +403,20 @@ namespace RogueTactics.Presentation
                 modalText.text="青：仲間の位置 / 赤：敵の位置\nA–Dは匿名の実験役です。\n外見の仮対応：Aシロ / Bモモ / Cガル / Dミャル\n正式キャラのスキルや能力は確定していません。\n\nA：HP18 / 攻撃5 / 生存被弾後に反撃2\nB：HP16 / 攻撃4 / 隣接Aを守り被弾を3軽減\nC：HP12 / 攻撃4 / Aも同じ敵に隣接時＋2\nD：HP10 / 攻撃2 / 射程2で4回復（残2回）\nX：HP18 / 攻撃6、Y：HP14 / 攻撃5\n\n順番 B→X→A→C→Y→D（死者を除外）\n敵は生存A優先。その他は距離→ID順。\n移動は距離が縮む空き隣接マス。\nBの次行動・死亡・離隔で守護は失効。\n回復はHPが4以上欠けた生存味方に行う。\n\n2条件はBの選好以外すべて同じ。\n数値は実験用で、どちらも推奨しません。\n次の意図・再生単位はG1検証用であり、\n正式なhorizon/chunkは未決です。";
             }
             if(Session.Started && !terminalSeen){Auto=false;Paused=true;Refresh();}
-            modalObject.SetActive(true);modalObject.transform.SetAsLastSibling();detailsViewport.GetComponent<ScrollRect>().verticalNormalizedPosition=1;
+            LayoutDetails();modalObject.SetActive(true);modalObject.transform.SetAsLastSibling();detailsViewport.GetComponent<ScrollRect>().verticalNormalizedPosition=1;
         }
         private Vector2 Point(GridPosition p,float y=.7f)
         {var v=FieldCamera.WorldToViewportPoint(World(p,y));return new Vector2(v.x*Field.rect.width,-(1-v.y)*Field.rect.height);}
         private Rect ProjectedBody(Renderer body)
         {
-            var bounds=body.localBounds;var min=new Vector2(float.MaxValue,float.MaxValue);var max=new Vector2(float.MinValue,float.MinValue);
-            for(var i=0;i<8;i++)
+            // Cache immutable local vertices; a projected world box includes empty corners
+            // around round enemies and displaces their health/interaction anchors.
+            if(!bodyVertices.TryGetValue(body,out var vertices))
+            {vertices=body.GetComponent<MeshFilter>().sharedMesh.vertices;bodyVertices[body]=vertices;}
+            var min=new Vector2(float.MaxValue,float.MaxValue);var max=new Vector2(float.MinValue,float.MinValue);
+            foreach(var vertex in vertices)
             {
-                var corner=bounds.center+Vector3.Scale(bounds.extents,new Vector3((i&1)==0?-1:1,(i&2)==0?-1:1,(i&4)==0?-1:1));
-                var v=FieldCamera.WorldToViewportPoint(body.transform.TransformPoint(corner));var p=new Vector2(v.x*Field.rect.width,-(1-v.y)*Field.rect.height);min=Vector2.Min(min,p);max=Vector2.Max(max,p);
+                var v=FieldCamera.WorldToViewportPoint(body.transform.TransformPoint(vertex));var p=new Vector2(v.x*Field.rect.width,-(1-v.y)*Field.rect.height);min=Vector2.Min(min,p);max=Vector2.Max(max,p);
             }
             return UnityEngine.Rect.MinMaxRect(min.x,min.y,max.x,max.y);
         }

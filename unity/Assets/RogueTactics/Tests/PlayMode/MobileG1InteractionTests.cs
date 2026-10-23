@@ -131,7 +131,14 @@ namespace RogueTactics.Tests
             view.ApplyKeyboardArea(Rect.zero);Assert.That(input.anchoredPosition,Is.EqualTo(origin));
             foreach(var developer in new[]{false,true})
             {
-                view.SetDeveloperMode(developer);var resting=input.anchoredPosition;
+                view.SetDeveloperMode(developer);yield return null;yield return null;
+                if(!developer)
+                {
+                    yield return Capture("keyboard-product-before-policy");
+                    Click(view,"Policy");yield return null;yield return null;
+                    Assert.That(view.Prediction.gameObject.activeInHierarchy,Is.True,"Open Momo's policy panel before editing its prediction");
+                }
+                var resting=input.anchoredPosition;
                 view.ApplyKeyboardArea(Rect.zero,true);Canvas.ForceUpdateCanvases();
                 var docked=new Vector3[4];input.GetWorldCorners(docked);
                 Assert.That(RectTransformUtility.WorldToScreenPoint(Camera.main,docked[0]).y,Is.GreaterThan(600),"Editing stays above tall keyboard even before area is reported");

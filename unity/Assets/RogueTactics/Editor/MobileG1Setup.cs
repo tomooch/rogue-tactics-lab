@@ -22,7 +22,7 @@ namespace RogueTactics.Editor
             var scene=EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
             var camera=new GameObject("Mobile HUD Camera").AddComponent<Camera>();camera.tag="MainCamera";camera.clearFlags=CameraClearFlags.SolidColor;camera.orthographic=true;camera.orthographicSize=5;camera.transform.position=new Vector3(0,0,-10);
             var view=new GameObject("Mobile G1 Experiment").AddComponent<MobileG1View>();
-            view.HqWorld=true;view.CameraPitch=45;view.CameraYaw=0;view.EventMotion=true;
+            view.HqWorld=true;view.CameraPitch=35.264f;view.CameraYaw=-45;view.EventMotion=true;
             view.JapaneseFont=AssetDatabase.LoadAssetAtPath<Font>(Art+"NotoSansJP.ttf");
             var authoredPaths=Directory.GetFiles("Assets/RogueTactics/Art/HqRuins", "*.obj").OrderBy(p=>p).ToArray();
             foreach(var path in authoredPaths)

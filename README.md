@@ -56,7 +56,7 @@ iOS exportは`RogueTactics.Editor.MobileG1Setup.ExportIos`、game専用IDは`com
 
 ## HQ Reference G1 candidate — Issue #20
 
-[Issue #20](https://github.com/tomooch/rogue-tactics-lab/issues/20) と監査コメントを基に、PR #17 exact HEADへstackするHQ-REF-1候補です。上のbuild3操作説明に代わり、通常画面は「シロを守る / 敵へ攻める」→任意予想→「仲間に託す」。仲間が自動行動し、「一時停止 / 再開」で観察します。終了後「結果・予想を比較」と「方針を変えて、もう一度」で両条件を試せます。「記録」はルール・開発用単発操作・軽量描画への導線です。正式chunk/horizonの採用ではありません。
+[Issue #20](https://github.com/tomooch/rogue-tactics-lab/issues/20) と監査コメントを基に、PR #17 exact HEADへstackするHQ-REF-1候補です。上のbuild3操作説明に代わり、通常画面は下部のモモのカードから方針を開き、「シロのそばで守る / 近くの敵を攻める」を選びます。同じパネルで任意の予想を残し、閉じて「この方針で戦闘開始」。仲間が自動行動し、「一時停止 / 再開」で観察します。終了後「予想と結果を比べる」と「もう一度試す」で両条件を試せます。「記録」はルール・開発用単発操作・軽量描画への導線です。正式chunk/horizonの採用ではありません。
 
 実Unity 3D遺跡、既存承認skin、portrait/実HP、Core由来actor order、表示カーソルを保持するpause、Core eventだけの動きとfeedbackを比較します。最終画質・面白さのHuman GO、実機QA、true authored gait #13、G2探索は別ゲートです。
 

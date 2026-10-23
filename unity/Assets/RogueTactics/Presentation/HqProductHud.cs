@@ -18,11 +18,19 @@ namespace RogueTactics.Presentation
         private string shownActor="", reaction="";
         private Text orderLabel;
         private bool reducedEffects;
+        private bool policyEditing;
+        private Text policyHeading;
+        private Image policyBackdrop, eventBackdrop;
         private static readonly string[] CardOrder={"A","D","C","B"};
         private static string HeroName(string id)=>id=="A"?"シロ":id=="D"?"ミャル":id=="C"?"ガル":id=="B"?"モモ":id=="X"?"苔の精":"花の精";
-        public void SetDeveloperMode(bool enabled){DeveloperMode=enabled;ApplySafeArea(safeRect,screenW,screenH);Refresh();}
+        public void SetDeveloperMode(bool enabled){DeveloperMode=enabled;policyEditing=false;ApplySafeArea(safeRect,screenW,screenH);SetComparisonCamera(CameraPitch);}
         private void BuildProductHud()
         {
+            buttons["Start"].transform.SetParent(controls,false);
+            policyBackdrop=setup.gameObject.AddComponent<Image>();policyBackdrop.color=new Color(.035f,.08f,.11f,.96f);policyBackdrop.raycastTarget=false;
+            policyHeading=Label(setup,"Policy owner","モモにどう動いてほしい？",18,8,270,30,15);
+            MakeButton(setup,"ClosePolicy","閉じる",302,0,76,44,()=>{Prediction.DeactivateInputField();policyEditing=false;SetComparisonCamera(CameraPitch);},12);
+            eventBackdrop=Rect(battleControls,"Event contrast",12,0,246,48).gameObject.AddComponent<Image>();eventBackdrop.color=new Color(.035f,.08f,.11f,.86f);eventBackdrop.raycastTarget=false;eventBackdrop.transform.SetAsFirstSibling();
             // Derive the regular fixture order from Core-authored Action events. No action plans/results are shown here.
             var probe=new Replay(Fixture.Baseline(),Preference.ProtectAnchor);
             for(var i=0;i<6;i++)
@@ -39,41 +47,62 @@ namespace RogueTactics.Presentation
                 if(id.Length==1 && id[0]>='A' && id[0]<='D'){var icon=Rect(r,"Actor portrait",0,0,24,28).gameObject.AddComponent<RawImage>();icon.texture=CharacterArt[id[0]-'A'];icon.uvRect=new Rect(.18f,.43f,.64f,.5f);icon.raycastTarget=false;}
                 Label(r,"Actor",HeroName(id),24,3,31,23,10,TextAnchor.MiddleCenter);
             }
-            roster=Rect(SafeRoot,"Companion portraits",12,0,366,72);
+            roster=Rect(SafeRoot,"Companion portraits",12,0,366,88);
             foreach(var id in CardOrder)
             {
-                var r=Rect(roster,"Companion "+id,0,0,86,72);var panel=r.gameObject.AddComponent<Image>();panel.color=new Color(.045f,.10f,.15f,.97f);panel.raycastTarget=false;
+                var r=Rect(roster,"Companion "+id,0,0,86,88);var panel=r.gameObject.AddComponent<Image>();panel.color=new Color(.045f,.10f,.15f,.90f);panel.raycastTarget=id=="B";
                 var edge=r.gameObject.AddComponent<Outline>();edge.effectColor=new Color(.65f,.71f,.64f,.6f);edge.effectDistance=new Vector2(1,-1);
-                var portrait=Rect(r,"Approved portrait",16,1,54,37).gameObject.AddComponent<RawImage>();portrait.texture=CharacterArt[id[0]-'A'];portrait.uvRect=new Rect(.18f,.51f,.64f,.33f);portrait.raycastTarget=false;
-                Label(r,"Name",HeroName(id),3,38,80,17,11,TextAnchor.MiddleCenter);
-                cardValues[id]=Label(r,"Actual HP","",3,54,80,15,10,TextAnchor.MiddleCenter);
-                var track=Rect(r,"Health track",6,70,74,2).gameObject.AddComponent<Image>();track.color=new Color(.12f,.22f,.25f);track.raycastTarget=false;
-                var bar=Rect(r,"Actual health",6,70,74,2).gameObject.AddComponent<Image>();bar.color=Jade;bar.raycastTarget=false;cardHealth[id]=bar;
+                var portrait=Rect(r,"Approved portrait",7,4,68,47).gameObject.AddComponent<RawImage>();portrait.texture=CharacterArt[id[0]-'A'];portrait.uvRect=new Rect(.18f,.51f,.64f,.33f);portrait.raycastTarget=false;
+                Label(r,"Name",id=="B"?"モモ・方針変更":HeroName(id),3,54,80,17,11,TextAnchor.MiddleCenter);
+                cardValues[id]=Label(r,"Actual HP","",3,71,80,15,10,TextAnchor.MiddleCenter);
+                var track=Rect(r,"Health track",6,86,74,2).gameObject.AddComponent<Image>();track.color=new Color(.12f,.22f,.25f);track.raycastTarget=false;
+                var bar=Rect(r,"Actual health",6,86,74,2).gameObject.AddComponent<Image>();bar.color=Jade;bar.raycastTarget=false;cardHealth[id]=bar;
+                if(id=="B")
+                {
+                    edge.effectColor=Gold;
+                    var policy=r.gameObject.AddComponent<Button>();policy.targetGraphic=panel;buttons["Policy"]=policy;
+                    policy.onClick.AddListener(()=>{if(Session.Started)return;policyEditing=!policyEditing;SetComparisonCamera(CameraPitch);});
+                }
             }
             MakeButton(modal,"Effects","描画：通常",18,480,334,44,()=>{reducedEffects=!reducedEffects;if(AmbientOcclusion!=null)AmbientOcclusion.SetActive(!reducedEffects);if(runtimeProfile!=null)foreach(var effect in runtimeProfile.components)effect.active=!reducedEffects;var ambient=FindFirstObjectByType<HqAmbient>();if(ambient!=null)ambient.SetReduced(reducedEffects);buttons["Effects"].GetComponentInChildren<Text>().text=reducedEffects?"描画：軽量":"描画：通常";},13);
             MakeButton(modal,"Diagnostics","開発用コントロール",18,535,334,44,()=>{modalObject.SetActive(false);SetDeveloperMode(!DeveloperMode);},13);
         }
         private void LayoutProductHud(float w,float h,float fieldH)
         {
-            roster.anchoredPosition=new Vector2(12,-(60+fieldH+4));roster.sizeDelta=new Vector2(w-24,72);
+            roster.anchoredPosition=new Vector2(12,-(h-150));roster.sizeDelta=new Vector2(w-24,88);
             for(var i=0;i<CardOrder.Length;i++)
-            {var r=cardValues[CardOrder[i]].transform.parent.GetComponent<RectTransform>();r.anchoredPosition=new Vector2(i*(w-20)/4,0);r.sizeDelta=new Vector2((w-36)/4,72);}
-            controls.anchoredPosition=new Vector2(0,-(h-120));
-            SafeRoot.Find("Title").GetComponent<RectTransform>().sizeDelta=new Vector2(250,37);
-            var boundary=SafeRoot.Find("Boundary").GetComponent<Text>();boundary.rectTransform.anchoredPosition=new Vector2(16,-36);boundary.rectTransform.sizeDelta=new Vector2(300,22);boundary.fontSize=12;
-            orderStrip.sizeDelta=new Vector2(w-16,49);
+            {var r=cardValues[CardOrder[i]].transform.parent.GetComponent<RectTransform>();r.anchoredPosition=new Vector2(i*(w-20)/4,0);r.sizeDelta=new Vector2((w-36)/4,88);}
+            controls.anchoredPosition=new Vector2(0,-(h-54));
+            SafeRoot.Find("Title").GetComponent<RectTransform>().sizeDelta=new Vector2(242,30);
+            var boundary=SafeRoot.Find("Boundary").GetComponent<Text>();boundary.rectTransform.anchoredPosition=new Vector2(24,-44);boundary.rectTransform.sizeDelta=new Vector2(242,18);boundary.fontSize=11;
+            orderStrip.sizeDelta=new Vector2(DeveloperMode?w-16:208,49);orderStrip.anchoredPosition=DeveloperMode?new Vector2(8,-8):(Vector2)Field.InverseTransformPoint(SafeRoot.TransformPoint(new Vector3(12,-76,0)));
+            setup.sizeDelta=new Vector2(w,158);policyHeading.rectTransform.sizeDelta=new Vector2(w-108,30);ResizeButton("ClosePolicy",w-88,0,76);
+            eventBackdrop.rectTransform.sizeDelta=new Vector2(w-140,48);
             ResizeButton("Diagnostics",18,modal.rect.height-112,w-56);ResizeButton("Effects",18,modal.rect.height-166,w-56);
-            detailsViewport.sizeDelta=new Vector2(w-56,modal.rect.height-229);
+            LayoutDetails();
+        }
+        private void LayoutDetails()
+        {
+            var result=showingResults && !DeveloperMode;var w=SafeRoot.rect.width;var h=SafeRoot.rect.height;
+            var height=result?Mathf.Min(h-100,Session.Trials.Count>1?440:300):Mathf.Min(628,h-90);
+            modal.sizeDelta=new Vector2(w-20,height);modal.anchoredPosition=new Vector2(10,-(result?(h-height)/2:66));
+            detailsViewport.sizeDelta=new Vector2(w-56,height-(result?126:229));
+            ResizeButton("Close",18,height-58,w-56);
+            buttons["Effects"].gameObject.SetActive(!result);buttons["Diagnostics"].gameObject.SetActive(!result);
+            ResizeButton("Effects",18,height-166,w-56);ResizeButton("Diagnostics",18,height-112,w-56);
         }
         private void RefreshProductHud()
         {
             if(roster==null)return;
             var active=Session.Started;
+            buttons["Start"].gameObject.SetActive(!active);buttons["Policy"].interactable=!active;
+            policyBackdrop.enabled=!DeveloperMode;policyHeading.gameObject.SetActive(!DeveloperMode);buttons["ClosePolicy"].gameObject.SetActive(!DeveloperMode);
+            SafeRoot.Find("Boundary").GetComponent<Text>().text=active?(terminalSeen?"方針と結果を振り返る":"仲間が自分で動く戦いを見守る"):"モモのカードで方針と予想を決める";
             phase.text=active?(terminalSeen?"戦いを振り返る":"仲間の戦いを見守る"):"モモに託す方針を選ぶ";
             if(!DeveloperMode)
             {
-                setup.gameObject.SetActive(!active);
-                setup.anchoredPosition=Vector2.zero;battleControls.anchoredPosition=Vector2.zero;
+                setup.gameObject.SetActive(!active && policyEditing);
+                setup.anchoredPosition=new Vector2(0,264);battleControls.anchoredPosition=Vector2.zero;
                 // The lower shelf is contextual; laboratory single stepping is available only through Record > developer controls.
                 phase.gameObject.SetActive(false);intent.gameObject.SetActive(false);
                 buttons["Next"].gameObject.SetActive(false);
@@ -81,26 +110,27 @@ namespace RogueTactics.Presentation
                 buttons["Reset"].gameObject.SetActive(terminalSeen);
                 // Completed trials are compared before leaving the result shelf; setup owns input/start space.
                 buttons["Compare"].gameObject.SetActive(terminalSeen);
-                eventCaption.rectTransform.anchoredPosition=new Vector2(16,0);eventCaption.rectTransform.sizeDelta=new Vector2(SafeRoot.rect.width-32,42);eventCaption.fontSize=14;
-                ResizeButton("Play",12,52,SafeRoot.rect.width-24);ResizeButton("Reset",12,52,(SafeRoot.rect.width-30)*.6f);
-                buttons["Reset"].GetComponentInChildren<Text>().text="方針を変えて、もう一度";
-                ResizeButton("Compare",18+(SafeRoot.rect.width-30)*.6f,52,(SafeRoot.rect.width-30)*.4f);
-                buttons["Compare"].GetComponentInChildren<Text>().text="予想と結果を比較";
-                buttons["Play"].GetComponentInChildren<Text>().text=Auto?"一時停止 / 観察する":"再開する";
-                ResizeButton("Protect",12,0,(SafeRoot.rect.width-30)/2);ResizeButton("Attack",18+(SafeRoot.rect.width-30)/2,0,(SafeRoot.rect.width-30)/2);
-                buttons["Protect"].GetComponentInChildren<Text>().text="シロを守る";buttons["Attack"].GetComponentInChildren<Text>().text="敵へ攻める";
-                Prediction.GetComponent<RectTransform>().anchoredPosition=new Vector2(12,-56);
-                var inputWidth=(SafeRoot.rect.width-30)*.6f;Prediction.GetComponent<RectTransform>().sizeDelta=new Vector2(inputWidth,44);
-                Prediction.textComponent.rectTransform.sizeDelta=new Vector2(inputWidth-20,40);Prediction.placeholder.GetComponent<RectTransform>().sizeDelta=new Vector2(inputWidth-20,40);
-                Prediction.placeholder.GetComponent<Text>().text="予想（任意）";
-                ResizeButton("Start",18+(SafeRoot.rect.width-30)*.6f,56,(SafeRoot.rect.width-30)*.4f);buttons["Start"].GetComponentInChildren<Text>().text="仲間に託す";
+                eventCaption.gameObject.SetActive(!terminalSeen);eventBackdrop.gameObject.SetActive(!terminalSeen);
+                eventCaption.rectTransform.anchoredPosition=new Vector2(18,-4);eventCaption.rectTransform.sizeDelta=new Vector2(SafeRoot.rect.width-152,40);eventCaption.fontSize=12;eventCaption.text=captions.LastOrDefault()??"仲間の戦いが始まります";
+                ResizeButton("Play",SafeRoot.rect.width-116,0,104);ResizeButton("Reset",12,0,(SafeRoot.rect.width-30)/2);
+                buttons["Reset"].GetComponentInChildren<Text>().text="もう一度試す";
+                ResizeButton("Compare",18+(SafeRoot.rect.width-30)/2,0,(SafeRoot.rect.width-30)/2);buttons["Compare"].GetComponentInChildren<Text>().text="予想と結果を比べる";
+                buttons["Play"].GetComponentInChildren<Text>().text=Auto?"一時停止":"再開する";
+                ResizeButton("Protect",12,46,(SafeRoot.rect.width-30)/2);ResizeButton("Attack",18+(SafeRoot.rect.width-30)/2,46,(SafeRoot.rect.width-30)/2);
+                buttons["Protect"].GetComponentInChildren<Text>().text="シロのそばで守る";buttons["Attack"].GetComponentInChildren<Text>().text="近くの敵を攻める";
+                buttons["Protect"].GetComponentInChildren<Text>().fontSize=14;buttons["Attack"].GetComponentInChildren<Text>().fontSize=14;
+                Prediction.GetComponent<RectTransform>().anchoredPosition=new Vector2(12,-102);Prediction.GetComponent<RectTransform>().sizeDelta=new Vector2(SafeRoot.rect.width-24,44);
+                Prediction.textComponent.rectTransform.sizeDelta=new Vector2(SafeRoot.rect.width-44,40);Prediction.placeholder.GetComponent<RectTransform>().sizeDelta=new Vector2(SafeRoot.rect.width-44,40);Prediction.placeholder.GetComponent<Text>().text="戦いの予想を残す（任意）";
+                ResizeButton("Start",12,0,SafeRoot.rect.width-24);var startLabel=buttons["Start"].GetComponentInChildren<Text>();startLabel.text="この方針で戦闘開始";startLabel.fontSize=17;startLabel.color=new Color(.075f,.12f,.13f);buttons["Start"].GetComponent<Image>().color=Gold;
+                foreach(var id in new[]{"Play","Reset","Compare"})buttons[id].GetComponentInChildren<Text>().fontSize=14;
             }
             else
             {
-                setup.anchoredPosition=new Vector2(0,-26);battleControls.anchoredPosition=new Vector2(0,-26);
+                setup.gameObject.SetActive(!active);setup.anchoredPosition=new Vector2(0,-26);battleControls.anchoredPosition=new Vector2(0,-26);eventCaption.gameObject.SetActive(true);eventBackdrop.gameObject.SetActive(false);
                 Prediction.GetComponent<RectTransform>().anchoredPosition=new Vector2(12,-54);
                 phase.gameObject.SetActive(true);intent.gameObject.SetActive(true);buttons["Reset"].GetComponentInChildren<Text>().text="戻す";
                 ResizeButton("Next",12,108,(SafeRoot.rect.width-118)/2);ResizeButton("Play",20+(SafeRoot.rect.width-118)/2,108,(SafeRoot.rect.width-118)/2);ResizeButton("Reset",SafeRoot.rect.width-90,108,78);ResizeButton("Compare",12,193,SafeRoot.rect.width-24);
+                ResizeButton("Start",12,134,SafeRoot.rect.width-24);ResizeButton("Protect",12,0,(SafeRoot.rect.width-30)/2);ResizeButton("Attack",18+(SafeRoot.rect.width-30)/2,0,(SafeRoot.rect.width-30)/2);
                 eventCaption.rectTransform.sizeDelta=new Vector2(SafeRoot.rect.width-32,54);intent.rectTransform.anchoredPosition=new Vector2(16,-59);buttons["Next"].gameObject.SetActive(true);buttons["Play"].gameObject.SetActive(true);buttons["Reset"].gameObject.SetActive(true);buttons["Compare"].gameObject.SetActive(true);
                 // QA uses the existing full-size transport shelf; it deliberately covers the portrait row.
                 controls.anchoredPosition=new Vector2(0,-(60+Field.rect.height-4));roster.gameObject.SetActive(false);
@@ -108,15 +138,20 @@ namespace RogueTactics.Presentation
             if(!DeveloperMode)roster.gameObject.SetActive(true);
             foreach(var id in CardOrder)
             {var u=Fixture.Baseline().Find(id);cardValues[id].text="HP "+hp[id]+" / "+u.MaxHp;cardHealth[id].rectTransform.sizeDelta=new Vector2(74f*hp[id]/u.MaxHp,2);}
+            cardValues["B"].transform.parent.Find("Name").GetComponent<Text>().text=Session.Preference==Preference.ProtectAnchor?"モモ：守る":"モモ：攻める";
             orderStrip.gameObject.SetActive(active && !terminalSeen);
             var start=initiative.IndexOf(shownActor);if(start<0)start=0;var slot=0;
             for(var i=0;i<initiative.Count;i++)
             {
                 var id=initiative[(start+i)%initiative.Count];var f=orderFrames[id];f.gameObject.SetActive(!dead.Contains(id));if(dead.Contains(id))continue;
                 f.rectTransform.anchoredPosition=new Vector2(slot*(Field.rect.width-24)/6,-19);slot++;
+                var actorLabel=f.transform.Find("Actor").GetComponent<Text>();actorLabel.gameObject.SetActive(DeveloperMode || id=="X" || id=="Y");
+                if(!DeveloperMode)
+                {f.rectTransform.anchoredPosition=new Vector2((slot-1)*34,-19);f.rectTransform.sizeDelta=new Vector2(32,28);actorLabel.text=id=="X"?"苔":id=="Y"?"花":HeroName(id);actorLabel.rectTransform.anchoredPosition=Vector2.zero;actorLabel.rectTransform.sizeDelta=new Vector2(32,26);}
                 f.color=id==shownActor?new Color(.50f,.36f,.12f,.97f):new Color(.04f,.12f,.18f,.92f);
             }
             orderLabel.text=reaction!=""?reaction:relationActor!="" && relationTarget!=""?HeroName(relationActor)+" → "+HeroName(relationTarget)+" / "+PlanName(relationKind):"行動順  •  "+(shownActor==""?"開始":HeroName(shownActor)+" 行動中");orderLabel.rectTransform.sizeDelta=new Vector2(340,19);
+            if(!DeveloperMode){orderLabel.text="行動順";orderLabel.rectTransform.sizeDelta=new Vector2(208,19);}
         }
     }
 }
