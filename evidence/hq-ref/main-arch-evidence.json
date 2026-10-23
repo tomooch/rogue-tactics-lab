@@ -97,8 +97,8 @@
   "private_evidence": "Owner-local _userwork/hq-evidence/2026-10-24-party-emphasis/: main-arch-private-comparison.html, arch-main-source-b/corrected-main-arch.blend, arch-main-unity-b/, arch-main-full/. Local paths are not evidence of cross-session share success.",
   "R2": "V0 FAIL",
   "Human_quality": "unverified",
-  "Simulator_current_candidate": "not run",
-  "TestFlight_current_candidate": "not archived/uploaded",
+  "Simulator_current_candidate": "Fresh exact runtime a74acb3 export/build/install/launch/live bothflows and full native hashes observed. See main-arch-native-observation.json.",
+  "TestFlight_current_candidate": "No archive/upload; ASC /apps redirects to login authResult=FAILED; current build/group not accessible.",
   "decision": "RETAIN_LIMITED_STRUCTURAL_REPAIR_IN_DRAFT; not R2/Human acceptance",
   "verified_source_files": {
     "tools/author_sky_ruins.py": "f24accceffcce18a1be91c412b6b69d6a88bc6a1d0b372c4a33112d42adc0e92",
