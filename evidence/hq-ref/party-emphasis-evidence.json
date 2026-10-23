@@ -51,5 +51,70 @@
   "xml_sha256": {
     "EditMode.xml": "436e06062a80ad78a9854d716af7cd614ead62d46a739a9600256250a9f59685",
     "PlayMode.xml": "c2559176267fec3d66ccfa9fe60147e6509a37b85db42e7bbc56483edfda9126"
+  },
+  "backdrop_layout": {
+    "review": {
+      "decision": "REJECT_SCATTERED_PROPS_AND_ORPHANED_VEGETATION",
+      "root_observed": [
+        "r1-setup",
+        "DirectAttack-counter",
+        "r1-policy",
+        "ProtectAnchor-guard"
+      ],
+      "independent_pixel_review": "Compared baseline/candidate setup and policy: four similarly shaped separate plinths read as floating props, flower/leaf cluster orphaned, no coherent distant layer; agrees reject. UI remains legible.",
+      "runtime_source": "8d3cec9 plus exact prototype OBJ patch; evidence-only HEAD advanced to8adbdc2 during job",
+      "job_status": "failed postrun artifact guard, not runtime test failure",
+      "artifact_guard": "artifact-guard-review.json records normalized scene-ID-only equality and fresh-capture recovery",
+      "underlying_tests": {
+        "Configure_exit": 0,
+        "Edit_total": 0,
+        "Play_passed": 1,
+        "both_fixed_hashes": "matched by assertions"
+      },
+      "full_suite": "not run on rejected prototype",
+      "Simulator": "not run",
+      "R2": "V0 FAIL"
+    },
+    "source_invariants": {
+      "existing_islet_count": 4,
+      "vertices": 1200,
+      "triangles": 400,
+      "vertex_RGB_same": true,
+      "UV_faces_other_records_same": true,
+      "no_added_geometry": true,
+      "candidate_only": "OBJ positions/normals transformed; original generator integration is deferred unless visual candidate retained"
+    },
+    "capture_SHA256": {
+      "r1-setup": "5be7a9e6b64362880b6ef9be17c3d164b078318363f205723ff79b20670f73f4",
+      "r1-policy": "b10466c2578892790defc29581faeb5a52e382738346fcdc621e1e83a2aa0119",
+      "ProtectAnchor-guard": "3967a91ec94ed68c06d0623d5ccb95a181aa194cb8ec9344f002eacc20ac9618",
+      "ProtectAnchor-heal": "56d69533c84f84846778a8ecee2e54f4072904b80753b128168e4d652bcb65e8",
+      "DirectAttack-counter": "fd1d4fedd53c1c6aeb9d936ec70ec5f3cff0582ffc31dac89a8f14a1fccf2c3c",
+      "DirectAttack-death": "8b1bce9a47dee9adf0b30c425f2025bd3d67bad58414fe03f7424c2d3aea9432",
+      "ProtectAnchor-comparison": "4748684f66d803e2199dc507db0c34fd4979c6c3c210758088fdeb3063396200",
+      "DirectAttack-comparison": "5d1dd17b896d131e0617b22d5fa1bda7ed6b40727d31ae0fc533fe495f94d764"
+    },
+    "artifact_guard_review": {
+      "job_exit": 1,
+      "cause": "Harness incorrectly froze generated scene object IDs before Configure; guard failed after successful test and before image copy.",
+      "Configure_exit": 0,
+      "EditMode_total": 0,
+      "PlayMode_passed": 1,
+      "normalized_scene_identical": "Exact text equality after bijective local objectID renaming only; GUIDs and values untouched",
+      "source_manifest_unchanged": true,
+      "configured_scene_sha_matches": true,
+      "captures_recovered": 8,
+      "capture_mtime_within_exact_job": true,
+      "not_full_suite": true,
+      "repair": "Audit expected Configure IDs separately; freeze already configured source/assets before subsequent verification."
+    },
+    "restore": "All3 task-owned OBJ/importedMesh/Scene restored byte-identically to8adbdc2; Unity diff0; no fullsuite/newnative repeated on rejected prototype"
+  },
+  "next_source_gate": {
+    "question": "Replace scattered-prop reasoning with one structurally supported original arch silhouette atop the retained original west islet. No runtime integration yet.",
+    "source_job_failed": "1a3eb40b: missing Python stdlib and OCIO resources in old temporary Blender installation; model script not executed",
+    "repair_job": "684b4319-ecb8-46ea-bda1-d0854d65e0eb",
+    "status": "repair_then_Blender_source_preview_started; not Unity acceptance",
+    "privacy": "No reference/skin pixels in source job or new external service; official free tool restore uses old exact installer SHA"
   }
 }
