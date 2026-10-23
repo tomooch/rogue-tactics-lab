@@ -33,8 +33,23 @@ D's keyboard failure returned0hits immediately after a mode switch. Waiting for 
 
 The repaired presentation is kept in the Draft branch for concrete review, not treated as accepted main or finished art. Human requested these UI defects be resolved before rejecting the angle/cast; the old black-label screen is not used as a rejection basis. [Full source/result/capture hashes and failure](integrated-ui-evidence.json), public final Edit/Play XML. Source is base9ef6731 plus the recorded frozen Unity diff; the commit's Unity files must match that manifest.
 
-Prior source8c71051 Simulator success cannot be transferred to this modified UI. No new Simulator, TestFlight, real-iPhone or Human fun result yet. Old Applebuild5 is unrelated source d5e8e08….
+## Fresh native observation — runtime48cdc6c
+
+Unity6000.3.25f1 export and Xcode Debug iphonesimulator build both exit0; QA iOS27.0 install/launch and actual CUA operation succeeded. Generated icon/URP/project settings were preserved privately and all5 restored, unexpected changes0. Source assets remain identical. Binary SHA `87adaef31a69b8dc06729875f67e23b942b0ba4a3ac5bfa8cfdae869a7c9fdae`.
+
+Root operated Momo→policy→prediction, Protect start/pause/hold/resume/result/comparison/retry, then the same initial fixture with Attack. Both native full frozen hashes match. Protect:14actions/4alive, HP16/16/12/10, heals0. Attack:14actions/3alive, HP0/16/12/10, heals1. Actual comparison preserves Protect's entered「か」separately from unentered Attack. Japanese on-screen composing kana, docked input, outside-tap dismiss/restoration and result retention observed. Attempted candidate/Return clicks did not establish a changed conversion candidate; multi-character conversion success is not claimed for this source.
+
+Private native recordings: Protect97.180s, Attack74.768333s,1206×2622/h264. Root opened the exact new Attack file in QuickTime and normally played12.324→34.508s, observing changing initiative/attack receipt, health and the final3survivor state. This is bounded playback plus live interaction, not every-frame inspection. Two Simulator ASTC decompression warnings and a16bit shadow depth fallback remain; no observed crash/exception in this flow.
+
+**Remaining visual defect:** root sees a rear Momo health strip crossing the front Shiro upper head/face region around Attack12s. Independent native pixel reviewer confirmed clearer operations/local HP but did not confirm the overlap in that still. Both observations are retained; the owner/occlusion problem is unresolved, and no universal health readability pass is claimed. Same-color strips in dense action remain weaker than named cards. Existing whole-mesh rectangle test remains FAIL; no check was relaxed. Art remains sparse/flat compared with the original, R2 V0 FAIL.
+
+[Native exact source/build/result/media hashes and limits](integrated-ui-native-observation.json). No new TestFlight archive/upload/distribution, real-iPhone or Human fun result. Local Simulator CFBundleVersion5 is reused metadata, not a new Apple build5; old Apple build5 remains source d5e8e08….
 
 ## Evidence boundaries
 
 Owner-local `_userwork/hq-evidence/2026-10-23-integrated-hud/`: original/before/after contact, numbered setup/policy/action/comparison PNGs, source patches/frozen manifests/XML/logs and exact job completions. Root viewed all8 B frames and selected C/D repairs; independent reviewers inspected actual source and relevant fresh frames. File panel opening returned queued, not confirmed displayed. No claim of cross-session image sharing. Public records contain text/hash only. No paid assets/outsourcing/private upload/merge/Ready.
+
+
+### Follow-up experiment in progress
+
+The native video finding triggered another repair loop: keep each foot anchor fixed but suppress a foreground strip while its rectangle intersects another visible actor's projected body. Named card HP remains available. This is an uncommitted experiment, not the native-tested48cdc6c runtime or an adopted quality fix. A new full Editor run and fresh8scene captures are executing under job57c5a1bc-f354-4226-b5b3-eaf14d566dbe. A new regression checks that visible strips cannot paint over another actor; original whole-mesh separation assertions remain unchanged. Inspect actual art/HP-loss side effects before adoption; no outcome is asserted here.

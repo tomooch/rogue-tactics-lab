@@ -315,9 +315,15 @@
   "R2": "V0 FAIL",
   "private_evidence_root": "_userwork/hq-evidence/2026-10-23-integrated-hud/",
   "comparison_sha256": "c0f97cd648714f152ee1a331352cea753faecb7a0ec8e67fac84e778e97e1f55",
-  "new_simulator": "build/observation pending",
+  "new_simulator": {
+    "status": "fresh export/build/install/launch and actual both-condition flow observed",
+    "source": "48cdc6c90d8c42f536970d256d3a2a67f65a2178",
+    "evidence": "integrated-ui-native-observation.json",
+    "not_full_technical_or_art_pass": true
+  },
   "new_testflight": false,
   "physical_device": false,
   "human_quality_pass": false,
-  "public_media": false
+  "public_media": false,
+  "runtime_commit": "48cdc6c90d8c42f536970d256d3a2a67f65a2178"
 }
