@@ -1,0 +1,55 @@
+{
+  "baseline_runtime": "2abff2d6fd5e7089d32e6ceb3b145c15f282204f",
+  "candidate_base": "8d3cec9529ca9972519fc690e5cdb4440114ef1e",
+  "candidate_patch_sha256": "4bab52422215c7ee460120167a620d312d9b054e0394b1c4f1616e553c0e03f9",
+  "pilot": {
+    "EditMode": {
+      "total": 0,
+      "passed": 0
+    },
+    "PlayMode": {
+      "total": 1,
+      "passed": 1
+    },
+    "both_fixed_hashes": "matched by ProductFlow assertion",
+    "fresh_captures": 8,
+    "full_suite": "not run on rejected candidate",
+    "Simulator": "not run on rejected candidate"
+  },
+  "root_observed": [
+    "r1-setup",
+    "r1-policy",
+    "DirectAttack-counter",
+    "ProtectAnchor-guard",
+    "ProtectAnchor-heal",
+    "DirectAttack-death",
+    "DirectAttack-comparison"
+  ],
+  "observations": [
+    "Faces/edges slightly larger and more identifiable. No claimed new blur-only change.",
+    "Whole-screen actor dominance insufficient: same broad sky gaps and floor, compact central cluster unchanged.",
+    "Momo/Shiro shoulder and costume crowding increases. Garu weapon/green enemy overlap remains. No new whole-face disappearance observed in inspected frames.",
+    "Foot anchors, initial6HP, cards, action receipt, fixed outcomes and controls preserved in filtered test."
+  ],
+  "independent_pixel_review": "hud_review inspected setup/counter/guard/heal before+after: local face improvement; would retain locally, cannot establish whole-scene gain or fullmesh gate. Root rejects because requested whole-screen priority not achieved; reviewer judgment not suppressed.",
+  "decision": "REJECT_FOR_WHOLE_SCREEN_PARTY_EMPHASIS; restore only two task-owned presentation files; retain patch/PNGs/logs privately",
+  "R2": "V0 FAIL",
+  "human_quality": "unverified",
+  "independent_art_director": "Actual gpt-6-astra advisor viewed original + baseline/candidate setup/counter (5images): reject for whole-screen emphasis. Face gain small; Momo lower body and Shiro hat crowding increases. No new whole-face disappearance seen in two compared states.",
+  "restoration": "Two task-owned C# files restored byte-for-byte to8d3cec9; unity diff empty before next independent experiment.",
+  "private_evidence": "Owner-local _userwork/hq-evidence/2026-10-24-party-emphasis/: private-comparison.html, height-a-retry/images, source.patch, frozen-source.json, source-and-results.json, initial failed-run logs.",
+  "capture_sha256": {
+    "r1-setup": "472142901c8bff363b8f93b722d848539033906b95de793fa50f425fa2440128",
+    "r1-policy": "b4d2ae0ed1877651ba1887345a41bbe0707dada27fc9a9afaece06a752698a99",
+    "ProtectAnchor-guard": "54895e662b9a9ea4edee875f7eed4136ab03703e69cc02926d80b3330cfa6029",
+    "ProtectAnchor-heal": "597d4227b6fb2d582864f8aff8782fe485394a06c8deececa9f19418dee0f921",
+    "DirectAttack-counter": "6c2376e65ec54d182c6eb976a9fb9661fcfa8c7c5f08991d76b39665d97ef36e",
+    "DirectAttack-death": "6daede489320ad36da32946cfe3c3422df0693b443ed31b34928fdeb20257858",
+    "ProtectAnchor-comparison": "ed20d0f8a613515be5b2134258aa94fbfed1dd965359b2152870c3ecd1c1fb07",
+    "DirectAttack-comparison": "6c337360eb751de58e08c0209f3c65bd2f3963afddc7b7a6cbbebeee5b6a4bb4"
+  },
+  "xml_sha256": {
+    "EditMode.xml": "436e06062a80ad78a9854d716af7cd614ead62d46a739a9600256250a9f59685",
+    "PlayMode.xml": "c2559176267fec3d66ccfa9fe60147e6509a37b85db42e7bbc56483edfda9126"
+  }
+}
