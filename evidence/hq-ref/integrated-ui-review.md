@@ -53,3 +53,20 @@ Owner-local `_userwork/hq-evidence/2026-10-23-integrated-hud/`: original/before/
 ### Follow-up experiment in progress
 
 The native video finding triggered another repair loop: keep each foot anchor fixed but suppress a foreground strip while its rectangle intersects another visible actor's projected body. Named card HP remains available. This is an uncommitted experiment, not the native-tested48cdc6c runtime or an adopted quality fix. A new full Editor run and fresh8scene captures are executing under job57c5a1bc-f354-4226-b5b3-eaf14d566dbe. A new regression checks that visible strips cannot paint over another actor; original whole-mesh separation assertions remain unchanged. Inspect actual art/HP-loss side effects before adoption; no outcome is asserted here.
+
+
+The first suppression experiment completed: Edit14/14, Play8/9, same original D/B silhouette failure; new per-frame foreground-strip check passed. Root viewed setup/guard/counter/death actual390×844. **Rejected:** the initial X enemy health strip disappeared due to intersection with Garu's lower legs. Avoiding a face obstruction by concealing enemy status before combat is not a quality improvement.
+
+A second experiment is running as jobb798d4f8-1b6d-4b64-ae26-8b0a61156ce1. It protects the upper65% of each projected body rather than the whole quad, leaving leg-level health available, and adds an initial6visible-HP assertion. This envelope is an Executor trial, not an exact detected face mask or Human-approved new rectangle criterion. The original silhouette-separation test remains unchanged. No second-trial result/adoption/native claim yet.
+
+
+Upper-body trial completed: Edit14/14, Play7/9. Root actual setup shows all6HP and counter removes the central upper strip. Independent pixel reviewer compared old/new setup/counter/guard and found initial enemyHP/cards/actions preserved, no new HUD obstruction, but only a local improvement and less foot-status association while a strip hides. Exact face contact was not clear to that reviewer in the event captures; root native12s observation remains separately recorded.
+
+The added generic initial6HP assertion also ran in diagnostic yaw0/pitch75/63/55/45 captures and stopped that camera-preservation test at4visible. This was an incorrectly scoped new assertion, not a failure of the regular product initial setup. Move it to the normal ProductFlow setup; keep all prior assertions and foreground upper-region regression. Runtime remains byte-identical to this second trial. A final full run/fresh8captures is executing as jobf7c09f5a-f0d3-42dd-99b2-5fb9138551cd. No source adoption/native retest claimed yet; R2 V0 FAIL.
+
+
+### Retained local repair — final full verification
+
+Final runf7c09f5a: **Edit14/14, Play8/9**, original whole-mesh separation first reports X/C atstep0. Normal initial6HP and foreground upper-body regression pass, as do both full frozen outcomes/exact displayed events, HP values/death/retry, normal actual input, pause/keyboard/mouse/touch. Root viewed fresh final setup/policy/counter/both-result images. Frozen source files match exactly after verification; Core/art unchanged.
+
+Retain the upper-body strip suppression as a local defect fix in the Draft. It keeps the normal initial6HP and stable owner anchors while avoiding overlaying another upper silhouette. It does **not** improve sparse art, prove intuitive ownership in all clusters, or resolve the full-rectangle gate. Temporarily hidden strips are a tradeoff; named allyHP remains. Upper65% is a conservative geometric protection envelope, not image recognition. No Human decision or original full-body acceptance criterion changed. [Final test XML](health-occlusion-playmode.xml) preserves the failure; [source/capture ledger](integrated-ui-evidence.json) separates all failed trials. New native export/observation will use this repair's commit; source48cdc6c native results remain historical and are not transferred.

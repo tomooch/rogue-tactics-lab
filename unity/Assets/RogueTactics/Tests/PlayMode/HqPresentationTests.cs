@@ -41,6 +41,7 @@ namespace RogueTactics.Tests
         }
         private static void CheckVisibleHealth(MobileG1View view)
         {
+            var visibleHealth=0;
             foreach(var unit in Fixture.Baseline().Units)
             {
                 var track=view.Field.Find("HP "+unit.Id).GetComponent<RectTransform>();
@@ -58,7 +59,21 @@ namespace RogueTactics.Tests
                 var foot=(points.Min(p=>p.y)-1)*view.Field.rect.height;
                 Assert.That(track.anchoredPosition.x+track.rect.width/2,Is.EqualTo(center).Within(.5f),"Health stays horizontally attached to its visible owner");
                 Assert.That(foot-track.anchoredPosition.y,Is.InRange(3f,10f),"Health stays close below the visible foot");
+                if(track.GetComponent<CanvasGroup>().alpha>.01f)
+                {
+                    visibleHealth++;
+                    var strip=new Rect(track.anchoredPosition.x,track.anchoredPosition.y-track.rect.height,track.rect.width,track.rect.height);
+                    foreach(var other in Fixture.Baseline().Units.Where(u=>u.Id!=unit.Id && !view.DisplayedEvents.Any(e=>e.Kind==EventKind.Death && e.Target==u.Id)))
+                    {
+                        var renderer=GameObject.Find("Fixture "+other.Id).GetComponentsInChildren<Renderer>().First(r=>r.name=="Private approved static skin" || r.name=="Fixture slime");
+                        var projected=renderer.GetComponent<MeshFilter>().sharedMesh.vertices.Select(v=>view.FieldCamera.WorldToViewportPoint(renderer.transform.TransformPoint(v))).ToArray();
+                        var otherRect=Rect.MinMaxRect(projected.Min(p=>p.x)*view.Field.rect.width,(projected.Min(p=>p.y)-1)*view.Field.rect.height,projected.Max(p=>p.x)*view.Field.rect.width,(projected.Max(p=>p.y)-1)*view.Field.rect.height);
+                        otherRect.yMin+=otherRect.height*.35f;
+                        Assert.That(strip.Overlaps(otherRect),Is.False,unit.Id+" foreground health must not cover another actor's head/upper silhouette "+other.Id);
+                    }
+                }
             }
+            Assert.That(visibleHealth,Is.GreaterThan(0),"Occlusion must not suppress every health indicator");
         }
         [UnityTest]
         public IEnumerator PauseDuringMovementPreservesVisiblePoseAndCursor()
@@ -110,6 +125,7 @@ namespace RogueTactics.Tests
                 if(label.gameObject.activeInHierarchy && (label.name=="Title" || label.name=="Name" || label.name=="Actual HP"))
                     Assert.That(label.preferredHeight,Is.LessThanOrEqualTo(label.rectTransform.rect.height+.1f),label.name+" fits without vertical clipping");
             yield return Capture("r1-setup");
+            Assert.That(Fixture.Baseline().Units.Count(u=>view.Field.Find("HP "+u.Id).GetComponent<CanvasGroup>().alpha>.01f),Is.EqualTo(6),"Normal initial six units must all expose health before any combat");
             Press(view,"Policy");yield return null;
             Assert.That(view.Button("Protect").gameObject.activeInHierarchy,Is.True,"Momo's card opens her policy choices");
             InsideSafeArea(view,"Protect","Attack","ClosePolicy");yield return Capture("r1-policy");

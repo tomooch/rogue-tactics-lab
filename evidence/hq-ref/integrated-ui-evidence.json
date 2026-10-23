@@ -325,5 +325,126 @@
   "physical_device": false,
   "human_quality_pass": false,
   "public_media": false,
-  "runtime_commit": "48cdc6c90d8c42f536970d256d3a2a67f65a2178"
+  "runtime_commit": "48cdc6c90d8c42f536970d256d3a2a67f65a2178",
+  "health_occlusion_trials": [
+    {
+      "trial": "whole-body suppression",
+      "job_id": "57c5a1bc-f354-4226-b5b3-eaf14d566dbe",
+      "base": "2454f53eaede37b7606001002cf2d745e25a81fe",
+      "source_patch_sha256": "3ac8a306622e44c41b3d62004bfb5b2363a9488297d67e7d275a6f4e517036e6",
+      "frozen_source_sha256": "a090748649ae26b90d4006ca35275b9ce6fef0dd22c35d96c1a4c5e3dd37d35d",
+      "edit": {
+        "passed": 14,
+        "total": 14,
+        "xml_sha256": "039a976b2e736ffef7219b8696c5684ecb02adb6f79b7a0adf632311494016ce"
+      },
+      "play": {
+        "passed": 8,
+        "total": 9,
+        "xml_sha256": "8887ff6d2092a5eb201220507db40531ad0840515f566fc490c6fdfe97598029",
+        "failure": "Original full silhouette D/B separation at step0; no check relaxed"
+      },
+      "captures": {
+        "r1-setup": "9b25fb24dd0f9db58176e3010c6d0d760de5be55d20c5e25b2da06b758291def",
+        "r1-policy": "50eec8c19dd90c5885e119bc0de9da2c053f75e1867bf68eb5ae5948ef711fdd",
+        "ProtectAnchor-guard": "8dea7cc36615fc6f2c77126ce846de9f22638381c292703f9f0055d96dc6c4e6",
+        "ProtectAnchor-heal": "2c6b40d2191cf3a49acb4d312d66124bdd8b55883cb6c80d86d1a47c76764033",
+        "DirectAttack-counter": "3cc73a63b84d285fc481bcf6defcbbce907cbcce3fd4f5e78dbe710d3191b16e",
+        "DirectAttack-death": "9799277e2ce23e091ac8ad4e3ef535405438ea9dedeb692b2f237ed4f2320128",
+        "ProtectAnchor-comparison": "e5e903232ee343f9ebf1367dccecf178750bfd97e96390abedd0f90863eea24f",
+        "DirectAttack-comparison": "51f7d2cc8525c8de4083b4551249f1251ae82f65015db981a564ebe531013f6c"
+      },
+      "root_viewed": [
+        "r1-setup",
+        "DirectAttack-counter",
+        "DirectAttack-death",
+        "ProtectAnchor-guard"
+      ],
+      "disposition": "REJECTED: initial X enemy HP vanishes because lower-leg intersection is treated as head occlusion. New foreground strip regression passed but visual side effect fails."
+    },
+    {
+      "trial": "upper-body protection",
+      "job_id": "b798d4f8-1b6d-4b64-ae26-8b0a61156ce1",
+      "source_patch_sha256": "50ac3f34198dc5bd7e01ab4610dcc8cfae0e3f7fbb9eb11f94dd5e6e035fc03f",
+      "frozen_source_sha256": "74020d581ee233d8c4e6d6bfcba99b6bf18b16ffbc54c4a66da5eba49f74eb99",
+      "edit": {
+        "passed": 14,
+        "total": 14,
+        "xml_sha256": "f77a11e8552a7f18876cbde00bf747d50d306bb2cf270e7487ae648e913fb3a6"
+      },
+      "play": {
+        "passed": 7,
+        "total": 9,
+        "xml_sha256": "62c93226c6a4713328c11d4e0026fec06d4e03b6359b348fb92e594137d0a33e",
+        "failures": [
+          "Original full silhouette overlap at step0; unchanged",
+          "New initial6HP assertion incorrectly ran in separate diagnostic yaw/pitch comparisons (4visible); regular product setup preserved6"
+        ]
+      },
+      "captures": {
+        "r1-setup": "b31cf690c577fe3ef5f3ef8e6c41633fcda86e3ec7d342b3a18e32a7f3a64955",
+        "r1-policy": "625f2e2fc0592a92fa01b10785db486060b8c02206be45d83306bae2955a77c0",
+        "ProtectAnchor-guard": "6b6bf6be49fb09d43b7fd0b4ccee63f3146f7c895048f8d9428d1f2123cea9bf",
+        "ProtectAnchor-heal": "ba2aa1b50c22e09a8765ff8268942448d3f1c2a7cedcd596b4da023ee58b44f5",
+        "DirectAttack-counter": "13f1a0492c46f1ef1d6ae390dba76b6a8a446ceb1a57118b8adc1aab02734ecf",
+        "DirectAttack-death": "85eea31355f20fca55ae4ac70d7ce6e306e6b874db691e6852a46f380debef13",
+        "ProtectAnchor-comparison": "5969effb5e5a8fa057d7eb58ee123d3cd38dabd1605d63411e11055f02fc067c",
+        "DirectAttack-comparison": "78a1b4067de4d404559c2a29c22cc6a2008abe6c079347ce885e23592aa63f2b"
+      },
+      "root_viewed": [
+        "r1-setup",
+        "DirectAttack-counter",
+        "DirectAttack-death",
+        "ProtectAnchor-guard"
+      ],
+      "independent_comparison": [
+        "r1-setup",
+        "DirectAttack-counter",
+        "ProtectAnchor-guard"
+      ],
+      "pixel_findings": "Initial6HP restored. Counter central upper strip suppressed. Names/card HP and controls unchanged. Independent reviewer finds local improvement/no new button or occlusion regression but notes same-color ownership and temporary strip loss remain tradeoffs.",
+      "disposition": "Uncommitted candidate; runtime unchanged in next run, test initial6 assertion scoped to actual product baseline."
+    }
+  ],
+  "health_occlusion_followup": {
+    "job_id": "f7c09f5a-f0d3-42dd-99b2-5fb9138551cd",
+    "status": "reviewed; retain local presentation fix in Draft; native pending",
+    "base_head": "2454f53eaede37b7606001002cf2d745e25a81fe",
+    "source_patch_sha256": "40d58776bc4f27d9e842ecfbcf80e17ebeae1ff671c27571abcaa1d5e3382869",
+    "frozen_source_sha256": "5b84fa65e966261466b6a2cdc8ac96ea695376c99253fd37b21440cda9a2260d",
+    "changed_files": {
+      "unity/Assets/RogueTactics/Presentation/HqFootBadges.cs": "e5fd9f2d252761e99a55249e052a9fd33d50ca4e7c3eefd570510eef174b63a3",
+      "unity/Assets/RogueTactics/Tests/PlayMode/HqPresentationTests.cs": "524913a4f1c1ea26fb7c8a3c967d49f7f70843bd0291fec3e004673782635ceb"
+    },
+    "edit": {
+      "passed": 14,
+      "total": 14,
+      "xml_sha256": "a3b5f14a1e51ee91ed68dd06b30b66cbe9394943e4709e6916ee9863b85009f8"
+    },
+    "play": {
+      "passed": 8,
+      "total": 9,
+      "xml_sha256": "699dca08c0a6395fddc75a3d3c1c44c686ac19a4d5ff10211af58a4289a876c6",
+      "failure": "Original full silhouette separation X/C step0; enumeration first pair varies, not only this pair"
+    },
+    "captures": {
+      "r1-setup": "72c192a304406a9b41fbfdd8a928e06953c7200b6a158aced8c36fdb3b5ac89d",
+      "r1-policy": "7d9b8de9daac37ea5c180f7bc83fcf1c0b2661bfe1c91e02066eda077586b37d",
+      "ProtectAnchor-guard": "0deed5a179dfc5b7cf1437fc56b394814c5063fd7d3a3fa0ac9b92488e0b8992",
+      "ProtectAnchor-heal": "28e789504e0527c33335561d8cd3e8d3ba10bbe02cb43110af4e9f8c0869adf3",
+      "DirectAttack-counter": "dbc1b97834b84e34f3bd01e6435025fad910b4e6527d4a1f9a85062acb655d08",
+      "DirectAttack-death": "c38f1ee7cff38f95e2da6e3e7be2726e6c6b52b51dccaf69375efa69d890ac7d",
+      "ProtectAnchor-comparison": "a6b2dab21b2542b9f043d10d1fe45041eff81c785b944abfeab8561f9fd637e2",
+      "DirectAttack-comparison": "1a1574270a31d9f5e922c8e98519c726adc2a6cfd1bcdd6346e2cc1a399ad902"
+    },
+    "root_final_viewed": [
+      "r1-setup",
+      "r1-policy",
+      "DirectAttack-counter",
+      "DirectAttack-comparison"
+    ],
+    "preserved": "Initial6HP; displayed-event HP/death/retry; both full frozen hashes/exact event sequence; pause/mouse/touch/keyboard; Core/art/private skin unchanged",
+    "regression": "Visible foreground HP strip cannot intersect another actor upper65%; initial6 exposure only normal ProductFlow baseline, diagnostic camera sweep still preserves state",
+    "tradeoff": "Temporary ally strip suppression reduces foot association; named ally card HP remains. Not an exact face mask/full art pass."
+  }
 }

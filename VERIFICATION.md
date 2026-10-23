@@ -455,3 +455,8 @@ Human指摘によりHPだけでなく画面構成と操作意味を修正。原�
 Fresh integrated-UI native runtime `48cdc6c90d8c42f536970d256d3a2a67f65a2178`: Unity6000.3.25f1 export/Xcode Debug Simulator build各exit0、QA iOS27.0へinstall/launchし実CUA操作。5生成設定を保全・復元、unexpected0/source不変。モモcard→方針/任意予想、Protect開始/停止保持/再開→14行動4人生存→比較/再試行、同fixtureのAttack→14行動3人生存→両比較を実観測。native両full hash一致、かな「か」のcomposition/keyboard回避・dismiss/配置復帰/結果保持を確認（別候補への変換成功は未確認）。private録画Protect97.180秒/Attack74.768333秒、1206×2622/h264、Attackの12.324→34.508秒をQuickTime通常再生で観測。全frame目視/実iPhone性能/Human試遊とはしない。
 
 rootはAttack約12秒の後列HPbarと前列シロの頭/顔付近の接触を残存欠陥として記録。独立4画像reviewerは同stillで接触を確認せず、同色barの密集時所属不確実性を指摘。意見差を残し、全可読性PASSにしない。ASTC解凍2警告/16bit shadow depth fallbackあり、当該flowでcrash/exception観測なし。全Editor結果は14/14・8/9のまま、既存矩形検査未解決。R2 V0 FAIL、新ASC/TestFlight/実iPhone/Human品質未検証。localSimulator bundle0.1.0(5)を旧Apple build5の更新と扱わない。[source・binary・媒体SHAと限界](evidence/hq-ref/integrated-ui-native-observation.json)。画像/動画はowner-local、公開はtext/hashのみ。
+
+
+## 2026-10-23 HP strip upper-body occlusion repair
+
+Native48cdc6c動画の接触観察から追加閉ループ。全身矩形でHPstripを隠す第一案は初期敵HPを消すため棄却。第二案は別人物の上部65%保護領域との接触時だけ抑制し、初期6HPを保持。追加したinitial6検査を診断角度galleryにも誤適用したrun14/7は失敗として保全し、通常ProductFlow baselineへ移して再実行。runtime不変の最終f7c09f5aは新全Edit14/14・Play8/9、元からの全mesh X/C重複step0だけFAIL。既存検査緩和なし。新foreground上部保護・通常初期6HP・両fullhash/exactevent/HP/death/retry/keyboard/mouse/touch/pause/比較/別予想保持はPASS。Core/Art/private4skin差分0。rootと独立local reviewerは前後実画像を比較、最終4場面をroot再閲覧。局所修正としてDraft保持、同色bar所属/密集/一時非表示のtradeoffとR2 V0 FAILは残る。原画水準・Human品質・矩形gate達成とはしない。公開はsource/hash/XMLのみ、private画像/動画はowner-local。新修正sourceのSimulatorは次に検証し旧48cdc6c結果を転用しない。詳細`evidence/hq-ref/integrated-ui-review.md` / `integrated-ui-evidence.json` / `health-occlusion-{editmode,playmode}.xml`。
