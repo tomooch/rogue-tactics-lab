@@ -460,3 +460,10 @@ rootはAttack約12秒の後列HPbarと前列シロの頭/顔付近の接触を�
 ## 2026-10-23 HP strip upper-body occlusion repair
 
 Native48cdc6c動画の接触観察から追加閉ループ。全身矩形でHPstripを隠す第一案は初期敵HPを消すため棄却。第二案は別人物の上部65%保護領域との接触時だけ抑制し、初期6HPを保持。追加したinitial6検査を診断角度galleryにも誤適用したrun14/7は失敗として保全し、通常ProductFlow baselineへ移して再実行。runtime不変の最終f7c09f5aは新全Edit14/14・Play8/9、元からの全mesh X/C重複step0だけFAIL。既存検査緩和なし。新foreground上部保護・通常初期6HP・両fullhash/exactevent/HP/death/retry/keyboard/mouse/touch/pause/比較/別予想保持はPASS。Core/Art/private4skin差分0。rootと独立local reviewerは前後実画像を比較、最終4場面をroot再閲覧。局所修正としてDraft保持、同色bar所属/密集/一時非表示のtradeoffとR2 V0 FAILは残る。原画水準・Human品質・矩形gate達成とはしない。公開はsource/hash/XMLのみ、private画像/動画はowner-local。新修正sourceのSimulatorは次に検証し旧48cdc6c結果を転用しない。詳細`evidence/hq-ref/integrated-ui-review.md` / `integrated-ui-evidence.json` / `health-occlusion-{editmode,playmode}.xml`。
+
+
+## 2026-10-24 Fresh HP-repair native observation
+
+Runtime2abff2d: new Unity6000.3.25f1 export/Xcode Debug Simulator build exit0; QA iOS27.0 install/launch and actual CUA input. Initial6HP, Attack movement/pause/hold/resume/14actions3alive/comparison/retry, Protect policy/Japanese kana composition/keyboard avoidance/dismiss/restoration/result retention/14actions4alive/both comparisons observed. Both full native hashes match. Generated5settings restored, unexpected0, tested frozen source unchanged. No prior48cdc6c native success transferred.
+
+Private343.550s1206x2622/h264 recording with live temporal observation and sampled20/25/30s. QuickTime open timeout means no successful new-file playback claim. Paused HP/pose visually held; broad ROI RGB equality false, not global-pixel-freeze evidence. ASTC decompression2warnings/shadow16bit fallback; no observed exception/crash in this flow. Local0.1.0(5) is not a new ASCbuild5. Full Editor remains14/14 and8/9 with original whole-mesh failure; R2FAIL/physical-iPhone/Humanquality/newTestFlight unresolved. [Exact source/binary/media SHA and limits](evidence/hq-ref/health-occlusion-native-observation.json).

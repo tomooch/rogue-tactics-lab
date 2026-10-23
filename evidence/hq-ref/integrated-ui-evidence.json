@@ -445,6 +445,13 @@
     ],
     "preserved": "Initial6HP; displayed-event HP/death/retry; both full frozen hashes/exact event sequence; pause/mouse/touch/keyboard; Core/art/private skin unchanged",
     "regression": "Visible foreground HP strip cannot intersect another actor upper65%; initial6 exposure only normal ProductFlow baseline, diagnostic camera sweep still preserves state",
-    "tradeoff": "Temporary ally strip suppression reduces foot association; named ally card HP remains. Not an exact face mask/full art pass."
+    "tradeoff": "Temporary ally strip suppression reduces foot association; named ally card HP remains. Not an exact face mask/full art pass.",
+    "retained_runtime_commit": "2abff2d6fd5e7089d32e6ceb3b145c15f282204f",
+    "native": {
+      "source": "2abff2d6fd5e7089d32e6ceb3b145c15f282204f",
+      "status": "fresh build/install/launch/actual both-condition flow and local pixels observed",
+      "evidence": "health-occlusion-native-observation.json",
+      "whole_video_playback": false
+    }
   }
 }
