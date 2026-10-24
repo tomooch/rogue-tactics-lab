@@ -135,7 +135,13 @@
     ],
     "interpretation": "Existing strict whole-billboard overlap gate remains failed; no assertion relaxed, no all-green claim. Local art/grounding gain retained only."
   },
-  "new_native": "Exact committed source build planned; not yet run, prior a74 not transferred.",
+  "new_native": {
+    "source_head": "99e2b32055c7b3c4c6a6f5d82a89ef1195591fd9",
+    "export_exit": 0,
+    "build_exit": 0,
+    "actual_QA_flow": "Both policies/14actions, pause/resume, comparison/retry and Japanese ka-to-katsu prediction observed. Both native fullhashes match. See reference-parts-native-observation.json.",
+    "R2": "V0 FAIL"
+  },
   "private_evidence": "Owner-local _userwork/hq-evidence/2026-10-24-reference-parts/: parts-a.svg, parts-a-unity source/patch/8images/results, astra-parts-a-review.json, source-preview-a. Private PNG/SVG/Mesh assets remain inside ignored MobileG1/Private/ReferenceParts. Local paths do not prove cross-session sharing.",
   "browser_preview": "file protocol refused by browser security policy; no alternate browser or HTTP workaround. ActualUnity evidence used.",
   "R2": "V0 FAIL",
@@ -289,5 +295,10 @@
     "guid_metadata_preserved": true,
     "public_media": false,
     "cross_session_sharing_confirmed": false
+  },
+  "committed_source_mapping": {
+    "source_head": "99e2b32055c7b3c4c6a6f5d82a89ef1195591fd9",
+    "full_test_frozen_manifest_matches": true,
+    "ignored_private_assets_required": true
   }
 }

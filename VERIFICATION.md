@@ -504,3 +504,8 @@ A実Unityはfiltered Edit0/Play1・8fresh390×844・両fixedhash/sourceguard通�
 [各試行と実画像SHA](evidence/hq-ref/reference-parts-evidence.json)。owner-local `_userwork/hq-evidence/2026-10-24-reference-parts/` にsource SVG、原画byte-copy、patch/manifest、実PNG/XML/log、root/Astra reviewを保持。local pathは別sessionへの共有成功を意味しない。
 
 公開全結果XML: `reference-parts-editmode.xml` / `reference-parts-playmode.xml`。ignored原画/SVG/meshとUnity生成GUID metadataはowner-local `retained-private-assets/` とSHA manifestに保持し、Gitだけで復元できるとは扱わない。新parts Simulatorは新commitから別検証し、旧a74結果を転用しない。
+
+
+Fresh original-parts native source `99e2b32055c7b3c4c6a6f5d82a89ef1195591fd9`: Unity6000.3.25f1 export/Xcode Debug Simulator build各exit0。既知5生成設定だけ復元、unexpected0、全source/private asset不変。QA iOS27.0へ新binaryをinstall/launchし実CUA操作。初期6HP、Protect停止保持/再開→14行動4人生存→比較/再試行、同fixtureのAttack→14行動3人生存→両比較を観測。かな「か」→候補「かつ」→確定/dismiss/配置復帰→Attack結果への予想保持を確認。新native両fullhash一致。
+
+private録画347.351667秒/1206×2622/h264を保存。正確な今回ファイルをQuickTime通常再生260.3229→292.3861秒で確認。live操作と再生の限定観測であり全frame/全合法セルの遮蔽検証ではない。原画由来2部品の接地/輪郭改善はnativeでも見えるが、床との画風差・全体品質不足は残る。ASTC解凍2警告/16bit shadow depth fallbackあり、当該flowのcrash/exception観測なし。新TestFlight archive/upload/distributionなし、local0.1.0(5)は旧Apple build5の更新ではない。R2 V0 FAIL/全quad接触FAIL/Human/実iPhone未検証を維持。[新source/binary/媒体SHAと観測限界](evidence/hq-ref/reference-parts-native-observation.json)。
