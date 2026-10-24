@@ -1,0 +1,457 @@
+{
+  "schema_version": 1,
+  "scope": "Human correction: fix onboard ID labels, field-cutting bands and unclear policy controls before evaluating camera/cast",
+  "base_head": "9ef6731994c5fc86b563b29bf7700f3f5ab7042c",
+  "final_uncommitted_unity_diff_sha256": "5ec4760d3cf5dd04ef3f9b47194d0c99589229584166a94ba2652b6c59c78e05",
+  "final_source_files": {
+    "unity/Assets/RogueTactics/Art/HqRuins/Blue.obj": "c25d669ad1a17e806f7b60b83a32245928b4a81e0a93912a9c535fb1d5a7f538",
+    "unity/Assets/RogueTactics/Art/HqRuins/Cliff.obj": "4636b8055d09acfc6d5e50d251c814bc2c06dd5c96aad5c17aba057d4bb544c2",
+    "unity/Assets/RogueTactics/Art/HqRuins/Courtyard.obj": "1e10beab2e7a3d134064fa5eff1a86412e01f4155b591de68ab6e752da98e12b",
+    "unity/Assets/RogueTactics/Art/HqRuins/Detail.obj": "bbf183571609f34ee69d0dc35e56058c8873e51928fdf18ac7c208db80570523",
+    "unity/Assets/RogueTactics/Art/HqRuins/Distant.obj": "0a82cd8192fd4fa2ec8fcde9f2bb26842ba4f9139e589dc0f3dc629333668abb",
+    "unity/Assets/RogueTactics/Art/HqRuins/Flowers.obj": "268f32aaceaba73e9b2fe27d10bd34ec27a31b609e9d1711f40a9d21441a775a",
+    "unity/Assets/RogueTactics/Art/HqRuins/Foliage.obj": "710847542b5d5e540ee29a4831e6297cee789922d67b29f0b77a541049784cd6",
+    "unity/Assets/RogueTactics/Art/HqRuins/Gold.obj": "98a71c531c5cf6b92411eb2889b9b279f6a5b2868a098c8e71d8f217fda48c97",
+    "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.obj": "29e957182bdb04a83441d5ba431e1d093f9521cebaee0212d7076b95a915e25e",
+    "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeDetail.obj": "12c35a97644e16346acd71be0f07c57d7a13b5d01a7f9314e74f249af3d5932f",
+    "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFlowers.obj": "166b903ad387ef2457cbe962bd460b9e7bcefae685b2bf0dfafcdb9fa0511ca4",
+    "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoam.obj": "21620aa32962e3d1cce8fc33a3791cf06655592d5a9e8160a6b2ca79048b6699",
+    "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoliage.obj": "03700bbca1ab9d5016ca5e14f27db10781e8087ab4ecea606262e20f3558f990",
+    "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeLimestone.obj": "58d337f0470ba2f9a4fef17a7291a917b75291ea8d0a04a2a7a9bdf5c78ba90e",
+    "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeWater.obj": "1e92d13b072588f5696273a4e4855312beb6f2c9a43dcb9189479737c03c4938",
+    "unity/Assets/RogueTactics/Art/HqRuins/HeroLedge_provenance.json": "43dadcc05a327f80f32dc6ffbcfb2ff157db65bece8e9b39183a52dcbc10c3eb",
+    "unity/Assets/RogueTactics/Art/HqRuins/Limestone.obj": "68bac484a019b526751edb225a7a0902ddad66bcda0027d01e24f9b0fb548966",
+    "unity/Assets/RogueTactics/Art/HqRuins/Warm.obj": "a5a68d1df19daa6c15ceec06bed4087beba83996aadc04c97e5885eeb6e59b24",
+    "unity/Assets/RogueTactics/Art/HqRuins/Water.obj": "c48427f964501ce18ad19365b2ac85844e5cfec9458b5f73f56ee8934fa27d02",
+    "unity/Assets/RogueTactics/Art/HqRuins/provenance.json": "1a70dbec1bf5fb726e4c2050c1fa072cffcd8c08b12596a98f4fd99adcbe5e94",
+    "unity/Assets/RogueTactics/Art/MobileG1/AuthoredRuins.shader": "54eac6cdb8574caa5fc6cf976e46f3666e7550013218404e7aa80ce029553101",
+    "unity/Assets/RogueTactics/Art/MobileG1/HqSky.shader": "469dfc46d58d92e093b2febe902b4ec718fbdfb1920d789dca4c553bb2aaec32",
+    "unity/Assets/RogueTactics/Art/MobileG1/StaticSkin.shader": "b7190c80e376509ac7cb2ba6fd54561e1e486388115eb2a053e557358a17d40e",
+    "unity/Assets/RogueTactics/Core/G1Battle.cs": "2adfee6c34152df63a9a25221531f81795829919d577925730594fd8a5bfb2f1",
+    "unity/Assets/RogueTactics/Core/GridPosition.cs": "c7f045f52ea00da6daae60939c7a8e1184794c034ea8b61a2289c479c6c21bb0",
+    "unity/Assets/RogueTactics/Editor/AuthoredRuinsImport.cs": "76e57788d266bfa04e576a09ea811cc4eb1f673f58cc3794cd846232d83c05e0",
+    "unity/Assets/RogueTactics/Editor/G1Setup.cs": "ab582ac0c48c5d10b652a6a7708b79056c7216c96f8c2a8aa8deacf2f720fcc6",
+    "unity/Assets/RogueTactics/Editor/MobileG1Setup.cs": "3242b15b614eb50c6c16b5ba1054b5089e834b7475dbe98ff70b2aa2b0d149b5",
+    "unity/Assets/RogueTactics/Editor/Stage0Setup.cs": "14f9a36c43cebcbc26fdc5e1e798bb08e5f27f57213182b9d09c861c831a9b33",
+    "unity/Assets/RogueTactics/Presentation/G1View.cs": "328ddcee9d46df30fe4987ec0ac324d9a360184f02b5d514622734ebf61a11ef",
+    "unity/Assets/RogueTactics/Presentation/HqAmbient.cs": "4fb77deeb841d7357a32bfb4ab8887f2bf8c2983a4d5e283bd46dd2c2937747c",
+    "unity/Assets/RogueTactics/Presentation/HqCamera.cs": "fe564e50924bab286f68056c226956d448084f4b2767e1d61a3a7715acaaa20e",
+    "unity/Assets/RogueTactics/Presentation/HqContactShadow.cs": "de447c08670bb6c724af678918bbb94d40fd7b908aa5947981235d417cbb6c03",
+    "unity/Assets/RogueTactics/Presentation/HqCreature.cs": "fb3a8be6b0622c3edbe370427269d8fb03be7d3641ac8b4098d6529ed4e4cd46",
+    "unity/Assets/RogueTactics/Presentation/HqFootBadges.cs": "aa900a3c42c3a6584cf0dd7de1abba90fec33dd54dec46af63eaf087901cfcf1",
+    "unity/Assets/RogueTactics/Presentation/HqFrameMetrics.cs": "3ea28b598a60aaf621c5c56d4004f0edc21f2bb4c16819388d02209d7eb195a0",
+    "unity/Assets/RogueTactics/Presentation/HqKnownPositions.cs": "12d4ac07b6b4a01b0b043b06dcbedda39536be25e873c1c39e0d45b9e6af04ac",
+    "unity/Assets/RogueTactics/Presentation/HqMotion.cs": "e7a5cc3bcff7143add812b84e30f6387a502b679e5b3adc1a8f31a98eaf1ffe2",
+    "unity/Assets/RogueTactics/Presentation/HqProductHud.cs": "991814014bc25e2dd22e3edacc3a3a6d79b40946069ab386e7ee133748a4d715",
+    "unity/Assets/RogueTactics/Presentation/HqRelations.cs": "8992072881f55a81f9e2928b3d692effe2e3015bd440b1fda5828de036d52a61",
+    "unity/Assets/RogueTactics/Presentation/HqRoute.cs": "28de45517dac327dce222dc16c59e61d4560464a15bb6e3955ae9f9bb4e7a7c3",
+    "unity/Assets/RogueTactics/Presentation/HqSkyRuins.cs": "2c7d7ae33a2a064b8f36cb2c2bb32841aa0607c58a8229f05e05f248bb6ff3ae",
+    "unity/Assets/RogueTactics/Presentation/MobileG1Session.cs": "fd0a2c0932f68104fb5d5b1846535f1a9f64905478070e9eb30d9f6b1edaa7d0",
+    "unity/Assets/RogueTactics/Presentation/MobileG1View.cs": "27c328a6883b07ef980202ef1fd09e7eb3b63c35234418e6b6e3ead9fbbb47c6",
+    "unity/Assets/RogueTactics/Presentation/Stage0View.cs": "ae3ec1510f7d6e96d3f7e6ee5f30000695023e494d562f71c4f8697149eb3249",
+    "unity/Assets/RogueTactics/Tests/EditMode/G1CoreTests.cs": "7e223b549d520b947810642d07ee3bf440692575da1ba78e99731d4b2b6e7f69",
+    "unity/Assets/RogueTactics/Tests/EditMode/MobileG1SessionTests.cs": "f9ca45ffc81b9996aa40d7ec7c43e5655a48c1ffd5708dd6dcd7e4dd208f5cae",
+    "unity/Assets/RogueTactics/Tests/EditMode/ScaffoldTests.cs": "8bf95d20902252052479e5e543998281afd3682a7803e8a59029f7f0b2a8c76f",
+    "unity/Assets/RogueTactics/Tests/PlayMode/G1InteractionTests.cs": "b79226cc0fbd212bd46a53c3d6fb5181983ce8e0389f20de014c4ad7f8980fd1",
+    "unity/Assets/RogueTactics/Tests/PlayMode/HqPresentationTests.cs": "9565f40376ac2071f4f698ddce8aaf4c3080ccae61e98eac66c936049060e28d",
+    "unity/Assets/RogueTactics/Tests/PlayMode/MobileG1InteractionTests.cs": "6a32e3cb44e4d3846d9d07ca4b29f967dd546a592fd9adc5039ed9e157862f2e",
+    "unity/Assets/RogueTactics/Tests/PlayMode/PortraitSmokeTests.cs": "2852678be1568dfd456cf5663a3c5941c417294c7d96bc362aeb456cd03e5419"
+  },
+  "final_scene_sha256": "1edd2684368ebdb1a56e694c69dd61b7b202faecadb0b06191d9299458ba7ed7",
+  "core_tree": "50274c84cb56344d1394b4283833728c72cd7577",
+  "core_and_art_diff_to_base": "empty",
+  "approved_skin_sha256": {
+    "myaru.png": "3f064518faf44e308614ddaaaa81eb108d909c116e0a0a21cadf8d33e64a8fd5",
+    "momo.png": "d8f62c2299c2772ce21ded771ec2faf6c50f9d18d4f585ba2fe7a63d698daa74",
+    "garu.png": "04051f21042b365c767124f4931f8189502a24eab9896089e8850b3e8e76c015",
+    "shiro.png": "5f9bd5d0f8f7569987f0df3393d2236a032b75091e7af9c6f10ba17b3c7a7c73"
+  },
+  "font_sha256": "9235091dd518cd58e6d643f048fa3f3cabe9fdb6631dc9f1f82375c05b67f1e5",
+  "editor": "/Applications/Unity/Hub/Editor/6000.3.25f1/Unity.app/Contents/MacOS/Unity",
+  "trials": [
+    {
+      "name": "whole-screen-a",
+      "base_head": "9ef6731994c5fc86b563b29bf7700f3f5ab7042c",
+      "unity_diff_sha256": "109ff432f3a54e84a697137a3ce4bf51eec5f0c2dce5bf34ce3dbab4c3effc0a",
+      "tests": {
+        "EditMode": {
+          "status": "not reached; compilation failed"
+        },
+        "PlayMode": {
+          "status": "not reached; compilation failed"
+        }
+      },
+      "capture_sha256": {},
+      "private_source_patch_sha256": "109ff432f3a54e84a697137a3ce4bf51eec5f0c2dce5bf34ce3dbab4c3effc0a"
+    },
+    {
+      "name": "whole-screen-a-compile-fix",
+      "base_head": "9ef6731994c5fc86b563b29bf7700f3f5ab7042c",
+      "unity_diff_sha256": "5ee25acebda3596d7678ffcc489c244d9e35f995238bf8bb7f539ecddafd701a",
+      "tests": {
+        "EditMode": {
+          "total": "0",
+          "passed": "0",
+          "failed": "0",
+          "result": "Passed",
+          "failures": [],
+          "xml_sha256": "af57cc4e064e0747212dc0b63a6cd84d10a1cc843a2f9f91eea250a4cfb3cf9d"
+        },
+        "PlayMode": {
+          "total": "1",
+          "passed": "0",
+          "failed": "1",
+          "result": "Failed(Child)",
+          "failures": [
+            {
+              "name": "ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+              "message": "  Health stays horizontally attached to its visible owner\n  Expected: 256.761749f +/- 0.5f\n  But was:  258.021545f\n"
+            }
+          ],
+          "xml_sha256": "836a9f6d0364e7fd26af98157a5b9133a30d76cb37823758da1659ac936352fd"
+        }
+      },
+      "capture_sha256": {},
+      "private_source_patch_sha256": "5ee25acebda3596d7678ffcc489c244d9e35f995238bf8bb7f539ecddafd701a"
+    },
+    {
+      "name": "whole-screen-b",
+      "base_head": "9ef6731994c5fc86b563b29bf7700f3f5ab7042c",
+      "unity_diff_sha256": "9206743e991cf1528944f63fc498f17d379a98a78d5f54c52ebe00ea38ace4aa",
+      "tests": {
+        "EditMode": {
+          "total": "0",
+          "passed": "0",
+          "failed": "0",
+          "result": "Passed",
+          "failures": [],
+          "xml_sha256": "e0aa8cca97a0be4d5a84d0acbf66bbb4e92f87ccaac8bd91d5e065a14bde520c"
+        },
+        "PlayMode": {
+          "total": "1",
+          "passed": "1",
+          "failed": "0",
+          "result": "Passed",
+          "failures": [],
+          "xml_sha256": "eb807cf605cfbb60a32e0a71badc0824cd9a2fa2a3817da9ccf362a82c860d12"
+        }
+      },
+      "capture_sha256": {
+        "r1-setup": "fb06379428900afa22121fb7acbb4c926b23191f9f9d79b0df11f1aa07efb4a7",
+        "r1-policy": "177d8a44e99e9ac35175d3f87d964c4a8c262f0b82bd5b48e2c481a7f6dc53bf",
+        "ProtectAnchor-guard": "b7df2731a48fb3e9db6d789e5d66a64b1b38ebbdc08795181f0a26444a22c24b",
+        "ProtectAnchor-heal": "7e57ac12706032a3946d089ad623ec8a6933b39d7656d5369286ce9a6eb337d3",
+        "DirectAttack-counter": "cb9227e19f37a97c19dfb3c4867b615058357966704debbea0f235756aca20df",
+        "DirectAttack-death": "42bd8625dd52003694e16870191b0d1ac53b3910d5805346aa4121d8259fcfe8",
+        "ProtectAnchor-comparison": "dcdf4168ed691d518931b3275eb53697ffebb62ddc29a04d3d662ef42ed12994",
+        "DirectAttack-comparison": "0b5129f88d42d3d22d5e82a75744702bad65d9a6a24100dd8d2712c3d3e7ae84"
+      },
+      "private_source_patch_sha256": "9206743e991cf1528944f63fc498f17d379a98a78d5f54c52ebe00ea38ace4aa"
+    },
+    {
+      "name": "whole-screen-c-full",
+      "base_head": "9ef6731994c5fc86b563b29bf7700f3f5ab7042c",
+      "unity_diff_sha256": "7730de8667ac81d8ebe4d585eeca0af74ec063038de8a6ff3ee433129e2d7edb",
+      "tests": {
+        "EditMode": {
+          "total": "14",
+          "passed": "14",
+          "failed": "0",
+          "result": "Passed",
+          "failures": [],
+          "xml_sha256": "f6ebf3269777f97e6b8049657db86ef382a2eaa9574aa19e13e163062bdd9a14"
+        },
+        "PlayMode": {
+          "total": "9",
+          "passed": "7",
+          "failed": "2",
+          "result": "Failed(Child)",
+          "failures": [
+            {
+              "name": "JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults",
+              "message": "  Silhouette separation X / C at step 0 rects (x:240.08, y:-159.24, width:33.37, height:26.10) / (x:260.21, y:-181.79, width:46.80, height:62.40)\n  Expected: False\n  But was:  True\n"
+            },
+            {
+              "name": "PredictionStaysAboveKeyboardAndReturnsWithoutChangingCore",
+              "message": "  Editing stays above tall keyboard even before area is reported\n  Expected: greater than 600\n  But was:  206.0f\n"
+            }
+          ],
+          "xml_sha256": "14421d4336356cb144fcdd3a6cce8e99bb34b33657fd6dc974ea762f3e47748c"
+        }
+      },
+      "capture_sha256": {
+        "r1-setup": "1e38a42cc638abf46b588487f7bdbd5ce435ce6273dd8b30219ffb9001e06f72",
+        "r1-policy": "fa9a87a698b23419044b96907fc01c1f2433f8d45d26ba613a8757e403a5e006",
+        "ProtectAnchor-guard": "9ae4430671f780d6435a59018b1bd1c6f8bcac66bf54d7bdebc7eebc39158157",
+        "ProtectAnchor-heal": "c245c3a1cfedd39042e2fe29b586f38d6b76679cc74ab0b7699b8ba5cfac2f70",
+        "DirectAttack-counter": "d7debc6e833c0737d8a692a1afd469bd1f02be7e4c1b2d80f121449ad40d48b0",
+        "DirectAttack-death": "ddb0c5cc0b87de49ee476fae372c2b622bd1d2037f399d1a3f07a37fda1a0648",
+        "ProtectAnchor-comparison": "f832bc2a5a0d472624e51af3c788281e079554c6404b0433da0f9fac720976c6",
+        "DirectAttack-comparison": "9f8d3950544c006dd9d420493c7446219a0b571c192524b59bb33f62d9d01e2e"
+      },
+      "private_source_patch_sha256": "7730de8667ac81d8ebe4d585eeca0af74ec063038de8a6ff3ee433129e2d7edb"
+    },
+    {
+      "name": "whole-screen-d-full",
+      "base_head": "9ef6731994c5fc86b563b29bf7700f3f5ab7042c",
+      "unity_diff_sha256": "fb43f5d0c36d5d4622d897545f8b1ea50c60d5cd89a1dc8b6612ab125a9383e4",
+      "tests": {
+        "EditMode": {
+          "total": "14",
+          "passed": "14",
+          "failed": "0",
+          "result": "Passed",
+          "failures": [],
+          "xml_sha256": "3e3852d4a38b7c920c81998da86be51fefe5790463948b66f75a2ac864159720"
+        },
+        "PlayMode": {
+          "total": "9",
+          "passed": "7",
+          "failed": "2",
+          "result": "Failed(Child)",
+          "failures": [
+            {
+              "name": "JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults",
+              "message": "  Silhouette separation X / C at step 0 rects (x:240.08, y:-159.24, width:33.37, height:26.10) / (x:260.21, y:-181.79, width:46.80, height:62.40)\n  Expected: False\n  But was:  True\n"
+            },
+            {
+              "name": "PredictionStaysAboveKeyboardAndReturnsWithoutChangingCore",
+              "message": "  Policy\n  Expected: greater than 0\n  But was:  0\n"
+            }
+          ],
+          "xml_sha256": "2ef2e3dda58ae13db3c255d6cc450110677b3ab2d386b73184a53fad4cbbd7a5"
+        }
+      },
+      "capture_sha256": {
+        "r1-setup": "3e471fa7de832947b7023c68b2bae06a31e026b2377784e34c6c87ca6424dc9a",
+        "r1-policy": "dda9f794e56265f63d708fce53830736594cf3f799f4031ff6d62e8e73fbb565",
+        "ProtectAnchor-guard": "47cd0686e84f10e517e334556913a627438c05b8c308fa1912da006578f87705",
+        "ProtectAnchor-heal": "ff79d9421aa32d8c70c18127994e20da09afddd2e23448758f9ceac69ba8afc2",
+        "DirectAttack-counter": "cbc1ad73ee5807f293e531fd28837fe6266d425af59aa94e0f0cec6481f4c90b",
+        "DirectAttack-death": "5fad089339f85d9b6af266b5d9fd263aa8de7fdef9829f59ef98e0bc2a268fe5",
+        "ProtectAnchor-comparison": "0ea615832f7a5a56f29e14c49c37461035cca1af521f2964a178c1439130d6e6",
+        "DirectAttack-comparison": "4e1adffd8d309d99087936f607bed34259a9f12397997a3df953c4f196d693a6"
+      },
+      "private_source_patch_sha256": "fb43f5d0c36d5d4622d897545f8b1ea50c60d5cd89a1dc8b6612ab125a9383e4"
+    },
+    {
+      "name": "keyboard-focus-fix",
+      "base_head": "9ef6731994c5fc86b563b29bf7700f3f5ab7042c",
+      "unity_diff_sha256": "5ec4760d3cf5dd04ef3f9b47194d0c99589229584166a94ba2652b6c59c78e05",
+      "tests": {
+        "EditMode": {
+          "total": "0",
+          "passed": "0",
+          "failed": "0",
+          "result": "Passed",
+          "failures": [],
+          "xml_sha256": "dc9b41eb8257a2c420202e506fef1626d1e7ca3b69d93a38b5af0f089dbf3025"
+        },
+        "PlayMode": {
+          "total": "1",
+          "passed": "1",
+          "failed": "0",
+          "result": "Passed",
+          "failures": [],
+          "xml_sha256": "529c1de08800ae6ad0371e273736e3b8b22ff1732cdfc311b4f89e447f23e19c"
+        }
+      },
+      "capture_sha256": {},
+      "private_source_patch_sha256": "5ec4760d3cf5dd04ef3f9b47194d0c99589229584166a94ba2652b6c59c78e05"
+    },
+    {
+      "name": "whole-screen-e-full",
+      "base_head": "9ef6731994c5fc86b563b29bf7700f3f5ab7042c",
+      "unity_diff_sha256": "5ec4760d3cf5dd04ef3f9b47194d0c99589229584166a94ba2652b6c59c78e05",
+      "tests": {
+        "EditMode": {
+          "total": "14",
+          "passed": "14",
+          "failed": "0",
+          "result": "Passed",
+          "failures": [],
+          "xml_sha256": "677f15c7db3d72f49ec55c827cb1add4b9d4681621f28fa6f90582039501775e"
+        },
+        "PlayMode": {
+          "total": "9",
+          "passed": "8",
+          "failed": "1",
+          "result": "Failed(Child)",
+          "failures": [
+            {
+              "name": "JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults",
+              "message": "  Silhouette separation B / D at step 0 rects (x:140.71, y:-165.87, width:46.80, height:62.40) / (x:94.75, y:-192.41, width:46.80, height:62.40)\n  Expected: False\n  But was:  True\n"
+            }
+          ],
+          "xml_sha256": "4b1509c43c2616060aa1ecfef8187541a540c422ae54451b82c99f1ae6c95b06"
+        }
+      },
+      "capture_sha256": {
+        "r1-setup": "15b67a760a32014b7b72a1441130d8377f1719b217a235103ee5e7082b8c4b35",
+        "r1-policy": "8cba3329b40a1b5d82c0b5b32f1de501fd5ddc0f0c98521820155daf4c80f509",
+        "ProtectAnchor-guard": "8b6cee5c5b0f7caae90f399c3df00c2a69d5c8c096777c51b2a287e854d7671a",
+        "ProtectAnchor-heal": "5c9db40ef94801ac85aa555557f940d9bfcf9d6f9277bd9df766cd9b51882f7b",
+        "DirectAttack-counter": "11e34344aa7e1934b1ed9cc39609d8229f82a445120047a9d4b11a06a4a89e8c",
+        "DirectAttack-death": "caba27a6d5d592eed0fb2d5d5a0a4644a1a0b15038db592f947ccce2b12ebd12",
+        "ProtectAnchor-comparison": "469defb02b061371b7744cd4b4d62ceef6fad39779dd14739886c8172d319be2",
+        "DirectAttack-comparison": "13ebb41997cb8ca67ab3c510b10e77cbe341c1e0643a02afc0e37fde112146e9"
+      },
+      "private_source_patch_sha256": "5ec4760d3cf5dd04ef3f9b47194d0c99589229584166a94ba2652b6c59c78e05"
+    }
+  ],
+  "final_summary": "Edit14/14; Play8/9. Existing full-mesh rectangle separation fails; no assertion relaxed. Other8Play tests including trueUIhits/HPdisplay/pause/keyboard/touch/mouse/bothhash passed.",
+  "fixed_hashes": {
+    "ProtectAnchor": "e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d",
+    "DirectAttack": "85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e"
+  },
+  "root_viewed_final": [
+    "r1-setup",
+    "r1-policy",
+    "DirectAttack-counter",
+    "DirectAttack-comparison"
+  ],
+  "independent_review": "Actual original/B/C images viewed by two local reviewers; source-limited adversarial review found no concrete new projection/pause/policy regression. Astra actual sanitized text-only advisor, not image review.",
+  "disposition": "Keep improved presentation as Draft review candidate; full silhouette gate remains OPEN. No technical/R2/Human quality completion. No rollback solely from pre-fix ID-label pictures.",
+  "R2": "V0 FAIL",
+  "private_evidence_root": "_userwork/hq-evidence/2026-10-23-integrated-hud/",
+  "comparison_sha256": "c0f97cd648714f152ee1a331352cea753faecb7a0ec8e67fac84e778e97e1f55",
+  "new_simulator": {
+    "status": "fresh export/build/install/launch and actual both-condition flow observed",
+    "source": "48cdc6c90d8c42f536970d256d3a2a67f65a2178",
+    "evidence": "integrated-ui-native-observation.json",
+    "not_full_technical_or_art_pass": true
+  },
+  "new_testflight": false,
+  "physical_device": false,
+  "human_quality_pass": false,
+  "public_media": false,
+  "runtime_commit": "48cdc6c90d8c42f536970d256d3a2a67f65a2178",
+  "health_occlusion_trials": [
+    {
+      "trial": "whole-body suppression",
+      "job_id": "57c5a1bc-f354-4226-b5b3-eaf14d566dbe",
+      "base": "2454f53eaede37b7606001002cf2d745e25a81fe",
+      "source_patch_sha256": "3ac8a306622e44c41b3d62004bfb5b2363a9488297d67e7d275a6f4e517036e6",
+      "frozen_source_sha256": "a090748649ae26b90d4006ca35275b9ce6fef0dd22c35d96c1a4c5e3dd37d35d",
+      "edit": {
+        "passed": 14,
+        "total": 14,
+        "xml_sha256": "039a976b2e736ffef7219b8696c5684ecb02adb6f79b7a0adf632311494016ce"
+      },
+      "play": {
+        "passed": 8,
+        "total": 9,
+        "xml_sha256": "8887ff6d2092a5eb201220507db40531ad0840515f566fc490c6fdfe97598029",
+        "failure": "Original full silhouette D/B separation at step0; no check relaxed"
+      },
+      "captures": {
+        "r1-setup": "9b25fb24dd0f9db58176e3010c6d0d760de5be55d20c5e25b2da06b758291def",
+        "r1-policy": "50eec8c19dd90c5885e119bc0de9da2c053f75e1867bf68eb5ae5948ef711fdd",
+        "ProtectAnchor-guard": "8dea7cc36615fc6f2c77126ce846de9f22638381c292703f9f0055d96dc6c4e6",
+        "ProtectAnchor-heal": "2c6b40d2191cf3a49acb4d312d66124bdd8b55883cb6c80d86d1a47c76764033",
+        "DirectAttack-counter": "3cc73a63b84d285fc481bcf6defcbbce907cbcce3fd4f5e78dbe710d3191b16e",
+        "DirectAttack-death": "9799277e2ce23e091ac8ad4e3ef535405438ea9dedeb692b2f237ed4f2320128",
+        "ProtectAnchor-comparison": "e5e903232ee343f9ebf1367dccecf178750bfd97e96390abedd0f90863eea24f",
+        "DirectAttack-comparison": "51f7d2cc8525c8de4083b4551249f1251ae82f65015db981a564ebe531013f6c"
+      },
+      "root_viewed": [
+        "r1-setup",
+        "DirectAttack-counter",
+        "DirectAttack-death",
+        "ProtectAnchor-guard"
+      ],
+      "disposition": "REJECTED: initial X enemy HP vanishes because lower-leg intersection is treated as head occlusion. New foreground strip regression passed but visual side effect fails."
+    },
+    {
+      "trial": "upper-body protection",
+      "job_id": "b798d4f8-1b6d-4b64-ae26-8b0a61156ce1",
+      "source_patch_sha256": "50ac3f34198dc5bd7e01ab4610dcc8cfae0e3f7fbb9eb11f94dd5e6e035fc03f",
+      "frozen_source_sha256": "74020d581ee233d8c4e6d6bfcba99b6bf18b16ffbc54c4a66da5eba49f74eb99",
+      "edit": {
+        "passed": 14,
+        "total": 14,
+        "xml_sha256": "f77a11e8552a7f18876cbde00bf747d50d306bb2cf270e7487ae648e913fb3a6"
+      },
+      "play": {
+        "passed": 7,
+        "total": 9,
+        "xml_sha256": "62c93226c6a4713328c11d4e0026fec06d4e03b6359b348fb92e594137d0a33e",
+        "failures": [
+          "Original full silhouette overlap at step0; unchanged",
+          "New initial6HP assertion incorrectly ran in separate diagnostic yaw/pitch comparisons (4visible); regular product setup preserved6"
+        ]
+      },
+      "captures": {
+        "r1-setup": "b31cf690c577fe3ef5f3ef8e6c41633fcda86e3ec7d342b3a18e32a7f3a64955",
+        "r1-policy": "625f2e2fc0592a92fa01b10785db486060b8c02206be45d83306bae2955a77c0",
+        "ProtectAnchor-guard": "6b6bf6be49fb09d43b7fd0b4ccee63f3146f7c895048f8d9428d1f2123cea9bf",
+        "ProtectAnchor-heal": "ba2aa1b50c22e09a8765ff8268942448d3f1c2a7cedcd596b4da023ee58b44f5",
+        "DirectAttack-counter": "13f1a0492c46f1ef1d6ae390dba76b6a8a446ceb1a57118b8adc1aab02734ecf",
+        "DirectAttack-death": "85eea31355f20fca55ae4ac70d7ce6e306e6b874db691e6852a46f380debef13",
+        "ProtectAnchor-comparison": "5969effb5e5a8fa057d7eb58ee123d3cd38dabd1605d63411e11055f02fc067c",
+        "DirectAttack-comparison": "78a1b4067de4d404559c2a29c22cc6a2008abe6c079347ce885e23592aa63f2b"
+      },
+      "root_viewed": [
+        "r1-setup",
+        "DirectAttack-counter",
+        "DirectAttack-death",
+        "ProtectAnchor-guard"
+      ],
+      "independent_comparison": [
+        "r1-setup",
+        "DirectAttack-counter",
+        "ProtectAnchor-guard"
+      ],
+      "pixel_findings": "Initial6HP restored. Counter central upper strip suppressed. Names/card HP and controls unchanged. Independent reviewer finds local improvement/no new button or occlusion regression but notes same-color ownership and temporary strip loss remain tradeoffs.",
+      "disposition": "Uncommitted candidate; runtime unchanged in next run, test initial6 assertion scoped to actual product baseline."
+    }
+  ],
+  "health_occlusion_followup": {
+    "job_id": "f7c09f5a-f0d3-42dd-99b2-5fb9138551cd",
+    "status": "reviewed; retain local presentation fix in Draft; native pending",
+    "base_head": "2454f53eaede37b7606001002cf2d745e25a81fe",
+    "source_patch_sha256": "40d58776bc4f27d9e842ecfbcf80e17ebeae1ff671c27571abcaa1d5e3382869",
+    "frozen_source_sha256": "5b84fa65e966261466b6a2cdc8ac96ea695376c99253fd37b21440cda9a2260d",
+    "changed_files": {
+      "unity/Assets/RogueTactics/Presentation/HqFootBadges.cs": "e5fd9f2d252761e99a55249e052a9fd33d50ca4e7c3eefd570510eef174b63a3",
+      "unity/Assets/RogueTactics/Tests/PlayMode/HqPresentationTests.cs": "524913a4f1c1ea26fb7c8a3c967d49f7f70843bd0291fec3e004673782635ceb"
+    },
+    "edit": {
+      "passed": 14,
+      "total": 14,
+      "xml_sha256": "a3b5f14a1e51ee91ed68dd06b30b66cbe9394943e4709e6916ee9863b85009f8"
+    },
+    "play": {
+      "passed": 8,
+      "total": 9,
+      "xml_sha256": "699dca08c0a6395fddc75a3d3c1c44c686ac19a4d5ff10211af58a4289a876c6",
+      "failure": "Original full silhouette separation X/C step0; enumeration first pair varies, not only this pair"
+    },
+    "captures": {
+      "r1-setup": "72c192a304406a9b41fbfdd8a928e06953c7200b6a158aced8c36fdb3b5ac89d",
+      "r1-policy": "7d9b8de9daac37ea5c180f7bc83fcf1c0b2661bfe1c91e02066eda077586b37d",
+      "ProtectAnchor-guard": "0deed5a179dfc5b7cf1437fc56b394814c5063fd7d3a3fa0ac9b92488e0b8992",
+      "ProtectAnchor-heal": "28e789504e0527c33335561d8cd3e8d3ba10bbe02cb43110af4e9f8c0869adf3",
+      "DirectAttack-counter": "dbc1b97834b84e34f3bd01e6435025fad910b4e6527d4a1f9a85062acb655d08",
+      "DirectAttack-death": "c38f1ee7cff38f95e2da6e3e7be2726e6c6b52b51dccaf69375efa69d890ac7d",
+      "ProtectAnchor-comparison": "a6b2dab21b2542b9f043d10d1fe45041eff81c785b944abfeab8561f9fd637e2",
+      "DirectAttack-comparison": "1a1574270a31d9f5e922c8e98519c726adc2a6cfd1bcdd6346e2cc1a399ad902"
+    },
+    "root_final_viewed": [
+      "r1-setup",
+      "r1-policy",
+      "DirectAttack-counter",
+      "DirectAttack-comparison"
+    ],
+    "preserved": "Initial6HP; displayed-event HP/death/retry; both full frozen hashes/exact event sequence; pause/mouse/touch/keyboard; Core/art/private skin unchanged",
+    "regression": "Visible foreground HP strip cannot intersect another actor upper65%; initial6 exposure only normal ProductFlow baseline, diagnostic camera sweep still preserves state",
+    "tradeoff": "Temporary ally strip suppression reduces foot association; named ally card HP remains. Not an exact face mask/full art pass.",
+    "retained_runtime_commit": "2abff2d6fd5e7089d32e6ceb3b145c15f282204f",
+    "native": {
+      "source": "2abff2d6fd5e7089d32e6ceb3b145c15f282204f",
+      "status": "fresh build/install/launch/actual both-condition flow and local pixels observed",
+      "evidence": "health-occlusion-native-observation.json",
+      "whole_video_playback": false
+    }
+  }
+}

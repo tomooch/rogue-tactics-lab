@@ -1,0 +1,43 @@
+{
+  "source": "pre-freeze working candidate; frozen-source run follows",
+  "unity": "6000.3.25f1",
+  "edit": {
+    "id": "2",
+    "testcasecount": "14",
+    "result": "Passed",
+    "total": "14",
+    "passed": "14",
+    "failed": "0",
+    "inconclusive": "0",
+    "skipped": "0",
+    "asserts": "0",
+    "engine-version": "3.5.0.0",
+    "clr-version": "4.0.30319.42000",
+    "start-time": "2026-10-15 06:28:09Z",
+    "end-time": "2026-10-15 06:28:09Z",
+    "duration": "0.0739512"
+  },
+  "play": {
+    "id": "2",
+    "testcasecount": "9",
+    "result": "Passed",
+    "total": "9",
+    "passed": "9",
+    "failed": "0",
+    "inconclusive": "0",
+    "skipped": "0",
+    "asserts": "0",
+    "engine-version": "3.5.0.0",
+    "clr-version": "4.0.30319.42000",
+    "start-time": "2026-10-15 06:28:26Z",
+    "end-time": "2026-10-15 06:30:51Z",
+    "duration": "145.2787849"
+  },
+  "core_tree": "50274c84cb56344d1394b4283833728c72cd7577",
+  "camera": {
+    "pitch": 55,
+    "yaw": 0
+  },
+  "visual_quality": "V0 FAIL",
+  "human_acceptance": false
+}

@@ -1,0 +1,129 @@
+{
+  "design_freeze": "HQ-REF-1",
+  "authority": [
+    "https://github.com/tomooch/rogue-tactics-lab/issues/20",
+    "https://github.com/tomooch/rogue-tactics-lab/issues/20#issuecomment-6184262380",
+    "https://github.com/tomooch/rogue-tactics-lab/pull/21#issuecomment-6192468412",
+    "https://github.com/tomooch/rogue-tactics-lab/issues/20#issuecomment-6203653575"
+  ],
+  "main": "ab9fa5dc729dcea07f8680e7b22544627c5e5bed",
+  "stacked_baseline": "ce4ffac8d2216973c391d801cf5f6d41fbde66b5",
+  "pr15": "aa1fc05b154abcfa0e1a5c90574bf91adc97d881",
+  "reference": {
+    "name": "天穹の遺跡、12階の冒険.png",
+    "width": 941,
+    "height": 1672,
+    "local_sha256": "99a76f33c60e74d7fd890e9cf188531280e030e58a5893bafd90899ea2b965b8",
+    "issue_primary_sha256": "9b4ee65b5fe3dfeaa0938cb09aa928eb67bf99cfcb06b9ea1423208fe6aa6621",
+    "byte_identity_to_issue_primary": false,
+    "human_local_path_supplied": "2026-10-15",
+    "use": "Canonical visual reference: decoded RGB identical; PNG container bytes differ. No claim of rendered fidelity.",
+    "original_unchanged": true,
+    "public_git": false,
+    "external_upload": false,
+    "decoded_rgb_identity_to_issue_primary": true,
+    "decoded_rgb_sha256": "fd52b3654adc91c3e086b21cc83a4d9cb1d2057a5cd527b0fbc5cbb3a15a3ce4",
+    "decoded_rgb_pixels": 1573352,
+    "identity_evidence": "Independent WebGPT byte/RGB verification in Issue20 comment6203653575; local decoded RGB SHA reproduced 2026-10-16"
+  },
+  "characters": {
+    "model_sha256": "f15622d853e8260172812b657053460e20806f04b9e05147d49af7bed31a6e99",
+    "model_revision": "493cb60893f47441b26ec4fb9a306bce9e342982",
+    "model_license": "Apache-2.0",
+    "external_image_upload": false,
+    "hidden_paint": false,
+    "artifacts_private": true,
+    "sources": [
+      {
+        "character": "shiro",
+        "original_filename": "0FBCFEF0-C983-48B1-827B-0D0FD6FBF45A.png",
+        "source_sha256": "8d1323045422d60774adda005eb04f23dcfcbfe8ae9b6a728d8675da33f979d9",
+        "source_rgb_preserved": true,
+        "original_unchanged": true,
+        "skin_sha256": "5f9bd5d0f8f7569987f0df3393d2236a032b75091e7af9c6f10ba17b3c7a7c73",
+        "alpha_foreground_pixels": 725352
+      },
+      {
+        "character": "myaru",
+        "original_filename": "2F1AAC49-C1E3-48BF-8BA1-AB7707D371AF.png",
+        "source_sha256": "481daf11317d5f55d95173c987225b2c2ee9a43757a02a774a7dd46e40b685f6",
+        "source_rgb_preserved": true,
+        "original_unchanged": true,
+        "skin_sha256": "3f064518faf44e308614ddaaaa81eb108d909c116e0a0a21cadf8d33e64a8fd5",
+        "alpha_foreground_pixels": 743072
+      },
+      {
+        "character": "momo",
+        "original_filename": "65C78C53-3B13-4A93-B04C-3E15AAFF9FD9.png",
+        "source_sha256": "4041f81033a699d8e163eb1fa2c0a1f488adb2462c1f162eec197d851f0c79e4",
+        "source_rgb_preserved": true,
+        "original_unchanged": true,
+        "skin_sha256": "d8f62c2299c2772ce21ded771ec2faf6c50f9d18d4f585ba2fe7a63d698daa74",
+        "alpha_foreground_pixels": 728998
+      },
+      {
+        "character": "garu",
+        "original_filename": "FD16E637-CAD0-472A-A024-9B05D07BC049.png",
+        "source_sha256": "c2c9165e1f729b4b8b80e38b6c5a1510c6834e0c385411d06d461ff0831ffb6f",
+        "source_rgb_preserved": true,
+        "original_unchanged": true,
+        "skin_sha256": "04051f21042b365c767124f4931f8189502a24eab9896089e8850b3e8e76c015",
+        "alpha_foreground_pixels": 719837
+      }
+    ]
+  },
+  "environment": {
+    "source": "original offline OBJ authoring tools/author_sky_ruins.py; real Editor AuthoredRuinsImport creates Mesh.asset including RGB, normals and UV",
+    "external_asset": false,
+    "paid_dependency": false,
+    "runtime": "HqSkyRuins only composes serialized mesh/material assets; no runtime slab lattice",
+    "provenance": "unity/Assets/RogueTactics/Art/HqRuins/provenance.json",
+    "material": "AuthoredRuins.shader; source-authored vertex colour with local URP lighting; no original concept texture",
+    "quality": "Pass4 whole-screen comparison shows clearer party/ground separation and authored stone relief after rejected A/B and repaired D seam contrast; overall R2 V0 FAIL and Human acceptance pending.",
+    "source_objects": {
+      "Blue.obj": "c25d669ad1a17e806f7b60b83a32245928b4a81e0a93912a9c535fb1d5a7f538",
+      "Cliff.obj": "4636b8055d09acfc6d5e50d251c814bc2c06dd5c96aad5c17aba057d4bb544c2",
+      "Courtyard.obj": "1e10beab2e7a3d134064fa5eff1a86412e01f4155b591de68ab6e752da98e12b",
+      "Detail.obj": "bbf183571609f34ee69d0dc35e56058c8873e51928fdf18ac7c208db80570523",
+      "Distant.obj": "0a82cd8192fd4fa2ec8fcde9f2bb26842ba4f9139e589dc0f3dc629333668abb",
+      "Flowers.obj": "268f32aaceaba73e9b2fe27d10bd34ec27a31b609e9d1711f40a9d21441a775a",
+      "Foliage.obj": "710847542b5d5e540ee29a4831e6297cee789922d67b29f0b77a541049784cd6",
+      "Gold.obj": "98a71c531c5cf6b92411eb2889b9b279f6a5b2868a098c8e71d8f217fda48c97",
+      "HeroLedgeCliff.obj": "29e957182bdb04a83441d5ba431e1d093f9521cebaee0212d7076b95a915e25e",
+      "HeroLedgeDetail.obj": "12c35a97644e16346acd71be0f07c57d7a13b5d01a7f9314e74f249af3d5932f",
+      "HeroLedgeFlowers.obj": "166b903ad387ef2457cbe962bd460b9e7bcefae685b2bf0dfafcdb9fa0511ca4",
+      "HeroLedgeFoam.obj": "21620aa32962e3d1cce8fc33a3791cf06655592d5a9e8160a6b2ca79048b6699",
+      "HeroLedgeFoliage.obj": "03700bbca1ab9d5016ca5e14f27db10781e8087ab4ecea606262e20f3558f990",
+      "HeroLedgeLimestone.obj": "58d337f0470ba2f9a4fef17a7291a917b75291ea8d0a04a2a7a9bdf5c78ba90e",
+      "HeroLedgeWater.obj": "1e92d13b072588f5696273a4e4855312beb6f2c9a43dcb9189479737c03c4938",
+      "Limestone.obj": "68bac484a019b526751edb225a7a0902ddad66bcda0027d01e24f9b0fb548966",
+      "Warm.obj": "a5a68d1df19daa6c15ceec06bed4087beba83996aadc04c97e5885eeb6e59b24",
+      "Water.obj": "c48427f964501ce18ad19365b2ac85844e5cfec9458b5f73f56ee8934fa27d02"
+    },
+    "representative_ledge": {
+      "generator": "tools/author_hero_ledge.py",
+      "provenance": "unity/Assets/RogueTactics/Art/HqRuins/HeroLedge_provenance.json",
+      "scope": "front-left corner only; local x[-6.7,-.5], y[-4.2,.15], z[-11.4,-9.3]",
+      "material": "sRGB authored vertex palette for HeroLedge only; curved continuous UV flowing waterfall; legacy default unchanged",
+      "no_external_assets": true,
+      "no_private_rgb_edits": true
+    },
+    "courtyard": {
+      "runtime_source": "fc005d4ddee3edc5ac5b035ecfefb5e132f5e25a",
+      "generator": "tools/author_sky_ruins.py",
+      "material": "Courtyard explicitly sRGB with shallow worn faces, restrained bevel/joint contrast and selected connected moss; legacy ruins and approved sprite RGB unchanged",
+      "scope": "entire authored courtyard, no collider/Core semantics",
+      "private_reference_uploaded": false
+    }
+  },
+  "font": {
+    "family": "Noto Sans JP",
+    "license": "SIL OFL 1.1",
+    "file": "unity/Assets/RogueTactics/Art/MobileG1/OFL.txt"
+  },
+  "pipeline": {
+    "unity": "6000.3.25f1",
+    "urp": "existing pinned manifest/lock; no new packages",
+    "sprite_shader": "existing local StaticSkin.shader; source RGB texture unmodified"
+  }
+}

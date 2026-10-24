@@ -6,6 +6,7 @@ using UnityEditor.Build;
 using UnityEditor.Build.Reporting;
 using UnityEditor.SceneManagement;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using RogueTactics.Presentation;
 
 namespace RogueTactics.Editor
@@ -21,24 +22,47 @@ namespace RogueTactics.Editor
             var scene=EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
             var camera=new GameObject("Mobile HUD Camera").AddComponent<Camera>();camera.tag="MainCamera";camera.clearFlags=CameraClearFlags.SolidColor;camera.orthographic=true;camera.orthographicSize=5;camera.transform.position=new Vector3(0,0,-10);
             var view=new GameObject("Mobile G1 Experiment").AddComponent<MobileG1View>();
+            view.HqWorld=true;view.CameraPitch=35.264f;view.CameraYaw=-45;view.EventMotion=true;
             view.JapaneseFont=AssetDatabase.LoadAssetAtPath<Font>(Art+"NotoSansJP.ttf");
+            var authoredPaths=Directory.GetFiles("Assets/RogueTactics/Art/HqRuins", "*.obj").OrderBy(p=>p).ToArray();
+            foreach(var path in authoredPaths)
+            {var importer=(ModelImporter)AssetImporter.GetAtPath(path);importer.globalScale=1;importer.importAnimation=false;importer.materialImportMode=ModelImporterMaterialImportMode.None;importer.SaveAndReimport();}
+            view.EnvironmentMeshes=authoredPaths.Select(AuthoredRuinsImport.Import).ToArray();
+            if(view.EnvironmentMeshes.Length==0)throw new Exception("Author sky ruins mesh assets before Configure");
+            view.AmbientOcclusion=ConfigureContactLighting();
+            view.SkyTemplate=Material("Sky.mat","RogueTactics/HqSky");
+            view.RuinsTemplate=Material("AuthoredRuins.mat","RogueTactics/AuthoredRuins");
             view.StoneTemplate=Material("Stone.mat","Universal Render Pipeline/Lit");
             view.SpriteTemplate=Material("StaticSkin.mat","RogueTactics/StaticSkin");
+            view.ReferenceParts=ReferencePartsImport.Load(Art+"Private/ReferenceParts/",out var referenceEnvironment);
+            view.ReferenceEnvironment=referenceEnvironment;
             var skins=new[]{"shiro","momo","garu","myaru"};
             for(var i=0;i<skins.Length;i++)
             {
                 var path=Art+"Private/"+skins[i]+".png";var importer=AssetImporter.GetAtPath(path) as TextureImporter;
-                if(importer!=null){importer.textureType=TextureImporterType.Default;importer.alphaSource=TextureImporterAlphaSource.FromInput;importer.alphaIsTransparency=true;importer.mipmapEnabled=false;importer.maxTextureSize=2048;importer.textureCompression=TextureImporterCompression.Uncompressed;importer.SaveAndReimport();}
+                if(importer!=null){importer.textureType=TextureImporterType.Default;importer.alphaSource=TextureImporterAlphaSource.FromInput;importer.alphaIsTransparency=true;importer.mipmapEnabled=true;importer.filterMode=FilterMode.Trilinear;importer.anisoLevel=2;importer.maxTextureSize=2048;importer.textureCompression=TextureImporterCompression.Uncompressed;importer.SaveAndReimport();}
                 view.CharacterArt[i]=AssetDatabase.LoadAssetAtPath<Texture2D>(path);
             }
             PlayerSettings.defaultInterfaceOrientation=UIOrientation.Portrait;PlayerSettings.allowedAutorotateToLandscapeLeft=false;PlayerSettings.allowedAutorotateToLandscapeRight=false;
             PlayerSettings.defaultScreenWidth=390;PlayerSettings.defaultScreenHeight=844;
-            PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.iOS,"com.tomooch.roguetacticslab");PlayerSettings.bundleVersion="0.1.0";PlayerSettings.iOS.buildNumber="3";
+            PlayerSettings.SetApplicationIdentifier(NamedBuildTarget.iOS,"com.tomooch.roguetacticslab");PlayerSettings.bundleVersion="0.1.0";PlayerSettings.iOS.buildNumber="5";
             PlayerSettings.iOS.appleDeveloperTeamID="9HXM297A8U";PlayerSettings.iOS.appleEnableAutomaticSigning=false;
             PlayerSettings.iOS.targetOSVersionString="16.0";
             EditorSceneManager.SaveScene(scene,ScenePath);
             if(!EditorBuildSettings.scenes.Any(s=>s.path==ScenePath))EditorBuildSettings.scenes=EditorBuildSettings.scenes.Concat(new[]{new EditorBuildSettingsScene(ScenePath,true)}).ToArray();
             AssetDatabase.SaveAssets();Debug.Log("MOBILE_G1_CONFIGURED "+Application.unityVersion+" approved_skins="+view.HasAllArt);
+        }
+        private static ScriptableRendererFeature ConfigureContactLighting()
+        {
+            var data=AssetDatabase.LoadAssetAtPath<UniversalRendererData>("Assets/Settings/Mobile_Renderer.asset");
+            var feature=data.rendererFeatures.OfType<ScreenSpaceAmbientOcclusion>().FirstOrDefault();
+            if(feature==null){feature=ScriptableObject.CreateInstance<ScreenSpaceAmbientOcclusion>();feature.name="HQ mobile contact light";AssetDatabase.AddObjectToAsset(feature,data);data.rendererFeatures.Add(feature);}
+            var serialized=new SerializedObject(feature);var settings=serialized.FindProperty("m_Settings");
+            settings.FindPropertyRelative("Intensity").floatValue=.8f;settings.FindPropertyRelative("Radius").floatValue=.45f;
+            settings.FindPropertyRelative("Downsample").boolValue=true;settings.FindPropertyRelative("AOMethod").enumValueIndex=1;
+            settings.FindPropertyRelative("Source").enumValueIndex=1;settings.FindPropertyRelative("Samples").enumValueIndex=2;
+            settings.FindPropertyRelative("BlurQuality").enumValueIndex=1;serialized.ApplyModifiedPropertiesWithoutUndo();
+            feature.SetActive(true);data.SetDirty();EditorUtility.SetDirty(feature);EditorUtility.SetDirty(data);return feature;
         }
         private static Material Material(string file,string shaderName)
         {
@@ -122,7 +146,7 @@ namespace RogueTactics.Editor
                 image.SetPixels32(pixels);image.Apply();File.WriteAllBytes(path,image.EncodeToPNG());UnityEngine.Object.DestroyImmediate(image);
                 AssetDatabase.ImportAsset(path,ImportAssetOptions.ForceSynchronousImport);
             }
-            var importer=(TextureImporter)AssetImporter.GetAtPath(path);importer.alphaSource=TextureImporterAlphaSource.None;importer.mipmapEnabled=false;importer.textureCompression=TextureImporterCompression.Uncompressed;importer.maxTextureSize=1024;importer.SaveAndReimport();
+            var importer=(TextureImporter)AssetImporter.GetAtPath(path);importer.alphaSource=TextureImporterAlphaSource.None;importer.mipmapEnabled=true;importer.filterMode=FilterMode.Trilinear;importer.anisoLevel=2;importer.textureCompression=TextureImporterCompression.Uncompressed;importer.maxTextureSize=1024;importer.SaveAndReimport();
             var texture=AssetDatabase.LoadAssetAtPath<Texture2D>(path);
             foreach(var kind in PlayerSettings.GetSupportedIconKinds(NamedBuildTarget.iOS))
             {

@@ -1,0 +1,1041 @@
+{
+  "head": "a86b6c29ce09395391360f80eedd0200c45bfa34",
+  "branch": "codex/hq-ref-vertical-slice",
+  "retained_art_behavior_source": "fc005d4ddee3edc5ac5b035ecfefb5e132f5e25a",
+  "scene_recovery": {
+    "before_sha256": "4e6b58ed0b3e80938d2d1b25b2e801013c0b0fe6d6ff2ea908657184d3fc3704",
+    "after_sha256": "01c8235530465fbeac2e6c999333fd9f8dcfe93f87e394ed91cfecdf55c8129f",
+    "old_guids": [
+      "153b698f9fe424cb4bb1aecc568ae4ea",
+      "3cd2f9f03994749ccb0da237c5ba26de",
+      "e422418c950e34f929e80d0733070989",
+      "f6684e7afc01341c3b5b0387cf6d85ea"
+    ],
+    "new_guids": [
+      "4c3c530c8c336469592c215d68b978b9",
+      "cdb1a2854d46c4918945f769dbeb0245",
+      "48eabe396efe64099a6347b0ee18c872",
+      "3f731afb213754ed4bd2993462915d3f"
+    ],
+    "only_four_reference_guids_changed": true,
+    "metadata_generated_by_real_unity": true
+  },
+  "core_tree": "50274c84cb56344d1394b4283833728c72cd7577",
+  "tests_tree": "1ecdc31db505a03310095886d5d2a3e363be797c",
+  "approved_skin_sha256": {
+    "myaru.png": "3f064518faf44e308614ddaaaa81eb108d909c116e0a0a21cadf8d33e64a8fd5",
+    "momo.png": "d8f62c2299c2772ce21ded771ec2faf6c50f9d18d4f585ba2fe7a63d698daa74",
+    "garu.png": "04051f21042b365c767124f4931f8189502a24eab9896089e8850b3e8e76c015",
+    "shiro.png": "5f9bd5d0f8f7569987f0df3393d2236a032b75091e7af9c6f10ba17b3c7a7c73"
+  },
+  "unity_generated_texture_meta_sha256": {
+    "garu.png.meta": "21a45cc9e8409ffe83fa9d7a2c64d911ee35e4968d80cd99a2cdda0e23ba9f0c",
+    "shiro.png.meta": "95c2281ba49a9dca6e67dbd04bc78e5517afcce9ea3517cb60323d50be4162ed",
+    "momo.png.meta": "3acee13df5e1dfffaaa48164201f22e52661c1b869d44b50f0e6d7cc8d39c8ba",
+    "myaru.png.meta": "7e5c49baf785931b7955945c86214e0a35e61aba8e5a0938e41fc8f311e0d2ee"
+  },
+  "frozen_full_hashes": {
+    "ProtectAnchor": "e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d",
+    "DirectAttack": "85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e"
+  },
+  "runs": {
+    "control": {
+      "head": "a86b6c29ce09395391360f80eedd0200c45bfa34",
+      "unity_diff_sha256": "4e1e2823ee5ac5050518a4dc71c9ff47ea0f267ec20c72d21490743020b7f014",
+      "scene_sha256": "01c8235530465fbeac2e6c999333fd9f8dcfe93f87e394ed91cfecdf55c8129f",
+      "filter": "RogueTactics.Tests.HqPresentationTests.ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+      "results": {
+        "EditMode": {
+          "exit": 0,
+          "summary": {
+            "id": "2",
+            "testcasecount": "0",
+            "result": "Passed",
+            "total": "0",
+            "passed": "0",
+            "failed": "0",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-10-20 13:16:37Z",
+            "end-time": "2026-10-20 13:16:37Z",
+            "duration": "0.0027583"
+          },
+          "raw_xml_sha256": "21a487bc5f8703faf10057d25c5566e9567788f8cb8c63abe26bcc9ee14cb7a3",
+          "tests": []
+        },
+        "PlayMode": {
+          "exit": 0,
+          "summary": {
+            "id": "2",
+            "testcasecount": "1",
+            "result": "Passed",
+            "total": "1",
+            "passed": "1",
+            "failed": "0",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-10-20 13:16:56Z",
+            "end-time": "2026-10-20 13:17:44Z",
+            "duration": "48.1317794"
+          },
+          "raw_xml_sha256": "4fc6882e52a69a143d33f4d01cbf6bda151982266aaab3b62ff0654dcfdf1aaa",
+          "tests": [
+            {
+              "id": "1006",
+              "name": "ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+              "fullname": "RogueTactics.Tests.HqPresentationTests.ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+              "methodname": "ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+              "classname": "RogueTactics.Tests.HqPresentationTests",
+              "runstate": "Runnable",
+              "seed": "1994053346",
+              "result": "Passed",
+              "start-time": "2026-10-20 13:16:56Z",
+              "end-time": "2026-10-20 13:17:44Z",
+              "duration": "48.111933",
+              "asserts": "0"
+            }
+          ]
+        }
+      },
+      "captures": {
+        "r1-setup": "be26a98a24a4304e7d56007173a6a1e8ecbf5915b176c65609ef6da8992764aa",
+        "ProtectAnchor-guard": "41ccf23110f46a58b94c14726137ebc290cfa3056fefd9af41851733f0dc18c2",
+        "ProtectAnchor-heal": "1e3397a8f12f4ac180981524cee56abce0560fb3dbdc8ad5c7abf3558daf8c00",
+        "DirectAttack-counter": "04c9dcfc63d79b74a96737a4f5aef5ac81f5137658e808e8b67c1aeafb1d46f6",
+        "DirectAttack-death": "27fafec9c1440edafc36178628b7e8c9c20abea18c61724f8658328ecca39637",
+        "ProtectAnchor-comparison": "bb00e64dc6df80a5e16eb2d4b40cb205772b468fea4e682482c08fb0802d8c84",
+        "DirectAttack-comparison": "5ed7ec7defec99bf2b7d62eabf6901c027e2539a5ebbd56619163f7d73a60f0d"
+      }
+    },
+    "unity-a": {
+      "head": "a86b6c29ce09395391360f80eedd0200c45bfa34",
+      "unity_diff_sha256": "3ba5f432484edb6c7d06f026e50596379fd351cd96e418f7f41d16d7d8d9300d",
+      "scene_sha256": "01c8235530465fbeac2e6c999333fd9f8dcfe93f87e394ed91cfecdf55c8129f",
+      "filter": "RogueTactics.Tests.HqPresentationTests.ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+      "results": {
+        "EditMode": {
+          "exit": 0,
+          "summary": {
+            "id": "2",
+            "testcasecount": "0",
+            "result": "Passed",
+            "total": "0",
+            "passed": "0",
+            "failed": "0",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-10-20 13:27:37Z",
+            "end-time": "2026-10-20 13:27:37Z",
+            "duration": "0.0023533"
+          },
+          "raw_xml_sha256": "28e718aa6967affb6eeb208c36c7c95de6a3cfcbed1c1957a38f06759cd529c1",
+          "tests": []
+        },
+        "PlayMode": {
+          "exit": 0,
+          "summary": {
+            "id": "2",
+            "testcasecount": "1",
+            "result": "Passed",
+            "total": "1",
+            "passed": "1",
+            "failed": "0",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-10-20 13:27:52Z",
+            "end-time": "2026-10-20 13:28:38Z",
+            "duration": "45.658907"
+          },
+          "raw_xml_sha256": "c1505eaacbc71c5e621f2cc81d265ea964798fc1a41f0356b612a8b17ee64536",
+          "tests": [
+            {
+              "id": "1006",
+              "name": "ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+              "fullname": "RogueTactics.Tests.HqPresentationTests.ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+              "methodname": "ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+              "classname": "RogueTactics.Tests.HqPresentationTests",
+              "runstate": "Runnable",
+              "seed": "1322416079",
+              "result": "Passed",
+              "start-time": "2026-10-20 13:27:52Z",
+              "end-time": "2026-10-20 13:28:38Z",
+              "duration": "45.643928",
+              "asserts": "0"
+            }
+          ]
+        }
+      },
+      "captures": {
+        "r1-setup": "190624f07a6235e69bf351df42fa29c733a9d34f942d348e0dd81f6579b9c221",
+        "ProtectAnchor-guard": "a19095609cfaecb77038e78734d9c781295e473af7a85836e8ef6c7ab3cb5dcf",
+        "ProtectAnchor-heal": "6a9d868286d9340a958c33b6ac09a6b59875b47e1aea123d154d2b517bae15c6",
+        "DirectAttack-counter": "c39bfcc87f3b1f38fe592c6bcc29572cdbc49977e180fbfd30118f6f006ec410",
+        "DirectAttack-death": "7850e06d5ad1de6e7a35bf2f278d20c52dd3a88a4ea566a51ba0a82b109949f9",
+        "ProtectAnchor-comparison": "5aba96b3eb44b970a0d4d1e4822bbe6c93185b8de6c00a1574d032f8b5463669",
+        "DirectAttack-comparison": "7a3fef36426a3646adab56b1952204ab9561243ceffac7dc21cb28121a80b7f6"
+      }
+    },
+    "unity-b": {
+      "head": "a86b6c29ce09395391360f80eedd0200c45bfa34",
+      "unity_diff_sha256": "607c45f76ae3bbd11dc9bda269f4ef4903cb5cd8583174aedc6f4c71d56aff6d",
+      "scene_sha256": "01c8235530465fbeac2e6c999333fd9f8dcfe93f87e394ed91cfecdf55c8129f",
+      "filter": "RogueTactics.Tests.HqPresentationTests.ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+      "results": {
+        "EditMode": {
+          "exit": 0,
+          "summary": {
+            "id": "2",
+            "testcasecount": "0",
+            "result": "Passed",
+            "total": "0",
+            "passed": "0",
+            "failed": "0",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-10-20 13:31:53Z",
+            "end-time": "2026-10-20 13:31:53Z",
+            "duration": "0.0033861"
+          },
+          "raw_xml_sha256": "23cfaf6af635cb62eb8e25f6e05c455ef76c5cbc0f0e4b7d0bc5c0267becd7c9",
+          "tests": []
+        },
+        "PlayMode": {
+          "exit": 0,
+          "summary": {
+            "id": "2",
+            "testcasecount": "1",
+            "result": "Passed",
+            "total": "1",
+            "passed": "1",
+            "failed": "0",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-10-20 13:32:26Z",
+            "end-time": "2026-10-20 13:33:13Z",
+            "duration": "46.1149979"
+          },
+          "raw_xml_sha256": "d54dfd5caf7c4ff567d7b29373edb7d0b73059905ba03de45806b8e02e1997c0",
+          "tests": [
+            {
+              "id": "1006",
+              "name": "ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+              "fullname": "RogueTactics.Tests.HqPresentationTests.ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+              "methodname": "ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+              "classname": "RogueTactics.Tests.HqPresentationTests",
+              "runstate": "Runnable",
+              "seed": "25140924",
+              "result": "Passed",
+              "start-time": "2026-10-20 13:32:26Z",
+              "end-time": "2026-10-20 13:33:13Z",
+              "duration": "46.077542",
+              "asserts": "0"
+            }
+          ]
+        }
+      },
+      "captures": {
+        "r1-setup": "d260a95a212116baff20e3b851251ef0cb24730f44c030fac56db4d9e8b0e032",
+        "ProtectAnchor-guard": "28aec1de465ebe2054f19bf3fc06a9ba35b6afda161c642c23c042bbb4153bf5",
+        "ProtectAnchor-heal": "0c388766f6a04983844df725b751d4effb136e79a6cbb7ba785c643b3a5c17d0",
+        "DirectAttack-counter": "6669730d8c0381fd4c6501178f5f69cac81169146e28cf72bd5e1acc19a023d4",
+        "DirectAttack-death": "a1cc52c5df55b7b623744758787e03a773e5149ea23d60c35ffac1f860bade34",
+        "ProtectAnchor-comparison": "bd31af0deabf24814c9183652bb175e186eae21d4da05ab2c732ca00d14fb9ae",
+        "DirectAttack-comparison": "8993307b0aaefd5219b36865d2ede522357392ad0ed4e7137a334f6b3d25a71a"
+      }
+    },
+    "unity-c": {
+      "head": "a86b6c29ce09395391360f80eedd0200c45bfa34",
+      "unity_diff_sha256": "1dc6b626c4c71938b6434ddfccb1af1bb11afc34786ae77ab8fa71ae7148c207",
+      "scene_sha256": "01c8235530465fbeac2e6c999333fd9f8dcfe93f87e394ed91cfecdf55c8129f",
+      "filter": "RogueTactics.Tests.HqPresentationTests.ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+      "results": {
+        "EditMode": {
+          "exit": 0,
+          "summary": {
+            "id": "2",
+            "testcasecount": "0",
+            "result": "Passed",
+            "total": "0",
+            "passed": "0",
+            "failed": "0",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-10-20 13:40:30Z",
+            "end-time": "2026-10-20 13:40:30Z",
+            "duration": "0.0031195"
+          },
+          "raw_xml_sha256": "84441201ad324a9018ff6d6181e50f6bd8a22ed935f3063e63c23f764952bed0",
+          "tests": []
+        },
+        "PlayMode": {
+          "exit": 0,
+          "summary": {
+            "id": "2",
+            "testcasecount": "1",
+            "result": "Passed",
+            "total": "1",
+            "passed": "1",
+            "failed": "0",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-10-20 13:41:22Z",
+            "end-time": "2026-10-20 13:42:11Z",
+            "duration": "48.8539302"
+          },
+          "raw_xml_sha256": "06c30d291f556e9c166ad3e2a1f45a0d001934598aa0c062aac4f75fb4443645",
+          "tests": [
+            {
+              "id": "1006",
+              "name": "ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+              "fullname": "RogueTactics.Tests.HqPresentationTests.ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+              "methodname": "ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+              "classname": "RogueTactics.Tests.HqPresentationTests",
+              "runstate": "Runnable",
+              "seed": "501237007",
+              "result": "Passed",
+              "start-time": "2026-10-20 13:41:22Z",
+              "end-time": "2026-10-20 13:42:10Z",
+              "duration": "48.806282",
+              "asserts": "0"
+            }
+          ]
+        }
+      },
+      "captures": {
+        "r1-setup": "eb60f5cfb6f85009d0f3199f5184b4caa6f17f4f4393a7b19a054e69d89af9ba",
+        "ProtectAnchor-guard": "3d508f2ac098c2469a2baad1a7925e6fd6d105ad8cb98fb8a2ff2a2d8b244861",
+        "ProtectAnchor-heal": "3332f5b0a68006abfdd2722b5537bafe07a91cd402da9ef9813f8604d623d313",
+        "DirectAttack-counter": "baa779388c5cea5e8f98cc6aa89b08340b9e3a950fb4968b9efb60800a4edabb",
+        "DirectAttack-death": "eff533d7ceccbaac1a3a8c278b3e5f36fc0413ebb3f3b3938a8e4c211a62d0d4",
+        "ProtectAnchor-comparison": "8386abb9a1b617762a9cfa4095339e3772fe5a603286b2ac9f0b14a1b20bf142",
+        "DirectAttack-comparison": "f71803ce20d8f38b6e126d59a8be78e44b69a953c7190cc3b4d2ab6e99d58d25"
+      }
+    },
+    "visibility-diagnostic": {
+      "head": "a86b6c29ce09395391360f80eedd0200c45bfa34",
+      "unity_diff_sha256": "607c45f76ae3bbd11dc9bda269f4ef4903cb5cd8583174aedc6f4c71d56aff6d",
+      "scene_sha256": "01c8235530465fbeac2e6c999333fd9f8dcfe93f87e394ed91cfecdf55c8129f",
+      "filter": "RogueTactics.Tests.ArtistVisibilityDiagnostic.IsolateAndCheckCulling",
+      "results": {
+        "EditMode": {
+          "exit": 0,
+          "summary": {
+            "id": "2",
+            "testcasecount": "0",
+            "result": "Passed",
+            "total": "0",
+            "passed": "0",
+            "failed": "0",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-10-20 13:36:05Z",
+            "end-time": "2026-10-20 13:36:05Z",
+            "duration": "0.0025721"
+          },
+          "raw_xml_sha256": "0f6398e4f6f871dd49a56af98ca435766c2bed0493611229514970700adce627",
+          "tests": []
+        },
+        "PlayMode": {
+          "exit": 2,
+          "summary": {
+            "id": "2",
+            "testcasecount": "1",
+            "result": "Failed(Child)",
+            "total": "1",
+            "passed": "0",
+            "failed": "1",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-10-20 13:36:23Z",
+            "end-time": "2026-10-20 13:36:24Z",
+            "duration": "0.8869202"
+          },
+          "raw_xml_sha256": "07f5c6dd2ca12c43bfbe26930b710d98c18abbd7109536d18cfb7a9b9b04b258",
+          "tests": [
+            {
+              "id": "1002",
+              "name": "IsolateAndCheckCulling",
+              "fullname": "RogueTactics.Tests.ArtistVisibilityDiagnostic.IsolateAndCheckCulling",
+              "methodname": "IsolateAndCheckCulling",
+              "classname": "RogueTactics.Tests.ArtistVisibilityDiagnostic",
+              "runstate": "Runnable",
+              "seed": "28786373",
+              "result": "Failed",
+              "start-time": "2026-10-20 13:36:23Z",
+              "end-time": "2026-10-20 13:36:24Z",
+              "duration": "0.869713",
+              "asserts": "0"
+            }
+          ]
+        }
+      },
+      "captures": {}
+    },
+    "visibility-diagnostic-v2": {
+      "head": "a86b6c29ce09395391360f80eedd0200c45bfa34",
+      "unity_diff_sha256": "607c45f76ae3bbd11dc9bda269f4ef4903cb5cd8583174aedc6f4c71d56aff6d",
+      "scene_sha256": "01c8235530465fbeac2e6c999333fd9f8dcfe93f87e394ed91cfecdf55c8129f",
+      "filter": "RogueTactics.Tests.ArtistVisibilityDiagnostic.IsolateAndCheckCulling",
+      "results": {
+        "EditMode": {
+          "exit": 0,
+          "summary": {
+            "id": "2",
+            "testcasecount": "0",
+            "result": "Passed",
+            "total": "0",
+            "passed": "0",
+            "failed": "0",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-10-20 13:37:31Z",
+            "end-time": "2026-10-20 13:37:31Z",
+            "duration": "0.0025478"
+          },
+          "raw_xml_sha256": "1f8141ece1d4b9dd8f57d24be29dc0bb2d05c58d8f65267311ce6f5074f2e0cd",
+          "tests": []
+        },
+        "PlayMode": {
+          "exit": 0,
+          "summary": {
+            "id": "2",
+            "testcasecount": "1",
+            "result": "Passed",
+            "total": "1",
+            "passed": "1",
+            "failed": "0",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-10-20 13:37:49Z",
+            "end-time": "2026-10-20 13:37:50Z",
+            "duration": "0.8510017"
+          },
+          "raw_xml_sha256": "76cb3d7412b8aa6ac6dc7436b83c580e7479addba6946dcfeaa2452a283b58d9",
+          "tests": [
+            {
+              "id": "1002",
+              "name": "IsolateAndCheckCulling",
+              "fullname": "RogueTactics.Tests.ArtistVisibilityDiagnostic.IsolateAndCheckCulling",
+              "methodname": "IsolateAndCheckCulling",
+              "classname": "RogueTactics.Tests.ArtistVisibilityDiagnostic",
+              "runstate": "Runnable",
+              "seed": "1373970386",
+              "result": "Passed",
+              "start-time": "2026-10-20 13:37:49Z",
+              "end-time": "2026-10-20 13:37:50Z",
+              "duration": "0.833597",
+              "asserts": "0"
+            }
+          ]
+        }
+      },
+      "captures": {
+        "diagnostic-cliff-isolated.png": "0ef4c7ba246f71158eaa55376346119d7689a66cc2ba157fa2cb389ac4a7ce5a",
+        "diagnostic-cliff-isolated-two-sided.png": "e74dc8778c83c7fdbc107d76510d0db328cbb6a09dc3d0c214a65bc0cab91e16",
+        "diagnostic-cliff-integrated-two-sided.png": "e74e33e625bcfd9c3cfa5e27d798f5dac99929914de63d9fc9eed8cbfa3ac12a"
+      }
+    },
+    "retained-full": {
+      "head": "a86b6c29ce09395391360f80eedd0200c45bfa34",
+      "unity_diff_sha256": "4e1e2823ee5ac5050518a4dc71c9ff47ea0f267ec20c72d21490743020b7f014",
+      "scene_sha256": "01c8235530465fbeac2e6c999333fd9f8dcfe93f87e394ed91cfecdf55c8129f",
+      "filter": null,
+      "results": {
+        "EditMode": {
+          "exit": 0,
+          "summary": {
+            "id": "2",
+            "testcasecount": "14",
+            "result": "Passed",
+            "total": "14",
+            "passed": "14",
+            "failed": "0",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-10-20 22:22:50Z",
+            "end-time": "2026-10-20 22:22:50Z",
+            "duration": "0.0692342"
+          },
+          "raw_xml_sha256": "d396782722f303a6e5ef3e94be12673ece31b8f3a2fb9d360d624a41b5746eb5",
+          "tests": [
+            {
+              "id": "1010",
+              "name": "BlockedMovementMaintainsAndIllegalFixtureRejected",
+              "fullname": "RogueTactics.Tests.G1CoreTests.BlockedMovementMaintainsAndIllegalFixtureRejected",
+              "methodname": "BlockedMovementMaintainsAndIllegalFixtureRejected",
+              "classname": "RogueTactics.Tests.G1CoreTests",
+              "runstate": "Runnable",
+              "seed": "2011373640",
+              "result": "Passed",
+              "start-time": "2026-10-20 22:22:50Z",
+              "end-time": "2026-10-20 22:22:50Z",
+              "duration": "0.015271",
+              "asserts": "0"
+            },
+            {
+              "id": "1006",
+              "name": "EveryActionLegalAndNoDeadActorOrTargetCanActOrHeal(ProtectAnchor)",
+              "fullname": "RogueTactics.Tests.G1CoreTests.EveryActionLegalAndNoDeadActorOrTargetCanActOrHeal(ProtectAnchor)",
+              "methodname": "EveryActionLegalAndNoDeadActorOrTargetCanActOrHeal",
+              "classname": "RogueTactics.Tests.G1CoreTests",
+              "runstate": "Runnable",
+              "seed": "1921525653",
+              "result": "Passed",
+              "start-time": "2026-10-20 22:22:50Z",
+              "end-time": "2026-10-20 22:22:50Z",
+              "duration": "0.007944",
+              "asserts": "0"
+            },
+            {
+              "id": "1007",
+              "name": "EveryActionLegalAndNoDeadActorOrTargetCanActOrHeal(DirectAttack)",
+              "fullname": "RogueTactics.Tests.G1CoreTests.EveryActionLegalAndNoDeadActorOrTargetCanActOrHeal(DirectAttack)",
+              "methodname": "EveryActionLegalAndNoDeadActorOrTargetCanActOrHeal",
+              "classname": "RogueTactics.Tests.G1CoreTests",
+              "runstate": "Runnable",
+              "seed": "1237685576",
+              "result": "Passed",
+              "start-time": "2026-10-20 22:22:50Z",
+              "end-time": "2026-10-20 22:22:50Z",
+              "duration": "0.008926",
+              "asserts": "0"
+            },
+            {
+              "id": "1009",
+              "name": "LethalHitSuppressesAnchorCounter",
+              "fullname": "RogueTactics.Tests.G1CoreTests.LethalHitSuppressesAnchorCounter",
+              "methodname": "LethalHitSuppressesAnchorCounter",
+              "classname": "RogueTactics.Tests.G1CoreTests",
+              "runstate": "Runnable",
+              "seed": "785482163",
+              "result": "Passed",
+              "start-time": "2026-10-20 22:22:50Z",
+              "end-time": "2026-10-20 22:22:50Z",
+              "duration": "0.000484",
+              "asserts": "0"
+            },
+            {
+              "id": "1002",
+              "name": "ReplayIsByteIdenticalAndIndependentOfCulture(ProtectAnchor)",
+              "fullname": "RogueTactics.Tests.G1CoreTests.ReplayIsByteIdenticalAndIndependentOfCulture(ProtectAnchor)",
+              "methodname": "ReplayIsByteIdenticalAndIndependentOfCulture",
+              "classname": "RogueTactics.Tests.G1CoreTests",
+              "runstate": "Runnable",
+              "seed": "2144523320",
+              "result": "Passed",
+              "start-time": "2026-10-20 22:22:50Z",
+              "end-time": "2026-10-20 22:22:50Z",
+              "duration": "0.003214",
+              "asserts": "0"
+            },
+            {
+              "id": "1003",
+              "name": "ReplayIsByteIdenticalAndIndependentOfCulture(DirectAttack)",
+              "fullname": "RogueTactics.Tests.G1CoreTests.ReplayIsByteIdenticalAndIndependentOfCulture(DirectAttack)",
+              "methodname": "ReplayIsByteIdenticalAndIndependentOfCulture",
+              "classname": "RogueTactics.Tests.G1CoreTests",
+              "runstate": "Runnable",
+              "seed": "2141060697",
+              "result": "Passed",
+              "start-time": "2026-10-20 22:22:50Z",
+              "end-time": "2026-10-20 22:22:50Z",
+              "duration": "0.000668",
+              "asserts": "0"
+            },
+            {
+              "id": "1005",
+              "name": "SinglePreferenceForkChangesRealPlanAndOutcomeMeasures",
+              "fullname": "RogueTactics.Tests.G1CoreTests.SinglePreferenceForkChangesRealPlanAndOutcomeMeasures",
+              "methodname": "SinglePreferenceForkChangesRealPlanAndOutcomeMeasures",
+              "classname": "RogueTactics.Tests.G1CoreTests",
+              "runstate": "Runnable",
+              "seed": "874111307",
+              "result": "Passed",
+              "start-time": "2026-10-20 22:22:50Z",
+              "end-time": "2026-10-20 22:22:50Z",
+              "duration": "0.001774",
+              "asserts": "0"
+            },
+            {
+              "id": "1012",
+              "name": "MobileAdapterPreservesFrozenG1Trace(ProtectAnchor,\"e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d\")",
+              "fullname": "RogueTactics.Tests.MobileG1SessionTests.MobileAdapterPreservesFrozenG1Trace(ProtectAnchor,\"e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d\")",
+              "methodname": "MobileAdapterPreservesFrozenG1Trace",
+              "classname": "RogueTactics.Tests.MobileG1SessionTests",
+              "runstate": "Runnable",
+              "seed": "28236561",
+              "result": "Passed",
+              "start-time": "2026-10-20 22:22:50Z",
+              "end-time": "2026-10-20 22:22:50Z",
+              "duration": "0.002107",
+              "asserts": "0"
+            },
+            {
+              "id": "1013",
+              "name": "MobileAdapterPreservesFrozenG1Trace(DirectAttack,\"85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e\")",
+              "fullname": "RogueTactics.Tests.MobileG1SessionTests.MobileAdapterPreservesFrozenG1Trace(DirectAttack,\"85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e\")",
+              "methodname": "MobileAdapterPreservesFrozenG1Trace",
+              "classname": "RogueTactics.Tests.MobileG1SessionTests",
+              "runstate": "Runnable",
+              "seed": "916884635",
+              "result": "Passed",
+              "start-time": "2026-10-20 22:22:50Z",
+              "end-time": "2026-10-20 22:22:50Z",
+              "duration": "0.000442",
+              "asserts": "0"
+            },
+            {
+              "id": "1018",
+              "name": "CoordinateOverflowFailsExplicitly",
+              "fullname": "RogueTactics.Tests.ScaffoldTests.CoordinateOverflowFailsExplicitly",
+              "methodname": "CoordinateOverflowFailsExplicitly",
+              "classname": "RogueTactics.Tests.ScaffoldTests",
+              "runstate": "Runnable",
+              "seed": "1801651869",
+              "result": "Passed",
+              "start-time": "2026-10-20 22:22:50Z",
+              "end-time": "2026-10-20 22:22:50Z",
+              "duration": "0.000576",
+              "asserts": "0"
+            },
+            {
+              "id": "1017",
+              "name": "CoreReferencesNeitherUnityNorPresentation",
+              "fullname": "RogueTactics.Tests.ScaffoldTests.CoreReferencesNeitherUnityNorPresentation",
+              "methodname": "CoreReferencesNeitherUnityNorPresentation",
+              "classname": "RogueTactics.Tests.ScaffoldTests",
+              "runstate": "Runnable",
+              "seed": "1843467659",
+              "result": "Passed",
+              "start-time": "2026-10-20 22:22:50Z",
+              "end-time": "2026-10-20 22:22:50Z",
+              "duration": "0.000232",
+              "asserts": "0"
+            },
+            {
+              "id": "1019",
+              "name": "PortraitConfigurationIsPinned",
+              "fullname": "RogueTactics.Tests.ScaffoldTests.PortraitConfigurationIsPinned",
+              "methodname": "PortraitConfigurationIsPinned",
+              "classname": "RogueTactics.Tests.ScaffoldTests",
+              "runstate": "Runnable",
+              "seed": "656946733",
+              "result": "Passed",
+              "start-time": "2026-10-20 22:22:50Z",
+              "end-time": "2026-10-20 22:22:50Z",
+              "duration": "0.000658",
+              "asserts": "0"
+            },
+            {
+              "id": "1016",
+              "name": "SameCoordinateOffsetsProduceSameSequence",
+              "fullname": "RogueTactics.Tests.ScaffoldTests.SameCoordinateOffsetsProduceSameSequence",
+              "methodname": "SameCoordinateOffsetsProduceSameSequence",
+              "classname": "RogueTactics.Tests.ScaffoldTests",
+              "runstate": "Runnable",
+              "seed": "1681124303",
+              "result": "Passed",
+              "start-time": "2026-10-20 22:22:50Z",
+              "end-time": "2026-10-20 22:22:50Z",
+              "duration": "0.000768",
+              "asserts": "0"
+            },
+            {
+              "id": "1020",
+              "name": "UrpIsConfigured",
+              "fullname": "RogueTactics.Tests.ScaffoldTests.UrpIsConfigured",
+              "methodname": "UrpIsConfigured",
+              "classname": "RogueTactics.Tests.ScaffoldTests",
+              "runstate": "Runnable",
+              "seed": "1719425163",
+              "result": "Passed",
+              "start-time": "2026-10-20 22:22:50Z",
+              "end-time": "2026-10-20 22:22:50Z",
+              "duration": "0.000318",
+              "asserts": "0"
+            }
+          ]
+        },
+        "PlayMode": {
+          "exit": 0,
+          "summary": {
+            "id": "2",
+            "testcasecount": "9",
+            "result": "Passed",
+            "total": "9",
+            "passed": "9",
+            "failed": "0",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-10-20 22:23:05Z",
+            "end-time": "2026-10-20 22:25:30Z",
+            "duration": "145.0849283"
+          },
+          "raw_xml_sha256": "d2f8878a13011953e5c054f04cc4e93d743f7bf864947d24a835cddb0ae1161f",
+          "tests": [
+            {
+              "id": "1002",
+              "name": "InputToBattleToAlternativeComparisonRendersOnlyCoreEvents",
+              "fullname": "RogueTactics.Tests.G1InteractionTests.InputToBattleToAlternativeComparisonRendersOnlyCoreEvents",
+              "methodname": "InputToBattleToAlternativeComparisonRendersOnlyCoreEvents",
+              "classname": "RogueTactics.Tests.G1InteractionTests",
+              "runstate": "Runnable",
+              "seed": "1741560112",
+              "result": "Passed",
+              "start-time": "2026-10-20 22:23:05Z",
+              "end-time": "2026-10-20 22:23:07Z",
+              "duration": "1.819828",
+              "asserts": "0"
+            },
+            {
+              "id": "1005",
+              "name": "FixedYawCameraComparisonPreservesState",
+              "fullname": "RogueTactics.Tests.HqPresentationTests.FixedYawCameraComparisonPreservesState",
+              "methodname": "FixedYawCameraComparisonPreservesState",
+              "classname": "RogueTactics.Tests.HqPresentationTests",
+              "runstate": "Runnable",
+              "seed": "2068866449",
+              "result": "Passed",
+              "start-time": "2026-10-20 22:23:07Z",
+              "end-time": "2026-10-20 22:23:09Z",
+              "duration": "1.825127",
+              "asserts": "0"
+            },
+            {
+              "id": "1004",
+              "name": "PauseDuringMovementPreservesVisiblePoseAndCursor",
+              "fullname": "RogueTactics.Tests.HqPresentationTests.PauseDuringMovementPreservesVisiblePoseAndCursor",
+              "methodname": "PauseDuringMovementPreservesVisiblePoseAndCursor",
+              "classname": "RogueTactics.Tests.HqPresentationTests",
+              "runstate": "Runnable",
+              "seed": "683620103",
+              "result": "Passed",
+              "start-time": "2026-10-20 22:23:09Z",
+              "end-time": "2026-10-20 22:23:10Z",
+              "duration": "1.439810",
+              "asserts": "0"
+            },
+            {
+              "id": "1006",
+              "name": "ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+              "fullname": "RogueTactics.Tests.HqPresentationTests.ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+              "methodname": "ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+              "classname": "RogueTactics.Tests.HqPresentationTests",
+              "runstate": "Runnable",
+              "seed": "423509708",
+              "result": "Passed",
+              "start-time": "2026-10-20 22:23:10Z",
+              "end-time": "2026-10-20 22:23:55Z",
+              "duration": "45.305728",
+              "asserts": "0"
+            },
+            {
+              "id": "1011",
+              "name": "JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults",
+              "fullname": "RogueTactics.Tests.MobileG1InteractionTests.JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults",
+              "methodname": "JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults",
+              "classname": "RogueTactics.Tests.MobileG1InteractionTests",
+              "runstate": "Runnable",
+              "seed": "1337909338",
+              "result": "Passed",
+              "start-time": "2026-10-20 22:23:55Z",
+              "end-time": "2026-10-20 22:24:42Z",
+              "duration": "46.161570",
+              "asserts": "0"
+            },
+            {
+              "id": "1008",
+              "name": "PredictionStaysAboveKeyboardAndReturnsWithoutChangingCore",
+              "fullname": "RogueTactics.Tests.MobileG1InteractionTests.PredictionStaysAboveKeyboardAndReturnsWithoutChangingCore",
+              "methodname": "PredictionStaysAboveKeyboardAndReturnsWithoutChangingCore",
+              "classname": "RogueTactics.Tests.MobileG1InteractionTests",
+              "runstate": "Runnable",
+              "seed": "1612345061",
+              "result": "Passed",
+              "start-time": "2026-10-20 22:24:42Z",
+              "end-time": "2026-10-20 22:24:42Z",
+              "duration": "0.403606",
+              "asserts": "0"
+            },
+            {
+              "id": "1009",
+              "name": "QueuedMouseReachesButtonsThroughInputSystem",
+              "fullname": "RogueTactics.Tests.MobileG1InteractionTests.QueuedMouseReachesButtonsThroughInputSystem",
+              "methodname": "QueuedMouseReachesButtonsThroughInputSystem",
+              "classname": "RogueTactics.Tests.MobileG1InteractionTests",
+              "runstate": "Runnable",
+              "seed": "900427294",
+              "result": "Passed",
+              "start-time": "2026-10-20 22:24:42Z",
+              "end-time": "2026-10-20 22:25:06Z",
+              "duration": "23.822651",
+              "asserts": "0"
+            },
+            {
+              "id": "1010",
+              "name": "QueuedTouchReachesButtonsThroughInputSystem",
+              "fullname": "RogueTactics.Tests.MobileG1InteractionTests.QueuedTouchReachesButtonsThroughInputSystem",
+              "methodname": "QueuedTouchReachesButtonsThroughInputSystem",
+              "classname": "RogueTactics.Tests.MobileG1InteractionTests",
+              "runstate": "Runnable",
+              "seed": "191304729",
+              "result": "Passed",
+              "start-time": "2026-10-20 22:25:06Z",
+              "end-time": "2026-10-20 22:25:30Z",
+              "duration": "23.896694",
+              "asserts": "0"
+            },
+            {
+              "id": "1013",
+              "name": "Stage0RendersAtPortraitReferenceWithoutHorizontalClipping",
+              "fullname": "RogueTactics.Tests.PortraitSmokeTests.Stage0RendersAtPortraitReferenceWithoutHorizontalClipping",
+              "methodname": "Stage0RendersAtPortraitReferenceWithoutHorizontalClipping",
+              "classname": "RogueTactics.Tests.PortraitSmokeTests",
+              "runstate": "Runnable",
+              "seed": "870366105",
+              "result": "Passed",
+              "start-time": "2026-10-20 22:25:30Z",
+              "end-time": "2026-10-20 22:25:30Z",
+              "duration": "0.370255",
+              "asserts": "0"
+            }
+          ]
+        }
+      },
+      "captures": {
+        "r1-setup": "1d69ca2fd2f1ff9bef2ce3e51bd5c7c26684b0abf676d39fb7b885542f6457cb",
+        "ProtectAnchor-guard": "ae250e21302d93d2cd8b0bb396513d173bb64eb101add7be442671073499bb49",
+        "ProtectAnchor-heal": "1ef975fd6a60cc36f18342fe00a60575f9590939f38619e001e8c2391c9858f7",
+        "DirectAttack-counter": "0676fc83daf3bfc383f4bf6df4cfb758483c621d556166041f6246e5574212e0",
+        "DirectAttack-death": "a4dcf80713cad258f0143827e1b7d40cc25844b8eec99c5fa9a790bcb49af0b1",
+        "ProtectAnchor-comparison": "c3a34ff5e870d9c7edfcad2f78e154cecc3e827f1f5b952b289b94954998da67",
+        "DirectAttack-comparison": "bb0c78757177d8eee04de8ec227d8dfd751ca564194f079403890f7ceaea6867"
+      }
+    }
+  },
+  "art_adoption": 0,
+  "R2": "V0 FAIL",
+  "human_visual_fun": "UNVERIFIED",
+  "new_simulator": "NOT_RUN",
+  "new_testflight": "NOT_RUN",
+  "physical_iphone": "UNVERIFIED",
+  "private_media_sharing": "Owner-local only; cross-session sharing not established",
+  "private_root": "_userwork/hq-evidence/2026-10-20-free-source/",
+  "candidate_source": {
+    "source-a": {
+      "stage": "Artist-source placement/contact trial, no art acceptance",
+      "source": "Poly Haven Coastal Cliff01 / Rico Cilliers and Rob Tuytel / CC0",
+      "source_blend_sha256": "81e79b132cd5d762afe964ecfba06d95ff40a686d5fef97cf15b4141938359bd",
+      "working_blend_sha256": "d080f36a9e23f2eccee088a905f199142cd6a3e94e1fd74f8985af3fb4bafd33",
+      "source_crop": {
+        "lod": 3,
+        "x": [
+          -34,
+          -20
+        ],
+        "y": [
+          -4.75,
+          0.15
+        ],
+        "scale": 0.42,
+        "top_source": 9.166958808898926
+      },
+      "bounds": [
+        [
+          -6.599999904632568,
+          -3.7242398262023926,
+          -10.4758939743042
+        ],
+        [
+          -0.7200000286102295,
+          0.05000000074505806,
+          -9.321999549865723
+        ]
+      ],
+      "method": "Crop existing artist erosion/overhang; uniform scale; recalc winding for axis reflection; preserve original UV/smooth normals. No generated rock detail.",
+      "photo_texture_applied": false,
+      "palette": "Existing game stone range; geometry visibility trial",
+      "open_boundary_edges": "Source scan/crop has open back/cut boundaries; no watertight claim",
+      "layers": {
+        "HeroLedgeCliff": {
+          "sha256": "5475f15016afe0c732b306c8f7a1c1d042f3c771aad96d82562e6f80b81fb4af",
+          "vertices": 3639,
+          "triangles": 6029
+        },
+        "Limestone": {
+          "sha256": "5a95c7b473d851bb8be2fa0dcdbae75535802df3d5e527a7f6737b7216a11140",
+          "vertices": 5436,
+          "triangles": 1812
+        },
+        "Cliff": {
+          "sha256": "a10b87b22a8412cfbe2cb5f23aabe56a3335522b15b92a9361d44b719928ec8d",
+          "vertices": 3441,
+          "triangles": 1147
+        }
+      }
+    },
+    "source-b": {
+      "stage": "Placement correction B: bring scan front under cap; no art acceptance",
+      "source": "Poly Haven Coastal Cliff01 / Rico Cilliers and Rob Tuytel / CC0",
+      "source_blend_sha256": "81e79b132cd5d762afe964ecfba06d95ff40a686d5fef97cf15b4141938359bd",
+      "working_blend_sha256": "1737b1aebab34768d8263b20d34f3cadcf8d9f21b4ba98cc7d9a7833ca6d7e11",
+      "source_crop": {
+        "lod": 3,
+        "x": [
+          -34,
+          -20
+        ],
+        "y": [
+          -4.75,
+          0.15
+        ],
+        "scale": 0.42,
+        "top_source": 9.166958808898926,
+        "placement_delta_z": -0.85
+      },
+      "bounds": [
+        [
+          -6.599999904632568,
+          -3.7242398262023926,
+          -11.325894355773926
+        ],
+        [
+          -0.7200000286102295,
+          0.05000000074505806,
+          -10.17199993133545
+        ]
+      ],
+      "method": "Crop existing artist erosion/overhang; uniform scale; recalc winding for axis reflection; preserve original UV/smooth normals. No generated rock detail.",
+      "photo_texture_applied": false,
+      "palette": "Existing game stone range; geometry visibility trial",
+      "open_boundary_edges": "Source scan/crop has open back/cut boundaries; no watertight claim",
+      "layers": {
+        "HeroLedgeCliff": {
+          "sha256": "d0f78fdb9f36bc142cede4d740bcd44a8def644f5900e49fc6a2333a7fe5a5ae",
+          "vertices": 3639,
+          "triangles": 6029
+        },
+        "Limestone": {
+          "sha256": "16a44614fe60d09aba0826401153bc4d8054fa7db6e53b39ccb63d03d1b9bd88",
+          "vertices": 5436,
+          "triangles": 1812
+        },
+        "Cliff": {
+          "sha256": "a92df4c8b0794b8e2a948b8e9454814a0c0aa1d4dd9d978d49f434c31c04fee4",
+          "vertices": 3441,
+          "triangles": 1147
+        }
+      }
+    },
+    "source-c": {
+      "stage": "Structural retention C: width crop only, retain full erosion depth; no art acceptance",
+      "source": "Poly Haven Coastal Cliff01 / Rico Cilliers and Rob Tuytel / CC0",
+      "source_blend_sha256": "81e79b132cd5d762afe964ecfba06d95ff40a686d5fef97cf15b4141938359bd",
+      "working_blend_sha256": "c286ef67c7029e7dc6d9fa64f7aef2cd94e125679410d55349b4a1289a556d48",
+      "source_crop": {
+        "lod": 3,
+        "x": [
+          -34,
+          -20
+        ],
+        "y": "full original scan depth retained",
+        "axis_scales": {
+          "width_x": 0.42,
+          "height_z": 0.4,
+          "depth_y": 0.18
+        },
+        "top_source": 9.494565963745117
+      },
+      "bounds": [
+        [
+          -6.599999904632568,
+          -3.793978691101074,
+          -10.992526054382324
+        ],
+        [
+          -0.7200000286102295,
+          0.05000000074505806,
+          -9.735304832458496
+        ]
+      ],
+      "method": "Crop source width only, retain full erosion depth and supports; explicit anisotropic fit to approved envelope, recompute normals after fit, reverse winding for axis reflection, preserve UV/topology. No generated rock detail.",
+      "photo_texture_applied": false,
+      "palette": "Existing game stone range; geometry visibility trial",
+      "open_boundary_edges": "Source scan/crop has open back/cut boundaries; no watertight claim",
+      "layers": {
+        "HeroLedgeCliff": {
+          "sha256": "018fea1b4faa602cbc5025d0ae60e1ff6888663d9640416d6988d2f89d4b8996",
+          "vertices": 6581,
+          "triangles": 11346
+        },
+        "Limestone": {
+          "sha256": "16a44614fe60d09aba0826401153bc4d8054fa7db6e53b39ccb63d03d1b9bd88",
+          "vertices": 5436,
+          "triangles": 1812
+        },
+        "Cliff": {
+          "sha256": "a92df4c8b0794b8e2a948b8e9454814a0c0aa1d4dd9d978d49f434c31c04fee4",
+          "vertices": 3441,
+          "triangles": 1147
+        }
+      }
+    }
+  },
+  "restore": {
+    "retained_head": "a86b6c29ce09395391360f80eedd0200c45bfa34",
+    "restored_art": {
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.obj": "29e957182bdb04a83441d5ba431e1d093f9521cebaee0212d7076b95a915e25e",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.asset": "0abebb1bc7e564d80ee08d0550f706b1b4777ed4a98ef8225d8f9e0ee1028827",
+      "unity/Assets/RogueTactics/Art/HqRuins/Limestone.obj": "68bac484a019b526751edb225a7a0902ddad66bcda0027d01e24f9b0fb548966",
+      "unity/Assets/RogueTactics/Art/HqRuins/Limestone.asset": "fb54990840a3595b6c8358aaad44261834bf443f2f95a7c3a09a9b4219fc2731",
+      "unity/Assets/RogueTactics/Art/HqRuins/Cliff.obj": "4636b8055d09acfc6d5e50d251c814bc2c06dd5c96aad5c17aba057d4bb544c2",
+      "unity/Assets/RogueTactics/Art/HqRuins/Cliff.asset": "0713969c955eb7be31cd82be84287eb7e798c1965a532a8476a2be818f933711"
+    },
+    "rejected_patch_sha256": "88246c834d95fe4f3c6f62bb2fa396da3f643cbeee85841411b3b6963ff20c7e",
+    "scene_change": "Only four actual Unity-generated texture GUID references recovered",
+    "art_adoption": false
+  },
+  "source_free": true
+}

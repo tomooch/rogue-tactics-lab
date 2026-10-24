@@ -1,0 +1,611 @@
+{
+  "status": "B_SELECTED_AS_VISUAL_DIRECTION; IMPLEMENTATION_NOT_RESTARTED; R2_V0_FAIL",
+  "packet": "https://github.com/tomooch/rogue-tactics-lab/pull/21#issuecomment-6316622356",
+  "starting_pr_head": "62e2580f041e4b0c65bf71563b22b5844563e1cc",
+  "retained_runtime_source": "f64e04c58b003ed5bc79cb7374b3d8f5caccaf97",
+  "private_root": "_userwork/hq-evidence/2026-10-21-visual-direction/",
+  "inputs": {
+    "reference": {
+      "sha256": "99a76f33c60e74d7fd890e9cf188531280e030e58a5893bafd90899ea2b965b8",
+      "decoded_rgb_sha256": "fd52b3654adc91c3e086b21cc83a4d9cb1d2057a5cd527b0fbc5cbb3a15a3ce4"
+    },
+    "runtime": {
+      "source": "f64e04c58b003ed5bc79cb7374b3d8f5caccaf97",
+      "sha256": "c010b012df934c1da3ca0252756137558791378dd1acae37062b96725ad5a570"
+    },
+    "runtime_guard": {
+      "sha256": "dea2b3a2f3a92af1524c30e7be98b5b5edcfd91acdde4f94fe55e1d48552b5fd",
+      "source": "f64e04c58b003ed5bc79cb7374b3d8f5caccaf97",
+      "use": "input observation only, no active-state proposal generated"
+    },
+    "approved_actors": {
+      "shiro": {
+        "sha256": "5f9bd5d0f8f7569987f0df3393d2236a032b75091e7af9c6f10ba17b3c7a7c73",
+        "size": [
+          1086,
+          1448
+        ],
+        "alpha_bbox": [
+          40,
+          75,
+          1026,
+          1349
+        ]
+      },
+      "momo": {
+        "sha256": "d8f62c2299c2772ce21ded771ec2faf6c50f9d18d4f585ba2fe7a63d698daa74",
+        "size": [
+          1086,
+          1448
+        ],
+        "alpha_bbox": [
+          51,
+          95,
+          1064,
+          1346
+        ]
+      },
+      "garu": {
+        "sha256": "04051f21042b365c767124f4931f8189502a24eab9896089e8850b3e8e76c015",
+        "size": [
+          1086,
+          1448
+        ],
+        "alpha_bbox": [
+          0,
+          72,
+          1086,
+          1309
+        ]
+      },
+      "myaru": {
+        "sha256": "3f064518faf44e308614ddaaaa81eb108d909c116e0a0a21cadf8d33e64a8fd5",
+        "size": [
+          1086,
+          1448
+        ],
+        "alpha_bbox": [
+          49,
+          62,
+          1019,
+          1357
+        ]
+      }
+    }
+  },
+  "layout_spec": {
+    "state": "G1 initial setup before Start, ProtectAnchor selected; no event displayed",
+    "grid": [
+      5,
+      5
+    ],
+    "count": {
+      "allies": 4,
+      "enemies": 2
+    },
+    "reference_montage": true,
+    "runtime_implementation": false,
+    "human_direction": "B selected by Human2026-10-22; static direction only",
+    "designs": {
+      "A": {
+        "proposed": true,
+        "layout": {
+          "title": "仲間主役",
+          "world": [
+            0,
+            98,
+            390,
+            566
+          ],
+          "top": 150,
+          "bottom": 536,
+          "far": 242,
+          "near": 300,
+          "skew": -80,
+          "hero": 104,
+          "enemy": 44,
+          "roster": 568,
+          "rosterh": 92,
+          "policy": 668,
+          "prediction": 720,
+          "start": 772
+        },
+        "agents": [
+          {
+            "id": "X",
+            "logical_cell": [
+              2,
+              3
+            ],
+            "hp": 18,
+            "screen_foot": [
+              211.0,
+              265.8
+            ],
+            "sprite_bounds": [
+              181.33,
+              198.67,
+              240.33,
+              242.8
+            ],
+            "visual_hover_px": 23,
+            "source_alpha_bbox": [
+              0,
+              0,
+              47,
+              35
+            ],
+            "uniform_scale": 1.2571428571428571,
+            "rgb_edit": "none; whole RGBA LANCZOS resize and alpha composite only"
+          },
+          {
+            "id": "C",
+            "logical_cell": [
+              3,
+              3
+            ],
+            "hp": 12,
+            "screen_foot": [
+              262.88,
+              265.8
+            ],
+            "sprite_bounds": [
+              217.33,
+              161.67,
+              308.67,
+              265.8
+            ],
+            "visual_hover_px": 0,
+            "source_alpha_bbox": [
+              0,
+              72,
+              1086,
+              1309
+            ],
+            "uniform_scale": 0.08407437348423606,
+            "rgb_edit": "none; whole RGBA LANCZOS resize and alpha composite only"
+          },
+          {
+            "id": "B",
+            "logical_cell": [
+              1,
+              2
+            ],
+            "hp": 16,
+            "screen_foot": [
+              140.8,
+              343.0
+            ],
+            "sprite_bounds": [
+              98.67,
+              239.0,
+              183.0,
+              343.0
+            ],
+            "visual_hover_px": 0,
+            "source_alpha_bbox": [
+              51,
+              95,
+              1064,
+              1346
+            ],
+            "uniform_scale": 0.08313349320543566,
+            "rgb_edit": "none; whole RGBA LANCZOS resize and alpha composite only"
+          },
+          {
+            "id": "A",
+            "logical_cell": [
+              2,
+              2
+            ],
+            "hp": 18,
+            "screen_foot": [
+              195.0,
+              343.0
+            ],
+            "sprite_bounds": [
+              154.67,
+              239.0,
+              235.0,
+              343.0
+            ],
+            "visual_hover_px": 0,
+            "source_alpha_bbox": [
+              40,
+              75,
+              1026,
+              1349
+            ],
+            "uniform_scale": 0.08163265306122448,
+            "rgb_edit": "none; whole RGBA LANCZOS resize and alpha composite only"
+          },
+          {
+            "id": "Y",
+            "logical_cell": [
+              3,
+              2
+            ],
+            "hp": 14,
+            "screen_foot": [
+              249.2,
+              343.0
+            ],
+            "sprite_bounds": [
+              221.33,
+              276.0,
+              277.33,
+              320.0
+            ],
+            "visual_hover_px": 23,
+            "source_alpha_bbox": [
+              0,
+              0,
+              47,
+              37
+            ],
+            "uniform_scale": 1.1891891891891893,
+            "rgb_edit": "none; whole RGBA LANCZOS resize and alpha composite only"
+          },
+          {
+            "id": "D",
+            "logical_cell": [
+              1,
+              1
+            ],
+            "hp": 10,
+            "screen_foot": [
+              122.48,
+              420.2
+            ],
+            "sprite_bounds": [
+              83.33,
+              316.33,
+              161.33,
+              420.2
+            ],
+            "visual_hover_px": 0,
+            "source_alpha_bbox": [
+              49,
+              62,
+              1019,
+              1357
+            ],
+            "uniform_scale": 0.08030888030888031,
+            "rgb_edit": "none; whole RGBA LANCZOS resize and alpha composite only"
+          }
+        ],
+        "output": "A-cast-first.png",
+        "sha256": "5730f7503ba672b808e65c0249796bb1a72266c9b54b9acace339b469a864418",
+        "editable_source": "A-cast-first.ora",
+        "ora_sha256": "67b895f3b48101fa0d1ba425b535947c9b1421d5732377b81f231b2af5913b75"
+      },
+      "B": {
+        "proposed": true,
+        "layout": {
+          "title": "天空遺跡と仲間",
+          "world": [
+            0,
+            0,
+            390,
+            584
+          ],
+          "top": 244,
+          "bottom": 552,
+          "far": 235,
+          "near": 300,
+          "skew": -70,
+          "hero": 89,
+          "enemy": 42,
+          "roster": 586,
+          "rosterh": 80,
+          "policy": 674,
+          "prediction": 726,
+          "start": 778
+        },
+        "agents": [
+          {
+            "id": "X",
+            "logical_cell": [
+              2,
+              3
+            ],
+            "hp": 18,
+            "screen_foot": [
+              209.0,
+              336.4
+            ],
+            "sprite_bounds": [
+              180.67,
+              262.33,
+              237.0,
+              304.4
+            ],
+            "visual_hover_px": 32,
+            "source_alpha_bbox": [
+              0,
+              0,
+              47,
+              35
+            ],
+            "uniform_scale": 1.2,
+            "rgb_edit": "none; whole RGBA LANCZOS resize and alpha composite only"
+          },
+          {
+            "id": "C",
+            "logical_cell": [
+              3,
+              3
+            ],
+            "hp": 12,
+            "screen_foot": [
+              259.9,
+              336.4
+            ],
+            "sprite_bounds": [
+              221.0,
+              247.33,
+              299.0,
+              336.4
+            ],
+            "visual_hover_px": 0,
+            "source_alpha_bbox": [
+              0,
+              72,
+              1086,
+              1309
+            ],
+            "uniform_scale": 0.0719482619240097,
+            "rgb_edit": "none; whole RGBA LANCZOS resize and alpha composite only"
+          },
+          {
+            "id": "B",
+            "logical_cell": [
+              1,
+              2
+            ],
+            "hp": 16,
+            "screen_foot": [
+              141.5,
+              398.0
+            ],
+            "sprite_bounds": [
+              105.33,
+              309.0,
+              177.33,
+              398.0
+            ],
+            "visual_hover_px": 0,
+            "source_alpha_bbox": [
+              51,
+              95,
+              1064,
+              1346
+            ],
+            "uniform_scale": 0.07114308553157474,
+            "rgb_edit": "none; whole RGBA LANCZOS resize and alpha composite only"
+          },
+          {
+            "id": "A",
+            "logical_cell": [
+              2,
+              2
+            ],
+            "hp": 18,
+            "screen_foot": [
+              195.0,
+              398.0
+            ],
+            "sprite_bounds": [
+              160.67,
+              309.0,
+              229.67,
+              398.0
+            ],
+            "visual_hover_px": 0,
+            "source_alpha_bbox": [
+              40,
+              75,
+              1026,
+              1349
+            ],
+            "uniform_scale": 0.06985871271585557,
+            "rgb_edit": "none; whole RGBA LANCZOS resize and alpha composite only"
+          },
+          {
+            "id": "Y",
+            "logical_cell": [
+              3,
+              2
+            ],
+            "hp": 14,
+            "screen_foot": [
+              248.5,
+              398.0
+            ],
+            "sprite_bounds": [
+              222.0,
+              324.0,
+              275.33,
+              366.0
+            ],
+            "visual_hover_px": 32,
+            "source_alpha_bbox": [
+              0,
+              0,
+              47,
+              37
+            ],
+            "uniform_scale": 1.135135135135135,
+            "rgb_edit": "none; whole RGBA LANCZOS resize and alpha composite only"
+          },
+          {
+            "id": "D",
+            "logical_cell": [
+              1,
+              1
+            ],
+            "hp": 10,
+            "screen_foot": [
+              124.9,
+              459.6
+            ],
+            "sprite_bounds": [
+              91.67,
+              370.67,
+              158.33,
+              459.6
+            ],
+            "visual_hover_px": 0,
+            "source_alpha_bbox": [
+              49,
+              62,
+              1019,
+              1357
+            ],
+            "uniform_scale": 0.06872586872586872,
+            "rgb_edit": "none; whole RGBA LANCZOS resize and alpha composite only"
+          }
+        ],
+        "output": "B-scenic-diorama.png",
+        "sha256": "9a318b8a2f1e1c6d4060b8f1caa4b7de124fc86fc73349ea79413764e6b09f76",
+        "editable_source": "B-scenic-diorama.ora",
+        "ora_sha256": "7d284354c7a840f6fb0bec3227ea3d40b26cc559e3dbb27fe06d149fe470e7af"
+      }
+    },
+    "comparison": {
+      "file": "A-vs-B.png",
+      "size": [
+        780,
+        844
+      ],
+      "no_stretch_crop": true,
+      "sha256": "451e09c47f6344d6f7924aa73e409fe65f86eb2d411bdc37c33feb8fa1949c26"
+    }
+  },
+  "qa": {
+    "proposal_only": true,
+    "human_direction": "B selected by Human2026-10-22; not quality acceptance",
+    "product_source_unchanged": true,
+    "input_sha_unchanged": true,
+    "outputs": {
+      "A": {
+        "size": [
+          390,
+          844
+        ],
+        "sha256": "5730f7503ba672b808e65c0249796bb1a72266c9b54b9acace339b469a864418",
+        "ora_sha256": "67b895f3b48101fa0d1ba425b535947c9b1421d5732377b81f231b2af5913b75",
+        "editable_layers": 11,
+        "ora_recompose_equal": true
+      },
+      "B": {
+        "size": [
+          390,
+          844
+        ],
+        "sha256": "9a318b8a2f1e1c6d4060b8f1caa4b7de124fc86fc73349ea79413764e6b09f76",
+        "ora_sha256": "7d284354c7a840f6fb0bec3227ea3d40b26cc559e3dbb27fe06d149fe470e7af",
+        "editable_layers": 11,
+        "ora_recompose_equal": true
+      }
+    },
+    "review": "Neutral local pixel reviewer inspected original, actual A/B/side-by-side and final corrected A/B; six agents/four faces/25 cells and HP values readable; no fundamental mock constraint violation, no Human acceptance",
+    "composition": "No external image service, generation, or upload; local existing artwork compositing; original RGBA source not recolored/retouched, uniform whole-sprite resampling only",
+    "presentation": "open_in_codex returned queued for A/B/comparison. Not confirmed displayed in owner window. Open this task in Codex on the Mac to activate queued image panels; direct PNG links also retained. No cross-session media sharing.",
+    "presentation_requests": {
+      "A": "queued",
+      "B": "queued",
+      "comparison": "queued"
+    }
+  },
+  "script_sha256": "fc353887708e31c2c01fb9d31ebe54025d3295d9e148e071df4944e9b6808137",
+  "independent_review": {
+    "pixel_viewed": [
+      "A actual390x844",
+      "B actual390x844",
+      "exact780x844 comparison",
+      "approved reference",
+      "final corrected A/B"
+    ],
+    "fundamental_mock_violation_found": false,
+    "repaired": [
+      "Initial enemy occlusion and HP across ally hair",
+      "Keep all25 cells within canvas",
+      "Move enemy HP above own sprite; ally exact HP on roster only"
+    ],
+    "tradeoffs": {
+      "A": "Larger cast/cells, reduced scenery/place impression",
+      "B": "More sky/ruin canvas, smaller cast/cells and higher cluster recognition risk"
+    },
+    "human_selection_not_inferred": true
+  },
+  "design_risks": [
+    "Montage/graphic stone field is not a produced Unity scene; rich 3D art capability remains unresolved",
+    "Proposed projection and whole sprite scale need later dynamic/occlusion validation after Human chooses",
+    "B smaller cell/actor presentation risks more spatial recognition effort",
+    "A soft backdrop and large stone field can weaken the exploration setting",
+    "Only beforeStart headline frames delivered; active flow readability, physical iPhone and Human cute/readable/fun not validated"
+  ],
+  "no_product_edit": true,
+  "new_unity_blender_testflight_run": false,
+  "private_media_upload": false,
+  "audited_reference_environment_crops": {
+    "sky": [
+      355,
+      0,
+      815,
+      300
+    ],
+    "left_ruin": [
+      0,
+      345,
+      225,
+      695
+    ],
+    "right_cliff": [
+      715,
+      830,
+      941,
+      1000
+    ],
+    "flora": [
+      665,
+      865,
+      815,
+      995
+    ],
+    "banner": [
+      250,
+      360,
+      320,
+      520
+    ],
+    "waterfall": [
+      82,
+      416,
+      136,
+      640
+    ],
+    "stone_face": [
+      400,
+      420,
+      470,
+      475
+    ]
+  },
+  "human_direction_choice": {
+    "date": "2026-10-22",
+    "user_reply": "B",
+    "selected_frame": "B-scenic-diorama.png",
+    "selected_frame_sha256": "9a318b8a2f1e1c6d4060b8f1caa4b7de124fc86fc73349ea79413764e6b09f76",
+    "scope": "Whole-screen visual hierarchy: scenic sky ruins plus recognizable party",
+    "not_approved": [
+      "Production use of reference-image montage or 2D hybrid",
+      "Unity implementation completion or art quality PASS",
+      "New Blender/Unity production in this acknowledgement",
+      "TestFlight, release, merge or Ready"
+    ],
+    "reference_values_not_immutable_game_spec": true,
+    "reason": "Human selected B; no further preference reason stated"
+  }
+}
