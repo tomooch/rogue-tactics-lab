@@ -17,6 +17,7 @@ namespace RogueTactics.Presentation
     {
         public Font JapaneseFont;
         public bool HqWorld;
+        public bool ExplorationEnabled;
         public float CameraPitch=75;
         public float CameraYaw;
         public bool EventMotion;
@@ -74,7 +75,7 @@ namespace RogueTactics.Presentation
         {
             if(AmbientOcclusion!=null)AmbientOcclusion.SetActive(true);
             Application.targetFrameRate=60;
-            Build(); ResetBaseline();
+            Build(); ResetBaseline();if(ExplorationEnabled)BuildFloorUi();
         }
         private void Build()
         {
@@ -183,6 +184,7 @@ namespace RogueTactics.Presentation
             if(Paused && floatUntil>Time.unscaledTime)floatUntil+=Time.unscaledDeltaTime;
             if(floatUntil>Time.unscaledTime)floating.rectTransform.anchoredPosition=new Vector2(12,-62);
             else floating.text="";
+            TickExploration();
         }
         private void BuildStage()
         {
@@ -209,6 +211,7 @@ namespace RogueTactics.Presentation
             {
                 var ruins=HqSkyRuins.Build(RuinsTemplate,new Vector3(2*Cell,0,2*Cell*DepthSpacing),EnvironmentMeshes);ruins.transform.localScale=new Vector3(1,1,DepthSpacing/2f);ruins.AddComponent<HqAmbient>();
                 HqReferenceParts.Build(FieldCamera,new Vector3(2*Cell,0,2*Cell*DepthSpacing),SpriteTemplate,ReferenceEnvironment,ReferenceParts);
+                if(ExplorationEnabled)BuildFloorScenery();
                 if(SkyTemplate!=null){var sky=GameObject.CreatePrimitive(PrimitiveType.Quad);sky.name="Procedural sky haze";Destroy(sky.GetComponent<Collider>());sky.transform.SetParent(FieldCamera.transform,false);skyBackdrop=sky.transform;sky.GetComponent<Renderer>().shadowCastingMode=ShadowCastingMode.Off;sky.transform.localPosition=new Vector3(0,0,90);sky.transform.localScale=new Vector3(50,50,1);sky.GetComponent<Renderer>().sharedMaterial=SkyTemplate;}
                 RenderSettings.ambientSkyColor=new Color(.58f,.70f,.80f);RenderSettings.ambientEquatorColor=new Color(.40f,.49f,.53f);RenderSettings.ambientGroundColor=new Color(.23f,.29f,.25f);sun.intensity=1.55f;sun.color=new Color(1,.93f,.78f);
             }
@@ -291,7 +294,7 @@ namespace RogueTactics.Presentation
         }
         public void Select(Preference p) {if(Session.Started || Busy)return;Session.Select(p);ResetProjection();Prediction.text="";Refresh();}
         public void ResetBaseline()
-        { if(Busy)return;policyEditing=false;Auto=false;Paused=false;Session.Reset();Prediction.text="";ResetProjection();SetComparisonCamera(CameraPitch); }
+        { if(Busy)return;ResetFloorExploration();policyEditing=false;Auto=false;Paused=false;Session.Reset();Prediction.text="";ResetProjection();SetComparisonCamera(CameraPitch); }
         private void ResetProjection()
         {
             ClearRelation();frameIntervals.Clear();LastFrameReport=null;displayed.Clear();captions.Clear();dead.Clear();hp.Clear();positions.Clear();terminalSeen=false;shownStep=0;shownActor="";reaction="";foreach(var u in Session.Replay.State.Units){hp[u.Id]=u.Hp;positions[u.Id]=u.Position;}
@@ -300,7 +303,7 @@ namespace RogueTactics.Presentation
         private void StartBattle() {if(Session.Started || Busy)return;policyEditing=false;Prediction.DeactivateInputField();SetComparisonCamera(CameraPitch);Session.Start(Prediction.text);Auto=!DeveloperMode;Next();}
         private void Next() {if(Busy || !Session.Started || Session.Replay.State.Outcome!=Outcome.Active)return;StartCoroutine(ResolveAndDisplay());}
         private void ToggleAuto()
-        { if(!Session.Started || terminalSeen)return;Auto=!Auto;Paused=!Auto;Refresh();if(Auto && !Busy)Next(); }
+        { if(IsExploring){ToggleFloorPause();return;}if(!Session.Started || terminalSeen)return;Auto=!Auto;Paused=!Auto;Refresh();if(Auto && !Busy)Next(); }
         private IEnumerator ResolveAndDisplay()
         {
             Busy=true;var result=Session.Advance();executingPlan=result.Plan;Refresh();
@@ -388,10 +391,12 @@ namespace RogueTactics.Presentation
             buttons["Protect"].GetComponent<Image>().color=Session.Preference==Preference.ProtectAnchor?new Color(.22f,.40f,.39f):new Color(.12f,.24f,.26f);
             buttons["Attack"].GetComponent<Image>().color=Session.Preference==Preference.DirectAttack?new Color(.22f,.40f,.39f):new Color(.12f,.24f,.26f);
             RefreshProductHud();
+            RefreshFloorUi();
         }
         private static string PlanName(ActionKind kind) => kind==ActionKind.Protect?"守護":kind==ActionKind.Attack?"攻撃":kind==ActionKind.Heal?"回復":kind==ActionKind.Move?"移動":"待機";
         private void OpenDetails(bool trials)
         {
+            if(IsExploring)trials=true;
             showingResults=trials;
             if(trials)
             {

@@ -509,3 +509,19 @@ A実Unityはfiltered Edit0/Play1・8fresh390×844・両fixedhash/sourceguard通�
 Fresh original-parts native source `99e2b32055c7b3c4c6a6f5d82a89ef1195591fd9`: Unity6000.3.25f1 export/Xcode Debug Simulator build各exit0。既知5生成設定だけ復元、unexpected0、全source/private asset不変。QA iOS27.0へ新binaryをinstall/launchし実CUA操作。初期6HP、Protect停止保持/再開→14行動4人生存→比較/再試行、同fixtureのAttack→14行動3人生存→両比較を観測。かな「か」→候補「かつ」→確定/dismiss/配置復帰→Attack結果への予想保持を確認。新native両fullhash一致。
 
 private録画347.351667秒/1206×2622/h264を保存。正確な今回ファイルをQuickTime通常再生260.3229→292.3861秒で確認。live操作と再生の限定観測であり全frame/全合法セルの遮蔽検証ではない。原画由来2部品の接地/輪郭改善はnativeでも見えるが、床との画風差・全体品質不足は残る。ASTC解凍2警告/16bit shadow depth fallbackあり、当該flowのcrash/exception観測なし。新TestFlight archive/upload/distributionなし、local0.1.0(5)は旧Apple build5の更新ではない。R2 V0 FAIL/全quad接触FAIL/Human/実iPhone未検証を維持。[新source/binary/媒体SHAと観測限界](evidence/hq-ref/reference-parts-native-observation.json)。
+
+
+## 2026-10-25 — Human選択1：広い同一fieldの探索試作
+
+PR21 Draft HEAD464516eからのtask-owned差分。Humanは複数の部屋/通路を実際に探索するfieldを選択した。6部屋/31×27・既知床タップ・到達/発見停止は試験条件。旧5×5/初期6体/2敵/固定2traceを変えず、新遭遇/報酬/能力/階層/完全G2は含めない。
+
+- 最終実行：Unity6000.3.25f1/Metal、full job1e6d1411。**Edit21/21、Play11/12、新探索Play3/3 PASS**。全体exit2。元のstrict全quad分離検査だけstep0C/XでFAIL、assertion緩和なし。旧G1scene/G1Battle/GridPosition/private PNGのbyte guard・実行後frozen source一致。
+- 同位置/HP/生死からの探索、実EventSystem入力で6部屋center巡回/帰還、一定倍率camera、停止保持/再開/発見/到達/再試行地図reset、Attack3人生存/非復活、未知入力拒否/決定論を検証。既知選択枠は未知の自動通路終端を表示しない。
+- 最終UI回帰はPolicy→keyboard回避→ClosePolicy→Details→Closeの実hitと地図非表示/復帰、予想/戦闘state不変。新21枚の390×844探索/方針/記録画像を保全。
+- 最初のnative起動shader欠落を実画面/logで検出し、scene参照済materialへ修復。続いてmapが退避した予想欄右側を覆う問題をnativeIMEで検出し、方針/modal中のmap非表示へ修復。失敗試行を除去せず記録。
+- 最終専用native export/build各0、生成4設定を実行前へ復元/unexpected0/source不変。QA iOS27.0へbinary`fcd44ee9373ae4ca1fb00409d95a3c27edd036ffccfa3185dda4e0c629405eba`を実install/launch。地図と予想欄の重なり解消、かなか→候補かつ→確定/解除/保持、Policy/記録の地図復帰、Protect14行動4人生存/fresh固定hash/同field橋移動/新部屋発見を実CUA確認。CaptureKeyboardはoffへ復元。
+- 直前native39c8adccは別source証拠として、Protect/Attack両fullhash、4/3人生存の探索、移動pause保持/再開/到着、比較/再試行/IMEを実観測。最終nativeでAttack/全6部屋/pause/retryを再実施したとは扱わない。Editorの最終両条件/全6部屋検査とは区別。
+- private640.130秒1206×2622/H264録画SHA256`b5e348917906d8b87ee1ed721de7b1f3cf22fa07b3f7fddf366825445db42030`は直前native。QuickTimeで正確file URLと140→219秒通常再生を確認し、別途ライブの移動/停止再開を限定観測。全640秒全frameの目視保証ではない。
+- Root/Astra実画像reviewで局所的な接続/選択表示/浮遊部品除去を確認。均一床/単純側面/空の部屋、通路側面tapの不成立と入口の伝わりにくさ、青/金二重枠は残る。**R2 V0 FAIL**、Human品質/実iPhone未検証。新Apple archive/upload/本人配布は未実施、Simulator0.1.0(5)を旧Applebuild5更新と混同しない。
+
+[画像を含まないSHA/試行記録](evidence/hq-ref/field-exploration-evidence.json) / [敵対レビューと再現](evidence/hq-ref/field-exploration-review.md)。private原画/4人/Unity PNG/動画はowner-local `_userwork/hq-evidence/2026-10-25-field-parts/` のみに保存し、公開GitHubへ含めない。ローカル所在は別セッション共有成功ではない。実行sourceは同JSONの全file SHA manifestで固定し、commit後に再照合する。
