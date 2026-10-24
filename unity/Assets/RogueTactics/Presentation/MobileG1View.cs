@@ -22,6 +22,8 @@ namespace RogueTactics.Presentation
         public bool EventMotion;
         public Material StoneTemplate, SpriteTemplate, SkyTemplate, RuinsTemplate;
         public Mesh[] EnvironmentMeshes = Array.Empty<Mesh>();
+        public Texture2D ReferenceEnvironment;
+        public ReferenceEnvironmentPart[] ReferenceParts = Array.Empty<ReferenceEnvironmentPart>();
         public ScriptableRendererFeature AmbientOcclusion;
         // Private textures supplied locally by setup; never public-Git originals.
         public Texture2D[] CharacterArt = new Texture2D[4]; // A Shiro / B Momo / C Garu / D Myaru: temporary skins only
@@ -206,6 +208,7 @@ namespace RogueTactics.Presentation
             if(HqWorld)
             {
                 var ruins=HqSkyRuins.Build(RuinsTemplate,new Vector3(2*Cell,0,2*Cell*DepthSpacing),EnvironmentMeshes);ruins.transform.localScale=new Vector3(1,1,DepthSpacing/2f);ruins.AddComponent<HqAmbient>();
+                HqReferenceParts.Build(FieldCamera,new Vector3(2*Cell,0,2*Cell*DepthSpacing),SpriteTemplate,ReferenceEnvironment,ReferenceParts);
                 if(SkyTemplate!=null){var sky=GameObject.CreatePrimitive(PrimitiveType.Quad);sky.name="Procedural sky haze";Destroy(sky.GetComponent<Collider>());sky.transform.SetParent(FieldCamera.transform,false);skyBackdrop=sky.transform;sky.GetComponent<Renderer>().shadowCastingMode=ShadowCastingMode.Off;sky.transform.localPosition=new Vector3(0,0,90);sky.transform.localScale=new Vector3(50,50,1);sky.GetComponent<Renderer>().sharedMaterial=SkyTemplate;}
                 RenderSettings.ambientSkyColor=new Color(.58f,.70f,.80f);RenderSettings.ambientEquatorColor=new Color(.40f,.49f,.53f);RenderSettings.ambientGroundColor=new Color(.23f,.29f,.25f);sun.intensity=1.55f;sun.color=new Color(1,.93f,.78f);
             }

@@ -119,7 +119,7 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &160895062
+--- !u!1 &525751714
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -127,8 +127,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 160895064}
-  - component: {fileID: 160895063}
+  - component: {fileID: 525751716}
+  - component: {fileID: 525751715}
   m_Layer: 0
   m_Name: Mobile HUD Camera
   m_TagString: MainCamera
@@ -136,13 +136,13 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!20 &160895063
+--- !u!20 &525751715
 Camera:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 160895062}
+  m_GameObject: {fileID: 525751714}
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 2
@@ -187,13 +187,13 @@ Camera:
   m_OcclusionCulling: 1
   m_StereoConvergence: 10
   m_StereoSeparation: 0.022
---- !u!4 &160895064
+--- !u!4 &525751716
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 160895062}
+  m_GameObject: {fileID: 525751714}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: -10}
@@ -202,7 +202,7 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1984033442
+--- !u!1 &869949116
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -210,8 +210,8 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1984033444}
-  - component: {fileID: 1984033443}
+  - component: {fileID: 869949118}
+  - component: {fileID: 869949117}
   m_Layer: 0
   m_Name: Mobile G1 Experiment
   m_TagString: Untagged
@@ -219,17 +219,17 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1984033443
+--- !u!114 &869949117
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1984033442}
+  m_GameObject: {fileID: 869949116}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1a439f224817e4184b0ee6308f63d132, type: 3}
-  m_Name: 
+  m_Name:
   m_EditorClassIdentifier: RogueTactics.Presentation::RogueTactics.Presentation.MobileG1View
   JapaneseFont: {fileID: 12800000, guid: 520cf6147ea264a5b97acf42b4f63f04, type: 3}
   HqWorld: 1
@@ -259,19 +259,25 @@ MonoBehaviour:
   - {fileID: 4300000, guid: dd1f06ae4d6534c44aac467931578dd5, type: 2}
   - {fileID: 4300000, guid: 45953817b3c16426aa458bd41b9a4ee5, type: 2}
   - {fileID: 4300000, guid: c7b10173f91834d00abf220cb6342108, type: 2}
+  ReferenceEnvironment: {fileID: 2800000, guid: a285788fedd344a13a2214487d9df882, type: 3}
+  ReferenceParts:
+  - Mesh: {fileID: 4300000, guid: fb8b5214ee8b345aebebd3a77b51c959, type: 2}
+    Position: {x: -6.1, y: -0.4, z: -2}
+  - Mesh: {fileID: 4300000, guid: c1e169249246b495c9529f8330979edb, type: 2}
+    Position: {x: -6.1, y: -0.4, z: -4.2}
   AmbientOcclusion: {fileID: 2079753342062040102, guid: 65bc7dbf4170f435aa868c779acfb082, type: 2}
   CharacterArt:
   - {fileID: 2800000, guid: 4c3c530c8c336469592c215d68b978b9, type: 3}
   - {fileID: 2800000, guid: cdb1a2854d46c4918945f769dbeb0245, type: 3}
   - {fileID: 2800000, guid: 48eabe396efe64099a6347b0ee18c872, type: 3}
   - {fileID: 2800000, guid: 3f731afb213754ed4bd2993462915d3f, type: 3}
---- !u!4 &1984033444
+--- !u!4 &869949118
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1984033442}
+  m_GameObject: {fileID: 869949116}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
@@ -284,5 +290,5 @@ Transform:
 SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
-  - {fileID: 160895064}
-  - {fileID: 1984033444}
+  - {fileID: 525751716}
+  - {fileID: 869949118}

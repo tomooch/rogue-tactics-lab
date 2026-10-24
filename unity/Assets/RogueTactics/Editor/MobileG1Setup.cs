@@ -34,6 +34,8 @@ namespace RogueTactics.Editor
             view.RuinsTemplate=Material("AuthoredRuins.mat","RogueTactics/AuthoredRuins");
             view.StoneTemplate=Material("Stone.mat","Universal Render Pipeline/Lit");
             view.SpriteTemplate=Material("StaticSkin.mat","RogueTactics/StaticSkin");
+            view.ReferenceParts=ReferencePartsImport.Load(Art+"Private/ReferenceParts/",out var referenceEnvironment);
+            view.ReferenceEnvironment=referenceEnvironment;
             var skins=new[]{"shiro","momo","garu","myaru"};
             for(var i=0;i<skins.Length;i++)
             {

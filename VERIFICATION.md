@@ -491,3 +491,16 @@ Full jobfe32f058: Unity6000.3.25f1 Edit14/14, Play8/9; geometry3/3; both full fi
 Exact runtime a74acb3082beae2d4c174bd5f0640f3dbf8b5f73: Unity6000.3.25f1 export and Xcode Debug Simulator build exit0; known5 generated settings preserved/restored, unexpected0, frozen source unchanged. QA iOS27.0 install/launch and actual CUA operations: initial6HP, Attack start/counter/pause/hold/resume/death/14actions3alive/comparison/retry; Protect same initial fixture, Japanese on-screenか composition→visibleかつ candidate selection→confirm/dismiss/layout restoration→prediction retained in14actions4alive/bothcomparison. Both native full frozen hashes match in fresh runtime log. New arch remains structurally readable in observed states; no arch-caused face/HP/UI obstruction observed. Keyboard dock temporarily covers upper architecture; not alllegalcells/allframes visibility proof.
 
 Private recording331.728333s1206x2622/h264 accompanies bounded live temporal observation, not everyframe or new-file normal playback. Two ASTC decompression warnings and16bit shadow depth fallback remain; no exception/crash observed in flow. Simulator0.1.0(5) is not new Applebuild5. Fresh ASC /apps read redirects to login authResult=FAILED with shell/spinner; current build/compliance/group unverified, no credentials bypass/change. No new archive/upload/TestFlight/physicaliPhone/Human quality. Existing Editor14/14・8/9 failure and R2 V0 FAIL remain. [Source/binary/results/media hashes and limits](evidence/hq-ref/main-arch-native-observation.json). Private media stay owner-local; no successful cross-session sharing claim.
+
+
+## 2026-10-24 Original-derived environment parts — bounded grounding candidate
+
+Humanの原画要素をパーツ化して載せる指示により、byte一致のprivate原画をローカルSVG輪郭・UV meshで選択する2領域（柱/ランタン/花蔦、青旗/箱）を実制作。原画/承認4人のRGB、Core、camera、HUD、床は維持。画像/輪郭/meshは既存ignored Private内、公開Gitはコードとtext/hash証拠のみ。
+
+A実Unityはfiltered Edit0/Play1・8fresh390×844・両fixedhash/sourceguard通過でも、root/Astra実画像で空中の足元/空帯/床重複を棄却。blank/stale/重なったsource previewは証拠失敗として保存し、camera分離・Mesh API更新・横並び表示と輪郭を修正。source C実描画後、独立足元pivotを非プレイ外縁へ接地したBを実Unity再実行。B job0bb45c80はConfigure0・filtered Edit0/Play1・8fresh画像・両fixed結果・source/original不変。rootはbefore/A/Bとsetup/policy/heal/death/guard/counter実画像で接続と輪郭除去の局所改善を確認。Astraは原画/baseline/A/B計7実画像で全検証への暫定保持を助言。新しい顔/HP/操作遮蔽は確認画像で見当たらないが全frame証拠ではない。
+
+原画由来の濃密で暗い陰と淡い既存床の画風差、硬い葉先、全体の統合不足は残る。2領域だけを全検証候補とし、増殖しない。全suite job43790aba完了、Edit14/14・Play8/9。既存JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResultsはstep0 C/Y全quad矩形接触でFAIL。他8件（両fullfixedhash/表示event/通常操作/HP/death/再試行等）はPASS。sourceguard不変、8fresh画像を保存。rootは新setup/counter/比較も実閲覧し、2領域の接地/輪郭改善だけをDraft候補として保持。全体品質や全テスト成功とはしない。既存全quad矩形検査を緩めない。実行sourceはHEADf8bfbf8＋各frozen source/Scene/private SVG・meshでありclean commitと混同しない。新partsのSimulator/TestFlight/実iPhone未検証、R2 V0 FAIL。
+
+[各試行と実画像SHA](evidence/hq-ref/reference-parts-evidence.json)。owner-local `_userwork/hq-evidence/2026-10-24-reference-parts/` にsource SVG、原画byte-copy、patch/manifest、実PNG/XML/log、root/Astra reviewを保持。local pathは別sessionへの共有成功を意味しない。
+
+公開全結果XML: `reference-parts-editmode.xml` / `reference-parts-playmode.xml`。ignored原画/SVG/meshとUnity生成GUID metadataはowner-local `retained-private-assets/` とSHA manifestに保持し、Gitだけで復元できるとは扱わない。新parts Simulatorは新commitから別検証し、旧a74結果を転用しない。
