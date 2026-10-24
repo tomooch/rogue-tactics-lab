@@ -32,3 +32,5 @@ RootはDのmoving/room3/room5/Attackdiscovery/retryを実閲覧。Astraアドバ
 続いてnativeIME中のmapと予想欄の重なりを実画像で発見。方針/記録modal中のmap非表示・復帰へ修復し、新しい実UI回帰を追加して最終Edit21/21・Play11/12（新探索3/3）を確認。修正後の新binary fcd44ee9…でPolicy/IME/記録の地図非表示と復帰、Protect探索を実観測。修正前native39c8adcc…のAttack/pause/retry/録画とは分けて記録した。
 
 最終新EditorのPolicy/room3実画像もrootが再閲覧。地図が譲ることで入力幅を確保し、人物/カメラ/床造形を変えずにUI競合を除去した。改善範囲は明記し、R2/Human合格を代行しない。
+
+最終実行source: `d521d32389c42f0987558af667084dc26c0eb8bb`。commit後に最終frozen48ファイルのSHA一致を再確認。証拠専用追記はruntime差分を含まない。

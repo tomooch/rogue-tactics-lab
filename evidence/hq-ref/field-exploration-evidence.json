@@ -3,7 +3,7 @@
   "task": "Human option1 actual traversable multiroom field + graphical factual parts",
   "pr": 21,
   "base_head": "464516e974e385261a663693f3ec308af50abbee",
-  "runtime_commit": null,
+  "runtime_commit": "d521d32389c42f0987558af667084dc26c0eb8bb",
   "status": "Retain bounded traversal prototype; exact final fullEdit21/21 Play11/12, oldstrictquadFAIL; native finalUI and Protectexploration observed; R2 FAIL",
   "scope": {
     "approved": "Multiple actual rooms/corridors on same field; supervisor exploration",
@@ -372,5 +372,11 @@
       "Goldselection/bluefoot doubleoutline",
       "Unmeasured exploration allocations/performance on physicaldevice"
     ]
+  },
+  "committed_source_check": {
+    "runtime_files_checked": 48,
+    "mismatches": [],
+    "protected_G1_and_skins_unchanged": true,
+    "unity_generated_scene_metadata": "preserved verbatim; Unity empty field trailing spaces only"
   }
 }

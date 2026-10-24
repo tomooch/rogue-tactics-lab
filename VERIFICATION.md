@@ -524,4 +524,4 @@ PR21 Draft HEAD464516eからのtask-owned差分。Humanは複数の部屋/通路
 - private640.130秒1206×2622/H264録画SHA256`b5e348917906d8b87ee1ed721de7b1f3cf22fa07b3f7fddf366825445db42030`は直前native。QuickTimeで正確file URLと140→219秒通常再生を確認し、別途ライブの移動/停止再開を限定観測。全640秒全frameの目視保証ではない。
 - Root/Astra実画像reviewで局所的な接続/選択表示/浮遊部品除去を確認。均一床/単純側面/空の部屋、通路側面tapの不成立と入口の伝わりにくさ、青/金二重枠は残る。**R2 V0 FAIL**、Human品質/実iPhone未検証。新Apple archive/upload/本人配布は未実施、Simulator0.1.0(5)を旧Applebuild5更新と混同しない。
 
-[画像を含まないSHA/試行記録](evidence/hq-ref/field-exploration-evidence.json) / [敵対レビューと再現](evidence/hq-ref/field-exploration-review.md)。private原画/4人/Unity PNG/動画はowner-local `_userwork/hq-evidence/2026-10-25-field-parts/` のみに保存し、公開GitHubへ含めない。ローカル所在は別セッション共有成功ではない。実行sourceは同JSONの全file SHA manifestで固定し、commit後に再照合する。
+[画像を含まないSHA/試行記録](evidence/hq-ref/field-exploration-evidence.json) / [敵対レビューと再現](evidence/hq-ref/field-exploration-review.md)。private原画/4人/Unity PNG/動画はowner-local `_userwork/hq-evidence/2026-10-25-field-parts/` のみに保存し、公開GitHubへ含めない。ローカル所在は別セッション共有成功ではない。実行sourceは`d521d32389c42f0987558af667084dc26c0eb8bb`。commit後に同JSONの全48file SHA manifestと再照合し差分0。後続の証拠専用commitはruntimeを変更しない。
