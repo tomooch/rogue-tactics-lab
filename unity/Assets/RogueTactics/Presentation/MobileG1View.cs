@@ -126,11 +126,11 @@ namespace RogueTactics.Presentation
             headline=Label(modal,"Heading","実験の詳細",18,12,334,32,20);
             detailsViewport=Rect(modal,"Details viewport",18,54,334,502);
             detailsViewport.gameObject.AddComponent<Image>().color=Color.white;detailsViewport.gameObject.AddComponent<Mask>().showMaskGraphic=false;
-            modalText=Label(detailsViewport,"Body","",0,0,334,502,16);modalText.supportRichText=false;
+            modalText=Label(detailsViewport,"Body","",0,0,334,502,16);modalText.supportRichText=false;modalText.raycastTarget=true;modalText.verticalOverflow=VerticalWrapMode.Overflow;
             modalText.gameObject.AddComponent<ContentSizeFitter>().verticalFit=ContentSizeFitter.FitMode.PreferredSize;
             var scroll=detailsViewport.gameObject.AddComponent<ScrollRect>();scroll.viewport=detailsViewport;scroll.content=modalText.rectTransform;scroll.horizontal=false;scroll.vertical=true;scroll.movementType=ScrollRect.MovementType.Clamped;
-            MakeButton(modal,"Close","閉じる",18,570,334,46,()=>modalObject.SetActive(false),17);modalObject.SetActive(false);
-            BuildProductHud();BuildRelationCues();
+            MakeButton(modal,"Close","閉じる",18,570,334,46,()=>{CloseReferenceMemo();modalObject.SetActive(false);SyncReferenceModal();},17);modalObject.SetActive(false);
+            BuildProductHud();BuildRelationCues();BuildReferenceHud();
             ApplySafeArea(Screen.safeArea,Screen.width,Screen.height);
         }
         public void ApplySafeArea(Rect area,int width,int height)
@@ -163,6 +163,7 @@ namespace RogueTactics.Presentation
         // Keep the editable value visible; native keyboards can cover the lower setup controls.
         public void ApplyKeyboardArea(Rect keyboardArea,bool editing=false)
         {
+            if(ApplyAutonomousKeyboard(editing))return;
             var input=Prediction.GetComponent<RectTransform>();input.anchoredPosition=new Vector2(12,DeveloperMode?-54:-102);
             // Dock below the title while native editing owns focus. This also works during keyboard opening/area=0.
             if(editing && setup.gameObject.activeInHierarchy){input.position=SafeRoot.TransformPoint(new Vector3(12,-100,0));return;}
@@ -185,6 +186,7 @@ namespace RogueTactics.Presentation
             if(floatUntil>Time.unscaledTime)floating.rectTransform.anchoredPosition=new Vector2(12,-62);
             else floating.text="";
             TickExploration();
+            SyncReferenceModal();
         }
         private void BuildStage()
         {
@@ -211,7 +213,7 @@ namespace RogueTactics.Presentation
             {
                 var ruins=HqSkyRuins.Build(RuinsTemplate,new Vector3(2*Cell,0,2*Cell*DepthSpacing),EnvironmentMeshes);ruins.transform.localScale=new Vector3(1,1,DepthSpacing/2f);ruins.AddComponent<HqAmbient>();
                 HqReferenceParts.Build(FieldCamera,new Vector3(2*Cell,0,2*Cell*DepthSpacing),SpriteTemplate,ReferenceEnvironment,ReferenceParts);
-                if(ExplorationEnabled)BuildFloorScenery();
+                if(ExplorationEnabled)BuildFloorScenery(ruins);
                 if(SkyTemplate!=null){var sky=GameObject.CreatePrimitive(PrimitiveType.Quad);sky.name="Procedural sky haze";Destroy(sky.GetComponent<Collider>());sky.transform.SetParent(FieldCamera.transform,false);skyBackdrop=sky.transform;sky.GetComponent<Renderer>().shadowCastingMode=ShadowCastingMode.Off;sky.transform.localPosition=new Vector3(0,0,90);sky.transform.localScale=new Vector3(50,50,1);sky.GetComponent<Renderer>().sharedMaterial=SkyTemplate;}
                 RenderSettings.ambientSkyColor=new Color(.58f,.70f,.80f);RenderSettings.ambientEquatorColor=new Color(.40f,.49f,.53f);RenderSettings.ambientGroundColor=new Color(.23f,.29f,.25f);sun.intensity=1.55f;sun.color=new Color(1,.93f,.78f);
             }
@@ -292,7 +294,7 @@ namespace RogueTactics.Presentation
             var obj=GameObject.CreatePrimitive(kind);obj.name=name;obj.transform.position=p;obj.transform.localScale=scale;
             var m=new Material(StoneTemplate);m.color=color;materials.Add(m);obj.GetComponent<Renderer>().sharedMaterial=m;Destroy(obj.GetComponent<Collider>());return obj;
         }
-        public void Select(Preference p) {if(Session.Started || Busy)return;Session.Select(p);ResetProjection();Prediction.text="";Refresh();}
+        public void Select(Preference p) {if(Session.Started || Busy)return;Session.Select(p);ResetProjection();if(!AutonomousProduct)Prediction.text="";Refresh();}
         public void ResetBaseline()
         { if(Busy)return;ResetFloorExploration();policyEditing=false;Auto=false;Paused=false;Session.Reset();Prediction.text="";ResetProjection();SetComparisonCamera(CameraPitch); }
         private void ResetProjection()
@@ -396,7 +398,10 @@ namespace RogueTactics.Presentation
         private static string PlanName(ActionKind kind) => kind==ActionKind.Protect?"守護":kind==ActionKind.Attack?"攻撃":kind==ActionKind.Heal?"回復":kind==ActionKind.Move?"移動":"待機";
         private void OpenDetails(bool trials)
         {
-            if(IsExploring)trials=true;
+            CloseReferenceMemo();
+            referenceSettingsOpen=false;
+            if(IsExploring && travelRoutine!=null){traveller.SetPaused(true);RefreshFloorUi();}
+            if(expandedKnownMap!=null)expandedKnownMap.gameObject.SetActive(false);
             showingResults=trials;
             if(trials)
             {
@@ -410,8 +415,19 @@ namespace RogueTactics.Presentation
                 headline.text="G1の実験ルール";
                 modalText.text="青：仲間の位置 / 赤：敵の位置\nA–Dは匿名の実験役です。\n外見の仮対応：Aシロ / Bモモ / Cガル / Dミャル\n正式キャラのスキルや能力は確定していません。\n\nA：HP18 / 攻撃5 / 生存被弾後に反撃2\nB：HP16 / 攻撃4 / 隣接Aを守り被弾を3軽減\nC：HP12 / 攻撃4 / Aも同じ敵に隣接時＋2\nD：HP10 / 攻撃2 / 射程2で4回復（残2回）\nX：HP18 / 攻撃6、Y：HP14 / 攻撃5\n\n順番 B→X→A→C→Y→D（死者を除外）\n敵は生存A優先。その他は距離→ID順。\n移動は距離が縮む空き隣接マス。\nBの次行動・死亡・離隔で守護は失効。\n回復はHPが4以上欠けた生存味方に行う。\n\n2条件はBの選好以外すべて同じ。\n数値は実験用で、どちらも推奨しません。\n次の意図・再生単位はG1検証用であり、\n正式なhorizon/chunkは未決です。";
             }
+            if(!trials && HqWorld && !DeveloperMode)
+            {
+                headline.text="旅の記録";
+                var ownPrediction=Prediction.text;
+                modalText.text="今回の方針：モモが"+(Session.Preference==Preference.ProtectAnchor?"シロを守る":"近くの敵を攻める")+
+                    (string.IsNullOrWhiteSpace(ownPrediction)?"":"\n自分の予想："+ownPrediction)+
+                    (captions.Count==0?"":"\n\n見た出来事\n"+string.Join("\n",captions.Skip(Mathf.Max(0,captions.Count-6))))+
+                    "\n\n仲間に戦いを託す\nモモの方針を選び、予想を残して戦闘開始。仲間は自分で動きます。どちらの方針も同じ初期状態から試せます。\n\n仲間の動き\nシロ：生きて被弾すると、隣の敵へ反撃2。\nモモ：隣のシロを守ると被害を3軽減。もう一つの方針では近くの敵へ攻めます。\nガル：シロと同じ敵に隣接すると攻撃に2追加。\nミャル：体力が4以上減った生存仲間を、距離2以内で4回復。初回は2回分。\n\n戦いを見比べる\n終わったら予想と結果を比べ、同じ戦闘を別の方針で試せます。\n\n遺跡を探索する\n見えている床や通路を選ぶと仲間が進みます。地図や記録を開いた戦い・移動は停止し、閉じた後に再開できます。";
+            }
+            DescribeAutonomousRecord(trials);
             if(Session.Started && !terminalSeen){Auto=false;Paused=true;Refresh();}
             LayoutDetails();modalObject.SetActive(true);modalObject.transform.SetAsLastSibling();detailsViewport.GetComponent<ScrollRect>().verticalNormalizedPosition=1;
+            SyncReferenceModal();
         }
         private Vector2 Point(GridPosition p,float y=.7f)
         {var v=FieldCamera.WorldToViewportPoint(World(p,y));return new Vector2(v.x*Field.rect.width,-(1-v.y)*Field.rect.height);}

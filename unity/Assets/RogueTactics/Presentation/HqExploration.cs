@@ -25,9 +25,9 @@ namespace RogueTactics.Presentation
         public bool IsExploring { get; private set; }
         public FloorTraveller Exploration=>traveller;
         public bool TravelAnimating=>travelRoutine!=null;
-        private void BuildFloorScenery()
+        private void BuildFloorScenery(GameObject startingRuins)
         {
-            floorMap=new FloorMap();floorScenery=HqFloorScenery.Build(floorMap,EnvironmentMeshes,RuinsTemplate);
+            floorMap=new FloorMap();floorScenery=HqFloorScenery.Build(floorMap,EnvironmentMeshes,RuinsTemplate,startingRuins);
             displayedKnown=new HashSet<GridPosition>(new FloorTraveller(floorMap,Fixture.Baseline().Units).KnownCells);
             floorScenery.Reveal(floorMap,displayedKnown);
         }
@@ -39,6 +39,7 @@ namespace RogueTactics.Presentation
             Label(map,"Known map caption","周辺地図",5,2,114,18,11);
             floorMini=Rect(map,"Known terrain",5,22,114,76).gameObject.AddComponent<FloorMapGraphic>();floorMini.raycastTarget=false;
             floorMini.Configure(floorMap,displayedKnown,positions.Where(p=>!dead.Contains(p.Key)));
+            ConfigureReferenceMap(map);
             fieldImage.raycastTarget=true;Field.gameObject.AddComponent<FloorPointer>().View=this;
             // A local ground outline for the player's accepted known tile. No route,
             // hidden corridor endpoint, future room or predicted party pose is drawn.
@@ -98,7 +99,7 @@ namespace RogueTactics.Presentation
         }
         public void TapFloor(Vector2 screen)
         {
-            if(!IsExploring || !RectTransformUtility.ScreenPointToLocalPointInRectangle(Field,screen,canvas.worldCamera,out var point))return;
+            if(!IsExploring || modalObject.activeSelf || policyEditing || !RectTransformUtility.ScreenPointToLocalPointInRectangle(Field,screen,canvas.worldCamera,out var point))return;
             var ray=FieldCamera.ViewportPointToRay(new Vector3(point.x/Field.rect.width,1+point.y/Field.rect.height,0));
             if(new Plane(Vector3.up,Vector3.zero).Raycast(ray,out var distance))
             {
@@ -152,7 +153,7 @@ namespace RogueTactics.Presentation
             explore.GetComponentInChildren<Text>().rectTransform.sizeDelta=new Vector2(w-32,40);
             explore.gameObject.SetActive(!IsExploring && terminalSeen && Session.Replay.State.Outcome==Outcome.Victory);
             floorMini.transform.parent.GetComponent<RectTransform>().anchoredPosition=new Vector2(w-136,-65);
-            if(!IsExploring)return;
+            if(!IsExploring){RefreshReferenceFloorUi();return;}
             setup.gameObject.SetActive(false);orderStrip.gameObject.SetActive(false);buttons["Start"].gameObject.SetActive(false);
             SafeRoot.Find("Boundary").GetComponent<Text>().text="同じ遺跡を、仲間と探索する";
             buttons["Compare"].gameObject.SetActive(false);buttons["Reset"].gameObject.SetActive(true);ResizeButton("Reset",12,0,104);
@@ -163,6 +164,7 @@ namespace RogueTactics.Presentation
             eventCaption.rectTransform.anchoredPosition=new Vector2(126,-3);eventCaption.rectTransform.sizeDelta=new Vector2(w-250,44);eventCaption.fontSize=11;
             eventCaption.text=traveller.Paused?"移動を一時停止中":travelMessage;
             eventBackdrop.rectTransform.anchoredPosition=new Vector2(120,0);eventBackdrop.rectTransform.sizeDelta=new Vector2(w-240,48);
+            RefreshReferenceFloorUi();
         }
     }
     public sealed class FloorPointer : MonoBehaviour,IPointerClickHandler
@@ -194,7 +196,7 @@ namespace RogueTactics.Presentation
                 helper.AddTriangle(start,start+1,start+2);helper.AddTriangle(start,start+2,start+3);
             }
             foreach(var p in known)Square(p,new Color(.56f,.65f,.66f),size*.46f);
-            foreach(var a in party.Where(p=>known.Contains(p.Value)))Square(a.Value,a.Key=="X" || a.Key=="Y"?new Color(.94f,.43f,.43f):new Color(.99f,.82f,.43f),size*.65f);
+            foreach(var a in party.Where(p=>known.Contains(p.Value)))Square(a.Value,a.Key=="X" || a.Key=="Y"?new Color(.94f,.43f,.43f):new Color(.35f,.85f,1),size*.30f);
         }
     }
 }

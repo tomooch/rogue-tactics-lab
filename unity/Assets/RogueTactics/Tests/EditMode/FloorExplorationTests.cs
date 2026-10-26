@@ -12,10 +12,12 @@ namespace RogueTactics.Tests
         private static EncounterState Finish(Preference preference)
         {var replay=new Replay(Fixture.Baseline(),preference);while(replay.State.Outcome==Outcome.Active)replay.Advance();return replay.State;}
         [Test]
-        public void AllSixRoomsHaveConnectedWalkableRoutesAndGapsRemainWalls()
+        public void AllEightRoomsConnectAcrossAllFourSidesAndGapsRemainWalls()
         {
-            var map=new FloorMap();Assert.That(map.Rooms.Count,Is.EqualTo(6));Assert.That(map.Cells.Count(),Is.GreaterThan(300));
+            var map=new FloorMap();Assert.That(map.Rooms.Count,Is.EqualTo(8));Assert.That(map.Cells.Count(),Is.GreaterThan(300));
             foreach(var room in map.Rooms)Assert.That(map.Path(map.Rooms[0].Center,room.Center).Count,Is.GreaterThan(0));
+            Assert.That(map.Cells.Any(p=>p.X<0),Is.True);Assert.That(map.Cells.Any(p=>p.Y<0),Is.True);
+            foreach(var p in new[]{new GridPosition(-1,2),new GridPosition(2,-1),new GridPosition(5,2),new GridPosition(2,5)})Assert.That(map.Walkable(p),Is.True);
             Assert.That(map.Walkable(new GridPosition(8,10)),Is.False);
             Assert.That(map.Path(new GridPosition(2,2),new GridPosition(8,10)),Is.Empty);
         }
@@ -33,6 +35,8 @@ namespace RogueTactics.Tests
         {
             var floor=new FloorTraveller(new FloorMap(),Fixture.Baseline().Units);
             Assert.That(floor.DiscoveredRooms,Is.EqualTo(1));Assert.That(floor.KnownCells.Contains(new GridPosition(26,20)),Is.False);
+            Assert.That(floor.KnownCells.Contains(new GridPosition(-9,2)),Is.False);Assert.That(floor.Entrust(new GridPosition(-9,2)),Is.False);
+            Assert.That(floor.KnownCells.Contains(new GridPosition(2,-10)),Is.False);Assert.That(floor.Entrust(new GridPosition(2,-10)),Is.False);
             var before=floor.Party.ToArray();Assert.That(floor.Entrust(new GridPosition(26,20)),Is.False);CollectionAssert.AreEqual(before,floor.Party.ToArray());
         }
         [Test]

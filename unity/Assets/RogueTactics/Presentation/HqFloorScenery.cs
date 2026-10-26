@@ -14,9 +14,10 @@ namespace RogueTactics.Presentation
         private readonly Dictionary<GridPosition,GameObject> bridges=new Dictionary<GridPosition,GameObject>();
         private readonly List<Mesh> ownedMeshes=new List<Mesh>();
         private readonly List<Material> ownedMaterials=new List<Material>();
-        public static HqFloorScenery Build(FloorMap map,Mesh[] authored,Material template)
+        public static HqFloorScenery Build(FloorMap map,Mesh[] authored,Material template,GameObject startingRuins)
         {
             var owner=new GameObject("Connected sky ruins floor").AddComponent<HqFloorScenery>();
+            owner.JoinStartingGround(startingRuins);
             var court=authored.First(m=>m.name=="Courtyard");
             var roomSurfaces=authored.Where(m=>m.name=="Courtyard" || m.name=="Cliff" || m.name=="Foliage" || m.name=="Flowers").Select(mesh=>
             {
@@ -49,13 +50,13 @@ namespace RogueTactics.Presentation
             // The original island cap is smaller than a complete5x5 tile rectangle.
             // Door aprons cover its transition to the two real passage entrances.
             foreach(var p in map.Cells.Where(p=>map.RoomAt(p)<0 || (map.RoomAt(p)==0 &&
-                ((p.Y==4 && (p.X==2 || p.X==3)) || (p.X==4 && (p.Y==2 || p.Y==3))))))
+                (p.X<=0 || p.Y<=0 || (p.Y==4 && (p.X==2 || p.X==3)) || (p.X==4 && (p.Y==2 || p.Y==3))))))
             {
                 var root=new GameObject("Stone passage "+p.X+","+p.Y);root.transform.SetParent(owner.transform,false);
                 root.transform.position=new Vector3(p.X*2.5f,0,p.Y*3.125f);
-                root.AddComponent<MeshFilter>().sharedMesh=tiles[(p.X*3+p.Y*5)%tiles.Length];root.AddComponent<MeshRenderer>().sharedMaterial=stone;
+                root.AddComponent<MeshFilter>().sharedMesh=tiles[((p.X*3+p.Y*5)%tiles.Length+tiles.Length)%tiles.Length];root.AddComponent<MeshRenderer>().sharedMaterial=stone;
                 var support=GameObject.CreatePrimitive(PrimitiveType.Cube);support.name="Continuous bridge support";support.transform.SetParent(root.transform,false);
-                support.transform.localPosition=new Vector3(0,-.65f,0);support.transform.localScale=new Vector3(2.5f,1.1f,3.125f);
+                support.transform.localPosition=new Vector3(0,-.82f,0);support.transform.localScale=new Vector3(2.5f,1.1f,3.125f);
                 var lit=owner.ownedMaterials.FirstOrDefault(m=>m.name=="Bridge support stone");
                 if(lit==null){lit=new Material(Shader.Find("Universal Render Pipeline/Lit")){name="Bridge support stone"};lit.color=new Color(.43f,.46f,.40f);owner.ownedMaterials.Add(lit);}
                 support.GetComponent<Renderer>().sharedMaterial=lit;Destroy(support.GetComponent<Collider>());
@@ -78,6 +79,34 @@ namespace RogueTactics.Presentation
         {
             public Vector3 P,N;public Vector2 U;public Color C;
             public static Vertex Lerp(Vertex a,Vertex b,float t)=>new Vertex{P=Vector3.Lerp(a.P,b.P,t),N=Vector3.Lerp(a.N,b.N,t),U=Vector2.Lerp(a.U,b.U,t),C=Color.Lerp(a.C,b.C,t)};
+        }
+        // South/west used to be the edge of a separate island. In this
+        // exploration variant those edges are interior, so remove their low
+        // rim/water geometry and join them with real ground, not a fake wall.
+        // Imported assets and the standalone G1 scene stay unchanged.
+        private void JoinStartingGround(GameObject ruins)
+        {
+            foreach(var filter in ruins.GetComponentsInChildren<MeshFilter>())
+            {
+                var name=filter.sharedMesh.name;
+                if(name.StartsWith("HeroLedge")){filter.gameObject.SetActive(false);continue;}
+                if(!new[]{"Courtyard","Cliff","Limestone","Detail","Foliage","Flowers","Water"}.Contains(name))continue;
+                var source=filter.sharedMesh;var verts=source.vertices;var normals=source.normals;var colours=source.colors;var uv=source.uv;var input=source.triangles;
+                var output=new List<Vertex>();var triangles=new List<int>();
+                for(var i=0;i<input.Length;i+=3)
+                {
+                    var polygon=new List<Vertex>();
+                    for(var j=0;j<3;j++){var n=input[i+j];polygon.Add(new Vertex{P=verts[n],N=normals[n],U=uv[n],C=colours[n]});}
+                    if(name=="Courtyard" || polygon.All(v=>v.P.y<=.35f))
+                    {polygon=Clip(polygon,0,-3.75f);polygon=Clip(polygon,2,-7.5f);}
+                    if(polygon.Count<3)continue;var start=output.Count;output.AddRange(polygon);
+                    for(var j=1;j<polygon.Count-1;j++){triangles.Add(start);triangles.Add(start+j);triangles.Add(start+j+1);}
+                }
+                var mesh=new Mesh{name=name+" joined interior"};
+                mesh.SetVertices(output.Select(v=>v.P).ToList());mesh.SetNormals(output.Select(v=>v.N).ToList());
+                mesh.SetUVs(0,output.Select(v=>v.U).ToList());mesh.SetColors(output.Select(v=>v.C).ToList());mesh.SetTriangles(triangles,0);mesh.RecalculateBounds();
+                filter.sharedMesh=mesh;ownedMeshes.Add(mesh);
+            }
         }
         private static Mesh ClipTile(Mesh source,float x,float z)
         {

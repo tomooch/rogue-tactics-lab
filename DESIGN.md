@@ -169,3 +169,22 @@ Human requested a Torneko-like wider field and explicitly chose option1: multipl
 Executor trial: connected6room map31x27, existing start-room encounter then an explicit Continue Exploration action; same camera/scene/cast and exact post-battle survivors walk through Core-owned legal terrain. Existing authored surfaces form additional room/bridge modules. A known floor/corridor tap entrusts traversal; camera translates at constant orthographic scale. Newly discovered terrain and known-only map are projected after movement events, never hidden full paths or future room lists. Arrival/new-room discovery stop conditions and tap UX are provisional experiment settings, not a final resolution-chunk or intent-horizon decision. Prior Issue1 supervisor direction remains accepted. New enemies/rewards/relics/stairs/floor progression are not claimed by this traversal prototype. This is not completion of the larger one-floor/G2 acceptance contract.
 
 Verify actual same-field handoff, terrain/party legality and deterministic replay, unknown-state non-disclosure, pause/resume/arrival/discovery distinction, real touch reachability, constant actor display size, same-screen before/after images and unchanged G1 hashes/controls. Full art R2 remains FAIL until independently demonstrated and Human judged; functional world expansion alone is not art acceptance.
+
+
+## 2026-10-25 Human: interpret and implement the reference parts as a coherent game screen
+
+Human accepted the full reference-element/meaning analysis and explicitly requested implementation, after deprioritizing floor repetition. This authorizes graphical composition of truthful existing information and controls: local upper-left ruin emblem/title and discovered-only map, right-side actual phase/observed discovery count, four unchanged approved portraits with names/displayed HP/Core-proven roles, and contextual current actions. It does not authorize copying fictional12F/15F/Lv12/MP/eight abilities/five enemies/chest rewards into the playable prototype. Original equipment appearance is not proof of a gameplay role: use actual G1 Anchor/Support/Flanker/Protector behavior.
+
+Keep the same field/camera/cast/Core/known-state event timing. Build rounded vector frames/icons and a transparent foreground gradient locally; retain actual Momo policy/prediction/start, pause/resume, record, comparison/retry and exploration. A map magnifier opens only discovered terrain, never reveals total hidden room count or full unknown extent. UI priority must yield to policy/IME/modal states. Evaluate actual390×844 images and real EventSystem hit targets before keeping this candidate; no Human/R2 quality pass from implementation alone.
+
+## 2026-10-25 Human追加：右上の階層軸と文字の余白
+
+原画の右上階層表示を取り入れ、全文字の上下余白を見直すよう明示指示。階層Coreの拡張ではなく、番号の正本がない現行一フロアには縦軸と金色の「現在階」一節点だけを描く。架空の上下階・総階数・移動操作を置かない。戦闘/探索の状態と、地図の発見済室数を分離する。見出し/通常情報/補足の文字階層を揃え、人物カードではapproved顔の比率を維持し名前/役割/HPの行を分ける。実描画の未確認段階を品質達成と扱わない。
+
+## 2026-10-26 Human追加：自動の楽しさと南西への実探索拡張
+
+Humanは下・左へmapを広げ、角地だけの画面を評価対象としないよう明示指示。また毎turn選択を要求せず、自動のゲーム性を中心にし、結果/事前予測の認知負荷を減らすUI試作を複数Astraと相談して実装するよう許可した。
+
+今回の実験は、固定G1開始部屋/配置を動かさず南西の負座標側へ実通行の部屋/通路を接続し、同じ倍率の追従camera・known-only地図で往復確認する。既存G1戦闘Core/両trace/2敵は変更しない。飾り床やズームアウトで広さを代替しない。
+
+自動戦闘は既存のStart後連続再生を主導線にし、通常画面では一度託せば各turnの続行選択を求めない。方針はモモのcardから、比較/再試行/任意メモは自発的に開く記録へ整理する候補を試す。未入力メモを未達成項目として出さず、実際に見た勝敗/生還だけを短く表示する。事前メモと同条件比較の機能は残し、提出や自動採点を要求しない。これはUX実験であり、面白さや最終frozen directionの採用証拠ではない。未知の行先選択・次戦闘への自動移行・発見停止条件などの別ルール変更を混ぜない。

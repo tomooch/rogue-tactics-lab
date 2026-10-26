@@ -80,6 +80,7 @@ namespace RogueTactics.Presentation
             eventBackdrop.rectTransform.sizeDelta=new Vector2(w-140,48);
             ResizeButton("Diagnostics",18,modal.rect.height-112,w-56);ResizeButton("Effects",18,modal.rect.height-166,w-56);
             LayoutDetails();
+            LayoutReferenceHud(w,h);
         }
         private void LayoutDetails()
         {
@@ -90,6 +91,18 @@ namespace RogueTactics.Presentation
             ResizeButton("Close",18,height-58,w-56);
             buttons["Effects"].gameObject.SetActive(!result);buttons["Diagnostics"].gameObject.SetActive(!result);
             ResizeButton("Effects",18,height-166,w-56);ResizeButton("Diagnostics",18,height-112,w-56);
+            if(referenceFooter!=null && !DeveloperMode)
+            {
+                buttons["Effects"].gameObject.SetActive(!result && referenceSettingsOpen);buttons["Diagnostics"].gameObject.SetActive(!result && referenceSettingsOpen);
+                buttons["PresentationSettings"].gameObject.SetActive(!result && !referenceSettingsOpen);
+                ResizeButton("PresentationSettings",134,height-112,w-172);
+                var overflow=modalText.preferredHeight>detailsViewport.rect.height+1;
+                buttons["RecordUp"].gameObject.SetActive(!referenceSettingsOpen && overflow);
+                buttons["RecordDown"].gameObject.SetActive(!referenceSettingsOpen && overflow);
+                ResizeButton("RecordUp",18,height-112,52);ResizeButton("RecordDown",76,height-112,52);
+                if(!result && !referenceSettingsOpen)detailsViewport.sizeDelta=new Vector2(w-56,height-180);
+            }
+            LayoutAutonomousJournal();
         }
         private void RefreshProductHud()
         {
@@ -152,6 +165,7 @@ namespace RogueTactics.Presentation
             }
             orderLabel.text=reaction!=""?reaction:relationActor!="" && relationTarget!=""?HeroName(relationActor)+" → "+HeroName(relationTarget)+" / "+PlanName(relationKind):"行動順  •  "+(shownActor==""?"開始":HeroName(shownActor)+" 行動中");orderLabel.rectTransform.sizeDelta=new Vector2(340,19);
             if(!DeveloperMode){orderLabel.text="行動順";orderLabel.rectTransform.sizeDelta=new Vector2(208,19);}
+            RefreshReferenceHud();
         }
     }
 }

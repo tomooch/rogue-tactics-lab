@@ -25,16 +25,22 @@ namespace RogueTactics.Core.Exploration
         private readonly FloorRoom[] rooms;
         public IReadOnlyList<FloorRoom> Rooms=>Array.AsReadOnly(rooms);
         public IEnumerable<GridPosition> Cells=>cells.OrderBy(p=>p.Y).ThenBy(p=>p.X);
-        public int Width=>31;
-        public int Height=>27;
+        public int Width=>cells.Max(p=>p.X)-cells.Min(p=>p.X)+1;
+        public int Height=>cells.Max(p=>p.Y)-cells.Min(p=>p.Y)+1;
         private static readonly GridPosition[] Directions={new GridPosition(1,0),new GridPosition(0,1),new GridPosition(-1,0),new GridPosition(0,-1)};
         public FloorMap()
         {
-            rooms=new[]{new FloorRoom(0,0,0,5,5),new FloorRoom(1,10,0,7,7),new FloorRoom(2,23,2,7,7),
-                new FloorRoom(3,22,17,8,7),new FloorRoom(4,9,19,7,7),new FloorRoom(5,0,12,6,7)};
+            // Exploration ground surrounds the unchanged G1 battle fixture. G1
+            // still owns its original 5x5 legal combat board and initial actors.
+            rooms=new[]{new FloorRoom(0,-3,-3,8,8),new FloorRoom(1,10,0,7,7),new FloorRoom(2,23,2,7,7),
+                new FloorRoom(3,22,17,8,7),new FloorRoom(4,9,19,7,7),new FloorRoom(5,0,12,6,7),
+                new FloorRoom(6,-12,-1,7,7),new FloorRoom(7,-1,-13,7,7)};
             foreach(var r in rooms)Add(r.X,r.Y,r.Width,r.Height);
             Add(4,2,7,2);Add(16,4,8,2);Add(26,8,2,10);Add(15,20,8,2);
             Add(3,17,2,5);Add(3,20,7,2);Add(2,4,2,9);
+            // South/west are real walkable connections, independent of G1 combat.
+            Add(-6,2,7,2);Add(2,-7,2,8);
+            Add(-10,-10,2,10);Add(-9,-11,9,2);
         }
         private void Add(int x,int y,int w,int h)
         {for(var j=y;j<y+h;j++)for(var i=x;i<x+w;i++)cells.Add(new GridPosition(i,j));}

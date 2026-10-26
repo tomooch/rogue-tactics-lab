@@ -91,7 +91,11 @@ namespace RogueTactics.Tests
             yield return Capture("floor-initial");var initialMapVertices=Object.FindFirstObjectByType<FloorMapGraphic>().canvasRenderer.GetMesh().vertexCount;
             LogAssert.Expect(LogType.Log,new Regex("^HQ_FRAME_METRICS \\{"));
             LogAssert.Expect(LogType.Log,"MOBILE_G1_RESULT ProtectAnchor e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d");
-            Press(view,"Start");var deadline=Time.realtimeSinceStartup+55;
+            Press(view,"Start");yield return null;Press(view,"Map");yield return null;
+            Assert.That(view.Paused,Is.True);Assert.That(view.Auto,Is.False);
+            Assert.That(view.Button("Play").transform.Find("Label").GetComponent<Text>().text,Does.Contain("再開"),"Opening the map updates the transport label immediately");
+            yield return Capture("floor-reference-battle-map");Press(view,"Close");Press(view,"Play");
+            var deadline=Time.realtimeSinceStartup+55;
             while((view.Session.Replay.State.Outcome==Outcome.Active || view.Busy) && Time.realtimeSinceStartup<deadline)yield return null;
             Assert.That(view.Busy,Is.False);Assert.That(view.Session.Replay.Hash(),Is.EqualTo("e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d"));
             var camera=view.FieldCamera.transform.position;var zoom=view.FieldCamera.orthographicSize;
@@ -107,6 +111,15 @@ namespace RogueTactics.Tests
             yield return new WaitForSecondsRealtime(.25f);
             foreach(var actor in paused)Assert.That(Vector3.Distance(actor.Value,GameObject.Find("Fixture "+actor.Key).transform.position),Is.LessThan(.001f));
             Assert.That(view.Exploration.DiscoveredRooms,Is.EqualTo(known));yield return Capture("floor-paused");Press(view,"Play");
+            Press(view,"Details");Assert.That(view.Exploration.Paused,Is.True,"Exploration record holds movement like the map");
+            var recordPose=original.Keys.ToDictionary(id=>id,id=>GameObject.Find("Fixture "+id).transform.position);
+            yield return new WaitForSecondsRealtime(.15f);
+            foreach(var actor in recordPose)Assert.That(Vector3.Distance(actor.Value,GameObject.Find("Fixture "+actor.Key).transform.position),Is.LessThan(.001f));
+            Assert.That(view.SafeRoot.Find("Details panel/Heading").GetComponent<Text>().text,Is.EqualTo("旅の記録"),"Record has the same meaning while exploring");
+            yield return Capture("floor-travel-journal",false);Press(view,"RecordCompare");yield return null;
+            Assert.That(view.Button("RecordDown").gameObject.activeInHierarchy,Is.False,"A short result has no useless page action");
+            yield return Capture("floor-reference-travel-record",false);Press(view,"Close");
+            Assert.That(view.Button("Play").GetComponentInChildren<HudGlyphGraphic>().Symbol,Is.EqualTo(HudSymbol.Play));Press(view,"Play");
             deadline=Time.realtimeSinceStartup+25;while(view.TravelAnimating && Time.realtimeSinceStartup<deadline)yield return null;
             Assert.That(view.TravelAnimating,Is.False);Assert.That(view.Exploration.DiscoveredRooms,Is.EqualTo(2));
             Assert.That(Vector3.Distance(camera,view.FieldCamera.transform.position),Is.GreaterThan(5));Assert.That(view.FieldCamera.orthographicSize,Is.EqualTo(zoom).Within(.001f));
@@ -115,15 +128,16 @@ namespace RogueTactics.Tests
             yield return Capture("floor-discovery");Tap(view,new GridPosition(10,3));deadline=Time.realtimeSinceStartup+25;
             while(view.TravelAnimating && Time.realtimeSinceStartup<deadline)yield return null;
             Assert.That(view.TravelAnimating,Is.False);yield return Capture("floor-room-one");
-            foreach(var room in new[]{1,2,3,4,5,0})
+            foreach(var room in new[]{1,2,3,4,5,6,7,0})
             {
                 yield return WalkTo(view,view.Exploration.Map.Rooms[room].Center);
                 Assert.That(view.FieldCamera.orthographicSize,Is.EqualTo(zoom).Within(.001f));
                 foreach(var unit in view.Session.Replay.State.Units.Where(u=>!u.Enemy && u.Alive))Assert.That(view.Exploration.Health[unit.Id],Is.EqualTo(unit.Hp));
                 yield return Capture("floor-room-"+room+"-center");
             }
-            Assert.That(view.Exploration.DiscoveredRooms,Is.EqualTo(6));Assert.That(view.Session.Replay.Hash(),Is.EqualTo(hash));
-            Press(view,"Reset");Assert.That(view.IsExploring,Is.False);Assert.That(view.Session.Started,Is.False);
+            Assert.That(view.Exploration.DiscoveredRooms,Is.EqualTo(8));Assert.That(view.Session.Replay.Hash(),Is.EqualTo(hash));
+            Press(view,"Details");yield return null;yield return Capture("floor-before-record-retry",false);
+            Press(view,"RecordRetry");Assert.That(view.IsExploring,Is.False);Assert.That(view.Session.Started,Is.False);
             Assert.That(view.TravelSelection,Is.Null);Assert.That(GameObject.Find("Chosen known floor"),Is.Null,"Retry hides the former selection");
             Assert.That(view.Session.Replay.State.Units.Select(u=>u.Hp),Is.EqualTo(Fixture.Baseline().Units.Select(u=>u.Hp)));
             yield return Capture("floor-retry");Assert.That(Object.FindFirstObjectByType<FloorMapGraphic>().canvasRenderer.GetMesh().vertexCount,Is.EqualTo(initialMapVertices),"Retry clears explored map as well as world geometry");
@@ -149,19 +163,106 @@ namespace RogueTactics.Tests
             Camera.main.targetTexture=null;Object.Destroy(rt);LogAssert.NoUnexpectedReceived();
         }
         [UnityTest]
-        public IEnumerator FloorMapYieldsToPolicyPredictionAndReturnsAfterClosing()
+        public IEnumerator ReferencePartsKeepRealOwnershipAndKnownOnlyMap()
+        {
+            yield return SceneManager.LoadSceneAsync("HqExploration");yield return null;yield return null;
+            var view=Object.FindFirstObjectByType<MobileG1View>();var rt=new RenderTexture(390,844,24);Camera.main.targetTexture=rt;
+            view.SetTestSafeArea(new Rect(0,34,390,763),390,844);yield return Capture("floor-reference-overview");
+            var title=view.SafeRoot.Find("Title").GetComponent<Text>();Assert.That(title.text,Is.EqualTo("天空の遺跡"));Assert.That(title.preferredHeight,Is.LessThanOrEqualTo(title.rectTransform.rect.height+.1f),"Place name must actually fit its frame");
+            var state=view.Session.Replay.State.Serialize();var known=view.SafeRoot.Find("Explored floor map");
+            Assert.That(known.GetComponent<RectTransform>().anchoredPosition.x,Is.LessThan(20),"Place navigation in the upper-left sky, not across cast");
+            Assert.That(known.Find("Discovered rooms").GetComponent<Text>().text,Is.EqualTo("発見 1室"),"Do not expose the six-room hidden layout");
+            Assert.That(view.SafeRoot.Find("Observed journey/Current floor caption/Meaning").GetComponent<Text>().text,Is.EqualTo("現在階"),"No invented floor number or total");
+            var floorMarker=view.SafeRoot.Find("Observed journey/Current floor marker");
+            Assert.That(floorMarker.GetComponentInChildren<Button>(),Is.Null,"Current floor is a location marker, not an invented traversal action");
+            foreach(var label in new[]{title,view.SafeRoot.Find("Boundary").GetComponent<Text>(),known.Find("Discovered rooms").GetComponent<Text>()})
+                Assert.That(label.preferredHeight,Is.LessThanOrEqualTo(label.rectTransform.rect.height+.1f),"Single-line navigation text must retain its full glyph height");
+            foreach(var id in new[]{"A","D","C","B"})
+            {
+                var card=view.SafeRoot.Find("Companion portraits/Companion "+id);var portrait=card.Find("Approved portrait").GetComponent<RawImage>();
+                Assert.That(portrait.texture,Is.SameAs(view.CharacterArt[id[0]-'A']),"Portrait samples approved pixels, not newly invented faces");
+                Assert.That(card.Find("Name").GetComponent<Text>().text,Is.EqualTo(id=="A"?"シロ":id=="B"?"モモ・方針":id=="C"?"ガル":"ミャル"));
+                Assert.That(card.Find("Actual HP").GetComponent<Text>().text,Does.StartWith("HP "));
+                foreach(var labelName in new[]{"Name","Role meaning","Actual HP"})
+                {var label=card.Find(labelName).GetComponent<Text>();Assert.That(label.preferredHeight,Is.LessThanOrEqualTo(label.rectTransform.rect.height+.1f),labelName+" must render, not be vertically truncated");}
+                Assert.That(card.GetComponentInChildren<HudPanelGraphic>().canvasRenderer.GetMesh().vertexCount,Is.GreaterThan(20));
+            }
+            Assert.That(view.Button("PolicyShortcut").gameObject.activeInHierarchy,Is.False);
+            Assert.That(view.Prediction.gameObject.activeInHierarchy,Is.False,"No mandatory prediction form in the main flow");
+            Assert.That(view.Button("Start").GetComponent<RectTransform>().rect.width,Is.GreaterThan(view.SafeRoot.rect.width-30),"One primary entrust action");
+            Press(view,"Map");yield return null;yield return Capture("floor-reference-map",true);
+            Assert.That(view.SafeRoot.Find("Details panel/Expanded known terrain").gameObject.activeInHierarchy,Is.True);
+            var behind=view.Button("Start").GetComponent<RectTransform>();var click=new PointerEventData(EventSystem.current){position=RectTransformUtility.WorldToScreenPoint(Camera.main,behind.TransformPoint(behind.rect.center))};
+            var hits=new List<RaycastResult>();EventSystem.current.RaycastAll(click,hits);
+            Assert.That(hits[0].gameObject.name,Is.EqualTo("Modal input curtain"),"Map blocks the real underlying Start hit, not only darkens it");
+            ExecuteEvents.Execute(hits[0].gameObject,click,ExecuteEvents.pointerClickHandler);Assert.That(view.Session.Started,Is.False);
+            Assert.That(view.Session.Replay.State.Serialize(),Is.EqualTo(state));Press(view,"Close");yield return null;
+            Press(view,"Policy");yield return null;yield return Capture("floor-reference-choice",false);
+            Assert.That(view.Prediction.gameObject.activeInHierarchy,Is.False,"Policy changes do not require a forecast form");
+            Assert.That(view.Button("Protect").transform.Find("Label").GetComponent<Text>().text,Does.StartWith("選択中"));Press(view,"Attack");yield return null;
+            Assert.That(view.Button("Attack").transform.Find("Label").GetComponent<Text>().text,Does.StartWith("選択中"));
+            Press(view,"Protect");Press(view,"ClosePolicy");yield return null;
+            Assert.That(view.Session.Replay.State.Serialize(),Is.EqualTo(state));Press(view,"Details");yield return null;yield return null;
+            Assert.That(view.Prediction.gameObject.activeInHierarchy,Is.True,"Optional memo lives in record before combat");
+            Assert.That(view.Prediction.transform.parent.name,Is.EqualTo("Details panel"));
+            Assert.That(view.SafeRoot.Find("Details panel/Details viewport/Body").GetComponent<Text>().text,Does.Not.Contain("未入力"));
+            view.Prediction.text=new string('あ',120);
+            Assert.That(view.Prediction.text.Length,Is.EqualTo(120));
+            yield return Capture("floor-reference-journal",false);
+            Assert.That(view.Button("Diagnostics").gameObject.activeInHierarchy,Is.False);
+            Press(view,"PresentationSettings");yield return null;
+            Assert.That(view.Button("Diagnostics").gameObject.activeInHierarchy,Is.True);
+            yield return Capture("floor-reference-settings",false);Press(view,"Close");yield return null;
+            Assert.That(view.Prediction.gameObject.activeInHierarchy,Is.False);
+            Press(view,"Policy");yield return null;Press(view,"Attack");yield return null;
+            Assert.That(view.Prediction.text,Is.EqualTo(new string('あ',120)),"Changing policy must not erase the optional record memo");
+            Press(view,"Protect");Press(view,"ClosePolicy");yield return null;
+            Press(view,"Details");yield return null;
+            Assert.That(view.Prediction.text,Is.EqualTo(new string('あ',120)),"Memo remains reachable after returning from policy");
+            yield return Capture("floor-memo-after-policy-change",false);Press(view,"Close");yield return null;
+            Assert.That(view.Session.Replay.State.Serialize(),Is.EqualTo(state));
+            LogAssert.Expect(LogType.Log,new Regex("^HQ_FRAME_METRICS \\{"));
+            const string hash="e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d";
+            LogAssert.Expect(LogType.Log,"MOBILE_G1_RESULT ProtectAnchor "+hash);
+            Press(view,"Start");var deadline=Time.realtimeSinceStartup+65;
+            while((view.Session.Replay.State.Outcome==Outcome.Active || view.Busy) && Time.realtimeSinceStartup<deadline)yield return null;
+            Assert.That(view.Session.Replay.Hash(),Is.EqualTo(hash),"One Start runs the whole frozen battle without per-turn input");
+            Assert.That(view.Button("Compare").gameObject.activeInHierarchy,Is.False,"Comparison is optional in record");
+            Assert.That(view.Button("Reset").gameObject.activeInHierarchy,Is.False,"Exploration is the primary continuation");
+            Assert.That(view.Button("Explore").gameObject.activeInHierarchy,Is.True);yield return Capture("floor-auto-victory");
+            Press(view,"Details");yield return null;yield return Capture("floor-auto-record",false);
+            Press(view,"RecordCompare");yield return null;yield return null;
+            var viewport=view.SafeRoot.Find("Details panel/Details viewport").GetComponent<RectTransform>();var scroll=viewport.GetComponent<ScrollRect>();
+            var body=scroll.content.GetComponent<Text>();Assert.That(body.text,Does.Contain(new string('あ',120)));
+            Assert.That(body.text,Does.Not.Contain("未入力"));Assert.That(body.text,Does.Contain("4人が生還"));
+            Assert.That(scroll.content.rect.height,Is.GreaterThan(viewport.rect.height),"A real saved maximum-length memo needs reachable overflow");
+            Assert.That(view.Button("RecordDown").gameObject.activeInHierarchy,Is.True);
+            var viewportCorners=new Vector3[4];var pageCorners=new Vector3[4];
+            viewport.GetWorldCorners(viewportCorners);view.Button("RecordDown").GetComponent<RectTransform>().GetWorldCorners(pageCorners);
+            Assert.That(viewportCorners[0].y,Is.GreaterThanOrEqualTo(pageCorners[1].y),"Record body must end above page controls");
+            Press(view,"RecordUp");yield return null;var top=scroll.verticalNormalizedPosition;
+            Press(view,"RecordDown");yield return null;
+            Assert.That(scroll.verticalNormalizedPosition,Is.LessThan(top-.05f),"Real UI paging exposes saved record content");
+            yield return Capture("floor-reference-journal-paged",false);Press(view,"RecordRetry");yield return null;
+            Assert.That(view.Session.Started,Is.False);Assert.That(view.Session.Trials.Count,Is.EqualTo(1),"Retry keeps the actual previous record");
+            Camera.main.targetTexture=null;Object.Destroy(rt);LogAssert.NoUnexpectedReceived();
+        }
+        [UnityTest]
+        public IEnumerator FloorMapYieldsToPolicyAndOptionalRecordMemo()
         {
             yield return SceneManager.LoadSceneAsync("HqExploration");yield return null;yield return null;
             var view=Object.FindFirstObjectByType<MobileG1View>();var rt=new RenderTexture(390,844,24);Camera.main.targetTexture=rt;
             view.SetTestSafeArea(new Rect(0,34,390,763),390,844);yield return Capture("floor-before-policy");
             var state=view.Session.Replay.State.Serialize();Press(view,"Policy");yield return null;yield return null;
             Assert.That(Object.FindFirstObjectByType<FloorMapGraphic>(),Is.Null,"Map cannot cover policy or docked keyboard input");
+            Assert.That(view.Prediction.gameObject.activeInHierarchy,Is.False);Press(view,"ClosePolicy");yield return null;
+            yield return Capture("floor-after-policy");Press(view,"Details");yield return null;
+            Assert.That(view.Prediction.gameObject.activeInHierarchy,Is.True);
             view.Prediction.text="かつ";view.ApplyKeyboardArea(Rect.zero,true);Canvas.ForceUpdateCanvases();
             var input=view.Prediction.GetComponent<RectTransform>();var corners=new Vector3[4];input.GetWorldCorners(corners);
             Assert.That(RectTransformUtility.WorldToScreenPoint(Camera.main,corners[0]).y,Is.GreaterThan(600));
             view.ApplyKeyboardArea(Rect.zero);yield return Capture("floor-policy",false);
-            Press(view,"ClosePolicy");yield return null;yield return Capture("floor-after-policy");
-            Press(view,"Details");yield return null;yield return Capture("floor-record",false);
+            yield return Capture("floor-record",false);
             Press(view,"Close");yield return null;yield return Capture("floor-after-record");
             Assert.That(view.Prediction.text,Is.EqualTo("かつ"));Assert.That(view.Session.Replay.State.Serialize(),Is.EqualTo(state));
             Camera.main.targetTexture=null;Object.Destroy(rt);LogAssert.NoUnexpectedReceived();
