@@ -55,15 +55,31 @@ namespace RogueTactics.Presentation
                 var id=CardOrder[i];var card=cardValues[id].transform.parent.GetComponent<RectTransform>();
                 card.sizeDelta=new Vector2(width,144);
                 var art=card.Find("Approved portrait").GetComponent<RectTransform>();
-                art.anchoredPosition=new Vector2(5,-6);art.sizeDelta=new Vector2(width-10,60);
-                ReferenceText(card.Find("Name").GetComponent<Text>(),4,66,width-8,20,13,TextAnchor.MiddleCenter);
-                ReferenceText(card.Find("Role meaning").GetComponent<Text>(),4,86,width-8,20,11,TextAnchor.MiddleCenter);
+                art.anchoredPosition=new Vector2(5,-4);art.sizeDelta=new Vector2(width-10,88);
+                // Crop approved pixels to the actual display aspect; never stretch a face.
+                var portrait=art.GetComponent<RawImage>();var uvHeight=.43f;
+                var uvWidth=art.rect.width/art.rect.height*portrait.texture.height/portrait.texture.width*uvHeight;
+                var faceCenter=id=="C"?.55f:.51f;
+                portrait.uvRect=new Rect(faceCenter-uvWidth/2,.47f,uvWidth,uvHeight);
+                var fade=card.Find("Portrait name fade").GetComponent<RectTransform>();fade.sizeDelta=new Vector2(width-8,35);
+                var name=card.Find("Name").GetComponent<Text>();
+                ReferenceText(name,4,76,width-8,20,id=="B"?12:13,TextAnchor.MiddleCenter);name.fontStyle=FontStyle.Bold;
+                var unavailable=dead.Contains(id);
+                var role=card.Find("Core role").GetComponent<RectTransform>();role.gameObject.SetActive(id!="B" && !unavailable);
+                role.anchoredPosition=new Vector2(width/2-25,-98);role.sizeDelta=new Vector2(16,16);
+                var roleSymbol=role.Find("Role symbol").GetComponent<RectTransform>();roleSymbol.anchoredPosition=new Vector2(1,-1);roleSymbol.sizeDelta=new Vector2(14,14);
+                ReferenceText(card.Find("Role meaning").GetComponent<Text>(),unavailable || id=="B"?4:width/2-4,97,unavailable?width-8:id=="B"?width-20:32,20,11,TextAnchor.MiddleCenter);
+                if(id=="B")
+                {
+                    card.Find("Policy row").GetComponent<RectTransform>().sizeDelta=new Vector2(width-8,20);
+                    card.Find("Policy disclosure").GetComponent<RectTransform>().anchoredPosition=new Vector2(width-17,-101);
+                }
                 var track=card.Find("Health track").GetComponent<RectTransform>();
-                track.anchoredPosition=new Vector2(8,-110);track.sizeDelta=new Vector2(width-16,4);
-                cardHealth[id].rectTransform.anchoredPosition=new Vector2(8,-110);
+                track.anchoredPosition=new Vector2(8,-119);track.sizeDelta=new Vector2(width-16,6);
+                cardHealth[id].rectTransform.anchoredPosition=new Vector2(8,-119);
                 var maxHp=RogueTactics.Core.G1.Fixture.Baseline().Find(id).MaxHp;
-                cardHealth[id].rectTransform.sizeDelta=new Vector2((width-16)*(hp.TryGetValue(id,out var displayedHp)?displayedHp:maxHp)/maxHp,4);
-                ReferenceText(cardValues[id],4,118,width-8,20,11,TextAnchor.MiddleCenter);
+                cardHealth[id].rectTransform.sizeDelta=new Vector2((width-16)*(hp.TryGetValue(id,out var displayedHp)?displayedHp:maxHp)/maxHp,6);
+                ReferenceText(cardValues[id],4,127,width-8,17,11,TextAnchor.MiddleCenter);
             }
             eventCaption.alignment=TextAnchor.MiddleLeft;
             ReferenceText(headline,18,8,w-56,36,20,TextAnchor.MiddleLeft);

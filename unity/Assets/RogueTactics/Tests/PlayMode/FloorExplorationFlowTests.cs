@@ -153,7 +153,13 @@ namespace RogueTactics.Tests
             const string hash="85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e";
             LogAssert.Expect(LogType.Log,"MOBILE_G1_RESULT DirectAttack "+hash);Press(view,"Start");var deadline=Time.realtimeSinceStartup+55;
             while((view.Session.Replay.State.Outcome==Outcome.Active || view.Busy) && Time.realtimeSinceStartup<deadline)yield return null;
-            Assert.That(view.Session.Replay.Hash(),Is.EqualTo(hash));Press(view,"Explore");yield return null;
+            Assert.That(view.Session.Replay.Hash(),Is.EqualTo(hash));
+            var unavailable=view.SafeRoot.Find("Companion portraits/Companion A");
+            var status=unavailable.Find("Role meaning").GetComponent<Text>();
+            Assert.That(status.text,Is.EqualTo("戦闘不能"),"Death replaces the normal role, not just its icon");
+            Assert.That(status.preferredWidth,Is.LessThanOrEqualTo(status.rectTransform.rect.width+.1f),"The complete death status must remain readable");
+            Assert.That(unavailable.Find("Core role").gameObject.activeInHierarchy,Is.False,"Do not retain a live role badge on the unavailable companion");
+            yield return Capture("floor-attack-result");Press(view,"Explore");yield return null;
             Assert.That(view.Exploration.Party.Count,Is.EqualTo(3));Assert.That(view.Exploration.Party.ContainsKey("A"),Is.False);
             Assert.That(Resources.FindObjectsOfTypeAll<Transform>().Single(t=>t.name=="Fixture A" && t.gameObject.scene.IsValid()).gameObject.activeSelf,Is.False);
             yield return Capture("floor-attack-entry");Tap(view,new GridPosition(5,3));deadline=Time.realtimeSinceStartup+25;
@@ -181,10 +187,16 @@ namespace RogueTactics.Tests
             {
                 var card=view.SafeRoot.Find("Companion portraits/Companion "+id);var portrait=card.Find("Approved portrait").GetComponent<RawImage>();
                 Assert.That(portrait.texture,Is.SameAs(view.CharacterArt[id[0]-'A']),"Portrait samples approved pixels, not newly invented faces");
+                var sampledAspect=portrait.texture.width*portrait.uvRect.width/(portrait.texture.height*portrait.uvRect.height);
+                Assert.That(portrait.rectTransform.rect.width/portrait.rectTransform.rect.height,Is.EqualTo(sampledAspect).Within(.001f),"Approved faces must not be stretched by the portrait layout");
                 Assert.That(card.Find("Name").GetComponent<Text>().text,Is.EqualTo(id=="A"?"シロ":id=="B"?"モモ・方針":id=="C"?"ガル":"ミャル"));
                 Assert.That(card.Find("Actual HP").GetComponent<Text>().text,Does.StartWith("HP "));
                 foreach(var labelName in new[]{"Name","Role meaning","Actual HP"})
-                {var label=card.Find(labelName).GetComponent<Text>();Assert.That(label.preferredHeight,Is.LessThanOrEqualTo(label.rectTransform.rect.height+.1f),labelName+" must render, not be vertically truncated");}
+                {
+                    var label=card.Find(labelName).GetComponent<Text>();
+                    Assert.That(label.preferredHeight,Is.LessThanOrEqualTo(label.rectTransform.rect.height+.1f),labelName+" must render, not be vertically truncated");
+                    Assert.That(label.preferredWidth,Is.LessThanOrEqualTo(label.rectTransform.rect.width+.1f),labelName+" must fit horizontally without hiding companion information");
+                }
                 Assert.That(card.GetComponentInChildren<HudPanelGraphic>().canvasRenderer.GetMesh().vertexCount,Is.GreaterThan(20));
             }
             Assert.That(view.Button("PolicyShortcut").gameObject.activeInHierarchy,Is.False);

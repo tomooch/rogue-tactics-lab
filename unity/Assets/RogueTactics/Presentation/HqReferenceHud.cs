@@ -54,11 +54,22 @@ namespace RogueTactics.Presentation
                 var id=CardOrder[i];var r=cardValues[id].transform.parent.GetComponent<RectTransform>();
                 r.GetComponent<Image>().color=Color.clear;var outline=r.GetComponent<Outline>();outline.enabled=false;
                 companionFrames[i]=Frame(r,new Color(.035f,.065f,.12f,1),CompanionColors[i]);
+                companionFrames[i].TopFill=Color.Lerp(new Color(.035f,.065f,.12f,1),CompanionColors[i],.24f);
+                companionFrames[i].PortraitSurface=true;
                 var portrait=r.Find("Approved portrait").GetComponent<RawImage>();portrait.uvRect=new Rect(.15f,.50f,.70f,.37f);
-                var role=Rect(r,"Core role",0,0,25,25);Frame(role,new Color(.035f,.075f,.12f,.98f),CompanionColors[i],7);
+                var fade=Rect(r,"Portrait name fade",4,62,78,35).gameObject.AddComponent<HudPortraitFadeGraphic>();fade.raycastTarget=false;
+                r.Find("Name").SetAsLastSibling();
+                var role=Rect(r,"Core role",0,0,25,25);
                 Glyph(role,"Role symbol",i==0?HudSymbol.Counter:i==1?HudSymbol.Heal:i==2?HudSymbol.Swords:HudSymbol.Shield,4,4,17,CompanionColors[i]);
-                Label(r,"Role meaning",CoreRoles[i],2,82,80,16,9,TextAnchor.MiddleCenter).color=CompanionColors[i];
+                Label(r,"Role meaning",CoreRoles[i],2,82,80,16,9,TextAnchor.MiddleCenter).color=Color.Lerp(CompanionColors[i],Color.white,.28f);
                 cardHealth[id].color=new Color(.34f,.94f,.49f);
+                if(id=="B")
+                {
+                    var policyRow=Rect(r,"Policy row",4,97,78,20);
+                    buttons["Policy"].targetGraphic=Frame(policyRow,new Color(.16f,.075f,.13f,1),new Color(.62f,.30f,.43f),6);
+                    policyRow.SetSiblingIndex(r.Find("Role meaning").GetSiblingIndex());
+                    Glyph(r,"Policy disclosure",HudSymbol.Chevron,68,99,12,CompanionColors[i]);
+                }
             }
             StyleReferenceButton("Details",HudSymbol.Book,new Color(.70f,.80f,.94f));
             StyleReferenceButton("Start",HudSymbol.Play,Gold);StyleReferenceButton("Play",HudSymbol.Pause,Gold);
@@ -136,6 +147,11 @@ namespace RogueTactics.Presentation
                 cardHealth[id].rectTransform.sizeDelta=new Vector2(((w-36)/4-14)*hp[id]/unit.MaxHp,5);
                 r.Find("Approved portrait").GetComponent<RawImage>().color=dead.Contains(id)?new Color(.45f,.45f,.48f):Color.white;
                 companionFrames[i].Border=dead.Contains(id)?new Color(.32f,.36f,.42f):CompanionColors[i];companionFrames[i].SetVerticesDirty();
+                if(id=="B")
+                {
+                    r.Find("Policy row").gameObject.SetActive(!Session.Started);
+                    r.Find("Policy disclosure").gameObject.SetActive(!Session.Started);
+                }
             }
             if(!Session.Started)
             {
@@ -244,7 +260,7 @@ namespace RogueTactics.Presentation
     [RequireComponent(typeof(CanvasRenderer))]
     public sealed class HudPanelGraphic:MaskableGraphic
     {
-        public Color Fill,Border;public float Radius=10;
+        public Color Fill,Border,TopFill;public float Radius=10;public bool PortraitSurface;
         protected override void OnPopulateMesh(VertexHelper vh)
         {
             vh.Clear();var r=rectTransform.rect;var radius=Mathf.Min(Radius,Mathf.Min(r.width,r.height)/2);var n=32;
@@ -253,10 +269,27 @@ namespace RogueTactics.Presentation
                 var corner=i/8;var angle=(corner*90+i%8*90f/7)*Mathf.Deg2Rad;
                 var cx=corner==0 || corner==3?r.xMax-radius:r.xMin+radius;var cy=corner<2?r.yMax-radius:r.yMin+radius;
                 var d=ring==0?0:1.3f;var at=new Vector2(cx,cy)+new Vector2(Mathf.Cos(angle),Mathf.Sin(angle))*(radius-d);
-                vh.AddVert(at,ring==0?Border:Fill,Vector2.zero);
+                var fill=PortraitSurface?Color.Lerp(Fill,TopFill,Mathf.InverseLerp(r.yMin+r.height*.35f,r.yMax,at.y)):Fill;
+                vh.AddVert(at,ring==0?Border:fill,Vector2.zero);
             }
             var center=vh.currentVertCount;vh.AddVert(r.center,Fill,Vector2.zero);
             for(var i=0;i<n;i++){var j=(i+1)%n;vh.AddTriangle(i,j,n+i);vh.AddTriangle(j,n+j,n+i);vh.AddTriangle(center,n+i,n+j);}
+        }
+    }
+    [RequireComponent(typeof(CanvasRenderer))]
+    public sealed class HudPortraitFadeGraphic:MaskableGraphic
+    {
+        protected override void OnPopulateMesh(VertexHelper vh)
+        {
+            vh.Clear();var r=rectTransform.rect;
+            vh.AddVert(new Vector2(r.xMin,r.yMax),new Color(.035f,.065f,.12f,0),Vector2.zero);
+            vh.AddVert(new Vector2(r.xMax,r.yMax),new Color(.035f,.065f,.12f,0),Vector2.zero);
+            var edge=r.yMax-10;
+            vh.AddVert(new Vector2(r.xMax,edge),new Color(.035f,.065f,.12f,1),Vector2.zero);
+            vh.AddVert(new Vector2(r.xMin,edge),new Color(.035f,.065f,.12f,1),Vector2.zero);
+            vh.AddVert(new Vector2(r.xMax,r.yMin),new Color(.035f,.065f,.12f,1),Vector2.zero);
+            vh.AddVert(new Vector2(r.xMin,r.yMin),new Color(.035f,.065f,.12f,1),Vector2.zero);
+            vh.AddTriangle(0,1,2);vh.AddTriangle(0,2,3);vh.AddTriangle(3,2,4);vh.AddTriangle(3,4,5);
         }
     }
     [RequireComponent(typeof(CanvasRenderer))]
@@ -265,7 +298,7 @@ namespace RogueTactics.Presentation
         protected override void OnPopulateMesh(VertexHelper vh)
         {vh.Clear();var r=rectTransform.rect;vh.AddVert(new Vector2(r.xMin,r.yMax),new Color(.025f,.045f,.09f,0),Vector2.zero);vh.AddVert(new Vector2(r.xMax,r.yMax),new Color(.025f,.045f,.09f,0),Vector2.zero);vh.AddVert(new Vector2(r.xMax,r.yMin),new Color(.025f,.045f,.09f,.92f),Vector2.zero);vh.AddVert(new Vector2(r.xMin,r.yMin),new Color(.025f,.045f,.09f,.92f),Vector2.zero);vh.AddTriangle(0,1,2);vh.AddTriangle(0,2,3);}
     }
-    public enum HudSymbol {Compass,Book,Search,Shield,Swords,Counter,Heal,Play,Pause,Reset,Compare,Steps}
+    public enum HudSymbol {Compass,Book,Search,Shield,Swords,Counter,Heal,Play,Pause,Reset,Compare,Steps,Chevron}
     [RequireComponent(typeof(CanvasRenderer))]
     public sealed class HudGlyphGraphic:MaskableGraphic
     {
@@ -289,6 +322,7 @@ namespace RogueTactics.Presentation
                 case HudSymbol.Reset:Circle(.5f,.52f,.34f);Line(.16f,.15f,.16f,.47f);Line(.16f,.47f,.45f,.43f);break;
                 case HudSymbol.Compare:Line(.12f,.3f,.88f,.3f);Line(.65f,.08f,.88f,.3f);Line(.65f,.52f,.88f,.3f);Line(.88f,.75f,.12f,.75f);Line(.35f,.53f,.12f,.75f);Line(.35f,.97f,.12f,.75f);break;
                 case HudSymbol.Steps:Line(.28f,.08f,.19f,.28f,.20f);Line(.21f,.42f,.16f,.61f,.18f);Line(.78f,.38f,.69f,.58f,.20f);Line(.71f,.72f,.66f,.91f,.18f);break;
+                case HudSymbol.Chevron:Line(.30f,.15f,.70f,.5f,.12f);Line(.70f,.5f,.30f,.85f,.12f);break;
             }
         }
     }
