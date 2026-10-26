@@ -1,5 +1,11 @@
 # 現在の実装・検証状況
 
+## 2026-10-26 PR21: フィールド追加を保留し、4人のカードUIを改善
+
+Human最新指示によりfield造形の追加を止め、baseline befbd86から4人の顔/名前/役割/表示済HPとモモの既存方針操作の見せ方だけをA→実描画/敵対review→Bへ修復。root/Astraの実画像比較で顔の識別・名前の背景依存解消・非操作の役割とモモだけの操作表示の分離を局所改善と判断。カード144px/操作領域/既存flowを維持、Art/Core/scenes不変。
+
+候補Bの全検査はUnity6000.3.25f1 Edit21/21・Play12/13・探索4/4。fresh Simulator292fc822の実操作で、シロ死亡時に「戦闘不能」が切れ反撃記号が残る欠陥を検出。全幅statusと記号非表示へC修復し、Attack終端の幅/意味/記号回帰とcaptureを追加。新全検査もEdit21/21・Play12/13・探索4/4、baselineと同じstep0 X/C全sprite矩形重複のみFAIL、緩和なし。両fullhash/既存操作/source232files維持、64fresh390×844。portrait比率・文字横fit・死亡表示の新検査PASS。修復版native d3f98498はexport/build各0・生成4設定復元/unexpected0。専用QA iOS27.0へ実install/launchし、顔から方針→Attack→一回Start→全文status/0HP/記号消失・3人生存→記録→Retryで顔/HP/役割/操作枠復帰を観測。new Attack fullhash一致/Exception行なし。最終nativeのProtect/pause/IME/メモ/page/全8室は未再検証。全検査/native各232files SHA不一致0。R2全体V0 FAIL/Human/実iPhone未評価、新TestFlightなし。[比較・敵対review](evidence/hq-ref/companion-cards-review.md) / [exact source/結果/画像SHA](evidence/hq-ref/companion-cards-evidence.json)。
+
 ## 2026-10-26 PR21: 原画由来の石造部材一個
 
 Humanは広域自律行動を後回しにし、パーツ制作を優先。baseline ae3507eから原画UV/編集可能輪郭で右手前の部材をA→Bの花帯棄却→元領域精査→C石塊→D輪郭/接触修復へ実制作・実Unity390×844比較。rootと実画像を閲覧したAstraはDをこの位置の装飾石一個として局所保持推奨。方向限定の2.5D部材であり、汎用3Dモデル/全体R2完成ではない。
