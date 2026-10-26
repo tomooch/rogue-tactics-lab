@@ -1,3 +1,7 @@
+## 2026-10-27 — Terra 操作UIの誤タップ対策
+
+実行source `e12bbb013e5af88aeec28901f62eac01e558f0db`。開始・探索のアイコンと文字をまとめ、勝利後の探索を旧停止位置から分離。Unity 6000.3.25f1 Edit21/21、Play12/13（既存step0 sprite矩形重複FAIL、今回B/A・前回X/C）、探索4/4、両固定hash一致。旧停止位置の境界と勝利を跨ぐ押下はEditor Input Systemで検証。fresh iOS27 QA Simulatorで開始・停止・再開・勝利後3位置tap・探索遷移を実観測。source63 SHA一致。実iPhone/Human/新TestFlightは未検証、R2 V0 FAIL。詳細は [操作UI review](evidence/hq-ref/transport-ui-review.md) と [実行証拠](evidence/hq-ref/transport-ui-evidence.json)。
+
 # 現在の実装・検証状況
 
 ## 2026-10-26 PR21: フィールド追加を保留し、4人のカードUIを改善
