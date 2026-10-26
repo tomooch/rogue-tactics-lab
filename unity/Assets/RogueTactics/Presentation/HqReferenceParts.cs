@@ -9,6 +9,7 @@ namespace RogueTactics.Presentation
     {
         public Mesh Mesh;
         public Vector3 Position;
+        public float SurfaceOffset;
     }
 
     // Decorative, independently positioned cutout meshes. No board/rule ownership.
@@ -16,6 +17,7 @@ namespace RogueTactics.Presentation
     {
         private Camera facing;
         private Material material;
+        private ReferenceEnvironmentPart[] source;
 
         public static void Build(Camera camera, Vector3 center, Material template,
             Texture2D original, ReferenceEnvironmentPart[] parts)
@@ -24,6 +26,7 @@ namespace RogueTactics.Presentation
             var root=new GameObject("Private reference environment parts");
             root.transform.position=center;
             var owner=root.AddComponent<HqReferenceParts>();owner.facing=camera;
+            owner.source=parts;
             owner.material=new Material(template){name="Private reference RGB sampling"};
             owner.material.mainTexture=original;owner.material.SetColor("_Color",Color.white);
             foreach(var part in parts)
@@ -42,7 +45,13 @@ namespace RogueTactics.Presentation
         private void LateUpdate()
         {
             if(facing==null)return;
-            foreach(Transform part in transform)part.rotation=facing.transform.rotation;
+            for(var i=0;i<source.Length;i++)
+            {
+                var part=transform.GetChild(i);part.rotation=facing.transform.rotation;
+                // A facade lies in front of its opaque support while retaining
+                // its projected attachment point. It still depth-tests normally.
+                part.localPosition=source[i].Position-facing.transform.forward*source[i].SurfaceOffset;
+            }
         }
         private void OnDestroy(){if(material!=null)Destroy(material);}
     }

@@ -264,8 +264,13 @@ MonoBehaviour:
   ReferenceParts:
   - Mesh: {fileID: 4300000, guid: fb8b5214ee8b345aebebd3a77b51c959, type: 2}
     Position: {x: -6.1, y: -0.4, z: -2}
+    SurfaceOffset: 0
   - Mesh: {fileID: 4300000, guid: c1e169249246b495c9529f8330979edb, type: 2}
     Position: {x: -6.1, y: -0.4, z: -4.2}
+    SurfaceOffset: 0
+  - Mesh: {fileID: 4300000, guid: 636b7e1dd33314ea399ddcdeed2628ff, type: 2}
+    Position: {x: 5.75, y: -0.05, z: -2.45}
+    SurfaceOffset: 2
   AmbientOcclusion: {fileID: 2079753342062040102, guid: 65bc7dbf4170f435aa868c779acfb082, type: 2}
   CharacterArt:
   - {fileID: 2800000, guid: 4c3c530c8c336469592c215d68b978b9, type: 3}

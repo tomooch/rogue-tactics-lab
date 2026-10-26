@@ -40,6 +40,10 @@ namespace RogueTactics.Editor
             camera.transform.position=new Vector3(0,2.4f,-10);camera.aspect=1;camera.cullingMask=1<<30;
             camera.clearFlags=CameraClearFlags.SolidColor;camera.backgroundColor=new Color(.25f,.29f,.31f);
             camera.GetUniversalAdditionalCameraData().renderPostProcessing=false;
+            var bounds=root.GetComponentsInChildren<MeshRenderer>().Select(r=>r.bounds).ToArray();
+            var sheet=bounds[0];foreach(var b in bounds.Skip(1))sheet.Encapsulate(b);
+            camera.transform.position=new Vector3(sheet.center.x,sheet.center.y,-10);
+            camera.orthographicSize=Mathf.Max(sheet.extents.x,sheet.extents.y)*1.1f;
             var target=new RenderTexture(640,640,24){antiAliasing=4};target.Create();
             RenderPipeline.SubmitRenderRequest(camera,new UniversalRenderPipeline.SingleCameraRequest{destination=target});
             var previous=RenderTexture.active;RenderTexture.active=target;
@@ -47,8 +51,35 @@ namespace RogueTactics.Editor
             capture.ReadPixels(new Rect(0,0,640,640),0,0);capture.Apply();
             var folder=Path.GetFullPath("Logs/hq/private");Directory.CreateDirectory(folder);
             File.WriteAllBytes(Path.Combine(folder,"reference-parts-source.png"),capture.EncodeToPNG());
+            // Each editable part gets a readable native render as well as a contact sheet.
+            // The texture is sampled directly; source RGB is never painted or resaved.
+            foreach(Transform selected in root.transform)
+            {
+                foreach(Transform child in root.transform)child.gameObject.SetActive(child==selected);
+                var b=selected.GetComponent<MeshRenderer>().bounds;
+                camera.transform.position=new Vector3(b.center.x,b.center.y,-10);
+                camera.orthographicSize=Mathf.Max(b.extents.x,b.extents.y)*1.12f;
+                RenderPipeline.SubmitRenderRequest(camera,new UniversalRenderPipeline.SingleCameraRequest{destination=target});
+                RenderTexture.active=target;capture.ReadPixels(new Rect(0,0,640,640),0,0);capture.Apply();
+                File.WriteAllBytes(Path.Combine(folder,selected.name+"-source.png"),capture.EncodeToPNG());
+                selected.gameObject.SetActive(false);
+                var uv=selected.GetComponent<MeshFilter>().sharedMesh.uv;
+                var u0=uv.Min(v=>v.x);var u1=uv.Max(v=>v.x);var v0=uv.Min(v=>v.y);var v1=uv.Max(v=>v.y);
+                var partRegionMesh=new Mesh();
+                partRegionMesh.vertices=new[]{new Vector3(b.min.x,b.min.y,0),new Vector3(b.max.x,b.min.y,0),new Vector3(b.max.x,b.max.y,0),new Vector3(b.min.x,b.max.y,0)};
+                partRegionMesh.uv=new[]{new Vector2(u0,v0),new Vector2(u1,v0),new Vector2(u1,v1),new Vector2(u0,v1)};
+                partRegionMesh.triangles=new[]{0,1,2,0,2,3};partRegionMesh.RecalculateBounds();
+                var sourceRegion=new GameObject("Unclipped original region");sourceRegion.layer=30;
+                sourceRegion.AddComponent<MeshFilter>().sharedMesh=partRegionMesh;
+                sourceRegion.AddComponent<MeshRenderer>().sharedMaterial=material;
+                RenderPipeline.SubmitRenderRequest(camera,new UniversalRenderPipeline.SingleCameraRequest{destination=target});
+                RenderTexture.active=target;capture.ReadPixels(new Rect(0,0,640,640),0,0);capture.Apply();
+                File.WriteAllBytes(Path.Combine(folder,selected.name+"-region.png"),capture.EncodeToPNG());
+                UnityEngine.Object.DestroyImmediate(sourceRegion);UnityEngine.Object.DestroyImmediate(partRegionMesh);
+            }
             // Inspect the actual original region beside the clipped result, without raster edits.
             root.SetActive(false);
+            camera.transform.position=new Vector3(0,2.4f,-10);camera.orthographicSize=2.8f;
             var region=new GameObject("Original source region only");region.layer=30;
             var regionMesh=new Mesh();var pixels=new[]{new Vector2(200,240),new Vector2(520,240),new Vector2(520,660),new Vector2(200,660)};
             regionMesh.SetVertices(pixels.Select(p=>new Vector3((p.x-416)*.0127f,(637-p.y)*.0127f,0)).ToList());
@@ -107,7 +138,9 @@ namespace RogueTactics.Editor
                 }
                 if(mesh.vertexCount!=points.Count)throw new InvalidDataException("Imported contour vertex count mismatch");
                 var position=polygon.Attribute("data-position").Value.Split(',');
-                parts.Add(new ReferenceEnvironmentPart{Mesh=mesh,Position=new Vector3(F(position[0]),F(position[1]),F(position[2]))});
+                var offset=polygon.Attribute("data-surface-offset");var surfaceOffset=offset==null?0:F(offset.Value);
+                if(surfaceOffset<0 || surfaceOffset>4)throw new InvalidDataException("Reference surface offset outside decorative support depth");
+                parts.Add(new ReferenceEnvironmentPart{Mesh=mesh,Position=new Vector3(F(position[0]),F(position[1]),F(position[2])),SurfaceOffset=surfaceOffset});
                 Debug.Log("PRIVATE_REFERENCE_PART "+name+" vertices="+points.Count);
             }
             return parts.ToArray();

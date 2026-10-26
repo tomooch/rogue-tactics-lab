@@ -18,6 +18,9 @@ namespace RogueTactics.Editor
             var baseline="Assets/RogueTactics/Scenes/MobileG1.unity";var bytes=File.ReadAllBytes(baseline);
             var scene=EditorSceneManager.OpenScene(baseline,OpenSceneMode.Single);
             var view=UnityEngine.Object.FindFirstObjectByType<MobileG1View>();view.ExplorationEnabled=true;
+            // Exploration art may evolve without rewriting the frozen G1 scene.
+            view.ReferenceParts=ReferencePartsImport.Load("Assets/RogueTactics/Art/MobileG1/Private/ReferenceParts/",out var reference);
+            view.ReferenceEnvironment=reference;
             EditorSceneManager.SaveScene(scene,ScenePath);
             if(!EditorBuildSettings.scenes.Any(s=>s.path==ScenePath))EditorBuildSettings.scenes=EditorBuildSettings.scenes.Concat(new[]{new EditorBuildSettingsScene(ScenePath,true)}).ToArray();
             if(!bytes.SequenceEqual(File.ReadAllBytes(baseline)))throw new InvalidOperationException("Exploration setup changed the frozen G1 scene");
