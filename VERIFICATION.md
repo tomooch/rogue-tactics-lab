@@ -1,5 +1,11 @@
 # 現在の実装・検証状況
 
+## 2026-10-26 PR21: 原画由来の石造部材一個
+
+Humanは広域自律行動を後回しにし、パーツ制作を優先。baseline ae3507eから原画UV/編集可能輪郭で右手前の部材をA→Bの花帯棄却→元領域精査→C石塊→D輪郭/接触修復へ実制作・実Unity390×844比較。rootと実画像を閲覧したAstraはDをこの位置の装飾石一個として局所保持推奨。方向限定の2.5D部材であり、汎用3Dモデル/全体R2完成ではない。
+
+最終全検査はUnity6000.3.25f1、Edit21/21・Play12/13・探索4/4。baselineにもあるC/X全sprite矩形重複だけFAIL、検査・テスト不変。両full固定hash/全8室/既存操作を対象検査で確認、source/保護9ファイル不変、71fresh画像。fresh native export/build各0・生成4設定復元/unexpected0。binary498d461fをQA iOS27.0へinstall/launchし、実CUAで初期→自動Protect→4人生還→同HP探索→南西移動/到着を観測。new native fullProtecthash一致/Exception行なし、4stillとlog保持。nativeでAttack/全8室/pause/IME/メモ/比較/retryの再実施はなし。全検査62/native232source SHA照合は不一致0。R2 V0 FAIL/Human/実iPhone未評価、新TestFlightなし。[比較・修復](evidence/hq-ref/parapet-parts-review.md) / [source・実行・画像SHA](evidence/hq-ref/parapet-parts-evidence.json)。
+
 ## 2026-10-26 PR21 candidate: reference HUD, automatic battle, southwest exploration
 
 Human requested faithful graphical information parts, the reference's upper-right current-floor axis, consistent text spacing, actual south/west terrain, and an automatic main flow with optional forecasting/comparison. Codex implements; three actual Astra advisers reviewed images/source in bounded roles. This remains a Draft experiment, not an accepted fun/visual direction or completed G2 floor.
