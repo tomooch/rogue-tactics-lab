@@ -9,6 +9,9 @@ using RogueTactics.Core.G1;
 using RogueTactics.Presentation;
 using UnityEngine;
 using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.InputSystem.UI;
 using UnityEngine.SceneManagement;
 using UnityEngine.TestTools;
 using UnityEngine.UI;
@@ -236,13 +239,64 @@ namespace RogueTactics.Tests
             LogAssert.Expect(LogType.Log,new Regex("^HQ_FRAME_METRICS \\{"));
             const string hash="e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d";
             LogAssert.Expect(LogType.Log,"MOBILE_G1_RESULT ProtectAnchor "+hash);
-            Press(view,"Start");var deadline=Time.realtimeSinceStartup+65;
-            while((view.Session.Replay.State.Outcome==Outcome.Active || view.Busy) && Time.realtimeSinceStartup<deadline)yield return null;
+            Press(view,"Start");yield return null;
+            var pauseRect=view.Button("Play").GetComponent<RectTransform>();
+            var pausePoint=RectTransformUtility.WorldToScreenPoint(Camera.main,pauseRect.TransformPoint(pauseRect.rect.center));
+            Assert.That(pauseRect.rect.height,Is.EqualTo(48).Within(.01f));
+            Assert.That(view.Button("Play").transform.Find("Label").GetComponent<Text>().text,Does.Contain("一時停止"));
+            Press(view,"Play");Assert.That(view.Paused,Is.True);
+            Assert.That(view.Button("Play").transform.Find("Label").GetComponent<Text>().text,Does.Contain("再開"));
+            Press(view,"Play");Assert.That(view.Paused,Is.False);
+            var oldPauseCorners=new Vector3[4];pauseRect.GetWorldCorners(oldPauseCorners);
+            var previousFocus=InputSystem.settings.backgroundBehavior;
+            var previousRouting=InputSystem.settings.editorInputBehaviorInPlayMode;
+            InputSystem.settings.backgroundBehavior=InputSettings.BackgroundBehavior.IgnoreFocus;
+            InputSystem.settings.editorInputBehaviorInPlayMode=InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
+            var mouse=InputSystem.AddDevice<Mouse>();
+            try
+            {
+                yield return null;yield return null;
+                InputSystem.QueueStateEvent(mouse,new MouseState{position=pausePoint});
+                yield return null;yield return null;
+                InputSystem.QueueStateEvent(mouse,new MouseState{position=pausePoint}.WithButton(MouseButton.Left));
+                yield return null;yield return null;
+                var module=(InputSystemUIInputModule)EventSystem.current.currentInputModule;
+                Assert.That(module.GetLastRaycastResult(mouse.deviceId).gameObject,Is.EqualTo(view.Button("Play").gameObject),"Pointer is actually held over Pause before the transition");
+                var deadline=Time.realtimeSinceStartup+65;
+                while((view.Session.Replay.State.Outcome==Outcome.Active || view.Busy) && Time.realtimeSinceStartup<deadline)yield return null;
+                yield return null;
+                InputSystem.QueueStateEvent(mouse,new MouseState{position=pausePoint});
+                yield return null;yield return null;
+                Assert.That(view.IsExploring,Is.False,"Releasing an old Pause press after victory must not start exploration");
+            }
+            finally
+            {
+                InputSystem.RemoveDevice(mouse);InputSystem.settings.backgroundBehavior=previousFocus;InputSystem.settings.editorInputBehaviorInPlayMode=previousRouting;
+            }
             Assert.That(view.Session.Replay.Hash(),Is.EqualTo(hash),"One Start runs the whole frozen battle without per-turn input");
             Assert.That(view.Button("Compare").gameObject.activeInHierarchy,Is.False,"Comparison is optional in record");
             Assert.That(view.Button("Reset").gameObject.activeInHierarchy,Is.False,"Exploration is the primary continuation");
             Assert.That(view.Button("Explore").gameObject.activeInHierarchy,Is.True);yield return Capture("floor-auto-victory");
+            var reserve=view.SafeRoot.Find("Terminal transport reserve");
+            var terminalLabel=reserve.Find("Terminal result").GetComponent<Text>();
+            Assert.That(terminalLabel.text,Is.EqualTo("勝利\n4人が生還"),"Only the observed result and survivors are shown");
+            Assert.That(terminalLabel.preferredWidth,Is.LessThanOrEqualTo(terminalLabel.rectTransform.rect.width+.1f));
+            Assert.That(terminalLabel.preferredHeight,Is.LessThanOrEqualTo(terminalLabel.rectTransform.rect.height+.1f));
+            Assert.That(reserve.GetComponent<Button>(),Is.Null);
+            var terminalState=view.Session.Replay.State.Serialize();
+            foreach(var fraction in new[]{.02f,.5f,.98f})
+            {
+                var point=Vector3.Lerp(oldPauseCorners[0],oldPauseCorners[2],fraction);point.y=(oldPauseCorners[0].y+oldPauseCorners[2].y)/2;
+                var pointer=new PointerEventData(EventSystem.current){position=RectTransformUtility.WorldToScreenPoint(Camera.main,point)};
+                var terminalHits=new List<RaycastResult>();EventSystem.current.RaycastAll(pointer,terminalHits);
+                Assert.That(terminalHits,Is.Not.Empty);
+                Assert.That(terminalHits[0].gameObject,Is.EqualTo(reserve.gameObject),"The former Pause region is a non-actionable input sink, not Explore or Field");
+                ExecuteEvents.Execute(terminalHits[0].gameObject,pointer,ExecuteEvents.pointerClickHandler);
+            }
+            Assert.That(view.IsExploring,Is.False);Assert.That(view.Session.Replay.State.Serialize(),Is.EqualTo(terminalState));
+            Assert.That(view.Session.Replay.Hash(),Is.EqualTo(hash));
             Press(view,"Details");yield return null;yield return Capture("floor-auto-record",false);
+            Assert.That(reserve.gameObject.activeInHierarchy,Is.False,"Terminal result yields to the modal");
             Press(view,"RecordCompare");yield return null;yield return null;
             var viewport=view.SafeRoot.Find("Details panel/Details viewport").GetComponent<RectTransform>();var scroll=viewport.GetComponent<ScrollRect>();
             var body=scroll.content.GetComponent<Text>();Assert.That(body.text,Does.Contain(new string('あ',120)));
@@ -257,6 +311,7 @@ namespace RogueTactics.Tests
             Assert.That(scroll.verticalNormalizedPosition,Is.LessThan(top-.05f),"Real UI paging exposes saved record content");
             yield return Capture("floor-reference-journal-paged",false);Press(view,"RecordRetry");yield return null;
             Assert.That(view.Session.Started,Is.False);Assert.That(view.Session.Trials.Count,Is.EqualTo(1),"Retry keeps the actual previous record");
+            Assert.That(reserve.gameObject.activeInHierarchy,Is.False,"Retry clears the terminal reserve");
             Camera.main.targetTexture=null;Object.Destroy(rt);LogAssert.NoUnexpectedReceived();
         }
         [UnityTest]

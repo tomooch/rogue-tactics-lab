@@ -8,6 +8,8 @@ namespace RogueTactics.Presentation
     public sealed partial class MobileG1View
     {
         private Text optionalMemoCaption;
+        private RectTransform terminalTransportReserve;
+        private Text terminalTransportResult;
         private bool AutonomousProduct=>HqWorld && ExplorationEnabled && !DeveloperMode;
         private bool NormalJournal=>modalObject.activeSelf && !showingResults && !referenceSettingsOpen &&
             (expandedKnownMap==null || !expandedKnownMap.gameObject.activeSelf);
@@ -16,6 +18,12 @@ namespace RogueTactics.Presentation
         private void BuildAutonomousHud()
         {
             if(!ExplorationEnabled)return;
+            terminalTransportReserve=Rect(SafeRoot,"Terminal transport reserve",0,0,104,48);
+            terminalTransportReserve.gameObject.AddComponent<Image>().color=Color.clear;
+            terminalTransportResult=Label(terminalTransportReserve,"Terminal result","",0,2,104,44,12,TextAnchor.MiddleCenter);
+            var resultOutline=terminalTransportResult.gameObject.AddComponent<Outline>();
+            resultOutline.effectColor=new Color(.025f,.045f,.08f,.95f);resultOutline.effectDistance=new Vector2(1,-1);
+            terminalTransportReserve.gameObject.SetActive(false);
             MakeButton(modal,"RecordCompare","戦いの記録",218,6,134,48,()=>OpenDetails(true),13);
             MakeButton(modal,"RecordRetry","もう一度試す",190,570,162,48,()=>{CloseReferenceMemo();modalObject.SetActive(false);SyncReferenceModal();ResetBaseline();},13);
             StyleReferenceButton("RecordCompare",HudSymbol.Compare,Gold);
@@ -97,6 +105,8 @@ namespace RogueTactics.Presentation
         }
         private void RefreshAutonomousHud()
         {
+            if(terminalTransportReserve!=null)
+                terminalTransportReserve.gameObject.SetActive(AutonomousProduct && terminalSeen && !IsExploring && !modalObject.activeSelf && Session.Replay.State.Outcome==Outcome.Victory);
             if(!AutonomousProduct)return;
             buttons["PolicyShortcut"].gameObject.SetActive(false);
             cardValues["B"].transform.parent.Find("Name").GetComponent<Text>().text=Session.Started?"モモ":"モモ・方針";
@@ -106,6 +116,7 @@ namespace RogueTactics.Presentation
             {
                 SafeRoot.Find("Boundary").GetComponent<Text>().text="仲間は自動で戦う・方針はモモから";
                 PositionReferenceAction("Start",12,0,SafeRoot.rect.width-24,"仲間に任せて戦う");
+                CenterPrimaryAction("Start");
                 if(policyEditing){setup.sizeDelta=new Vector2(SafeRoot.rect.width,104);setup.anchoredPosition=new Vector2(0,270);}
             }
             if(terminalSeen)
@@ -116,7 +127,14 @@ namespace RogueTactics.Presentation
                     var alive=CardOrder.Count(id=>!dead.Contains(id));
                     SafeRoot.Find("Boundary").GetComponent<Text>().text=(Session.Replay.State.Outcome==Outcome.Victory?"勝利":"戦闘終了")+"・"+alive+"人が生還";
                     eventCaption.gameObject.SetActive(false);eventBackdrop.gameObject.SetActive(false);
-                    if(buttons.ContainsKey("Explore"))PositionReferenceAction("Explore",12,SafeRoot.rect.height-58,SafeRoot.rect.width-24,"遺跡を探索する");
+                    if(buttons.ContainsKey("Explore"))
+                    {
+                        var w=SafeRoot.rect.width;
+                        PositionReferenceAction("Explore",12,SafeRoot.rect.height-58,w-136,"遺跡を探索する");
+                        CenterPrimaryAction("Explore");
+                        terminalTransportReserve.anchoredPosition=new Vector2(w-116,-(SafeRoot.rect.height-58));
+                        terminalTransportResult.text=(Session.Replay.State.Outcome==Outcome.Victory?"勝利":"戦闘終了")+"\n"+alive+"人が生還";
+                    }
                 }
                 else
                 {

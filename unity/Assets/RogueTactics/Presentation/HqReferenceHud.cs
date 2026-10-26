@@ -130,12 +130,23 @@ namespace RogueTactics.Presentation
             ResizeButton(id,x,y,width);var label=buttons[id].transform.Find("Label").GetComponent<Text>();
             label.text=text;label.rectTransform.anchoredPosition=new Vector2(35,-2);label.rectTransform.sizeDelta=new Vector2(width-40,44);label.fontSize=13;label.color=Ink;
         }
+        private void CenterPrimaryAction(string id)
+        {
+            var button=buttons[id].GetComponent<RectTransform>();
+            var label=button.Find("Label").GetComponent<Text>();
+            var symbol=button.Find("Action symbol").GetComponent<RectTransform>();
+            var labelWidth=Mathf.Min(label.preferredWidth+2,button.rect.width-54);
+            var left=(button.rect.width-(22+8+labelWidth))/2;
+            symbol.anchoredPosition=new Vector2(left,-13);
+            label.rectTransform.anchoredPosition=new Vector2(left+30,-2);
+            label.rectTransform.sizeDelta=new Vector2(labelWidth,44);
+        }
         private void RefreshReferenceHud()
         {
             if(referenceFooter==null)return;
             referenceFooter.gameObject.SetActive(!DeveloperMode);SafeRoot.Find("Observed journey").gameObject.SetActive(!DeveloperMode && !policyEditing && !modalObject.activeSelf);
             buttons["PolicyShortcut"].gameObject.SetActive(!DeveloperMode && !Session.Started && !policyEditing);
-            if(DeveloperMode)return;
+            if(DeveloperMode){if(terminalTransportReserve!=null)terminalTransportReserve.gameObject.SetActive(false);return;}
             LayoutReferenceHud(SafeRoot.rect.width,SafeRoot.rect.height);
             var w=SafeRoot.rect.width;
             if(policyEditing)setup.anchoredPosition=new Vector2(0,298);
@@ -225,6 +236,8 @@ namespace RogueTactics.Presentation
             if(referenceModalCurtain==null)return;
             LayoutAutonomousJournal();
             var open=modalObject.activeSelf;
+            if(terminalTransportReserve!=null)
+                terminalTransportReserve.gameObject.SetActive(AutonomousProduct && terminalSeen && !IsExploring && !open && Session.Replay.State.Outcome==Outcome.Victory);
             if(referenceModalCurtain.gameObject.activeSelf==open)return;
             referenceModalCurtain.gameObject.SetActive(open);
             if(open){referenceModalCurtain.SetAsLastSibling();modal.SetAsLastSibling();}
