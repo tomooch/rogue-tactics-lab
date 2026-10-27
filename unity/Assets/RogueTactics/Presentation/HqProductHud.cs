@@ -37,7 +37,7 @@ namespace RogueTactics.Presentation
             foreach(var id in Fixture.Baseline().Initiative)
             {
                 var r=Rect(orderStrip,"Order "+id,0,17,57,30);var frame=r.gameObject.AddComponent<Image>();frame.color=new Color(.06f,.14f,.19f,.9f);frame.raycastTarget=false;orderFrames[id]=frame;
-                if(id.Length==1 && id[0]>='A' && id[0]<='D'){var icon=Rect(r,"Actor portrait",0,0,24,28).gameObject.AddComponent<RawImage>();icon.texture=CharacterArt[id[0]-'A'];icon.uvRect=new Rect(.18f,.43f,.64f,.5f);icon.raycastTarget=false;}
+                if(id.Length==1 && id[0]>='A' && id[0]<='D'){var icon=Rect(r,"Actor portrait",0,0,24,28).gameObject.AddComponent<RawImage>();var art=CharacterArt[id[0]-'A'];icon.texture=art;var uvWidth=.5f*24/28*art.height/art.width;icon.uvRect=new Rect(.5f-uvWidth/2,.43f,uvWidth,.5f);icon.raycastTarget=false;}
                 Label(r,"Actor",HeroName(id),24,3,31,23,10,TextAnchor.MiddleCenter);
             }
             roster=Rect(SafeRoot,"Companion portraits",12,0,366,88);

@@ -93,3 +93,10 @@ Verification of this pass (Unity 6000.3.25f1, Local Mac, uncommitted tree on `d1
 - Known map: bevelled warm stone tiles over dark joints; actors as rimmed glowing discs. Same known-only framing.
 - Title: bold with a soft shadow.
 - Verification (Unity 6000.3.25f1, Local Mac): full suite **EditMode 27/27, PlayMode 13/14**; the one failure is the same pre-existing whole-sprite overlap with identical rects. Exploration and gauntlet captures reviewed (record, map, settings, policy, paused shelf, crisis). No Simulator, device or human play.
+
+## Portrait aspect fix (2026-10-27, Human: "キャラ絵アイコン縦横おかしくない?横長な気がする")
+
+- Cause: the four approved character textures (1086×1448, 3:4) were imported with the default power-of-two rounding, so Unity stored them as 1024×1024. Every portrait crop computed its aspect from that square, so faces on the cards and the initiative strip were about 1.33× too wide. The board billboards were unaffected (fixed 3:4 quads, full UV).
+- Fix: `MobileG1Setup` imports the skins with `npotScale=None` (the four committed `.meta` files now carry `nPOTScale: 0`); the developer order icon crops from the real texture aspect instead of a fixed rect.
+- Regression check: `ReferencePartsKeepRealOwnershipAndKnownOnlyMap` now asserts the art keeps its 3:4 pixels. The earlier check compared the crop against the texture's own (already squashed) aspect and could not see the bug. Before the reimport the new assertion failed (`Expected 0.75, was 1.0`); after it passes.
+- Verification (Unity 6000.3.25f1, Local Mac, `verify_hq.py --configure`): **EditMode 27/27, PlayMode 13/14**; the one failure is the same pre-existing whole-sprite overlap (D/B this run, same rects). Card and strip captures compared before/after. No Simulator, device or human play.

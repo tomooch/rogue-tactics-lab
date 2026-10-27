@@ -39,8 +39,10 @@ namespace RogueTactics.Editor
             var skins=new[]{"shiro","momo","garu","myaru"};
             for(var i=0;i<skins.Length;i++)
             {
+                // Keep the authored 3:4 pixels: rounding to a power of two squashed them into a square,
+                // and every portrait crop read that square as the real aspect.
                 var path=Art+"Private/"+skins[i]+".png";var importer=AssetImporter.GetAtPath(path) as TextureImporter;
-                if(importer!=null){importer.textureType=TextureImporterType.Default;importer.alphaSource=TextureImporterAlphaSource.FromInput;importer.alphaIsTransparency=true;importer.mipmapEnabled=true;importer.filterMode=FilterMode.Trilinear;importer.anisoLevel=2;importer.maxTextureSize=2048;importer.textureCompression=TextureImporterCompression.Uncompressed;importer.SaveAndReimport();}
+                if(importer!=null){importer.textureType=TextureImporterType.Default;importer.alphaSource=TextureImporterAlphaSource.FromInput;importer.alphaIsTransparency=true;importer.npotScale=TextureImporterNPOTScale.None;importer.mipmapEnabled=true;importer.filterMode=FilterMode.Trilinear;importer.anisoLevel=2;importer.maxTextureSize=2048;importer.textureCompression=TextureImporterCompression.Uncompressed;importer.SaveAndReimport();}
                 view.CharacterArt[i]=AssetDatabase.LoadAssetAtPath<Texture2D>(path);
             }
             PlayerSettings.defaultInterfaceOrientation=UIOrientation.Portrait;PlayerSettings.allowedAutorotateToLandscapeLeft=false;PlayerSettings.allowedAutorotateToLandscapeRight=false;

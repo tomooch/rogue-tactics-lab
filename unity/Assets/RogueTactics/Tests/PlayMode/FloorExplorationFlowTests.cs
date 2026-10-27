@@ -190,6 +190,7 @@ namespace RogueTactics.Tests
             {
                 var card=view.SafeRoot.Find("Companion portraits/Companion "+id);var portrait=card.Find("Approved portrait").GetComponent<RawImage>();
                 Assert.That(portrait.texture,Is.SameAs(view.CharacterArt[id[0]-'A']),"Portrait samples approved pixels, not newly invented faces");
+                Assert.That((float)portrait.texture.width/portrait.texture.height,Is.EqualTo(.75f).Within(.005f),"Approved art keeps its authored 3:4 pixels; a power-of-two square silently widens every face crop");
                 var sampledAspect=portrait.texture.width*portrait.uvRect.width/(portrait.texture.height*portrait.uvRect.height);
                 Assert.That(portrait.rectTransform.rect.width/portrait.rectTransform.rect.height,Is.EqualTo(sampledAspect).Within(.001f),"Approved faces must not be stretched by the portrait layout");
                 Assert.That(card.Find("Name").GetComponent<Text>().text,Is.EqualTo(id=="A"?"シロ":id=="B"?"モモ・方針":id=="C"?"ガル":"ミャル"));
