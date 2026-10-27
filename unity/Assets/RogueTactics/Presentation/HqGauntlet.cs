@@ -37,7 +37,7 @@ namespace RogueTactics.Presentation
             StyleReferenceButton("Challenge",HudSymbol.Swords,Gold);PrimaryFill("Challenge");
             MakeButton(SafeRoot,"Correct","",12,0,366,48,CorrectAtCrisis,13);
             StyleReferenceButton("Correct",HudSymbol.Shield,new Color(1,.46f,.42f));
-            var panel=buttons["Correct"].GetComponentInChildren<HudPanelGraphic>();panel.Fill=new Color(.30f,.07f,.08f,.97f);panel.SetVerticesDirty();
+            PrimaryFill("Correct",new Color(1,.26f,.26f),new Color(1,.66f,.60f));
             for(var i=0;i<6;i++)
             {var strip=Strip(Field,"Round intent "+i,Color.white);var g=strip.GetComponent<MobileRouteGraphic>();g.Glow=true;strip.gameObject.SetActive(false);roundIntents.Add(g);}
             nextIntentMark=Glyph(Field,"Next intent mark",HudSymbol.Swords,0,0,16,Color.white,true,true);nextIntentMark.gameObject.SetActive(false);

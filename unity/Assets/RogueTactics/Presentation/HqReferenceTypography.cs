@@ -14,19 +14,23 @@ namespace RogueTactics.Presentation
             journey.Find("Journey emblem").gameObject.SetActive(false);
             discoveredStatus.gameObject.SetActive(false);
             var state=Rect(journey,"Phase backing",16,-40,80,24);
-            Frame(state,new Color(.035f,.075f,.13f,.86f),new Color(.55f,.68f,.80f,.5f),10);
+            var phaseRibbon=state.gameObject.AddComponent<HudRibbonGraphic>();phaseRibbon.Mirrored=true;phaseRibbon.raycastTarget=false;
             state.SetAsFirstSibling();
+            // Floor column reads like the reference rail: plain lettering over the sky, a dotted axis and one gold marker.
             var heading=Rect(journey,"Floor heading",56,0,40,24);
-            Frame(heading,new Color(.035f,.075f,.13f,.86f),new Color(.55f,.68f,.80f,.5f),12);
-            Label(heading,"Meaning","階層",0,0,40,24,11,TextAnchor.MiddleCenter);
+            HudOutlined(Label(heading,"Meaning","階層",0,0,40,24,11,TextAnchor.MiddleCenter),new Color(.92f,.95f,1));
             var axis=Rect(journey,"Floor axis",72,24,8,106).gameObject.AddComponent<HudAxisGraphic>();
             axis.color=new Color(.90f,.93f,.97f,.85f);axis.raycastTarget=false;
             var current=Rect(journey,"Current floor marker",56,40,40,40);
             Frame(current,Color.clear,new Color(Gold.r,Gold.g,Gold.b,.55f),20);
             Glyph(current,"Current floor emblem",HudSymbol.Descend,8,8,24,Gold,true,true);
             var caption=Rect(journey,"Current floor caption",0,48,52,24);
-            Frame(caption,new Color(.035f,.075f,.13f,.90f),Gold,8);
-            Label(caption,"Meaning","現在階",0,0,52,24,11,TextAnchor.MiddleCenter).color=Gold;
+            HudOutlined(Label(caption,"Meaning","現在階",0,0,52,24,12,TextAnchor.MiddleRight),Gold);
+        }
+        private static void HudOutlined(Text label,Color color)
+        {
+            label.color=color;label.fontStyle=FontStyle.Bold;
+            var outline=label.gameObject.AddComponent<Outline>();outline.effectColor=new Color(.02f,.04f,.09f,.92f);outline.effectDistance=new Vector2(1.2f,-1.2f);
         }
         private static void ReferenceText(Text text,float x,float y,float width,float height,int size,TextAnchor alignment)
         {
@@ -47,7 +51,7 @@ namespace RogueTactics.Presentation
             ReferenceText(SafeRoot.Find("Boundary").GetComponent<Text>(),20,60,210,24,11,TextAnchor.MiddleLeft);
             var journey=SafeRoot.Find("Observed journey").GetComponent<RectTransform>();
             journey.anchoredPosition=new Vector2(w-108,-100);journey.sizeDelta=new Vector2(96,136);
-            ReferenceText(journeyStatus,16,-40,80,24,11,TextAnchor.MiddleCenter);
+            ReferenceText(journeyStatus,16,-40,72,24,11,TextAnchor.MiddleRight);journeyStatus.fontStyle=FontStyle.Bold;
             roster.anchoredPosition=new Vector2(9,-(h-212));roster.sizeDelta=new Vector2(w-18,144);
             var width=(w-36)/4;
             for(var i=0;i<4;i++)

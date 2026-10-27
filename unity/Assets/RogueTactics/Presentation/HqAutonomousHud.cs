@@ -21,6 +21,7 @@ namespace RogueTactics.Presentation
             terminalTransportReserve=Rect(SafeRoot,"Terminal transport reserve",0,0,104,48);
             terminalTransportReserve.gameObject.AddComponent<Image>().color=Color.clear;
             terminalTransportResult=Label(terminalTransportReserve,"Terminal result","",0,2,104,44,12,TextAnchor.MiddleCenter);
+            if(HqWorld)Frame(terminalTransportReserve,new Color(.045f,.085f,.14f,.92f),new Color(Gold.r,Gold.g,Gold.b,.8f),10);
             var resultOutline=terminalTransportResult.gameObject.AddComponent<Outline>();
             resultOutline.effectColor=new Color(.025f,.045f,.08f,.95f);resultOutline.effectDistance=new Vector2(1,-1);
             terminalTransportReserve.gameObject.SetActive(false);

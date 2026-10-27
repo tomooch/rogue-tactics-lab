@@ -107,3 +107,12 @@ Verification of this pass (Unity 6000.3.25f1, Local Mac, uncommitted tree on `d1
 - Facing follows on-screen horizontal travel (mirroring swaps held items). Breath while standing; a stepped bounce with a forward lean while walking; event poses from queued Core events: wind-up and strike for the attacker, knock-back for the target, a lift for protect, a cast for the healer and a hop for the healed, and a fall for death. Paused presentation holds event poses.
 - Regression check: `AllyFacingFollowsScreenMotionWithoutMovingBounds` (facing follows a tween-like walk, a teleport keeps facing, bounds stay identical).
 - Verification (Unity 6000.3.25f1, Local Mac): full suite **EditMode 27/27, PlayMode 14/15**; the one failure is the same pre-existing Y/C whole-sprite overlap with identical rects. Frame sheets of the first battle and of floor travel were reviewed (temporary capture test, not committed). No Simulator, device or human play.
+
+## Plates, ribbons and cell markers (2026-10-27, Human: "uiパーツダサいとこガンガンリデザインしてハイクオリティにして欲しい")
+
+- Every framed panel gains a fine light inner rim along its top edge, so plates read as bevelled instead of flat slabs.
+- The one forward action (start, explore, challenge) is a lit gold plate with an outer glow, a double gold rim, bold lettering and a dark gem for its symbol. The crisis correction uses the same plate in red.
+- The hint under the title and the phase tag are fading ribbons with a gold hairline instead of grey pills; the floor rail drops its pills for outlined lettering ("階層", gold "現在階").
+- The terminal result beside the explore action sits in a gold-rimmed chip instead of floating text (same label and input sink).
+- Ground markers under units match one cell's proportions (2.2 x 2.75 within a 2.5 x 3.125 cell) instead of a 1:2 strip that spilled into the next row. They are still not squares on screen: the grid itself is deeper than wide, so a true square needs a grid spacing change (not done).
+- Verification (Unity 6000.3.25f1, Local Mac): full suite **EditMode 27/27, PlayMode 14/15**; the one failure is the same pre-existing whole-sprite overlap (D/B this run, same rects). Overview, policy, record, crisis, victory and gauntlet captures reviewed. No Simulator, device or human play.

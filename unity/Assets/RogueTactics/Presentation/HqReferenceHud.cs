@@ -61,8 +61,15 @@ namespace RogueTactics.Presentation
             var caption=eventCaption.rectTransform;caption.anchoredPosition=new Vector2(back.anchoredPosition.x+44,caption.anchoredPosition.y);
             caption.sizeDelta=new Vector2(back.sizeDelta.x-50,caption.sizeDelta.y);
         }
-        private void PrimaryFill(string id)
-        {var panel=buttons[id].GetComponentInChildren<HudPanelGraphic>();panel.Fill=new Color(.36f,.23f,.06f,.97f);panel.Border=new Color(1,.84f,.46f);panel.SetVerticesDirty();}
+        private void PrimaryFill(string id){PrimaryFill(id,new Color(1,.62f,.20f),new Color(1,.86f,.50f));}
+        private void PrimaryFill(string id,Color glow,Color border)
+        {
+            var panel=buttons[id].GetComponentInChildren<HudPanelGraphic>();var fill=glow*.36f;fill.a=.97f;panel.Fill=fill;panel.Border=border;panel.Primary=true;panel.Glow=glow;panel.SetVerticesDirty();
+            // A dark gem keeps the action symbol legible on the lit plate.
+            var gem=buttons[id].transform.Find("Action symbol")?.GetComponent<HudGlyphGraphic>();if(gem!=null){gem.color=new Color(.10f,.20f,.34f);gem.SetVerticesDirty();}
+            var label=buttons[id].transform.Find("Label").GetComponent<Text>();label.fontStyle=FontStyle.Bold;label.color=new Color(1,.98f,.92f);
+            var shadow=label.gameObject.AddComponent<Shadow>();shadow.effectColor=new Color(.20f,.09f,0,.85f);shadow.effectDistance=new Vector2(0,-1.5f);
+        }
         private void BuildReferenceHud()
         {
             if(!HqWorld)return;
@@ -72,7 +79,8 @@ namespace RogueTactics.Presentation
             var title=SafeRoot.Find("Title").GetComponent<Text>();title.fontSize=20;title.fontStyle=FontStyle.Bold;
             var titleShadow=title.gameObject.AddComponent<Shadow>();titleShadow.effectColor=new Color(.01f,.02f,.05f,.9f);titleShadow.effectDistance=new Vector2(1,-1.5f);
             var boundary=SafeRoot.Find("Boundary").GetComponent<Text>();boundary.color=new Color(.90f,.94f,1);boundary.fontSize=10;
-            var instruction=Rect(SafeRoot,"Context instruction",12,56,226,22);Frame(instruction,new Color(.035f,.075f,.13f,.82f),new Color(.55f,.68f,.80f,.5f),10);instruction.SetSiblingIndex(boundary.transform.GetSiblingIndex());
+            var instruction=Rect(SafeRoot,"Context instruction",12,56,226,22);instruction.gameObject.AddComponent<HudRibbonGraphic>().raycastTarget=false;instruction.SetSiblingIndex(boundary.transform.GetSiblingIndex());
+            var boundaryShadow=boundary.gameObject.AddComponent<Shadow>();boundaryShadow.effectColor=new Color(.01f,.02f,.05f,.8f);boundaryShadow.effectDistance=new Vector2(1,-1);
             var status=Rect(SafeRoot,"Observed journey",0,70,60,80);
             Frame(status,new Color(.035f,.085f,.14f,.83f),new Color(.70f,.76f,.84f,.6f),12);
             Glyph(status,"Journey emblem",HudSymbol.Compass,17,8,26,Gold);
@@ -354,6 +362,8 @@ namespace RogueTactics.Presentation
     public sealed class HudPanelGraphic:MaskableGraphic
     {
         public Color Fill,Border,TopFill;public float Radius=10;public bool PortraitSurface;
+        // Primary: the one forward action — a lit gold plate with an outer glow and a double gold rim.
+        public bool Primary;public Color Glow=new Color(1,.62f,.20f);
         protected override void OnPopulateMesh(VertexHelper vh)
         {
             vh.Clear();var r=rectTransform.rect;var radius=Mathf.Min(Radius,Mathf.Min(r.width,r.height)/2);const int n=32;
@@ -366,11 +376,17 @@ namespace RogueTactics.Presentation
             Color Surface(Vector2 at)
             {
                 if(PortraitSurface)return Color.Lerp(Fill,TopFill,Mathf.InverseLerp(r.yMin+r.height*.35f,r.yMax,at.y));
+                if(Primary)
+                {
+                    var k=Mathf.InverseLerp(r.yMin,r.yMax,at.y);Color Tone(float v,float w){var t=Color.Lerp(Glow*v,Color.white,w);t.a=.98f;return t;}
+                    var c=Color.Lerp(Tone(.30f,0),Tone(.66f,.04f),k*k);
+                    return k>.55f?Color.Lerp(c,Tone(.84f,.14f),(k-.55f)*.9f):c;
+                }
                 var lit=Color.Lerp(Fill,Color.white,.08f);lit.a=Fill.a;return Color.Lerp(Fill,lit,Mathf.InverseLerp(r.yMin,r.yMax,at.y));
             }
             // Soft drop shadow outside the rect, then border band, then lit surface. Hit rect is unchanged.
-            var drop=new Vector2(0,-2);var shadow=new Color(0,.01f,.03f,.34f*Fill.a);var clear=new Color(0,.01f,.03f,0);
-            for(var i=0;i<n;i++)vh.AddVert(Ring(i,-4)+drop,clear,Vector2.zero);
+            var drop=Primary?Vector2.zero:new Vector2(0,-2);var shadow=Primary?new Color(Mathf.Lerp(Glow.r,1,.3f),Mathf.Lerp(Glow.g,1,.3f),Mathf.Lerp(Glow.b,1,.3f),.38f):new Color(0,.01f,.03f,.34f*Fill.a);var clear=new Color(shadow.r,shadow.g,shadow.b,0);
+            for(var i=0;i<n;i++)vh.AddVert(Ring(i,Primary?-8:-4)+drop,clear,Vector2.zero);
             for(var i=0;i<n;i++)vh.AddVert(Ring(i,0)+drop,shadow,Vector2.zero);
             for(var i=0;i<n;i++)vh.AddVert(Ring(i,0),Border,Vector2.zero);
             for(var i=0;i<n;i++){var at=Ring(i,1.8f);vh.AddVert(at,Surface(at),Vector2.zero);}
@@ -382,6 +398,37 @@ namespace RogueTactics.Presentation
                 vh.AddTriangle(2*n+i,2*n+j,3*n+i);vh.AddTriangle(2*n+j,3*n+j,3*n+i);
                 vh.AddTriangle(center,3*n+i,3*n+j);
             }
+            // Inner rim: a fine light line just inside the border, strongest along the top edge, so panels read
+            // as bevelled plates instead of flat slabs. The primary plate gets a full gold hairline instead.
+            var rimAt=Primary?3.4f:2.6f;var rimWidth=Primary?1.1f:.9f;var first=vh.currentVertCount;
+            for(var i=0;i<n;i++)for(var side=0;side<2;side++)
+            {
+                var at=Ring(i,rimAt+side*rimWidth);var top=Mathf.InverseLerp(r.yMin+r.height*.25f,r.yMax,at.y);
+                var rim=Primary?Color.Lerp(Border,Color.white,.45f):Color.Lerp(Border,Color.white,.55f);if(Primary)rim.a=.85f;
+                if(!Primary)rim.a=(PortraitSurface?.18f:.30f)*top*Fill.a;
+                vh.AddVert(at,rim,Vector2.zero);
+            }
+            for(var i=0;i<n;i++){var j=(i+1)%n;vh.AddTriangle(first+2*i,first+2*j,first+2*i+1);vh.AddTriangle(first+2*j,first+2*j+1,first+2*i+1);}
+        }
+    }
+    // Soft caption ribbon: deep at the leading edge, fading out, with a gold hairline underneath.
+    [RequireComponent(typeof(CanvasRenderer))]
+    public sealed class HudRibbonGraphic:MaskableGraphic
+    {
+        // Mirrored ribbons lead from the right edge (the phase tag under the record button).
+        public bool Mirrored;
+        protected override void OnPopulateMesh(VertexHelper vh)
+        {
+            vh.Clear();var r=rectTransform.rect;var deep=new Color(.03f,.06f,.11f,.80f);var fade=new Color(.03f,.06f,.11f,0);
+            var mid=r.xMin+r.width*.62f;
+            void Quad(float x0,float x1,float y0,float y1,Color a,Color b)
+            {
+                if(Mirrored){var m0=r.xMax-(x0-r.xMin);var m1=r.xMax-(x1-r.xMin);x0=m1;x1=m0;var t=a;a=b;b=t;}
+                var v=vh.currentVertCount;vh.AddVert(new Vector2(x0,y1),a,Vector2.zero);vh.AddVert(new Vector2(x1,y1),b,Vector2.zero);vh.AddVert(new Vector2(x1,y0),b,Vector2.zero);vh.AddVert(new Vector2(x0,y0),a,Vector2.zero);vh.AddTriangle(v,v+1,v+2);vh.AddTriangle(v,v+2,v+3);
+            }
+            Quad(r.xMin,mid,r.yMin,r.yMax,deep,deep);Quad(mid,r.xMax,r.yMin,r.yMax,deep,fade);
+            var gold=new Color(1,.80f,.40f,.75f);Quad(r.xMin,mid,r.yMin,r.yMin+1.2f,gold,gold);Quad(mid,r.xMax,r.yMin,r.yMin+1.2f,gold,new Color(1,.80f,.40f,0));
+            Quad(r.xMin,r.xMin+3,r.yMin,r.yMax,new Color(1,.80f,.40f,.9f),new Color(1,.80f,.40f,.9f));
         }
     }
     [RequireComponent(typeof(CanvasRenderer))]
