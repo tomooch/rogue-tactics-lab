@@ -32,7 +32,7 @@ namespace RogueTactics.Tests
         }
         private static void Tap(MobileG1View view,GridPosition target)
         {
-            var v=view.FieldCamera.WorldToViewportPoint(new Vector3(target.X*2.5f,0,target.Y*3.125f));
+            var v=view.FieldCamera.WorldToViewportPoint(new Vector3(target.X*2.5f,0,target.Y*2.5f));
             Assert.That(v.x,Is.InRange(.01f,.99f),"Requested known floor must really be on screen");Assert.That(v.y,Is.InRange(.01f,.99f));
             var local=new Vector3(v.x*view.Field.rect.width,(v.y-1)*view.Field.rect.height,0);
             var canvas=view.Field.GetComponentInParent<Canvas>();var pointer=new PointerEventData(EventSystem.current){position=RectTransformUtility.WorldToScreenPoint(canvas.worldCamera,view.Field.TransformPoint(local))};
@@ -44,7 +44,7 @@ namespace RogueTactics.Tests
             var marker=GameObject.Find("Chosen known floor").GetComponent<LineRenderer>();
             Assert.That(marker.positionCount,Is.EqualTo(4));
             var center=Enumerable.Range(0,4).Select(marker.GetPosition).Aggregate(Vector3.zero,(a,p)=>a+p)/4;
-            Assert.That(Vector3.Distance(center,new Vector3(target.X*2.5f,.04f,target.Y*3.125f)),Is.LessThan(.001f));
+            Assert.That(Vector3.Distance(center,new Vector3(target.X*2.5f,.04f,target.Y*2.5f)),Is.LessThan(.001f));
         }
         private static IEnumerator Capture(string name,bool mapExpected=true)
         {
@@ -60,9 +60,24 @@ namespace RogueTactics.Tests
             image.ReadPixels(new Rect(0,0,390,844),0,0);image.Apply();var directory=Path.GetFullPath("Logs/hq/private");Directory.CreateDirectory(directory);
             File.WriteAllBytes(Path.Combine(directory,name+".png"),image.EncodeToPNG());RenderTexture.active=previous;Object.Destroy(image);
         }
+        // Human placed the known map in the lower right (2026-10-27); wherever it sits it must never hide the cast:
+        // over an actor it turns see-through.
+        private static void AssertMapClearOfCast(MobileG1View view,string when)
+        {
+            var map=(RectTransform)view.SafeRoot.Find("Explored floor map");if(!map.gameObject.activeInHierarchy)return;
+            var corners=new Vector3[4];map.GetWorldCorners(corners);var field=view.Field.rect;
+            Vector2 Normalized(Vector3 world){var local=(Vector2)view.Field.InverseTransformPoint(world);return new Vector2((local.x-field.xMin)/field.width,(local.y-field.yMin)/field.height);}
+            var a=Normalized(corners[0]);var b=Normalized(corners[2]);var mapRect=Rect.MinMaxRect(Mathf.Min(a.x,b.x),Mathf.Min(a.y,b.y),Mathf.Max(a.x,b.x),Mathf.Max(a.y,b.y));
+            foreach(var renderer in Object.FindObjectsByType<Renderer>(FindObjectsSortMode.None).Where(r=>r.gameObject.activeInHierarchy && (r.name=="Private approved static skin" || r.name=="Fixture slime")))
+            {
+                var points=renderer.GetComponent<MeshFilter>().sharedMesh.vertices.Select(v=>(Vector2)view.FieldCamera.WorldToViewportPoint(renderer.transform.TransformPoint(v))).ToArray();
+                var body=Rect.MinMaxRect(points.Min(p=>p.x),points.Min(p=>p.y),points.Max(p=>p.x),points.Max(p=>p.y));
+                if(mapRect.Overlaps(body))Assert.That(view.KnownMapAlpha,Is.LessThanOrEqualTo(.35f),"Known map hides "+renderer.transform.parent.name+" at "+when);
+            }
+        }
         private static bool Touchable(MobileG1View view,GridPosition target)
         {
-            var v=view.FieldCamera.WorldToViewportPoint(new Vector3(target.X*2.5f,0,target.Y*3.125f));
+            var v=view.FieldCamera.WorldToViewportPoint(new Vector3(target.X*2.5f,0,target.Y*2.5f));
             if(v.x<=.01f || v.x>=.99f || v.y<=.01f || v.y>=.99f)return false;
             var canvas=view.Field.GetComponentInParent<Canvas>();var local=new Vector3(v.x*view.Field.rect.width,(v.y-1)*view.Field.rect.height,0);
             var pointer=new PointerEventData(EventSystem.current){position=RectTransformUtility.WorldToScreenPoint(canvas.worldCamera,view.Field.TransformPoint(local))};
@@ -197,7 +212,8 @@ namespace RogueTactics.Tests
             view.SetTestSafeArea(new Rect(0,34,390,763),390,844);yield return Capture("floor-reference-overview");
             var title=view.SafeRoot.Find("Title").GetComponent<Text>();Assert.That(title.text,Is.EqualTo("天空の遺跡"));Assert.That(title.preferredHeight,Is.LessThanOrEqualTo(title.rectTransform.rect.height+.1f),"Place name must actually fit its frame");
             var state=view.Session.Replay.State.Serialize();var known=view.SafeRoot.Find("Explored floor map");
-            Assert.That(known.GetComponent<RectTransform>().anchoredPosition.x,Is.LessThan(20),"Place navigation in the upper-left sky, not across cast");
+            Assert.That(known.GetComponent<RectTransform>().anchoredPosition.x,Is.GreaterThan(view.SafeRoot.rect.width/2),"Known map sits in the lower right");
+            AssertMapClearOfCast(view,"overview");
             Assert.That(known.Find("Discovered rooms").GetComponent<Text>().text,Is.EqualTo("発見 1室"),"Do not expose the six-room hidden layout");
             Assert.That(view.SafeRoot.Find("Observed journey/Current floor caption/Meaning").GetComponent<Text>().text,Is.EqualTo("現在階"),"No invented floor number or total");
             var floorMarker=view.SafeRoot.Find("Observed journey/Current floor marker");

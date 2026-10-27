@@ -283,7 +283,8 @@ namespace RogueTactics.Presentation
         private void ConfigureReferenceMap(RectTransform map)
         {
             if(referenceFooter==null)return;
-            map.GetComponent<Image>().color=Color.clear;Frame(map,new Color(.035f,.075f,.14f,.90f),new Color(.46f,.70f,.91f),12);
+            // In the lower right the map lies over walkable floor: only its search button takes touches.
+            map.GetComponent<Image>().color=Color.clear;map.GetComponent<Image>().raycastTarget=false;Frame(map,new Color(.035f,.075f,.14f,.90f),new Color(.46f,.70f,.91f),12);
             var caption=map.Find("Known map caption").GetComponent<Text>();caption.text="周辺地図";caption.fontSize=10;
             MakeButton(map,"Map","",64,52,44,44,OpenKnownMap,10);StyleReferenceButton("Map",HudSymbol.Search,new Color(.43f,.79f,1));
             // The search gem is the visible control; the 44pt button keeps its full touch target.

@@ -16,16 +16,19 @@ namespace RogueTactics.Presentation
             var state=Rect(journey,"Phase backing",16,-40,80,24);
             var phaseRibbon=state.gameObject.AddComponent<HudRibbonGraphic>();phaseRibbon.Mirrored=true;phaseRibbon.raycastTarget=false;
             state.SetAsFirstSibling();
-            // Floor column reads like the reference rail: plain lettering over the sky, a dotted axis and one gold marker.
-            var heading=Rect(journey,"Floor heading",56,0,40,24);
-            HudOutlined(Label(heading,"Meaning","階層",0,0,40,24,11,TextAnchor.MiddleCenter),new Color(.92f,.95f,1));
-            var axis=Rect(journey,"Floor axis",72,24,8,106).gameObject.AddComponent<HudAxisGraphic>();
+            // Floor rail on the left, like the reference: lettering over a glass track with a dotted axis,
+            // one gold marker and its caption beside it. Still no floor number, total or locked floor.
+            var heading=Rect(journey,"Floor heading",0,0,40,20);
+            HudOutlined(Label(heading,"Meaning","階層",0,0,40,20,11,TextAnchor.MiddleCenter),new Color(.92f,.95f,1));
+            var track=Rect(journey,"Floor track",8,22,24,112);
+            var glass=Frame(track,new Color(.03f,.06f,.11f,.55f),new Color(.78f,.85f,.94f,.45f),12);glass.Radius=12;
+            var axis=Rect(journey,"Floor axis",16,26,8,104).gameObject.AddComponent<HudAxisGraphic>();
             axis.color=new Color(.90f,.93f,.97f,.85f);axis.raycastTarget=false;
-            var current=Rect(journey,"Current floor marker",56,40,40,40);
+            var current=Rect(journey,"Current floor marker",0,44,40,40);
             Frame(current,Color.clear,new Color(Gold.r,Gold.g,Gold.b,.55f),20);
             Glyph(current,"Current floor emblem",HudSymbol.Descend,8,8,24,Gold,true,true);
-            var caption=Rect(journey,"Current floor caption",0,48,52,24);
-            HudOutlined(Label(caption,"Meaning","現在階",0,0,52,24,12,TextAnchor.MiddleRight),Gold);
+            var caption=Rect(journey,"Current floor caption",44,52,52,24);
+            HudOutlined(Label(caption,"Meaning","現在階",0,0,52,24,12,TextAnchor.MiddleLeft),Gold);
         }
         private static void HudOutlined(Text label,Color color)
         {
@@ -50,8 +53,10 @@ namespace RogueTactics.Presentation
             instruction.anchoredPosition=new Vector2(12,-60);instruction.sizeDelta=new Vector2(226,24);
             ReferenceText(SafeRoot.Find("Boundary").GetComponent<Text>(),20,60,210,24,11,TextAnchor.MiddleLeft);
             var journey=SafeRoot.Find("Observed journey").GetComponent<RectTransform>();
-            journey.anchoredPosition=new Vector2(w-108,-100);journey.sizeDelta=new Vector2(96,136);
-            ReferenceText(journeyStatus,16,-40,72,24,11,TextAnchor.MiddleRight);journeyStatus.fontStyle=FontStyle.Bold;
+            journey.anchoredPosition=new Vector2(12,-96);journey.sizeDelta=new Vector2(96,136);
+            // The phase tag stays at the top right, under the record button, while the rail sits on the left.
+            journey.Find("Phase backing").GetComponent<RectTransform>().anchoredPosition=new Vector2(w-104,36);
+            ReferenceText(journeyStatus,w-104,-36,72,24,11,TextAnchor.MiddleRight);journeyStatus.fontStyle=FontStyle.Bold;
             roster.anchoredPosition=new Vector2(9,-(h-212));roster.sizeDelta=new Vector2(w-18,144);
             var width=(w-36)/4;
             for(var i=0;i<4;i++)
@@ -102,13 +107,14 @@ namespace RogueTactics.Presentation
             if(floorMini!=null)
             {
                 var map=floorMini.transform.parent.GetComponent<RectTransform>();
-                map.anchoredPosition=new Vector2(12,-96);map.sizeDelta=new Vector2(124,122);
-                ReferenceText(map.Find("Known map caption").GetComponent<Text>(),8,2,108,22,11,TextAnchor.MiddleLeft);
+                // Compact map in the lower right, above every lower banner (crisis, result, event shelf).
+                map.anchoredPosition=new Vector2(w-128,-(h-396));map.sizeDelta=new Vector2(116,104);
+                ReferenceText(map.Find("Known map caption").GetComponent<Text>(),8,4,60,18,11,TextAnchor.MiddleLeft);
                 if(discoveredStatus.transform.parent!=map)discoveredStatus.transform.SetParent(map,false);
                 discoveredStatus.gameObject.SetActive(true);
-                ReferenceText(discoveredStatus,8,24,108,20,11,TextAnchor.MiddleLeft);
-                floorMini.rectTransform.anchoredPosition=new Vector2(8,-44);floorMini.rectTransform.sizeDelta=new Vector2(108,70);
-                var search=buttons["Map"].GetComponent<RectTransform>();search.anchoredPosition=new Vector2(76,-74);
+                ReferenceText(discoveredStatus,52,4,56,18,10,TextAnchor.MiddleRight);
+                floorMini.rectTransform.anchoredPosition=new Vector2(8,-26);floorMini.rectTransform.sizeDelta=new Vector2(100,70);
+                var search=buttons["Map"].GetComponent<RectTransform>();search.anchoredPosition=new Vector2(68,-56);
                 // Initiative sits in the sky gap beside the map, clear of the board and the floor column.
                 orderStrip.anchoredPosition=(Vector2)Field.InverseTransformPoint(SafeRoot.TransformPoint(new Vector3(142,-96,0)));
                 PositionReferenceAction("Explore",12,h-268,w-24,"この先の遺跡を探索する");

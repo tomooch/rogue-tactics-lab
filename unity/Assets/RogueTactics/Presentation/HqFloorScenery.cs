@@ -35,8 +35,8 @@ namespace RogueTactics.Presentation
             foreach(var room in map.Rooms.Where(r=>r.Id!=0))
             {
                 var root=new GameObject("Exploration room "+room.Id);root.transform.SetParent(owner.transform,false);
-                root.transform.position=new Vector3((room.X+(room.Width-1)*.5f)*2.5f,0,(room.Y+(room.Height-1)*.5f)*3.125f);
-                root.transform.localScale=new Vector3(room.Width*2.5f/court.bounds.size.x,1,room.Height*3.125f/court.bounds.size.z);
+                root.transform.position=new Vector3((room.X+(room.Width-1)*.5f)*2.5f,0,(room.Y+(room.Height-1)*.5f)*2.5f);
+                root.transform.localScale=new Vector3(room.Width*2.5f/court.bounds.size.x,1,room.Height*2.5f/court.bounds.size.z);
                 foreach(var mesh in roomSurfaces)
                 {
                     var mat=owner.Material(template,mesh.name=="Courtyard");var child=new GameObject(mesh.name);child.transform.SetParent(root.transform,false);
@@ -53,10 +53,10 @@ namespace RogueTactics.Presentation
                 (p.X<=0 || p.Y<=0 || (p.Y==4 && (p.X==2 || p.X==3)) || (p.X==4 && (p.Y==2 || p.Y==3))))))
             {
                 var root=new GameObject("Stone passage "+p.X+","+p.Y);root.transform.SetParent(owner.transform,false);
-                root.transform.position=new Vector3(p.X*2.5f,0,p.Y*3.125f);
+                root.transform.position=new Vector3(p.X*2.5f,0,p.Y*2.5f);
                 root.AddComponent<MeshFilter>().sharedMesh=tiles[((p.X*3+p.Y*5)%tiles.Length+tiles.Length)%tiles.Length];root.AddComponent<MeshRenderer>().sharedMaterial=stone;
                 var support=GameObject.CreatePrimitive(PrimitiveType.Cube);support.name="Continuous bridge support";support.transform.SetParent(root.transform,false);
-                support.transform.localPosition=new Vector3(0,-.82f,0);support.transform.localScale=new Vector3(2.5f,1.1f,3.125f);
+                support.transform.localPosition=new Vector3(0,-.82f,0);support.transform.localScale=new Vector3(2.5f,1.1f,2.5f);
                 var lit=owner.ownedMaterials.FirstOrDefault(m=>m.name=="Bridge support stone");
                 if(lit==null){lit=new Material(Shader.Find("Universal Render Pipeline/Lit")){name="Bridge support stone"};lit.color=new Color(.43f,.46f,.40f);owner.ownedMaterials.Add(lit);}
                 support.GetComponent<Renderer>().sharedMaterial=lit;Destroy(support.GetComponent<Collider>());
@@ -120,7 +120,7 @@ namespace RogueTactics.Presentation
                 for(var j=1;j<polygon.Count-1;j++){triangles.Add(start);triangles.Add(start+j);triangles.Add(start+j+1);}
             }
             var mesh=new Mesh{name="Authored passage stone"};
-            mesh.SetVertices(output.Select(v=>new Vector3(v.P.x-x-1.25f,v.P.y,(v.P.z-z-4)*.390625f)).ToList());
+            mesh.SetVertices(output.Select(v=>new Vector3(v.P.x-x-1.25f,v.P.y,(v.P.z-z-4)*.3125f)).ToList());
             mesh.SetNormals(output.Select(v=>v.N).ToList());mesh.SetUVs(0,output.Select(v=>v.U).ToList());mesh.SetColors(output.Select(v=>v.C).ToList());mesh.SetTriangles(triangles,0);mesh.RecalculateBounds();return mesh;
         }
         private static List<Vertex> Clip(List<Vertex> points,int plane,float bound)

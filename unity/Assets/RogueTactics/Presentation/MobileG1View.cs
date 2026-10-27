@@ -66,7 +66,8 @@ namespace RogueTactics.Presentation
         private bool terminalSeen, testViewport, showingResults;
         private int shownStep;
         private float floatUntil;
-        private const float Cell=2.5f, DepthSpacing=1.25f;
+        // Square cells: the isometric camera shows each one as a regular diamond.
+        private const float Cell=2.5f, DepthSpacing=1f;
         // Visible world width in HQ: closer than the whole floor so the cast reads at reference scale.
         private const float HqFieldWidth=16f;
         private static Vector3 World(GridPosition p,float y=0)=>new Vector3(p.X*Cell,y,p.Y*Cell*DepthSpacing);
@@ -78,6 +79,7 @@ namespace RogueTactics.Presentation
             if(AmbientOcclusion!=null)AmbientOcclusion.SetActive(true);
             Application.targetFrameRate=60;
             Build(); ResetBaseline();if(ExplorationEnabled)BuildFloorUi();
+            if(HqWorld)foreach(var button in buttons.Values)button.gameObject.AddComponent<HudPress>();
         }
         private void Build()
         {
@@ -97,9 +99,10 @@ namespace RogueTactics.Presentation
             ghost=Rect(Field,"Legal destination",0,0,34,18);ghost.gameObject.AddComponent<Image>().color=new Color(.8f,.95f,.8f,.25f);ghost.GetComponent<Image>().raycastTarget=false;
             foreach(var u in Fixture.Baseline().Units)
             {
-                var r=Rect(Field,"HP "+u.Id,0,0,24,6);var track=r.gameObject.AddComponent<Image>();track.color=new Color(.025f,.06f,.065f,.96f);track.raycastTarget=false;
+                // 22pt wide: square cells put diagonal neighbours close, and a 24pt strip grazed the head in front.
+                var r=Rect(Field,"HP "+u.Id,0,0,22,6);var track=r.gameObject.AddComponent<Image>();track.color=new Color(.025f,.06f,.065f,.96f);track.raycastTarget=false;
                 badges[u.Id]=r.gameObject.AddComponent<CanvasGroup>();badges[u.Id].blocksRaycasts=false;
-                var bar=Rect(r,"HP bar",1,1,22,4).gameObject.AddComponent<Image>();bar.color=u.Enemy?new Color(.92f,.44f,.38f):Jade;bar.raycastTarget=false;
+                var bar=Rect(r,"HP bar",1,1,20,4).gameObject.AddComponent<Image>();bar.color=u.Enemy?new Color(.92f,.44f,.38f):Jade;bar.raycastTarget=false;
                 hpBars[u.Id]=bar;
             }
             shield=Rect(Field,"Protect",0,0,24,24);shield.gameObject.AddComponent<Image>().color=new Color(.035f,.20f,.22f,.98f);
@@ -190,7 +193,7 @@ namespace RogueTactics.Presentation
             TickExploration();
             SyncReferenceModal();
             RefreshGauntletUi();
-            AnimatePoses();
+            AnimatePoses();AnimateJuice();
         }
         private void BuildStage()
         {
@@ -370,7 +373,7 @@ namespace RogueTactics.Presentation
             {
                 var p=positions[u.Id];if(!visualTweenActive)pawns[u.Id].position=World(p);pawns[u.Id].gameObject.SetActive(!dead.Contains(u.Id));
                 var body=ProjectedBody(bodies[u.Id]);if(!dead.Contains(u.Id))bodyRects[u.Id]=body;
-                badges[u.Id].gameObject.SetActive(!dead.Contains(u.Id));hpBars[u.Id].rectTransform.sizeDelta=new Vector2(22f*hp[u.Id]/u.MaxHp,4);
+                badges[u.Id].gameObject.SetActive(!dead.Contains(u.Id));hpBars[u.Id].rectTransform.sizeDelta=new Vector2(20f*hp[u.Id]/u.MaxHp,4);
             }
             LayoutFootBadges();RefreshRelationCues();
         }
@@ -501,7 +504,7 @@ namespace RogueTactics.Presentation
     [RequireComponent(typeof(CanvasRenderer))]
     public sealed class MobileRouteGraphic : MaskableGraphic
     {
-        public bool Dashed;
+        public bool Dashed;public float DashPhase;
         // Glow: wide soft halo, dark outline, bright core and a long arrowhead (round-intent arcs).
         public bool Glow;
         private float progress=1;
@@ -549,7 +552,7 @@ namespace RogueTactics.Presentation
                     if(!dashed){Segment(vh,a-u*width*.3f,b+u*width*.3f,width,ink);travelled+=length;continue;}
                     for(var at=0f;at<length;)
                     {
-                        var phase=(travelled+at)%14;var span=phase<9?Mathf.Min(9-phase,length-at):Mathf.Min(14-phase,length-at);
+                        var phase=((travelled+at-DashPhase)%14+14)%14;var span=phase<9?Mathf.Min(9-phase,length-at):Mathf.Min(14-phase,length-at);
                         if(phase<9)Segment(vh,a+u*at,a+u*(at+span),width,ink);at+=Mathf.Max(span,.01f);
                     }
                     travelled+=length;

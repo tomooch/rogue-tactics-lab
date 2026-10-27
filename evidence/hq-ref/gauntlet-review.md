@@ -116,3 +116,12 @@ Verification of this pass (Unity 6000.3.25f1, Local Mac, uncommitted tree on `d1
 - The terminal result beside the explore action sits in a gold-rimmed chip instead of floating text (same label and input sink).
 - Ground markers under units match one cell's proportions (2.2 x 2.75 within a 2.5 x 3.125 cell) instead of a 1:2 strip that spilled into the next row. They are still not squares on screen: the grid itself is deeper than wide, so a true square needs a grid spacing change (not done).
 - Verification (Unity 6000.3.25f1, Local Mac): full suite **EditMode 27/27, PlayMode 14/15**; the one failure is the same pre-existing whole-sprite overlap (D/B this run, same rects). Overview, policy, record, crisis, victory and gauntlet captures reviewed. No Simulator, device or human play.
+
+## Square cells, left floor rail, lower-right map, event feedback (2026-10-28, Human: "マス全体の間隔を変える" / "右上の階層表示をリデザインして左に移動。マップを右下に移動。" / "さらにデザインとアニメーションをハイクオリティに")
+
+- Square cells: depth spacing 1.25 → 1 (cells 2.5 × 2.5), so the isometric camera shows each cell as a regular diamond. Floor rooms, passages and supports, ground markers (2.2 × 2.2) and the test helpers follow. Core positions are unchanged.
+- Foot HP strips are 22 pt wide (was 24): with closer rows Garu's strip grazed the slime's head by 0.09 pt at setup and was hidden.
+- Floor rail moved to the left: lettering over a glass track with the dotted axis, the gold marker and "現在階" beside it. The phase tag stays at the top right.
+- Known map moved to the lower right above every lower banner. Its panel passes touches to the floor (only the search button takes touches), and it turns see-through while any actor's body or foot HP is under it. Tests now assert it sits on the right and never hides the cast; the first version of that check caught Garu under the map in encounter 3.
+- Event feedback (display only): floating damage / counter / heal numbers from the queued Core event, a pale lag segment that holds and drains on card and foot HP bars, flowing dashes on later intent arcs, and a press dip on buttons.
+- Verification (Unity 6000.3.25f1, Local Mac): full suite **EditMode 27/27, PlayMode 14/15**. The one failure is the pre-existing whole-sprite overlap; with square cells D now reports at x 88.29 (was 77.52) against B. Overview, crisis, travel and battle frame sheets reviewed. No Simulator, device or human play.

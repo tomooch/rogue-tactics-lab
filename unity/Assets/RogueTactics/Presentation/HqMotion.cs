@@ -9,7 +9,7 @@ namespace RogueTactics.Presentation
         private IEnumerator PresentEvent(BattleEvent e)
         {
             while(Paused)yield return null;
-            if(!EventMotion){Display(e);Refresh();yield return PresentationDelay(e.Kind==EventKind.Action?.22f:.42f);yield break;}
+            if(!EventMotion){Display(e);Refresh();PopEventNumber(e);yield return PresentationDelay(e.Kind==EventKind.Action?.22f:.42f);yield break;}
             // Every motion is caused by this queued Core event; visible state changes at the impact/end boundary.
             if(e.Kind==EventKind.Action)
             {
@@ -56,7 +56,7 @@ namespace RogueTactics.Presentation
             }
             visualTweenActive=false;
             if(hasActor)actor.position=original;if(hasTarget){targetRoot.position=targetPosition;targetRoot.localScale=Vector3.one;}
-            Display(e);Refresh();
+            Display(e);Refresh();PopEventNumber(e);
             if(e.Kind==EventKind.Damage || e.Kind==EventKind.Counter || e.Kind==EventKind.Heal || e.Kind==EventKind.Protect)
             {
                 var targetId=e.Target;var renderer=bodies[targetId];var material=renderer.sharedMaterial;var before=material.color;

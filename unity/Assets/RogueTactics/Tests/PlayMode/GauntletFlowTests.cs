@@ -30,7 +30,7 @@ namespace RogueTactics.Tests
         }
         private static void Tap(MobileG1View view,GridPosition target)
         {
-            var v=view.FieldCamera.WorldToViewportPoint(new Vector3(target.X*2.5f,0,target.Y*3.125f));
+            var v=view.FieldCamera.WorldToViewportPoint(new Vector3(target.X*2.5f,0,target.Y*2.5f));
             Assert.That(v.x,Is.InRange(.01f,.99f),"Requested known floor must really be on screen");Assert.That(v.y,Is.InRange(.01f,.99f));
             var local=new Vector3(v.x*view.Field.rect.width,(v.y-1)*view.Field.rect.height,0);
             var canvas=view.Field.GetComponentInParent<Canvas>();var pointer=new PointerEventData(EventSystem.current){position=RectTransformUtility.WorldToScreenPoint(canvas.worldCamera,view.Field.TransformPoint(local))};
@@ -42,7 +42,7 @@ namespace RogueTactics.Tests
             var marker=GameObject.Find("Chosen known floor").GetComponent<LineRenderer>();
             Assert.That(marker.positionCount,Is.EqualTo(4));
             var center=Enumerable.Range(0,4).Select(marker.GetPosition).Aggregate(Vector3.zero,(a,p)=>a+p)/4;
-            Assert.That(Vector3.Distance(center,new Vector3(target.X*2.5f,.04f,target.Y*3.125f)),Is.LessThan(.001f));
+            Assert.That(Vector3.Distance(center,new Vector3(target.X*2.5f,.04f,target.Y*2.5f)),Is.LessThan(.001f));
         }
         private static IEnumerator Capture(string name)
         {
@@ -53,11 +53,26 @@ namespace RogueTactics.Tests
         }
         private static bool Touchable(MobileG1View view,GridPosition target)
         {
-            var v=view.FieldCamera.WorldToViewportPoint(new Vector3(target.X*2.5f,0,target.Y*3.125f));
+            var v=view.FieldCamera.WorldToViewportPoint(new Vector3(target.X*2.5f,0,target.Y*2.5f));
             if(v.x<=.01f || v.x>=.99f || v.y<=.01f || v.y>=.99f)return false;
             var canvas=view.Field.GetComponentInParent<Canvas>();var local=new Vector3(v.x*view.Field.rect.width,(v.y-1)*view.Field.rect.height,0);
             var pointer=new PointerEventData(EventSystem.current){position=RectTransformUtility.WorldToScreenPoint(canvas.worldCamera,view.Field.TransformPoint(local))};
             var hits=new List<RaycastResult>();EventSystem.current.RaycastAll(pointer,hits);return hits.Count>0 && hits[0].gameObject==view.Field.gameObject;
+        }
+        // Human placed the known map in the lower right (2026-10-27); wherever it sits it must never hide the cast:
+        // over an actor it turns see-through.
+        private static void AssertMapClearOfCast(MobileG1View view,string when)
+        {
+            var map=(RectTransform)view.SafeRoot.Find("Explored floor map");if(!map.gameObject.activeInHierarchy)return;
+            var corners=new Vector3[4];map.GetWorldCorners(corners);var field=view.Field.rect;
+            Vector2 Normalized(Vector3 world){var local=(Vector2)view.Field.InverseTransformPoint(world);return new Vector2((local.x-field.xMin)/field.width,(local.y-field.yMin)/field.height);}
+            var a=Normalized(corners[0]);var b=Normalized(corners[2]);var mapRect=Rect.MinMaxRect(Mathf.Min(a.x,b.x),Mathf.Min(a.y,b.y),Mathf.Max(a.x,b.x),Mathf.Max(a.y,b.y));
+            foreach(var renderer in Object.FindObjectsByType<Renderer>(FindObjectsSortMode.None).Where(r=>r.gameObject.activeInHierarchy && (r.name=="Private approved static skin" || r.name=="Fixture slime")))
+            {
+                var points=renderer.GetComponent<MeshFilter>().sharedMesh.vertices.Select(v=>(Vector2)view.FieldCamera.WorldToViewportPoint(renderer.transform.TransformPoint(v))).ToArray();
+                var body=Rect.MinMaxRect(points.Min(p=>p.x),points.Min(p=>p.y),points.Max(p=>p.x),points.Max(p=>p.y));
+                if(mapRect.Overlaps(body))Assert.That(view.KnownMapAlpha,Is.LessThanOrEqualTo(.35f),"Known map hides "+renderer.transform.parent.name+" at "+when);
+            }
         }
         private static IEnumerator WalkTo(MobileG1View view,GridPosition destination)
         {
@@ -93,8 +108,8 @@ namespace RogueTactics.Tests
             Assert.That(view.Session.EncounterIndex,Is.EqualTo(index));Assert.That(view.IsExploring,Is.False);
             var origin=GauntletRooms.Origin(view.Exploration==null?new FloorMap():view.Exploration.Map,index);
             foreach(var u in view.Session.Replay.State.Units)
-            {var at=GameObject.Find("Fixture "+u.Id).transform.position;Assert.That(Vector3.Distance(at,new Vector3((u.Position.X+origin.X)*2.5f,0,(u.Position.Y+origin.Y)*3.125f)),Is.LessThan(.01f),u.Id+" stands on its room cell");}
-            view.Select(start);yield return Capture("gauntlet-"+(index+1)+"-setup");
+            {var at=GameObject.Find("Fixture "+u.Id).transform.position;Assert.That(Vector3.Distance(at,new Vector3((u.Position.X+origin.X)*2.5f,0,(u.Position.Y+origin.Y)*2.5f)),Is.LessThan(.01f),u.Id+" stands on its room cell");}
+            view.Select(start);AssertMapClearOfCast(view,"encounter "+(index+1)+" setup");yield return Capture("gauntlet-"+(index+1)+"-setup");
             Press(view,"Start");yield return WaitBattle(view,true);
             Assert.That(view.CrisisPaused,Is.True,"Auto play stops when an ally is newly threatened");
             Assert.That(view.CrisisAllies,Does.Contain("A"));
@@ -106,12 +121,12 @@ namespace RogueTactics.Tests
                 .OrderBy(t=>t.GetComponent<RectTransform>().anchoredPosition.x).Select(t=>t.name.Substring(6)).ToList();
             var first=core.IndexOf(shown[0]);
             Assert.That(shown,Is.EqualTo(core.Skip(first).Concat(core.Take(first)).ToList()),"Initiative strip shows the encounter's own Core order");
-            yield return Capture("gauntlet-"+(index+1)+"-crisis");
+            AssertMapClearOfCast(view,"encounter "+(index+1));yield return Capture("gauntlet-"+(index+1)+"-crisis");
             Press(view,"Correct");Assert.That(view.Session.Replay.CorrectionsLeft,Is.EqualTo(0));
             yield return WaitBattle(view,false);
             Assert.That(view.Busy,Is.False);Assert.That(view.Session.Replay.State.Outcome,Is.EqualTo(Outcome.Victory));
             Assert.That(view.Session.Replay.State.Units.Count(u=>!u.Enemy && u.Alive),Is.EqualTo(4),"The right correction at the crisis saves everyone");
-            yield return Capture("gauntlet-"+(index+1)+"-end");
+            AssertMapClearOfCast(view,"encounter "+(index+1));yield return Capture("gauntlet-"+(index+1)+"-end");
         }
         [UnityTest,Timeout(900000)]
         public IEnumerator ConsecutiveEncountersOnTheSameFloorWithCrisisCorrection()

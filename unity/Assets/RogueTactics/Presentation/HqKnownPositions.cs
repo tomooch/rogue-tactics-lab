@@ -14,8 +14,8 @@ namespace RogueTactics.Presentation
                 friendlyPosition=new Material(SpriteTemplate){name="Known friendly position"};hostilePosition=new Material(SpriteTemplate){name="Known enemy position"};
                 friendlyPosition.mainTexture=hostilePosition.mainTexture=knownPositionTexture;friendlyPosition.color=new Color(.36f,.82f,1);hostilePosition.color=new Color(1,.40f,.38f);materials.Add(friendlyPosition);materials.Add(hostilePosition);
             }
-            // Same proportions as one grid cell (2.5 x 3.125), so the marker fills its own cell without spilling into the next row.
-            var marker=GameObject.CreatePrimitive(PrimitiveType.Quad);marker.name=enemy?"Known hostile cell":"Known friendly cell";Destroy(marker.GetComponent<Collider>());marker.transform.SetParent(root,false);marker.transform.localPosition=new Vector3(0,.025f,0);marker.transform.localRotation=Quaternion.Euler(90,0,0);marker.transform.localScale=new Vector3(2.2f,2.75f,1);var r=marker.GetComponent<Renderer>();r.sharedMaterial=enemy?hostilePosition:friendlyPosition;r.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;r.receiveShadows=false;
+            // Fills most of its square cell, leaving a gap between neighbours.
+            var marker=GameObject.CreatePrimitive(PrimitiveType.Quad);marker.name=enemy?"Known hostile cell":"Known friendly cell";Destroy(marker.GetComponent<Collider>());marker.transform.SetParent(root,false);marker.transform.localPosition=new Vector3(0,.025f,0);marker.transform.localRotation=Quaternion.Euler(90,0,0);marker.transform.localScale=new Vector3(2.2f,2.2f,1);var r=marker.GetComponent<Renderer>();r.sharedMaterial=enemy?hostilePosition:friendlyPosition;r.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;r.receiveShadows=false;
         }
     }
 }
