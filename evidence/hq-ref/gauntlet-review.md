@@ -75,3 +75,13 @@ Verification of this pass (Unity 6000.3.25f1, Local Mac, uncommitted tree on `d1
 - Full suite: **EditMode 27/27, PlayMode 13/14**. The single failure is the pre-existing `JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults` whole-sprite overlap. It now reports A/B instead of Y/C only because of object iteration order: a logged probe showed Y and C at the same projected rects as before (`237.05,-203.65` / `271.42,-174.11`), so the board geometry is unchanged.
 - `GauntletFlowTests` gains a regression check: at each crisis stop, the visible order tiles equal a rotation of the encounter's living Core initiative. Rerun after adding it: 1/1 passed.
 - Captures were reviewed for encounters 1 to 3, the policy choice, the dead-companion card and the map overlay. No physical device, Simulator or human play.
+
+## Board readability pass (2026-10-27, Human: "ガンガンハイクオリティにしていってください")
+
+- Round intents are glowing arcs from the actor's upper body to the target (or destination cell). The next actor's arc is solid and bright with its action kind as a gem on the apex; later intents are thinner dashed arcs. Geometry still comes only from `Rules.Intents`.
+- The initiative strip starts at, and golds, the same next actor while round intents are shown, so the strip and the solid arc agree.
+- Crisis stop: a pulsing red alert gem above each ally in `Rules.Threatened`.
+- Encounter result: a gold banner between board and cards ("勝利！", survivors, and "3つの戦いを越えた" on the last). Display only; the existing terminal result label is kept.
+- Foot HP bars: brighter fills with a gloss, same geometry.
+- Paving shader: broad warm/cool stone families and sparse clover specks inside moss.
+- Verification (Unity 6000.3.25f1, Local Mac): full suite **EditMode 27/27, PlayMode 13/14**; the one failure is the same pre-existing A/B whole-sprite overlap with identical rects. Gauntlet and reference captures reviewed. No Simulator, device or human play.

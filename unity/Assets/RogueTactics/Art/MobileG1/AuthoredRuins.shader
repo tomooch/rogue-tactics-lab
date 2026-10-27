@@ -52,6 +52,9 @@ Shader "RogueTactics/AuthoredRuins" {
      half lum=dot(rgb,half3(.30,.59,.11));
      half3 cream=SRGBToLinear(half3(.96,.89,.76));
      rgb=lerp(rgb,lum*cream*1.38h,.72h);
+     // Broad warm/cool stone families so the paving does not read as one flat beige sheet.
+     float tone=sin(p.x*.53+1.3)*sin(p.y*.47-.7)+.5*sin((p.x+p.y)*1.07);
+     rgb*=lerp(half3(1.05,1.0,.92),half3(.90,.94,1.0),saturate(tone*.45+.5))*(.95+.06*tone);
      half up=saturate((i.normalWS.y-.6h)*2.5h);
      float2 c=floor(p*.9);float2 f=frac(p*.9);
      float patch=frac(sin(dot(c,float2(41.3,289.1)))*15731.7);
@@ -60,6 +63,11 @@ Shader "RogueTactics/AuthoredRuins" {
      half joint=saturate((.20h-dot(palette,half3(.30,.59,.11)))*7.0h);
      half moss=up*saturate(smoothstep(.35,.85,blend)*.45+joint*.7);
      rgb=lerp(rgb,SRGBToLinear(half3(.50,.66,.33))*(shade*sky),moss*.6h);
+     // Clover specks gather where moss is: small, sparse, stable in world space.
+     float2 speckCell=floor(p*7.0);float2 speckAt=frac(p*7.0)-.5;
+     float speck=frac(sin(dot(speckCell,float2(27.17,91.31)))*24634.63);
+     half clover=up*step(.62,speck)*saturate(moss*2.2h)*(1-smoothstep(.14,.22,length(speckAt-(float2(frac(speck*5.3),frac(speck*9.1))-.5)*.5)));
+     rgb=lerp(rgb,SRGBToLinear(half3(.36,.58,.22))*(shade*sky),clover*.85h);
      float2 bloomCell=floor(p*2.2);float2 bloomAt=frac(p*2.2)-.5;
      float seed=frac(sin(dot(bloomCell,float2(12.9898,78.233)))*43758.5453);
      float2 offset=float2(frac(seed*7.1),frac(seed*13.7))-.5;

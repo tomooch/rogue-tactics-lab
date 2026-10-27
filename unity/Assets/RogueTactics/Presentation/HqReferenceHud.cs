@@ -77,6 +77,13 @@ namespace RogueTactics.Presentation
                     Glyph(r,"Policy disclosure",HudSymbol.Chevron,68,99,12,CompanionColors[i]);
                 }
             }
+            // Foot health: brighter fills with a top gloss, same geometry as before.
+            foreach(var entry in hpBars)
+            {
+                entry.Value.color=Fixture.Baseline().Find(entry.Key).Enemy?new Color(1,.42f,.38f):new Color(.36f,.95f,.52f);
+                var gloss=Rect(entry.Value.transform,"HP gloss",0,0,1,1);gloss.anchorMin=new Vector2(0,.5f);gloss.anchorMax=Vector2.one;gloss.offsetMin=gloss.offsetMax=Vector2.zero;
+                var shine=gloss.gameObject.AddComponent<Image>();shine.color=new Color(1,1,1,.38f);shine.raycastTarget=false;
+            }
             // Initiative tiles: Core order, ally/enemy rims, the next actor in gold.
             orderStrip.GetComponent<Image>().color=Color.clear;
             Frame(orderStrip,new Color(.035f,.075f,.13f,.82f),new Color(.55f,.68f,.80f,.45f),10);
@@ -210,13 +217,16 @@ namespace RogueTactics.Presentation
         private void RefreshReferenceOrder()
         {
             var state=Session.Replay.State;var initiative=state.Initiative;
-            var start=initiative.ToList().IndexOf(shownActor);if(start<0)start=0;var slot=0;
+            // While round intents are drawn, the strip starts at (and golds) the next actor, matching the solid arc.
+            var lead=GauntletRules && Session.Started && !Busy && !terminalSeen && state.Outcome==Outcome.Active
+                ?Rules.Intents(state,new Command(Session.Replay.Preference)).Select(p=>p.Actor).FirstOrDefault()??shownActor:shownActor;
+            var start=initiative.ToList().IndexOf(lead);if(start<0)start=0;var slot=0;
             ReferenceText(orderLabel,8,1,80,14,9,TextAnchor.MiddleLeft);
             for(var i=0;i<initiative.Count;i++)
             {
                 var id=initiative[(start+i)%initiative.Count];var tile=orderFrames[id];if(!tile.gameObject.activeSelf)continue;
                 tile.color=Color.clear;tile.rectTransform.anchoredPosition=new Vector2(6+slot*24,-15);tile.rectTransform.sizeDelta=new Vector2(22,22);slot++;
-                var enemy=state.Find(id).Enemy;var next=id==shownActor;
+                var enemy=state.Find(id).Enemy;var next=id==lead;
                 var frame=tile.transform.Find("Illustrated frame").GetComponent<HudPanelGraphic>();
                 frame.Border=next?Gold:enemy?new Color(1,.45f,.42f,.9f):new Color(.45f,.75f,1,.9f);
                 frame.Fill=next?new Color(.36f,.23f,.06f,.97f):enemy?new Color(.22f,.05f,.07f,.95f):new Color(.05f,.10f,.16f,.95f);frame.SetVerticesDirty();
@@ -382,7 +392,7 @@ namespace RogueTactics.Presentation
             }
         }
     }
-    public enum HudSymbol {Compass,Book,Search,Shield,Swords,Counter,Heal,Play,Pause,Reset,Compare,Steps,Chevron,Star,Descend}
+    public enum HudSymbol {Compass,Book,Search,Shield,Swords,Counter,Heal,Play,Pause,Reset,Compare,Steps,Chevron,Star,Descend,Alert}
     [RequireComponent(typeof(CanvasRenderer))]
     public sealed class HudGlyphGraphic:MaskableGraphic
     {
@@ -453,6 +463,7 @@ namespace RogueTactics.Presentation
                     case HudSymbol.Steps:Line(.28f,.08f,.19f,.28f,.20f);Line(.21f,.42f,.16f,.61f,.18f);Line(.78f,.38f,.69f,.58f,.20f);Line(.71f,.72f,.66f,.91f,.18f);break;
                     case HudSymbol.Chevron:Line(.30f,.15f,.70f,.5f,.12f);Line(.70f,.5f,.30f,.85f,.12f);break;
                     case HudSymbol.Star:Fill(.5f,.5f,.5f,0,.62f,.38f,1,.5f,.62f,.62f,.5f,1,.38f,.62f,0,.5f,.38f,.38f);break;
+                    case HudSymbol.Alert:Line(.5f,.08f,.5f,.60f,.22f);Line(.5f,.76f,.5f,.94f,.24f);break;
                     case HudSymbol.Descend:Line(.5f,.08f,.5f,.62f,.16f);Fill(.5f,.66f,.18f,.52f,.82f,.52f,.5f,.94f);break;
                 }
             }

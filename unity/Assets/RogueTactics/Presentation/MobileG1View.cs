@@ -501,6 +501,8 @@ namespace RogueTactics.Presentation
     public sealed class MobileRouteGraphic : MaskableGraphic
     {
         public bool Dashed;
+        // Glow: wide soft halo, dark outline, bright core and a long arrowhead (round-intent arcs).
+        public bool Glow;
         private float progress=1;
         public float Progress {get=>progress;set{progress=value;SetVerticesDirty();}}
         private Vector2[] path=Array.Empty<Vector2>();
@@ -516,6 +518,7 @@ namespace RogueTactics.Presentation
         private void DrawPath(VertexHelper vh,Vector2[] path,Color outline)
         {
             if(path.Length<2)return;
+            if(Glow){DrawGlow(vh,path,outline);return;}
             for(var k=0;k<12;k++){var a=k*Mathf.PI/6;var b=(k+1)*Mathf.PI/6;Segment(vh,path[0]+new Vector2(Mathf.Cos(a),Mathf.Sin(a))*5,path[0]+new Vector2(Mathf.Cos(b),Mathf.Sin(b))*5,2,color);}
             for(var i=1;i<path.Length;i++)Segment(vh,path[i-1],path[i],7,outline);
             for(var i=1;i<path.Length;i++)
@@ -528,6 +531,41 @@ namespace RogueTactics.Presentation
             var n=last.normalized;var side=new Vector2(-n.y,n.x);var size=Mathf.Min(12,last.magnitude*.8f);
             Triangle(vh,end+n*2,end-n*(size+2)+side*10,end-n*(size+2)-side*10,outline);
             Triangle(vh,end,end-n*size+side*7,end-n*size-side*7,color);
+        }
+        private void DrawGlow(VertexHelper vh,Vector2[] path,Color outline)
+        {
+            var halo=color;halo.a*=.30f;var core=color;var shine=Color.Lerp(color,Color.white,.72f);shine.a=color.a*.85f;outline.a*=Mathf.Lerp(.55f,1,color.a);
+            var end=path[path.Length-1];var last=end-path[path.Length-2];if(last.sqrMagnitude<.01f)return;var n=last.normalized;var side=new Vector2(-n.y,n.x);
+            // The shaft stops short of the tip so the head reads as one solid shape.
+            // Later (dashed) intents stay light so the next actor's solid arc dominates.
+            var head=Mathf.Min(Dashed?12:17,Vector2.Distance(path[0],end)*.45f);var shaft=new System.Collections.Generic.List<Vector2>(path);shaft[shaft.Count-1]=end-n*head*.7f;
+            void Stroke(float width,Color ink,bool dashed)
+            {
+                var travelled=0f;
+                for(var i=1;i<shaft.Count;i++)
+                {
+                    var a=shaft[i-1];var b=shaft[i];var d=b-a;var length=d.magnitude;if(length<.01f)continue;var u=d/length;
+                    if(!dashed){Segment(vh,a-u*width*.3f,b+u*width*.3f,width,ink);travelled+=length;continue;}
+                    for(var at=0f;at<length;)
+                    {
+                        var phase=(travelled+at)%14;var span=phase<9?Mathf.Min(9-phase,length-at):Mathf.Min(14-phase,length-at);
+                        if(phase<9)Segment(vh,a+u*at,a+u*(at+span),width,ink);at+=Mathf.Max(span,.01f);
+                    }
+                    travelled+=length;
+                }
+            }
+            if(!Dashed)
+            {
+                Stroke(13,halo,false);
+                Triangle(vh,end+n*5,end-n*(head+5)+side*(head*.85f+4),end-n*(head+5)-side*(head*.85f+4),halo);
+            }
+            else outline.a*=.6f;
+            Stroke(Dashed?6:8,outline,Dashed);
+            Triangle(vh,end+n*2.5f,end-n*(head+2)+side*(head*.68f+2.5f),end-n*(head+2)-side*(head*.68f+2.5f),outline);
+            Stroke(Dashed?3.4f:4.6f,core,Dashed);
+            Triangle(vh,end,end-n*head+side*head*.6f,end-n*head-side*head*.6f,core);
+            Stroke(1.6f,shine,Dashed);
+            for(var k=0;k<12;k++){var a=k*Mathf.PI/6;var b=(k+1)*Mathf.PI/6;Triangle(vh,path[0],path[0]+new Vector2(Mathf.Cos(a),Mathf.Sin(a))*4,path[0]+new Vector2(Mathf.Cos(b),Mathf.Sin(b))*4,core);}
         }
         private static void Segment(VertexHelper vh,Vector2 a,Vector2 b,float width,Color color)
         {
