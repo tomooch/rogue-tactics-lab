@@ -172,6 +172,24 @@ namespace RogueTactics.Tests
             Camera.main.targetTexture=null;Object.Destroy(rt);LogAssert.NoUnexpectedReceived();
         }
         [UnityTest]
+        public IEnumerator AllyFacingFollowsScreenMotionWithoutMovingBounds()
+        {
+            yield return SceneManager.LoadSceneAsync("HqExploration");yield return null;yield return null;
+            var view=Object.FindFirstObjectByType<MobileG1View>();var pawn=GameObject.Find("Fixture A").transform;
+            var skin=pawn.Find("Private approved static skin").GetComponent<Renderer>();var start=pawn.position;var right=view.FieldCamera.transform.right;
+            foreach(var side in new[]{1f,-1f,1f})
+            {
+                // Walk like a tween: short per-frame steps along the screen's horizontal axis.
+                for(var i=0;i<8;i++){pawn.position+=right*side*.08f;yield return null;}
+                Assert.That(view.PoseMirrored("A"),Is.EqualTo(side>0),"The single approved image turns toward its on-screen walk");
+                var bounds=skin.bounds;yield return null;
+                Assert.That(skin.bounds.center,Is.EqualTo(bounds.center));Assert.That(skin.bounds.size,Is.EqualTo(bounds.size),"Pose is a shader offset; projected body rects must not move");
+            }
+            pawn.position=start-right*3;yield return null;
+            Assert.That(view.PoseMirrored("A"),Is.True,"A teleport (reset or retry) is not a walk and keeps the facing");
+            pawn.position=start;yield return null;
+        }
+        [UnityTest]
         public IEnumerator ReferencePartsKeepRealOwnershipAndKnownOnlyMap()
         {
             yield return SceneManager.LoadSceneAsync("HqExploration");yield return null;yield return null;

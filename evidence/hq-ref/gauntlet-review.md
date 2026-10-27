@@ -100,3 +100,10 @@ Verification of this pass (Unity 6000.3.25f1, Local Mac, uncommitted tree on `d1
 - Fix: `MobileG1Setup` imports the skins with `npotScale=None` (the four committed `.meta` files now carry `nPOTScale: 0`); the developer order icon crops from the real texture aspect instead of a fixed rect.
 - Regression check: `ReferencePartsKeepRealOwnershipAndKnownOnlyMap` now asserts the art keeps its 3:4 pixels. The earlier check compared the crop against the texture's own (already squashed) aspect and could not see the bug. Before the reimport the new assertion failed (`Expected 0.75, was 1.0`); after it passes.
 - Verification (Unity 6000.3.25f1, Local Mac, `verify_hq.py --configure`): **EditMode 27/27, PlayMode 13/14**; the one failure is the same pre-existing whole-sprite overlap (D/B this run, same rects). Card and strip captures compared before/after. No Simulator, device or human play.
+
+## Ally motion from the single approved image (2026-10-27, Human: "じゃあそれで" — motion without new art)
+
+- No per-direction art exists (one front image per ally), so motion is procedural and display-only: the `StaticSkin` shader offsets the quad's vertices (mirror, lean, squash from the feet, lift, fall tilt). Renderer bounds, pawn transforms, projected rects and Core state are unchanged.
+- Facing follows on-screen horizontal travel (mirroring swaps held items). Breath while standing; a stepped bounce with a forward lean while walking; event poses from queued Core events: wind-up and strike for the attacker, knock-back for the target, a lift for protect, a cast for the healer and a hop for the healed, and a fall for death. Paused presentation holds event poses.
+- Regression check: `AllyFacingFollowsScreenMotionWithoutMovingBounds` (facing follows a tween-like walk, a teleport keeps facing, bounds stay identical).
+- Verification (Unity 6000.3.25f1, Local Mac): full suite **EditMode 27/27, PlayMode 14/15**; the one failure is the same pre-existing Y/C whole-sprite overlap with identical rects. Frame sheets of the first battle and of floor travel were reviewed (temporary capture test, not committed). No Simulator, device or human play.

@@ -190,6 +190,7 @@ namespace RogueTactics.Presentation
             TickExploration();
             SyncReferenceModal();
             RefreshGauntletUi();
+            AnimatePoses();
         }
         private void BuildStage()
         {

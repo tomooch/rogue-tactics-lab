@@ -26,6 +26,7 @@ namespace RogueTactics.Presentation
             var original=hasActor?actor.position:Vector3.zero;
             var targetPosition=hasTarget?targetRoot.position:Vector3.zero;
             var duration=e.Kind==EventKind.Move?.52f:e.Kind==EventKind.Death?.36f:.46f;
+            KickPoses(e,hasActor && hasTarget?original:targetPosition,targetPosition,duration);
             var elapsedMotion=0f;visualTweenActive=true;
             if(e.Kind==EventKind.Counter){reaction=HeroName(e.Actor)+" 反撃（割込）";RefreshProductHud();}
             while(elapsedMotion<duration)
