@@ -88,6 +88,12 @@ Stage 0 の環境監査・bootstrap はこれらを固定しない範囲に限�
 - **Cloud**: repository / docs review、環境で実行可能な deterministic tests、pure C# Core の検証など、Unity GUI や Local credential を要しない承認済み作業に使える。Cloud の成功を Local Unity / 実機成功に読み替えない。
 - routing は環境適性の判断であり、別チャット作成や外部 I/O の許可ではない。環境不足は未検証として記録し、別 version・有料 CI・secret 追加で迂回しない。
 
+## Codex main / Claude sub
+
+- Codex がメイン Executor（実装・実行・採否、`codex/*` branch / PR）。Claude Code はサブとして、Human または Codex が範囲を明示した review・第二意見・調査・独立した小作業を担う。Claude 固有の運用は [CLAUDE.md](CLAUDE.md)。
+- Claude の変更は `claude/*` branch と専用 worktree で行い、Codex の worktree / `codex/*` branch には Human の明示なしに書き込まない。同じ Unity project を両者で同時に開かない。
+- Claude の review・推奨は助言。Executor の採否、HUMAN-GO、human play の代わりにしない。依頼時は対象 PR / head SHA / 見てほしい観点 / 期待する出力を渡す。
+
 ## Git / worktree workflow
 
 - 変更前に git status / remote を監査し、origin/main を fetch。新規タスクは最新 origin/main から専用 worktree / `codex/` branch を作る。既存 PR 更新はその専用 worktree / head branch を使い、無断で rebase / history rewrite しない。
