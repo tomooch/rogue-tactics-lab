@@ -22,13 +22,13 @@ namespace RogueTactics.Presentation
             r.anchorMin=Vector2.zero;r.anchorMax=Vector2.one;r.offsetMin=r.offsetMax=Vector2.zero;r.SetAsFirstSibling();
             var g=r.gameObject.AddComponent<HudPanelGraphic>();g.Fill=fill;g.Border=border;g.Radius=radius;g.raycastTarget=false;return g;
         }
-        private HudGlyphGraphic Glyph(Transform parent,string name,HudSymbol symbol,float x,float y,float size,Color tint)
-        {var g=Rect(parent,name,x,y,size,size).gameObject.AddComponent<HudGlyphGraphic>();g.Symbol=symbol;g.color=tint;g.raycastTarget=false;return g;}
+        private HudGlyphGraphic Glyph(Transform parent,string name,HudSymbol symbol,float x,float y,float size,Color tint,bool gem=false,bool round=false)
+        {var g=Rect(parent,name,x,y,size,size).gameObject.AddComponent<HudGlyphGraphic>();g.Symbol=symbol;g.color=tint;g.Gem=gem;g.Round=round;g.raycastTarget=false;return g;}
         private void StyleReferenceButton(string id,HudSymbol symbol,Color accent)
         {
             var b=buttons[id];b.GetComponent<Image>().color=Color.clear;
             b.targetGraphic=Frame(b.GetComponent<RectTransform>(),new Color(.035f,.085f,.13f,.96f),accent,10);
-            Glyph(b.transform,"Action symbol",symbol,10,13,22,accent);
+            Glyph(b.transform,"Action symbol",symbol,13,14,20,accent,true);
         }
         // The one forward action on screen reads as a warm, filled call to action.
         private void PrimaryFill(string id)
@@ -37,8 +37,8 @@ namespace RogueTactics.Presentation
         {
             if(!HqWorld)return;
             var plate=SafeRoot.Find("Title plate").GetComponent<Image>();plate.color=Color.clear;
-            Frame(plate.rectTransform,new Color(.045f,.085f,.14f,.90f),new Color(.70f,.76f,.84f,.8f),18);
-            Glyph(plate.transform,"Ruin emblem",HudSymbol.Compass,8,5,32,Gold);
+            Frame(plate.rectTransform,new Color(.045f,.085f,.14f,.90f),new Color(.70f,.76f,.84f,.8f),24);
+            Glyph(plate.transform,"Ruin emblem",HudSymbol.Star,10,10,28,Gold,true,true);
             var title=SafeRoot.Find("Title").GetComponent<Text>();title.fontSize=20;title.fontStyle=FontStyle.Normal;
             var boundary=SafeRoot.Find("Boundary").GetComponent<Text>();boundary.color=new Color(.90f,.94f,1);boundary.fontSize=10;
             var instruction=Rect(SafeRoot,"Context instruction",12,56,226,22);Frame(instruction,new Color(.035f,.075f,.13f,.82f),new Color(.55f,.68f,.80f,.5f),10);instruction.SetSiblingIndex(boundary.transform.GetSiblingIndex());
@@ -62,10 +62,11 @@ namespace RogueTactics.Presentation
                 var portrait=r.Find("Approved portrait").GetComponent<RawImage>();portrait.uvRect=new Rect(.15f,.50f,.70f,.37f);
                 var fade=Rect(r,"Portrait name fade",4,62,78,35).gameObject.AddComponent<HudPortraitFadeGraphic>();fade.raycastTarget=false;
                 r.Find("Name").SetAsLastSibling();
-                var role=Rect(r,"Core role",0,0,25,25);
-                Glyph(role,"Role symbol",i==0?HudSymbol.Counter:i==1?HudSymbol.Heal:i==2?HudSymbol.Swords:HudSymbol.Shield,4,4,17,CompanionColors[i]);
+                var role=Rect(r,"Core role",0,0,18,18);
+                Glyph(role,"Role symbol",i==0?HudSymbol.Counter:i==1?HudSymbol.Heal:i==2?HudSymbol.Swords:HudSymbol.Shield,0,0,18,CompanionColors[i],true);
+                var nameShadow=r.Find("Name").gameObject.AddComponent<Shadow>();nameShadow.effectColor=new Color(.01f,.02f,.05f,.9f);nameShadow.effectDistance=new Vector2(1,-1);
                 Label(r,"Role meaning",CoreRoles[i],2,82,80,16,9,TextAnchor.MiddleCenter).color=Color.Lerp(CompanionColors[i],Color.white,.28f);
-                cardHealth[id].color=new Color(.34f,.94f,.49f);
+                cardHealth[id].color=new Color(.34f,.94f,.49f);r.Find("Health track").GetComponent<Image>().color=new Color(.02f,.05f,.09f,.95f);
                 var gloss=Rect(cardHealth[id].transform,"Health gloss",0,0,1,1);gloss.anchorMin=new Vector2(0,.5f);gloss.anchorMax=Vector2.one;gloss.offsetMin=gloss.offsetMax=Vector2.zero;
                 var shine=gloss.gameObject.AddComponent<Image>();shine.color=new Color(1,1,1,.30f);shine.raycastTarget=false;
                 if(id=="B")
@@ -76,6 +77,10 @@ namespace RogueTactics.Presentation
                     Glyph(r,"Policy disclosure",HudSymbol.Chevron,68,99,12,CompanionColors[i]);
                 }
             }
+            // Initiative tiles: Core order, ally/enemy rims, the next actor in gold.
+            orderStrip.GetComponent<Image>().color=Color.clear;
+            Frame(orderStrip,new Color(.035f,.075f,.13f,.82f),new Color(.55f,.68f,.80f,.45f),10);
+            foreach(var tile in orderFrames.Values){tile.color=Color.clear;Frame(tile.rectTransform,new Color(.05f,.10f,.16f,.95f),new Color(.40f,.50f,.60f),6);}
             StyleReferenceButton("Details",HudSymbol.Book,new Color(.70f,.80f,.94f));
             StyleReferenceButton("Start",HudSymbol.Play,Gold);PrimaryFill("Start");StyleReferenceButton("Play",HudSymbol.Pause,Gold);
             StyleReferenceButton("Reset",HudSymbol.Reset,new Color(.62f,.74f,.84f));StyleReferenceButton("Compare",HudSymbol.Compare,Gold);
@@ -133,17 +138,17 @@ namespace RogueTactics.Presentation
         private void PositionReferenceAction(string id,float x,float y,float width,string text)
         {
             ResizeButton(id,x,y,width);var label=buttons[id].transform.Find("Label").GetComponent<Text>();
-            label.text=text;label.rectTransform.anchoredPosition=new Vector2(35,-2);label.rectTransform.sizeDelta=new Vector2(width-40,44);label.fontSize=13;label.color=Ink;
+            label.text=text;label.rectTransform.anchoredPosition=new Vector2(44,-2);label.rectTransform.sizeDelta=new Vector2(width-48,44);label.fontSize=13;label.color=Ink;
         }
         private void CenterPrimaryAction(string id)
         {
             var button=buttons[id].GetComponent<RectTransform>();
             var label=button.Find("Label").GetComponent<Text>();
             var symbol=button.Find("Action symbol").GetComponent<RectTransform>();
-            var labelWidth=Mathf.Min(label.preferredWidth+2,button.rect.width-54);
-            var left=(button.rect.width-(22+8+labelWidth))/2;
-            symbol.anchoredPosition=new Vector2(left,-13);
-            label.rectTransform.anchoredPosition=new Vector2(left+30,-2);
+            var labelWidth=Mathf.Min(label.preferredWidth+2,button.rect.width-60);
+            var left=(button.rect.width-(20+14+labelWidth))/2;
+            symbol.anchoredPosition=new Vector2(left,-14);
+            label.rectTransform.anchoredPosition=new Vector2(left+34,-2);
             label.rectTransform.sizeDelta=new Vector2(labelWidth,44);
         }
         private void RefreshReferenceHud()
@@ -192,14 +197,38 @@ namespace RogueTactics.Presentation
                 if(selected)buttons[id].transform.Find("Label").GetComponent<Text>().text=id=="Protect"?"選択中\nシロを守る":"選択中\n敵を攻める";
             }
             PositionReferenceAction("Details",w-68,6,56,"");
-            var book=buttons["Details"].transform.Find("Action symbol").GetComponent<RectTransform>();book.anchoredPosition=new Vector2(17,-5);
-            var bookLabel=buttons["Details"].transform.Find("Label").GetComponent<Text>();bookLabel.text="記録";bookLabel.fontSize=10;bookLabel.rectTransform.anchoredPosition=new Vector2(3,-26);bookLabel.rectTransform.sizeDelta=new Vector2(50,18);
+            var book=buttons["Details"].transform.Find("Action symbol").GetComponent<RectTransform>();book.anchoredPosition=new Vector2(18,-6);
+            var bookLabel=buttons["Details"].transform.Find("Label").GetComponent<Text>();bookLabel.text="記録";bookLabel.fontSize=10;bookLabel.rectTransform.anchoredPosition=new Vector2(3,-30);bookLabel.rectTransform.sizeDelta=new Vector2(50,17);
             journeyStatus.text=IsExploring?"探索":!Session.Started?"準備":terminalSeen?"結果":"戦闘";
             discoveredStatus.text=ExplorationEnabled?"":"試しの戦い";
             SetTransportSymbol(!Auto);
             var phaseGlyph=journeyStatus.transform.parent.Find("Journey emblem").GetComponent<HudGlyphGraphic>();phaseGlyph.Symbol=IsExploring?HudSymbol.Steps:Session.Started?HudSymbol.Swords:HudSymbol.Compass;phaseGlyph.SetVerticesDirty();
             if(!ExplorationEnabled)orderStrip.anchoredPosition=(Vector2)Field.InverseTransformPoint(SafeRoot.TransformPoint(new Vector3(12,-96,0)));
+            RefreshReferenceOrder();
             LayoutReferenceTypography(w,SafeRoot.rect.height);RefreshAutonomousHud();
+        }
+        private void RefreshReferenceOrder()
+        {
+            var state=Session.Replay.State;var initiative=state.Initiative;
+            var start=initiative.ToList().IndexOf(shownActor);if(start<0)start=0;var slot=0;
+            ReferenceText(orderLabel,8,1,80,14,9,TextAnchor.MiddleLeft);
+            for(var i=0;i<initiative.Count;i++)
+            {
+                var id=initiative[(start+i)%initiative.Count];var tile=orderFrames[id];if(!tile.gameObject.activeSelf)continue;
+                tile.color=Color.clear;tile.rectTransform.anchoredPosition=new Vector2(6+slot*24,-15);tile.rectTransform.sizeDelta=new Vector2(22,22);slot++;
+                var enemy=state.Find(id).Enemy;var next=id==shownActor;
+                var frame=tile.transform.Find("Illustrated frame").GetComponent<HudPanelGraphic>();
+                frame.Border=next?Gold:enemy?new Color(1,.45f,.42f,.9f):new Color(.45f,.75f,1,.9f);
+                frame.Fill=next?new Color(.36f,.23f,.06f,.97f):enemy?new Color(.22f,.05f,.07f,.95f):new Color(.05f,.10f,.16f,.95f);frame.SetVerticesDirty();
+                var face=tile.transform.Find("Actor portrait");
+                if(face!=null)
+                {
+                    var art=face.GetComponent<RawImage>();var r=face.GetComponent<RectTransform>();r.anchoredPosition=new Vector2(2,-2);r.sizeDelta=new Vector2(18,18);
+                    var uvHeight=.30f;var uvWidth=uvHeight*art.texture.height/art.texture.width;art.uvRect=new Rect(.51f-uvWidth/2,.58f,uvWidth,uvHeight);
+                }
+                ReferenceText(tile.transform.Find("Actor").GetComponent<Text>(),0,0,22,22,11,TextAnchor.MiddleCenter);
+            }
+            orderStrip.sizeDelta=new Vector2(10+slot*24,40);
         }
         private void ConfigureReferenceMap(RectTransform map)
         {
@@ -207,8 +236,9 @@ namespace RogueTactics.Presentation
             map.GetComponent<Image>().color=Color.clear;Frame(map,new Color(.035f,.075f,.14f,.90f),new Color(.46f,.70f,.91f),12);
             var caption=map.Find("Known map caption").GetComponent<Text>();caption.text="周辺地図";caption.fontSize=10;
             MakeButton(map,"Map","",64,52,44,44,OpenKnownMap,10);StyleReferenceButton("Map",HudSymbol.Search,new Color(.43f,.79f,1));
-            var smallFrame=buttons["Map"].transform.Find("Illustrated frame").GetComponent<RectTransform>();smallFrame.anchorMin=smallFrame.anchorMax=new Vector2(0,1);smallFrame.pivot=new Vector2(0,1);smallFrame.anchoredPosition=new Vector2(7,-7);smallFrame.sizeDelta=new Vector2(30,30);
-            var search=buttons["Map"].transform.Find("Action symbol").GetComponent<RectTransform>();search.anchoredPosition=new Vector2(11,-11);
+            // The search gem is the visible control; the 44pt button keeps its full touch target.
+            var smallFrame=buttons["Map"].transform.Find("Illustrated frame").GetComponent<HudPanelGraphic>();smallFrame.Fill=smallFrame.Border=Color.clear;
+            var search=buttons["Map"].transform.Find("Action symbol").GetComponent<RectTransform>();search.anchoredPosition=new Vector2(12,-12);
             StyleReferenceButton("Explore",HudSymbol.Steps,Gold);PrimaryFill("Explore");
         }
         private void SetTransportSymbol(bool paused)
@@ -314,14 +344,15 @@ namespace RogueTactics.Presentation
     {
         protected override void OnPopulateMesh(VertexHelper vh)
         {
+            // A soft shade under the name; the portrait stays visible through it.
             vh.Clear();var r=rectTransform.rect;
             vh.AddVert(new Vector2(r.xMin,r.yMax),new Color(.035f,.065f,.12f,0),Vector2.zero);
             vh.AddVert(new Vector2(r.xMax,r.yMax),new Color(.035f,.065f,.12f,0),Vector2.zero);
-            var edge=r.yMax-10;
-            vh.AddVert(new Vector2(r.xMax,edge),new Color(.035f,.065f,.12f,1),Vector2.zero);
-            vh.AddVert(new Vector2(r.xMin,edge),new Color(.035f,.065f,.12f,1),Vector2.zero);
-            vh.AddVert(new Vector2(r.xMax,r.yMin),new Color(.035f,.065f,.12f,1),Vector2.zero);
-            vh.AddVert(new Vector2(r.xMin,r.yMin),new Color(.035f,.065f,.12f,1),Vector2.zero);
+            var edge=r.yMax-r.height*.45f;
+            vh.AddVert(new Vector2(r.xMax,edge),new Color(.035f,.065f,.12f,.55f),Vector2.zero);
+            vh.AddVert(new Vector2(r.xMin,edge),new Color(.035f,.065f,.12f,.55f),Vector2.zero);
+            vh.AddVert(new Vector2(r.xMax,r.yMin),new Color(.035f,.065f,.12f,.88f),Vector2.zero);
+            vh.AddVert(new Vector2(r.xMin,r.yMin),new Color(.035f,.065f,.12f,.88f),Vector2.zero);
             vh.AddTriangle(0,1,2);vh.AddTriangle(0,2,3);vh.AddTriangle(3,2,4);vh.AddTriangle(3,4,5);
         }
     }
@@ -331,31 +362,99 @@ namespace RogueTactics.Presentation
         protected override void OnPopulateMesh(VertexHelper vh)
         {vh.Clear();var r=rectTransform.rect;vh.AddVert(new Vector2(r.xMin,r.yMax),new Color(.025f,.045f,.09f,0),Vector2.zero);vh.AddVert(new Vector2(r.xMax,r.yMax),new Color(.025f,.045f,.09f,0),Vector2.zero);vh.AddVert(new Vector2(r.xMax,r.yMin),new Color(.025f,.045f,.09f,.92f),Vector2.zero);vh.AddVert(new Vector2(r.xMin,r.yMin),new Color(.025f,.045f,.09f,.92f),Vector2.zero);vh.AddTriangle(0,1,2);vh.AddTriangle(0,2,3);}
     }
-    public enum HudSymbol {Compass,Book,Search,Shield,Swords,Counter,Heal,Play,Pause,Reset,Compare,Steps,Chevron}
+    // Dotted floor axis that fades out at both ends: a location reference, not a floor count.
+    [RequireComponent(typeof(CanvasRenderer))]
+    public sealed class HudAxisGraphic:MaskableGraphic
+    {
+        protected override void OnPopulateMesh(VertexHelper vh)
+        {
+            vh.Clear();var r=rectTransform.rect;const float step=7, dot=2.6f;
+            for(var y=r.yMin+step/2;y<r.yMax;y+=step)
+            {
+                var fade=Mathf.Clamp01(Mathf.Min(Mathf.InverseLerp(r.yMin,r.yMax,y),1-Mathf.InverseLerp(r.yMin,r.yMax,y))*4);
+                // Dark-rimmed light dots stay readable over both pale cloud and deep sky.
+                foreach(var (size,ink) in new[]{(dot+2.4f,new Color(.04f,.08f,.15f,.75f*fade)),(dot,new Color(color.r,color.g,color.b,color.a*fade))})
+                {
+                    var i=vh.currentVertCount;var c=new Vector2(r.center.x,y);
+                    foreach(var v in new[]{c+new Vector2(-size/2,-size/2),c+new Vector2(-size/2,size/2),c+new Vector2(size/2,size/2),c+new Vector2(size/2,-size/2)})vh.AddVert(v,ink,Vector2.zero);
+                    vh.AddTriangle(i,i+1,i+2);vh.AddTriangle(i,i+2,i+3);
+                }
+            }
+        }
+    }
+    public enum HudSymbol {Compass,Book,Search,Shield,Swords,Counter,Heal,Play,Pause,Reset,Compare,Steps,Chevron,Star,Descend}
     [RequireComponent(typeof(CanvasRenderer))]
     public sealed class HudGlyphGraphic:MaskableGraphic
     {
         public HudSymbol Symbol;
+        // Gem: a white glyph with a soft halo on a lit plate of the accent colour (reference icon style).
+        // The plate grows outward from the rect, so existing glyph placement and hit areas stay unchanged.
+        public bool Gem, Round;
+        private static void Plate(VertexHelper vh,Rect r,float radius,Color bottom,Color top)
+        {
+            radius=Mathf.Min(radius,Mathf.Min(r.width,r.height)/2);const int n=32;var first=vh.currentVertCount;
+            Color At(Vector2 p)=>Color.Lerp(bottom,top,Mathf.InverseLerp(r.yMin,r.yMax,p.y));
+            vh.AddVert(r.center,At(r.center),Vector2.zero);
+            for(var i=0;i<n;i++)
+            {
+                var corner=i/8;var angle=(corner*90+i%8*90f/7)*Mathf.Deg2Rad;
+                var c=new Vector2(corner==0 || corner==3?r.xMax-radius:r.xMin+radius,corner<2?r.yMax-radius:r.yMin+radius);
+                var p=c+new Vector2(Mathf.Cos(angle),Mathf.Sin(angle))*radius;vh.AddVert(p,At(p),Vector2.zero);
+            }
+            for(var i=0;i<n;i++)vh.AddTriangle(first,first+1+i,first+1+(i+1)%n);
+        }
         protected override void OnPopulateMesh(VertexHelper vh)
         {
-            vh.Clear();var r=rectTransform.rect;Vector2 P(float x,float y)=>new Vector2(r.xMin+x*r.width,r.yMax-y*r.height);
-            void Line(float x,float y,float a,float b,float t=.085f){var p=P(x,y);var q=P(a,b);var d=(q-p).normalized;var n=new Vector2(-d.y,d.x)*r.width*t/2;var i=vh.currentVertCount;foreach(var v in new[]{p+n,q+n,q-n,p-n})vh.AddVert(v,color,Vector2.zero);vh.AddTriangle(i,i+1,i+2);vh.AddTriangle(i,i+2,i+3);}
-            void Circle(float x,float y,float radius){for(var i=0;i<20;i++){var a=i*Mathf.PI/10;var b=(i+1)*Mathf.PI/10;Line(x+Mathf.Cos(a)*radius,y+Mathf.Sin(a)*radius,x+Mathf.Cos(b)*radius,y+Mathf.Sin(b)*radius,.065f);}}
-            switch(Symbol)
+            vh.Clear();var r=rectTransform.rect;var area=r;
+            if(Gem)
             {
-                case HudSymbol.Compass:Line(.5f,.05f,.75f,.5f);Line(.75f,.5f,.5f,.95f);Line(.5f,.95f,.25f,.5f);Line(.25f,.5f,.5f,.05f);Line(.05f,.5f,.95f,.5f);Circle(.5f,.5f,.1f);break;
-                case HudSymbol.Search:Circle(.42f,.42f,.28f);Line(.62f,.62f,.92f,.92f,.12f);break;
-                case HudSymbol.Book:Line(.12f,.15f,.48f,.24f);Line(.48f,.24f,.88f,.15f);Line(.12f,.15f,.12f,.82f);Line(.88f,.15f,.88f,.82f);Line(.12f,.82f,.48f,.92f);Line(.48f,.92f,.88f,.82f);Line(.5f,.25f,.5f,.90f);break;
-                case HudSymbol.Shield:Line(.1f,.15f,.5f,.05f);Line(.5f,.05f,.9f,.15f);Line(.1f,.15f,.2f,.65f);Line(.9f,.15f,.8f,.65f);Line(.2f,.65f,.5f,.95f);Line(.8f,.65f,.5f,.95f);Line(.5f,.27f,.5f,.7f);Line(.3f,.46f,.7f,.46f);break;
-                case HudSymbol.Heal:Line(.5f,.12f,.5f,.88f,.22f);Line(.12f,.5f,.88f,.5f,.22f);break;
-                case HudSymbol.Swords:Line(.15f,.15f,.85f,.85f);Line(.85f,.15f,.15f,.85f);Line(.08f,.67f,.33f,.92f);Line(.67f,.92f,.92f,.67f);break;
-                case HudSymbol.Counter:Line(.85f,.3f,.22f,.3f);Line(.22f,.3f,.22f,.7f);Line(.22f,.7f,.82f,.7f);Line(.55f,.48f,.82f,.7f);Line(.55f,.92f,.82f,.7f);break;
-                case HudSymbol.Play:Line(.25f,.1f,.85f,.5f);Line(.85f,.5f,.25f,.9f);Line(.25f,.9f,.25f,.1f);break;
-                case HudSymbol.Pause:Line(.3f,.12f,.3f,.88f,.18f);Line(.7f,.12f,.7f,.88f,.18f);break;
-                case HudSymbol.Reset:Circle(.5f,.52f,.34f);Line(.16f,.15f,.16f,.47f);Line(.16f,.47f,.45f,.43f);break;
-                case HudSymbol.Compare:Line(.12f,.3f,.88f,.3f);Line(.65f,.08f,.88f,.3f);Line(.65f,.52f,.88f,.3f);Line(.88f,.75f,.12f,.75f);Line(.35f,.53f,.12f,.75f);Line(.35f,.97f,.12f,.75f);break;
-                case HudSymbol.Steps:Line(.28f,.08f,.19f,.28f,.20f);Line(.21f,.42f,.16f,.61f,.18f);Line(.78f,.38f,.69f,.58f,.20f);Line(.71f,.72f,.66f,.91f,.18f);break;
-                case HudSymbol.Chevron:Line(.30f,.15f,.70f,.5f,.12f);Line(.70f,.5f,.30f,.85f,.12f);break;
+                var pad=r.width*.2f;var body=new Rect(r.xMin-pad,r.yMin-pad,r.width+2*pad,r.height+2*pad);
+                var radius=Round?body.width/2:body.width*.26f;
+                var deep=Color.Lerp(color,Color.black,.62f);deep.a=1;var lit=Color.Lerp(color,Color.white,.18f);lit.a=1;
+                var rim=Color.Lerp(color,Color.white,.62f);rim.a=1;
+                Plate(vh,new Rect(body.xMin-1.4f,body.yMin-1.4f,body.width+2.8f,body.height+2.8f),radius+1.4f,new Color(.01f,.02f,.05f,.85f),new Color(.01f,.02f,.05f,.85f));
+                Plate(vh,body,radius,rim,rim);
+                Plate(vh,new Rect(body.xMin+1.4f,body.yMin+1.4f,body.width-2.8f,body.height-2.8f),radius-1.4f,deep,lit);
+                // Upper gloss: a fading highlight, as on the reference's faceted icons.
+                Plate(vh,new Rect(body.xMin+3,body.center.y,body.width-6,body.height/2-3),Mathf.Max(1,radius-3),new Color(1,1,1,0),new Color(1,1,1,.26f));
+                area=new Rect(r.xMin+r.width*.1f,r.yMin+r.height*.1f,r.width*.8f,r.height*.8f);
+            }
+            var passes=Gem?new[]{(new Color(Mathf.Lerp(color.r,1,.5f),Mathf.Lerp(color.g,1,.5f),Mathf.Lerp(color.b,1,.5f),.40f),2.5f),(Color.white,1.15f)}:new[]{(color,1f)};
+            foreach(var pass in passes)
+            {
+                var ink=pass.Item1;var weight=pass.Item2;
+                Vector2 P(float x,float y)=>new Vector2(area.xMin+x*area.width,area.yMax-y*area.height);
+                void Line(float x,float y,float a,float b,float t=.085f){var p=P(x,y);var q=P(a,b);var d=(q-p).normalized;var n=new Vector2(-d.y,d.x)*area.width*t*weight/2;var e=d*area.width*t*(weight-1)/2;var i=vh.currentVertCount;foreach(var v in new[]{p-e+n,q+e+n,q+e-n,p-e-n})vh.AddVert(v,ink,Vector2.zero);vh.AddTriangle(i,i+1,i+2);vh.AddTriangle(i,i+2,i+3);}
+                void Circle(float x,float y,float radius){for(var i=0;i<20;i++){var a=i*Mathf.PI/10;var b=(i+1)*Mathf.PI/10;Line(x+Mathf.Cos(a)*radius,y+Mathf.Sin(a)*radius,x+Mathf.Cos(b)*radius,y+Mathf.Sin(b)*radius,.065f);}}
+                // Star-shaped filled outline, fanned from its centre; the halo pass scales it outward.
+                void Fill(float cx,float cy,params float[] xy)
+                {
+                    var grow=1+.07f*(weight-1);var c=P(cx,cy);var i=vh.currentVertCount;vh.AddVert(c,ink,Vector2.zero);
+                    for(var k=0;k<xy.Length;k+=2)vh.AddVert(c+(P(xy[k],xy[k+1])-c)*grow,ink,Vector2.zero);
+                    var count=xy.Length/2;for(var k=0;k<count;k++)vh.AddTriangle(i,i+1+k,i+1+(k+1)%count);
+                }
+                switch(Symbol)
+                {
+                    case HudSymbol.Compass:Line(.5f,.05f,.75f,.5f);Line(.75f,.5f,.5f,.95f);Line(.5f,.95f,.25f,.5f);Line(.25f,.5f,.5f,.05f);Line(.05f,.5f,.95f,.5f);Circle(.5f,.5f,.1f);break;
+                    case HudSymbol.Search:Circle(.42f,.42f,.28f);Line(.62f,.62f,.92f,.92f,.12f);break;
+                    case HudSymbol.Book:Line(.12f,.15f,.48f,.24f);Line(.48f,.24f,.88f,.15f);Line(.12f,.15f,.12f,.82f);Line(.88f,.15f,.88f,.82f);Line(.12f,.82f,.48f,.92f);Line(.48f,.92f,.88f,.82f);Line(.5f,.25f,.5f,.90f);break;
+                    case HudSymbol.Shield:
+                        if(!Gem){Line(.1f,.15f,.5f,.05f);Line(.5f,.05f,.9f,.15f);Line(.1f,.15f,.2f,.65f);Line(.9f,.15f,.8f,.65f);Line(.2f,.65f,.5f,.95f);Line(.8f,.65f,.5f,.95f);Line(.5f,.27f,.5f,.7f);Line(.3f,.46f,.7f,.46f);break;}
+                        Fill(.5f,.45f,.5f,.04f,.9f,.15f,.84f,.6f,.5f,.96f,.16f,.6f,.1f,.15f);
+                        if(weight<2){var cut=Color.Lerp(color,Color.black,.35f);var keep=ink;ink=cut;Line(.5f,.26f,.5f,.72f,.11f);Line(.3f,.44f,.7f,.44f,.11f);ink=keep;}
+                        break;
+                    case HudSymbol.Heal:Line(.5f,.12f,.5f,.88f,.22f);Line(.12f,.5f,.88f,.5f,.22f);break;
+                    case HudSymbol.Swords:Line(.15f,.15f,.85f,.85f);Line(.85f,.15f,.15f,.85f);Line(.08f,.67f,.33f,.92f);Line(.67f,.92f,.92f,.67f);break;
+                    case HudSymbol.Counter:Line(.85f,.3f,.22f,.3f);Line(.22f,.3f,.22f,.7f);Line(.22f,.7f,.82f,.7f);Line(.55f,.48f,.82f,.7f);Line(.55f,.92f,.82f,.7f);break;
+                    case HudSymbol.Play:if(Gem)Fill(.43f,.5f,.25f,.1f,.88f,.5f,.25f,.9f);else{Line(.25f,.1f,.85f,.5f);Line(.85f,.5f,.25f,.9f);Line(.25f,.9f,.25f,.1f);}break;
+                    case HudSymbol.Pause:Line(.3f,.12f,.3f,.88f,.18f);Line(.7f,.12f,.7f,.88f,.18f);break;
+                    case HudSymbol.Reset:Circle(.5f,.52f,.34f);Line(.16f,.15f,.16f,.47f);Line(.16f,.47f,.45f,.43f);break;
+                    case HudSymbol.Compare:Line(.12f,.3f,.88f,.3f);Line(.65f,.08f,.88f,.3f);Line(.65f,.52f,.88f,.3f);Line(.88f,.75f,.12f,.75f);Line(.35f,.53f,.12f,.75f);Line(.35f,.97f,.12f,.75f);break;
+                    case HudSymbol.Steps:Line(.28f,.08f,.19f,.28f,.20f);Line(.21f,.42f,.16f,.61f,.18f);Line(.78f,.38f,.69f,.58f,.20f);Line(.71f,.72f,.66f,.91f,.18f);break;
+                    case HudSymbol.Chevron:Line(.30f,.15f,.70f,.5f,.12f);Line(.70f,.5f,.30f,.85f,.12f);break;
+                    case HudSymbol.Star:Fill(.5f,.5f,.5f,0,.62f,.38f,1,.5f,.62f,.62f,.5f,1,.38f,.62f,0,.5f,.38f,.38f);break;
+                    case HudSymbol.Descend:Line(.5f,.08f,.5f,.62f,.16f);Fill(.5f,.66f,.18f,.52f,.82f,.52f,.5f,.94f);break;
+                }
             }
         }
     }

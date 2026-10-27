@@ -57,3 +57,21 @@ Layouts 2 and 3 came from a seeded search over legal layouts with no ally/enemy 
 - After a later encounter the exploration camera eases to the party (about 0.6 s); encounter 1 keeps the exact no-cut handoff.
 - Dead allies from an earlier encounter return at the next encounter (full-HP parameter). HP carry-over is a natural next lever.
 - The pre-existing `JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults` Y/C whole-sprite overlap failure is unchanged.
+
+## UI parts pass (2026-10-27, Human: "全部")
+
+Scope chosen by the Human: companion cards, top HUD with the initiative strip, and the icon set, compared against `_userwork/image/天穹の遺跡、12階の冒険.png` (private, not committed).
+
+- Icons: `HudGlyphGraphic.Gem` draws a white glyph with a soft halo on a lit, rimmed plate of the accent colour, with an upper gloss. Filled shield, play, star and descend glyphs. Used on every action button, the card role badges, the title emblem, the map search and the current-floor marker. Plates grow outward, so placement and touch targets are unchanged.
+- Cards: taller portrait (94 pt) with the role gem in the top-right corner and the name right-aligned on a soft shade; then actual HP, a 7 pt bar (warm when actual HP is at or below 35%) and the role or Momo's policy. No level, skill or second gauge is shown: none exists in Core.
+- Top HUD: pill title plate with a round star gem; dotted floor axis with a gold descend gem on the single current-floor marker. Still no invented floor number, total or locked floors.
+- Initiative strip: moved to the sky gap beside the map (clear of the board at every encounter), compact tiles with ally/enemy rims and the next actor in gold.
+- Fix: the strip previously listed the frozen G1 order in every encounter. It now reads `Session.Replay.State.Initiative`, so encounters 2 and 3 show their own Core order. G1 is unchanged (same order).
+
+Not done: the reference's skill-icon row (no skills exist), Lv plates, the second gauge, the cat floor icon and floor numbers. The title remains "天空の遺跡" (the reference reads 天穹; the existing test pins the current name).
+
+Verification of this pass (Unity 6000.3.25f1, Local Mac, uncommitted tree on `d152061`, Presentation source identical to the commit):
+
+- Full suite: **EditMode 27/27, PlayMode 13/14**. The single failure is the pre-existing `JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults` whole-sprite overlap. It now reports A/B instead of Y/C only because of object iteration order: a logged probe showed Y and C at the same projected rects as before (`237.05,-203.65` / `271.42,-174.11`), so the board geometry is unchanged.
+- `GauntletFlowTests` gains a regression check: at each crisis stop, the visible order tiles equal a rotation of the encounter's living Core initiative. Rerun after adding it: 1/1 passed.
+- Captures were reviewed for encounters 1 to 3, the policy choice, the dead-companion card and the map overlay. No physical device, Simulator or human play.

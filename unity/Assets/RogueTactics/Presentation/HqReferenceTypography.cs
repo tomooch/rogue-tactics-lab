@@ -17,13 +17,13 @@ namespace RogueTactics.Presentation
             Frame(state,new Color(.035f,.075f,.13f,.86f),new Color(.55f,.68f,.80f,.5f),10);
             state.SetAsFirstSibling();
             var heading=Rect(journey,"Floor heading",56,0,40,24);
-            Frame(heading,new Color(.035f,.075f,.13f,.86f),new Color(.55f,.68f,.80f,.5f),10);
+            Frame(heading,new Color(.035f,.075f,.13f,.86f),new Color(.55f,.68f,.80f,.5f),12);
             Label(heading,"Meaning","階層",0,0,40,24,11,TextAnchor.MiddleCenter);
-            var axis=Rect(journey,"Floor axis",75,30,2,92).gameObject.AddComponent<Image>();
-            axis.color=new Color(.75f,.79f,.83f,.8f);axis.raycastTarget=false;
+            var axis=Rect(journey,"Floor axis",72,24,8,106).gameObject.AddComponent<HudAxisGraphic>();
+            axis.color=new Color(.90f,.93f,.97f,.85f);axis.raycastTarget=false;
             var current=Rect(journey,"Current floor marker",56,40,40,40);
-            Frame(current,new Color(.06f,.11f,.17f,.95f),Gold,20);
-            Glyph(current,"Current floor emblem",HudSymbol.Compass,7,7,26,Gold);
+            Frame(current,Color.clear,new Color(Gold.r,Gold.g,Gold.b,.55f),20);
+            Glyph(current,"Current floor emblem",HudSymbol.Descend,8,8,24,Gold,true,true);
             var caption=Rect(journey,"Current floor caption",0,48,52,24);
             Frame(caption,new Color(.035f,.075f,.13f,.90f),Gold,8);
             Label(caption,"Meaning","現在階",0,0,52,24,11,TextAnchor.MiddleCenter).color=Gold;
@@ -41,7 +41,7 @@ namespace RogueTactics.Presentation
             var plate=SafeRoot.Find("Title plate").GetComponent<RectTransform>();
             plate.sizeDelta=new Vector2(Mathf.Min(w-86,226),48);
             ReferenceText(SafeRoot.Find("Title").GetComponent<Text>(),58,14,176,36,20,TextAnchor.MiddleLeft);
-            plate.Find("Ruin emblem").GetComponent<RectTransform>().anchoredPosition=new Vector2(8,-8);
+            plate.Find("Ruin emblem").GetComponent<RectTransform>().anchoredPosition=new Vector2(10,-10);
             var instruction=SafeRoot.Find("Context instruction").GetComponent<RectTransform>();
             instruction.anchoredPosition=new Vector2(12,-60);instruction.sizeDelta=new Vector2(226,24);
             ReferenceText(SafeRoot.Find("Boundary").GetComponent<Text>(),20,60,210,24,11,TextAnchor.MiddleLeft);
@@ -54,32 +54,37 @@ namespace RogueTactics.Presentation
             {
                 var id=CardOrder[i];var card=cardValues[id].transform.parent.GetComponent<RectTransform>();
                 card.sizeDelta=new Vector2(width,144);
+                // Reference card: tall portrait with the role gem in its corner and the name on its lower edge,
+                // then actual HP, a thick bar and the role (or Momo's policy) underneath.
                 var art=card.Find("Approved portrait").GetComponent<RectTransform>();
-                art.anchoredPosition=new Vector2(5,-4);art.sizeDelta=new Vector2(width-10,88);
+                art.anchoredPosition=new Vector2(4,-4);art.sizeDelta=new Vector2(width-8,94);
                 // Crop approved pixels to the actual display aspect; never stretch a face.
                 var portrait=art.GetComponent<RawImage>();var uvHeight=.43f;
                 var uvWidth=art.rect.width/art.rect.height*portrait.texture.height/portrait.texture.width*uvHeight;
                 var faceCenter=id=="C"?.55f:.51f;
                 portrait.uvRect=new Rect(faceCenter-uvWidth/2,.47f,uvWidth,uvHeight);
-                var fade=card.Find("Portrait name fade").GetComponent<RectTransform>();fade.sizeDelta=new Vector2(width-8,35);
+                var fade=card.Find("Portrait name fade").GetComponent<RectTransform>();fade.anchoredPosition=new Vector2(4,-68);fade.sizeDelta=new Vector2(width-8,30);
                 var name=card.Find("Name").GetComponent<Text>();
-                ReferenceText(name,4,76,width-8,20,id=="B"?12:13,TextAnchor.MiddleCenter);name.fontStyle=FontStyle.Bold;
+                ReferenceText(name,6,76,width-13,20,id=="B"?12:13,TextAnchor.MiddleRight);name.fontStyle=FontStyle.Bold;
                 var unavailable=dead.Contains(id);
-                var role=card.Find("Core role").GetComponent<RectTransform>();role.gameObject.SetActive(id!="B" && !unavailable);
-                role.anchoredPosition=new Vector2(width/2-25,-98);role.sizeDelta=new Vector2(16,16);
-                var roleSymbol=role.Find("Role symbol").GetComponent<RectTransform>();roleSymbol.anchoredPosition=new Vector2(1,-1);roleSymbol.sizeDelta=new Vector2(14,14);
-                ReferenceText(card.Find("Role meaning").GetComponent<Text>(),unavailable || id=="B"?4:width/2-4,97,unavailable?width-8:id=="B"?width-20:32,20,11,TextAnchor.MiddleCenter);
+                var role=card.Find("Core role").GetComponent<RectTransform>();role.gameObject.SetActive(!unavailable);
+                role.anchoredPosition=new Vector2(width-27,-9);role.sizeDelta=new Vector2(18,18);
+                var roleSymbol=role.Find("Role symbol").GetComponent<RectTransform>();roleSymbol.anchoredPosition=Vector2.zero;roleSymbol.sizeDelta=new Vector2(18,18);
+                ReferenceText(cardValues[id],7,99,width-14,15,11,TextAnchor.MiddleLeft);cardValues[id].fontStyle=FontStyle.Bold;
+                var track=card.Find("Health track").GetComponent<RectTransform>();
+                track.anchoredPosition=new Vector2(7,-115);track.sizeDelta=new Vector2(width-14,7);
+                var maxHp=RogueTactics.Core.G1.Fixture.Baseline().Find(id).MaxHp;
+                var shownHp=hp.TryGetValue(id,out var displayedHp)?displayedHp:maxHp;
+                cardHealth[id].rectTransform.anchoredPosition=new Vector2(7,-115);
+                cardHealth[id].rectTransform.sizeDelta=new Vector2((width-14)*shownHp/maxHp,7);
+                // Low actual HP reads warm; the bar still only mirrors Core health.
+                cardHealth[id].color=shownHp*100<=maxHp*35?new Color(1,.45f,.36f):new Color(.34f,.94f,.49f);
+                ReferenceText(card.Find("Role meaning").GetComponent<Text>(),4,123,id=="B" && !unavailable?width-20:width-8,19,11,TextAnchor.MiddleCenter);
                 if(id=="B")
                 {
-                    card.Find("Policy row").GetComponent<RectTransform>().sizeDelta=new Vector2(width-8,20);
-                    card.Find("Policy disclosure").GetComponent<RectTransform>().anchoredPosition=new Vector2(width-17,-101);
+                    var policyRow=card.Find("Policy row").GetComponent<RectTransform>();policyRow.anchoredPosition=new Vector2(4,-123);policyRow.sizeDelta=new Vector2(width-8,19);
+                    card.Find("Policy disclosure").GetComponent<RectTransform>().anchoredPosition=new Vector2(width-17,-127);
                 }
-                var track=card.Find("Health track").GetComponent<RectTransform>();
-                track.anchoredPosition=new Vector2(8,-119);track.sizeDelta=new Vector2(width-16,6);
-                cardHealth[id].rectTransform.anchoredPosition=new Vector2(8,-119);
-                var maxHp=RogueTactics.Core.G1.Fixture.Baseline().Find(id).MaxHp;
-                cardHealth[id].rectTransform.sizeDelta=new Vector2((width-16)*(hp.TryGetValue(id,out var displayedHp)?displayedHp:maxHp)/maxHp,6);
-                ReferenceText(cardValues[id],4,127,width-8,17,11,TextAnchor.MiddleCenter);
             }
             eventCaption.alignment=TextAnchor.MiddleLeft;
             ReferenceText(headline,18,8,w-56,36,20,TextAnchor.MiddleLeft);
@@ -100,7 +105,8 @@ namespace RogueTactics.Presentation
                 ReferenceText(discoveredStatus,8,24,108,20,11,TextAnchor.MiddleLeft);
                 floorMini.rectTransform.anchoredPosition=new Vector2(8,-44);floorMini.rectTransform.sizeDelta=new Vector2(108,70);
                 var search=buttons["Map"].GetComponent<RectTransform>();search.anchoredPosition=new Vector2(76,-74);
-                orderStrip.anchoredPosition=(Vector2)Field.InverseTransformPoint(SafeRoot.TransformPoint(new Vector3(12,-232,0)));
+                // Initiative sits in the sky gap beside the map, clear of the board and the floor column.
+                orderStrip.anchoredPosition=(Vector2)Field.InverseTransformPoint(SafeRoot.TransformPoint(new Vector3(142,-96,0)));
                 PositionReferenceAction("Explore",12,h-268,w-24,"この先の遺跡を探索する");
             }
         }

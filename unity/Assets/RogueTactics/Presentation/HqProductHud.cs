@@ -14,7 +14,6 @@ namespace RogueTactics.Presentation
         private readonly Dictionary<string,Text> cardValues=new Dictionary<string,Text>();
         private readonly Dictionary<string,Image> cardHealth=new Dictionary<string,Image>();
         private readonly Dictionary<string,Image> orderFrames=new Dictionary<string,Image>();
-        private readonly List<string> initiative=new List<string>();
         private string shownActor="", reaction="";
         private Text orderLabel;
         private bool reducedEffects;
@@ -31,17 +30,11 @@ namespace RogueTactics.Presentation
             policyHeading=Label(setup,"Policy owner","モモにどう動いてほしい？",18,8,270,30,15);
             MakeButton(setup,"ClosePolicy","閉じる",302,0,76,44,()=>{Prediction.DeactivateInputField();policyEditing=false;SetComparisonCamera(CameraPitch);},12);
             eventBackdrop=Rect(battleControls,"Event contrast",12,0,246,48).gameObject.AddComponent<Image>();eventBackdrop.color=new Color(.035f,.08f,.11f,.86f);eventBackdrop.raycastTarget=false;eventBackdrop.transform.SetAsFirstSibling();
-            // Derive the regular fixture order from Core-authored Action events. No action plans/results are shown here.
-            var probe=new Replay(Fixture.Baseline(),Preference.ProtectAnchor);
-            for(var i=0;i<6;i++)
-            {
-                var step=probe.Advance();var actor=step.Events.First(e=>e.Kind==EventKind.Action).Actor;
-                if(!initiative.Contains(actor))initiative.Add(actor);
-            }
             orderStrip=Rect(Field,"Discrete actor order",8,8,374,49);
             var orderBackdrop=orderStrip.gameObject.AddComponent<Image>();orderBackdrop.color=new Color(.035f,.09f,.13f,.96f);orderBackdrop.raycastTarget=false;
             orderLabel=Label(orderStrip,"Order caption","行動順",0,0,53,20,12);
-            foreach(var id in initiative)
+            // One tile per actor; the order shown is read from the current encounter's Core state on refresh.
+            foreach(var id in Fixture.Baseline().Initiative)
             {
                 var r=Rect(orderStrip,"Order "+id,0,17,57,30);var frame=r.gameObject.AddComponent<Image>();frame.color=new Color(.06f,.14f,.19f,.9f);frame.raycastTarget=false;orderFrames[id]=frame;
                 if(id.Length==1 && id[0]>='A' && id[0]<='D'){var icon=Rect(r,"Actor portrait",0,0,24,28).gameObject.AddComponent<RawImage>();icon.texture=CharacterArt[id[0]-'A'];icon.uvRect=new Rect(.18f,.43f,.64f,.5f);icon.raycastTarget=false;}
@@ -153,7 +146,8 @@ namespace RogueTactics.Presentation
             {var u=Fixture.Baseline().Find(id);cardValues[id].text="HP "+hp[id]+" / "+u.MaxHp;cardHealth[id].rectTransform.sizeDelta=new Vector2(74f*hp[id]/u.MaxHp,2);}
             cardValues["B"].transform.parent.Find("Name").GetComponent<Text>().text=Session.Preference==Preference.ProtectAnchor?"モモ：守る":"モモ：攻める";
             orderStrip.gameObject.SetActive(active && !terminalSeen);
-            var start=initiative.IndexOf(shownActor);if(start<0)start=0;var slot=0;
+            var initiative=Session.Replay.State.Initiative;
+            var start=initiative.ToList().IndexOf(shownActor);if(start<0)start=0;var slot=0;
             for(var i=0;i<initiative.Count;i++)
             {
                 var id=initiative[(start+i)%initiative.Count];var f=orderFrames[id];f.gameObject.SetActive(!dead.Contains(id));if(dead.Contains(id))continue;

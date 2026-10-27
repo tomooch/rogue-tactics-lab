@@ -100,6 +100,12 @@ namespace RogueTactics.Tests
             Assert.That(view.CrisisAllies,Does.Contain("A"));
             var intents=Object.FindObjectsByType<MobileRouteGraphic>(FindObjectsSortMode.None).Count(g=>g.name.StartsWith("Round intent") && g.gameObject.activeInHierarchy);
             Assert.That(intents,Is.GreaterThanOrEqualTo(3),"A round of present intents is visible while stopped");
+            // The initiative strip follows this encounter's Core order (it once kept the frozen G1 order).
+            var core=view.Session.Replay.State.Initiative.Where(id=>view.Session.Replay.State.Find(id).Alive).ToList();
+            var shown=view.Field.Find("Discrete actor order").Cast<Transform>().Where(t=>t.name.StartsWith("Order ") && t.name.Length==7 && t.gameObject.activeSelf)
+                .OrderBy(t=>t.GetComponent<RectTransform>().anchoredPosition.x).Select(t=>t.name.Substring(6)).ToList();
+            var first=core.IndexOf(shown[0]);
+            Assert.That(shown,Is.EqualTo(core.Skip(first).Concat(core.Take(first)).ToList()),"Initiative strip shows the encounter's own Core order");
             yield return Capture("gauntlet-"+(index+1)+"-crisis");
             Press(view,"Correct");Assert.That(view.Session.Replay.CorrectionsLeft,Is.EqualTo(0));
             yield return WaitBattle(view,false);
