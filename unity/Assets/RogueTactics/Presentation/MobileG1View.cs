@@ -67,6 +67,8 @@ namespace RogueTactics.Presentation
         private int shownStep;
         private float floatUntil;
         private const float Cell=2.5f, DepthSpacing=1.25f;
+        // Visible world width in HQ: closer than the whole floor so the cast reads at reference scale.
+        private const float HqFieldWidth=16f;
         private static Vector3 World(GridPosition p,float y=0)=>new Vector3(p.X*Cell,y,p.Y*Cell*DepthSpacing);
         private static readonly Color Ink=new Color(.93f,.94f,.88f), Gold=new Color(.96f,.79f,.40f), Jade=new Color(.35f,.85f,.76f);
         public Button Button(string id) => buttons[id];
@@ -156,7 +158,7 @@ namespace RogueTactics.Presentation
             ResizeButton("Compare",12,193,w-24);ResizeButton("Close",18,modalH-58,w-56);ResizeButton("Details",w-68,6,56);
             buttons["Close"].GetComponent<RectTransform>().anchoredPosition=new Vector2(18,-(modalH-58));
             LayoutProductHud(w,h,fieldH);
-            FieldCamera.aspect=Field.rect.width/Field.rect.height;if(HqWorld)FieldCamera.orthographicSize=9.375f/FieldCamera.aspect;if(skyBackdrop!=null)skyBackdrop.localScale=new Vector3(FieldCamera.orthographicSize*2*FieldCamera.aspect,FieldCamera.orthographicSize*2,1);
+            FieldCamera.aspect=Field.rect.width/Field.rect.height;if(HqWorld)FieldCamera.orthographicSize=HqFieldWidth/2/FieldCamera.aspect;if(skyBackdrop!=null)skyBackdrop.localScale=new Vector3(FieldCamera.orthographicSize*2*FieldCamera.aspect,FieldCamera.orthographicSize*2,1);
             if(hp.Count>0)Refresh();
         }
         public void SetTestSafeArea(Rect area,int width,int height) {testViewport=true;ApplySafeArea(area,width,height);}
@@ -199,7 +201,8 @@ namespace RogueTactics.Presentation
             // Same-camera Unity A/B showed the HQ post-process path dulling approved
             // sprites and sky. Keep their unprocessed sampling; retain local contact light.
             FieldCamera.GetUniversalAdditionalCameraData().renderPostProcessing=!HqWorld;
-            fieldTarget=new RenderTexture(780,1040,24){antiAliasing=4,name="Mobile dungeon actual render"};FieldCamera.targetTexture=fieldTarget;
+            // 2x the 390x844 reference in both axes so sprites are not stretched vertically.
+            fieldTarget=new RenderTexture(780,1688,24){antiAliasing=4,name="Mobile dungeon actual render"};FieldCamera.targetTexture=fieldTarget;
             FieldCamera.GetUniversalAdditionalCameraData().requiresDepthTexture=true;
             if(!HqWorld)
             {

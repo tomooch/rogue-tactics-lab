@@ -30,6 +30,9 @@ namespace RogueTactics.Presentation
             b.targetGraphic=Frame(b.GetComponent<RectTransform>(),new Color(.035f,.085f,.13f,.96f),accent,10);
             Glyph(b.transform,"Action symbol",symbol,10,13,22,accent);
         }
+        // The one forward action on screen reads as a warm, filled call to action.
+        private void PrimaryFill(string id)
+        {var panel=buttons[id].GetComponentInChildren<HudPanelGraphic>();panel.Fill=new Color(.36f,.23f,.06f,.97f);panel.Border=new Color(1,.84f,.46f);panel.SetVerticesDirty();}
         private void BuildReferenceHud()
         {
             if(!HqWorld)return;
@@ -63,6 +66,8 @@ namespace RogueTactics.Presentation
                 Glyph(role,"Role symbol",i==0?HudSymbol.Counter:i==1?HudSymbol.Heal:i==2?HudSymbol.Swords:HudSymbol.Shield,4,4,17,CompanionColors[i]);
                 Label(r,"Role meaning",CoreRoles[i],2,82,80,16,9,TextAnchor.MiddleCenter).color=Color.Lerp(CompanionColors[i],Color.white,.28f);
                 cardHealth[id].color=new Color(.34f,.94f,.49f);
+                var gloss=Rect(cardHealth[id].transform,"Health gloss",0,0,1,1);gloss.anchorMin=new Vector2(0,.5f);gloss.anchorMax=Vector2.one;gloss.offsetMin=gloss.offsetMax=Vector2.zero;
+                var shine=gloss.gameObject.AddComponent<Image>();shine.color=new Color(1,1,1,.30f);shine.raycastTarget=false;
                 if(id=="B")
                 {
                     var policyRow=Rect(r,"Policy row",4,97,78,20);
@@ -72,7 +77,7 @@ namespace RogueTactics.Presentation
                 }
             }
             StyleReferenceButton("Details",HudSymbol.Book,new Color(.70f,.80f,.94f));
-            StyleReferenceButton("Start",HudSymbol.Play,Gold);StyleReferenceButton("Play",HudSymbol.Pause,Gold);
+            StyleReferenceButton("Start",HudSymbol.Play,Gold);PrimaryFill("Start");StyleReferenceButton("Play",HudSymbol.Pause,Gold);
             StyleReferenceButton("Reset",HudSymbol.Reset,new Color(.62f,.74f,.84f));StyleReferenceButton("Compare",HudSymbol.Compare,Gold);
             StyleReferenceButton("Protect",HudSymbol.Shield,new Color(.48f,.83f,1));StyleReferenceButton("Attack",HudSymbol.Swords,new Color(1,.60f,.48f));
             MakeButton(controls,"PolicyShortcut","モモの方針",12,0,160,48,()=>{if(!Session.Started){policyEditing=true;SetComparisonCamera(CameraPitch);}},14);
@@ -204,7 +209,7 @@ namespace RogueTactics.Presentation
             MakeButton(map,"Map","",64,52,44,44,OpenKnownMap,10);StyleReferenceButton("Map",HudSymbol.Search,new Color(.43f,.79f,1));
             var smallFrame=buttons["Map"].transform.Find("Illustrated frame").GetComponent<RectTransform>();smallFrame.anchorMin=smallFrame.anchorMax=new Vector2(0,1);smallFrame.pivot=new Vector2(0,1);smallFrame.anchoredPosition=new Vector2(7,-7);smallFrame.sizeDelta=new Vector2(30,30);
             var search=buttons["Map"].transform.Find("Action symbol").GetComponent<RectTransform>();search.anchoredPosition=new Vector2(11,-11);
-            StyleReferenceButton("Explore",HudSymbol.Steps,Gold);
+            StyleReferenceButton("Explore",HudSymbol.Steps,Gold);PrimaryFill("Explore");
         }
         private void SetTransportSymbol(bool paused)
         {
@@ -276,17 +281,32 @@ namespace RogueTactics.Presentation
         public Color Fill,Border,TopFill;public float Radius=10;public bool PortraitSurface;
         protected override void OnPopulateMesh(VertexHelper vh)
         {
-            vh.Clear();var r=rectTransform.rect;var radius=Mathf.Min(Radius,Mathf.Min(r.width,r.height)/2);var n=32;
-            for(var ring=0;ring<2;ring++)for(var i=0;i<n;i++)
+            vh.Clear();var r=rectTransform.rect;var radius=Mathf.Min(Radius,Mathf.Min(r.width,r.height)/2);const int n=32;
+            Vector2 Ring(int i,float inset)
             {
                 var corner=i/8;var angle=(corner*90+i%8*90f/7)*Mathf.Deg2Rad;
                 var cx=corner==0 || corner==3?r.xMax-radius:r.xMin+radius;var cy=corner<2?r.yMax-radius:r.yMin+radius;
-                var d=ring==0?0:1.3f;var at=new Vector2(cx,cy)+new Vector2(Mathf.Cos(angle),Mathf.Sin(angle))*(radius-d);
-                var fill=PortraitSurface?Color.Lerp(Fill,TopFill,Mathf.InverseLerp(r.yMin+r.height*.35f,r.yMax,at.y)):Fill;
-                vh.AddVert(at,ring==0?Border:fill,Vector2.zero);
+                return new Vector2(cx,cy)+new Vector2(Mathf.Cos(angle),Mathf.Sin(angle))*(radius-inset);
             }
-            var center=vh.currentVertCount;vh.AddVert(r.center,Fill,Vector2.zero);
-            for(var i=0;i<n;i++){var j=(i+1)%n;vh.AddTriangle(i,j,n+i);vh.AddTriangle(j,n+j,n+i);vh.AddTriangle(center,n+i,n+j);}
+            Color Surface(Vector2 at)
+            {
+                if(PortraitSurface)return Color.Lerp(Fill,TopFill,Mathf.InverseLerp(r.yMin+r.height*.35f,r.yMax,at.y));
+                var lit=Color.Lerp(Fill,Color.white,.08f);lit.a=Fill.a;return Color.Lerp(Fill,lit,Mathf.InverseLerp(r.yMin,r.yMax,at.y));
+            }
+            // Soft drop shadow outside the rect, then border band, then lit surface. Hit rect is unchanged.
+            var drop=new Vector2(0,-2);var shadow=new Color(0,.01f,.03f,.34f*Fill.a);var clear=new Color(0,.01f,.03f,0);
+            for(var i=0;i<n;i++)vh.AddVert(Ring(i,-4)+drop,clear,Vector2.zero);
+            for(var i=0;i<n;i++)vh.AddVert(Ring(i,0)+drop,shadow,Vector2.zero);
+            for(var i=0;i<n;i++)vh.AddVert(Ring(i,0),Border,Vector2.zero);
+            for(var i=0;i<n;i++){var at=Ring(i,1.8f);vh.AddVert(at,Surface(at),Vector2.zero);}
+            var center=vh.currentVertCount;vh.AddVert(r.center,Surface(r.center),Vector2.zero);
+            for(var i=0;i<n;i++)
+            {
+                var j=(i+1)%n;
+                vh.AddTriangle(i,j,n+i);vh.AddTriangle(j,n+j,n+i);
+                vh.AddTriangle(2*n+i,2*n+j,3*n+i);vh.AddTriangle(2*n+j,3*n+j,3*n+i);
+                vh.AddTriangle(center,3*n+i,3*n+j);
+            }
         }
     }
     [RequireComponent(typeof(CanvasRenderer))]
