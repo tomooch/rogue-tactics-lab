@@ -60,7 +60,8 @@ namespace RogueTactics.Presentation
             traveller?.Cancel();traveller=null;IsExploring=false;visualTweenActive=false;
             TravelSelection=null;if(selectedFloorMarker!=null)selectedFloorMarker.gameObject.SetActive(false);
             if(eventBackdrop!=null){eventBackdrop.rectTransform.anchoredPosition=new Vector2(12,0);eventBackdrop.rectTransform.sizeDelta=new Vector2(SafeRoot.rect.width-140,48);}
-            if(floorMap!=null)
+            // A later gauntlet retry keeps the floor the party has already uncovered.
+            if(floorMap!=null && Session.EncounterIndex==0)
             {
                 displayedKnown=new HashSet<GridPosition>(new FloorTraveller(floorMap,Fixture.Baseline().Units).KnownCells);
                 floorScenery.Reveal(floorMap,displayedKnown);
@@ -70,11 +71,13 @@ namespace RogueTactics.Presentation
         public void BeginExploration()
         {
             if(!ExplorationEnabled || IsExploring || Busy || !terminalSeen || Session.Replay.State.Outcome!=Outcome.Victory)return;
-            traveller=new FloorTraveller(floorMap,Session.Replay.State.Units);
+            traveller=new FloorTraveller(floorMap,Session.Replay.State.Units,battleOrigin);
             // This handoff uses the exact post-fight positions/HP/survivors. No formation
             // reset, revival, separate scene, or camera cut at the exploration boundary.
             IsExploring=true;Auto=false;Paused=false;modalObject.SetActive(false);ClearRelation();
             cameraFromParty=FieldCamera.transform.position-PartyCenter();travelMessage="見えている床・通路を選ぶ";
+            // After a later encounter the party may stand at a board edge: frame them from the board's own offset.
+            if(Session.EncounterIndex>0)cameraFromParty=FieldCamera.transform.position-World(Shown(new GridPosition(2,2)));
             SyncDiscoveredTerrain();Refresh();
         }
         private Vector3 PartyCenter()
@@ -138,7 +141,8 @@ namespace RogueTactics.Presentation
             if(!ExplorationEnabled || floorMini==null)return;
             if(IsExploring)
             {
-                FieldCamera.transform.position=PartyCenter()+cameraFromParty;
+                var follow=PartyCenter()+cameraFromParty;
+                FieldCamera.transform.position=Session.EncounterIndex>0?Vector3.Lerp(FieldCamera.transform.position,follow,1-Mathf.Exp(-Time.deltaTime*5)):follow;
                 RefreshActors();
             }
             floorMini.SetParty(positions.Where(p=>!dead.Contains(p.Key)));

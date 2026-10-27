@@ -17,6 +17,13 @@ namespace RogueTactics.Core.Exploration
         public bool Contains(GridPosition p)=>p.X>=X && p.Y>=Y && p.X<X+Width && p.Y<Y+Height;
         public GridPosition Center=>new GridPosition(X+Width/2,Y+Height/2);
     }
+    // Where each gauntlet encounter's 5x5 board sits on the floor. Encounter 0 is the G1 board at the origin.
+    public static class GauntletRooms
+    {
+        public static readonly int[] Room={0,1,2};
+        public static GridPosition Origin(FloorMap map,int encounter)
+        {var r=map.Rooms[Room[encounter]];return encounter==0?new GridPosition(0,0):new GridPosition(r.X+(r.Width-5)/2,r.Y+(r.Height-5)/2);}
+    }
 
     // A deterministic exploration experiment, independent of the frozen G1 fixture.
     public sealed class FloorMap
@@ -91,11 +98,13 @@ namespace RogueTactics.Core.Exploration
         public bool Moving { get; private set; }
         public bool Paused { get; private set; }
         public TravelStop Stop { get; private set; }
-        public FloorTraveller(FloorMap map,IEnumerable<Unit> survivors)
+        public FloorTraveller(FloorMap map,IEnumerable<Unit> survivors):this(map,survivors,new GridPosition(0,0)){}
+        // origin places a 5x5 encounter board inside its floor room.
+        public FloorTraveller(FloorMap map,IEnumerable<Unit> survivors,GridPosition origin)
         {
             Map=map??throw new ArgumentNullException(nameof(map));
             foreach(var unit in survivors.Where(u=>!u.Enemy && u.Alive).OrderBy(u=>u.Id,StringComparer.Ordinal))
-            {if(!map.Walkable(unit.Position) || party.ContainsValue(unit.Position))throw new ArgumentException("Invalid floor handoff");party.Add(unit.Id,unit.Position);health.Add(unit.Id,unit.Hp);}
+            {var at=unit.Position.Offset(origin.X,origin.Y);if(!map.Walkable(at) || party.ContainsValue(at))throw new ArgumentException("Invalid floor handoff");party.Add(unit.Id,at);health.Add(unit.Id,unit.Hp);}
             if(party.Count==0)throw new ArgumentException("No living explorers");Reveal();
         }
         private void Reveal()

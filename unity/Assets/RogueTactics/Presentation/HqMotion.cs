@@ -15,7 +15,7 @@ namespace RogueTactics.Presentation
             {
                 Display(e);Refresh();
                 actionLink.gameObject.SetActive(false);ghost.gameObject.SetActive(false);
-                var target=executingPlan.Kind==ActionKind.Move?executingPlan.Destination:executingPlan.Target!=""?positions[executingPlan.Target]:positions[e.Actor];
+                var target=executingPlan.Kind==ActionKind.Move?Shown(executingPlan.Destination):executingPlan.Target!=""?positions[executingPlan.Target]:positions[e.Actor];
                 if(executingPlan.Kind==ActionKind.Move)
                 {actionLink.gameObject.SetActive(true);Link(actionLink,positions[e.Actor],target);}
                 var route=actionLink.GetComponent<MobileRouteGraphic>();route.Progress=0;
@@ -34,7 +34,7 @@ namespace RogueTactics.Presentation
                 {
                     elapsedMotion+=Time.unscaledDeltaTime;var t=Mathf.Clamp01(elapsedMotion/duration);var pulse=Mathf.Sin(t*Mathf.PI);
                     if(e.Kind==EventKind.Move && hasActor)
-                    {var destination=World(e.Position);actor.position=Vector3.Lerp(original,destination,t*t*(3-2*t))+Vector3.up*(pulse*.16f);}
+                    {var destination=World(Shown(e.Position));actor.position=Vector3.Lerp(original,destination,t*t*(3-2*t))+Vector3.up*(pulse*.16f);}
                     if((e.Kind==EventKind.Damage || e.Kind==EventKind.Counter) && hasActor && hasTarget)
                     {
                         actor.position=original+(targetPosition-original).normalized*(pulse*.12f);

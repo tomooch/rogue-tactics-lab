@@ -1,0 +1,79 @@
+using System.Linq;
+using NUnit.Framework;
+using RogueTactics.Core;
+using RogueTactics.Core.Exploration;
+using RogueTactics.Core.G1;
+
+namespace RogueTactics.Tests
+{
+    public class GauntletCoreTests
+    {
+        private static Replay Play(int encounter,Preference preference,bool correctAtFirstCrisis)
+        {
+            var replay=new Replay(Fixture.Encounter(encounter),preference);
+            while(replay.State.Outcome==Outcome.Active)
+            {
+                if(correctAtFirstCrisis && replay.CorrectionsLeft>0 && Rules.Threatened(replay.State,new Command(replay.Preference)).Count>0)
+                    replay.Correct(replay.Preference==Preference.ProtectAnchor?Preference.DirectAttack:Preference.ProtectAnchor);
+                replay.Advance();
+            }
+            return replay;
+        }
+        private static int Survivors(Replay r)=>r.State.Units.Count(u=>!u.Enemy && u.Alive);
+
+        [Test]
+        public void EncounterZeroIsTheFrozenG1FixtureAndHashes()
+        {
+            Assert.That(Fixture.Encounter(0).Serialize(),Is.EqualTo(Fixture.Baseline().Serialize()));
+            Assert.That(Play(0,Preference.ProtectAnchor,false).Hash(),Is.EqualTo("e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d"));
+            Assert.That(Play(0,Preference.DirectAttack,false).Hash(),Is.EqualTo("85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e"));
+        }
+        [Test]
+        public void SecondEncounterPunishesOnlyProtectingAndAllowsACrisisRecovery()
+        {
+            Assert.That(Survivors(Play(1,Preference.ProtectAnchor,false)),Is.EqualTo(3),"Protecting alone lets Shiro fall");
+            Assert.That(Survivors(Play(1,Preference.DirectAttack,false)),Is.EqualTo(4));
+            var recovered=Play(1,Preference.ProtectAnchor,true);
+            Assert.That(recovered.State.Outcome,Is.EqualTo(Outcome.Victory));Assert.That(Survivors(recovered),Is.EqualTo(4));
+        }
+        [Test]
+        public void ThirdEncounterNeedsTheRightCorrectionAtTheCrisis()
+        {
+            Assert.That(Survivors(Play(2,Preference.ProtectAnchor,false)),Is.LessThan(4));
+            Assert.That(Survivors(Play(2,Preference.DirectAttack,false)),Is.LessThan(4));
+            Assert.That(Survivors(Play(2,Preference.ProtectAnchor,true)),Is.LessThan(4),"The opposite correction does not save the party");
+            var saved=Play(2,Preference.DirectAttack,true);
+            Assert.That(saved.State.Outcome,Is.EqualTo(Outcome.Victory));Assert.That(Survivors(saved),Is.EqualTo(4));
+        }
+        [Test]
+        public void CorrectionIsSingleRecordedAndDeterministic()
+        {
+            var a=Play(2,Preference.DirectAttack,true);var b=Play(2,Preference.DirectAttack,true);
+            Assert.That(a.Hash(),Is.EqualTo(b.Hash()));Assert.That(a.CorrectionsLeft,Is.EqualTo(0));
+            Assert.That(a.Serialize(),Does.Contain(";0;"),"Commands after the correction record the new preference");
+            Assert.Throws<System.InvalidOperationException>(()=>{var r=new Replay(Fixture.Encounter(2),Preference.DirectAttack);r.Correct(Preference.ProtectAnchor);r.Correct(Preference.DirectAttack);});
+            Assert.That(Play(2,Preference.DirectAttack,false).Hash(),Is.Not.EqualTo(a.Hash()));
+        }
+        [Test]
+        public void IntentsAndThreatsAreReadOnlyQueries()
+        {
+            var state=Fixture.Encounter(2);var before=state.Serialize();
+            var intents=Rules.Intents(state,new Command(Preference.DirectAttack));
+            Assert.That(intents.Select(p=>p.Actor),Is.EqualTo(state.Initiative.ToArray()),"Every living actor, in acting order");
+            Assert.That(intents[0].Serialize(),Is.EqualTo(Rules.Preview(state,new Command(Preference.DirectAttack)).Serialize()));
+            Rules.Threatened(state,new Command(Preference.DirectAttack));
+            Assert.That(state.Serialize(),Is.EqualTo(before));
+        }
+        [Test]
+        public void GauntletBoardsSitInsideTheirFloorRooms()
+        {
+            var map=new FloorMap();
+            for(var i=0;i<Fixture.EncounterCount;i++)
+            {
+                var origin=GauntletRooms.Origin(map,i);
+                foreach(var u in Fixture.Encounter(i).Units)Assert.That(map.Walkable(u.Position.Offset(origin.X,origin.Y)),Is.True,"Encounter "+i+" "+u.Id);
+                if(i>0)Assert.That(Fixture.Encounter(i).Units.All(u=>map.RoomAt(u.Position.Offset(origin.X,origin.Y))==GauntletRooms.Room[i]),Is.True);
+            }
+        }
+    }
+}

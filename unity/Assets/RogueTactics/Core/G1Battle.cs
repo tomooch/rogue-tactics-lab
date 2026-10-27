@@ -40,19 +40,25 @@ namespace RogueTactics.Core.G1
         public int HealCharges { get; internal set; } = 2;
         public bool Guard { get; internal set; }
         public Outcome Outcome { get; internal set; }
-        public EncounterState(int width, int height, IEnumerable<Unit> source)
+        private readonly string[] initiative;
+        public IReadOnlyList<string> Initiative => Array.AsReadOnly(initiative);
+        public EncounterState(int width, int height, IEnumerable<Unit> source) : this(width, height, source, Fixture.Initiative) {}
+        public EncounterState(int width, int height, IEnumerable<Unit> source, IEnumerable<string> order)
         {
-            Width = width; Height = height; units = source.Select(u => u.Copy()).ToArray();
+            Width = width; Height = height; units = source.Select(u => u.Copy()).ToArray(); initiative = order.ToArray();
             if (width < 1 || height < 1 || units.Select(u => u.Id).Distinct().Count() != units.Length ||
                 units.Any(u => u.Hp <= 0 || u.Attack < 0 || !Inside(u.Position)) ||
-                units.Select(u => u.Position).Distinct().Count() != units.Length)
+                units.Select(u => u.Position).Distinct().Count() != units.Length ||
+                // A supplied order must name exactly these actors; the implied G1 order keeps its old leniency.
+                (!ReferenceEquals(order, Fixture.Initiative) && (initiative.Length != units.Length ||
+                 !initiative.OrderBy(i => i, StringComparer.Ordinal).SequenceEqual(units.Select(u => u.Id).OrderBy(i => i, StringComparer.Ordinal)))))
                 throw new ArgumentException("Invalid encounter fixture");
         }
         public Unit Find(string id) => units.FirstOrDefault(u => u.Id == id);
         public bool Inside(GridPosition p) => p.X >= 0 && p.Y >= 0 && p.X < Width && p.Y < Height;
         public bool Empty(GridPosition p) => Inside(p) && !units.Any(u => u.Alive && u.Position.Equals(p));
         private EncounterState(EncounterState source)
-        { Width = source.Width; Height = source.Height; units = source.units.Select(u => u.Copy()).ToArray();
+        { Width = source.Width; Height = source.Height; units = source.units.Select(u => u.Copy()).ToArray(); initiative = source.initiative;
           Step = source.Step; Cursor = source.Cursor; HealCharges = source.HealCharges; Guard = source.Guard; Outcome = source.Outcome; }
         public EncounterState Copy() => new EncounterState(this);
         public string Serialize()
@@ -61,6 +67,8 @@ namespace RogueTactics.Core.G1
             b.AppendFormat(CultureInfo.InvariantCulture, "g1-v1|{0},{1}|{2},{3},{4},{5},{6}", Width, Height, Step, Cursor, HealCharges, Guard ? 1 : 0, (int)Outcome);
             foreach (var u in units)
                 b.AppendFormat(CultureInfo.InvariantCulture, "|{0},{1},{2},{3},{4},{5},{6}", u.Id, (int)u.Role, u.MaxHp, u.Hp, u.Attack, u.Position.X, u.Position.Y);
+            // The frozen G1 order is implied, which keeps existing G1 serializations and hashes byte-identical.
+            if (!initiative.SequenceEqual(Fixture.Initiative)) b.Append("|order:").Append(string.Join(",", initiative));
             return b.ToString();
         }
     }
@@ -117,6 +125,32 @@ namespace RogueTactics.Core.G1
             new Unit("D", Role.Support, 10, 2, new GridPosition(1,1)),
             new Unit("X", Role.Enemy, 18, 6, new GridPosition(2,3)),
             new Unit("Y", Role.Enemy, 14, 5, new GridPosition(3,2)) });
+        // Gauntlet experiment: the same four allies meet differently placed guardians.
+        // Encounter 0 is the frozen G1 fixture. Later layouts were chosen so that neither
+        // preference is always right (see VERIFICATION). Allies always start at full HP.
+        public static EncounterState Encounter(int index)
+        {
+            switch (index)
+            {
+                case 0: return Baseline();
+                case 1: return new EncounterState(5, 5, new[] {
+                    new Unit("A", Role.Anchor, 18, 5, new GridPosition(4,4)),
+                    new Unit("B", Role.Protector, 16, 4, new GridPosition(2,1)),
+                    new Unit("C", Role.Flanker, 12, 4, new GridPosition(1,0)),
+                    new Unit("D", Role.Support, 10, 2, new GridPosition(0,4)),
+                    new Unit("X", Role.Enemy, 15, 5, new GridPosition(1,3)),
+                    new Unit("Y", Role.Enemy, 11, 4, new GridPosition(2,3)) }, new[] { "B", "D", "Y", "X", "A", "C" });
+                case 2: return new EncounterState(5, 5, new[] {
+                    new Unit("A", Role.Anchor, 18, 5, new GridPosition(2,3)),
+                    new Unit("B", Role.Protector, 16, 4, new GridPosition(3,0)),
+                    new Unit("C", Role.Flanker, 12, 4, new GridPosition(4,3)),
+                    new Unit("D", Role.Support, 10, 2, new GridPosition(1,4)),
+                    new Unit("X", Role.Enemy, 18, 5, new GridPosition(2,1)),
+                    new Unit("Y", Role.Enemy, 22, 7, new GridPosition(0,2)) }, new[] { "Y", "D", "A", "X", "C", "B" });
+                default: throw new ArgumentOutOfRangeException(nameof(index));
+            }
+        }
+        public const int EncounterCount = 3;
     }
 
     public static class Rules
@@ -125,15 +159,43 @@ namespace RogueTactics.Core.G1
         public static int Distance(GridPosition a, GridPosition b) => Math.Abs(a.X-b.X) + Math.Abs(a.Y-b.Y);
         private static Unit Next(EncounterState s)
         {
-            for (var i = 0; i < Fixture.Initiative.Length; i++)
-            { var u = s.Find(Fixture.Initiative[(s.Cursor+i) % Fixture.Initiative.Length]); if (u != null && u.Alive) return u; }
+            var order = s.Initiative;
+            for (var i = 0; i < order.Count; i++)
+            { var u = s.Find(order[(s.Cursor+i) % order.Count]); if (u != null && u.Alive) return u; }
             return null;
         }
         public static Plan Preview(EncounterState s, Command command)
         {
             if (s.Outcome != Outcome.Active) return null;
             var actor = Next(s);
-            if (actor == null) return null;
+            return actor == null ? null : PlanFor(s, actor, command);
+        }
+        // Each living actor's present intention, in the order they will act from now.
+        // Every plan reads the current state only: it is what they mean to do now, not a simulated future.
+        public static IReadOnlyList<Plan> Intents(EncounterState s, Command command)
+        {
+            if (s.Outcome != Outcome.Active) return Array.Empty<Plan>();
+            var order = s.Initiative; var plans = new List<Plan>();
+            for (var i = 0; i < order.Count; i++)
+            { var u = s.Find(order[(s.Cursor+i) % order.Count]); if (u != null && u.Alive) plans.Add(PlanFor(s, u, command)); }
+            return plans.AsReadOnly();
+        }
+        // Allies whose current HP would be exhausted by the attacks enemies intend right now.
+        public static IReadOnlyList<string> Threatened(EncounterState s, Command command)
+        {
+            var incoming = new Dictionary<string,int>();
+            foreach (var p in Intents(s, command).Where(p => p.Kind == ActionKind.Attack))
+            {
+                var actor = s.Find(p.Actor); var target = s.Find(p.Target);
+                if (!actor.Enemy || target.Enemy) continue;
+                var protector = s.Find("B");
+                var guarded = target.Id == "A" && s.Guard && protector != null && protector.Alive && Distance(protector.Position, target.Position) == 1;
+                incoming[target.Id] = (incoming.TryGetValue(target.Id, out var sum) ? sum : 0) + Math.Max(0, actor.Attack - (guarded ? 3 : 0));
+            }
+            return s.Units.Where(u => !u.Enemy && u.Alive && incoming.TryGetValue(u.Id, out var n) && n >= u.Hp).Select(u => u.Id).ToList().AsReadOnly();
+        }
+        private static Plan PlanFor(EncounterState s, Unit actor, Command command)
+        {
             var a = s.Find("A");
             if (actor.Role == Role.Protector && command.Preference == Preference.ProtectAnchor && a != null && a.Alive)
             {
@@ -219,7 +281,7 @@ namespace RogueTactics.Core.G1
                         Hit(s,events,t,u,2,EventKind.Counter,"Living A counters a surviving adjacent hit");
                     break;
             }
-            s.Cursor = (Array.IndexOf(Fixture.Initiative,u.Id)+1) % Fixture.Initiative.Length;
+            s.Cursor = (s.Initiative.ToList().IndexOf(u.Id)+1) % s.Initiative.Count;
             if (!s.Units.Any(x=>x.Enemy && x.Alive)) s.Outcome = Outcome.Victory;
             else if (!s.Units.Any(x=>!x.Enemy && x.Alive)) s.Outcome = Outcome.Defeat;
             else if (s.Step >= ActionLimit) s.Outcome = Outcome.Limit;
@@ -237,13 +299,23 @@ namespace RogueTactics.Core.G1
     public sealed class Replay
     {
         public EncounterState State { get; private set; }
-        public Preference Preference { get; }
+        public Preference Preference { get; private set; }
+        public Preference InitialPreference { get; }
+        public int CorrectionsLeft { get; private set; } = 1;
         private readonly List<BattleEvent> events = new List<BattleEvent>();
         private readonly List<string> commands = new List<string>();
         private readonly string baseline;
         public IReadOnlyList<BattleEvent> Events => events.AsReadOnly();
         public Replay(EncounterState initial, Preference preference)
-        { State = initial.Copy(); baseline = initial.Serialize(); Preference = new Command(preference).Preference; }
+        { State = initial.Copy(); baseline = initial.Serialize(); InitialPreference = Preference = new Command(preference).Preference; }
+        // The encounter's single correction: B's preference for every following step. Explicit, recorded, never automatic.
+        public void Correct(Preference preference)
+        {
+            if (CorrectionsLeft < 1) throw new InvalidOperationException("Correction already used in this encounter");
+            if (State.Outcome != Outcome.Active) throw new InvalidOperationException("Encounter already resolved");
+            if (preference == Preference) throw new ArgumentException("Correction must change the preference");
+            Preference = new Command(preference).Preference; CorrectionsLeft--;
+        }
         public ResolvedStep Advance()
         {
             var step = Rules.Resolve(State,new Command(Preference)); State = step.State;
