@@ -87,7 +87,7 @@ namespace RogueTactics.Presentation
                 }
             }
             eventCaption.alignment=TextAnchor.MiddleLeft;
-            ReferenceText(headline,18,8,w-56,36,20,TextAnchor.MiddleLeft);
+            ReferenceText(headline,46,8,w-84,36,20,TextAnchor.MiddleLeft);
             policyHeading.alignment=TextAnchor.MiddleLeft;
             if(policyEditing)setup.anchoredPosition=new Vector2(0,320);
             foreach(var id in new[]{"Close","ClosePolicy","RecordUp","RecordDown"})

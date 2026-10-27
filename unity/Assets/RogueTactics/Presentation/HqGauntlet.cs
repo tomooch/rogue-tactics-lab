@@ -163,6 +163,7 @@ namespace RogueTactics.Presentation
                 resultTitle.text=won?"勝利！":"戦闘終了";resultTitle.rectTransform.sizeDelta=new Vector2(w-24-120,36);
                 resultDetail.text=(final?"3つの戦いを越えた・":"")+alive+"人が生還";resultDetail.rectTransform.sizeDelta=new Vector2(w-24-120,22);
             }
+            RefreshEventShelf();
             var pulse=1+.12f*Mathf.Sin(Time.unscaledTime*6);
             for(var i=0;i<crisisMarks.Count;i++)
             {

@@ -199,8 +199,23 @@ namespace RogueTactics.Presentation
                 foreach(var q in new[]{new Vector2(-1,-1),new Vector2(-1,1),new Vector2(1,1),new Vector2(1,-1)})helper.AddVert(center+q*extent,tint,Vector2.zero);
                 helper.AddTriangle(start,start+1,start+2);helper.AddTriangle(start,start+2,start+3);
             }
-            foreach(var p in known)Square(p,new Color(.56f,.65f,.66f),size*.46f);
-            foreach(var a in party.Where(p=>known.Contains(p.Value)))Square(a.Value,a.Key=="X" || a.Key=="Y"?new Color(.94f,.43f,.43f):new Color(.35f,.85f,1),size*.30f);
+            void Disc(GridPosition p,Color tint,float radius)
+            {
+                var center=origin+new Vector2(p.X-minX+.5f,p.Y-minY+.5f)*size;var start=helper.currentVertCount;helper.AddVert(center,tint,Vector2.zero);
+                for(var k=0;k<16;k++){var a=k*Mathf.PI/8;helper.AddVert(center+new Vector2(Mathf.Cos(a),Mathf.Sin(a))*radius,tint,Vector2.zero);}
+                for(var k=0;k<16;k++)helper.AddTriangle(start,start+1+k,start+1+(k+1)%16);
+            }
+            // Bevelled sunlit stone tiles over a dark joint; actors are rimmed glowing discs.
+            foreach(var p in known)Square(p,new Color(.24f,.25f,.27f),size*.5f);
+            foreach(var p in known)Square(p,new Color(.60f,.58f,.52f),size*.43f);
+            foreach(var p in known){var c=origin+new Vector2(p.X-minX+.5f,p.Y-minY+.62f)*size;var start=helper.currentVertCount;
+                foreach(var q in new[]{new Vector2(-.43f,-.3f),new Vector2(-.43f,.31f),new Vector2(.43f,.31f),new Vector2(.43f,-.3f)})helper.AddVert(c+q*size,new Color(.78f,.75f,.65f),Vector2.zero);
+                helper.AddTriangle(start,start+1,start+2);helper.AddTriangle(start,start+2,start+3);}
+            foreach(var a in party.Where(p=>known.Contains(p.Value)))
+            {
+                var enemy=a.Key=="X" || a.Key=="Y";var tint=enemy?new Color(1,.40f,.38f):new Color(.36f,.86f,1);
+                Disc(a.Value,new Color(tint.r,tint.g,tint.b,.35f),size*.62f);Disc(a.Value,new Color(.02f,.04f,.08f,.95f),size*.40f);Disc(a.Value,tint,size*.32f);
+            }
         }
     }
 }

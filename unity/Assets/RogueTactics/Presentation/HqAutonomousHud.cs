@@ -62,12 +62,12 @@ namespace RogueTactics.Presentation
                 modal.sizeDelta=new Vector2(w-20,height);modal.anchoredPosition=new Vector2(10,-(SafeRoot.rect.height-height)/2);
                 detailsViewport.sizeDelta=new Vector2(w-56,height-(RecordMemoVisible?258:180));
                 ResizeButton("Close",18,height-58,w-56);
-                ReferenceText(headline,18,8,canReview?w-192:w-56,36,20,TextAnchor.MiddleLeft);
+                ReferenceText(headline,46,8,canReview?w-220:w-84,36,20,TextAnchor.MiddleLeft);
             }
             if(record && showingResults)detailsViewport.sizeDelta=new Vector2(w-56,height-180);
             if(record && !showingResults && canReview)
             {
-                ReferenceText(headline,18,8,w-192,36,20,TextAnchor.MiddleLeft);
+                ReferenceText(headline,46,8,w-220,36,20,TextAnchor.MiddleLeft);
                 PositionReferenceAction("RecordCompare",w-172,6,134,"戦いの記録");
             }
             if(record && canReview)
@@ -144,7 +144,7 @@ namespace RogueTactics.Presentation
                     eventBackdrop.rectTransform.anchoredPosition=new Vector2(12,0);eventBackdrop.rectTransform.sizeDelta=new Vector2(moving?w-140:w-24,48);
                 }
             }
-            LayoutAutonomousJournal();
+            LayoutAutonomousJournal();RefreshEventShelf();
         }
         private void DescribeAutonomousRecord(bool trials)
         {

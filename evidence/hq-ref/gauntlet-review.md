@@ -85,3 +85,11 @@ Verification of this pass (Unity 6000.3.25f1, Local Mac, uncommitted tree on `d1
 - Foot HP bars: brighter fills with a gloss, same geometry.
 - Paving shader: broad warm/cool stone families and sparse clover specks inside moss.
 - Verification (Unity 6000.3.25f1, Local Mac): full suite **EditMode 27/27, PlayMode 13/14**; the one failure is the same pre-existing A/B whole-sprite overlap with identical rects. Gauntlet and reference captures reviewed. No Simulator, device or human play.
+
+## Sheets and shelf pass (2026-10-27, Human: "ui")
+
+- Sheets (record, map, settings, results): gem-marked heading (book / search / compare by sheet) over a thin gold rule; framed close button with a close gem; framed memo input; framed paging and settings controls. Developer mode keeps its plain heading.
+- Lower event shelf: a gem for the latest observed event kind (move, attack, counter, protect, heal, fall) beside the unchanged caption text.
+- Known map: bevelled warm stone tiles over dark joints; actors as rimmed glowing discs. Same known-only framing.
+- Title: bold with a soft shadow.
+- Verification (Unity 6000.3.25f1, Local Mac): full suite **EditMode 27/27, PlayMode 13/14**; the one failure is the same pre-existing whole-sprite overlap with identical rects. Exploration and gauntlet captures reviewed (record, map, settings, policy, paused shelf, crisis). No Simulator, device or human play.

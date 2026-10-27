@@ -31,6 +31,36 @@ namespace RogueTactics.Presentation
             Glyph(b.transform,"Action symbol",symbol,13,14,20,accent,true);
         }
         // The one forward action on screen reads as a warm, filled call to action.
+        private void FrameButton(string id,Color accent)
+        {var b=buttons[id];b.GetComponent<Image>().color=Color.clear;b.targetGraphic=Frame(b.GetComponent<RectTransform>(),new Color(.035f,.085f,.13f,.96f),accent,10);}
+        // Sheets share one language: framed body, gem-marked title over a thin gold rule, framed controls.
+        private void BuildReferenceSheets()
+        {
+            Glyph(modal,"Heading gem",HudSymbol.Book,22,18,18,new Color(.62f,.76f,.92f),true);
+            var rule=Rect(modal,"Heading rule",18,50,334,1.5f);rule.anchorMax=new Vector2(1,1);rule.offsetMin=new Vector2(18,-51.5f);rule.offsetMax=new Vector2(-18,-50);
+            var ruleImage=rule.gameObject.AddComponent<Image>();ruleImage.color=new Color(Gold.r,Gold.g,Gold.b,.55f);ruleImage.raycastTarget=false;
+            StyleReferenceButton("Close",HudSymbol.Close,new Color(.70f,.80f,.92f));
+            foreach(var id in new[]{"ClosePolicy","RecordUp","RecordDown","Effects","Diagnostics"})FrameButton(id,new Color(.55f,.68f,.80f));
+            var input=Prediction.GetComponent<Image>();input.color=Color.clear;
+            Prediction.targetGraphic=Frame(Prediction.GetComponent<RectTransform>(),new Color(.02f,.05f,.09f,.95f),new Color(.45f,.58f,.72f,.8f),10);
+            eventMark=Glyph(battleControls,"Event mark",HudSymbol.Steps,0,0,18,Jade,true,true);eventMark.gameObject.SetActive(false);
+        }
+        private HudGlyphGraphic eventMark;
+        // The lower shelf names the latest observed event with its kind's gem; the caption text is unchanged.
+        private void RefreshEventShelf()
+        {
+            if(eventMark==null)return;
+            var on=AutonomousProduct && eventBackdrop.gameObject.activeInHierarchy && eventCaption.gameObject.activeInHierarchy && !string.IsNullOrEmpty(eventCaption.text);
+            eventMark.gameObject.SetActive(on);if(!on)return;
+            var back=eventBackdrop.rectTransform;eventMark.rectTransform.anchoredPosition=back.anchoredPosition+new Vector2(15,-15);
+            var last=IsExploring?null:DisplayedEvents.LastOrDefault(e=>e.Kind!=EventKind.End);
+            var kind=last==null?EventKind.Move:last.Kind;
+            var symbol=IsExploring || kind==EventKind.Move?HudSymbol.Steps:kind==EventKind.Heal?HudSymbol.Heal:kind==EventKind.Protect?HudSymbol.Shield:kind==EventKind.Counter?HudSymbol.Counter:kind==EventKind.Death?HudSymbol.Alert:HudSymbol.Swords;
+            var tint=IsExploring?Jade:kind==EventKind.Heal?new Color(.40f,.86f,.50f):kind==EventKind.Protect?new Color(.42f,.78f,1):kind==EventKind.Death?new Color(1,.30f,.28f):kind==EventKind.Move?Jade:new Color(1,.58f,.40f);
+            if(eventMark.Symbol!=symbol || eventMark.color!=tint){eventMark.Symbol=symbol;eventMark.color=tint;eventMark.SetVerticesDirty();}
+            var caption=eventCaption.rectTransform;caption.anchoredPosition=new Vector2(back.anchoredPosition.x+44,caption.anchoredPosition.y);
+            caption.sizeDelta=new Vector2(back.sizeDelta.x-50,caption.sizeDelta.y);
+        }
         private void PrimaryFill(string id)
         {var panel=buttons[id].GetComponentInChildren<HudPanelGraphic>();panel.Fill=new Color(.36f,.23f,.06f,.97f);panel.Border=new Color(1,.84f,.46f);panel.SetVerticesDirty();}
         private void BuildReferenceHud()
@@ -39,7 +69,8 @@ namespace RogueTactics.Presentation
             var plate=SafeRoot.Find("Title plate").GetComponent<Image>();plate.color=Color.clear;
             Frame(plate.rectTransform,new Color(.045f,.085f,.14f,.90f),new Color(.70f,.76f,.84f,.8f),24);
             Glyph(plate.transform,"Ruin emblem",HudSymbol.Star,10,10,28,Gold,true,true);
-            var title=SafeRoot.Find("Title").GetComponent<Text>();title.fontSize=20;title.fontStyle=FontStyle.Normal;
+            var title=SafeRoot.Find("Title").GetComponent<Text>();title.fontSize=20;title.fontStyle=FontStyle.Bold;
+            var titleShadow=title.gameObject.AddComponent<Shadow>();titleShadow.effectColor=new Color(.01f,.02f,.05f,.9f);titleShadow.effectDistance=new Vector2(1,-1.5f);
             var boundary=SafeRoot.Find("Boundary").GetComponent<Text>();boundary.color=new Color(.90f,.94f,1);boundary.fontSize=10;
             var instruction=Rect(SafeRoot,"Context instruction",12,56,226,22);Frame(instruction,new Color(.035f,.075f,.13f,.82f),new Color(.55f,.68f,.80f,.5f),10);instruction.SetSiblingIndex(boundary.transform.GetSiblingIndex());
             var status=Rect(SafeRoot,"Observed journey",0,70,60,80);
@@ -105,7 +136,7 @@ namespace RogueTactics.Presentation
             StyleReferenceButton("PresentationSettings",HudSymbol.Book,new Color(.60f,.73f,.84f));
             MakeButton(modal,"RecordUp","上へ",18,516,52,48,()=>PageRecord(-1),12);
             MakeButton(modal,"RecordDown","下へ",76,516,52,48,()=>PageRecord(1),12);
-            BuildReferenceTypography();BuildAutonomousHud();
+            BuildReferenceTypography();BuildAutonomousHud();BuildReferenceSheets();
         }
         private void PageRecord(int direction)
         {
@@ -163,6 +194,7 @@ namespace RogueTactics.Presentation
             if(referenceFooter==null)return;
             referenceFooter.gameObject.SetActive(!DeveloperMode);SafeRoot.Find("Observed journey").gameObject.SetActive(!DeveloperMode && !policyEditing && !modalObject.activeSelf);
             buttons["PolicyShortcut"].gameObject.SetActive(!DeveloperMode && !Session.Started && !policyEditing);
+            if(eventMark!=null){modal.Find("Heading gem").gameObject.SetActive(!DeveloperMode);modal.Find("Heading rule").gameObject.SetActive(!DeveloperMode);}
             if(DeveloperMode){if(terminalTransportReserve!=null)terminalTransportReserve.gameObject.SetActive(false);return;}
             LayoutReferenceHud(SafeRoot.rect.width,SafeRoot.rect.height);
             var w=SafeRoot.rect.width;
@@ -281,6 +313,9 @@ namespace RogueTactics.Presentation
             if(referenceModalCurtain==null)return;
             LayoutAutonomousJournal();
             var open=modalObject.activeSelf;
+            var sheetGem=modal.Find("Heading gem")?.GetComponent<HudGlyphGraphic>();
+            var sheet=expandedKnownMap!=null && expandedKnownMap.gameObject.activeSelf?HudSymbol.Search:showingResults?HudSymbol.Compare:HudSymbol.Book;
+            if(sheetGem!=null && sheetGem.Symbol!=sheet){sheetGem.Symbol=sheet;sheetGem.SetVerticesDirty();}
             if(terminalTransportReserve!=null)
                 terminalTransportReserve.gameObject.SetActive(AutonomousProduct && terminalSeen && !IsExploring && !open && Session.Replay.State.Outcome==Outcome.Victory);
             if(referenceModalCurtain.gameObject.activeSelf==open)return;
@@ -392,7 +427,7 @@ namespace RogueTactics.Presentation
             }
         }
     }
-    public enum HudSymbol {Compass,Book,Search,Shield,Swords,Counter,Heal,Play,Pause,Reset,Compare,Steps,Chevron,Star,Descend,Alert}
+    public enum HudSymbol {Compass,Book,Search,Shield,Swords,Counter,Heal,Play,Pause,Reset,Compare,Steps,Chevron,Star,Descend,Alert,Close}
     [RequireComponent(typeof(CanvasRenderer))]
     public sealed class HudGlyphGraphic:MaskableGraphic
     {
@@ -463,6 +498,7 @@ namespace RogueTactics.Presentation
                     case HudSymbol.Steps:Line(.28f,.08f,.19f,.28f,.20f);Line(.21f,.42f,.16f,.61f,.18f);Line(.78f,.38f,.69f,.58f,.20f);Line(.71f,.72f,.66f,.91f,.18f);break;
                     case HudSymbol.Chevron:Line(.30f,.15f,.70f,.5f,.12f);Line(.70f,.5f,.30f,.85f,.12f);break;
                     case HudSymbol.Star:Fill(.5f,.5f,.5f,0,.62f,.38f,1,.5f,.62f,.62f,.5f,1,.38f,.62f,0,.5f,.38f,.38f);break;
+                    case HudSymbol.Close:Line(.2f,.2f,.8f,.8f,.16f);Line(.8f,.2f,.2f,.8f,.16f);break;
                     case HudSymbol.Alert:Line(.5f,.08f,.5f,.60f,.22f);Line(.5f,.76f,.5f,.94f,.24f);break;
                     case HudSymbol.Descend:Line(.5f,.08f,.5f,.62f,.16f);Fill(.5f,.66f,.18f,.52f,.82f,.52f,.5f,.94f);break;
                 }
