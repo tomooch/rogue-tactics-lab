@@ -42,3 +42,12 @@ Observed defects: victory heading had no visible glyphs; instruction outcome dis
 Full repair run: Edit 32/32, Play 13/15. Failures were the existing initial silhouette-overlap gate and a new result assertion reading before HUD Update. Corrected the test to observe the subsequent frame. Focused consecutive-encounter Play test then passed; it checks retained receipt and generated heading vertices. Viewed fresh 390×844 second/third encounter result captures: heading, survivor count and receipt visible; card area unobstructed. Full suite remains non-green due to existing overlap; no gate was weakened. Post-repair native rebuild has not yet run. Human fun remains unverified.
 
 Private local evidence: `_userwork/hq-evidence/2026-10-28-interruption/native-retained/manual-observation.json`, `native-retained/build-result.json`, `result-retained/gauntlet-2-end.png`, `result-retained/gauntlet-3-end.png`, `result-focused/`. Images are local only. Public machine evidence is `instruction-result-*`; source manifest identifies the tested patch on bb0ced0.
+
+
+## Target identity portraits (2026-10-29)
+
+Added locally drawn green/violet spirit faces beside enemy name and HP in the voluntary instruction selector, using the existing garden-spirit visual vocabulary. No imported assets, private-source upload, Core/position/camera/actor-size changes. Compared same encounter/state `instruction-1-confirm.png` against `2026-10-28-interruption/comparison-retained/`: portraits add a visible board-to-button identity cue, with both name and HP fitting. This is an executor visual judgment, not measured human recognition or fun.
+
+Focused consecutive-encounter Play test passed (1/1); filtered Edit run contains 0 tests, so is not a new Core suite claim. Previous full Edit 32/32 evidence remains scoped to the previous change. Fresh native verification not run for these faces. Private captures remain under `_userwork/hq-evidence/2026-10-29-target-portraits/private/`.
+
+Independent read-only review confirmed that the existing silhouette gate compares whole projected mesh AABBs, including private-sprite transparency. It does not measure opaque coverage or depth occlusion. The failing gate is preserved unchanged; no claim of resolved overlap. A future diagnostic must compare isolated visible actor masks with actual combined rendering before distinguishing harmless transparent overlap from occlusion.

@@ -151,6 +151,14 @@ namespace RogueTactics.Presentation
             }
             MakeButton(instructionSheet,"DirectEnemyX",HeroName("X"),16,158,164,44,()=>{directedEnemy="X";RefreshInstruction();},15);
             MakeButton(instructionSheet,"DirectEnemyY",HeroName("Y"),190,158,164,44,()=>{directedEnemy="Y";RefreshInstruction();},15);
+            foreach(var id in new[]{"X","Y"})
+            {
+                var button=buttons["DirectEnemy"+id];
+                var face=Rect(button.transform,"Spirit portrait",6,3,38,38).gameObject.AddComponent<SpiritPortraitGraphic>();
+                face.Violet=id=="Y";face.raycastTarget=false;
+                var label=button.transform.Find("Label").GetComponent<Text>();
+                label.fontSize=12;label.rectTransform.anchoredPosition=new Vector2(46,-2);label.rectTransform.sizeDelta=new Vector2(114,40);
+            }
             instructionSummary=Label(instructionSheet,"Selection","",16,207,338,40,12);
             MakeButton(instructionSheet,"DirectCancel","やめて任せる",16,250,164,44,CancelInstruction,15);
             MakeButton(instructionSheet,"DirectConfirm","この一手を託す",190,250,164,44,ConfirmInstruction,15);
@@ -161,7 +169,7 @@ namespace RogueTactics.Presentation
             foreach(var id in CardOrder)
             {var b=buttons["DirectAlly"+id];var u=Session.Replay.State.Find(id);b.interactable=u.Alive;b.transform.Find("HP").GetComponent<Text>().text="HP\n"+u.Hp;b.GetComponent<Image>().color=id==directedAlly?new Color(.4f,.3f,.10f):new Color(.12f,.24f,.26f);}
             foreach(var id in new[]{"X","Y"})
-            {var b=buttons["DirectEnemy"+id];b.interactable=Session.Replay.State.Find(id).Alive;b.GetComponent<Image>().color=id==directedEnemy?new Color(.4f,.3f,.10f):new Color(.12f,.24f,.26f);b.transform.Find("Label").GetComponent<Text>().text=HeroName(id)+"   HP "+Session.Replay.State.Find(id).Hp;}
+            {var b=buttons["DirectEnemy"+id];b.interactable=Session.Replay.State.Find(id).Alive;b.GetComponent<Image>().color=id==directedEnemy?new Color(.4f,.3f,.10f):new Color(.12f,.24f,.26f);b.transform.Find("Label").GetComponent<Text>().text=HeroName(id)+"\nHP "+Session.Replay.State.Find(id).Hp;}
             buttons["DirectConfirm"].interactable=directedAlly!="" && directedEnemy!="";
             instructionSummary.text=directedAlly==""?"誰に一手を託しますか？":directedEnemy==""?HeroName(directedAlly)+"が狙う相手を選んでください":"";
             var usual=directedAlly==""?null:Session.Replay.Intents().FirstOrDefault(plan=>plan.Actor==directedAlly);

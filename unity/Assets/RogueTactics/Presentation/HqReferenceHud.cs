@@ -475,6 +475,34 @@ namespace RogueTactics.Presentation
             }
         }
     }
+    // Locally drawn portrait of the existing garden-spirit model; no new creature or rule.
+    [RequireComponent(typeof(CanvasRenderer))]
+    public sealed class SpiritPortraitGraphic:MaskableGraphic
+    {
+        public bool Violet;
+        protected override void OnPopulateMesh(VertexHelper vh)
+        {
+            vh.Clear();var r=rectTransform.rect;
+            void Oval(float x,float y,float rx,float ry,Color bottom,Color top)
+            {
+                var start=vh.currentVertCount;
+                Vector2 P(float a,float b)=>new Vector2(r.xMin+a*r.width,r.yMin+b*r.height);
+                vh.AddVert(P(x,y),Color.Lerp(bottom,top,.5f),Vector2.zero);
+                for(var i=0;i<32;i++){var a=i*Mathf.PI/16;var dy=Mathf.Sin(a);vh.AddVert(P(x+Mathf.Cos(a)*rx,y+dy*ry),Color.Lerp(bottom,top,(dy+1)/2),Vector2.zero);}
+                for(var i=0;i<32;i++)vh.AddTriangle(start,start+1+i,start+1+(i+1)%32);
+            }
+            var skin=Violet?new Color(.61f,.43f,.70f):new Color(.55f,.76f,.29f);
+            var dark=new Color(.08f,.12f,.13f);var cream=new Color(1,.94f,.77f);var leaf=new Color(.26f,.49f,.20f);
+            Oval(.50f,.16f,.40f,.07f,new Color(0,0,0,.12f),new Color(0,0,0,.3f));
+            Oval(.50f,.43f,.43f,.31f,Color.Lerp(skin,Color.black,.23f),Color.Lerp(skin,Color.white,.17f));
+            Oval(.39f,.78f,.09f,.15f,leaf,Color.Lerp(leaf,Color.white,.2f));
+            Oval(.55f,.76f,.14f,.08f,leaf,leaf);
+            for(var i=0;i<5;i++){var a=i*Mathf.PI*2/5;Oval(.72f+Mathf.Cos(a)*.07f,.76f+Mathf.Sin(a)*.07f,.055f,.055f,cream,cream);}
+            Oval(.72f,.76f,.035f,.035f,new Color(.96f,.58f,.59f),cream);
+            foreach(var x in new[]{.35f,.65f}){Oval(x,.47f,.040f,.075f,dark,dark);Oval(x-.012f,.50f,.014f,.022f,cream,cream);}
+            Oval(.50f,.33f,.035f,.02f,dark,dark);
+        }
+    }
     public enum HudSymbol {Compass,Book,Search,Shield,Swords,Counter,Heal,Play,Pause,Reset,Compare,Steps,Chevron,Star,Descend,Alert,Close}
     [RequireComponent(typeof(CanvasRenderer))]
     public sealed class HudGlyphGraphic:MaskableGraphic
