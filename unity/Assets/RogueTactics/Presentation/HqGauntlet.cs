@@ -164,11 +164,16 @@ namespace RogueTactics.Presentation
             {var b=buttons["DirectEnemy"+id];b.interactable=Session.Replay.State.Find(id).Alive;b.GetComponent<Image>().color=id==directedEnemy?new Color(.4f,.3f,.10f):new Color(.12f,.24f,.26f);b.transform.Find("Label").GetComponent<Text>().text=HeroName(id)+"   HP "+Session.Replay.State.Find(id).Hp;}
             buttons["DirectConfirm"].interactable=directedAlly!="" && directedEnemy!="";
             instructionSummary.text=directedAlly==""?"誰に一手を託しますか？":directedEnemy==""?HeroName(directedAlly)+"が狙う相手を選んでください":"";
+            var usual=directedAlly==""?null:Session.Replay.Intents().FirstOrDefault(plan=>plan.Actor==directedAlly);
+            instructionSheet.Find("Help").GetComponent<Text>().text=usual==null?"仲間と狙う相手を選ぶ · 残り1回":"現在の自動行動："+HeroName(directedAlly)+" · "+PlanName(usual.Kind)+(usual.Target!=""?" → "+HeroName(usual.Target):"");
+            buttons["DirectConfirm"].transform.Find("Label").GetComponent<Text>().text="この一手を託す";
             if(directedAlly!="" && directedEnemy!="")
             {
                 var p=Rules.Preview(Session.Replay.State,new Command(Session.Preference),directedAlly,directedEnemy);
+                var same=usual!=null && usual.Kind==p.Kind && (p.Kind==ActionKind.Move?usual.Destination.Equals(p.Destination):p.Kind==ActionKind.Maintain || usual.Target==p.Target);
+                if(same)buttons["DirectConfirm"].transform.Find("Label").GetComponent<Text>().text="同じ一手を指定";
                 var action=p.Kind==ActionKind.Attack?"攻撃":p.Kind==ActionKind.Move?"1マス接近":"進路が塞がれて待機";
-                instructionSummary.text=HeroName(directedAlly)+" → "+HeroName(directedEnemy)+"：今なら"+action+"\n本人の次の1行動に適用。順番までに状況は変わります。";
+                instructionSummary.text=HeroName(directedAlly)+" → "+HeroName(directedEnemy)+"：今なら"+action+"\n"+(same?"今の自動行動と同じです。":"次の1行動だけ変更。")+"順番までに状況は変わります。";
             }
             RefreshRoundIntents();
         }
