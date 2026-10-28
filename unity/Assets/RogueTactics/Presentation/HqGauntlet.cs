@@ -144,7 +144,14 @@ namespace RogueTactics.Presentation
             foreach(var id in new[]{"X","Y"})
             {var b=buttons["DirectEnemy"+id];b.interactable=Session.Replay.State.Find(id).Alive;b.GetComponent<Image>().color=id==directedEnemy?new Color(.4f,.3f,.10f):new Color(.12f,.24f,.26f);b.transform.Find("Label").GetComponent<Text>().text=HeroName(id)+"   HP "+Session.Replay.State.Find(id).Hp;}
             buttons["DirectConfirm"].interactable=directedAlly!="" && directedEnemy!="";
-            instructionSummary.text=directedAlly==""?"指示する仲間を選んでください":directedEnemy==""?HeroName(directedAlly)+"が狙う敵を選んでください":HeroName(directedAlly)+" → "+HeroName(directedEnemy)+" · 次の1行動だけ\n隣接なら攻撃／離れていれば接近／進めなければ待機";
+            instructionSummary.text=directedAlly==""?"誰に一手を託しますか？":directedEnemy==""?HeroName(directedAlly)+"が狙う相手を選んでください":"";
+            if(directedAlly!="" && directedEnemy!="")
+            {
+                var p=Rules.Preview(Session.Replay.State,new Command(Session.Preference),directedAlly,directedEnemy);
+                var action=p.Kind==ActionKind.Attack?"攻撃":p.Kind==ActionKind.Move?"1マス接近":"進路が塞がれて待機";
+                instructionSummary.text=HeroName(directedAlly)+" → "+HeroName(directedEnemy)+"：今なら"+action+"\n本人の次の1行動に適用。順番までに状況は変わります。";
+            }
+            RefreshRoundIntents();
         }
         private void CancelInstruction()
         {instructionOverlay.gameObject.SetActive(false);Paused=false;Auto=true;Refresh();RefreshGauntletUi();Next();}
@@ -160,6 +167,15 @@ namespace RogueTactics.Presentation
             if(roundIntents.Count==0)return;
             var show=GauntletRules && Session.Started && !Busy && !terminalSeen && !modalObject.activeSelf && !IsExploring;
             var plans=show?Session.Replay.Intents().Where(p=>p.Kind!=ActionKind.Maintain).ToList():new List<Plan>();
+            if(InstructionOpen)
+            {
+                plans.Clear();
+                if(directedAlly!="" && directedEnemy!="")
+                {
+                    var selected=Rules.Preview(Session.Replay.State,new Command(Session.Preference),directedAlly,directedEnemy);
+                    if(selected.Kind!=ActionKind.Maintain)plans.Add(selected);
+                }
+            }
             nextIntentMark.gameObject.SetActive(false);
             for(var i=0;i<roundIntents.Count;i++)
             {

@@ -128,6 +128,10 @@ namespace RogueTactics.Tests
             var ally=view.Session.Replay.State.Units.First(u=>!u.Enemy && u.Alive).Id;
             var enemy=view.Session.Replay.State.Units.First(u=>u.Enemy && u.Alive).Id;
             Press(view,"DirectAlly"+ally);Press(view,"DirectEnemy"+enemy);
+            var selection=view.SafeRoot.Find("Instruction overlay/Instruction sheet/Selection").GetComponent<Text>().text;
+            Assert.That(selection,Does.Contain("今なら"));Assert.That(selection,Does.Contain("状況は変わります"));
+            var routes=Object.FindObjectsByType<MobileRouteGraphic>(FindObjectsSortMode.None).Count(g=>g.name.StartsWith("Round intent") && g.gameObject.activeInHierarchy);
+            Assert.That(routes,Is.LessThanOrEqualTo(1),"Only the chosen instruction is drawn while deciding");
             yield return Capture("instruction-"+index+"-confirm");
             Press(view,"DirectConfirm");Assert.That(view.Session.Replay.CorrectionsLeft,Is.EqualTo(0));
             yield return WaitBattle(view,false);
