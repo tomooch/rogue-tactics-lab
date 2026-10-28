@@ -35,7 +35,7 @@ namespace RogueTactics.Presentation
             if(buttons.ContainsKey("Challenge") || !ExplorationEnabled || !HqWorld)return;
             MakeButton(SafeRoot,"Challenge","守り手に挑む",12,0,366,48,ChallengeNextEncounter,15);
             StyleReferenceButton("Challenge",HudSymbol.Swords,Gold);PrimaryFill("Challenge");
-            MakeButton(SafeRoot,"Correct","",12,0,366,48,CorrectAtCrisis,13);
+            MakeButton(SafeRoot,"Correct","",12,0,366,48,RequestInstruction,13);
             StyleReferenceButton("Correct",HudSymbol.Shield,new Color(1,.46f,.42f));
             PrimaryFill("Correct",new Color(1,.26f,.26f),new Color(1,.66f,.60f));
             for(var i=0;i<6;i++)
@@ -89,28 +89,70 @@ namespace RogueTactics.Presentation
             }
             visualTweenActive=false;FieldCamera.transform.position=cameraTo;enteringEncounter=false;Refresh();
         }
-        // True when auto play has just stopped for a newly threatened ally.
-        private bool CrisisStop()
+        private bool interruptRequested;
+        private string directedAlly="", directedEnemy="";
+        private RectTransform instructionOverlay, instructionSheet;
+        private Text instructionSummary;
+        public bool InstructionOpen=>instructionOverlay!=null && instructionOverlay.gameObject.activeSelf;
+        public void RequestInstruction()
         {
-            if(!GauntletRules || Session.Replay.CorrectionsLeft<1){crisisActive=false;return false;}
-            var threatened=Rules.Threatened(Session.Replay.State,new Command(Session.Replay.Preference));
-            var arrived=threatened.Count>0 && !crisisActive;crisisActive=threatened.Count>0;crisisAllies=threatened;
-            if(!arrived)return false;
-            Auto=false;Paused=true;Refresh();return true;
+            if(!Session.Started || terminalSeen || IsExploring || Session.Replay.CorrectionsLeft<1 || InstructionOpen)return;
+            interruptRequested=true;Auto=false;
+            // Finish the already resolved action's presentation before exposing any new state.
+            Paused=false;if(!Busy)OpenInstruction();Refresh();
         }
-        private Preference Other(Preference p)=>p==Preference.ProtectAnchor?Preference.DirectAttack:Preference.ProtectAnchor;
-        public void CorrectAtCrisis()
+        private void OpenInstruction()
         {
-            if(!CrisisPaused || Busy || Session.Replay.CorrectionsLeft<1)return;
-            Session.Correct(Other(Session.Preference));
-            captions.Add("方針を変更：モモは"+(Session.Preference==Preference.ProtectAnchor?"シロを守る":"敵を攻める"));
-            crisisActive=false;Auto=true;Paused=false;Refresh();Next();
+            interruptRequested=false;
+            if(terminalSeen || Session.Replay.State.Outcome!=Outcome.Active)return;
+            Paused=true;directedAlly="";directedEnemy="";
+            instructionOverlay.gameObject.SetActive(true);instructionOverlay.SetAsLastSibling();RefreshInstruction();Canvas.ForceUpdateCanvases();
+        }
+        private void EnsureInstructionUi()
+        {
+            if(instructionOverlay!=null)return;
+            MakeButton(SafeRoot,"Interrupt","指示する · 残り1回",12,0,366,48,RequestInstruction,16);
+            StyleReferenceButton("Interrupt",HudSymbol.Swords,Gold);
+            instructionOverlay=Rect(SafeRoot,"Instruction overlay",0,0,390,844);
+            instructionOverlay.gameObject.AddComponent<Image>().color=new Color(0,0,0,.15f);
+            instructionSheet=Rect(instructionOverlay,"Instruction sheet",10,0,370,340);
+            instructionSheet.gameObject.AddComponent<Image>().color=new Color(.045f,.085f,.12f,1);
+            Label(instructionSheet,"Heading","次の一手を指示",16,6,338,40,19);
+            Label(instructionSheet,"Help","仲間 → 敵を選択。確定で1回消費",16,44,338,24,13);
+            for(var i=0;i<CardOrder.Length;i++)
+            {
+                var id=CardOrder[i];MakeButton(instructionSheet,"DirectAlly"+id,HeroName(id),16+i*85,80,80,48,()=>{directedAlly=id;RefreshInstruction();},15);
+            }
+            MakeButton(instructionSheet,"DirectEnemyX",HeroName("X"),16,142,164,48,()=>{directedEnemy="X";RefreshInstruction();},15);
+            MakeButton(instructionSheet,"DirectEnemyY",HeroName("Y"),190,142,164,48,()=>{directedEnemy="Y";RefreshInstruction();},15);
+            instructionSummary=Label(instructionSheet,"Selection","",16,202,338,66,14);
+            MakeButton(instructionSheet,"DirectCancel","やめて任せる",16,278,164,48,CancelInstruction,15);
+            MakeButton(instructionSheet,"DirectConfirm","この一手を託す",190,278,164,48,ConfirmInstruction,15);
+            instructionOverlay.gameObject.SetActive(false);
+        }
+        private void RefreshInstruction()
+        {
+            foreach(var id in CardOrder)
+            {var b=buttons["DirectAlly"+id];b.interactable=Session.Replay.State.Find(id).Alive;b.GetComponent<Image>().color=id==directedAlly?new Color(.4f,.3f,.10f):new Color(.12f,.24f,.26f);}
+            foreach(var id in new[]{"X","Y"})
+            {var b=buttons["DirectEnemy"+id];b.interactable=Session.Replay.State.Find(id).Alive;b.GetComponent<Image>().color=id==directedEnemy?new Color(.4f,.3f,.10f):new Color(.12f,.24f,.26f);}
+            buttons["DirectConfirm"].interactable=directedAlly!="" && directedEnemy!="";
+            instructionSummary.text=directedAlly==""?"指示する仲間を選んでください":directedEnemy==""?HeroName(directedAlly)+"が狙う敵を選んでください":HeroName(directedAlly)+" → "+HeroName(directedEnemy)+"\n次の1行動：隣接なら攻撃、離れていれば接近。進めなければ待機。";
+        }
+        private void CancelInstruction()
+        {instructionOverlay.gameObject.SetActive(false);Paused=false;Auto=true;Refresh();RefreshGauntletUi();Next();}
+        private void ConfirmInstruction()
+        {
+            if(directedAlly=="" || directedEnemy=="" || Busy)return;
+            Session.Replay.TargetOnce(directedAlly,directedEnemy);
+            captions.Add(HeroName(directedAlly)+"に指示："+HeroName(directedEnemy)+"を狙う（次の1行動）");
+            CancelInstruction();
         }
         private void RefreshRoundIntents()
         {
             if(roundIntents.Count==0)return;
             var show=GauntletRules && Session.Started && !Busy && !terminalSeen && !modalObject.activeSelf && !IsExploring;
-            var plans=show?Rules.Intents(Session.Replay.State,new Command(Session.Replay.Preference)).Where(p=>p.Kind!=ActionKind.Maintain).ToList():new List<Plan>();
+            var plans=show?Session.Replay.Intents().Where(p=>p.Kind!=ActionKind.Maintain).ToList():new List<Plan>();
             nextIntentMark.gameObject.SetActive(false);
             for(var i=0;i<roundIntents.Count;i++)
             {
@@ -141,11 +183,17 @@ namespace RogueTactics.Presentation
         private void RefreshGauntletUi()
         {
             if(!ExplorationEnabled || !HqWorld || DeveloperMode)return;
-            EnsureGauntletUi();
+            EnsureGauntletUi();EnsureInstructionUi();
             var w=SafeRoot.rect.width;var h=SafeRoot.rect.height;
             var challenge=buttons["Challenge"];challenge.gameObject.SetActive(CanChallenge && !enteringEncounter);
             if(challenge.gameObject.activeSelf)PositionReferenceAction("Challenge",12,h-268,w-24,"守り手に挑む（"+(NextEncounter+1)+" / "+Fixture.EncounterCount+"戦目）");
-            var correct=buttons["Correct"];correct.gameObject.SetActive(CrisisPaused && !Busy && !modalObject.activeSelf);
+            instructionOverlay.sizeDelta=SafeRoot.rect.size;
+            instructionSheet.anchoredPosition=new Vector2(10,-(h-350));
+            var canDirect=Session.Started && !terminalSeen && !IsExploring && !modalObject.activeSelf && Session.Replay.CorrectionsLeft>0;
+            buttons["Interrupt"].gameObject.SetActive(canDirect);
+            PositionReferenceAction("Interrupt",12,h-268,w-24,interruptRequested?"行動が終わるのを待っています…":"指示する · 残り1回");
+            buttons["Interrupt"].interactable=!interruptRequested;
+            var correct=buttons["Correct"];correct.gameObject.SetActive(false);
             if(correct.gameObject.activeSelf)
             {
                 var names=string.Join("・",crisisAllies.Select(HeroName));
@@ -179,7 +227,7 @@ namespace RogueTactics.Presentation
                 else if(CanChallenge)boundary.text="守り手の気配がする部屋だ";
                 else if(Session.EncounterIndex==Fixture.EncounterCount-1 && terminalSeen && Session.Replay.State.Outcome==Outcome.Victory)boundary.text="3つの戦いを越えた！";
                 else if(GauntletRules && !Session.Started)boundary.text=(Session.EncounterIndex+1)+"戦目：モモの方針を選んで託す";
-                else if(GauntletRules && Session.Started && !terminalSeen)boundary.text="修正 残り"+Session.Replay.CorrectionsLeft+"回・危機で止まる";
+                else if(GauntletRules && Session.Started && !terminalSeen)boundary.text="修正 残り"+Session.Replay.CorrectionsLeft+"回・任意に指示できる";
             }
         }
     }

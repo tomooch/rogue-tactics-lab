@@ -170,6 +170,23 @@ namespace RogueTactics.Core.G1
             var actor = Next(s);
             return actor == null ? null : PlanFor(s, actor, command);
         }
+        internal static Plan PreviewTarget(EncounterState s, Command command, string actorId, string targetId)
+        {
+            var actor = s.Find(actorId); var target = s.Find(targetId);
+            if (actor == null || !actor.Alive || target == null || !target.Alive || actor.Enemy || !target.Enemy)
+                return Preview(s, command);
+            if (Distance(actor.Position, target.Position) == 1)
+                return new Plan(actor, ActionKind.Attack, target, actor.Position, "Intervention: attack selected enemy");
+            return MoveOrMaintain(s, actor, target, "Intervention: approach selected enemy");
+        }
+        public static Plan Preview(EncounterState s, Command command, string actorId, string targetId) => PreviewTarget(s, command, actorId, targetId);
+        public static IReadOnlyList<Plan> Intents(EncounterState s, Command command, string actorId, string targetId)
+        {
+            var intents = Intents(s, command).ToList();
+            var index = intents.FindIndex(p => p.Actor == actorId);
+            if (index >= 0) intents[index] = PreviewTarget(s, command, actorId, targetId);
+            return intents.AsReadOnly();
+        }
         // Each living actor's present intention, in the order they will act from now.
         // Every plan reads the current state only: it is what they mean to do now, not a simulated future.
         public static IReadOnlyList<Plan> Intents(EncounterState s, Command command)
@@ -254,6 +271,10 @@ namespace RogueTactics.Core.G1
         public static ResolvedStep Resolve(EncounterState source, Command command)
         {
             var plan = Preview(source, command);
+            return Resolve(source, command, plan);
+        }
+        internal static ResolvedStep Resolve(EncounterState source, Command command, Plan plan)
+        {
             if (!IsLegal(source, plan)) throw new InvalidOperationException("No legal action in terminal/invalid state");
             var s = source.Copy(); s.Step++;
             var u = s.Find(plan.Actor); var t = s.Find(plan.Target);
@@ -302,6 +323,8 @@ namespace RogueTactics.Core.G1
         public Preference Preference { get; private set; }
         public Preference InitialPreference { get; }
         public int CorrectionsLeft { get; private set; } = 1;
+        public string PendingTargetActor { get; private set; }
+        public string PendingTarget { get; private set; }
         private readonly List<BattleEvent> events = new List<BattleEvent>();
         private readonly List<string> commands = new List<string>();
         private readonly string baseline;
@@ -316,13 +339,40 @@ namespace RogueTactics.Core.G1
             if (preference == Preference) throw new ArgumentException("Correction must change the preference");
             Preference = new Command(preference).Preference; CorrectionsLeft--;
         }
+        public void TargetOnce(string actorId, string targetId)
+        {
+            if (CorrectionsLeft < 1) throw new InvalidOperationException("Correction already used in this encounter");
+            if (State.Outcome != Outcome.Active) throw new InvalidOperationException("Encounter already resolved");
+            var actor = State.Find(actorId); var target = State.Find(targetId);
+            if (actor == null || !actor.Alive || actor.Enemy) throw new ArgumentException("Actor must be a living ally", nameof(actorId));
+            if (target == null || !target.Alive || !target.Enemy) throw new ArgumentException("Target must be a living enemy", nameof(targetId));
+            PendingTargetActor = actorId; PendingTarget = targetId; CorrectionsLeft--;
+            commands.Add("target:" + actorId + "," + targetId);
+        }
+        public Plan Preview()
+        {
+            var normal = Rules.Preview(State, new Command(Preference));
+            return normal != null && normal.Actor == PendingTargetActor ?
+                Rules.Preview(State, new Command(Preference), PendingTargetActor, PendingTarget) : normal;
+        }
+        public IReadOnlyList<Plan> Intents() => PendingTargetActor == null ? Rules.Intents(State, new Command(Preference)) :
+            Rules.Intents(State, new Command(Preference), PendingTargetActor, PendingTarget);
         public ResolvedStep Advance()
         {
-            var step = Rules.Resolve(State,new Command(Preference)); State = step.State;
+            var plan = Preview();
+            if (!Rules.IsLegal(State, plan)) throw new InvalidOperationException("No legal action in terminal/invalid state");
+            var step = Rules.Resolve(State,new Command(Preference), plan); State = step.State;
+            if (PendingTargetActor == plan.Actor) { PendingTargetActor = null; PendingTarget = null; }
+            else if (PendingTargetActor != null && (!State.Find(PendingTargetActor).Alive || !State.Find(PendingTarget).Alive))
+            { PendingTargetActor = null; PendingTarget = null; }
             commands.Add(((int)Preference).ToString(CultureInfo.InvariantCulture)); events.AddRange(step.Events); return step;
         }
-        public string Serialize() => baseline + "\ncommands:" + string.Join(";", commands) + "\n" +
-            string.Join("\n",events.Select(e=>e.Serialize())) + "\nfinal:" + State.Serialize();
+        public string Serialize()
+        {
+            var pending = PendingTargetActor == null ? "" : "\npending-target:" + PendingTargetActor + "," + PendingTarget;
+            return baseline + "\ncommands:" + string.Join(";", commands) + pending + "\n" +
+                string.Join("\n",events.Select(e=>e.Serialize())) + "\nfinal:" + State.Serialize();
+        }
         public string Hash()
         { using (var sha = SHA256.Create()) return BitConverter.ToString(sha.ComputeHash(Encoding.UTF8.GetBytes(Serialize()))).Replace("-","").ToLowerInvariant(); }
     }

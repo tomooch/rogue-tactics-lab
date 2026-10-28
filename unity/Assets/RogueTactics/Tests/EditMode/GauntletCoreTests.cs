@@ -65,6 +65,57 @@ namespace RogueTactics.Tests
             Assert.That(state.Serialize(),Is.EqualTo(before));
         }
         [Test]
+        public void TargetOnceValidatesLivingAllyAndEnemyAndConsumesEncounterBudget()
+        {
+            var replay=new Replay(Fixture.Baseline(),Preference.DirectAttack);
+            Assert.Throws<System.ArgumentException>(()=>replay.TargetOnce("X","A"));
+            Assert.Throws<System.ArgumentException>(()=>replay.TargetOnce("A","missing"));
+            replay.TargetOnce("B","Y");
+            Assert.That(replay.CorrectionsLeft,Is.Zero);
+            Assert.Throws<System.InvalidOperationException>(()=>replay.TargetOnce("A","X"));
+        }
+        [Test]
+        public void TargetOnceOverridesOnlySelectedAlliesNextActionAndThenExpires()
+        {
+            var replay=new Replay(Fixture.Baseline(),Preference.DirectAttack);
+            replay.TargetOnce("B","Y");
+            Assert.That(replay.Preview().Actor,Is.EqualTo("B"));
+            Assert.That(replay.Preview().Target,Is.EqualTo("Y"));
+            Assert.That(replay.Preview().Kind,Is.EqualTo(ActionKind.Maintain),"A occupies the only distance-reducing cell; an instruction cannot move through an ally");
+            var intents=replay.Intents();
+            Assert.That(intents.Single(p=>p.Actor=="B").Target,Is.EqualTo("Y"));
+            replay.Advance();
+            Assert.That(replay.PendingTargetActor,Is.Null);
+            Assert.That(replay.Preview().Actor,Is.EqualTo("X"));
+        }
+        [Test]
+        public void TargetOnceWaitsForChosenAllyRatherThanChangingEarlierActors()
+        {
+            var replay=new Replay(Fixture.Baseline(),Preference.DirectAttack);
+            replay.TargetOnce("A","Y");
+            Assert.That(replay.Preview().Actor,Is.EqualTo("B"));
+            replay.Advance();
+            Assert.That(replay.PendingTargetActor,Is.EqualTo("A"));
+            Assert.That(replay.Preview().Actor,Is.EqualTo("X"));
+            replay.Advance();
+            Assert.That(replay.Preview().Actor,Is.EqualTo("A"));
+            Assert.That(replay.Preview().Target,Is.EqualTo("Y"));
+            replay.Advance();
+            Assert.That(replay.PendingTargetActor,Is.Null);
+        }
+        [Test]
+        public void TargetOnceIsRecordedAndDeterministicAndDoesNotChangeFrozenNoInterventionHashes()
+        {
+            var a=new Replay(Fixture.Baseline(),Preference.DirectAttack); var b=new Replay(Fixture.Baseline(),Preference.DirectAttack);
+            a.TargetOnce("B","Y"); b.TargetOnce("B","Y");
+            Assert.That(a.Serialize(),Does.Contain("target:B,Y"));
+            Assert.That(a.Serialize(),Does.Contain("pending-target:B,Y"));
+            while(a.State.Outcome==Outcome.Active)a.Advance(); while(b.State.Outcome==Outcome.Active)b.Advance();
+            Assert.That(a.Hash(),Is.EqualTo(b.Hash()));
+            Assert.That(Play(0,Preference.ProtectAnchor,false).Hash(),Is.EqualTo("e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d"));
+            Assert.That(Play(0,Preference.DirectAttack,false).Hash(),Is.EqualTo("85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e"));
+        }
+        [Test]
         public void GauntletBoardsSitInsideTheirFloorRooms()
         {
             var map=new FloorMap();

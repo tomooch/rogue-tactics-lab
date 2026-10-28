@@ -110,26 +110,33 @@ namespace RogueTactics.Tests
             foreach(var u in view.Session.Replay.State.Units)
             {var at=GameObject.Find("Fixture "+u.Id).transform.position;Assert.That(Vector3.Distance(at,new Vector3((u.Position.X+origin.X)*2.5f,0,(u.Position.Y+origin.Y)*2.5f)),Is.LessThan(.01f),u.Id+" stands on its room cell");}
             view.Select(start);AssertMapClearOfCast(view,"encounter "+(index+1)+" setup");yield return Capture("gauntlet-"+(index+1)+"-setup");
-            Press(view,"Start");yield return WaitBattle(view,true);
-            Assert.That(view.CrisisPaused,Is.True,"Auto play stops when an ally is newly threatened");
-            Assert.That(view.CrisisAllies,Does.Contain("A"));
-            var intents=Object.FindObjectsByType<MobileRouteGraphic>(FindObjectsSortMode.None).Count(g=>g.name.StartsWith("Round intent") && g.gameObject.activeInHierarchy);
-            Assert.That(intents,Is.GreaterThanOrEqualTo(3),"A round of present intents is visible while stopped");
-            // The initiative strip follows this encounter's Core order (it once kept the frozen G1 order).
-            var core=view.Session.Replay.State.Initiative.Where(id=>view.Session.Replay.State.Find(id).Alive).ToList();
-            var shown=view.Field.Find("Discrete actor order").Cast<Transform>().Where(t=>t.name.StartsWith("Order ") && t.name.Length==7 && t.gameObject.activeSelf)
-                .OrderBy(t=>t.GetComponent<RectTransform>().anchoredPosition.x).Select(t=>t.name.Substring(6)).ToList();
-            var first=core.IndexOf(shown[0]);
-            Assert.That(shown,Is.EqualTo(core.Skip(first).Concat(core.Take(first)).ToList()),"Initiative strip shows the encounter's own Core order");
-            AssertMapClearOfCast(view,"encounter "+(index+1));yield return Capture("gauntlet-"+(index+1)+"-crisis");
-            Press(view,"Correct");Assert.That(view.Session.Replay.CorrectionsLeft,Is.EqualTo(0));
+            Press(view,"Start");yield return new WaitForSecondsRealtime(.2f);
+            Press(view,"Interrupt");
+            var stopDeadline=Time.realtimeSinceStartup+10;
+            while(!view.InstructionOpen && Time.realtimeSinceStartup<stopDeadline)yield return null;
+            Assert.That(view.InstructionOpen,Is.True);Assert.That(view.Busy,Is.False);
+            var state=view.Session.Replay.State.Serialize();yield return new WaitForSecondsRealtime(.3f);
+            Assert.That(view.Session.Replay.State.Serialize(),Is.EqualTo(state));
+            Assert.That(view.Session.Replay.CorrectionsLeft,Is.EqualTo(1));
+            yield return Capture("instruction-"+index+"-choose");
+            Press(view,"DirectCancel");Assert.That(view.Session.Replay.CorrectionsLeft,Is.EqualTo(1));
+            yield return null;Press(view,"Interrupt");
+            stopDeadline=Time.realtimeSinceStartup+10;
+            while(!view.InstructionOpen && Time.realtimeSinceStartup<stopDeadline)yield return null;
+            Assert.That(view.InstructionOpen,Is.True);
+            yield return null;yield return null; // Let the reopened canvas submit its graphics before the next real click.
+            var ally=view.Session.Replay.State.Units.First(u=>!u.Enemy && u.Alive).Id;
+            var enemy=view.Session.Replay.State.Units.First(u=>u.Enemy && u.Alive).Id;
+            Press(view,"DirectAlly"+ally);Press(view,"DirectEnemy"+enemy);
+            yield return Capture("instruction-"+index+"-confirm");
+            Press(view,"DirectConfirm");Assert.That(view.Session.Replay.CorrectionsLeft,Is.EqualTo(0));
             yield return WaitBattle(view,false);
             Assert.That(view.Busy,Is.False);Assert.That(view.Session.Replay.State.Outcome,Is.EqualTo(Outcome.Victory));
-            Assert.That(view.Session.Replay.State.Units.Count(u=>!u.Enemy && u.Alive),Is.EqualTo(4),"The right correction at the crisis saves everyone");
+            Assert.That(view.CrisisPaused,Is.False,"No forced crisis interruption");
             AssertMapClearOfCast(view,"encounter "+(index+1));yield return Capture("gauntlet-"+(index+1)+"-end");
         }
         [UnityTest,Timeout(900000)]
-        public IEnumerator ConsecutiveEncountersOnTheSameFloorWithCrisisCorrection()
+        public IEnumerator ConsecutiveEncountersWithVoluntaryTargetInstruction()
         {
             yield return SceneManager.LoadSceneAsync("HqExploration");yield return null;yield return null;
             var view=Object.FindFirstObjectByType<MobileG1View>();

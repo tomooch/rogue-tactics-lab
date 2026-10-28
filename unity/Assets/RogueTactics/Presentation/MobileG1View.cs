@@ -307,7 +307,7 @@ namespace RogueTactics.Presentation
         { if(Busy)return;ResetFloorExploration();policyEditing=false;Auto=false;Paused=false;Session.Reset();Prediction.text="";ResetProjection();SetComparisonCamera(CameraPitch); }
         private void ResetProjection()
         {
-            ClearRelation();frameIntervals.Clear();LastFrameReport=null;displayed.Clear();captions.Clear();dead.Clear();hp.Clear();positions.Clear();terminalSeen=false;shownStep=0;shownActor="";reaction="";foreach(var u in Session.Replay.State.Units){hp[u.Id]=u.Hp;positions[u.Id]=Shown(u.Position);}crisisActive=false;
+            ClearRelation();frameIntervals.Clear();LastFrameReport=null;displayed.Clear();captions.Clear();dead.Clear();hp.Clear();positions.Clear();terminalSeen=false;shownStep=0;shownActor="";reaction="";foreach(var u in Session.Replay.State.Units){hp[u.Id]=u.Hp;positions[u.Id]=Shown(u.Position);}crisisActive=false;interruptRequested=false;if(instructionOverlay!=null)instructionOverlay.gameObject.SetActive(false);
             shield.gameObject.SetActive(false);guardLink.gameObject.SetActive(false);floating.text="";foreach(var b in badges.Values)b.alpha=1;
         }
         private void StartBattle() {if(Session.Started || Busy)return;policyEditing=false;Prediction.DeactivateInputField();SetComparisonCamera(CameraPitch);Session.Start(Prediction.text);Auto=!DeveloperMode;Next();}
@@ -325,7 +325,8 @@ namespace RogueTactics.Presentation
                 if(hp[u.Id]!=u.Hp || !positions[u.Id].Equals(Shown(u.Position)))throw new InvalidOperationException("Mobile event projection mismatch");
             Busy=false;Refresh();
             if(Session.Replay.State.Outcome!=Outcome.Active){Auto=false;FinishFrameReport();Debug.Log("MOBILE_G1_RESULT "+Session.Preference+" "+Session.Replay.Hash());}
-            else if(Auto && !CrisisStop())Next();
+            else if(interruptRequested)OpenInstruction();
+            else if(Auto)Next();
         }
         private void Display(BattleEvent e)
         {
@@ -384,13 +385,13 @@ namespace RogueTactics.Presentation
             if(active)
             {
                 eventCaption.text=string.Join("\n",captions.AsEnumerable().Reverse().Take(2).Reverse());
-                var p=Busy?executingPlan:Rules.Preview(Session.Replay.State,new Command(Session.Preference));
+                var p=Busy?executingPlan:Session.Replay.Preview();
                 intent.text=p==null?"結果を比べ、同じ初期戦況から再試行できます。":(Busy?"実行  ":"次の意図  ")+p.Actor+"："+PlanName(p.Kind)+(p.Target!=""?" → "+p.Target:"");
             }
             actionLink.GetComponent<MobileRouteGraphic>().color=Busy?Gold:new Color(.37f,.79f,1);
             if(!Busy)
             {
-                var p=active?Rules.Preview(Session.Replay.State,new Command(Session.Preference)):null;actionLink.gameObject.SetActive(p!=null && p.Kind==ActionKind.Move);
+                var p=active?Session.Replay.Preview():null;actionLink.gameObject.SetActive(p!=null && p.Kind==ActionKind.Move);
                 if(p!=null && p.Kind!=ActionKind.Move && p.Kind!=ActionKind.Maintain)ShowRelation(p.Actor,p.Target,p.Kind,true);else ClearRelation();
                 ghost.gameObject.SetActive(p?.Kind==ActionKind.Move);
                 if(p!=null){Link(actionLink,positions[p.Actor],p.Kind==ActionKind.Move?Shown(p.Destination):(p.Target!=""?positions[p.Target]:positions[p.Actor]));if(p.Kind==ActionKind.Move)ghost.anchoredPosition=Point(Shown(p.Destination),.05f)+new Vector2(-17,9);}
