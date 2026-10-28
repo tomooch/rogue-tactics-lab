@@ -116,6 +116,34 @@ namespace RogueTactics.Tests
             Assert.That(Play(0,Preference.DirectAttack,false).Hash(),Is.EqualTo("85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e"));
         }
         [Test]
+        public void MeasureVoluntaryInstructionConsequences()
+        {
+            var rows=new System.Collections.Generic.List<string>{"encounter,preference,step,actor,target,survivors,hp,actions,outcome"};
+            for(var encounter=0;encounter<3;encounter++)
+            foreach(var preference in new[]{Preference.ProtectAnchor,Preference.DirectAttack})
+            {
+                var baseline=Play(encounter,preference,false);
+                rows.Add($"{encounter},{preference},-1,none,none,{Survivors(baseline)},{baseline.State.Units.Where(u=>!u.Enemy).Sum(u=>u.Hp)},{baseline.State.Step},{baseline.State.Outcome}");
+                for(var at=0;at<baseline.State.Step;at++)
+                {
+                    var before=new Replay(Fixture.Encounter(encounter),preference);
+                    for(var i=0;i<at;i++)before.Advance();
+                    foreach(var ally in before.State.Units.Where(u=>!u.Enemy && u.Alive))
+                    foreach(var enemy in before.State.Units.Where(u=>u.Enemy && u.Alive))
+                    {
+                        var trial=new Replay(Fixture.Encounter(encounter),preference);
+                        for(var i=0;i<at;i++)trial.Advance();
+                        trial.TargetOnce(ally.Id,enemy.Id);
+                        while(trial.State.Outcome==Outcome.Active)trial.Advance();
+                        Assert.That(trial.State.Outcome,Is.Not.EqualTo(Outcome.Active));
+                        rows.Add($"{encounter},{preference},{at},{ally.Id},{enemy.Id},{Survivors(trial)},{trial.State.Units.Where(u=>!u.Enemy).Sum(u=>u.Hp)},{trial.State.Step},{trial.State.Outcome}");
+                    }
+                }
+            }
+            System.IO.Directory.CreateDirectory("Logs/hq");
+            System.IO.File.WriteAllLines("Logs/hq/instruction-consequences.csv",rows);
+        }
+        [Test]
         public void GauntletBoardsSitInsideTheirFloorRooms()
         {
             var map=new FloorMap();

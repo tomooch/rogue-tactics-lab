@@ -92,7 +92,23 @@ namespace RogueTactics.Presentation
         private bool interruptRequested;
         private string directedAlly="", directedEnemy="";
         private RectTransform instructionOverlay, instructionSheet;
-        private Text instructionSummary;
+        private Text instructionSummary, instructionReceipt;
+        private string orderedActor="", orderedTarget="", instructionReceiptText="";
+        private void UpdateInstructionReceipt(ResolvedStep step)
+        {
+            if(orderedActor=="")return;
+            if(step.Plan.Actor==orderedActor)
+            {
+                var hits=step.Events.Where(e=>e.Actor==orderedActor && e.Kind==EventKind.Damage).Sum(e=>e.Amount);
+                instructionReceiptText=HeroName(orderedActor)+"への指示："+(step.Plan.Kind==ActionKind.Attack?HeroName(orderedTarget)+"に"+hits+"ダメージ":step.Plan.Kind==ActionKind.Move?"1マス接近した":"進めず待機した");
+                orderedActor="";orderedTarget="";
+            }
+            else if(!Session.Replay.State.Find(orderedActor).Alive || !Session.Replay.State.Find(orderedTarget).Alive)
+            {
+                instructionReceiptText="指示は終了：仲間か対象が戦闘不能になった";
+                orderedActor="";orderedTarget="";
+            }
+        }
         public bool InstructionOpen=>instructionOverlay!=null && instructionOverlay.gameObject.activeSelf;
         public void RequestInstruction()
         {
@@ -113,6 +129,9 @@ namespace RogueTactics.Presentation
             if(instructionOverlay!=null)return;
             MakeButton(SafeRoot,"Interrupt","指示する · 残り1回",12,0,366,48,RequestInstruction,16);
             StyleReferenceButton("Interrupt",HudSymbol.Swords,Gold);
+            var receiptRoot=Rect(SafeRoot,"Instruction receipt panel",12,0,366,48);
+            Frame(receiptRoot,new Color(.045f,.085f,.12f,.95f),new Color(.45f,.57f,.66f),10);
+            instructionReceipt=Label(receiptRoot,"Instruction receipt","",8,0,350,48,13,TextAnchor.MiddleCenter);
             instructionOverlay=Rect(SafeRoot,"Instruction overlay",0,0,390,844);
             instructionOverlay.gameObject.AddComponent<Image>().color=new Color(0,0,0,.15f);
             instructionSheet=Rect(instructionOverlay,"Instruction sheet",10,0,370,304);
@@ -159,6 +178,8 @@ namespace RogueTactics.Presentation
         {
             if(directedAlly=="" || directedEnemy=="" || Busy)return;
             Session.Replay.TargetOnce(directedAlly,directedEnemy);
+            orderedActor=directedAlly;orderedTarget=directedEnemy;
+            instructionReceiptText=HeroName(orderedActor)+" → "+HeroName(orderedTarget)+" · 次の行動を待っています";
             captions.Add(HeroName(directedAlly)+"に指示："+HeroName(directedEnemy)+"を狙う（次の1行動）");
             CancelInstruction();
         }
@@ -216,6 +237,9 @@ namespace RogueTactics.Presentation
             buttons["Interrupt"].gameObject.SetActive(canDirect);
             PositionReferenceAction("Interrupt",12,h-268,w-24,interruptRequested?"行動が終わるのを待っています…":"指示する · 残り1回");
             buttons["Interrupt"].interactable=!interruptRequested;
+            instructionReceipt.transform.parent.GetComponent<RectTransform>().anchoredPosition=new Vector2(12,-(h-268));
+            instructionReceipt.text=instructionReceiptText;
+            instructionReceipt.transform.parent.gameObject.SetActive(instructionReceiptText!="" && !terminalSeen && !IsExploring && !InstructionOpen && !modalObject.activeSelf);
             var correct=buttons["Correct"];correct.gameObject.SetActive(false);
             if(correct.gameObject.activeSelf)
             {

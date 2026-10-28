@@ -161,7 +161,7 @@ namespace RogueTactics.Presentation
             ResizeButton("Compare",12,193,w-24);ResizeButton("Close",18,modalH-58,w-56);ResizeButton("Details",w-68,6,56);
             buttons["Close"].GetComponent<RectTransform>().anchoredPosition=new Vector2(18,-(modalH-58));
             LayoutProductHud(w,h,fieldH);
-            FieldCamera.aspect=Field.rect.width/Field.rect.height;if(HqWorld)FieldCamera.orthographicSize=HqFieldWidth/2/FieldCamera.aspect;if(skyBackdrop!=null)skyBackdrop.localScale=new Vector3(FieldCamera.orthographicSize*2*FieldCamera.aspect,FieldCamera.orthographicSize*2,1);
+            FieldCamera.aspect=Field.rect.width/Field.rect.height;if(HqWorld)FieldCamera.orthographicSize=(GauntletRules?18.75f:HqFieldWidth)/2/FieldCamera.aspect;if(skyBackdrop!=null)skyBackdrop.localScale=new Vector3(FieldCamera.orthographicSize*2*FieldCamera.aspect,FieldCamera.orthographicSize*2,1);
             if(hp.Count>0)Refresh();
         }
         public void SetTestSafeArea(Rect area,int width,int height) {testViewport=true;ApplySafeArea(area,width,height);}
@@ -307,7 +307,7 @@ namespace RogueTactics.Presentation
         { if(Busy)return;ResetFloorExploration();policyEditing=false;Auto=false;Paused=false;Session.Reset();Prediction.text="";ResetProjection();SetComparisonCamera(CameraPitch); }
         private void ResetProjection()
         {
-            ClearRelation();frameIntervals.Clear();LastFrameReport=null;displayed.Clear();captions.Clear();dead.Clear();hp.Clear();positions.Clear();terminalSeen=false;shownStep=0;shownActor="";reaction="";foreach(var u in Session.Replay.State.Units){hp[u.Id]=u.Hp;positions[u.Id]=Shown(u.Position);}crisisActive=false;interruptRequested=false;if(instructionOverlay!=null)instructionOverlay.gameObject.SetActive(false);
+            ClearRelation();frameIntervals.Clear();LastFrameReport=null;displayed.Clear();captions.Clear();dead.Clear();hp.Clear();positions.Clear();terminalSeen=false;shownStep=0;shownActor="";reaction="";foreach(var u in Session.Replay.State.Units){hp[u.Id]=u.Hp;positions[u.Id]=Shown(u.Position);}crisisActive=false;orderedActor="";orderedTarget="";instructionReceiptText="";interruptRequested=false;if(instructionOverlay!=null)instructionOverlay.gameObject.SetActive(false);
             shield.gameObject.SetActive(false);guardLink.gameObject.SetActive(false);floating.text="";foreach(var b in badges.Values)b.alpha=1;
         }
         private void StartBattle() {if(Session.Started || Busy)return;policyEditing=false;Prediction.DeactivateInputField();SetComparisonCamera(CameraPitch);Session.Start(Prediction.text);Auto=!DeveloperMode;Next();}
@@ -323,6 +323,7 @@ namespace RogueTactics.Presentation
             }
             foreach(var u in Session.Replay.State.Units)
                 if(hp[u.Id]!=u.Hp || !positions[u.Id].Equals(Shown(u.Position)))throw new InvalidOperationException("Mobile event projection mismatch");
+            UpdateInstructionReceipt(result);
             Busy=false;Refresh();
             if(Session.Replay.State.Outcome!=Outcome.Active){Auto=false;FinishFrameReport();Debug.Log("MOBILE_G1_RESULT "+Session.Preference+" "+Session.Replay.Hash());}
             else if(interruptRequested)OpenInstruction();

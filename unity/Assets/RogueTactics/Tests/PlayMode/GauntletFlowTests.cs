@@ -134,6 +134,13 @@ namespace RogueTactics.Tests
             Assert.That(routes,Is.LessThanOrEqualTo(1),"Only the chosen instruction is drawn while deciding");
             yield return Capture("instruction-"+index+"-confirm");
             Press(view,"DirectConfirm");Assert.That(view.Session.Replay.CorrectionsLeft,Is.EqualTo(0));
+            Assert.That(view.SafeRoot.Find("Instruction receipt panel/Instruction receipt").GetComponent<Text>().text,Does.Contain("待っています"));
+            var receipt=view.SafeRoot.Find("Instruction receipt panel/Instruction receipt").GetComponent<Text>();
+            var receiptDeadline=Time.realtimeSinceStartup+30;
+            while(receipt.text.Contains("待っています") && Time.realtimeSinceStartup<receiptDeadline)yield return null;
+            Assert.That(receipt.text,Does.Not.Contain("待っています"),"Confirmed instruction receives an observed outcome");
+            Assert.That(receipt.text,Does.Contain("指示"));
+            yield return Capture("instruction-"+index+"-outcome");
             yield return WaitBattle(view,false);
             Assert.That(view.Busy,Is.False);Assert.That(view.Session.Replay.State.Outcome,Is.EqualTo(Outcome.Victory));
             Assert.That(view.CrisisPaused,Is.False,"No forced crisis interruption");
