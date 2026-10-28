@@ -31,3 +31,14 @@ Additional separately executed Core-only measurement (1/1 pass): 937 legal singl
 ## Current autonomous action versus instruction
 
 Base29d898d. Selected ally's current autonomous action/target is shown above portraits. Equal immediate action (same destination for Move, same target for Attack) is marked explicitly and confirmation says 同じ一手を指定; does not forbid use or change budget semantics. Root viewed instruction-1-confirm: autonomous Shiro approaches flower, selected moss produces same immediate move; equality notice fits with timing caveat. This compares present plans, not eventual outcomes. Fresh full Edit32/32 Play14/15, known initial B/A silhouette failure only. Source manifest checked. Raw captures local comparison-retained. No new human/native evidence, no fun acceptance.
+
+
+## Native-observed result repair (2026-10-28)
+
+Native Simulator source `bb0ced0d84e60e5a5ce1571dd03458c31a16ec6a` exported and built successfully; generated settings restored and source assets unchanged. Installed binary SHA-256 `91fb20d8c633b0e2528e37df878f60d76a4dc67f3a16b9aa6b2c01160d8e9f6b`. CUA screen taps exercised start, voluntary interrupt, Shiro→flower spirit selection, confirm, auto-resume, and four-survivor victory. No new TestFlight upload or physical-device claim.
+
+Observed defects: victory heading had no visible glyphs; instruction outcome disappeared at victory. Reduced heading font to fit its line box and retained the observed one-action receipt in the result banner. It is an action receipt, not a claim of causal victory contribution.
+
+Full repair run: Edit 32/32, Play 13/15. Failures were the existing initial silhouette-overlap gate and a new result assertion reading before HUD Update. Corrected the test to observe the subsequent frame. Focused consecutive-encounter Play test then passed; it checks retained receipt and generated heading vertices. Viewed fresh 390×844 second/third encounter result captures: heading, survivor count and receipt visible; card area unobstructed. Full suite remains non-green due to existing overlap; no gate was weakened. Post-repair native rebuild has not yet run. Human fun remains unverified.
+
+Private local evidence: `_userwork/hq-evidence/2026-10-28-interruption/native-retained/manual-observation.json`, `native-retained/build-result.json`, `result-retained/gauntlet-2-end.png`, `result-retained/gauntlet-3-end.png`, `result-focused/`. Images are local only. Public machine evidence is `instruction-result-*`; source manifest identifies the tested patch on bb0ced0.

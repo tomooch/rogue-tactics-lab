@@ -144,6 +144,13 @@ namespace RogueTactics.Tests
             yield return WaitBattle(view,false);
             Assert.That(view.Busy,Is.False);Assert.That(view.Session.Replay.State.Outcome,Is.EqualTo(Outcome.Victory));
             Assert.That(view.CrisisPaused,Is.False,"No forced crisis interruption");
+            yield return null; // HUD Update follows the final presentation coroutine.
+            Canvas.ForceUpdateCanvases();
+            var resultDetail=view.SafeRoot.Find("Result banner/Result detail").GetComponent<Text>();
+            Assert.That(resultDetail.text,Does.Contain(receipt.text),"The observed instruction outcome survives the victory transition");
+            Canvas.ForceUpdateCanvases();
+            var resultTitle=view.SafeRoot.Find("Result banner/Result title").GetComponent<Text>();
+            Assert.That(resultTitle.cachedTextGenerator.vertexCount,Is.GreaterThan(0),"Victory title must actually render, not only contain text");
             AssertMapClearOfCast(view,"encounter "+(index+1));yield return Capture("gauntlet-"+(index+1)+"-end");
         }
         [UnityTest,Timeout(900000)]

@@ -48,7 +48,7 @@ namespace RogueTactics.Presentation
             Frame(resultBanner,new Color(.08f,.065f,.03f,.95f),Gold,16).TopFill=new Color(.24f,.17f,.06f,.95f);
             resultBanner.GetComponentInChildren<HudPanelGraphic>().PortraitSurface=true;
             Glyph(resultBanner,"Left star",HudSymbol.Star,20,21,24,Gold,true,true);Glyph(resultBanner,"Right star",HudSymbol.Star,322,21,24,Gold,true,true);
-            resultTitle=Label(resultBanner,"Result title","",60,3,246,36,26,TextAnchor.MiddleCenter);resultTitle.fontStyle=FontStyle.Bold;resultTitle.color=new Color(1,.88f,.55f);
+            resultTitle=Label(resultBanner,"Result title","",60,3,246,36,20,TextAnchor.MiddleCenter);resultTitle.fontStyle=FontStyle.Bold;resultTitle.color=new Color(1,.88f,.55f);
             var titleShadow=resultTitle.gameObject.AddComponent<Shadow>();titleShadow.effectColor=new Color(.10f,.05f,0,.95f);titleShadow.effectDistance=new Vector2(1.5f,-1.5f);
             resultDetail=Label(resultBanner,"Result detail","",60,39,246,22,12,TextAnchor.MiddleCenter);
             resultBanner.gameObject.SetActive(false);
@@ -257,11 +257,15 @@ namespace RogueTactics.Presentation
             resultBanner.gameObject.SetActive(result);
             if(result)
             {
-                resultBanner.anchoredPosition=new Vector2(12,-(h-284));resultBanner.sizeDelta=new Vector2(w-24,66);
+                var hasReceipt=instructionReceiptText!="";
+                var bannerHeight=hasReceipt?88:66;
+                resultBanner.anchoredPosition=new Vector2(12,-(h-218-bannerHeight));resultBanner.sizeDelta=new Vector2(w-24,bannerHeight);
                 resultBanner.Find("Right star").GetComponent<RectTransform>().anchoredPosition=new Vector2(w-24-44,-21);
                 var won=Session.Replay.State.Outcome==Outcome.Victory;var final=won && Session.EncounterIndex==Fixture.EncounterCount-1;
                 resultTitle.text=won?"勝利！":"戦闘終了";resultTitle.rectTransform.sizeDelta=new Vector2(w-24-120,36);
-                resultDetail.text=(final?"3つの戦いを越えた・":"")+alive+"人が生還";resultDetail.rectTransform.sizeDelta=new Vector2(w-24-120,22);
+                resultDetail.text=(final?"3つの戦いを越えた・":"")+alive+"人が生還"+(hasReceipt?"\n"+instructionReceiptText:"");
+                resultDetail.rectTransform.anchoredPosition=new Vector2(12,-39);
+                resultDetail.rectTransform.sizeDelta=new Vector2(w-48,hasReceipt?44:22);
             }
             RefreshEventShelf();
             var pulse=1+.12f*Mathf.Sin(Time.unscaledTime*6);
