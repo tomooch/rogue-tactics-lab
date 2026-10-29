@@ -22,6 +22,7 @@ namespace RogueTactics.Presentation
         private HudGlyphGraphic nextIntentMark;
         private RectTransform resultBanner;
         private Text resultTitle, resultDetail;
+        private int previousResultEncounter=-1, previousSurvivors;
         private readonly List<HudGlyphGraphic> crisisMarks=new List<HudGlyphGraphic>();
         private bool GauntletRules=>ExplorationEnabled && Session.EncounterIndex>0;
         private GridPosition Shown(GridPosition core)=>core.Offset(battleOrigin.X,battleOrigin.Y);
@@ -56,6 +57,8 @@ namespace RogueTactics.Presentation
         private void RetryCurrentEncounter()
         {
             if(Busy || IsExploring || !terminalSeen)return;
+            previousResultEncounter=Session.EncounterIndex;
+            previousSurvivors=Session.Replay.State.Units.Count(u=>!u.Enemy && u.Alive);
             Auto=false;Paused=false;policyEditing=false;
             Session.Reset();Prediction.text="";ResetProjection();SetComparisonCamera(CameraPitch);
         }
@@ -140,7 +143,7 @@ namespace RogueTactics.Presentation
             instructionReceipt=Label(receiptRoot,"Instruction receipt","",8,0,350,48,13,TextAnchor.MiddleCenter);
             instructionOverlay=Rect(SafeRoot,"Instruction overlay",0,0,390,844);
             instructionOverlay.gameObject.AddComponent<Image>().color=new Color(0,0,0,.15f);
-            instructionSheet=Rect(instructionOverlay,"Instruction sheet",10,0,370,304);
+            instructionSheet=Rect(instructionOverlay,"Instruction sheet",10,0,370,320);
             instructionSheet.gameObject.AddComponent<Image>().color=new Color(.045f,.085f,.12f,1);
             Frame(instructionSheet,new Color(.045f,.085f,.12f,1),new Color(.45f,.57f,.66f),14);
             Label(instructionSheet,"Heading","仲間に一手を託す",16,6,338,40,19);
@@ -155,19 +158,19 @@ namespace RogueTactics.Presentation
                 var name=button.transform.Find("Label").GetComponent<Text>();name.fontSize=12;name.rectTransform.anchoredPosition=new Vector2(2,-49);name.rectTransform.sizeDelta=new Vector2(76,25);
                 Label(button.transform,"HP", "",47,9,31,40,10,TextAnchor.MiddleCenter);
             }
-            MakeButton(instructionSheet,"DirectEnemyX",HeroName("X"),16,158,164,44,()=>{directedEnemy="X";RefreshInstruction();},15);
-            MakeButton(instructionSheet,"DirectEnemyY",HeroName("Y"),190,158,164,44,()=>{directedEnemy="Y";RefreshInstruction();},15);
+            MakeButton(instructionSheet,"DirectEnemyX",HeroName("X"),16,158,164,60,()=>{directedEnemy="X";RefreshInstruction();},15);
+            MakeButton(instructionSheet,"DirectEnemyY",HeroName("Y"),190,158,164,60,()=>{directedEnemy="Y";RefreshInstruction();},15);
             foreach(var id in new[]{"X","Y"})
             {
                 var button=buttons["DirectEnemy"+id];
                 var face=Rect(button.transform,"Spirit portrait",6,3,38,38).gameObject.AddComponent<SpiritPortraitGraphic>();
                 face.Violet=id=="Y";face.raycastTarget=false;
                 var label=button.transform.Find("Label").GetComponent<Text>();
-                label.fontSize=12;label.rectTransform.anchoredPosition=new Vector2(46,-2);label.rectTransform.sizeDelta=new Vector2(114,40);
+                label.fontSize=11;label.rectTransform.anchoredPosition=new Vector2(46,-2);label.rectTransform.sizeDelta=new Vector2(114,56);
             }
-            instructionSummary=Label(instructionSheet,"Selection","",16,207,338,40,12);
-            MakeButton(instructionSheet,"DirectCancel","やめて任せる",16,250,164,44,CancelInstruction,15);
-            MakeButton(instructionSheet,"DirectConfirm","この一手を託す",190,250,164,44,ConfirmInstruction,15);
+            instructionSummary=Label(instructionSheet,"Selection","",16,223,338,40,12);
+            MakeButton(instructionSheet,"DirectCancel","やめて任せる",16,266,164,44,CancelInstruction,15);
+            MakeButton(instructionSheet,"DirectConfirm","この一手を託す",190,266,164,44,ConfirmInstruction,15);
             instructionOverlay.gameObject.SetActive(false);
         }
         private void RefreshInstruction()
@@ -175,7 +178,10 @@ namespace RogueTactics.Presentation
             foreach(var id in CardOrder)
             {var b=buttons["DirectAlly"+id];var u=Session.Replay.State.Find(id);b.interactable=u.Alive;b.transform.Find("HP").GetComponent<Text>().text="HP\n"+u.Hp;b.GetComponent<Image>().color=id==directedAlly?new Color(.4f,.3f,.10f):new Color(.12f,.24f,.26f);}
             foreach(var id in new[]{"X","Y"})
-            {var b=buttons["DirectEnemy"+id];b.interactable=Session.Replay.State.Find(id).Alive;b.GetComponent<Image>().color=id==directedEnemy?new Color(.4f,.3f,.10f):new Color(.12f,.24f,.26f);b.transform.Find("Label").GetComponent<Text>().text=HeroName(id)+"\nHP "+Session.Replay.State.Find(id).Hp;}
+            {var b=buttons["DirectEnemy"+id];b.interactable=Session.Replay.State.Find(id).Alive;b.GetComponent<Image>().color=id==directedEnemy?new Color(.4f,.3f,.10f):new Color(.12f,.24f,.26f);var enemy=Session.Replay.State.Find(id);
+                var plan=Session.Replay.Intents().FirstOrDefault(p=>p.Actor==id);
+                var intentText=!enemy.Alive?"戦闘不能":plan==null?"待機":PlanName(plan.Kind)+(plan.Target!=""?"→"+HeroName(plan.Target):"");
+                b.transform.Find("Label").GetComponent<Text>().text=HeroName(id)+"  HP "+enemy.Hp+"\n"+intentText;}
             buttons["DirectConfirm"].interactable=directedAlly!="" && directedEnemy!="";
             instructionSummary.text=directedAlly==""?"誰に一手を託しますか？\n確定するまで回数は減りません":directedEnemy==""?HeroName(directedAlly)+"が狙う相手を選んでください":"";
             var usual=directedAlly==""?null:Session.Replay.Intents().FirstOrDefault(plan=>plan.Actor==directedAlly);
@@ -251,7 +257,7 @@ namespace RogueTactics.Presentation
             var challenge=buttons["Challenge"];challenge.gameObject.SetActive(CanChallenge && !enteringEncounter);
             if(challenge.gameObject.activeSelf)PositionReferenceAction("Challenge",12,h-268,w-24,"守り手に挑む（"+(NextEncounter+1)+" / "+Fixture.EncounterCount+"戦目）");
             instructionOverlay.sizeDelta=SafeRoot.rect.size;
-            instructionSheet.anchoredPosition=new Vector2(10,-(h-314));
+            instructionSheet.anchoredPosition=new Vector2(10,-(h-330));
             var canDirect=Session.Started && !terminalSeen && !IsExploring && !modalObject.activeSelf && Session.Replay.CorrectionsLeft>0;
             buttons["Interrupt"].gameObject.SetActive(canDirect);
             PositionReferenceAction("Interrupt",12,h-268,w-24,interruptRequested?"行動が終わるのを待っています…":"指示する · 残り1回");
@@ -277,7 +283,7 @@ namespace RogueTactics.Presentation
                 resultBanner.Find("Right star").GetComponent<RectTransform>().anchoredPosition=new Vector2(w-24-44,-21);
                 var won=Session.Replay.State.Outcome==Outcome.Victory;var final=won && Session.EncounterIndex==Fixture.EncounterCount-1;
                 resultTitle.text=won?"勝利！":"戦闘終了";resultTitle.rectTransform.sizeDelta=new Vector2(w-24-120,36);
-                resultDetail.text=(final?"3つの戦いを越えた・":"")+alive+"人が生還"+(hasReceipt?"\n"+instructionReceiptText:"");
+                resultDetail.text=(final?"3つの戦いを越えた・":"")+alive+"人が生還"+(previousResultEncounter==Session.EncounterIndex?"（前回"+previousSurvivors+"人）":"")+(hasReceipt?"\n"+instructionReceiptText:"");
                 resultDetail.rectTransform.anchoredPosition=new Vector2(12,-39);
                 resultDetail.rectTransform.sizeDelta=new Vector2(w-48,hasReceipt?44:22);
             }

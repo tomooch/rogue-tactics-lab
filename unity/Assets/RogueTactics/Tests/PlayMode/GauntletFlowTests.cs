@@ -153,6 +153,91 @@ namespace RogueTactics.Tests
             Assert.That(resultTitle.cachedTextGenerator.vertexCount,Is.GreaterThan(0),"Victory title must actually render, not only contain text");
             AssertMapClearOfCast(view,"encounter "+(index+1));yield return Capture("gauntlet-"+(index+1)+"-end");
         }
+        // Diagnostic only: preserve the conservative readability gate. Real material/sorting,
+        // no replacement shader, camera change, alpha threshold or acceptance threshold.
+        [UnityTest,Timeout(120000)]
+        public IEnumerator InitialActorRenderedContributionDiagnostic()
+        {
+            var oldTime=Time.timeScale;
+            try
+            {
+                foreach(var scene in new[]{"MobileG1","HqExploration"})
+                {
+                    yield return SceneManager.LoadSceneAsync(scene);yield return null;yield return null;
+                    var view=Object.FindFirstObjectByType<MobileG1View>();
+                    view.SetTestSafeArea(new Rect(0,34,390,763),390,844);
+                    Time.timeScale=0;
+                    view.enabled=false; // Freeze unscaled breathing at its actual rendered pose.
+                    var ambients=Object.FindObjectsByType<HqAmbient>(FindObjectsSortMode.None).Where(a=>a.enabled).ToArray();
+                    foreach(var ambient in ambients)ambient.enabled=false;
+                    yield return null;yield return null;
+                    var bodies=Object.FindObjectsByType<Renderer>(FindObjectsSortMode.None)
+                        .Where(r=>r.enabled && r.gameObject.activeInHierarchy &&
+                            (r.name=="Private approved static skin" || r.name=="Fixture slime"))
+                        .OrderBy(r=>r.transform.parent.name).ToArray();
+                    Assert.That(bodies.Length,Is.EqualTo(6));
+                    var directory=Path.GetFullPath("Logs/hq/private/occlusion-"+scene);Directory.CreateDirectory(directory);
+                    Color32[] Read(string name)
+                    {
+                        var previous=RenderTexture.active;RenderTexture.active=view.FieldCamera.targetTexture;
+                        var image=new Texture2D(RenderTexture.active.width,RenderTexture.active.height,TextureFormat.RGB24,false);
+                        image.ReadPixels(new Rect(0,0,image.width,image.height),0,0);image.Apply();
+                        var pixels=image.GetPixels32();File.WriteAllBytes(Path.Combine(directory,name+".png"),image.EncodeToPNG());
+                        RenderTexture.active=previous;Object.Destroy(image);return pixels;
+                    }
+                    bool Different(Color32 a,Color32 b)=>Mathf.Max(Mathf.Abs(a.r-b.r),Mathf.Abs(a.g-b.g),Mathf.Abs(a.b-b.b))>3;
+                    var full=Read("full");yield return null;yield return null;var repeated=Read("repeat");
+                    var csv=new List<string>{"actor,isolated_contribution_pixels,visible_contribution_pixels,hidden_contribution_pixels,unstable_baseline_pixels"};
+                    try
+                    {
+                        foreach(var body in bodies)body.enabled=false;
+                        yield return null;yield return null;var background=Read("without-bodies");
+                        for(var n=0;n<bodies.Length;n++)
+                        {
+                            var body=bodies[n];body.enabled=true;yield return null;yield return null;
+                            var isolated=Read("isolated-"+n);body.enabled=false;
+                            foreach(var other in bodies)if(other!=body)other.enabled=true;
+                            yield return null;yield return null;var without=Read("without-"+n);
+                            int total=0,visible=0,unstable=0;
+                            for(var i=0;i<isolated.Length;i++)if(Different(isolated[i],background[i]))
+                            {total++;if(Different(full[i],without[i]))visible++;if(Different(full[i],repeated[i]))unstable++;}
+                            csv.Add(body.transform.parent.name+","+total+","+visible+","+(total-visible)+","+unstable);
+                            foreach(var other in bodies)other.enabled=false;
+                        }
+                    }
+                    finally {foreach(var body in bodies)body.enabled=true;view.enabled=true;foreach(var ambient in ambients)ambient.enabled=true;}
+                    File.WriteAllLines(Path.Combine(directory,"contribution.csv"),csv);
+                    Assert.That(view.Session.Replay.State.Step,Is.EqualTo(0),"Diagnostic never advances Core");
+                }
+            }
+            finally {Time.timeScale=oldTime;}
+        }
+        [UnityTest,Timeout(300000)]
+        public IEnumerator FirstEncounterAlternativeInstructionChangesObservedOutcome()
+        {
+            yield return SceneManager.LoadSceneAsync("HqExploration");yield return null;yield return null;
+            var view=Object.FindFirstObjectByType<MobileG1View>();
+            var target=new RenderTexture(390,844,24);Camera.main.targetTexture=target;
+            view.SetTestSafeArea(new Rect(0,34,390,763),390,844);
+            Press(view,"Policy");yield return null;Press(view,"Attack");Press(view,"ClosePolicy");yield return null;
+            Press(view,"Start");yield return WaitBattle(view,false);yield return null;
+            Assert.That(view.Session.Replay.State.Units.Count(u=>!u.Enemy && u.Alive),Is.EqualTo(3));
+            yield return Capture("choice-baseline-three-survivors");
+            Press(view,"RetryEncounter");yield return null;yield return null;
+            Assert.That(view.Session.Preference,Is.EqualTo(Preference.DirectAttack));
+            Press(view,"Start");yield return null;yield return null;Press(view,"Interrupt");
+            var deadline=Time.realtimeSinceStartup+15;
+            while(!view.InstructionOpen && Time.realtimeSinceStartup<deadline)yield return null;
+            Assert.That(view.InstructionOpen,Is.True);yield return null;yield return null;
+            Press(view,"DirectAllyC");Press(view,"DirectEnemyY");
+            Assert.That(view.SafeRoot.Find("Instruction overlay/Instruction sheet/Selection").GetComponent<Text>().text,Does.Contain("攻撃"));
+            yield return Capture("choice-garu-flower-selection");
+            Press(view,"DirectConfirm");yield return WaitBattle(view,false);yield return null;
+            Assert.That(view.Session.Replay.State.Units.Count(u=>!u.Enemy && u.Alive),Is.EqualTo(4));
+            Assert.That(view.SafeRoot.Find("Result banner/Result detail").GetComponent<Text>().text,Does.Contain("ガルへの指示"));
+            Assert.That(view.SafeRoot.Find("Result banner/Result detail").GetComponent<Text>().text,Does.Contain("4人が生還（前回3人）"));
+            yield return Capture("choice-directed-four-survivors");
+        }
         [UnityTest,Timeout(900000)]
         public IEnumerator ConsecutiveEncountersWithVoluntaryTargetInstruction()
         {

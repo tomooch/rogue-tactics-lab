@@ -1,0 +1,7 @@
+actor,isolated_contribution_pixels,visible_contribution_pixels,hidden_contribution_pixels,unstable_baseline_pixels
+Fixture A,22344,22319,25,2
+Fixture B,22432,22078,354,20
+Fixture C,22342,22317,25,7
+Fixture D,23067,23028,39,8
+Fixture X,11367,8431,2936,15
+Fixture Y,11222,11200,22,12

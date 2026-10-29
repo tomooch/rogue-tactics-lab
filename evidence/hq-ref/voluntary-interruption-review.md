@@ -68,3 +68,22 @@ Existing event shelf shows actor, target and action kind while the already-prese
 
 
 Native follow-through at source `52c071fb5ee26192651b3c844ce6ea847ace80dd`: export/build succeeded; actual QA Simulator CUA taps verified cancel/reopen/confirm/auto-victory/same-encounter retry. Victory receipt visibly retained flower-spirit 4 damage. Selected instruction matched autonomous action; this is flow evidence, not proof of strategic benefit. Exact binary/source/observed limits: `play-loop-native-observation.json`. No new TestFlight upload.
+
+
+## Current enemy intent and meaningful retry comparison (2026-10-30)
+
+Enemy selector shows current paused Core action/target beside face and HP. Sheet grows 16 reference pixels so two-line enemy labels fit. Root viewed 390×844 baseline, selection and directed result. Same encounter and DirectAttack: autonomous battle leaves 3 survivors; first-boundary Garu→flower instruction leaves 4 (Shiro HP9). This is an actual raycast UI flow, not solely a Core simulation. The result receipt reports flower 6 damage, without claiming that damage alone explains victory. No optimal-answer prompt or future-state preview added.
+
+Full Edit32/32, Play15/16: new same-encounter comparison passes; sole failure is existing initial A/B whole-mesh AABB overlap. No gate weakened. Exact source manifest, XML and local private image hashes are threat-choice-*; images not uploaded. No native run of this change yet. Executor judgment: outcome consequence is evidenced, but watching interest, intuitive reasons to intervene and desire to retry are not yet strong.
+
+
+## Rendered actor contribution diagnostic
+
+Read-only Luna review identified transparent billboard corners in the AABB gate. Added a separate report-only test; original gate remains unchanged. First differential run was rejected because unscaled breathing changed pixels. Second run froze the actual pose by disabling the view/ambient updates temporarily, restored them afterward, used unchanged camera/materials and actual field render target. Each body was rendered alone and with other bodies; RGB difference >3/255 measured contribution against the same background. This is a color-difference estimate, not an exact alpha/visibility mask or face-legibility acceptance. Source shader, sorting and Core remain untouched. Raw field render target has a different aspect than the phone UI and is not a finished phone screenshot.
+
+HQ initial-state body contribution lost in composite: A25/22344, B354/22432, C25/22342, D39/23067; moss X2936/11367 (~26%). Repeated-render instability was 2–20 pixels per body. The green enemy is visibly behind Garu in the actual render; allies are mostly visible despite overlapping quads. This narrows the issue; it does not clear the old gate or establish battle-time readability. Enemy eyes/leaves, shadows and markers were not isolated as body masks. Private raw renders retained owner-local in 2026-10-30-threat-choice/occlusion-{MobileG1,HqExploration}; public CSV/XML/source manifest actor-contribution-*.
+
+
+## Remembering the immediately previous attempt
+
+Added compact actual history to the existing survivor line: 4人が生還（前回3人）. Stored only when retrying this encounter; ignored in other encounters. No extra panel, required comparison/input, or causal success claim. Text-only Astra advice supported this narrow addition (no visual review claimed). Focused real-input comparison passed1/1; viewed fresh result at390×844 with receipt and previous survivors fitting. Full suite above predates this final line change; native confirmation pending. Private result retained at retained/retry-with-previous-result.png.
