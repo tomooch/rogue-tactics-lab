@@ -65,3 +65,6 @@ Full verification: Edit 32/32, Play 14/15. Only existing initial X/C projected-b
 ## Current presented action (2026-10-29)
 
 Existing event shelf shows actor, target and action kind while the already-presented Action event is active, then returns to observed results. It does not preview future queued effects. Full Edit 32/32 and Play 14/15; sole remaining failure is existing initial projected actor-bounds overlap. Fresh `gauntlet-current-action.png` viewed at 390×844: モモ→シロ / 守護 fits the shelf while the matching cast is highlighted. Consecutive-encounter test asserts action caption on start and completes retry flow. Private capture retained at `_userwork/hq-evidence/2026-10-29-play-loop/retained/current-action.png`. No human-fun claim.
+
+
+Native follow-through at source `52c071fb5ee26192651b3c844ce6ea847ace80dd`: export/build succeeded; actual QA Simulator CUA taps verified cancel/reopen/confirm/auto-victory/same-encounter retry. Victory receipt visibly retained flower-spirit 4 damage. Selected instruction matched autonomous action; this is flow evidence, not proof of strategic benefit. Exact binary/source/observed limits: `play-loop-native-observation.json`. No new TestFlight upload.
