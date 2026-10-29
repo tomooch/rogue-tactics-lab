@@ -25,6 +25,9 @@ namespace RogueTactics.Presentation
             var resultOutline=terminalTransportResult.gameObject.AddComponent<Outline>();
             resultOutline.effectColor=new Color(.025f,.045f,.08f,.95f);resultOutline.effectDistance=new Vector2(1,-1);
             terminalTransportReserve.gameObject.SetActive(false);
+            MakeButton(SafeRoot,"RetryEncounter","同じ戦い",0,0,104,48,RetryCurrentEncounter,13);
+            StyleReferenceButton("RetryEncounter",HudSymbol.Reset,new Color(.62f,.74f,.84f));
+            buttons["RetryEncounter"].gameObject.SetActive(false);
             MakeButton(modal,"RecordCompare","戦いの記録",218,6,134,48,()=>OpenDetails(true),13);
             MakeButton(modal,"RecordRetry","もう一度試す",190,570,162,48,()=>{CloseReferenceMemo();modalObject.SetActive(false);SyncReferenceModal();ResetBaseline();},13);
             StyleReferenceButton("RecordCompare",HudSymbol.Compare,Gold);
@@ -108,6 +111,11 @@ namespace RogueTactics.Presentation
         {
             if(terminalTransportReserve!=null)
                 terminalTransportReserve.gameObject.SetActive(AutonomousProduct && terminalSeen && !IsExploring && !modalObject.activeSelf && Session.Replay.State.Outcome==Outcome.Victory);
+            if(buttons.ContainsKey("RetryEncounter"))
+            {
+                buttons["RetryEncounter"].gameObject.SetActive(AutonomousProduct && terminalSeen && !Busy && !IsExploring && !modalObject.activeSelf);
+                PositionReferenceAction("RetryEncounter",12,SafeRoot.rect.height-58,110,"同じ戦い");
+            }
             if(!AutonomousProduct)return;
             buttons["PolicyShortcut"].gameObject.SetActive(false);
             cardValues["B"].transform.parent.Find("Name").GetComponent<Text>().text=Session.Started?"モモ":"モモ・方針";
@@ -131,7 +139,7 @@ namespace RogueTactics.Presentation
                     if(buttons.ContainsKey("Explore"))
                     {
                         var w=SafeRoot.rect.width;
-                        PositionReferenceAction("Explore",12,SafeRoot.rect.height-58,w-136,"遺跡を探索する");
+                        PositionReferenceAction("Explore",128,SafeRoot.rect.height-58,w-252,"先へ進む");
                         CenterPrimaryAction("Explore");
                         terminalTransportReserve.anchoredPosition=new Vector2(w-116,-(SafeRoot.rect.height-58));
                         terminalTransportResult.text=(Session.Replay.State.Outcome==Outcome.Victory?"勝利":"戦闘終了")+"\n"+alive+"人が生還";

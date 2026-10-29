@@ -51,3 +51,12 @@ Added locally drawn green/violet spirit faces beside enemy name and HP in the vo
 Focused consecutive-encounter Play test passed (1/1); filtered Edit run contains 0 tests, so is not a new Core suite claim. Previous full Edit 32/32 evidence remains scoped to the previous change. Fresh native verification not run for these faces. Private captures remain under `_userwork/hq-evidence/2026-10-29-target-portraits/private/`.
 
 Independent read-only review confirmed that the existing silhouette gate compares whole projected mesh AABBs, including private-sprite transparency. It does not measure opaque coverage or depth occlusion. The failing gate is preserved unchanged; no claim of resolved overlap. A future diagnostic must compare isolated visible actor masks with actual combined rendering before distinguishing harmless transparent overlap from occlusion.
+
+
+## Same-encounter retry and instruction lifecycle (2026-10-29)
+
+Added terminal “同じ戦い” returning to the current encounter initial state and preserving preference, beside “先へ進む”. Existing former-Pause input sink remains on the right: first candidate reused that space and was rejected by regression test. A subsequent broad replacement caused a compiler error; repaired before this run. New flow check actually clicks retry after third encounter, verifies initial serialized state, correction budget 1, cleared receipt, preserved encounter/preference, then completes another battle.
+
+Instruction receipt now changes from waiting to executing when its actor's presented Action begins; final result still derives from completed events. Selector explicitly says confirmation consumes the opportunity, cancellation does not. Astra provided text-only advice, not visual acceptance.
+
+Full verification: Edit 32/32, Play 14/15. Only existing initial X/C projected-bounds overlap fails; no test weakened. Viewed fresh 390×844 result and retry-ready captures: button labels fit, result receipt persists, all four HP reset and encounter remains 3. Post-change native/physical/Human play not yet verified. Source manifest and XML are `play-loop-*`. Private images remain `_userwork/hq-evidence/2026-10-29-play-loop/retained/`. Five playability criteria remain unaccepted; these checks establish behavior, not fun.

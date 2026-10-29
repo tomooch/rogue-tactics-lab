@@ -137,7 +137,7 @@ namespace RogueTactics.Tests
             Assert.That(view.SafeRoot.Find("Instruction receipt panel/Instruction receipt").GetComponent<Text>().text,Does.Contain("待っています"));
             var receipt=view.SafeRoot.Find("Instruction receipt panel/Instruction receipt").GetComponent<Text>();
             var receiptDeadline=Time.realtimeSinceStartup+30;
-            while(receipt.text.Contains("待っています") && Time.realtimeSinceStartup<receiptDeadline)yield return null;
+            while((receipt.text.Contains("待っています") || receipt.text.Contains("実行中")) && Time.realtimeSinceStartup<receiptDeadline)yield return null;
             Assert.That(receipt.text,Does.Not.Contain("待っています"),"Confirmed instruction receives an observed outcome");
             Assert.That(receipt.text,Does.Contain("指示"));
             yield return Capture("instruction-"+index+"-outcome");
@@ -167,6 +167,16 @@ namespace RogueTactics.Tests
             Press(view,"Explore");
             yield return Encounter(view,2,Preference.DirectAttack);
             Assert.That(view.SafeRoot.Find("Boundary").GetComponent<Text>().text,Does.Contain("3つの戦い"));
+            var encounter=view.Session.EncounterIndex;var preference=view.Session.Preference;
+            Press(view,"RetryEncounter");yield return null;yield return null;
+            Assert.That(view.Session.EncounterIndex,Is.EqualTo(encounter),"Retry stays in the same encounter");
+            Assert.That(view.Session.Preference,Is.EqualTo(preference));
+            Assert.That(view.Session.Started,Is.False);Assert.That(view.Session.Replay.CorrectionsLeft,Is.EqualTo(1));
+            Assert.That(view.Session.Replay.State.Serialize(),Is.EqualTo(Fixture.Encounter(encounter).Serialize()));
+            Assert.That(view.SafeRoot.Find("Instruction receipt panel").gameObject.activeSelf,Is.False,"Previous instruction receipt clears");
+            yield return Capture("gauntlet-retry-ready");
+            Press(view,"Start");yield return WaitBattle(view,false);
+            Assert.That(view.Session.Replay.State.Outcome,Is.EqualTo(Outcome.Victory));
         }
     }
 }

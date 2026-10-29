@@ -332,7 +332,7 @@ namespace RogueTactics.Presentation
         private void Display(BattleEvent e)
         {
             displayed.Add(e);
-            if(e.Kind==EventKind.Action){shownStep=e.Step;shownActor=e.Actor;reaction="";if(executingPlan.Kind==ActionKind.Maintain || executingPlan.Kind==ActionKind.Move)ClearRelation();else ShowRelation(e.Actor,executingPlan.Target,executingPlan.Kind,false);}
+            if(e.Kind==EventKind.Action){if(orderedActor==e.Actor)instructionReceiptText=HeroName(e.Actor)+"が指示を実行中";shownStep=e.Step;shownActor=e.Actor;reaction="";if(executingPlan.Kind==ActionKind.Maintain || executingPlan.Kind==ActionKind.Move)ClearRelation();else ShowRelation(e.Actor,executingPlan.Target,executingPlan.Kind,false);}
             if(e.Kind==EventKind.Counter)reaction=HeroName(e.Actor)+" 反撃（割込）";
             if(e.Kind==EventKind.End)terminalSeen=true;
             switch(e.Kind)

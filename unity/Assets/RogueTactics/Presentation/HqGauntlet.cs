@@ -53,6 +53,12 @@ namespace RogueTactics.Presentation
             resultDetail=Label(resultBanner,"Result detail","",60,39,246,22,12,TextAnchor.MiddleCenter);
             resultBanner.gameObject.SetActive(false);
         }
+        private void RetryCurrentEncounter()
+        {
+            if(Busy || IsExploring || !terminalSeen)return;
+            Auto=false;Paused=false;policyEditing=false;
+            Session.Reset();Prediction.text="";ResetProjection();SetComparisonCamera(CameraPitch);
+        }
         private int NextEncounter=>Session.EncounterIndex+1;
         private bool PartyInRoom(int room)
             =>traveller!=null && traveller.Party.Values.Any(p=>floorMap.RoomAt(p)==room);
@@ -171,7 +177,7 @@ namespace RogueTactics.Presentation
             foreach(var id in new[]{"X","Y"})
             {var b=buttons["DirectEnemy"+id];b.interactable=Session.Replay.State.Find(id).Alive;b.GetComponent<Image>().color=id==directedEnemy?new Color(.4f,.3f,.10f):new Color(.12f,.24f,.26f);b.transform.Find("Label").GetComponent<Text>().text=HeroName(id)+"\nHP "+Session.Replay.State.Find(id).Hp;}
             buttons["DirectConfirm"].interactable=directedAlly!="" && directedEnemy!="";
-            instructionSummary.text=directedAlly==""?"誰に一手を託しますか？":directedEnemy==""?HeroName(directedAlly)+"が狙う相手を選んでください":"";
+            instructionSummary.text=directedAlly==""?"誰に一手を託しますか？\n確定するまで回数は減りません":directedEnemy==""?HeroName(directedAlly)+"が狙う相手を選んでください":"";
             var usual=directedAlly==""?null:Session.Replay.Intents().FirstOrDefault(plan=>plan.Actor==directedAlly);
             instructionSheet.Find("Help").GetComponent<Text>().text=usual==null?"仲間と狙う相手を選ぶ · 残り1回":"現在の自動行動："+HeroName(directedAlly)+" · "+PlanName(usual.Kind)+(usual.Target!=""?" → "+HeroName(usual.Target):"");
             buttons["DirectConfirm"].transform.Find("Label").GetComponent<Text>().text="この一手を託す";
