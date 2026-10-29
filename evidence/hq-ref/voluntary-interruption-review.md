@@ -60,3 +60,8 @@ Added terminal “同じ戦い” returning to the current encounter initial sta
 Instruction receipt now changes from waiting to executing when its actor's presented Action begins; final result still derives from completed events. Selector explicitly says confirmation consumes the opportunity, cancellation does not. Astra provided text-only advice, not visual acceptance.
 
 Full verification: Edit 32/32, Play 14/15. Only existing initial X/C projected-bounds overlap fails; no test weakened. Viewed fresh 390×844 result and retry-ready captures: button labels fit, result receipt persists, all four HP reset and encounter remains 3. Post-change native/physical/Human play not yet verified. Source manifest and XML are `play-loop-*`. Private images remain `_userwork/hq-evidence/2026-10-29-play-loop/retained/`. Five playability criteria remain unaccepted; these checks establish behavior, not fun.
+
+
+## Current presented action (2026-10-29)
+
+Existing event shelf shows actor, target and action kind while the already-presented Action event is active, then returns to observed results. It does not preview future queued effects. Full Edit 32/32 and Play 14/15; sole remaining failure is existing initial projected actor-bounds overlap. Fresh `gauntlet-current-action.png` viewed at 390×844: モモ→シロ / 守護 fits the shelf while the matching cast is highlighted. Consecutive-encounter test asserts action caption on start and completes retry flow. Private capture retained at `_userwork/hq-evidence/2026-10-29-play-loop/retained/current-action.png`. No human-fun claim.

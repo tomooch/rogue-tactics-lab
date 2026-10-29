@@ -118,6 +118,9 @@ namespace RogueTactics.Presentation
                 buttons["Compare"].gameObject.SetActive(terminalSeen);
                 eventCaption.gameObject.SetActive(!terminalSeen);eventBackdrop.gameObject.SetActive(!terminalSeen);
                 eventCaption.rectTransform.anchoredPosition=new Vector2(18,-4);eventCaption.rectTransform.sizeDelta=new Vector2(SafeRoot.rect.width-152,40);eventCaption.fontSize=12;eventCaption.text=captions.LastOrDefault()??"仲間の戦いが始まります";
+                // Only describe the Action already being presented, never a later Core plan or result.
+                if(Busy && displayed.Count>0 && displayed[displayed.Count-1].Kind==EventKind.Action)
+                    eventCaption.text=HeroName(executingPlan.Actor)+(executingPlan.Target!=""?" → "+HeroName(executingPlan.Target):"")+"\n"+PlanName(executingPlan.Kind);
                 ResizeButton("Play",SafeRoot.rect.width-116,0,104);ResizeButton("Reset",12,0,(SafeRoot.rect.width-30)/2);
                 buttons["Reset"].GetComponentInChildren<Text>().text="もう一度試す";
                 ResizeButton("Compare",18+(SafeRoot.rect.width-30)/2,0,(SafeRoot.rect.width-30)/2);buttons["Compare"].GetComponentInChildren<Text>().text="予想と結果を比べる";

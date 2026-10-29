@@ -159,7 +159,13 @@ namespace RogueTactics.Tests
             yield return SceneManager.LoadSceneAsync("HqExploration");yield return null;yield return null;
             var view=Object.FindFirstObjectByType<MobileG1View>();
             var target=new RenderTexture(390,844,24);Camera.main.targetTexture=target;view.SetTestSafeArea(new Rect(0,34,390,763),390,844);
-            Press(view,"Start");yield return WaitBattle(view,false);
+            Press(view,"Start");
+            var actionCaption=view.SafeRoot.GetComponentsInChildren<Text>(true).First(t=>t.name=="Events");
+            Assert.That(actionCaption.text,Does.Contain("モモ"));
+            Assert.That(actionCaption.text,Does.Contain("守護"));
+            Assert.That(view.Session.Replay.State.Step,Is.EqualTo(1));
+            yield return Capture("gauntlet-current-action");
+            yield return WaitBattle(view,false);
             Assert.That(view.CrisisPaused,Is.False,"Encounter 1 keeps the frozen G1 flow");
             Assert.That(view.Session.Replay.Hash(),Is.EqualTo("e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d"));
             Press(view,"Explore");
