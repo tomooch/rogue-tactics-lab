@@ -1,0 +1,127 @@
+# Gauntlet experiment: consecutive encounters, intent round, crisis stop (2026-10-27)
+
+Author: Claude Code (sub agent), pushed to PR #21 on the explicit Human instruction to push there directly.
+Base: `b33eb5b` (visual polish), itself on Codex HEAD `7ec0552`.
+
+## Human decisions in this session (2026-10-27, Claude Code chat)
+
+- "フィールドはそれなりでいいです。メインは楽しさを考える　作る　です。"
+- First fun core to build: **連戦で学びを試す** (chosen over "意図修正の一手" and "予想当て").
+- Intent horizon (USER_DECISION 3): **一巡（全員の次の手）**.
+- Resolution chunk (USER_DECISION 2): **危機で自動停止** — auto play continues, stops briefly only when a correction is still available and an ally is newly threatened; manual pause stays available.
+
+These answer two open USER_DECISIONs for this experiment build. They are Human choices, not play evidence.
+Notion Decision Log is **not synced** (Notion is not authenticated in the Claude session).
+
+## What was built
+
+Core (pure C#, `G1Battle.cs`, `DungeonFloor.cs`):
+
+- `EncounterState` takes an explicit per-encounter initiative. The implied G1 order is not serialized, so G1 states, replays and both frozen hashes stay byte-identical (`e6f35225…`, `85770bb4…`).
+- `Fixture.Encounter(0..2)`: 0 is the frozen G1 fixture; 1 and 2 reuse the same four allies with unchanged stats and place two guardians differently.
+- `Rules.Intents`: every living actor's present plan in acting order, each read from the current state (what they mean to do now, not a simulated future).
+- `Rules.Threatened`: allies whose HP would be exhausted by attacks enemies currently intend (guard reduction applied).
+- `Replay.Correct`: the encounter's single correction of B's preference, recorded in the command stream.
+- `GauntletRooms`: encounter 1 sits in floor room 1, encounter 2 in room 2 (5x5 board centred in the 7x7 room). `FloorTraveller` accepts the board origin for the battle-to-exploration handoff.
+
+Presentation (`HqGauntlet.cs` plus small origin plumbing):
+
+- Exploration scene only. After a victory and exploration, reaching the next guardian room offers **守り手に挑む（n / 3戦目）**. Nothing starts a fight automatically.
+- Allies walk into the room's formation; guardians rise on their Core cells; the camera eases to the board. Same field, no separate battle screen.
+- From encounter 2: dashed straight arrows show every living actor's present intent (next actor at full strength, later ones fainter); auto play stops at a new threat while the correction remains; a red action offers the one correction; **再開** continues without it.
+- Encounter 1 keeps the frozen G1 flow exactly: no crisis stop, no round arrows. New mechanics are introduced one encounter later.
+- Allies start each encounter at full HP (experiment parameter, not a product decision).
+
+## Encounter design evidence (Core, outside Unity via bundled Mono)
+
+| Encounter | B: protect only | B: attack only | Correction at first crisis |
+| --- | --- | --- | --- |
+| 1 (G1) | Victory, 4 alive | Victory, Shiro falls (step 11) | Attack→Protect at step 5: Shiro still falls |
+| 2 | Victory, Shiro falls (step 27) | Victory, 4 alive | Protect→Attack at step 16: 4 alive |
+| 3 | Victory, Shiro falls (step 29) | Victory, Shiro falls (step 28) | Attack→Protect at step 13: 4 alive, Shiro HP 1. Protect→Attack: Shiro and Garu fall |
+
+Intended learning arc (hypothesis, not observed): 1 "protecting Shiro matters", 2 "protecting alone gets ground down", 3 "press, then switch to protect when Shiro is threatened".
+Layouts 2 and 3 came from a seeded search over legal layouts with no ally/enemy adjacency at start; they are experiment fixtures, not balanced content.
+
+## Verification (Unity 6000.3.25f1, Local Mac)
+
+- New EditMode `GauntletCoreTests` (6): frozen G1 identity and hashes, encounter 2/3 outcome table above, single recorded deterministic correction, read-only intent/threat queries, boards inside their rooms.
+- New PlayMode `GauntletFlowTests.ConsecutiveEncountersOnTheSameFloorWithCrisisCorrection`: G1 win with frozen hash and no crisis stop → explore → walk to room 1 through visible touch targets → challenge → each unit on its room cell → crisis stop with ≥3 intent arrows → correction → 4 alive → explore → room 2 → same with Attack start → "3つの戦いを越えた！".
+- Full suite on the committed source: **EditMode 27/27, PlayMode 13/14**. The single failure is the pre-existing Y/C whole-sprite overlap in `JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults`, identical to baseline `7ec0552` (Edit 21/21, Play 12/13).
+
+## Known limits and open issues
+
+- No human play. Whether the arc is fun or learnable is unverified.
+- No physical iPhone or Simulator run of this build.
+- Encounter 3: the existing order strip overlaps the cluster near the top of the board at the crisis frame.
+- After a later encounter the exploration camera eases to the party (about 0.6 s); encounter 1 keeps the exact no-cut handoff.
+- Dead allies from an earlier encounter return at the next encounter (full-HP parameter). HP carry-over is a natural next lever.
+- The pre-existing `JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults` Y/C whole-sprite overlap failure is unchanged.
+
+## UI parts pass (2026-10-27, Human: "全部")
+
+Scope chosen by the Human: companion cards, top HUD with the initiative strip, and the icon set, compared against `_userwork/image/天穹の遺跡、12階の冒険.png` (private, not committed).
+
+- Icons: `HudGlyphGraphic.Gem` draws a white glyph with a soft halo on a lit, rimmed plate of the accent colour, with an upper gloss. Filled shield, play, star and descend glyphs. Used on every action button, the card role badges, the title emblem, the map search and the current-floor marker. Plates grow outward, so placement and touch targets are unchanged.
+- Cards: taller portrait (94 pt) with the role gem in the top-right corner and the name right-aligned on a soft shade; then actual HP, a 7 pt bar (warm when actual HP is at or below 35%) and the role or Momo's policy. No level, skill or second gauge is shown: none exists in Core.
+- Top HUD: pill title plate with a round star gem; dotted floor axis with a gold descend gem on the single current-floor marker. Still no invented floor number, total or locked floors.
+- Initiative strip: moved to the sky gap beside the map (clear of the board at every encounter), compact tiles with ally/enemy rims and the next actor in gold.
+- Fix: the strip previously listed the frozen G1 order in every encounter. It now reads `Session.Replay.State.Initiative`, so encounters 2 and 3 show their own Core order. G1 is unchanged (same order).
+
+Not done: the reference's skill-icon row (no skills exist), Lv plates, the second gauge, the cat floor icon and floor numbers. The title remains "天空の遺跡" (the reference reads 天穹; the existing test pins the current name).
+
+Verification of this pass (Unity 6000.3.25f1, Local Mac, uncommitted tree on `d152061`, Presentation source identical to the commit):
+
+- Full suite: **EditMode 27/27, PlayMode 13/14**. The single failure is the pre-existing `JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults` whole-sprite overlap. It now reports A/B instead of Y/C only because of object iteration order: a logged probe showed Y and C at the same projected rects as before (`237.05,-203.65` / `271.42,-174.11`), so the board geometry is unchanged.
+- `GauntletFlowTests` gains a regression check: at each crisis stop, the visible order tiles equal a rotation of the encounter's living Core initiative. Rerun after adding it: 1/1 passed.
+- Captures were reviewed for encounters 1 to 3, the policy choice, the dead-companion card and the map overlay. No physical device, Simulator or human play.
+
+## Board readability pass (2026-10-27, Human: "ガンガンハイクオリティにしていってください")
+
+- Round intents are glowing arcs from the actor's upper body to the target (or destination cell). The next actor's arc is solid and bright with its action kind as a gem on the apex; later intents are thinner dashed arcs. Geometry still comes only from `Rules.Intents`.
+- The initiative strip starts at, and golds, the same next actor while round intents are shown, so the strip and the solid arc agree.
+- Crisis stop: a pulsing red alert gem above each ally in `Rules.Threatened`.
+- Encounter result: a gold banner between board and cards ("勝利！", survivors, and "3つの戦いを越えた" on the last). Display only; the existing terminal result label is kept.
+- Foot HP bars: brighter fills with a gloss, same geometry.
+- Paving shader: broad warm/cool stone families and sparse clover specks inside moss.
+- Verification (Unity 6000.3.25f1, Local Mac): full suite **EditMode 27/27, PlayMode 13/14**; the one failure is the same pre-existing A/B whole-sprite overlap with identical rects. Gauntlet and reference captures reviewed. No Simulator, device or human play.
+
+## Sheets and shelf pass (2026-10-27, Human: "ui")
+
+- Sheets (record, map, settings, results): gem-marked heading (book / search / compare by sheet) over a thin gold rule; framed close button with a close gem; framed memo input; framed paging and settings controls. Developer mode keeps its plain heading.
+- Lower event shelf: a gem for the latest observed event kind (move, attack, counter, protect, heal, fall) beside the unchanged caption text.
+- Known map: bevelled warm stone tiles over dark joints; actors as rimmed glowing discs. Same known-only framing.
+- Title: bold with a soft shadow.
+- Verification (Unity 6000.3.25f1, Local Mac): full suite **EditMode 27/27, PlayMode 13/14**; the one failure is the same pre-existing whole-sprite overlap with identical rects. Exploration and gauntlet captures reviewed (record, map, settings, policy, paused shelf, crisis). No Simulator, device or human play.
+
+## Portrait aspect fix (2026-10-27, Human: "キャラ絵アイコン縦横おかしくない?横長な気がする")
+
+- Cause: the four approved character textures (1086×1448, 3:4) were imported with the default power-of-two rounding, so Unity stored them as 1024×1024. Every portrait crop computed its aspect from that square, so faces on the cards and the initiative strip were about 1.33× too wide. The board billboards were unaffected (fixed 3:4 quads, full UV).
+- Fix: `MobileG1Setup` imports the skins with `npotScale=None` (the four committed `.meta` files now carry `nPOTScale: 0`); the developer order icon crops from the real texture aspect instead of a fixed rect.
+- Regression check: `ReferencePartsKeepRealOwnershipAndKnownOnlyMap` now asserts the art keeps its 3:4 pixels. The earlier check compared the crop against the texture's own (already squashed) aspect and could not see the bug. Before the reimport the new assertion failed (`Expected 0.75, was 1.0`); after it passes.
+- Verification (Unity 6000.3.25f1, Local Mac, `verify_hq.py --configure`): **EditMode 27/27, PlayMode 13/14**; the one failure is the same pre-existing whole-sprite overlap (D/B this run, same rects). Card and strip captures compared before/after. No Simulator, device or human play.
+
+## Ally motion from the single approved image (2026-10-27, Human: "じゃあそれで" — motion without new art)
+
+- No per-direction art exists (one front image per ally), so motion is procedural and display-only: the `StaticSkin` shader offsets the quad's vertices (mirror, lean, squash from the feet, lift, fall tilt). Renderer bounds, pawn transforms, projected rects and Core state are unchanged.
+- Facing follows on-screen horizontal travel (mirroring swaps held items). Breath while standing; a stepped bounce with a forward lean while walking; event poses from queued Core events: wind-up and strike for the attacker, knock-back for the target, a lift for protect, a cast for the healer and a hop for the healed, and a fall for death. Paused presentation holds event poses.
+- Regression check: `AllyFacingFollowsScreenMotionWithoutMovingBounds` (facing follows a tween-like walk, a teleport keeps facing, bounds stay identical).
+- Verification (Unity 6000.3.25f1, Local Mac): full suite **EditMode 27/27, PlayMode 14/15**; the one failure is the same pre-existing Y/C whole-sprite overlap with identical rects. Frame sheets of the first battle and of floor travel were reviewed (temporary capture test, not committed). No Simulator, device or human play.
+
+## Plates, ribbons and cell markers (2026-10-27, Human: "uiパーツダサいとこガンガンリデザインしてハイクオリティにして欲しい")
+
+- Every framed panel gains a fine light inner rim along its top edge, so plates read as bevelled instead of flat slabs.
+- The one forward action (start, explore, challenge) is a lit gold plate with an outer glow, a double gold rim, bold lettering and a dark gem for its symbol. The crisis correction uses the same plate in red.
+- The hint under the title and the phase tag are fading ribbons with a gold hairline instead of grey pills; the floor rail drops its pills for outlined lettering ("階層", gold "現在階").
+- The terminal result beside the explore action sits in a gold-rimmed chip instead of floating text (same label and input sink).
+- Ground markers under units match one cell's proportions (2.2 x 2.75 within a 2.5 x 3.125 cell) instead of a 1:2 strip that spilled into the next row. They are still not squares on screen: the grid itself is deeper than wide, so a true square needs a grid spacing change (not done).
+- Verification (Unity 6000.3.25f1, Local Mac): full suite **EditMode 27/27, PlayMode 14/15**; the one failure is the same pre-existing whole-sprite overlap (D/B this run, same rects). Overview, policy, record, crisis, victory and gauntlet captures reviewed. No Simulator, device or human play.
+
+## Square cells, left floor rail, lower-right map, event feedback (2026-10-28, Human: "マス全体の間隔を変える" / "右上の階層表示をリデザインして左に移動。マップを右下に移動。" / "さらにデザインとアニメーションをハイクオリティに")
+
+- Square cells: depth spacing 1.25 → 1 (cells 2.5 × 2.5), so the isometric camera shows each cell as a regular diamond. Floor rooms, passages and supports, ground markers (2.2 × 2.2) and the test helpers follow. Core positions are unchanged.
+- Foot HP strips are 22 pt wide (was 24): with closer rows Garu's strip grazed the slime's head by 0.09 pt at setup and was hidden.
+- Floor rail moved to the left: lettering over a glass track with the dotted axis, the gold marker and "現在階" beside it. The phase tag stays at the top right.
+- Known map moved to the lower right above every lower banner. Its panel passes touches to the floor (only the search button takes touches), and it turns see-through while any actor's body or foot HP is under it. Tests now assert it sits on the right and never hides the cast; the first version of that check caught Garu under the map in encounter 3.
+- Event feedback (display only): floating damage / counter / heal numbers from the queued Core event, a pale lag segment that holds and drains on card and foot HP bars, flowing dashes on later intent arcs, and a press dip on buttons.
+- Verification (Unity 6000.3.25f1, Local Mac): full suite **EditMode 27/27, PlayMode 14/15**. The one failure is the pre-existing whole-sprite overlap; with square cells D now reports at x 88.29 (was 77.52) against B. Overview, crisis, travel and battle frame sheets reviewed. No Simulator, device or human play.

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="7" result="Passed" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-24 17:52:10Z" end-time="2026-10-24 17:52:11Z" duration="0.0786221">
+  <test-suite type="TestSuite" id="1000" name="Rogue Tactics Lab" fullname="Rogue Tactics Lab" runstate="Runnable" testcasecount="21" result="Passed" start-time="2026-10-24 17:52:10Z" end-time="2026-10-24 17:52:11Z" duration="0.078622" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1030" name="RogueTactics.Tests.EditMode.dll" fullname="/Users/tomoki/.codex/visualizations/2026/10/15/01a13dcb-2d2e-7aa3-b4f2-02f23af888ce/hq-production/unity/Library/ScriptAssemblies/RogueTactics.Tests.EditMode.dll" runstate="Runnable" testcasecount="21" result="Passed" start-time="2026-10-24 17:52:10Z" end-time="2026-10-24 17:52:11Z" duration="0.071127" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="42373" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1031" name="RogueTactics" fullname="RogueTactics" runstate="Runnable" testcasecount="21" result="Passed" start-time="2026-10-24 17:52:10Z" end-time="2026-10-24 17:52:11Z" duration="0.070328" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1032" name="Tests" fullname="RogueTactics.Tests" runstate="Runnable" testcasecount="21" result="Passed" start-time="2026-10-24 17:52:10Z" end-time="2026-10-24 17:52:11Z" duration="0.069795" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1001" name="FloorExplorationTests" fullname="RogueTactics.Tests.FloorExplorationTests" classname="RogueTactics.Tests.FloorExplorationTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-10-24 17:52:10Z" end-time="2026-10-24 17:52:11Z" duration="0.068711" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1002" name="AllSixRoomsHaveConnectedWalkableRoutesAndGapsRemainWalls" fullname="RogueTactics.Tests.FloorExplorationTests.AllSixRoomsHaveConnectedWalkableRoutesAndGapsRemainWalls" methodname="AllSixRoomsHaveConnectedWalkableRoutesAndGapsRemainWalls" classname="RogueTactics.Tests.FloorExplorationTests" runstate="Runnable" seed="847406045" result="Passed" start-time="2026-10-24 17:52:10Z" end-time="2026-10-24 17:52:10Z" duration="0.017358" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1007" name="CorridorEntrustmentMovesPartyLegallyAndStopsAtDiscoveryWithoutHealing" fullname="RogueTactics.Tests.FloorExplorationTests.CorridorEntrustmentMovesPartyLegallyAndStopsAtDiscoveryWithoutHealing" methodname="CorridorEntrustmentMovesPartyLegallyAndStopsAtDiscoveryWithoutHealing" classname="RogueTactics.Tests.FloorExplorationTests" runstate="Runnable" seed="1323974715" result="Passed" start-time="2026-10-24 17:52:10Z" end-time="2026-10-24 17:52:10Z" duration="0.022042" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1005" name="HandoffPreservesExactPositionsHealthAndDeaths" fullname="RogueTactics.Tests.FloorExplorationTests.HandoffPreservesExactPositionsHealthAndDeaths" classname="RogueTactics.Tests.FloorExplorationTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-24 17:52:10Z" end-time="2026-10-24 17:52:11Z" duration="0.004981" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1003" name="HandoffPreservesExactPositionsHealthAndDeaths(ProtectAnchor,4)" fullname="RogueTactics.Tests.FloorExplorationTests.HandoffPreservesExactPositionsHealthAndDeaths(ProtectAnchor,4)" methodname="HandoffPreservesExactPositionsHealthAndDeaths" classname="RogueTactics.Tests.FloorExplorationTests" runstate="Runnable" seed="1130670531" result="Passed" start-time="2026-10-24 17:52:10Z" end-time="2026-10-24 17:52:10Z" duration="0.001844" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1004" name="HandoffPreservesExactPositionsHealthAndDeaths(DirectAttack,3)" fullname="RogueTactics.Tests.FloorExplorationTests.HandoffPreservesExactPositionsHealthAndDeaths(DirectAttack,3)" methodname="HandoffPreservesExactPositionsHealthAndDeaths" classname="RogueTactics.Tests.FloorExplorationTests" runstate="Runnable" seed="1903523605" result="Passed" start-time="2026-10-24 17:52:10Z" end-time="2026-10-24 17:52:11Z" duration="0.001326" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1008" name="PauseAndCancellationDoNotAdvanceOrReassignTheParty" fullname="RogueTactics.Tests.FloorExplorationTests.PauseAndCancellationDoNotAdvanceOrReassignTheParty" methodname="PauseAndCancellationDoNotAdvanceOrReassignTheParty" classname="RogueTactics.Tests.FloorExplorationTests" runstate="Runnable" seed="570875097" result="Passed" start-time="2026-10-24 17:52:11Z" end-time="2026-10-24 17:52:11Z" duration="0.002834" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1009" name="TravelIsDeterministicAndTheFrozenG1HashesAreUnaffected" fullname="RogueTactics.Tests.FloorExplorationTests.TravelIsDeterministicAndTheFrozenG1HashesAreUnaffected" methodname="TravelIsDeterministicAndTheFrozenG1HashesAreUnaffected" classname="RogueTactics.Tests.FloorExplorationTests" runstate="Runnable" seed="2094424133" result="Passed" start-time="2026-10-24 17:52:11Z" end-time="2026-10-24 17:52:11Z" duration="0.010462" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1006" name="UnknownDestinationIsRejectedAndInitialKnowledgeDoesNotContainFarRooms" fullname="RogueTactics.Tests.FloorExplorationTests.UnknownDestinationIsRejectedAndInitialKnowledgeDoesNotContainFarRooms" methodname="UnknownDestinationIsRejectedAndInitialKnowledgeDoesNotContainFarRooms" classname="RogueTactics.Tests.FloorExplorationTests" runstate="Runnable" seed="407216806" result="Passed" start-time="2026-10-24 17:52:11Z" end-time="2026-10-24 17:52:11Z" duration="0.001021" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[Saving results to: /Users/tomoki/Library/Application Support/Rogue Tactics Lab/Rogue Tactics Lab/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

@@ -1,0 +1,511 @@
+{
+  "schema_version": 1,
+  "status": "BLOCKED_ART_PRODUCTION",
+  "art_adopted": false,
+  "r2_v0": "FAIL",
+  "runtime": "fc005d4ddee3edc5ac5b035ecfefb5e132f5e25a",
+  "experiment_head": "78bbaa7c44c9c7ceeedad22974205890bae130e2",
+  "draft": true,
+  "canonical": {
+    "mac_png_sha256": "99a76f33c60e74d7fd890e9cf188531280e030e58a5893bafd90899ea2b965b8",
+    "primary_rgb_equivalence": "Previously independently verified all1573352 RGB pixels; current render quality not passed",
+    "decoded_rgb_sha256": "fd52b3654adc91c3e086b21cc83a4d9cb1d2057a5cd527b0fbc5cbb3a15a3ce4"
+  },
+  "blender": {
+    "version": "5.2.2 LTS",
+    "build": "d13f752e3b9c",
+    "dmg_sha256": "dc4125399b8bfefe283cc1624d6cfc7809d1cac20ace51072127eb371f31f210",
+    "official_url": "https://mirror.blender.org/release/Blender5.2/blender-5.2.2-macos-arm64.dmg",
+    "signature": "Stichting Blender Foundation; codesign deep strict exit0; Gatekeeper accepted Notarized Developer ID",
+    "cost": 0,
+    "gui_observed": [
+      "actual A face translateZ-0.18",
+      "Undo screenshot reverts geometry",
+      "Redo screenshot reapplies geometry",
+      "Save toast",
+      "Close original via New General file",
+      "Open saved file and enter Edit Mode",
+      "B two-tip vertex bevel and save",
+      "C broad Scrape Multiplane3 strokes and save"
+    ],
+    "authorship": "Original local code-directed mesh plus actual GUI edits; not entirely hand-sculpted from empty file; no sample FBX/reference pixels/skin input; unadopted original mesh private, no redistribution license assigned"
+  },
+  "control": {
+    "head": "78bbaa7c44c9c7ceeedad22974205890bae130e2",
+    "unity_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests": {
+      "EditMode": {
+        "exit": 0,
+        "passed": 0,
+        "total": 0
+      },
+      "PlayMode": {
+        "exit": 0,
+        "passed": 1,
+        "total": 1
+      }
+    },
+    "image_sha256": {
+      "r1-setup": "1c83becf95704316193f3e4a3870ae030621d497970c54e057b7ae93c08c3048",
+      "ProtectAnchor-guard": "00441bf0ad3deae4263d8e35b4b83625e0f2e798ce65a81f0f9b8a27783b1b74",
+      "ProtectAnchor-heal": "411aaf6a1d10d2191185e731ffb7bb8ada14f57db96f07849723506f4867429e",
+      "DirectAttack-counter": "62d868e8bf2c4ee19a549c7397ee9fe1b74fcd50a710af2194e188ab719b2a60",
+      "DirectAttack-death": "cbe0bcf2953a3ea03515b6f1fca2b1b35862b9fe5ec0141b12ba864812157835",
+      "ProtectAnchor-comparison": "5aeefae3ccb22686b719ea8408dca011e1d3e36f78e49eaec5171c6cb1802dc2",
+      "DirectAttack-comparison": "863e69bf5bf7f90cc994ae4181a16235ef28704c049a267b0ed177d8372a6ee5"
+    },
+    "capture_size": [
+      390,
+      844
+    ],
+    "ambient_phase_locked": false
+  },
+  "candidates": {
+    "limestone-a": {
+      "head": "78bbaa7c44c9c7ceeedad22974205890bae130e2",
+      "unity_diff_sha256": "c2de52bad2d7c73c94ec2ac1efdc52ad0c97458d9414c78b8ea2fd5daf6191e5",
+      "tests": {
+        "EditMode": {
+          "exit": 0,
+          "passed": 0,
+          "total": 0
+        },
+        "PlayMode": {
+          "exit": 0,
+          "passed": 1,
+          "total": 1
+        }
+      },
+      "image_sha256": {
+        "r1-setup": "dda70257b3eb2837bc8ba48e125eaadf75de4badf7037000a91c8b61b6b23e02",
+        "ProtectAnchor-guard": "80d097053076272c35ef8a41b00a0a3435c5c1689dd43126625c0e0ee60c12b9",
+        "ProtectAnchor-heal": "04c50f82d9ef00d8bb0415205d7eee47f8487886b1c8280c6808604bca07c63d",
+        "DirectAttack-counter": "0547b1858c2066ece9659463ffd2c10689eb1d1389248c9f87abc542f734cfa9",
+        "DirectAttack-death": "e449d538c469775c8016bbd3aa1704e279b88a87e77ba56e69abc65c7d1698f0",
+        "ProtectAnchor-comparison": "c0d8d73b3e913569e2f26dae6c9ec208c0b1ae458057fdec6067efa974541178",
+        "DirectAttack-comparison": "fa4669af351edd0aea7ff23a05beb563a5c519027cfb88454bbae769b77a8ea1"
+      },
+      "capture_size": [
+        390,
+        844
+      ],
+      "ambient_phase_locked": false,
+      "editable_blend_sha256": "1a12615220b1444345acb829a44f657ef34a6f6bade3fcee9d134d08c2ab1455",
+      "exported_obj_sha256": "15db57c1131e1516eb16a7086809a106c6f155346566fb38a253599e564e7c47",
+      "vertices": 4554,
+      "triangles": 1518,
+      "assets": {
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.obj": "15db57c1131e1516eb16a7086809a106c6f155346566fb38a253599e564e7c47",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.asset": "b0f8dcdddc7d7a948ab88b8d8d0cbf42d1d2914dccd7a1e08a70552785c94953",
+        "unity/Assets/RogueTactics/Scenes/MobileG1.unity": "4e6b58ed0b3e80938d2d1b25b2e801013c0b0fe6d6ff2ea908657184d3fc3704"
+      },
+      "decision": "REJECTED",
+      "root_review_sha256": "1ca0d4dbf856fe938464874389e34987ee4f6aed3b6c9bd690fa5cbdea262b90",
+      "source_manifest_change_keys": [
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.obj",
+        "unity/Assets/RogueTactics/Editor/LongrunLimestoneImport.cs"
+      ],
+      "temporary_editor_import_helper_sha256": "1e66bc4971472eda67e0bb2a8b0216f0e32be5e160a51c91c0dcbefb35b36f07",
+      "full_test_source_record_sha256": "e834e73ce8ebdd93592d0029ade2e877afc28ef248ea0468e11c20b6979beb52"
+    },
+    "limestone-b": {
+      "head": "78bbaa7c44c9c7ceeedad22974205890bae130e2",
+      "unity_diff_sha256": "7b278d7cf4fb0c8e054238c5a64a33d42449ea7c60c13ec84ec107e1cd2862d1",
+      "tests": {
+        "EditMode": {
+          "exit": 0,
+          "passed": 0,
+          "total": 0
+        },
+        "PlayMode": {
+          "exit": 0,
+          "passed": 1,
+          "total": 1
+        }
+      },
+      "image_sha256": {
+        "r1-setup": "163dcd4bc955cf69f137f9aea46067ad8ca22552171fe30549c0526b210845df",
+        "ProtectAnchor-guard": "2482e196ca7067e02be95e4e423d6fe1a42154dfa1cf3c48ee984d2803627491",
+        "ProtectAnchor-heal": "58e5df17c45e8c24b7076ffb5afeb1178cdef612def5d2ed2e8343758d0fb835",
+        "DirectAttack-counter": "24ebd42313375a3fc98e0c9ee07014d5f99a839dbf851738a2770f508f1ff255",
+        "DirectAttack-death": "21967e921f0d802ac6511c5a1fea928d329142be8689d2dd6e2270b3834ee843",
+        "ProtectAnchor-comparison": "a1d3004173ca950e58eca673c879cd70b89f0a3dc174350016d84f3a614f472a",
+        "DirectAttack-comparison": "db899a89746888b260d76cd0abee1abc53097fe2a62f7e9cd86af8daeb74c1a8"
+      },
+      "capture_size": [
+        390,
+        844
+      ],
+      "ambient_phase_locked": false,
+      "editable_blend_sha256": "736654511263628a591b908c93a5fa971cf8636c591d8c36ec36c93468bbb43b",
+      "exported_obj_sha256": "875d88cce54c44224f29ca7dd8913215d3706d9491f0c4e47f04ebee7bf2711f",
+      "vertices": 1524,
+      "triangles": 508,
+      "assets": {
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.obj": "875d88cce54c44224f29ca7dd8913215d3706d9491f0c4e47f04ebee7bf2711f",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.asset": "a09332bf1d123c86822eec6fda899c4b038eba92a8ddc7c366babd38cfcff6c9",
+        "unity/Assets/RogueTactics/Scenes/MobileG1.unity": "4e6b58ed0b3e80938d2d1b25b2e801013c0b0fe6d6ff2ea908657184d3fc3704"
+      },
+      "decision": "REJECTED",
+      "root_review_sha256": "6f7f56142f5c1ded997abf11e90250c30d204b7ef9a1c0eec9705543b56a117c",
+      "source_manifest_change_keys": [
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.obj",
+        "unity/Assets/RogueTactics/Editor/LongrunLimestoneImport.cs"
+      ],
+      "temporary_editor_import_helper_sha256": "1e66bc4971472eda67e0bb2a8b0216f0e32be5e160a51c91c0dcbefb35b36f07",
+      "full_test_source_record_sha256": "7c034891a78d55f686931bfb16abe9d19096104689e12696a665e98a69766317"
+    },
+    "limestone-c": {
+      "head": "78bbaa7c44c9c7ceeedad22974205890bae130e2",
+      "unity_diff_sha256": "6ca46f7fbd8faf0b0ae59ba8f39b4796d169f6aa142e178b50cf0c884f262e22",
+      "tests": {
+        "EditMode": {
+          "exit": 0,
+          "passed": 0,
+          "total": 0
+        },
+        "PlayMode": {
+          "exit": 0,
+          "passed": 1,
+          "total": 1
+        }
+      },
+      "image_sha256": {
+        "r1-setup": "4f759ec17e4878de2af85a92d3f8770cd1cbd90306717d76477a316ec05edabb",
+        "ProtectAnchor-guard": "2d5c64ec0b5f976a4e0cfe76adaf42b653a4449b73e37c8dce95f4f3d3729a9f",
+        "ProtectAnchor-heal": "4e0b17b0844b633427f66a960720d8f92a3e044df30ced44b407c75ad337b5bf",
+        "DirectAttack-counter": "b87e19516839d487621dae2556fe0f9fae4555bb61eb88b4d42a857f4067f530",
+        "DirectAttack-death": "22cf063c8e105844839a8d5ac6a08405c312e2061a1ce9e10715d1c98fda7092",
+        "ProtectAnchor-comparison": "7f327da1cfa56290767cfc9f22b5586aa89c27d8dd610fffbb51f50c53b24f48",
+        "DirectAttack-comparison": "072722ea688a5c309ca306113ad086d498c10659c8b1c429e2b155b7439091e1"
+      },
+      "capture_size": [
+        390,
+        844
+      ],
+      "ambient_phase_locked": false,
+      "editable_blend_sha256": "8c5044867e3558d0b438eb78934473e79b17ed7b78d58db88e3346395d362746",
+      "exported_obj_sha256": "e0cc43ce6a11543ff055554aac4cdfa921329a741a50e097482c2f5a00c5c547",
+      "vertices": 54863,
+      "triangles": 27904,
+      "assets": {
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.obj": "e0cc43ce6a11543ff055554aac4cdfa921329a741a50e097482c2f5a00c5c547",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.asset": "899bf650f3b566310639c2f72f137fab9802d5462ed2a9e307d6016843193d41",
+        "unity/Assets/RogueTactics/Scenes/MobileG1.unity": "4e6b58ed0b3e80938d2d1b25b2e801013c0b0fe6d6ff2ea908657184d3fc3704"
+      },
+      "decision": "REJECTED",
+      "root_review_sha256": "0c2a04fdf3d9c994d128865620dec6abfb816402e95528e33cd383707f4b3735",
+      "source_manifest_change_keys": [
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.obj",
+        "unity/Assets/RogueTactics/Editor/LongrunLimestoneImport.cs"
+      ],
+      "temporary_editor_import_helper_sha256": "1e66bc4971472eda67e0bb2a8b0216f0e32be5e160a51c91c0dcbefb35b36f07",
+      "full_test_source_record_sha256": "0f8e8a470a020abf5123b76ef02427441900ee89014eea6fe603141a59d73bc0"
+    }
+  },
+  "astra": {
+    "mechanism": "native collaboration subagent",
+    "model_requested": "gpt-6-astra",
+    "effort_requested": "high",
+    "consultations": 4,
+    "inputs": "sanitized text only",
+    "pixels_inspected": false,
+    "private_paths_shared": false,
+    "consultation_metadata": [
+      {
+        "number": 1,
+        "sha256": "118b238cadb49e0437d0e61667ce82e197558811f3a84e4cd82be6a8a32fc5ce"
+      },
+      {
+        "number": 2,
+        "sha256": "e2c855b5bead95e47fc74580d7f5ebd1a2845134adc5ad80fcb37a79d42d66a7"
+      },
+      {
+        "number": 3,
+        "sha256": "7222e492431343232037a27660900ec48e78a13c60bcc0e10cdb27f3f1083bb4"
+      },
+      {
+        "number": 4,
+        "sha256": "275f5d3d5ec5a489fa0287d27818887dc072eeda12e0cc0006434962eca8e77d"
+      }
+    ]
+  },
+  "full_regression": {
+    "runtime": "fc005d4ddee3edc5ac5b035ecfefb5e132f5e25a",
+    "test_head": "78bbaa7c44c9c7ceeedad22974205890bae130e2",
+    "unity_tools_diff_empty": true,
+    "untracked_source_empty": true,
+    "file_sha256": {
+      "unity/Assets/RogueTactics/Scenes/MobileG1.unity": "4e6b58ed0b3e80938d2d1b25b2e801013c0b0fe6d6ff2ea908657184d3fc3704",
+      "unity/Assets/RogueTactics/Art/MobileG1/Private/garu.png": "04051f21042b365c767124f4931f8189502a24eab9896089e8850b3e8e76c015",
+      "unity/Assets/RogueTactics/Art/MobileG1/Private/momo.png": "d8f62c2299c2772ce21ded771ec2faf6c50f9d18d4f585ba2fe7a63d698daa74",
+      "unity/Assets/RogueTactics/Art/MobileG1/Private/myaru.png": "3f064518faf44e308614ddaaaa81eb108d909c116e0a0a21cadf8d33e64a8fd5",
+      "unity/Assets/RogueTactics/Art/MobileG1/Private/shiro.png": "5f9bd5d0f8f7569987f0df3393d2236a032b75091e7af9c6f10ba17b3c7a7c73"
+    },
+    "capture_sha256": {
+      "r1-setup": "2526c3625274592fa987fad1fcd21b54c47cd77cdf9bc11a11f448d4d3f20905",
+      "ProtectAnchor-guard": "239ad3cf2eb9ddbdb0c2e8c291d208b8ebf5adcbf6276f0257e2d320e1d888f3",
+      "ProtectAnchor-heal": "95e2652bacf63c9c545a7dcaf6718bbae24ad1e71843a07a43189e026cd46a96",
+      "DirectAttack-counter": "64a047dc23aae974407f15967f46c73e863df556a5c95f817f61a62368126c03",
+      "DirectAttack-death": "0dd0e9fe6b21dc4dd41f96534c3d33c9d41a2184101c6fa3dd137b8121cff251",
+      "ProtectAnchor-comparison": "4f3b280ed85561689372a3188596bc54fa303d437d51c51c184afcc3ce235771",
+      "DirectAttack-comparison": "ba75bf98694384e7d9d1849ba2fb85bfb4f0d275875fa0bd8c0756797b7d4d18"
+    },
+    "tests": {
+      "EditMode": {
+        "id": "2",
+        "testcasecount": "14",
+        "result": "Passed",
+        "total": "14",
+        "passed": "14",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-17 23:37:14Z",
+        "end-time": "2026-10-17 23:37:14Z",
+        "duration": "0.0491303"
+      },
+      "PlayMode": {
+        "id": "2",
+        "testcasecount": "9",
+        "result": "Passed",
+        "total": "9",
+        "passed": "9",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-17 23:37:30Z",
+        "end-time": "2026-10-17 23:39:56Z",
+        "duration": "146.4312969"
+      }
+    },
+    "fixed_hashes_asserted_by_full_suite": {
+      "ProtectAnchor": "e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d",
+      "DirectAttack": "85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e"
+    },
+    "human_acceptance": false,
+    "status": "Passed"
+  },
+  "physical_device": false,
+  "human_acceptance": false,
+  "testflight_upload": false,
+  "asc_changes": false,
+  "private_images_uploaded": false,
+  "private_meshes_uploaded": false,
+  "webgpt_private_media_access": "not established; local paths are not cross-session media delivery",
+  "gui_screenshot_sha256": {
+    "01-before-edit.png": "982b3db1639f4d994c5a6f95d1b2ba5742b9fe31e7cf420aad46ef0160038ac8",
+    "02-after-face-edit.png": "841bd53cd4f3fd598060b77e0c08a427f62c877ac28eecb8e8ca054b48dd1759",
+    "03-undo.png": "b825abc56be8fb3e0713a9923a469639dbce05e01d477f606e9c6440c1411f0b",
+    "04-redo.png": "697dda0716fcedce794b8027c1b1f11fefc89824ec822d4a1ce294c1dc04b31b",
+    "05-saved.png": "4e1f378851dcef4591d161d1a47349bf9622c52d80365c52098770c82a993e98",
+    "06-source-closed-new-file.png": "a2685595e0eb63fc2333e0116683fc107e454423175705ca98e6692fc2a76822",
+    "07-reopened-editable.png": "05208c28945eed164f0943585c02209f24665dc5280563717e107a28b0b957e0",
+    "08-reopened-edit-mode.png": "8d95e262be0ed131dcffddbff6cf0036811d11eae5465a07eb6b42c8e9508673",
+    "b-01-cage-before-edit.png": "d9915fc65fe1a949bd7dbd58ca5c82d0486014614412767251889528e959d3b5",
+    "b-02-authored-fracture-end.png": "291199aaaff0183e36979aa09012de381964a2e103a2a15218e3953bb26c6718",
+    "b-03-saved.png": "464d81a153b0c690cda16cca2fa45ac5772ffab4ca92597b076083d6b1750c8f",
+    "c-01-before-scrape.png": "68ca9b577f5cd41faa18e4b5df5d9890aabf3a6516eb0dbc5d2bf85d57f0c073",
+    "c-02-after-broad-sculpt.png": "cc64699c8c5fad62f8f7f79d0837b8201bb88a825495ab45f03cab54a1473408",
+    "undo-redo-detail.png": "455a062deb58c5b22443613426d1789e9e7bcadbe79387a2aeb0bab4285205d8"
+  },
+  "diagnostic": {
+    "sha256": "d56fe6c1d353ee634d1f57ef2df205388a3e4252f12ae75a3903d24f0a6b0ec0",
+    "type": "approximate manually annotated observed phone regions, not exact object mask",
+    "conclusion": "Visible area exists; high-quality integrated form not demonstrated, no impossibility or permanent scope restriction inferred."
+  },
+  "preserved_source_trees": {
+    "unity": "05e6238b89ff2f1ae558cf5c287e6d2939aedba7",
+    "unity/Assets/RogueTactics/Core": "50274c84cb56344d1394b4283833728c72cd7577",
+    "unity/Assets/RogueTactics/Tests": "1ecdc31db505a03310095886d5d2a3e363be797c"
+  },
+  "retained_file_sha256": {
+    "unity/Assets/RogueTactics/Scenes/MobileG1.unity": "4e6b58ed0b3e80938d2d1b25b2e801013c0b0fe6d6ff2ea908657184d3fc3704",
+    "unity/Assets/RogueTactics/Art/MobileG1/Private/garu.png": "04051f21042b365c767124f4931f8189502a24eab9896089e8850b3e8e76c015",
+    "unity/Assets/RogueTactics/Art/MobileG1/Private/momo.png": "d8f62c2299c2772ce21ded771ec2faf6c50f9d18d4f585ba2fe7a63d698daa74",
+    "unity/Assets/RogueTactics/Art/MobileG1/Private/myaru.png": "3f064518faf44e308614ddaaaa81eb108d909c116e0a0a21cadf8d33e64a8fd5",
+    "unity/Assets/RogueTactics/Art/MobileG1/Private/shiro.png": "5f9bd5d0f8f7569987f0df3393d2236a032b75091e7af9c6f10ba17b3c7a7c73"
+  },
+  "simulator_build": {
+    "runtime": "fc005d4ddee3edc5ac5b035ecfefb5e132f5e25a",
+    "source_head": "78bbaa7c44c9c7ceeedad22974205890bae130e2",
+    "unity": "6000.3.25f1",
+    "steps": {
+      "export": {
+        "argv": [
+          "/Applications/Unity/Hub/Editor/6000.3.25f1/Unity.app/Contents/MacOS/Unity",
+          "-batchmode",
+          "-quit",
+          "-projectPath",
+          "/private/tmp/rogue-hq-ref/unity",
+          "-buildTarget",
+          "iOS",
+          "-executeMethod",
+          "RogueTactics.Editor.MobileG1Setup.ExportIosSimulator",
+          "-logFile",
+          "/private/tmp/rogue-hq-longrun/simulator/export.log"
+        ],
+        "exit": 0
+      },
+      "build": {
+        "argv": [
+          "xcodebuild",
+          "-project",
+          "/private/tmp/rogue-hq-ref/build/ios-simulator/Unity-iPhone.xcodeproj",
+          "-scheme",
+          "Unity-iPhone",
+          "-configuration",
+          "Debug",
+          "-sdk",
+          "iphonesimulator",
+          "-destination",
+          "generic/platform=iOS Simulator",
+          "-derivedDataPath",
+          "/private/tmp/rogue-hq-ref/build/sim-derived",
+          "-jobs",
+          "2",
+          "ARCHS=arm64",
+          "CODE_SIGNING_ALLOWED=NO",
+          "build"
+        ],
+        "exit": 0
+      }
+    },
+    "bundle_id": "com.tomooch.roguetacticslab",
+    "build_number": "5",
+    "executable_sha256": "8fdd5f5aab5b28827c858e3cb624cd173a7123ce8170de1216dbb671b77f4c78",
+    "unityframework_sha256": "17cae96d19701b3dce70efe145464f2b1095b5eb6f83db55e9db33f30f98612b",
+    "export_generated_files": [
+      "unity/Assets/RogueTactics/Art/MobileG1/InternalIcon.png.meta",
+      "unity/Assets/Settings/DefaultVolumeProfile.asset",
+      "unity/Assets/Settings/Mobile_RPAsset.asset",
+      "unity/Assets/Settings/UniversalRenderPipelineGlobalSettings.asset",
+      "unity/ProjectSettings/ProjectSettings.asset"
+    ],
+    "unity_tools_restored_exact": true,
+    "physical_device": false,
+    "testflight_upload": false,
+    "local_development_only": true
+  },
+  "simulator_live": {
+    "status": "Observed on freshly exported and built retained runtime; not on rejected A/B/C",
+    "runtime": "fc005d4ddee3edc5ac5b035ecfefb5e132f5e25a",
+    "source_head": "78bbaa7c44c9c7ceeedad22974205890bae130e2",
+    "simulator": "Rogue Tactics G1 QA / iOS27.0",
+    "install_launch": "XcodeBuildMCP install and launch succeeded, process14618; actual DeviceHub scene observed",
+    "native_full_hashes": {
+      "ProtectAnchor": "e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d",
+      "DirectAttack": "85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e"
+    },
+    "native_log_sha256": "681a14cc165cd85d3c40ef23b82f3289d51da400cf5c39557d3ae6c70b45541c",
+    "ProtectAnchor": {
+      "actions": 14,
+      "alive": 4,
+      "hp": [
+        16,
+        16,
+        12,
+        10
+      ],
+      "heal_remaining": 0,
+      "prediction": "かつ",
+      "pause": "Two observations roughly18s apart at A17 B16 C12 D10 X5 Y12 retain same guard cue/receipt/Resume; then resume to terminal"
+    },
+    "DirectAttack": {
+      "actions": 14,
+      "alive": 3,
+      "hp": [
+        0,
+        16,
+        12,
+        10
+      ],
+      "heal_remaining": 1,
+      "prediction": "not entered"
+    },
+    "flow": [
+      "Japanese kana keyboard composition and confirmation かつ",
+      "resting input/Start layout restored",
+      "Protect live local guard/attack cues",
+      "pause hold/resume",
+      "Protect comparison prediction retained",
+      "close/retry baseline",
+      "Attack Move then local combat cues",
+      "both comparisons preserve distinct outcomes",
+      "close/retry baseline again"
+    ],
+    "video": {
+      "sha256": "4b1a343cadd172d6fa90d58b2c3b9d63b0abcb310e4efbce355064f2720467ef",
+      "bytes": 266976279,
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "index": 0,
+            "codec_name": "h264",
+            "width": 1206,
+            "height": 2622,
+            "avg_frame_rate": "250200/4103",
+            "nb_frames": "11259"
+          }
+        ],
+        "format": {
+          "duration": "184.635000"
+        }
+      },
+      "runtime": "fc005d4ddee3edc5ac5b035ecfefb5e132f5e25a",
+      "observation": "Actual DeviceHub live session with native keyboard composition/confirmation, Protect pause/resume/comparison, reset, Attack live/comparison; contains idle/review time; not phone frame-rate proof",
+      "uploaded": false
+    },
+    "playback": {
+      "app": "QuickTime Player",
+      "rate": "Explicit View > Playback Speed > Standard selected before second replay",
+      "observed_timeline_seconds": [
+        134.3168901098901,
+        144.4616703296703,
+        159.0701538461538,
+        159.475945054945
+      ],
+      "observations": "Second replay observed setup followed by local attack/counter with A7/X5 and then A0/death suppressed from field and victory; first replay additionally showed A12/X11. Finite segment, not all184.635s watched. Live DeviceHub observed Move and both outcomes.",
+      "still_caveat": "Screenshots are time samples of actual playback, not every-frame visual review."
+    },
+    "screenshot_sha256": {
+      "attack-impact.png": "b921fc87d12e3a3e6ea030e6ebdf9e331d66c89bac58370382fed2f417d12b1a",
+      "attack-live.png": "b4e3d911768f6a5982ba0d0521919dae8c04ca0620af3dd022c324b7adfa011c",
+      "both-comparison.png": "d2fc7d316c0c892c1b17c2c177d1baed58ae80935239525d9cdc7c186d3015b2",
+      "ime-composing.png": "e60d67b96cce79540a535cc47e8bf482c080f9543906513672a80cb4cf8ae3db",
+      "ime-confirmed.png": "f679574d528cb48e7615c5e4fb43f83a6b50ced4ab162b252d2b182ed08296e0",
+      "playback-attack-1.png": "8177bc1c22be47788641156b348477324dd13f36d062d77c4d688cabe134916b",
+      "playback-attack-final.png": "17b6fb7bb26195f606f89ae3e6fe9af9ea73c912c5be7454cb310bca56d462e7",
+      "protect-comparison.png": "cf79d5edab789774df9e8d03be4e125d7208e98af04204581efb40db8bec726b",
+      "protect-pause-held.png": "b1a42e44dc57f253f6b012b7c3f451f8a37a62283c5e0e6f183c579e5cd398cb",
+      "protect-paused.png": "1eba7f3964f6b4c56328afbc21d4fd5e8a5956919a8f166748d5ba41077490a6",
+      "reset-after-both.png": "0a66fbeb80e90c5e831f8f80e2f0e6b7da2785a67e06375c968e21f39015aa95"
+    },
+    "warnings": [
+      "2 ASTC6x6 unsupported texture decompressions on Simulator",
+      "Shadowmap depth buffer falls back to16-bit"
+    ],
+    "crash_or_exception_observed": false,
+    "physical_device": false,
+    "human_acceptance": false,
+    "testflight_upload": false,
+    "asc_changes": false,
+    "keyboard_capture_restored_off": true
+  },
+  "public_evidence_scope": "Text/hash/XML only; no private pixel payload or meshes",
+  "notion": "Existing Todo and Tried & Learned updated in place including final full tests and native observations; tool success confirmed. Initial structural insertion readback confirmed; no private media uploaded.",
+  "post_native_source_audit": {
+    "scene_and_skin_sha_match": true,
+    "unity_tools_diff_empty": true,
+    "untracked_source_empty": true,
+    "unity_core_tests_trees_match": true
+  }
+}

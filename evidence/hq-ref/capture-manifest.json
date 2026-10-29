@@ -1,0 +1,191 @@
+{
+  "source_head": "d7824378755d52cffbdb6add558bef0f50baefe8",
+  "captures": [
+    {
+      "file": "DirectAttack-comparison.png",
+      "sha256": "ef528240c6a118e4093357eebc3470db15c168101bcc2e0c6cfec6b23ac2e4bc",
+      "width": 390,
+      "height": 844,
+      "owner_local_path": "/private/tmp/rogue-hq-ref/unity/Logs/hq/private/DirectAttack-comparison.png",
+      "private": true
+    },
+    {
+      "file": "DirectAttack-counter.png",
+      "sha256": "c7d3a4e4413e29b1b0dbfa9104499fce4d6cdd87f0ad3ce8c126a489e42d9c71",
+      "width": 390,
+      "height": 844,
+      "owner_local_path": "/private/tmp/rogue-hq-ref/unity/Logs/hq/private/DirectAttack-counter.png",
+      "private": true
+    },
+    {
+      "file": "DirectAttack-death.png",
+      "sha256": "9dcd98b185d4773ff0aaecd14efd33517d1d254f4a1cc0f24a2ab3774f75a6c8",
+      "width": 390,
+      "height": 844,
+      "owner_local_path": "/private/tmp/rogue-hq-ref/unity/Logs/hq/private/DirectAttack-death.png",
+      "private": true
+    },
+    {
+      "file": "DirectAttack-end.png",
+      "sha256": "dd4a37c9adf7071e23225d526866c88185cf1384c2c2884092efd6a5fed3209a",
+      "width": 390,
+      "height": 844,
+      "owner_local_path": "/private/tmp/rogue-hq-ref/unity/Logs/hq/private/DirectAttack-end.png",
+      "private": true
+    },
+    {
+      "file": "DirectAttack-heal.png",
+      "sha256": "a9ee244ff006be181f184e4c3871cb7584ee8ffe2379190220f3d385bda4ab76",
+      "width": 390,
+      "height": 844,
+      "owner_local_path": "/private/tmp/rogue-hq-ref/unity/Logs/hq/private/DirectAttack-heal.png",
+      "private": true
+    },
+    {
+      "file": "DirectAttack-paused.png",
+      "sha256": "c17c320b7457649b33068bd699225dca6d6d746a36ca66c2c7db9f1b1e2c04e1",
+      "width": 390,
+      "height": 844,
+      "owner_local_path": "/private/tmp/rogue-hq-ref/unity/Logs/hq/private/DirectAttack-paused.png",
+      "private": true
+    },
+    {
+      "file": "DirectAttack-start.png",
+      "sha256": "7ae000e655c9e2ec0df9a214c5c42a55c7d3aac5c34abadfad91f57efab1fee3",
+      "width": 390,
+      "height": 844,
+      "owner_local_path": "/private/tmp/rogue-hq-ref/unity/Logs/hq/private/DirectAttack-start.png",
+      "private": true
+    },
+    {
+      "file": "ProtectAnchor-comparison.png",
+      "sha256": "5040e28950517f81f019d72c616b84a06078febb135ea32889c24a333a3bccba",
+      "width": 390,
+      "height": 844,
+      "owner_local_path": "/private/tmp/rogue-hq-ref/unity/Logs/hq/private/ProtectAnchor-comparison.png",
+      "private": true
+    },
+    {
+      "file": "ProtectAnchor-counter.png",
+      "sha256": "620346359b7645b79340a3283b351d45877ddff014205abf2627ed777df38bd6",
+      "width": 390,
+      "height": 844,
+      "owner_local_path": "/private/tmp/rogue-hq-ref/unity/Logs/hq/private/ProtectAnchor-counter.png",
+      "private": true
+    },
+    {
+      "file": "ProtectAnchor-death.png",
+      "sha256": "091d90ea198ffd57127476a3289ab489a6bbf353b91122fd3fc2b828e0d7e385",
+      "width": 390,
+      "height": 844,
+      "owner_local_path": "/private/tmp/rogue-hq-ref/unity/Logs/hq/private/ProtectAnchor-death.png",
+      "private": true
+    },
+    {
+      "file": "ProtectAnchor-end.png",
+      "sha256": "58b48d6ddbfe42c045bf9aaf9199bbcb6d46b9d136c936f1c574a420353d6b87",
+      "width": 390,
+      "height": 844,
+      "owner_local_path": "/private/tmp/rogue-hq-ref/unity/Logs/hq/private/ProtectAnchor-end.png",
+      "private": true
+    },
+    {
+      "file": "ProtectAnchor-guard.png",
+      "sha256": "6902a309b084cd100416711dd282f0b552d94e5e4928b8ca695c629f7f5ca564",
+      "width": 390,
+      "height": 844,
+      "owner_local_path": "/private/tmp/rogue-hq-ref/unity/Logs/hq/private/ProtectAnchor-guard.png",
+      "private": true
+    },
+    {
+      "file": "ProtectAnchor-heal.png",
+      "sha256": "1b320a59b4eddd3b76e585cf2e3fff0a4abfdc21379c38d048c1e8224f9ad581",
+      "width": 390,
+      "height": 844,
+      "owner_local_path": "/private/tmp/rogue-hq-ref/unity/Logs/hq/private/ProtectAnchor-heal.png",
+      "private": true
+    },
+    {
+      "file": "ProtectAnchor-paused.png",
+      "sha256": "cc1055a93acc34d204c23db6ca0c0abb66c69de2f87fd8f54ecaa6cfd7607e71",
+      "width": 390,
+      "height": 844,
+      "owner_local_path": "/private/tmp/rogue-hq-ref/unity/Logs/hq/private/ProtectAnchor-paused.png",
+      "private": true
+    },
+    {
+      "file": "ProtectAnchor-start.png",
+      "sha256": "958947b50c32f19ee0efa3065eaa22bdb8aae41c876dac4183786387c5d7b265",
+      "width": 390,
+      "height": 844,
+      "owner_local_path": "/private/tmp/rogue-hq-ref/unity/Logs/hq/private/ProtectAnchor-start.png",
+      "private": true
+    },
+    {
+      "file": "camera-55-setup.png",
+      "sha256": "d7910dfffd7f0603063e84bb8f7862aa3575fbfd50e0bf24e5de7e01f94a0601",
+      "width": 390,
+      "height": 844,
+      "owner_local_path": "/private/tmp/rogue-hq-ref/unity/Logs/hq/private/camera-55-setup.png",
+      "private": true
+    },
+    {
+      "file": "camera-55-yaw-minus18-setup.png",
+      "sha256": "37841a05d9b4a4f1888c7baaeb7648f0e776992e158c396a8a1198f3c00eeb66",
+      "width": 390,
+      "height": 844,
+      "owner_local_path": "/private/tmp/rogue-hq-ref/unity/Logs/hq/private/camera-55-yaw-minus18-setup.png",
+      "private": true
+    },
+    {
+      "file": "camera-63-guard.png",
+      "sha256": "7af69982591926356e22adc9606a54d539c289a3fe6628e82690799b1aad921b",
+      "width": 390,
+      "height": 844,
+      "owner_local_path": "/private/tmp/rogue-hq-ref/unity/Logs/hq/private/camera-63-guard.png",
+      "private": true
+    },
+    {
+      "file": "camera-63-setup.png",
+      "sha256": "a49c7816f615faa5c0b70316d9ba4c6e41e77f8674557590117377c4cb188b77",
+      "width": 390,
+      "height": 844,
+      "owner_local_path": "/private/tmp/rogue-hq-ref/unity/Logs/hq/private/camera-63-setup.png",
+      "private": true
+    },
+    {
+      "file": "camera-75-guard.png",
+      "sha256": "7cf8e0c08bc9f88770527ac69e29ced6c8419274c82123212b5619c8a317ac3c",
+      "width": 390,
+      "height": 844,
+      "owner_local_path": "/private/tmp/rogue-hq-ref/unity/Logs/hq/private/camera-75-guard.png",
+      "private": true
+    },
+    {
+      "file": "camera-75-setup.png",
+      "sha256": "f06dc93804e4a63265ad8f4c0b8963c6999bec8d73ca02923a2d4fda24567044",
+      "width": 390,
+      "height": 844,
+      "owner_local_path": "/private/tmp/rogue-hq-ref/unity/Logs/hq/private/camera-75-setup.png",
+      "private": true
+    },
+    {
+      "file": "r1-setup.png",
+      "sha256": "9d3b4a00d2555255977f7c1d26b6e52eaf11b637fd4c378ebc7123e70da7d707",
+      "width": 390,
+      "height": 844,
+      "owner_local_path": "/private/tmp/rogue-hq-ref/unity/Logs/hq/private/r1-setup.png",
+      "private": true
+    },
+    {
+      "file": "r3-paused-mid-move.png",
+      "sha256": "54e6355b06889e2201754937351f6214aaa09c13acd24bafd287f8849c256646",
+      "width": 390,
+      "height": 844,
+      "owner_local_path": "/private/tmp/rogue-hq-ref/unity/Logs/hq/private/r3-paused-mid-move.png",
+      "private": true
+    }
+  ],
+  "original_art_public_git": false,
+  "external_upload": false
+}

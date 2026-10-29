@@ -1,0 +1,120 @@
+{
+  "baseline_runtime": "2abff2d6fd5e7089d32e6ceb3b145c15f282204f",
+  "candidate_base": "8d3cec9529ca9972519fc690e5cdb4440114ef1e",
+  "candidate_patch_sha256": "4bab52422215c7ee460120167a620d312d9b054e0394b1c4f1616e553c0e03f9",
+  "pilot": {
+    "EditMode": {
+      "total": 0,
+      "passed": 0
+    },
+    "PlayMode": {
+      "total": 1,
+      "passed": 1
+    },
+    "both_fixed_hashes": "matched by ProductFlow assertion",
+    "fresh_captures": 8,
+    "full_suite": "not run on rejected candidate",
+    "Simulator": "not run on rejected candidate"
+  },
+  "root_observed": [
+    "r1-setup",
+    "r1-policy",
+    "DirectAttack-counter",
+    "ProtectAnchor-guard",
+    "ProtectAnchor-heal",
+    "DirectAttack-death",
+    "DirectAttack-comparison"
+  ],
+  "observations": [
+    "Faces/edges slightly larger and more identifiable. No claimed new blur-only change.",
+    "Whole-screen actor dominance insufficient: same broad sky gaps and floor, compact central cluster unchanged.",
+    "Momo/Shiro shoulder and costume crowding increases. Garu weapon/green enemy overlap remains. No new whole-face disappearance observed in inspected frames.",
+    "Foot anchors, initial6HP, cards, action receipt, fixed outcomes and controls preserved in filtered test."
+  ],
+  "independent_pixel_review": "hud_review inspected setup/counter/guard/heal before+after: local face improvement; would retain locally, cannot establish whole-scene gain or fullmesh gate. Root rejects because requested whole-screen priority not achieved; reviewer judgment not suppressed.",
+  "decision": "REJECT_FOR_WHOLE_SCREEN_PARTY_EMPHASIS; restore only two task-owned presentation files; retain patch/PNGs/logs privately",
+  "R2": "V0 FAIL",
+  "human_quality": "unverified",
+  "independent_art_director": "Actual gpt-6-astra advisor viewed original + baseline/candidate setup/counter (5images): reject for whole-screen emphasis. Face gain small; Momo lower body and Shiro hat crowding increases. No new whole-face disappearance seen in two compared states.",
+  "restoration": "Two task-owned C# files restored byte-for-byte to8d3cec9; unity diff empty before next independent experiment.",
+  "private_evidence": "Owner-local _userwork/hq-evidence/2026-10-24-party-emphasis/: private-comparison.html, height-a-retry/images, source.patch, frozen-source.json, source-and-results.json, initial failed-run logs.",
+  "capture_sha256": {
+    "r1-setup": "472142901c8bff363b8f93b722d848539033906b95de793fa50f425fa2440128",
+    "r1-policy": "b4d2ae0ed1877651ba1887345a41bbe0707dada27fc9a9afaece06a752698a99",
+    "ProtectAnchor-guard": "54895e662b9a9ea4edee875f7eed4136ab03703e69cc02926d80b3330cfa6029",
+    "ProtectAnchor-heal": "597d4227b6fb2d582864f8aff8782fe485394a06c8deececa9f19418dee0f921",
+    "DirectAttack-counter": "6c2376e65ec54d182c6eb976a9fb9661fcfa8c7c5f08991d76b39665d97ef36e",
+    "DirectAttack-death": "6daede489320ad36da32946cfe3c3422df0693b443ed31b34928fdeb20257858",
+    "ProtectAnchor-comparison": "ed20d0f8a613515be5b2134258aa94fbfed1dd965359b2152870c3ecd1c1fb07",
+    "DirectAttack-comparison": "6c337360eb751de58e08c0209f3c65bd2f3963afddc7b7a6cbbebeee5b6a4bb4"
+  },
+  "xml_sha256": {
+    "EditMode.xml": "436e06062a80ad78a9854d716af7cd614ead62d46a739a9600256250a9f59685",
+    "PlayMode.xml": "c2559176267fec3d66ccfa9fe60147e6509a37b85db42e7bbc56483edfda9126"
+  },
+  "backdrop_layout": {
+    "review": {
+      "decision": "REJECT_SCATTERED_PROPS_AND_ORPHANED_VEGETATION",
+      "root_observed": [
+        "r1-setup",
+        "DirectAttack-counter",
+        "r1-policy",
+        "ProtectAnchor-guard"
+      ],
+      "independent_pixel_review": "Compared baseline/candidate setup and policy: four similarly shaped separate plinths read as floating props, flower/leaf cluster orphaned, no coherent distant layer; agrees reject. UI remains legible.",
+      "runtime_source": "8d3cec9 plus exact prototype OBJ patch; evidence-only HEAD advanced to8adbdc2 during job",
+      "job_status": "failed postrun artifact guard, not runtime test failure",
+      "artifact_guard": "artifact-guard-review.json records normalized scene-ID-only equality and fresh-capture recovery",
+      "underlying_tests": {
+        "Configure_exit": 0,
+        "Edit_total": 0,
+        "Play_passed": 1,
+        "both_fixed_hashes": "matched by assertions"
+      },
+      "full_suite": "not run on rejected prototype",
+      "Simulator": "not run",
+      "R2": "V0 FAIL"
+    },
+    "source_invariants": {
+      "existing_islet_count": 4,
+      "vertices": 1200,
+      "triangles": 400,
+      "vertex_RGB_same": true,
+      "UV_faces_other_records_same": true,
+      "no_added_geometry": true,
+      "candidate_only": "OBJ positions/normals transformed; original generator integration is deferred unless visual candidate retained"
+    },
+    "capture_SHA256": {
+      "r1-setup": "5be7a9e6b64362880b6ef9be17c3d164b078318363f205723ff79b20670f73f4",
+      "r1-policy": "b10466c2578892790defc29581faeb5a52e382738346fcdc621e1e83a2aa0119",
+      "ProtectAnchor-guard": "3967a91ec94ed68c06d0623d5ccb95a181aa194cb8ec9344f002eacc20ac9618",
+      "ProtectAnchor-heal": "56d69533c84f84846778a8ecee2e54f4072904b80753b128168e4d652bcb65e8",
+      "DirectAttack-counter": "fd1d4fedd53c1c6aeb9d936ec70ec5f3cff0582ffc31dac89a8f14a1fccf2c3c",
+      "DirectAttack-death": "8b1bce9a47dee9adf0b30c425f2025bd3d67bad58414fe03f7424c2d3aea9432",
+      "ProtectAnchor-comparison": "4748684f66d803e2199dc507db0c34fd4979c6c3c210758088fdeb3063396200",
+      "DirectAttack-comparison": "5d1dd17b896d131e0617b22d5fa1bda7ed6b40727d31ae0fc533fe495f94d764"
+    },
+    "artifact_guard_review": {
+      "job_exit": 1,
+      "cause": "Harness incorrectly froze generated scene object IDs before Configure; guard failed after successful test and before image copy.",
+      "Configure_exit": 0,
+      "EditMode_total": 0,
+      "PlayMode_passed": 1,
+      "normalized_scene_identical": "Exact text equality after bijective local objectID renaming only; GUIDs and values untouched",
+      "source_manifest_unchanged": true,
+      "configured_scene_sha_matches": true,
+      "captures_recovered": 8,
+      "capture_mtime_within_exact_job": true,
+      "not_full_suite": true,
+      "repair": "Audit expected Configure IDs separately; freeze already configured source/assets before subsequent verification."
+    },
+    "restore": "All3 task-owned OBJ/importedMesh/Scene restored byte-identically to8adbdc2; Unity diff0; no fullsuite/newnative repeated on rejected prototype"
+  },
+  "next_source_gate": {
+    "question": "Replace scattered-prop reasoning with one structurally supported original arch silhouette atop the retained original west islet. No runtime integration yet.",
+    "source_job_failed": "1a3eb40b: missing Python stdlib and OCIO resources in old temporary Blender installation; model script not executed",
+    "repair_job": "684b4319-ecb8-46ea-bda1-d0854d65e0eb",
+    "status": "repair_then_Blender_source_preview_started; not Unity acceptance",
+    "privacy": "No reference/skin pixels in source job or new external service; official free tool restore uses old exact installer SHA"
+  }
+}

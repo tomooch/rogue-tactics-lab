@@ -1,0 +1,27 @@
+{
+  "base": "78de1bf8816ed4824c0dc2df73fae41ba4d571f3",
+  "runtime_manifest": "threat-choice-source-and-results.json",
+  "observed_images": [
+    {
+      "path": "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-10-30-threat-choice/retained/choice-baseline-three-survivors.png",
+      "sha256": "6fc989023c4bc77400343dd5ea5ae1a7309541f58ebb0358f4cd2e115f55ed37"
+    },
+    {
+      "path": "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-10-30-threat-choice/retained/choice-garu-flower-selection.png",
+      "sha256": "5d77387fb434fbab5498329f6a8013b26f4024eb9ea3789d981f3d2c60d02d62"
+    },
+    {
+      "path": "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-10-30-threat-choice/retained/choice-directed-four-survivors.png",
+      "sha256": "e4faa9a63e30532d34be24091185f92e046df845c5aab0e10155090c88d4686c"
+    }
+  ],
+  "comparison": "Same encounter initial state, DirectAttack preference; no intervention 3 survivors, C targeting Y at first intervention boundary 4 survivors. Actual EventSystem clicks, automatic battle completion and retry. Not a general optimal strategy claim.",
+  "new_ui": "Current paused Core intents shown beside enemy face and HP. No future simulation.",
+  "tests": {
+    "edit": "32/32",
+    "play": "15/16",
+    "failure": "Existing whole-mesh AABB overlap A/B at initial state; unchanged gate."
+  },
+  "native_this_change": false,
+  "human_play": false
+}

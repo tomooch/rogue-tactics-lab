@@ -1,0 +1,304 @@
+{
+  "base_head": "f8bfbf88b851e2556d80bd7d898debe782294f63",
+  "executed_source": "base plus frozen uncommitted C#/Scene/private SVG/UVmesh configuration; no candidate committed",
+  "Human_authority": "Direct request to execute original-derived environmental part production after Executor acknowledged it was missing. Not whole-field PNG substitution or frozen art acceptance.",
+  "method": "Local editable SVG contours and UV-clipped meshes sample byte-identical private original; parts separately positioned as decorative 2.5D objects. Original actors/HP/UI must remain excluded. No raster repaint/upload.",
+  "source_reference_sha256": "99a76f33c60e74d7fd890e9cf188531280e030e58a5893bafd90899ea2b965b8",
+  "pilot": {
+    "job": "c6f17124-ee38-4dcf-a914-041efb6d273a",
+    "Configure_exit": 0,
+    "EditMode_total": 0,
+    "PlayMode_passed": 1,
+    "fresh_images": 8,
+    "both_full_hashes": "matched by unchanged ProductFlow assertions",
+    "source_guard": {
+      "changed_files": [],
+      "passed": true,
+      "original_unchanged": true
+    },
+    "capture_sha256": {
+      "r1-setup": "8d5a1cad90eaac8a93c164ef4b75fe75d56163c46eabbf305a8332ac33c8f0fe",
+      "r1-policy": "61047d59d19be76af255ba49541a562a7dfe54aa99cd10897c72eabc70c9680d",
+      "ProtectAnchor-guard": "52b9dcf1d2f8854a3d3e68c014b89a71bb50b11b6eb9c9e3551f5b52b9ff9c8a",
+      "ProtectAnchor-heal": "f55dc6c97b5879a8a6111f38eb614db82caf4e53f2af11277fc4b7d4d177a347",
+      "DirectAttack-counter": "75b3ee64297d5f8b8019d29e9bd66cff87125e120c70696b02dfbd8fee5a98a4",
+      "DirectAttack-death": "4c9ae0bc86640b01a15fbcc93b418fe498f67a812026abb0d824fef365a880e9",
+      "ProtectAnchor-comparison": "2eaf7063f265e2e235de6051df6a21313470d535b322134a3f30cb077d107f8e",
+      "DirectAttack-comparison": "67d5e9509aeeaaab33b1b1b1fa5a9de652a62adc9a0026566b3c6d5267fbaa50"
+    }
+  },
+  "root_review": {
+    "decision": "REJECT_CURRENT_PLACEMENT_AND_REPAIR_CONTOURS",
+    "actual_images_seen": [
+      "r1-setup",
+      "r1-policy",
+      "DirectAttack-counter",
+      "ProtectAnchor-guard"
+    ],
+    "observed_gain": "Reference-derived stone/lantern/vegetation has source detail missing from procedural scene, but this is not integration success.",
+    "failures": [
+      "Pillar/crate bases visibly detached above main island edge.",
+      "Blue-white strip beside banner indicates contour contamination.",
+      "Baked dark/warm dense source style differs strongly from uniform bright procedural masonry."
+    ],
+    "occlusion": "No new face/HP/UI obstruction seen in four inspected states, not all frames.",
+    "independent_Astra": "Actual5images (original + before/after setup/policy): rejects current placement, recommends contour cleanup then grounding, no expansion. See astra-parts-a-review.json.",
+    "technical": "Configure0; filtered Edit0/Play1;8freshimages;bothfixedhashes;frozen source/original unchanged. Not fullsuite.",
+    "next": "Isolated actualUnity source-render to inspect original contour margins, then repair before more parts.",
+    "R2": "V0 FAIL",
+    "not_adopted": true
+  },
+  "independent_Astra": {
+    "reviewer_role": "Astra art adviser; implementation and adoption remain with root/Human",
+    "review_type": "actual-image comparison",
+    "recommendation": "reject_current_installation_retain_source_extraction_for_repair",
+    "images_actually_seen": [
+      "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/image/天穹の遺跡、12階の冒険.png",
+      "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-10-24-party-emphasis/arch-main-full/images/r1-setup.png",
+      "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-10-24-party-emphasis/arch-main-full/images/r1-policy.png",
+      "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-10-24-reference-parts/parts-a-unity/images/r1-setup.png",
+      "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-10-24-reference-parts/parts-a-unity/images/r1-policy.png"
+    ],
+    "observations": {
+      "contour": "旗の左端に青白い縦帯があり、物体境界として不自然。柱・箱の下にも原画由来の地面と植生の小さな裾が残り、独立した背景断片に見える。背景画素混入の正確な範囲はSVG/UV未検査のため未確定。",
+      "grounding": "setup/policyの両方で、柱・旗・箱の足元が主島の左外周より上の空中に見える。見える既存支持面への接続を確認できず、同じ島に置かれた物体として読めない。",
+      "baked_perspective_and_lighting": "原画内の暖色ハイライト、濃い陰、側面の描写が一緒に移植され、淡く簡素な既存石材と明暗・細部密度が大きく異なる。明白な透視方向の逆転はこの2場面では認めないが、接地が未成立なので3D世界との遠近整合を合格とは判断できない。",
+      "world_integration": "原画の花・ランタン・旗の意匠は見えるが、既存世界の一部になるより、左上に小さな濃密な切抜きが貼られた印象。景観の一体性の改善は認めない。",
+      "actor_readability": "確認したsetup/policyでは、追加部品による新しい人物の顔・HP・セル表示・UIの遮蔽は見当たらない。左の濃い石陰と暖色ランタンは追加の注目点になるが、人物の読解性が向上したとは言えない。"
+    },
+    "repair_priorities": [
+      {
+        "priority": 1,
+        "action": "原画と照合して旗の左の背景帯、および支持面として使わない周辺背景を輪郭から除く。原画RGBは維持し、色替えや輪郭ぼかしで隠さない。",
+        "check": "空を背景にした電話表示で、物体の外側に青白い帯や不自然な原画断片が残らない。"
+      },
+      {
+        "priority": 2,
+        "action": "柱底面と箱底面を既存の非プレイ外周の支持面に合わせ、旗の支持元も同じ局所構造へ接続する。原画に描かれた底面・天面を接触基準に使い、矩形やmesh中心だけで配置しない。接触不能な配置を描き足した影や追加小物で救済しない。",
+        "check": "setup/policyで底面と支持面が連続し、空中の隙間や二重の地面がなく、合法セルと人物を隠さない。"
+      },
+      {
+        "priority": 3,
+        "action": "輪郭と接地を直した同じ2部品で再評価するまで増殖しない。固定カメラで原画の描かれた面と既存石材の面を整合させても明暗・密度の継ぎ目が支配的なら、この貼り込み配置は不採用とする。",
+        "check": "全画面で独立した小さな挿絵ではなく外周構造として読め、4人から注意を奪わない。"
+      }
+    ],
+    "limits": [
+      "Unity操作、動画、残りのcapture、SVG/mesh/UV、テストログはこのレビューでは未確認。",
+      "自動テストやsourceguardの成功はrootの報告であり、本レビューによる再検証ではない。",
+      "R2 PASS、Human品質合格、最終採用は主張しない。"
+    ]
+  },
+  "full_suite": {
+    "job": "43790aba-22ae-4292-b73d-5ddb10d0e349",
+    "exit": 2,
+    "results": {
+      "EditMode": {
+        "total": "14",
+        "passed": "14",
+        "failed": "0",
+        "skipped": "0",
+        "failures": []
+      },
+      "PlayMode": {
+        "total": "9",
+        "passed": "8",
+        "failed": "1",
+        "skipped": "0",
+        "failures": [
+          {
+            "test": "RogueTactics.Tests.MobileG1InteractionTests.JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults",
+            "message": "  Silhouette separation C / Y at step 0 rects (x:260.21, y:-181.79, width:46.80, height:62.40) / (x:230.88, y:-207.00, width:33.37, height:26.10)\n  Expected: False\n  But was:  True\n"
+          }
+        ]
+      }
+    },
+    "both_fixed_hashes": "Passed in unmodified ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes test",
+    "source_guard": {
+      "changed_files": [],
+      "passed": true
+    },
+    "capture_sha256": {
+      "r1-setup": "0acd1e0645ac9d7ce5dbcfeea641a0917808f96e7d14457226b150e3a6640cb3",
+      "r1-policy": "6f4404032b1da39f1d0dd32e53931daa4ac99aa9b688c1303e7c0780e1f5fa21",
+      "ProtectAnchor-guard": "26a9aad904367e59c38a87341a2f59349f2f6198bbdfffb08cc3ee666eda41ce",
+      "ProtectAnchor-heal": "12d3523f5a75438b2ea99e4c9492d1e1c68ace30ef497f21a254e0e7ff6f2c72",
+      "DirectAttack-counter": "07a2f96f43232dddbefbed2836d4ecc442b087248f9082a801d37dd3fe92f91b",
+      "DirectAttack-death": "02cc79259234cef55abc8646e07965d4efd84acfb8c32142efb01ca5da50f61a",
+      "ProtectAnchor-comparison": "f3efc3bd8f80bff49a87a710235ad8eeb23b988c27cd4275aada75c4a44bc4cb",
+      "DirectAttack-comparison": "448beba3ffc0e45c0ecd2abce208f38aca05725e753b023f3912b4e092e6ca40"
+    },
+    "root_actual_images": [
+      "r1-setup",
+      "DirectAttack-counter",
+      "ProtectAnchor-comparison"
+    ],
+    "interpretation": "Existing strict whole-billboard overlap gate remains failed; no assertion relaxed, no all-green claim. Local art/grounding gain retained only."
+  },
+  "new_native": {
+    "source_head": "99e2b32055c7b3c4c6a6f5d82a89ef1195591fd9",
+    "export_exit": 0,
+    "build_exit": 0,
+    "actual_QA_flow": "Both policies/14actions, pause/resume, comparison/retry and Japanese ka-to-katsu prediction observed. Both native fullhashes match. See reference-parts-native-observation.json.",
+    "R2": "V0 FAIL"
+  },
+  "private_evidence": "Owner-local _userwork/hq-evidence/2026-10-24-reference-parts/: parts-a.svg, parts-a-unity source/patch/8images/results, astra-parts-a-review.json, source-preview-a. Private PNG/SVG/Mesh assets remain inside ignored MobileG1/Private/ReferenceParts. Local paths do not prove cross-session sharing.",
+  "browser_preview": "file protocol refused by browser security policy; no alternate browser or HTTP workaround. ActualUnity evidence used.",
+  "R2": "V0 FAIL",
+  "not_adopted": false,
+  "source_preview_A": {
+    "job": "c6cb57b2-23a0-40ae-8d80-f71850cdcb7e",
+    "technical_exit": 0,
+    "image": "INVALID_BLANK_CAPTURE",
+    "root_cause": "Camera and meshes shared a transformed root; the diagnostic camera origin coincided with mesh plane. Not a valid visual/art test.",
+    "private_inputs_and_savedScene_unchanged": true,
+    "repair": "Separate camera GameObject; render cutouts and original source region before contour cleanup.",
+    "repair_job": "d9652467-55c9-467b-aa18-ae27e78f0170",
+    "repair_status": "started, no result claimed"
+  },
+  "source_preview_fixed": {
+    "job": "d9652467-55c9-467b-aa18-ae27e78f0170",
+    "exit": 0,
+    "root_actual_images": [
+      "reference-parts-source.png",
+      "reference-source-region.png"
+    ],
+    "valid_visual": true,
+    "found": "Banner contour picked actual sky to left; actual pole/cloth begins nearX255, not guessedX217. Pillar included duplicate crate and floor chunk.",
+    "repair": "Source-only SVG contour cleanup, separate object foot pivots; preserve original RGB. No game adoption."
+  },
+  "source_cleanup_B": {
+    "job": "3c850f94-10a6-4c93-9497-b8e45b386191",
+    "status": "exit0 and nonblank integrity pass, but root actual pixels byte-identical to old contour; invalid as cleanup proof. No runtime gate approval.",
+    "blank_capture_regression": "Preview harness now rejects missing or near-uniform images, in addition to root actual image inspection.",
+    "rendered_sha_matches_old": true,
+    "saved_mesh_counts": {
+      "pillar": 50,
+      "banner": 40
+    },
+    "repair": "Explicit Mesh update APIs and fresh preview clones after asset save; verify changed output for changed contours, not only nonblank.",
+    "repair_job": "a7a2d8ba-eb36-4190-97d0-2935a51bfa15",
+    "repair_status": "a7a2d8ba exit0; actual image changed. Clipping updated, but source diagnostic overlaid independently pivoted parts, hiding banner. Pillar still included a flagpole strip/sky fringe; not approved for gameplay."
+  },
+  "source_cleanup_C": {
+    "job": "d6825e5b-e351-4020-8374-9a983b8421ed",
+    "status": "exit0; nonblank integrity pass and root actual side-by-side image reviewed. Broad sky strip and duplicated crate/floor removed; hard clipped tips remain, source gate only.",
+    "scope": "Side-by-side source preview of separate pivots; trim pillar flagpole/top-sky fringe. Same2environment regions, original texture unchanged. No expansion or adoption.",
+    "root_source_review": {
+      "ready_for_runtime": true,
+      "actual_images": [
+        "reference-parts-source.png",
+        "reference-source-region.png"
+      ],
+      "source_gate": "Clean enough for bounded actualgame grounding comparison, not production/Human art acceptance.",
+      "observed_gain": "Banner cloth/pole is visible without former broad sky strip. Pillar no longer repeats the crate/foreground floor. Both separately pivoted objects are visible side-by-side.",
+      "limits": [
+        "Hard polygon edges and some cut leaf/flower tips remain.",
+        "Baked lighting/perspective still need whole-screen integration review.",
+        "No ground contact or actor/event clarity proof from isolated source render."
+      ],
+      "original_unchanged": true,
+      "source_image_sha256": "5105c05101c97daf54a0f95387313b3e8f7834bfd518a89f068092d858d89bc0",
+      "R2": "V0 FAIL"
+    }
+  },
+  "grounded_B": {
+    "job": "0bb45c80-551f-4d4c-821b-68a1b2e3ab46",
+    "exit": 0,
+    "Configure_exit": 0,
+    "filtered_EditMode_total": 0,
+    "filtered_PlayMode_passed": 1,
+    "fresh_images": 8,
+    "capture_sha256": {
+      "r1-setup": "c6500fc0d72779b4839f97c3b2dc426e5b2543d14eacdf3564f7aceae3e3f8cc",
+      "r1-policy": "4c1e8135ec7016dd9e0c8366199fb7218666cfe416ba3eb09bcbf1b9e67dfcce",
+      "ProtectAnchor-guard": "4dcca892131a137e0d002150f95773c0cdce1956dffe3d392f0b2c1a62102467",
+      "ProtectAnchor-heal": "3b65f588be13c8da067a62addb2e463aef74007a7b8ec842661627396b9481c4",
+      "DirectAttack-counter": "13028855d6877c845d6a4441cf22455acfc02662ba75b35a64daac996ef95c6d",
+      "DirectAttack-death": "839a647d81cad9a500924f7c88981590d2371569c517566e02d62c5ed1aa3561",
+      "ProtectAnchor-comparison": "317d363e3f0406815f2b1161c8994a1930817a4321a0f46197bd9451c3d1b021",
+      "DirectAttack-comparison": "c9709656e1bc6853741b038afd99153de8974b0ad12a06469e81fe22c7c0d8ed"
+    },
+    "source_guard": {
+      "changed_files": [],
+      "passed": true,
+      "original_unchanged": true
+    },
+    "root_review": {
+      "retain_for_full_verification": true,
+      "decision": "BOUNDed_LOCAL_GAIN_ONLY_PENDING_FULL_VERIFICATION",
+      "actual_images_seen": [
+        "baseline/r1-setup",
+        "parts-a/r1-setup",
+        "parts-b/r1-setup",
+        "parts-b/r1-policy",
+        "parts-b/DirectAttack-counter",
+        "parts-b/ProtectAnchor-guard",
+        "parts-b/ProtectAnchor-heal",
+        "parts-b/DirectAttack-death"
+      ],
+      "observed_gain": [
+        "B pillar and banner/crate feet connect to left nonplay rim instead of floating above it in A.",
+        "Broad blue-white strip beside banner and duplicated source floor/crate below pillar are removed.",
+        "Stone/lantern/flora and blue textile read as reference-derived local scenery at phone size."
+      ],
+      "remaining_defects": [
+        "Baked dark/dense source shading still differs from pale procedural floor and arch.",
+        "Cut polygon leaf tips remain.",
+        "Only two regions authored; cliff/water/floor/world-wide art integration remains unresolved.",
+        "No measured party-emphasis improvement; R2 stays V0 FAIL."
+      ],
+      "occlusion": "No new cast-face/HP/control cover in inspected still states; not all animation frames or native proof.",
+      "source": "f8bfbf8 plus frozen uncommitted source, serialized scene and private UV contour/assets in frozen-source.json/source.patch; not clean committed runtime",
+      "technical": "Configure0, filtered Edit0/Play1, both frozen outcomes; source/original unchanged. Full suite pending.",
+      "independent_review": "Astra B actual-image review requested; root acceptance owns judgment, not adviser."
+    },
+    "independent_Astra": {
+      "reviewer_role": "Astra adviser; root owns implementation and adoption",
+      "review_type": "actual-image comparison at supplied phone resolution",
+      "recommendation": "provisional_retain_for_full_verification_not_final_art_adoption",
+      "images_actually_seen": [
+        "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/image/天穹の遺跡、12階の冒険.png",
+        "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-10-24-party-emphasis/arch-main-full/images/r1-setup.png",
+        "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-10-24-reference-parts/parts-a-unity/images/r1-setup.png",
+        "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-10-24-reference-parts/parts-b-unity/images/r1-setup.png",
+        "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-10-24-reference-parts/parts-b-unity/images/r1-policy.png",
+        "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-10-24-reference-parts/parts-b-unity/images/DirectAttack-counter.png",
+        "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-10-24-reference-parts/parts-b-unity/images/ProtectAnchor-heal.png"
+      ],
+      "findings": {
+        "versus_A": "明確に改善。空中に孤立していた背景断片が、左の非プレイ外縁に置かれた柱と旗・箱として読める。Aの旗左端の青白い縦帯と重複した地面の裾は、Bの電話表示では見当たらない。",
+        "versus_baseline": "左外周に花・石・ランタン・青旗のまとまりが加わり、原画に由来する場所の特徴が具体的に増した。単なる浮遊ステッカーからは脱している。一方、画面全体の余白配分や人物の大きさは改善していない。",
+        "contour": "確認した4場面では、Aで目立った背景帯や大きな余分な地面断片を認めない。細い半透明縁やUV全域の完全性を保証する検査はしていない。",
+        "grounding": "柱の下端は既存外縁の石・植物に入り、旗と箱も縁上に着地して見える。Aの明白な空中の隙間は解消した。柱の正確な支持接触は草花に隠れるため、画像だけでmesh接触や深度整合までは断定しない。",
+        "perspective_and_lighting": "固定視点で面の向きに明白な破綻は見えない。原画の濃い紫灰色の石陰、暖色ランタン、密な植生と、簡素で淡い既存石材との画風の継ぎ目は残る。焼き込み照明をUnity実照明の成立と読み替えない。",
+        "actor_and_UI_readability": "Bのsetup/policy/counter/healで追加部品による新しい顔・HP・UIの遮蔽は認めない。healの左人物付近の表示も判別できる。既存の人物間重なりが解消したという意味ではない。",
+        "focal_competition": "ランタンと柱の濃い陰は左側の新しい注目点になるが、この4枚では人物を判別不能にするほどの競合は認めない。4人の主役性改善や原画相当の全体魅力は未達・未証明。"
+      },
+      "next_action": {
+        "required_before_full_verification": "この画像レビューから、全検証前に必須とする追加美術修正はない。Bを暫定保持して検証を進める。",
+        "verification_focus": "移動途中と現在空いている合法セルを含め、柱の投影が人物・HP・意図・選択表示を隠さないかを確認する。既存の全身矩形基準は維持する。",
+        "minimal_repair_if_new_occlusion_is_observed": "問題フレームを特定し、当該部品の非プレイ外縁上の接地点だけを外側へ修正する。人物・カメラ・Core位置や色を変えて救済しない。",
+        "scope_limit": "既存石材との画風差を、部品の増殖や装飾追加で隠さない。今回のretainはこの2領域の抽出・設置改善に限定する。"
+      },
+      "limits": [
+        "Unity実行、動画、残りのcapture、SVG/UV/mesh、テストログ、元PNGのbyte一致は本レビューでは検査していない。",
+        "人物・Core・カメラ等が不変という説明はrootからの情報であり、本レビューによるコード検証ではない。",
+        "R2 PASS、Human品質合格、最終採用は主張しない。"
+      ]
+    }
+  },
+  "adoption_scope": "Two-region Draft experiment retained for visible local grounding/contour gain; not frozen visual direction, whole-screen or Human acceptance.",
+  "private_reproduction": {
+    "owner_local_bundle": "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-10-24-reference-parts/retained-private-assets",
+    "manifest": "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-10-24-reference-parts/retained-private-assets-manifest.json",
+    "guid_metadata_preserved": true,
+    "public_media": false,
+    "cross_session_sharing_confirmed": false
+  },
+  "committed_source_mapping": {
+    "source_head": "99e2b32055c7b3c4c6a6f5d82a89ef1195591fd9",
+    "full_test_frozen_manifest_matches": true,
+    "ignored_private_assets_required": true
+  }
+}

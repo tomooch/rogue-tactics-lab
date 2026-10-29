@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Passed" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-28 13:36:58Z" end-time="2026-10-28 13:39:00Z" duration="122.1904874">
+  <test-suite type="TestSuite" id="1028" name="Rogue Tactics Lab" fullname="Rogue Tactics Lab" runstate="Runnable" testcasecount="15" result="Passed" start-time="2026-10-28 13:36:58Z" end-time="2026-10-28 13:39:00Z" duration="122.190487" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1022" name="RogueTactics.Tests.PlayMode.dll" fullname="/Users/tomoki/.codex/visualizations/2026/10/15/01a13dcb-2d2e-7aa3-b4f2-02f23af888ce/hq-production/unity/Library/ScriptAssemblies/RogueTactics.Tests.PlayMode.dll" runstate="Runnable" testcasecount="15" result="Passed" start-time="2026-10-28 13:36:58Z" end-time="2026-10-28 13:39:00Z" duration="122.183710" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="69140" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1023" name="RogueTactics" fullname="RogueTactics" runstate="Runnable" testcasecount="15" result="Passed" start-time="2026-10-28 13:36:58Z" end-time="2026-10-28 13:39:00Z" duration="122.182893" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1024" name="Tests" fullname="RogueTactics.Tests" runstate="Runnable" testcasecount="15" result="Passed" start-time="2026-10-28 13:36:58Z" end-time="2026-10-28 13:39:00Z" duration="122.182300" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1009" name="GauntletFlowTests" fullname="RogueTactics.Tests.GauntletFlowTests" classname="RogueTactics.Tests.GauntletFlowTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-28 13:36:58Z" end-time="2026-10-28 13:39:00Z" duration="122.180866" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1010" name="ConsecutiveEncountersWithVoluntaryTargetInstruction" fullname="RogueTactics.Tests.GauntletFlowTests.ConsecutiveEncountersWithVoluntaryTargetInstruction" methodname="ConsecutiveEncountersWithVoluntaryTargetInstruction" classname="RogueTactics.Tests.GauntletFlowTests" runstate="Runnable" seed="1040817504" result="Passed" start-time="2026-10-28 13:36:58Z" end-time="2026-10-28 13:39:00Z" duration="122.165920" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="Timeout" value="900000" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[HQ_FRAME_METRICS {"runtime":"Unity Editor","unity":"6000.3.25f1","graphics":"Metal","samples":1328,"p50_ms":16.692289352416993,"p95_ms":16.738039016723634,"reduced_effects":false,"limitation":"Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"}
+MOBILE_G1_RESULT ProtectAnchor e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d
+HQ_FRAME_METRICS {"runtime":"Unity Editor","unity":"6000.3.25f1","graphics":"Metal","samples":2202,"p50_ms":16.691539764404298,"p95_ms":16.792041778564454,"reduced_effects":false,"limitation":"Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"}
+MOBILE_G1_RESULT ProtectAnchor 79792c5a9464383477c632250ecd5445841f4673a1beef0384ec17c68ced9c9c
+HQ_FRAME_METRICS {"runtime":"Unity Editor","unity":"6000.3.25f1","graphics":"Metal","samples":2398,"p50_ms":16.692502975463868,"p95_ms":16.76629066467285,"reduced_effects":false,"limitation":"Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"}
+MOBILE_G1_RESULT DirectAttack 7d2e2a982ec235f6c27b574adf1ae5854ac7aca4f2bf576e07e60443902fe071
+Saving results to: /Users/tomoki/Library/Application Support/Rogue Tactics Lab/Rogue Tactics Lab/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

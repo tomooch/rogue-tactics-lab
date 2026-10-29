@@ -1,0 +1,186 @@
+{
+  "baseline_runtime": "2abff2d6fd5e7089d32e6ceb3b145c15f282204f",
+  "candidate_base": "6d14a5a5bb032da3a50bb6896f26a9d12e28be2c",
+  "observed_problem": "Existing ring computed vertical coordinates but discarded them; emitted ring had zero authored Z thickness and degenerate cap attempts.",
+  "scope": "Repair existing main-island arch,15 closed bevelled elliptical-sector stones sharing radial bearing faces, supports on shared outer-rim footing. Only3 existing environment geometry layers change.",
+  "self_repair": "Source A closed independent boxes still showed obvious air gaps. Replaced assembly geometry with shared radial boundaries before Unity, added bearing-face regression.",
+  "held_fixed": "Core,5x5,initial6units/2enemies,4approved RGBA,camera,actor size,floor,HUD,event presentation and controls",
+  "source_gate": {
+    "geometry_tests_passed": 3,
+    "other8_OBJ_identical": true,
+    "Blender_saved_reopened_rendered": true,
+    "visibility_proxy": "25cell foot/face centre rays clear; does not establish every opaque silhouette pixel"
+  },
+  "pilot": {
+    "EditMode_total": 0,
+    "PlayMode_passed": 1,
+    "fresh_images": 8,
+    "both_full_fixed_hashes": "matched by unchanged ProductFlow assertions",
+    "source_guard": {
+      "changed_files": [],
+      "passed": true
+    }
+  },
+  "root_visual": {
+    "gain": "Previously disconnected flat horizontal pieces become a continuous arch with visible side thickness, a clear opening and supports joined to the main rear rim. Architecture reads as part of the main island in setup and policy.",
+    "limits": [
+      "No demonstrated party-emphasis gain; completed arch can attract attention before actors.",
+      "Broad foreground floor, large sky gaps, small central cast and flat waterfall ribbons remain.",
+      "Uniform clean stone surfaces remain model-like versus the weathered original.",
+      "No new face/HP/UI obstruction observed in inspected frames; not all legal opaque pixels or every video frame."
+    ]
+  },
+  "adviser": {
+    "model": "gpt-6-astra",
+    "role": "adviser only, no implementation",
+    "actual_images": "baseline/candidate setup, policy, counter, guard:8 images",
+    "recommendation": "Retain this bounded structural correction and advance to full suite; no party-emphasis or R2 acceptance",
+    "record_basis": "Root summary of completed independent adviser report, not a verbatim transcript"
+  },
+  "capture_sha256": {
+    "r1-setup": "fde2d6adbdf102b9f6f05a41a3ee8ba5421b57dd164f9f0ca86f151f4c369dcc",
+    "r1-policy": "56b6edf4868e5fce32c8a2adbfaca563534edf4d4b9753d2dd270650ba08b6bd",
+    "ProtectAnchor-guard": "34b03f2d03d9f241d3ef43acea539ce33c26103757454e6a0eb88a71fd0d9044",
+    "ProtectAnchor-heal": "13a8dbdd8df0cf19a6e8c6284bd77491bc5239f493d6f2420fd6e35946496ec4",
+    "DirectAttack-counter": "2439c9faa8767cc3060def8e9e2cfcfdfd128157b65ee837109776965ec4a547",
+    "DirectAttack-death": "5af19b37b34d8a49537030e02d6e09cf3a59a3725b38273131d7936bb41948cb",
+    "ProtectAnchor-comparison": "c60d9f08e46ef87ba41038c5dccc793f56abceacc127c706eb518d7115b586cd",
+    "DirectAttack-comparison": "83701a16cb64630c028687b2661ece7b5c6d192659bc3c50ef076faca3d9d14b"
+  },
+  "full_verification": {
+    "job": "fe32f058-66e1-46dc-bb47-2ceba5eb5a6e",
+    "terminal_status": "failed",
+    "exit_code": 2,
+    "geometry": {
+      "total": 3,
+      "passed": 3
+    },
+    "EditMode": {
+      "total": 14,
+      "passed": 14
+    },
+    "PlayMode": {
+      "total": 9,
+      "passed": 8,
+      "failed": 1
+    },
+    "failure": "Existing MobileG1InteractionTests.JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults: whole-mesh silhouette A/B overlap at step0. Baseline2ab same test failed X/C at step0; enumeration reports first pair. No claim other pairs are separated.",
+    "unchanged_runtime_areas": "Core/Presentation/tests/camera/4skin/Scene unchanged; only3arch geometry layers changed",
+    "both_full_fixed_hashes": {
+      "ProtectAnchor": "e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d",
+      "DirectAttack": "85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e"
+    },
+    "ProductFlow": "Passed; real EventSystem inputs, displayed events, initial6HP, pause/resume, prediction, both outcomes, comparison/retry",
+    "source_guard": {
+      "changed_files": [],
+      "passed": true
+    },
+    "capture_sha256": {
+      "r1-setup": "7b1bc2ac6de46cfa890d1f5ad441f9f63b39f74666deae504f9d113a96e77ba2",
+      "r1-policy": "bd8850abf29a37274a79719a51cc7efd5ced7ee9c519924c04441d3b34a9e7ae",
+      "ProtectAnchor-guard": "5512cc839c71413a7f52c8b25715783a2ed509052385f9ac36be56649301032e",
+      "ProtectAnchor-heal": "434b87d7c78b54c1a8973adf192a4a6c38e3eb80b6b3f1ba70ff5e97cd470009",
+      "DirectAttack-counter": "f4aadfd41dc6905f3b4cb3c3153701805f8f5220073d9fdadd67f69d747459c2",
+      "DirectAttack-death": "7387ee98ce153a521b00f89f9fa9fa39939fef5ac5ef364e7bdc7bab8653a623",
+      "ProtectAnchor-comparison": "cf086d9d436f1811215e20bb158d74b3077840299500add373c60a5cd6a2a1c6",
+      "DirectAttack-comparison": "0359546dd0d00096b4aa74b46bad4a412c3b8e153c00c432d446790ff35f3991"
+    },
+    "root_fresh_image_review": [
+      "r1-setup",
+      "r1-policy",
+      "DirectAttack-counter",
+      "ProtectAnchor-guard"
+    ],
+    "source_patch_sha256": "4d9a6581ee20b686cce6999dbd3ef9b3013e8a24e6f6244a129fa37d6cbde1f5",
+    "frozen_manifest_sha256": "73de3c1a53a6e8ac4fa7b6aa1b0c63b2318c941427e0a86f0fbc907a4fb85fff"
+  },
+  "private_evidence": "Owner-local _userwork/hq-evidence/2026-10-24-party-emphasis/: main-arch-private-comparison.html, arch-main-source-b/corrected-main-arch.blend, arch-main-unity-b/, arch-main-full/. Local paths are not evidence of cross-session share success.",
+  "R2": "V0 FAIL",
+  "Human_quality": "unverified",
+  "Simulator_current_candidate": "Fresh exact runtime a74acb3 export/build/install/launch/live bothflows and full native hashes observed. See main-arch-native-observation.json.",
+  "TestFlight_current_candidate": "No archive/upload; ASC /apps redirects to login authResult=FAILED; current build/group not accessible.",
+  "decision": "RETAIN_LIMITED_STRUCTURAL_REPAIR_IN_DRAFT; not R2/Human acceptance",
+  "verified_source_files": {
+    "tools/author_sky_ruins.py": "f24accceffcce18a1be91c412b6b69d6a88bc6a1d0b372c4a33112d42adc0e92",
+    "tools/test_author_sky_ruins.py": "675f5aac11baf3918493205edf04016cadd3b628e8e611bcc7f8ab7428717861",
+    "unity/Assets/RogueTactics/Art/HqRuins/Blue.asset": "c970e941ed0e6fa20bcf652607fb1a445002af507da0ed4c005e5df2f9a090d9",
+    "unity/Assets/RogueTactics/Art/HqRuins/Blue.obj": "c25d669ad1a17e806f7b60b83a32245928b4a81e0a93912a9c535fb1d5a7f538",
+    "unity/Assets/RogueTactics/Art/HqRuins/Cliff.asset": "e3d16a30f285234f6c5a72c9a5a9802f11c750ed2a305a7c457d1e3b1fe659dc",
+    "unity/Assets/RogueTactics/Art/HqRuins/Cliff.obj": "f2dbe496f1345a555c03b416f83630c26e63926c7fc5769733d4122b9f4fe6af",
+    "unity/Assets/RogueTactics/Art/HqRuins/Courtyard.asset": "fd2b8ab4e645ccd456e8031be2fe06bbf31c17ee774d8dab8a2994f26df767e0",
+    "unity/Assets/RogueTactics/Art/HqRuins/Courtyard.obj": "1e10beab2e7a3d134064fa5eff1a86412e01f4155b591de68ab6e752da98e12b",
+    "unity/Assets/RogueTactics/Art/HqRuins/Detail.asset": "302b0aa3b8d5bb6e5f5302e282ac0d1430a299a9c6047aedda5be61ac10a2d78",
+    "unity/Assets/RogueTactics/Art/HqRuins/Detail.obj": "73fc70d57953cf8f157edd2b1e9905b0fcf42d699504afe09db286105e804d94",
+    "unity/Assets/RogueTactics/Art/HqRuins/Distant.asset": "4ac6dad8fb74bcd825be3786b06ff7e5bdca2d7d751c071cf337d20d14fbdcdf",
+    "unity/Assets/RogueTactics/Art/HqRuins/Distant.obj": "0a82cd8192fd4fa2ec8fcde9f2bb26842ba4f9139e589dc0f3dc629333668abb",
+    "unity/Assets/RogueTactics/Art/HqRuins/Flowers.asset": "207b36172c76b14f64fdd0a50b46252c92596113f1f02a601549ca8add24d235",
+    "unity/Assets/RogueTactics/Art/HqRuins/Flowers.obj": "268f32aaceaba73e9b2fe27d10bd34ec27a31b609e9d1711f40a9d21441a775a",
+    "unity/Assets/RogueTactics/Art/HqRuins/Foliage.asset": "f2189953f0c532cec0f269cd47f2d07c0a145322d6ee97840ba2e1f348c873fd",
+    "unity/Assets/RogueTactics/Art/HqRuins/Foliage.obj": "710847542b5d5e540ee29a4831e6297cee789922d67b29f0b77a541049784cd6",
+    "unity/Assets/RogueTactics/Art/HqRuins/Gold.asset": "7decf21a582003e725b0903107fe8be0e552b8a3af39305163e182934352d6b2",
+    "unity/Assets/RogueTactics/Art/HqRuins/Gold.obj": "98a71c531c5cf6b92411eb2889b9b279f6a5b2868a098c8e71d8f217fda48c97",
+    "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.asset": "0abebb1bc7e564d80ee08d0550f706b1b4777ed4a98ef8225d8f9e0ee1028827",
+    "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.obj": "29e957182bdb04a83441d5ba431e1d093f9521cebaee0212d7076b95a915e25e",
+    "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeDetail.asset": "1265ee72e61fdaa21ecccadf909b696e9be94cf0bc4b754e9162e335d9320c01",
+    "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeDetail.obj": "12c35a97644e16346acd71be0f07c57d7a13b5d01a7f9314e74f249af3d5932f",
+    "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFlowers.asset": "21504f4f127b14543027481e4d3ee930ea0d5aa0cdaa2e24dfaaffb3ddf75406",
+    "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFlowers.obj": "166b903ad387ef2457cbe962bd460b9e7bcefae685b2bf0dfafcdb9fa0511ca4",
+    "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoam.asset": "49e7d0c9cda11fd8bab6b36449c1c13a4ed25dd4a75e49f757ed8436aa456de9",
+    "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoam.obj": "21620aa32962e3d1cce8fc33a3791cf06655592d5a9e8160a6b2ca79048b6699",
+    "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoliage.asset": "ab5a98894b13b20579d0b936568b7c21f705d98ed26b0e1b7e8091904ec84956",
+    "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoliage.obj": "03700bbca1ab9d5016ca5e14f27db10781e8087ab4ecea606262e20f3558f990",
+    "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeLimestone.asset": "04fd82817374d702c7fba36576a3cb89e0e0970cd1c1fd6650ff0c5d726fc3a2",
+    "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeLimestone.obj": "58d337f0470ba2f9a4fef17a7291a917b75291ea8d0a04a2a7a9bdf5c78ba90e",
+    "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeWater.asset": "2b133b0d47fced6010832f66a4ed3ae5e373d80b828cffc7260fc9273a0bac6d",
+    "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeWater.obj": "1e92d13b072588f5696273a4e4855312beb6f2c9a43dcb9189479737c03c4938",
+    "unity/Assets/RogueTactics/Art/HqRuins/HeroLedge_provenance.json": "43dadcc05a327f80f32dc6ffbcfb2ff157db65bece8e9b39183a52dcbc10c3eb",
+    "unity/Assets/RogueTactics/Art/HqRuins/Limestone.asset": "ef8c12c048c2eb1f99b0fb0ef2de4bb66882e5d9ee8afbbd739960372a618f99",
+    "unity/Assets/RogueTactics/Art/HqRuins/Limestone.obj": "cf049bb1cf8290a055c250fb9464881b872c583c33c555546956fc201e0ddbc2",
+    "unity/Assets/RogueTactics/Art/HqRuins/Warm.asset": "8e5cf04bf9b58f26be7595a0045d1d86ad2a453be31be3460f4a29c7b62afa74",
+    "unity/Assets/RogueTactics/Art/HqRuins/Warm.obj": "a5a68d1df19daa6c15ceec06bed4087beba83996aadc04c97e5885eeb6e59b24",
+    "unity/Assets/RogueTactics/Art/HqRuins/Water.asset": "a8afcc7200dd19d37ed04b58f1dd328ebf28f240ae63389d9a57493e15497e9b",
+    "unity/Assets/RogueTactics/Art/HqRuins/Water.obj": "c48427f964501ce18ad19365b2ac85844e5cfec9458b5f73f56ee8934fa27d02",
+    "unity/Assets/RogueTactics/Art/HqRuins/provenance.json": "0520e83491a29583a6e1f157097b3b8d15ca2b692af4b8e57c6cc967e75dac30",
+    "unity/Assets/RogueTactics/Art/MobileG1/AuthoredRuins.shader": "54eac6cdb8574caa5fc6cf976e46f3666e7550013218404e7aa80ce029553101",
+    "unity/Assets/RogueTactics/Art/MobileG1/HqSky.shader": "469dfc46d58d92e093b2febe902b4ec718fbdfb1920d789dca4c553bb2aaec32",
+    "unity/Assets/RogueTactics/Art/MobileG1/Private/garu.png": "04051f21042b365c767124f4931f8189502a24eab9896089e8850b3e8e76c015",
+    "unity/Assets/RogueTactics/Art/MobileG1/Private/momo.png": "d8f62c2299c2772ce21ded771ec2faf6c50f9d18d4f585ba2fe7a63d698daa74",
+    "unity/Assets/RogueTactics/Art/MobileG1/Private/myaru.png": "3f064518faf44e308614ddaaaa81eb108d909c116e0a0a21cadf8d33e64a8fd5",
+    "unity/Assets/RogueTactics/Art/MobileG1/Private/shiro.png": "5f9bd5d0f8f7569987f0df3393d2236a032b75091e7af9c6f10ba17b3c7a7c73",
+    "unity/Assets/RogueTactics/Art/MobileG1/StaticSkin.shader": "b7190c80e376509ac7cb2ba6fd54561e1e486388115eb2a053e557358a17d40e",
+    "unity/Assets/RogueTactics/Core/G1Battle.cs": "2adfee6c34152df63a9a25221531f81795829919d577925730594fd8a5bfb2f1",
+    "unity/Assets/RogueTactics/Core/GridPosition.cs": "c7f045f52ea00da6daae60939c7a8e1184794c034ea8b61a2289c479c6c21bb0",
+    "unity/Assets/RogueTactics/Editor/AuthoredRuinsImport.cs": "76e57788d266bfa04e576a09ea811cc4eb1f673f58cc3794cd846232d83c05e0",
+    "unity/Assets/RogueTactics/Editor/G1Setup.cs": "ab582ac0c48c5d10b652a6a7708b79056c7216c96f8c2a8aa8deacf2f720fcc6",
+    "unity/Assets/RogueTactics/Editor/MobileG1Setup.cs": "3242b15b614eb50c6c16b5ba1054b5089e834b7475dbe98ff70b2aa2b0d149b5",
+    "unity/Assets/RogueTactics/Editor/Stage0Setup.cs": "14f9a36c43cebcbc26fdc5e1e798bb08e5f27f57213182b9d09c861c831a9b33",
+    "unity/Assets/RogueTactics/Presentation/G1View.cs": "328ddcee9d46df30fe4987ec0ac324d9a360184f02b5d514622734ebf61a11ef",
+    "unity/Assets/RogueTactics/Presentation/HqAmbient.cs": "4fb77deeb841d7357a32bfb4ab8887f2bf8c2983a4d5e283bd46dd2c2937747c",
+    "unity/Assets/RogueTactics/Presentation/HqCamera.cs": "fe564e50924bab286f68056c226956d448084f4b2767e1d61a3a7715acaaa20e",
+    "unity/Assets/RogueTactics/Presentation/HqContactShadow.cs": "de447c08670bb6c724af678918bbb94d40fd7b908aa5947981235d417cbb6c03",
+    "unity/Assets/RogueTactics/Presentation/HqCreature.cs": "fb3a8be6b0622c3edbe370427269d8fb03be7d3641ac8b4098d6529ed4e4cd46",
+    "unity/Assets/RogueTactics/Presentation/HqFootBadges.cs": "e5fd9f2d252761e99a55249e052a9fd33d50ca4e7c3eefd570510eef174b63a3",
+    "unity/Assets/RogueTactics/Presentation/HqFrameMetrics.cs": "3ea28b598a60aaf621c5c56d4004f0edc21f2bb4c16819388d02209d7eb195a0",
+    "unity/Assets/RogueTactics/Presentation/HqKnownPositions.cs": "12d4ac07b6b4a01b0b043b06dcbedda39536be25e873c1c39e0d45b9e6af04ac",
+    "unity/Assets/RogueTactics/Presentation/HqMotion.cs": "e7a5cc3bcff7143add812b84e30f6387a502b679e5b3adc1a8f31a98eaf1ffe2",
+    "unity/Assets/RogueTactics/Presentation/HqProductHud.cs": "991814014bc25e2dd22e3edacc3a3a6d79b40946069ab386e7ee133748a4d715",
+    "unity/Assets/RogueTactics/Presentation/HqRelations.cs": "8992072881f55a81f9e2928b3d692effe2e3015bd440b1fda5828de036d52a61",
+    "unity/Assets/RogueTactics/Presentation/HqRoute.cs": "28de45517dac327dce222dc16c59e61d4560464a15bb6e3955ae9f9bb4e7a7c3",
+    "unity/Assets/RogueTactics/Presentation/HqSkyRuins.cs": "2c7d7ae33a2a064b8f36cb2c2bb32841aa0607c58a8229f05e05f248bb6ff3ae",
+    "unity/Assets/RogueTactics/Presentation/MobileG1Session.cs": "fd0a2c0932f68104fb5d5b1846535f1a9f64905478070e9eb30d9f6b1edaa7d0",
+    "unity/Assets/RogueTactics/Presentation/MobileG1View.cs": "27c328a6883b07ef980202ef1fd09e7eb3b63c35234418e6b6e3ead9fbbb47c6",
+    "unity/Assets/RogueTactics/Presentation/Stage0View.cs": "ae3ec1510f7d6e96d3f7e6ee5f30000695023e494d562f71c4f8697149eb3249",
+    "unity/Assets/RogueTactics/Scenes/MobileG1.unity": "1edd2684368ebdb1a56e694c69dd61b7b202faecadb0b06191d9299458ba7ed7",
+    "unity/Assets/RogueTactics/Tests/EditMode/G1CoreTests.cs": "7e223b549d520b947810642d07ee3bf440692575da1ba78e99731d4b2b6e7f69",
+    "unity/Assets/RogueTactics/Tests/EditMode/MobileG1SessionTests.cs": "f9ca45ffc81b9996aa40d7ec7c43e5655a48c1ffd5708dd6dcd7e4dd208f5cae",
+    "unity/Assets/RogueTactics/Tests/EditMode/ScaffoldTests.cs": "8bf95d20902252052479e5e543998281afd3682a7803e8a59029f7f0b2a8c76f",
+    "unity/Assets/RogueTactics/Tests/PlayMode/G1InteractionTests.cs": "b79226cc0fbd212bd46a53c3d6fb5181983ce8e0389f20de014c4ad7f8980fd1",
+    "unity/Assets/RogueTactics/Tests/PlayMode/HqPresentationTests.cs": "524913a4f1c1ea26fb7c8a3c967d49f7f70843bd0291fec3e004673782635ceb",
+    "unity/Assets/RogueTactics/Tests/PlayMode/MobileG1InteractionTests.cs": "6a32e3cb44e4d3846d9d07ca4b29f967dd546a592fd9adc5039ed9e157862f2e",
+    "unity/Assets/RogueTactics/Tests/PlayMode/PortraitSmokeTests.cs": "2852678be1568dfd456cf5663a3c5941c417294c7d96bc362aeb456cd03e5419"
+  },
+  "xml_sha256": {
+    "main-arch-editmode.xml": "7a2d8be03f6aa9030ee651c7045bd591f94a5c86a09634029a7f38d5c86b3e66",
+    "main-arch-playmode.xml": "4d40f7096045aaf4b20a990c3fca8b4f338ca461b4c011178f8bd705e7dd75ef"
+  }
+}
