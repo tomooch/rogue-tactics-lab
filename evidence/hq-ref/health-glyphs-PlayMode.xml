@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Passed" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-30 03:10:56Z" end-time="2026-10-30 03:10:58Z" duration="2.2988231">
+  <test-suite type="TestSuite" id="1031" name="Rogue Tactics Lab" fullname="Rogue Tactics Lab" runstate="Runnable" testcasecount="18" result="Passed" start-time="2026-10-30 03:10:56Z" end-time="2026-10-30 03:10:58Z" duration="2.298823" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1025" name="RogueTactics.Tests.PlayMode.dll" fullname="/Users/tomoki/.codex/visualizations/2026/10/15/01a13dcb-2d2e-7aa3-b4f2-02f23af888ce/hq-production/unity/Library/ScriptAssemblies/RogueTactics.Tests.PlayMode.dll" runstate="Runnable" testcasecount="18" result="Passed" start-time="2026-10-30 03:10:56Z" end-time="2026-10-30 03:10:58Z" duration="2.290135" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="58825" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1026" name="RogueTactics" fullname="RogueTactics" runstate="Runnable" testcasecount="18" result="Passed" start-time="2026-10-30 03:10:56Z" end-time="2026-10-30 03:10:58Z" duration="2.288902" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1027" name="Tests" fullname="RogueTactics.Tests" runstate="Runnable" testcasecount="18" result="Passed" start-time="2026-10-30 03:10:56Z" end-time="2026-10-30 03:10:58Z" duration="2.287653" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1009" name="GauntletFlowTests" fullname="RogueTactics.Tests.GauntletFlowTests" classname="RogueTactics.Tests.GauntletFlowTests" runstate="Runnable" testcasecount="4" result="Passed" start-time="2026-10-30 03:10:56Z" end-time="2026-10-30 03:10:58Z" duration="2.284914" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1010" name="CompanionHealthNumbersHaveRenderedGlyphsAtPhoneScales" fullname="RogueTactics.Tests.GauntletFlowTests.CompanionHealthNumbersHaveRenderedGlyphsAtPhoneScales" methodname="CompanionHealthNumbersHaveRenderedGlyphsAtPhoneScales" classname="RogueTactics.Tests.GauntletFlowTests" runstate="Runnable" seed="1869639666" result="Passed" start-time="2026-10-30 03:10:56Z" end-time="2026-10-30 03:10:58Z" duration="2.270444" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[Saving results to: /Users/tomoki/Library/Application Support/Rogue Tactics Lab/Rogue Tactics Lab/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

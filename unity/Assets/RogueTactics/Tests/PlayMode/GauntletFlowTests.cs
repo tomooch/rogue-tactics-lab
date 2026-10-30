@@ -153,6 +153,29 @@ namespace RogueTactics.Tests
             Assert.That(resultTitle.cachedTextGenerator.vertexCount,Is.GreaterThan(0),"Victory title must actually render, not only contain text");
             AssertMapClearOfCast(view,"encounter "+(index+1));yield return Capture("gauntlet-"+(index+1)+"-end");
         }
+        [UnityTest]
+        public IEnumerator CompanionHealthNumbersHaveRenderedGlyphsAtPhoneScales()
+        {
+            yield return SceneManager.LoadSceneAsync("HqExploration");yield return null;yield return null;
+            var view=Object.FindFirstObjectByType<MobileG1View>();
+            Camera.main.targetTexture=new RenderTexture(390,844,24);
+            view.SetTestSafeArea(new Rect(0,34,390,763),390,844);yield return null;
+            Canvas.ForceUpdateCanvases();
+            foreach(var id in new[]{"A","D","C","B"})
+            {
+                var label=view.SafeRoot.Find("Companion portraits/Companion "+id+"/Actual HP").GetComponent<Text>();
+                Assert.That(label.text,Does.StartWith("HP "));
+                Assert.That(label.cachedTextGenerator.vertexCount,Is.GreaterThan(0),"Actual health must create visible glyphs, not merely hold text");
+                Assert.That(label.preferredHeight,Is.LessThanOrEqualTo(label.rectTransform.rect.height));
+                foreach(var scale in new[]{1f,2f,3f})
+                {
+                    var settings=label.GetGenerationSettings(label.rectTransform.rect.size);settings.scaleFactor=scale;
+                    using(var generator=new TextGenerator())
+                    {generator.Populate(label.text,settings);Assert.That(generator.vertexCount,Is.GreaterThan(0),id+" health glyphs at "+scale+"x");}
+                }
+            }
+            yield return Capture("health-number-layout");
+        }
         // Diagnostic only: preserve the conservative readability gate. Real material/sorting,
         // no replacement shader, camera change, alpha threshold or acceptance threshold.
         [UnityTest,Timeout(120000)]

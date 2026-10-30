@@ -87,3 +87,10 @@ HQ initial-state body contribution lost in composite: A25/22344, B354/22432, C25
 ## Remembering the immediately previous attempt
 
 Added compact actual history to the existing survivor line: 4人が生還（前回3人）. Stored only when retrying this encounter; ignored in other encounters. No extra panel, required comparison/input, or causal success claim. Text-only Astra advice supported this narrow addition (no visual review claimed). Focused real-input comparison passed1/1; viewed fresh result at390×844 with receipt and previous survivors fitting. Full suite above predates this final line change; native confirmation pending. Private result retained at retained/retry-with-previous-result.png.
+
+
+## Native comparison and missing HP glyph repair
+
+Installed c2e4a0c Simulator binary ab0ffd6e1e8dd6e1ab526c32e1bfe3f0d657400eeb53484df4ea42d1ce0336f0. Actual CUA input observed DirectAttack baseline3 survivors, retry, Garu→flower instruction, waiting receipt, automatic victory4 survivors, previous3 and flower6damage. One delayed automation attempt missed the intervention window and ended unmodified; not counted as a successful instruction. Details and local screenshot hashes: threat-choice-native-observation.json.
+
+Native exposed missing numeric HP on all companion cards, despite visible bars and selectorHP. Card line box15px at font11 was tight; expanded to20px within existing card and lifted name2px to retain separation. New test checks actual glyph vertices and TextGenerator at1x/2x/3x (focused1/1pass), with fresh390×844image inspected. Editor evidence does not prove native font behavior; rebuilt Simulator check pending. No Core or private pixels changed. Five playability criteria remain not all strong.

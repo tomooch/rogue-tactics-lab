@@ -74,12 +74,12 @@ namespace RogueTactics.Presentation
                 portrait.uvRect=new Rect(faceCenter-uvWidth/2,.47f,uvWidth,uvHeight);
                 var fade=card.Find("Portrait name fade").GetComponent<RectTransform>();fade.anchoredPosition=new Vector2(4,-68);fade.sizeDelta=new Vector2(width-8,30);
                 var name=card.Find("Name").GetComponent<Text>();
-                ReferenceText(name,6,76,width-13,20,id=="B"?12:13,TextAnchor.MiddleRight);name.fontStyle=FontStyle.Bold;
+                ReferenceText(name,6,74,width-13,20,id=="B"?12:13,TextAnchor.MiddleRight);name.fontStyle=FontStyle.Bold;
                 var unavailable=dead.Contains(id);
                 var role=card.Find("Core role").GetComponent<RectTransform>();role.gameObject.SetActive(!unavailable);
                 role.anchoredPosition=new Vector2(width-27,-9);role.sizeDelta=new Vector2(18,18);
                 var roleSymbol=role.Find("Role symbol").GetComponent<RectTransform>();roleSymbol.anchoredPosition=Vector2.zero;roleSymbol.sizeDelta=new Vector2(18,18);
-                ReferenceText(cardValues[id],7,99,width-14,15,11,TextAnchor.MiddleLeft);cardValues[id].fontStyle=FontStyle.Bold;
+                ReferenceText(cardValues[id],7,95,width-14,20,11,TextAnchor.MiddleLeft);cardValues[id].fontStyle=FontStyle.Bold;
                 var track=card.Find("Health track").GetComponent<RectTransform>();
                 track.anchoredPosition=new Vector2(7,-115);track.sizeDelta=new Vector2(width-14,7);
                 var maxHp=RogueTactics.Core.G1.Fixture.Baseline().Find(id).MaxHp;

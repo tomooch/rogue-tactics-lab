@@ -1,0 +1,30 @@
+{
+  "source": "c2e4a0cf52d04abf61f56beeece4385a7b9d04f8",
+  "binary_sha256": "ab0ffd6e1e8dd6e1ab526c32e1bfe3f0d657400eeb53484df4ea42d1ce0336f0",
+  "environment": "iOS27 QA Simulator; actual CUA clicks",
+  "observations": [
+    "DirectAttack autonomous baseline victory 3 survivors; Shiro absent and card marked incapacitated.",
+    "Retry preserves DirectAttack and initial party. One delayed UI automation click missed intervention and ended at same 3 survivors; previous3 correctly shown.",
+    "Next retry: start then request; selected Garu and flower. Current enemy intents visible (attack Shiro). Confirmed and observed waiting receipt, automatic resumption, victory4 survivors and previous3, flower6 damage receipt.",
+    "Card HP numeric labels absent in native, despite bars/selectorHP visible; repair required."
+  ],
+  "media": [
+    {
+      "path": "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-10-30-threat-choice/native-retained/baseline.jpg",
+      "sha256": "37c36af4a1b7b473e02e91820432c25f10f4d9f1dcbfadecad2d407c3ba8d059"
+    },
+    {
+      "path": "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-10-30-threat-choice/native-retained/selection.jpg",
+      "sha256": "48ba3220f12ac10fdaac9493a84cf93e076f727ac9f443488cb361630257386e"
+    },
+    {
+      "path": "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-10-30-threat-choice/native-retained/directed-result.jpg",
+      "sha256": "86cc8831a393f813df394a356b74782bb60f52d029f0eea6224bc7f6b029403b"
+    }
+  ],
+  "limits": [
+    "No human fun or physical iPhone claim.",
+    "Runtime last action timing differs from Editor test; native Shiro remainingHP not asserted because numeric label missing.",
+    "No TestFlight upload; local CFBundleVersion5 is not an updated ASCbuild."
+  ]
+}
