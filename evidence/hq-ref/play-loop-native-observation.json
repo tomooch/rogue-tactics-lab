@@ -1,0 +1,27 @@
+{
+  "source_head": "52c071fb5ee26192651b3c844ce6ea847ace80dd",
+  "simulator_id": "48E63FF9-C98B-4424-B3F0-47CD7007DF16",
+  "runtime": "iOS27.0 QA Simulator",
+  "physical_device": false,
+  "testflight_upload": false,
+  "source_assets_unchanged_after_restoration": true,
+  "unexpected_changes": [],
+  "binary_sha256": "0bc6407c84ea14c138059c697b06354dbab55ea9ba094be471a2b88a0775908c",
+  "observed_ui_operations": [
+    "start autonomous battle",
+    "open instruction",
+    "cancel; automatic resume and remaining 1 displayed",
+    "reopen; dead moss spirit HP0 unavailable",
+    "select Shiro and living flower spirit; same-action warning visible",
+    "confirm; auto resume",
+    "victory with 4 survivors and receipt flower spirit 4 damage",
+    "same-encounter retry returns preparation, enemy units and cleared receipt"
+  ],
+  "limits": [
+    "same-action selection does not establish beneficial intervention",
+    "executing receipt not captured in native observation",
+    "no physical iPhone or Human fun verification",
+    "no new TestFlight upload",
+    "whole-quad overlap test remains failing"
+  ]
+}

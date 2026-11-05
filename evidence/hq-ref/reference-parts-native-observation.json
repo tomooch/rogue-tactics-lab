@@ -1,0 +1,101 @@
+{
+  "source_head": "99e2b32055c7b3c4c6a6f5d82a89ef1195591fd9",
+  "Unity": "6000.3.25f1",
+  "export_exit": 0,
+  "build_exit": 0,
+  "simulator_id": "48E63FF9-C98B-4424-B3F0-47CD7007DF16",
+  "runtime": "iOS27.0 QA Simulator",
+  "binary_sha256": "6875bc243caee8a69b2d52ec563e37e3f6d6981e6d52fff8036b91c686f85230",
+  "generated_settings_restored": [
+    "unity/Assets/RogueTactics/Art/MobileG1/InternalIcon.png.meta",
+    "unity/Assets/Settings/DefaultVolumeProfile.asset",
+    "unity/Assets/Settings/Mobile_RPAsset.asset",
+    "unity/Assets/Settings/UniversalRenderPipelineGlobalSettings.asset",
+    "unity/ProjectSettings/ProjectSettings.asset"
+  ],
+  "unexpected_changes": [],
+  "source_unchanged_after_restoration_and_live_flow": true,
+  "installed_and_launched": true,
+  "both_native_full_hashes": {
+    "ProtectAnchor": "e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d",
+    "DirectAttack": "85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e"
+  },
+  "observed_flows": [
+    "Initial6HP, existing4cast and both new rim parts shown.",
+    "Protect start/guard, pause with same displayed Garu attack/HP state across observations, resume,14actions/4alive,compare,retry.",
+    "Same fixture Attack policy, on-screen Japanese ka composition then katsu prediction candidate, confirm/dismiss and layout restoration.",
+    "Attack movement/counter,Shiro death,14actions/3alive,both-condition comparison with separate emptyProtect and katsuAttack predictions."
+  ],
+  "stills": [
+    {
+      "label": "initial",
+      "sha256": "ddfdeba85368467ab409ba75d32d87de4d4693c44aeb53389d32e06c790aec1d"
+    },
+    {
+      "label": "protect-paused",
+      "sha256": "6f4341dc82eb4d0062397bdacd8fb85e133836837c3f7baa04a1f1b2a64fc31b"
+    },
+    {
+      "label": "protect-after-resume",
+      "sha256": "c5214bf2a2a5e1b8cd069228939431f5965d942350b8de2c89814ffb50f3da5d"
+    },
+    {
+      "label": "protect-comparison",
+      "sha256": "0fc282089eb5b087e0f186216f16253087c2121e9f63ea3c1cd498d685a1f9bd"
+    },
+    {
+      "label": "attack-ime-candidate",
+      "sha256": "8f1863bb16d3cf813e9030828412ad6067e93bc7a8723f2773ecf35ee445d376"
+    },
+    {
+      "label": "attack-active",
+      "sha256": "2b9f2528f0b433c83ff9647664d857045a43a2cb6f0b5384850f5a26be7d9c87"
+    },
+    {
+      "label": "both-comparison",
+      "sha256": "86751cc171db435aa0b23c9d93ea95eab49b1e804d2b06091d7022c48ae78653"
+    }
+  ],
+  "video": {
+    "path": "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-10-24-reference-parts/parts-native/native-flow.mp4",
+    "sha256": "a78b3b7a37eb9c4ac928bc3f8c6e33aa63d9af9e660c4ca9f9cd2b024c4be4a3",
+    "probe": {
+      "programs": [],
+      "stream_groups": [],
+      "streams": [
+        {
+          "codec_name": "h264",
+          "width": 1206,
+          "height": 2622,
+          "r_frame_rate": "19/3"
+        }
+      ],
+      "format": {
+        "duration": "347.351667"
+      }
+    },
+    "playback": {
+      "app": "QuickTime Player",
+      "exact_file_url_verified": true,
+      "normal_playback_start_seconds": 260.3228974358975,
+      "normal_playback_end_seconds": 292.3861282051282,
+      "observations": "Actual native temporal playback with movement, changing order/HP and Shiro absent after death. Bounded UI snapshots during playback and live interaction; not every intervening frame inspected."
+    }
+  },
+  "visual_assessment": "Rim feet and cleared contours persist in native rendering. No new decoration covering cast faces/HP/control seen in observed initial/action/end states. Existing pale floor/dense source style mismatch and sparse composition remain. Not all legal cells or frames tested.",
+  "warnings": {
+    "ASTC_decompress": 2,
+    "shadow_depth_fallback": true,
+    "observed_exception_crash": false
+  },
+  "local_bundle_version": "0.1.0(5)",
+  "not_new_Apple_build5": true,
+  "new_TestFlight_archive_upload_distribution": false,
+  "ASC_latest_prior_observation": "2026-10-24 /apps redirected to login authResult=FAILED; no current authenticated build/group/compliance observation in this native run.",
+  "physical_iPhone": false,
+  "Human_quality": false,
+  "R2": "V0 FAIL",
+  "private_media_publication": false,
+  "cross_session_sharing_confirmed": false,
+  "private_evidence_root": "Owner-local _userwork/hq-evidence/2026-10-24-reference-parts/parts-native/; local paths do not prove cross-session access."
+}

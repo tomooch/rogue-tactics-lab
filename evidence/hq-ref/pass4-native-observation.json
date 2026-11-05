@@ -1,0 +1,222 @@
+{
+  "runtime_source": "fc005d4ddee3edc5ac5b035ecfefb5e132f5e25a",
+  "unity": "6000.3.25f1",
+  "environment": "Local Mac dedicated Rogue Tactics G1 QA iOS27.0 Simulator, Xcode27.0 SDK27 Metal",
+  "simulator_udid": "48E63FF9-C98B-4424-B3F0-47CD7007DF16",
+  "export_build": {
+    "source_head": "fc005d4ddee3edc5ac5b035ecfefb5e132f5e25a",
+    "unity": "6000.3.25f1",
+    "bundle_id": "com.tomooch.roguetacticslab",
+    "build_number": "5 local development only; not uploaded",
+    "steps": {
+      "export": {
+        "argv": [
+          "/Applications/Unity/Hub/Editor/6000.3.25f1/Unity.app/Contents/MacOS/Unity",
+          "-batchmode",
+          "-quit",
+          "-projectPath",
+          "/private/tmp/rogue-hq-ref/unity",
+          "-buildTarget",
+          "iOS",
+          "-executeMethod",
+          "RogueTactics.Editor.MobileG1Setup.ExportIosSimulator",
+          "-logFile",
+          "/private/tmp/rogue-hq-pass4/simulator/export.log"
+        ],
+        "exit": 0
+      },
+      "build": {
+        "argv": [
+          "xcodebuild",
+          "-project",
+          "/private/tmp/rogue-hq-ref/build/ios-simulator/Unity-iPhone.xcodeproj",
+          "-scheme",
+          "Unity-iPhone",
+          "-configuration",
+          "Debug",
+          "-sdk",
+          "iphonesimulator",
+          "-destination",
+          "generic/platform=iOS Simulator",
+          "-derivedDataPath",
+          "/private/tmp/rogue-hq-ref/build/sim-derived",
+          "-jobs",
+          "2",
+          "ARCHS=arm64",
+          "CODE_SIGNING_ALLOWED=NO",
+          "build"
+        ],
+        "exit": 0
+      }
+    },
+    "physical_device": false,
+    "human_acceptance": false,
+    "testflight_upload": false,
+    "app_path": "/private/tmp/rogue-hq-ref/build/sim-derived/Build/Products/Debug-iphonesimulator/RogueTacticsLab.app"
+  },
+  "install_launch": "XcodeBuildMCP reported success; actual new courtyard and compact product shelf observed in DeviceHub",
+  "native_full_hashes": {
+    "ProtectAnchor": "e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d",
+    "DirectAttack": "85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e"
+  },
+  "outcomes": {
+    "ProtectAnchor": {
+      "actions": 14,
+      "alive": 4,
+      "hp": "16/16/12/10",
+      "heals_left": 0
+    },
+    "DirectAttack": {
+      "actions": 14,
+      "alive": 3,
+      "hp": "0/16/12/10",
+      "heals_left": 1
+    }
+  },
+  "pause_resume": "Protect actual A14/X5/Y12, pose and receipts held from approximately record13s through36s, then resumed to result. Includes capture/terminal time; not an uninterrupted short clip.",
+  "ime": "Hardware Unicode typeText attempts produced no characters. On-screen Japanese kana keyboard taps composed かつ; 確定 then blue confirm closed editor, restored input beside Start, and result retained literal かつ. No general IME or physical-device claim.",
+  "flow_observation": [
+    "Protect comparison opened/closed",
+    "Retry restored initial6 units and HP",
+    "Attack preference selected",
+    "Both-condition comparison with かつ retained",
+    "Capture Keyboard restored off",
+    "After both-condition comparison, retry restored6 actors/initial HP and cleared prediction"
+  ],
+  "normal_video_playback": "Attack opened in native QuickTime at normal speed. Observed movement arrow at0.316s; at10.762s X→A local attack with A11/X1 and prior heal+4/Momo attack-4 receipts; replay from10s observed11.079s A11 before hit then11.290s A5/red hit with X→A -6 receipt;22.58s terminal3 survivors, later47.90s both-result modal. These are elapsed-playback observation points, not every frame inspected.",
+  "frame_metrics": [
+    {
+      "runtime": "Unity native player",
+      "unity": "6000.3.25f1",
+      "graphics": "Metal",
+      "samples": 1327,
+      "p50_ms": 16.666793823242188,
+      "p95_ms": 16.7186222076416,
+      "reduced_effects": false,
+      "limitation": "Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"
+    },
+    {
+      "runtime": "Unity native player",
+      "unity": "6000.3.25f1",
+      "graphics": "Metal",
+      "samples": 1281,
+      "p50_ms": 16.666086196899414,
+      "p95_ms": 17.273786544799805,
+      "reduced_effects": false,
+      "limitation": "Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"
+    }
+  ],
+  "warnings": [
+    "2 ASTC6x6 unsupported/decompression messages",
+    "URP shadowmap16bit depth fallback"
+  ],
+  "runtime_log": "/Users/tomoki/Library/Developer/XcodeBuildMCP/workspaces/rogue-tactics-lab-294f46542de6/logs/com.tomooch.roguetacticslab_2026-10-16T15-07-59-476Z_helperpid35849_ownerpid36402_b1a4e8c6.log",
+  "runtime_log_sha256": "f224ae06dfa6b0cfa711892345bacf11665ddc85fd3359ee0fabcb4230c47d3d",
+  "private_videos": [
+    {
+      "file": "protect-full-pause.mp4",
+      "original": "/Users/tomoki/Desktop/Screen Recording Rogue Tactics G1 QA 2026-10-17 at 0.09.49.mp4",
+      "sha256": "9a7916962a4cd7f170ff31dac809d85fdb0eb2b2e54c7f828fae8e705224d32c",
+      "video": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "width": 1206,
+            "height": 2622,
+            "r_frame_rate": "600/1",
+            "duration": "82.221667",
+            "nb_frames": "4936"
+          }
+        ]
+      },
+      "cadence": {
+        "decoded_frames": 4936,
+        "mean_fps": 60.02919352876779,
+        "p50_interval_ms": 16.66699999999821,
+        "p95_interval_ms": 19.99999999999602,
+        "nominal_r_frame_rate_is_not_measured_fps": true
+      }
+    },
+    {
+      "file": "attack-full.mp4",
+      "original": "/Users/tomoki/Desktop/Screen Recording Rogue Tactics G1 QA 2026-10-17 at 0.12.07.mp4",
+      "sha256": "b38f81fa6960b4b1424e70fdac9ac8615fb90e211216e0b680b065237ebbf33f",
+      "video": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "width": 1206,
+            "height": 2622,
+            "r_frame_rate": "600/1",
+            "duration": "47.903333",
+            "nb_frames": "2879"
+          }
+        ]
+      },
+      "cadence": {
+        "decoded_frames": 2879,
+        "mean_fps": 60.08977972648501,
+        "p50_interval_ms": 16.66699999999821,
+        "p95_interval_ms": 19.99999999999602,
+        "nominal_r_frame_rate_is_not_measured_fps": true
+      }
+    }
+  ],
+  "private_screenshots": [
+    {
+      "file": "attack-after-hit.png",
+      "sha256": "175b183fcc777c56cc56065d43fac9c3b7abe92d77fb08b40895a54c3328575a"
+    },
+    {
+      "file": "attack-before-hit.png",
+      "sha256": "d7ab5af4b1cfc6c2e981e0a97f8da457b84359f2b4e3a2b8edf01e18a276f70d"
+    },
+    {
+      "file": "attack-live.png",
+      "sha256": "2462cc7d883ac2d088c9dcdb2db52fa11fb99d6c34ac52d68e4861ecf0b7335a"
+    },
+    {
+      "file": "attack-normal-playback.png",
+      "sha256": "bdf156fcc969f9da1e2298464c9437e46fce6320ee45434a000d06ec544907cc"
+    },
+    {
+      "file": "both-comparison.png",
+      "sha256": "f461db7d07b780bec52d528b192fb79cf30c80e78d13ec953511b85ccd4566e8"
+    },
+    {
+      "file": "ime-composing.png",
+      "sha256": "98836ea12798622ca7ee3e422a7a9c29e8b629f2b39eba1831f5c7d6a7216e33"
+    },
+    {
+      "file": "ime-confirmed.png",
+      "sha256": "1a8730f775298aa7a89edf9739ee7d6093eba4f40f09f9694dc255d966a654bd"
+    },
+    {
+      "file": "protect-comparison.png",
+      "sha256": "0a40f951cd595239791d889a8a6b8d19cd6579e54ca1b77bcf9fc98805ab8514"
+    },
+    {
+      "file": "protect-pause-held.png",
+      "sha256": "afc492ea3be7894cf9f094f3afc76f4a4f55aea27ddacd7dcb4c0b858c0e5f52"
+    },
+    {
+      "file": "protect-paused.png",
+      "sha256": "36ed5e77b2ebeb130c8068dedee7546e26b594b677a87e35e88c0baaa7aac2fe"
+    },
+    {
+      "file": "reset-after-both.png",
+      "sha256": "dce9b083cd93806607a4f19cb1c50724f939b7ed040c5797be43811caf19a074"
+    },
+    {
+      "file": "setup.png",
+      "sha256": "0d6424bd90b89a8d480c55095657b124bdc3faf88f811425e3bec0d8d299a58a"
+    }
+  ],
+  "physical_device": false,
+  "human_acceptance": false,
+  "testflight_upload": false,
+  "apple_current_status": "Refreshed ASC reached login; current build/compliance/group unverified. No credentials changed or bypassed. Old uploaded build5 d5e8e08 is not this local development5.",
+  "public_media": false
+}

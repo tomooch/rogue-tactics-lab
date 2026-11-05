@@ -13,18 +13,27 @@ namespace RogueTactics.Presentation
         public Preference Preference { get; private set; }
         public bool Started { get; private set; }
         public string Prediction { get; private set; } = "";
+        public int EncounterIndex { get; private set; }
         public Dictionary<Preference, MobileTrial> Trials { get; } = new Dictionary<Preference, MobileTrial>();
         public MobileG1Session() => Reset();
         public void Select(Preference preference)
         { if(Started) throw new InvalidOperationException("Reset before changing preference"); Preference=preference; Reset(); }
-        public void Reset() { Replay=new Replay(Fixture.Baseline(),Preference); Started=false; Prediction=""; }
+        public void Reset() { Replay=new Replay(Fixture.Encounter(EncounterIndex),Preference); Started=false; Prediction=""; }
+        public void LoadEncounter(int index)
+        {
+            if(index<0 || index>=Fixture.EncounterCount) throw new ArgumentOutOfRangeException(nameof(index));
+            EncounterIndex=index; Trials.Clear(); Reset();
+        }
+        // The encounter's one correction changes B's preference for the remaining steps.
+        public void Correct(Preference preference)
+        { if(!Started) throw new InvalidOperationException("Start first"); Replay.Correct(preference); Preference=preference; }
         public void Start(string prediction)
         { if(Started) throw new InvalidOperationException("Already started"); Prediction=prediction??""; Started=true; }
         public ResolvedStep Advance()
         {
             if(!Started) throw new InvalidOperationException("Start first");
             var step=Replay.Advance();
-            if(step.State.Outcome!=Outcome.Active) Trials[Preference]=new MobileTrial(Replay,Prediction);
+            if(step.State.Outcome!=Outcome.Active) Trials[Replay.InitialPreference]=new MobileTrial(Replay,Prediction);
             return step;
         }
     }

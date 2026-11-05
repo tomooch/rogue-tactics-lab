@@ -1,0 +1,12 @@
+{
+  "source_head": "d5e8e08b0cd130cadfb0e9e100ed2bf1b571c884",
+  "bundle_id": "com.tomooch.roguetacticslab",
+  "version": "0.1.0",
+  "build": "5",
+  "archive_signature": "PASS",
+  "game_profile": "PASS",
+  "internal_testing_only": true,
+  "upload_exit": 0,
+  "processing": "Apple upload transport reported Uploaded package is processing; ASC UI unverified",
+  "tester_provision": "Unverified: owner browser authentication expired; existing group/tester not modified"
+}

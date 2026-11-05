@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="2" result="Passed" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-24 17:52:29Z" end-time="2026-10-24 17:54:26Z" duration="116.2796633">
+  <test-suite type="TestSuite" id="1023" name="Rogue Tactics Lab" fullname="Rogue Tactics Lab" runstate="Runnable" testcasecount="11" result="Passed" start-time="2026-10-24 17:52:29Z" end-time="2026-10-24 17:54:26Z" duration="116.279663" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1017" name="RogueTactics.Tests.PlayMode.dll" fullname="/Users/tomoki/.codex/visualizations/2026/10/15/01a13dcb-2d2e-7aa3-b4f2-02f23af888ce/hq-production/unity/Library/ScriptAssemblies/RogueTactics.Tests.PlayMode.dll" runstate="Runnable" testcasecount="11" result="Passed" start-time="2026-10-24 17:52:29Z" end-time="2026-10-24 17:54:26Z" duration="116.273494" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="42401" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1018" name="RogueTactics" fullname="RogueTactics" runstate="Runnable" testcasecount="11" result="Passed" start-time="2026-10-24 17:52:29Z" end-time="2026-10-24 17:54:26Z" duration="116.272499" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1019" name="Tests" fullname="RogueTactics.Tests" runstate="Runnable" testcasecount="11" result="Passed" start-time="2026-10-24 17:52:29Z" end-time="2026-10-24 17:54:26Z" duration="116.271816" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1001" name="FloorExplorationFlowTests" fullname="RogueTactics.Tests.FloorExplorationFlowTests" classname="RogueTactics.Tests.FloorExplorationFlowTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-24 17:52:29Z" end-time="2026-10-24 17:54:26Z" duration="116.270034" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1003" name="AttackHandoffDoesNotReviveOrMoveDeadCompanion" fullname="RogueTactics.Tests.FloorExplorationFlowTests.AttackHandoffDoesNotReviveOrMoveDeadCompanion" methodname="AttackHandoffDoesNotReviveOrMoveDeadCompanion" classname="RogueTactics.Tests.FloorExplorationFlowTests" runstate="Runnable" seed="1020408852" result="Passed" start-time="2026-10-24 17:52:29Z" end-time="2026-10-24 17:52:58Z" duration="28.332612" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="Timeout" value="120000" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[HQ_FRAME_METRICS {"runtime":"Unity Editor","unity":"6000.3.25f1","graphics":"Metal","samples":1279,"p50_ms":16.694379806518556,"p95_ms":16.715036392211915,"reduced_effects":false,"limitation":"Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"}
+MOBILE_G1_RESULT DirectAttack 85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e
+FLOOR_MAP_CAPTURE floor-attack-entry vertices=124 culled=False rect=(x:0.00, y:-76.00, width:114.00, height:76.00)
+FLOOR_MAP_CAPTURE floor-attack-discovery vertices=356 culled=False rect=(x:0.00, y:-76.00, width:114.00, height:76.00)
+]]></output>
+            </test-case>
+            <test-case id="1002" name="SameFieldBattleHandoffTouchTravelPauseDiscoveryAndRetry" fullname="RogueTactics.Tests.FloorExplorationFlowTests.SameFieldBattleHandoffTouchTravelPauseDiscoveryAndRetry" methodname="SameFieldBattleHandoffTouchTravelPauseDiscoveryAndRetry" classname="RogueTactics.Tests.FloorExplorationFlowTests" runstate="Runnable" seed="1652802252" result="Passed" start-time="2026-10-24 17:52:58Z" end-time="2026-10-24 17:54:26Z" duration="87.927172" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="Timeout" value="600000" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[FLOOR_MAP_CAPTURE floor-initial vertices=132 culled=False rect=(x:0.00, y:-76.00, width:114.00, height:76.00)
+HQ_FRAME_METRICS {"runtime":"Unity Editor","unity":"6000.3.25f1","graphics":"Metal","samples":1330,"p50_ms":16.694961547851564,"p95_ms":16.71057891845703,"reduced_effects":false,"limitation":"Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"}
+MOBILE_G1_RESULT ProtectAnchor e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d
+FLOOR_MAP_CAPTURE floor-before-exploration vertices=124 culled=False rect=(x:0.00, y:-76.00, width:114.00, height:76.00)
+FLOOR_MAP_CAPTURE floor-entry vertices=124 culled=False rect=(x:0.00, y:-76.00, width:114.00, height:76.00)
+FLOOR_MAP_CAPTURE floor-moving vertices=124 culled=False rect=(x:0.00, y:-76.00, width:114.00, height:76.00)
+FLOOR_MAP_CAPTURE floor-paused vertices=124 culled=False rect=(x:0.00, y:-76.00, width:114.00, height:76.00)
+FLOOR_MAP_CAPTURE floor-discovery vertices=356 culled=False rect=(x:0.00, y:-76.00, width:114.00, height:76.00)
+FLOOR_MAP_CAPTURE floor-room-one vertices=356 culled=False rect=(x:0.00, y:-76.00, width:114.00, height:76.00)
+FLOOR_MAP_CAPTURE floor-room-1-center vertices=356 culled=False rect=(x:0.00, y:-76.00, width:114.00, height:76.00)
+FLOOR_MAP_CAPTURE floor-room-2-center vertices=600 culled=False rect=(x:0.00, y:-76.00, width:114.00, height:76.00)
+FLOOR_MAP_CAPTURE floor-room-3-center vertices=888 culled=False rect=(x:0.00, y:-76.00, width:114.00, height:76.00)
+FLOOR_MAP_CAPTURE floor-room-4-center vertices=1132 culled=False rect=(x:0.00, y:-76.00, width:114.00, height:76.00)
+FLOOR_MAP_CAPTURE floor-room-5-center vertices=1356 culled=False rect=(x:0.00, y:-76.00, width:114.00, height:76.00)
+FLOOR_MAP_CAPTURE floor-room-0-center vertices=1408 culled=False rect=(x:0.00, y:-76.00, width:114.00, height:76.00)
+FLOOR_MAP_CAPTURE floor-retry vertices=132 culled=False rect=(x:0.00, y:-76.00, width:114.00, height:76.00)
+Saving results to: /Users/tomoki/Library/Application Support/Rogue Tactics Lab/Rogue Tactics Lab/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

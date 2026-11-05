@@ -1,0 +1,13 @@
+{
+  "source": "f044405f77e59440bff6a37f780530d9f372470c",
+  "binary_sha256": "f92e2f1d018f8a6867c71e6447c4e0ab125749a01e0883b20fd2adc66dce4b77",
+  "export_exit": 0,
+  "build_exit": 0,
+  "source_restored": true,
+  "unexpected_changes": [],
+  "observed": "QA Simulator actual screen: all four card HP labels visible: 18/18, 10/10, 12/12, 16/16. Portrait, names, health bars and roles fit.",
+  "image": "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-10-30-threat-choice/native-health/hp-visible.jpg",
+  "image_sha256": "c02c9289e2af8aabbda80b4a07a658f5ca2aedd5828e1c1d9495719c843f6cd9",
+  "physical_device": false,
+  "testflight_upload": false
+}

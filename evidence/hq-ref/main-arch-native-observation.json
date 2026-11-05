@@ -1,0 +1,82 @@
+{
+  "runtime_source": "a74acb3082beae2d4c174bd5f0640f3dbf8b5f73",
+  "build_job": "4e5f823e-89f7-4346-a9d6-f4399e2bf54f",
+  "export_exit": 0,
+  "xcodebuild_exit": 0,
+  "source_restored": true,
+  "generated_settings_restored": 5,
+  "unexpected_source_changes": [],
+  "installed_and_launched_via_XcodeBuildMCP": true,
+  "runtime": "QA iOS27.0 Simulator",
+  "actual_native_fixed_hashes": {
+    "DirectAttack": "85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e",
+    "ProtectAnchor": "e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d"
+  },
+  "media_sha256": {
+    "prediction-restored.jpg": "17dbe22dc41fdfeb3258091ef70dab7d09fdc89c263c68eb4d7a359a8ffebdb5",
+    "attack-paused.jpg": "3740151130621a7c41ab945ba179d9cf2d686eff0e0699a14f5d11e2d22a5589",
+    "attack-comparison.jpg": "81505ae2ad4dc68317a9ddaf337554a45a8a9f60b6d6a13ad7d0df602187d9eb",
+    "both-comparison.jpg": "28803b47cdb6f1bd82c8cfaefde1a7d5b43e45dc0fd7425fcd29a2db814dcc9e"
+  },
+  "runtime_log_sha256": "6929717262b9df4e839ec4a55f26ee7382188cfc2cb60d91a6da2ae4f98c29ee",
+  "warnings": [
+    "2ASTC6x6 texture decompression warnings",
+    "16bit shadow depth fallback"
+  ],
+  "exception_or_crash_observed_in_flow": false,
+  "visual_observed": "Native initial/policy/counter/guard/result shows continuous solid rear arch, no observed new face/HP overlap caused by arch; keyboard dock temporarily covers upper arch as in existing input layout. Not a guarantee for alllegal cells/frames. Cast/floor/world quality remain weak.",
+  "TestFlight": {
+    "new_archive_or_upload": false,
+    "ASC_readonly_attempt": "Existing Chrome ASC tab was another app at /login authResult=FAILED. Opened /apps once; redirected to /login?targetUrl=%2Fapps&authResult=FAILED. Only shell/spinner rendered, no authenticated app/build/group state available. No credentials entered or changed.",
+    "old_build5": "Historical source d5e8e08; current compliance/group not reverified. Simulator0.1.0(5) does not identify a new Apple upload."
+  },
+  "physical_iPhone": false,
+  "Human_quality": "unverified",
+  "R2": "V0 FAIL",
+  "CI": "No PR checks returned at last query",
+  "binary": {
+    "bundle_id": "com.tomooch.roguetacticslab",
+    "binary_sha256": "41cf1d0937715cfe9f8a2362c3b25f9704e3718d43e3c36415c7ba81369d5176",
+    "version": "0.1.0",
+    "build": "5"
+  },
+  "video": {
+    "sha256": "9103435c2a8e03b3c6e83aff6d218f87bb21b204ba33fe737d7be6d4c60a0149",
+    "duration_seconds": 331.728333,
+    "width": 1206,
+    "height": 2622,
+    "codec": "h264",
+    "observed": "Live temporal interaction during recording: policy, counter, pause held, resume subsequent attack, death/result, retry, kana/candidate selection, Guard, result/bothcomparison. Bounded live observation, not every video frame or new-file normal playback."
+  },
+  "observed_flows": {
+    "initial6HP": true,
+    "Attack_pause_hold_resume_result_compare_retry": true,
+    "Attack_result": {
+      "actions": 14,
+      "alive": 3,
+      "HP": {
+        "Shiro": 0,
+        "Momo": 16,
+        "Garu": 12,
+        "Myaru": 10
+      },
+      "heals_remaining": 1,
+      "prediction": "unentered"
+    },
+    "Protect_result": {
+      "actions": 14,
+      "alive": 4,
+      "HP": {
+        "Shiro": 16,
+        "Momo": 16,
+        "Garu": 12,
+        "Myaru": 10
+      },
+      "heals_remaining": 0,
+      "prediction": "かつ"
+    },
+    "Japanese_IME": "On-screen Japanese か composition; selected visible かつ candidate; both native and game input showedかつ, blueconfirmdismiss and original layout restore; no broad IME guarantee",
+    "both_comparison_prediction_separation": "Protectかつ / Attackunentered"
+  },
+  "private_evidence": "Owner-local _userwork/hq-evidence/2026-10-24-party-emphasis/arch-native/: native-flow.mp4, screenshots, runtime.log, native-observation.json, build-result.json. No cross-session access/share success is claimed."
+}

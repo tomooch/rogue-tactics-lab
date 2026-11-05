@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "source_revision": "48cdc6c90d8c42f536970d256d3a2a67f65a2178",
+  "unity_editor": "6000.3.25f1",
+  "simulator": {
+    "name": "Rogue Tactics G1 QA",
+    "udid": "48E63FF9-C98B-4424-B3F0-47CD7007DF16",
+    "runtime": "iOS27.0 QA Simulator"
+  },
+  "export_exit": 0,
+  "xcode_build_exit": 0,
+  "bundle_id": "com.tomooch.roguetacticslab",
+  "binary_sha256": "87adaef31a69b8dc06729875f67e23b942b0ba4a3ac5bfa8cfdae869a7c9fdae",
+  "simulator_bundle_version": {
+    "version": "0.1.0",
+    "build": "5",
+    "not_a_new_asc_build": true
+  },
+  "generated_settings_restored": true,
+  "unexpected_changes": [],
+  "native_result_lines": [
+    "MOBILE_G1_RESULT ProtectAnchor e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d",
+    "MOBILE_G1_RESULT DirectAttack 85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e"
+  ],
+  "observed_flow": [
+    "Momo card opens owner-specific policy panel; scenery pans, actors/falls remain visible",
+    "Japanese on-screen keyboard; composing kana か visible in docked field; outside tap dismisses keyboard and restores field; か retained in Protect result",
+    "Protect start -> pause at displayed HP Shiro17 -> same stopped display on later observation -> resume -> victory14actions/4alive/HP16,16,12,10/heals0 -> comparison -> retry initial6actors/HP18,16,12,10",
+    "Same initial fixture -> Momo attack choice -> start -> movement/local attacks -> Shiro death -> victory14actions/3alive/HP0,16,12,10/heals1 -> both comparisons, Protect predictionか and Attack unentered separate"
+  ],
+  "ime_limits": "Kana composition/dismiss/retention observed. Attempted candidate/Return clicks did not establish a changed conversion candidate; no multi-character conversion success claimed for this source.",
+  "video_observation": {
+    "attack_normal_quicktime_playback_seconds": [
+      12.32445054945055,
+      34.50846153846154
+    ],
+    "observation": "Normal-speed playback observed changing initiative/attack receipt, HP reduction and final3survivor state. Not every frame manually inspected.",
+    "protect": "Recorded live pause/resume/result; no separate full movie playback claimed."
+  },
+  "root_pixel_findings": [
+    "B16-style ID+number labels absent; health near visible feet, named numeric HP in cards",
+    "No permanent full-width opaque top/lower background shelf; explicit policy/comparison panels remain overlays",
+    "Attack ~12s: rear actor health bar can cover front actor upper head/hair; positional ownership is not universally resolved",
+    "Scene remains sparse and central with flat cliff/water; not original art quality"
+  ],
+  "warnings": [
+    "Two ASTC6X6 decompression warnings on Simulator",
+    "Shadowmap depth fallback to16bits"
+  ],
+  "crash_exception_observed": false,
+  "physical_iphone": false,
+  "human_quality_pass": false,
+  "new_testflight_upload": false,
+  "R2": "V0 FAIL",
+  "public_media": false,
+  "private_root": "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-10-23-integrated-hud/native-observation",
+  "media": [
+    {
+      "filename": "attack-12s.png",
+      "sha256": "70348a65b614634aefcbba9fbce6160e93b9db883d9d2125e7d5a65488525172",
+      "bytes": 1367479
+    },
+    {
+      "filename": "attack.mp4",
+      "sha256": "d3b94ec12b04d3b96fa505b10ad4170cbdac1adc6c6ef4fb0f73b661a6d77032",
+      "bytes": 89648080,
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1206,
+            "height": 2622
+          }
+        ],
+        "format": {
+          "duration": "74.768333"
+        }
+      }
+    },
+    {
+      "filename": "both-comparison.png",
+      "sha256": "3e5025de9c51e785634990776fb412a0d5683baa6edda43133737c074f7de323",
+      "bytes": 979777
+    },
+    {
+      "filename": "ime-composition.png",
+      "sha256": "3bd539ee83f868e6c7f70c57bf79885121c4b2e075060faaca21a1ec33a6fb63",
+      "bytes": 1534104
+    },
+    {
+      "filename": "ime-retained.png",
+      "sha256": "c985d7fa57606de050895a9a69a9190b552c5c118c411414ef329052d20b04be",
+      "bytes": 1719161
+    },
+    {
+      "filename": "policy.png",
+      "sha256": "30f896f98aee1da6e8ba1e6a2721c5d1a4087cc48e94f2208fb911ebe2904dcf",
+      "bytes": 1738233
+    },
+    {
+      "filename": "protect-comparison.png",
+      "sha256": "1e4854fa411ba3beb2a52b1b3e3745fb763227b31165c6e8bec79745f2852158",
+      "bytes": 1026041
+    },
+    {
+      "filename": "protect-paused.png",
+      "sha256": "4c59f208bc8f8fdde504e8eab84beec4f7c32980a91e456c297de294c52022e9",
+      "bytes": 1830441
+    },
+    {
+      "filename": "protect.mp4",
+      "sha256": "60a414b80e6ba8f3d8bb45ca30068f1a40bb3ab52c525a6e57a4910b8f7cfb58",
+      "bytes": 122832387,
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1206,
+            "height": 2622
+          }
+        ],
+        "format": {
+          "duration": "97.180000"
+        }
+      }
+    },
+    {
+      "filename": "setup.png",
+      "sha256": "12730dead9afc886d386f2210d466c2ce4c20714daa0b5cbf0c173c0784f4ba4",
+      "bytes": 1756022
+    }
+  ],
+  "private_runtime_log_sha256": "6a6e289594f01376af8abb771fcaab9511187adbf8e2295c1f7a9738b3f28ef9",
+  "build_result_private_sha256": "6b2e3e55806088dc67ddf1265370d4a541fe645d2f7860b835a69fc693ab5240",
+  "independent_native_pixel_review": {
+    "reviewed": [
+      "setup.png",
+      "policy.png",
+      "attack-12s.png",
+      "both-comparison.png"
+    ],
+    "findings": "Names/HP/current policy/start and contextual actions readable; policy avoids actors; comparison intentionally covers field. Same-color unlabeled health strips are less certain owners during dense action.",
+    "disagreement": "Reviewer did not confirm a head/face bar overlap in attack-12s. Root re-opened that exact PNG and sees rear Momo health strip over front Shiro upper head/face region. Treat this as unresolved occlusion/ownership, not a clean visual pass."
+  }
+}

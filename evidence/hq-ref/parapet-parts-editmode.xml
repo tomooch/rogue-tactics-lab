@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="21" result="Passed" total="21" passed="21" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.1222465">
+  <test-suite type="TestSuite" id="1000" name="Rogue Tactics Lab" fullname="Rogue Tactics Lab" runstate="Runnable" testcasecount="21" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.122247" total="21" passed="21" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1030" name="RogueTactics.Tests.EditMode.dll" fullname="/Users/tomoki/.codex/visualizations/2026/10/15/01a13dcb-2d2e-7aa3-b4f2-02f23af888ce/hq-production/unity/Library/ScriptAssemblies/RogueTactics.Tests.EditMode.dll" runstate="Runnable" testcasecount="21" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.115695" total="21" passed="21" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="67554" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1031" name="RogueTactics" fullname="RogueTactics" runstate="Runnable" testcasecount="21" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.114692" total="21" passed="21" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1032" name="Tests" fullname="RogueTactics.Tests" runstate="Runnable" testcasecount="21" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.114147" total="21" passed="21" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1001" name="FloorExplorationTests" fullname="RogueTactics.Tests.FloorExplorationTests" classname="RogueTactics.Tests.FloorExplorationTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.085425" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1002" name="AllEightRoomsConnectAcrossAllFourSidesAndGapsRemainWalls" fullname="RogueTactics.Tests.FloorExplorationTests.AllEightRoomsConnectAcrossAllFourSidesAndGapsRemainWalls" methodname="AllEightRoomsConnectAcrossAllFourSidesAndGapsRemainWalls" classname="RogueTactics.Tests.FloorExplorationTests" runstate="Runnable" seed="1954277220" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.022634" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1007" name="CorridorEntrustmentMovesPartyLegallyAndStopsAtDiscoveryWithoutHealing" fullname="RogueTactics.Tests.FloorExplorationTests.CorridorEntrustmentMovesPartyLegallyAndStopsAtDiscoveryWithoutHealing" methodname="CorridorEntrustmentMovesPartyLegallyAndStopsAtDiscoveryWithoutHealing" classname="RogueTactics.Tests.FloorExplorationTests" runstate="Runnable" seed="1785657935" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.026687" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1005" name="HandoffPreservesExactPositionsHealthAndDeaths" fullname="RogueTactics.Tests.FloorExplorationTests.HandoffPreservesExactPositionsHealthAndDeaths" classname="RogueTactics.Tests.FloorExplorationTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.005543" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1003" name="HandoffPreservesExactPositionsHealthAndDeaths(ProtectAnchor,4)" fullname="RogueTactics.Tests.FloorExplorationTests.HandoffPreservesExactPositionsHealthAndDeaths(ProtectAnchor,4)" methodname="HandoffPreservesExactPositionsHealthAndDeaths" classname="RogueTactics.Tests.FloorExplorationTests" runstate="Runnable" seed="1169228739" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.002125" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1004" name="HandoffPreservesExactPositionsHealthAndDeaths(DirectAttack,3)" fullname="RogueTactics.Tests.FloorExplorationTests.HandoffPreservesExactPositionsHealthAndDeaths(DirectAttack,3)" methodname="HandoffPreservesExactPositionsHealthAndDeaths" classname="RogueTactics.Tests.FloorExplorationTests" runstate="Runnable" seed="1271741286" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.001592" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1008" name="PauseAndCancellationDoNotAdvanceOrReassignTheParty" fullname="RogueTactics.Tests.FloorExplorationTests.PauseAndCancellationDoNotAdvanceOrReassignTheParty" methodname="PauseAndCancellationDoNotAdvanceOrReassignTheParty" classname="RogueTactics.Tests.FloorExplorationTests" runstate="Runnable" seed="1116072402" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.004051" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1009" name="TravelIsDeterministicAndTheFrozenG1HashesAreUnaffected" fullname="RogueTactics.Tests.FloorExplorationTests.TravelIsDeterministicAndTheFrozenG1HashesAreUnaffected" methodname="TravelIsDeterministicAndTheFrozenG1HashesAreUnaffected" classname="RogueTactics.Tests.FloorExplorationTests" runstate="Runnable" seed="852269824" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.013888" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1006" name="UnknownDestinationIsRejectedAndInitialKnowledgeDoesNotContainFarRooms" fullname="RogueTactics.Tests.FloorExplorationTests.UnknownDestinationIsRejectedAndInitialKnowledgeDoesNotContainFarRooms" methodname="UnknownDestinationIsRejectedAndInitialKnowledgeDoesNotContainFarRooms" classname="RogueTactics.Tests.FloorExplorationTests" runstate="Runnable" seed="670283570" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.001461" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1010" name="G1CoreTests" fullname="RogueTactics.Tests.G1CoreTests" classname="RogueTactics.Tests.G1CoreTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.018495" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1019" name="BlockedMovementMaintainsAndIllegalFixtureRejected" fullname="RogueTactics.Tests.G1CoreTests.BlockedMovementMaintainsAndIllegalFixtureRejected" methodname="BlockedMovementMaintainsAndIllegalFixtureRejected" classname="RogueTactics.Tests.G1CoreTests" runstate="Runnable" seed="1260917986" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.003016" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1017" name="EveryActionLegalAndNoDeadActorOrTargetCanActOrHeal" fullname="RogueTactics.Tests.G1CoreTests.EveryActionLegalAndNoDeadActorOrTargetCanActOrHeal" classname="RogueTactics.Tests.G1CoreTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.005808" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1015" name="EveryActionLegalAndNoDeadActorOrTargetCanActOrHeal(ProtectAnchor)" fullname="RogueTactics.Tests.G1CoreTests.EveryActionLegalAndNoDeadActorOrTargetCanActOrHeal(ProtectAnchor)" methodname="EveryActionLegalAndNoDeadActorOrTargetCanActOrHeal" classname="RogueTactics.Tests.G1CoreTests" runstate="Runnable" seed="775115678" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.003876" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1016" name="EveryActionLegalAndNoDeadActorOrTargetCanActOrHeal(DirectAttack)" fullname="RogueTactics.Tests.G1CoreTests.EveryActionLegalAndNoDeadActorOrTargetCanActOrHeal(DirectAttack)" methodname="EveryActionLegalAndNoDeadActorOrTargetCanActOrHeal" classname="RogueTactics.Tests.G1CoreTests" runstate="Runnable" seed="353131454" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.001145" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1018" name="LethalHitSuppressesAnchorCounter" fullname="RogueTactics.Tests.G1CoreTests.LethalHitSuppressesAnchorCounter" methodname="LethalHitSuppressesAnchorCounter" classname="RogueTactics.Tests.G1CoreTests" runstate="Runnable" seed="607746944" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.000621" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-suite type="ParameterizedMethod" id="1013" name="ReplayIsByteIdenticalAndIndependentOfCulture" fullname="RogueTactics.Tests.G1CoreTests.ReplayIsByteIdenticalAndIndependentOfCulture" classname="RogueTactics.Tests.G1CoreTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.004928" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1011" name="ReplayIsByteIdenticalAndIndependentOfCulture(ProtectAnchor)" fullname="RogueTactics.Tests.G1CoreTests.ReplayIsByteIdenticalAndIndependentOfCulture(ProtectAnchor)" methodname="ReplayIsByteIdenticalAndIndependentOfCulture" classname="RogueTactics.Tests.G1CoreTests" runstate="Runnable" seed="1787333133" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.003077" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1012" name="ReplayIsByteIdenticalAndIndependentOfCulture(DirectAttack)" fullname="RogueTactics.Tests.G1CoreTests.ReplayIsByteIdenticalAndIndependentOfCulture(DirectAttack)" methodname="ReplayIsByteIdenticalAndIndependentOfCulture" classname="RogueTactics.Tests.G1CoreTests" runstate="Runnable" seed="1187621320" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.000933" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-case id="1014" name="SinglePreferenceForkChangesRealPlanAndOutcomeMeasures" fullname="RogueTactics.Tests.G1CoreTests.SinglePreferenceForkChangesRealPlanAndOutcomeMeasures" methodname="SinglePreferenceForkChangesRealPlanAndOutcomeMeasures" classname="RogueTactics.Tests.G1CoreTests" runstate="Runnable" seed="1328610515" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.002661" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1020" name="MobileG1SessionTests" fullname="RogueTactics.Tests.MobileG1SessionTests" classname="RogueTactics.Tests.MobileG1SessionTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.005105" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="ParameterizedMethod" id="1023" name="MobileAdapterPreservesFrozenG1Trace" fullname="RogueTactics.Tests.MobileG1SessionTests.MobileAdapterPreservesFrozenG1Trace" classname="RogueTactics.Tests.MobileG1SessionTests" runstate="Runnable" testcasecount="2" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.004338" total="2" passed="2" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1021" name="MobileAdapterPreservesFrozenG1Trace(ProtectAnchor,&quot;e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d&quot;)" fullname="RogueTactics.Tests.MobileG1SessionTests.MobileAdapterPreservesFrozenG1Trace(ProtectAnchor,&quot;e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d&quot;)" methodname="MobileAdapterPreservesFrozenG1Trace" classname="RogueTactics.Tests.MobileG1SessionTests" runstate="Runnable" seed="2028567635" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.003138" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1022" name="MobileAdapterPreservesFrozenG1Trace(DirectAttack,&quot;85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e&quot;)" fullname="RogueTactics.Tests.MobileG1SessionTests.MobileAdapterPreservesFrozenG1Trace(DirectAttack,&quot;85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e&quot;)" methodname="MobileAdapterPreservesFrozenG1Trace" classname="RogueTactics.Tests.MobileG1SessionTests" runstate="Runnable" seed="153335393" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.000572" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+          </test-suite>
+          <test-suite type="TestFixture" id="1024" name="ScaffoldTests" fullname="RogueTactics.Tests.ScaffoldTests" classname="RogueTactics.Tests.ScaffoldTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.003860" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1027" name="CoordinateOverflowFailsExplicitly" fullname="RogueTactics.Tests.ScaffoldTests.CoordinateOverflowFailsExplicitly" methodname="CoordinateOverflowFailsExplicitly" classname="RogueTactics.Tests.ScaffoldTests" runstate="Runnable" seed="569347447" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.000641" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1026" name="CoreReferencesNeitherUnityNorPresentation" fullname="RogueTactics.Tests.ScaffoldTests.CoreReferencesNeitherUnityNorPresentation" methodname="CoreReferencesNeitherUnityNorPresentation" classname="RogueTactics.Tests.ScaffoldTests" runstate="Runnable" seed="299008512" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.000309" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1028" name="PortraitConfigurationIsPinned" fullname="RogueTactics.Tests.ScaffoldTests.PortraitConfigurationIsPinned" methodname="PortraitConfigurationIsPinned" classname="RogueTactics.Tests.ScaffoldTests" runstate="Runnable" seed="1473802887" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.000937" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1025" name="SameCoordinateOffsetsProduceSameSequence" fullname="RogueTactics.Tests.ScaffoldTests.SameCoordinateOffsetsProduceSameSequence" methodname="SameCoordinateOffsetsProduceSameSequence" classname="RogueTactics.Tests.ScaffoldTests" runstate="Runnable" seed="833168148" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.000478" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1029" name="UrpIsConfigured" fullname="RogueTactics.Tests.ScaffoldTests.UrpIsConfigured" methodname="UrpIsConfigured" classname="RogueTactics.Tests.ScaffoldTests" runstate="Runnable" seed="1502726317" result="Passed" start-time="2026-10-26 11:16:31Z" end-time="2026-10-26 11:16:31Z" duration="0.000454" asserts="0">
+              <properties>
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[Saving results to: /Users/tomoki/Library/Application Support/Rogue Tactics Lab/Rogue Tactics Lab/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

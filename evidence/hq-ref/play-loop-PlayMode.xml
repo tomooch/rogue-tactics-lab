@@ -1,0 +1,236 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="15" result="Failed(Child)" total="15" passed="14" failed="1" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-29 04:26:25Z" end-time="2026-10-29 04:33:39Z" duration="434.3559465">
+  <test-suite type="TestSuite" id="1028" name="Rogue Tactics Lab" fullname="Rogue Tactics Lab" runstate="Runnable" testcasecount="15" result="Failed" site="Child" start-time="2026-10-29 04:26:25Z" end-time="2026-10-29 04:33:39Z" duration="434.355947" total="15" passed="14" failed="1" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1022" name="RogueTactics.Tests.PlayMode.dll" fullname="/Users/tomoki/.codex/visualizations/2026/10/15/01a13dcb-2d2e-7aa3-b4f2-02f23af888ce/hq-production/unity/Library/ScriptAssemblies/RogueTactics.Tests.PlayMode.dll" runstate="Runnable" testcasecount="15" result="Failed" site="Child" start-time="2026-10-29 04:26:25Z" end-time="2026-10-29 04:33:39Z" duration="434.344759" total="15" passed="14" failed="1" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="43799" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1023" name="RogueTactics" fullname="RogueTactics" runstate="Runnable" testcasecount="15" result="Failed" site="Child" start-time="2026-10-29 04:26:25Z" end-time="2026-10-29 04:33:39Z" duration="434.343486" total="15" passed="14" failed="1" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1024" name="Tests" fullname="RogueTactics.Tests" runstate="Runnable" testcasecount="15" result="Failed" site="Child" start-time="2026-10-29 04:26:25Z" end-time="2026-10-29 04:33:39Z" duration="434.342806" total="15" passed="14" failed="1" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestFixture" id="1001" name="FloorExplorationFlowTests" fullname="RogueTactics.Tests.FloorExplorationFlowTests" classname="RogueTactics.Tests.FloorExplorationFlowTests" runstate="Runnable" testcasecount="5" result="Passed" start-time="2026-10-29 04:26:25Z" end-time="2026-10-29 04:29:15Z" duration="170.030571" total="5" passed="5" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1004" name="AllyFacingFollowsScreenMotionWithoutMovingBounds" fullname="RogueTactics.Tests.FloorExplorationFlowTests.AllyFacingFollowsScreenMotionWithoutMovingBounds" methodname="AllyFacingFollowsScreenMotionWithoutMovingBounds" classname="RogueTactics.Tests.FloorExplorationFlowTests" runstate="Runnable" seed="404611732" result="Passed" start-time="2026-10-29 04:26:25Z" end-time="2026-10-29 04:26:27Z" duration="2.206058" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1003" name="AttackHandoffDoesNotReviveOrMoveDeadCompanion" fullname="RogueTactics.Tests.FloorExplorationFlowTests.AttackHandoffDoesNotReviveOrMoveDeadCompanion" methodname="AttackHandoffDoesNotReviveOrMoveDeadCompanion" classname="RogueTactics.Tests.FloorExplorationFlowTests" runstate="Runnable" seed="725993738" result="Passed" start-time="2026-10-29 04:26:27Z" end-time="2026-10-29 04:26:52Z" duration="24.899070" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="Timeout" value="120000" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[HQ_FRAME_METRICS {"runtime":"Unity Editor","unity":"6000.3.25f1","graphics":"Metal","samples":1279,"p50_ms":16.688873291015626,"p95_ms":16.828168869018556,"reduced_effects":false,"limitation":"Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"}
+MOBILE_G1_RESULT DirectAttack 85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e
+FLOOR_MAP_CAPTURE floor-attack-result vertices=945 culled=False rect=(x:0.00, y:-70.00, width:100.00, height:70.00)
+FLOOR_MAP_CAPTURE floor-attack-entry vertices=957 culled=False rect=(x:0.00, y:-70.00, width:100.00, height:70.00)
+FLOOR_MAP_CAPTURE floor-attack-discovery vertices=1653 culled=False rect=(x:0.00, y:-70.00, width:100.00, height:70.00)
+]]></output>
+            </test-case>
+            <test-case id="1006" name="FloorMapYieldsToPolicyAndOptionalRecordMemo" fullname="RogueTactics.Tests.FloorExplorationFlowTests.FloorMapYieldsToPolicyAndOptionalRecordMemo" methodname="FloorMapYieldsToPolicyAndOptionalRecordMemo" classname="RogueTactics.Tests.FloorExplorationFlowTests" runstate="Runnable" seed="1439103019" result="Passed" start-time="2026-10-29 04:26:52Z" end-time="2026-10-29 04:26:53Z" duration="0.956709" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[FLOOR_MAP_CAPTURE floor-before-policy vertices=1098 culled=False rect=(x:0.00, y:-70.00, width:100.00, height:70.00)
+FLOOR_MAP_CAPTURE floor-after-policy vertices=1098 culled=False rect=(x:0.00, y:-70.00, width:100.00, height:70.00)
+FLOOR_MAP_CAPTURE floor-after-record vertices=1098 culled=False rect=(x:0.00, y:-70.00, width:100.00, height:70.00)
+]]></output>
+            </test-case>
+            <test-case id="1005" name="ReferencePartsKeepRealOwnershipAndKnownOnlyMap" fullname="RogueTactics.Tests.FloorExplorationFlowTests.ReferencePartsKeepRealOwnershipAndKnownOnlyMap" methodname="ReferencePartsKeepRealOwnershipAndKnownOnlyMap" classname="RogueTactics.Tests.FloorExplorationFlowTests" runstate="Runnable" seed="947457770" result="Passed" start-time="2026-10-29 04:26:53Z" end-time="2026-10-29 04:27:16Z" duration="23.628647" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[FLOOR_MAP_CAPTURE floor-reference-overview vertices=1098 culled=False rect=(x:0.00, y:-70.00, width:100.00, height:70.00)
+FLOOR_MAP_CAPTURE floor-reference-map vertices=1098 culled=False rect=(x:0.00, y:-403.00, width:326.00, height:403.00)
+HQ_FRAME_METRICS {"runtime":"Unity Editor","unity":"6000.3.25f1","graphics":"Metal","samples":1329,"p50_ms":16.69049835205078,"p95_ms":16.827543258666993,"reduced_effects":false,"limitation":"Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"}
+MOBILE_G1_RESULT ProtectAnchor e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d
+FLOOR_MAP_CAPTURE floor-auto-victory vertices=996 culled=False rect=(x:0.00, y:-70.00, width:100.00, height:70.00)
+]]></output>
+            </test-case>
+            <test-case id="1002" name="SameFieldBattleHandoffTouchTravelPauseDiscoveryAndRetry" fullname="RogueTactics.Tests.FloorExplorationFlowTests.SameFieldBattleHandoffTouchTravelPauseDiscoveryAndRetry" methodname="SameFieldBattleHandoffTouchTravelPauseDiscoveryAndRetry" classname="RogueTactics.Tests.FloorExplorationFlowTests" runstate="Runnable" seed="2125748041" result="Passed" start-time="2026-10-29 04:27:16Z" end-time="2026-10-29 04:29:15Z" duration="118.324419" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="Timeout" value="600000" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[FLOOR_MAP_CAPTURE floor-initial vertices=1098 culled=False rect=(x:0.00, y:-70.00, width:100.00, height:70.00)
+FLOOR_MAP_CAPTURE floor-reference-battle-map vertices=1098 culled=False rect=(x:0.00, y:-403.00, width:326.00, height:403.00)
+HQ_FRAME_METRICS {"runtime":"Unity Editor","unity":"6000.3.25f1","graphics":"Metal","samples":1327,"p50_ms":16.682750701904298,"p95_ms":16.76845932006836,"reduced_effects":false,"limitation":"Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"}
+MOBILE_G1_RESULT ProtectAnchor e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d
+FLOOR_MAP_CAPTURE floor-before-exploration vertices=996 culled=False rect=(x:0.00, y:-70.00, width:100.00, height:70.00)
+FLOOR_MAP_CAPTURE floor-entry vertices=996 culled=False rect=(x:0.00, y:-70.00, width:100.00, height:70.00)
+FLOOR_MAP_CAPTURE floor-moving vertices=996 culled=False rect=(x:0.00, y:-70.00, width:100.00, height:70.00)
+FLOOR_MAP_CAPTURE floor-paused vertices=996 culled=False rect=(x:0.00, y:-70.00, width:100.00, height:70.00)
+FLOOR_MAP_CAPTURE floor-discovery vertices=1692 culled=False rect=(x:0.00, y:-70.00, width:100.00, height:70.00)
+FLOOR_MAP_CAPTURE floor-room-one vertices=1692 culled=False rect=(x:0.00, y:-70.00, width:100.00, height:70.00)
+FLOOR_MAP_CAPTURE floor-room-1-center vertices=1692 culled=False rect=(x:0.00, y:-70.00, width:100.00, height:70.00)
+FLOOR_MAP_CAPTURE floor-room-2-center vertices=2424 culled=False rect=(x:0.00, y:-70.00, width:100.00, height:70.00)
+FLOOR_MAP_CAPTURE floor-room-3-center vertices=3288 culled=False rect=(x:0.00, y:-70.00, width:100.00, height:70.00)
+FLOOR_MAP_CAPTURE floor-room-4-center vertices=4020 culled=False rect=(x:0.00, y:-70.00, width:100.00, height:70.00)
+FLOOR_MAP_CAPTURE floor-room-5-center vertices=4692 culled=False rect=(x:0.00, y:-70.00, width:100.00, height:70.00)
+FLOOR_MAP_CAPTURE floor-room-6-center vertices=5484 culled=False rect=(x:0.00, y:-70.00, width:100.00, height:70.00)
+FLOOR_MAP_CAPTURE floor-room-7-center vertices=6144 culled=False rect=(x:0.00, y:-70.00, width:100.00, height:70.00)
+FLOOR_MAP_CAPTURE floor-room-0-center vertices=6144 culled=False rect=(x:0.00, y:-70.00, width:100.00, height:70.00)
+FLOOR_MAP_CAPTURE floor-retry vertices=1098 culled=False rect=(x:0.00, y:-70.00, width:100.00, height:70.00)
+]]></output>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1007" name="G1InteractionTests" fullname="RogueTactics.Tests.G1InteractionTests" classname="RogueTactics.Tests.G1InteractionTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-29 04:29:15Z" end-time="2026-10-29 04:29:18Z" duration="2.788633" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1008" name="InputToBattleToAlternativeComparisonRendersOnlyCoreEvents" fullname="RogueTactics.Tests.G1InteractionTests.InputToBattleToAlternativeComparisonRendersOnlyCoreEvents" methodname="InputToBattleToAlternativeComparisonRendersOnlyCoreEvents" classname="RogueTactics.Tests.G1InteractionTests" runstate="Runnable" seed="1379656642" result="Passed" start-time="2026-10-29 04:29:15Z" end-time="2026-10-29 04:29:18Z" duration="2.783066" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[G1_RESULT DirectAttack 85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e g1-v1|5,5|14,4,1,0,1|A,0,18,0,5,2,2|B,1,16,16,4,2,3|C,2,12,12,4,3,3|D,3,10,10,2,1,2|X,4,18,0,6,2,3|Y,4,14,0,5,3,2
+G1_RESULT ProtectAnchor e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d g1-v1|5,5|14,3,0,1,1|A,0,18,16,5,2,2|B,1,16,16,4,1,2|C,2,12,12,4,3,3|D,3,10,10,2,1,1|X,4,18,0,6,2,3|Y,4,14,0,5,3,2
+G1_RESULT ProtectAnchor e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d g1-v1|5,5|14,3,0,1,1|A,0,18,16,5,2,2|B,1,16,16,4,1,2|C,2,12,12,4,3,3|D,3,10,10,2,1,1|X,4,18,0,6,2,3|Y,4,14,0,5,3,2
+]]></output>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1009" name="GauntletFlowTests" fullname="RogueTactics.Tests.GauntletFlowTests" classname="RogueTactics.Tests.GauntletFlowTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-29 04:29:18Z" end-time="2026-10-29 04:31:59Z" duration="161.693344" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1010" name="ConsecutiveEncountersWithVoluntaryTargetInstruction" fullname="RogueTactics.Tests.GauntletFlowTests.ConsecutiveEncountersWithVoluntaryTargetInstruction" methodname="ConsecutiveEncountersWithVoluntaryTargetInstruction" classname="RogueTactics.Tests.GauntletFlowTests" runstate="Runnable" seed="43947893" result="Passed" start-time="2026-10-29 04:29:18Z" end-time="2026-10-29 04:31:59Z" duration="161.675837" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="Timeout" value="900000" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[HQ_FRAME_METRICS {"runtime":"Unity Editor","unity":"6000.3.25f1","graphics":"Metal","samples":1329,"p50_ms":16.687252044677736,"p95_ms":16.738618850708009,"reduced_effects":false,"limitation":"Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"}
+MOBILE_G1_RESULT ProtectAnchor e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d
+HQ_FRAME_METRICS {"runtime":"Unity Editor","unity":"6000.3.25f1","graphics":"Metal","samples":2202,"p50_ms":16.69304084777832,"p95_ms":16.719160079956056,"reduced_effects":false,"limitation":"Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"}
+MOBILE_G1_RESULT ProtectAnchor 79792c5a9464383477c632250ecd5445841f4673a1beef0384ec17c68ced9c9c
+HQ_FRAME_METRICS {"runtime":"Unity Editor","unity":"6000.3.25f1","graphics":"Metal","samples":2398,"p50_ms":16.69112777709961,"p95_ms":16.766582489013673,"reduced_effects":false,"limitation":"Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"}
+MOBILE_G1_RESULT DirectAttack 7d2e2a982ec235f6c27b574adf1ae5854ac7aca4f2bf576e07e60443902fe071
+HQ_FRAME_METRICS {"runtime":"Unity Editor","unity":"6000.3.25f1","graphics":"Metal","samples":2401,"p50_ms":16.69329071044922,"p95_ms":16.715959548950197,"reduced_effects":false,"limitation":"Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"}
+MOBILE_G1_RESULT DirectAttack 38bd0fcf1cb11bd3d370b6efe2c1ee0344e679069f33d5bc9e1c8634acdb29ca
+]]></output>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1011" name="HqPresentationTests" fullname="RogueTactics.Tests.HqPresentationTests" classname="RogueTactics.Tests.HqPresentationTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-29 04:31:59Z" end-time="2026-10-29 04:32:49Z" duration="49.377059" total="3" passed="3" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1013" name="FixedYawCameraComparisonPreservesState" fullname="RogueTactics.Tests.HqPresentationTests.FixedYawCameraComparisonPreservesState" methodname="FixedYawCameraComparisonPreservesState" classname="RogueTactics.Tests.HqPresentationTests" runstate="Runnable" seed="1586483251" result="Passed" start-time="2026-10-29 04:31:59Z" end-time="2026-10-29 04:32:01Z" duration="2.084301" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1012" name="PauseDuringMovementPreservesVisiblePoseAndCursor" fullname="RogueTactics.Tests.HqPresentationTests.PauseDuringMovementPreservesVisiblePoseAndCursor" methodname="PauseDuringMovementPreservesVisiblePoseAndCursor" classname="RogueTactics.Tests.HqPresentationTests" runstate="Runnable" seed="157542414" result="Passed" start-time="2026-10-29 04:32:01Z" end-time="2026-10-29 04:32:03Z" duration="1.551143" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1014" name="ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes" fullname="RogueTactics.Tests.HqPresentationTests.ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes" methodname="ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes" classname="RogueTactics.Tests.HqPresentationTests" runstate="Runnable" seed="1982921009" result="Passed" start-time="2026-10-29 04:32:03Z" end-time="2026-10-29 04:32:49Z" duration="45.733591" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[HQ_FRAME_METRICS {"runtime":"Unity Editor","unity":"6000.3.25f1","graphics":"Metal","samples":1324,"p50_ms":16.68975257873535,"p95_ms":16.78770637512207,"reduced_effects":false,"limitation":"Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"}
+MOBILE_G1_RESULT ProtectAnchor e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d
+HQ_FRAME_METRICS {"runtime":"Unity Editor","unity":"6000.3.25f1","graphics":"Metal","samples":1273,"p50_ms":16.68971061706543,"p95_ms":18.201623916625978,"reduced_effects":false,"limitation":"Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"}
+MOBILE_G1_RESULT DirectAttack 85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e
+]]></output>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1015" name="MobileG1InteractionTests" fullname="RogueTactics.Tests.MobileG1InteractionTests" classname="RogueTactics.Tests.MobileG1InteractionTests" runstate="Runnable" testcasecount="4" result="Failed" site="Child" start-time="2026-10-29 04:32:49Z" end-time="2026-10-29 04:33:38Z" duration="49.497793" total="4" passed="3" failed="1" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-case id="1019" name="JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults" fullname="RogueTactics.Tests.MobileG1InteractionTests.JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults" methodname="JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults" classname="RogueTactics.Tests.MobileG1InteractionTests" runstate="Runnable" seed="1704795938" result="Failed" start-time="2026-10-29 04:32:49Z" end-time="2026-10-29 04:32:49Z" duration="0.801281" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <failure>
+                <message><![CDATA[  Silhouette separation X / C at step 0 rects (x:237.05, y:-153.90, width:39.11, height:30.59) / (x:260.65, y:-180.33, width:54.84, height:73.13)
+  Expected: False
+  But was:  True
+]]></message>
+                <stack-trace><![CDATA[at RogueTactics.Tests.MobileG1InteractionTests.CheckActorReadability (RogueTactics.Presentation.MobileG1View view) [0x00275] in /Users/tomoki/.codex/visualizations/2026/10/15/01a13dcb-2d2e-7aa3-b4f2-02f23af888ce/hq-production/unity/Assets/RogueTactics/Tests/PlayMode/MobileG1InteractionTests.cs:66
+at RogueTactics.Tests.MobileG1InteractionTests.CheckLayout (RogueTactics.Presentation.MobileG1View view) [0x00005] in /Users/tomoki/.codex/visualizations/2026/10/15/01a13dcb-2d2e-7aa3-b4f2-02f23af888ce/hq-production/unity/Assets/RogueTactics/Tests/PlayMode/MobileG1InteractionTests.cs:34
+at RogueTactics.Tests.MobileG1InteractionTests+<JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults>d__11.MoveNext () [0x001fb] in /Users/tomoki/.codex/visualizations/2026/10/15/01a13dcb-2d2e-7aa3-b4f2-02f23af888ce/hq-production/unity/Assets/RogueTactics/Tests/PlayMode/MobileG1InteractionTests.cs:232
+at UnityEngine.TestTools.TestEnumerator+<Execute>d__7.MoveNext () [0x0003a] in ./Library/PackageCache/com.unity.test-framework@bd7f943e9647/UnityEngine.TestRunner/NUnitExtensions/Attributes/TestEnumerator.cs:44
+]]></stack-trace>
+              </failure>
+            </test-case>
+            <test-case id="1016" name="PredictionStaysAboveKeyboardAndReturnsWithoutChangingCore" fullname="RogueTactics.Tests.MobileG1InteractionTests.PredictionStaysAboveKeyboardAndReturnsWithoutChangingCore" methodname="PredictionStaysAboveKeyboardAndReturnsWithoutChangingCore" classname="RogueTactics.Tests.MobileG1InteractionTests" runstate="Runnable" seed="261270544" result="Passed" start-time="2026-10-29 04:32:49Z" end-time="2026-10-29 04:32:50Z" duration="0.596429" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+            </test-case>
+            <test-case id="1017" name="QueuedMouseReachesButtonsThroughInputSystem" fullname="RogueTactics.Tests.MobileG1InteractionTests.QueuedMouseReachesButtonsThroughInputSystem" methodname="QueuedMouseReachesButtonsThroughInputSystem" classname="RogueTactics.Tests.MobileG1InteractionTests" runstate="Runnable" seed="1509505344" result="Passed" start-time="2026-10-29 04:32:50Z" end-time="2026-10-29 04:33:14Z" duration="23.937632" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[HQ_FRAME_METRICS {"runtime":"Unity Editor","unity":"6000.3.25f1","graphics":"Metal","samples":1333,"p50_ms":16.69287872314453,"p95_ms":16.766000747680665,"reduced_effects":false,"limitation":"Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"}
+MOBILE_G1_RESULT ProtectAnchor e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d
+]]></output>
+            </test-case>
+            <test-case id="1018" name="QueuedTouchReachesButtonsThroughInputSystem" fullname="RogueTactics.Tests.MobileG1InteractionTests.QueuedTouchReachesButtonsThroughInputSystem" methodname="QueuedTouchReachesButtonsThroughInputSystem" classname="RogueTactics.Tests.MobileG1InteractionTests" runstate="Runnable" seed="1802692130" result="Passed" start-time="2026-10-29 04:33:14Z" end-time="2026-10-29 04:33:38Z" duration="24.146638" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[HQ_FRAME_METRICS {"runtime":"Unity Editor","unity":"6000.3.25f1","graphics":"Metal","samples":1333,"p50_ms":16.67658042907715,"p95_ms":16.92378807067871,"reduced_effects":false,"limitation":"Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"}
+MOBILE_G1_RESULT ProtectAnchor e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d
+]]></output>
+            </test-case>
+          </test-suite>
+          <test-suite type="TestFixture" id="1020" name="PortraitSmokeTests" fullname="RogueTactics.Tests.PortraitSmokeTests" classname="RogueTactics.Tests.PortraitSmokeTests" runstate="Runnable" testcasecount="1" result="Passed" start-time="2026-10-29 04:33:38Z" end-time="2026-10-29 04:33:39Z" duration="0.951435" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1021" name="Stage0RendersAtPortraitReferenceWithoutHorizontalClipping" fullname="RogueTactics.Tests.PortraitSmokeTests.Stage0RendersAtPortraitReferenceWithoutHorizontalClipping" methodname="Stage0RendersAtPortraitReferenceWithoutHorizontalClipping" classname="RogueTactics.Tests.PortraitSmokeTests" runstate="Runnable" seed="1632731980" result="Passed" start-time="2026-10-29 04:33:38Z" end-time="2026-10-29 04:33:39Z" duration="0.940497" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[Saving results to: /Users/tomoki/Library/Application Support/Rogue Tactics Lab/Rogue Tactics Lab/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

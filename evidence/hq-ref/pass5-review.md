@@ -1,0 +1,48 @@
+# Pass5 R2 representative vignette — A/B rejected (2026-10-17)
+
+**Decision: retain Pass4 runtime. No candidate art/code is adopted. R2 V0 remains FAIL; no Human GO.** PR21 stays Draft, stacked on PR17.
+
+## Authority and frozen conditions
+
+[WebGPT independent review5554614607](https://github.com/tomooch/rogue-tactics-lab/pull/21#pullrequestreview-5554614607) targets exact PR HEAD `ca550012aa088dcb3d01dc30c109a8cfa12e6f38`. Fresh remote audit confirmed this HEAD and base `codex/mobile-visual-g1` / `ce4ffac8d2216973c391d801cf5f6d41fbde66b5`; main was `ab9fa5dc729dcea07f8680e7b22544627c5e5bed`. Retained game runtime is `fc005d4ddee3edc5ac5b035ecfefb5e132f5e25a`; ca550012 is documentation only, with the same Unity tree `05e6238b89ff2f1ae558cf5c287e6d2939aedba7`.
+
+CONTROL holds final Pass4 camera, HUD, floor, four approved RGBA sprites, G1 Core, tests,5×5, initial6 actors and event order fixed. Primary variable: ONE front-left environmental vignette within the existing bounds x[-6.7,-.5],y[-4.2,.15],z[-11.4,-9.3]. No global floor/material tuning, gameplay, gait, package, paid asset, network dependency or external private-image upload.
+
+## Implement → execute → observe → reject → repair → rerun
+
+Unity6000.3.25f1 produced fresh390×844 CONTROL/A/B at the same seven logical stages: setup, Protect Guard/Heal, Attack Counter/Death and both result comparisons. Each run passed the unchanged ProductFlow PlayMode test1/1, including both full frozen outcomes and displayed-cursor constraints. Its filter selects **zero EditMode tests**; these runs are not represented as full14/9. Capture timestamps were checked after each owned job's start before copying. Candidate A/B are explicitly uncommitted source variants, identified by C#/shader/OBJ/provenance/scene SHA and diff SHA in `pass5-experiment.json`; neither is a released revision.
+
+| Trial | Actual phone-size observation | Decision |
+|---|---|---|
+| CONTROL | Uniform pale cap row, granular ivy/white speckles, opaque rectangular cyan waterfall. | Comparison baseline. |
+| A | A connected source/lip/bowed translucent fall replaces the opaque plank. Nine unequal stones and fewer grouped plants were authored locally, but lower stones still read as detached flat shelves; flowers remain tiny specks. | Reject whole vignette. Partial water gain is insufficient. |
+| Repair B | Detached stones removed; one connected spring-notch cliff, broad cap and attached shoulder. Inspection found A's second crown buried below the cap. Both crowns seated above stone; five larger flowers now form a visible white group. Source/lip/fall connection is clearer. | Reject whole vignette: cliff becomes a broad smooth extrusion, like a bucket/wall with horizontal ledges, rather than fractured tiered limestone. |
+
+Root inspected **all seven native-size pairs** for both candidates and2× detail crops. A bounded independent local image reviewer also rejected A and B, agreeing on the cliff/plant failure and absence of new actor/HP interference. This is local agent image review, not independent WebGPT pixel review or Human acceptance. Guard/Heal/Counter/Death show the same actor states, target-local expressions and legible HP; comparisons retain the same outcomes. Ambient animation time is not phase-locked, so pixel-difference bounding boxes are not a quality score or proof of exact temporal equality.
+
+The original/build4/build5/Pass3/CONTROL/A/B contact uses390px width and each original aspect ratio, without stretching/cropping. Historical builds have different cameras/layouts and are visual history, **not controlled variable-isolation trials**. CONTROL/A/B are the controlled experiment. Canonical941×1672 PNG SHA99a76f33… and PRIMARY9b4ee65b… remain the same decoded RGB visual reference (`fd52b3654adc91c3e086b21cc83a4d9cb1d2057a5cd527b0fbc5cbb3a15a3ce4`), as independently established in Issue20.
+
+Full-screen comparison does not demonstrate a more desirable game screen. Four heroes remain secondary to the large board; A/B do not improve their primary status. Original art's interlocking worn masonry, broken cliff silhouette, richer grouped vegetation and distant ruin depth remain substantially ahead. The unchanged front-right water still looks like a cyan band. No new geometry was replicated around the island.
+
+## Stop condition and missing production step
+
+The authoritative review says: **“If visual change is not convincingly positive, reject the vignette”**. A/B therefore remain rejected, and all19 task-owned candidate files (author script,7OBJ/7Unity Mesh assets,provenance,shader,presentation,scene) were restored to ca550012 before retained-source full verification. A private patch plus author source preserves the failed B experiment for reproduction; no failed runtime code is pushed.
+
+These two trials expose a limitation of this specific primitive/vertex-colour authoring approach: disconnected procedural pieces became one mechanical extrusion, without producing irregular large-scale fractures, nonuniform cross sections, recessed shadow pockets and readable natural limestone at phone size. Merely increasing triangles, density, bevels or installing an editor would not prove that modeling quality exists. This does not establish that all procedural art is incapable.
+
+**Focused next production option, not approved scope/cost:** make one original artist-modeled fixed-bounds ledge, with the same camera/actors and explicit native-size art gate before any wider production. A local editable mesh with authorship/provenance and a small material set would avoid private-reference external upload. Human-authored source in the workspace has no new service cost but needs that artwork/authoring work. A commissioned asset would require a concrete creator, license, budget and privacy approval before purchase or reference sharing; none has been commissioned or uploaded. Blender was not present in the inspected application/CLI paths; this fact is not offered as the cause or an installation-only solution. Existing bounded art-production capability has not delivered the required quality.
+
+## Verification and source boundaries
+
+Fresh retained-source Configure exit0, EditMode14/14 and PlayMode9/9 PASS are recorded in `pass5-source-verification.json`, `pass5-editmode.xml` and `pass5-playmode.xml`. All tested C#/shader/OBJ/provenance bytes match ca550012. Configure regenerated Scene local object IDs only: tested SHA19156d8f… differs from retained SHA4e6b58ed…, while canonicalized local-ID graph and every serialized value/reference match. This was audited before restoring only the generated ID churn; raw Scene byte identity is explicitly not claimed. Twenty-six fresh retained images were saved separately and final setup was visually rechecked. Core tree stays `50274c84cb56344d1394b4283833728c72cd7577`, tests tree `1ecdc31db505a03310095886d5d2a3e363be797c`, four approved PNG SHA unchanged. Full Protect hash `e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d`; Attack `85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e`. No history rewrite; canonical checkout's unrelated `.gitignore` is preserved.
+
+No A/B Simulator or A/B motion-quality PASS is claimed: both failed the cheaper actual-image art gate and were removed. Retained runtime has the previously source-linked Pass4 Simulator evidence in `pass4-native-observation.json`; this is not a fresh candidate execution. For motion comparison, root replayed the retained Pass4 Attack video at normal speed from0s, observed0.422→8.441s and paused at14.139s. Despite changing battle actions/receipts and water highlights, the old waterfall's opaque rectangular silhouette remains. This is a fresh observation of **historical fc005d4 video**, not a new native recording or examination of every frame.
+
+Current ASC tab inspection again shows Apple sign-in (email/password). Live processing/compliance/group state is unverified; no credentials read/changed, bypass, compliance answer, archive/upload or group write. Apple uploaded build5 is OLDd5e8e08; retained local Simulator development5 isfc005d4. Any future physical-current-source delivery needs a unique build number>5, accurate export facts and authenticated internal-only group verification. Physical iPhone and Human cute/readable/fun remain pending. No CI workflow/check PASS is claimed.
+
+## Evidence location and sharing limit
+
+- Public source/text/hash evidence: this review, `pass5-experiment.json`, `pass5-source-verification.json`, `pass5-editmode.xml`, `pass5-playmode.xml` on PR21. These support source/test/provenance review; they do not let WebGPT see private pixels.
+- Owner-local **temporary** artifacts: `/private/tmp/rogue-hq-pass5/`. `control-images/`, `vignette-a-images/`, `vignette-b-images/` hold21 real PNG; `vignette-a-comparison/` and `vignette-b-comparison/` contain seven pairs and2× crops each, with SHA manifests. `final-contact.png` and `private-comparison.html` compare historical/current/rejected candidates. HTML is an offline local artifact, not a successfully hosted share.
+- Exact commands and phase results are in each `source-and-results.json`; rejected B reproduction is `rejected-vignette-b.patch` and `rejected-vignette-b-source.py` in the same private root. New retained final images/logs are stored separately and do not overwrite A/B evidence.
+- Original/skin/private PNG/video were not uploaded to GitHub/Notion/external AI. No already-authorized safe cross-session media service was found/used. WebGPT next session can inspect public text/hashes, while **direct private-media review remains unavailable**, rather than falsely marked shared.

@@ -1,0 +1,163 @@
+{
+  "runtime_source": "fc005d4ddee3edc5ac5b035ecfefb5e132f5e25a",
+  "private_root": "/private/tmp/rogue-hq-pass4/final-images",
+  "public_media": false,
+  "captures": [
+    {
+      "file": "DirectAttack-comparison.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "36f0501910a5b196cce9961af971179176d116b30396a915c64b6f778f593680"
+    },
+    {
+      "file": "DirectAttack-counter.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "c2a573a290ffe9f5f2b69bdbe458936c6edfb87db8b48559a14b66b62025aeb4"
+    },
+    {
+      "file": "DirectAttack-death.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "61e89460b3ebaa6e8ece8a6fe8362f2b2962188bd4cf8db8dedb3c163e704e78"
+    },
+    {
+      "file": "DirectAttack-end.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "05ffe4711f1f13807011ce8585242700c250f84f1b6a4d223f76d597fcec5a29"
+    },
+    {
+      "file": "DirectAttack-heal.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "04b9bb1a938480513df3278d744a58e936bd00b29afef8df9de6eabdc97286c7"
+    },
+    {
+      "file": "DirectAttack-paused.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "d264b55a2e41b7f3f8d40896fcd2e14ca5b83170146129ae25a798ae3de68f2a"
+    },
+    {
+      "file": "DirectAttack-reset.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "979057bab0a0999c90d96a0f463d25702b722efedeea5cb13f5b158b2db95984"
+    },
+    {
+      "file": "DirectAttack-start.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "3668ffa0321c20e639e3e1a07ad1f158f3307186425dbb6852299646adcec9d2"
+    },
+    {
+      "file": "ProtectAnchor-comparison.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "17e5aa18841788e6b82ce79da2146f4d81c6229ec0fe414d88a29fea953838e2"
+    },
+    {
+      "file": "ProtectAnchor-counter.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "c3e83842075d041340e6862ed82f1938c5ad09ade5a94bbae46ff37b0bdc9e86"
+    },
+    {
+      "file": "ProtectAnchor-death.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "3fe493147eaf8055af0d1a51cdc7cb31400a58ee58f165d30611cf281e45947b"
+    },
+    {
+      "file": "ProtectAnchor-end.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "53dbd1a7c4048a32b8445ea64adde86afbb3619addb12baf07e2f56b00bd15af"
+    },
+    {
+      "file": "ProtectAnchor-guard.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "e43b4b7d04cc0a2a9aa8c52eab63a899bbf6cf62c8fa4d0059d98655ff5e445f"
+    },
+    {
+      "file": "ProtectAnchor-heal.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "4b3659b49a3f52cd6ed83eab3f83f3d1b1501e30377c85f314861728c38329fd"
+    },
+    {
+      "file": "ProtectAnchor-paused.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "158fb259d4605af7a157c477a249cc0750d3bf57f5b1531d3dd9aeeb36977521"
+    },
+    {
+      "file": "ProtectAnchor-reset.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "f41af6d2d9c6e4fb6b69c781a4e8e068ece3b28e8c93b1a467f0253d31f05b58"
+    },
+    {
+      "file": "ProtectAnchor-start.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "497af79112c2e73bfc0499f89ab605ac0be86b819e95803aa60a6d67c8b0bfd8"
+    },
+    {
+      "file": "camera-45-setup.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "5c7daaee061783b064687bd4344007593da59c00ec719b600eada03fa864ff7f"
+    },
+    {
+      "file": "camera-55-setup.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "28c50cedbd56c0711bc6ce5ce081882390d13bd46ab4963b1110b1caf95f6c38"
+    },
+    {
+      "file": "camera-55-yaw-minus18-setup.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "c05e773322759aa94c1276aed2bf7e795005f0a75d0b567bc21ab7b6c2723b28"
+    },
+    {
+      "file": "camera-63-guard.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "8207bc445971853ed017294eed340e33849d693d3bbcad0bf5b3739330790dea"
+    },
+    {
+      "file": "camera-63-setup.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "b24d4201d2d3fcc9acf6fe394af05c3a8db02db3ce5b2e2b65bfed14db058792"
+    },
+    {
+      "file": "camera-75-guard.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "6f198a208ab4c9789b7ce3e13da2d86307a269611061ea407b437e86953a0116"
+    },
+    {
+      "file": "camera-75-setup.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "68eb4d4fce689dca59ab86d26636fd772eb1c44b2664f2611bf8ec08f05db956"
+    },
+    {
+      "file": "r1-setup.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "c0314ce02fdbda644ce265baaa31f4b322b41e70325641a0d12552cdbebd51c3"
+    },
+    {
+      "file": "r3-paused-mid-move.png",
+      "width": 390,
+      "height": 844,
+      "sha256": "e94cd090e91edad32900578dab45634882b30bda677626966f9ac4fff7397b82"
+    }
+  ]
+}

@@ -1,0 +1,177 @@
+{
+  "schema_version": 1,
+  "human_direction": "2026-10-23 reference church-diorama angle; やってみて！; numerical35.264/-45 inferred starting values, not Human numeric specification",
+  "start_head": "4d19223dcbd3fcc55f8ebb2baf0b23a8ea763654",
+  "reference_sha256": "96194b516b4e827e5c4f265e8856612364d043827f7fb59064fac12043bf08c5",
+  "core_tree": "50274c84cb56344d1394b4283833728c72cd7577",
+  "approved_skin_sha256": {
+    "myaru.png": "3f064518faf44e308614ddaaaa81eb108d909c116e0a0a21cadf8d33e64a8fd5",
+    "momo.png": "d8f62c2299c2772ce21ded771ec2faf6c50f9d18d4f585ba2fe7a63d698daa74",
+    "garu.png": "04051f21042b365c767124f4931f8189502a24eab9896089e8850b3e8e76c015",
+    "shiro.png": "5f9bd5d0f8f7569987f0df3393d2236a032b75091e7af9c6f10ba17b3c7a7c73"
+  },
+  "font_sha256": "9235091dd518cd58e6d643f048fa3f3cabe9fdb6631dc9f1f82375c05b67f1e5",
+  "trials": [
+    {
+      "name": "angle-only",
+      "pitch": 35.264,
+      "yaw": -45,
+      "target_y": 1.5,
+      "depth_spacing": 2,
+      "ortho": 16,
+      "actor_height": 3,
+      "base_head": "4d19223dcbd3fcc55f8ebb2baf0b23a8ea763654",
+      "unity_diff_sha256": "5b4c237f21f8429e2254bf0804f30e08c6590303594fc3dc769a4d2b70606637",
+      "private_patch_sha256": "5b4c237f21f8429e2254bf0804f30e08c6590303594fc3dc769a4d2b70606637",
+      "tests": {
+        "EditMode": {
+          "total": "0",
+          "passed": "0",
+          "failed": "0",
+          "result": "Passed",
+          "xml_sha256": "d0c853aa5906e5b4694a19022acbc50d3415fd1c625711f097223465ea8ac5e2"
+        },
+        "PlayMode": {
+          "total": "1",
+          "passed": "1",
+          "failed": "0",
+          "result": "Passed",
+          "xml_sha256": "093610524e252c3129170d4d80ea622044c912ad3dbb7817f2b6568aaad1b055"
+        }
+      },
+      "failure": [],
+      "capture_sha256": {
+        "r1-setup": "7b4df35e14722114d712f0e877166fc075a66005c52d8342bb607605522ac4aa",
+        "ProtectAnchor-guard": "195fb2b8066cf0c1448d1f16ecf241b44e14d2ce43fd1419cf4c85c93e128678",
+        "ProtectAnchor-heal": "ad9d2e3e621a69a43b8de9dbffe5257f900b8cc5e374df07953562aa848654ca",
+        "DirectAttack-counter": "f00576c7056a8853bf26dc60690a223ae760a090db4cc56bfb30cd815fb2b600",
+        "DirectAttack-death": "5b45ebb4957ea9a07242fe36b3721686221d9680b997f27ce4798baecd5cad97",
+        "ProtectAnchor-comparison": "46fe244086a2ba797589218fe0e66f86a68012dc6de2acfb9514e5ef79dbbd4e",
+        "DirectAttack-comparison": "0d49f93fcf51263ed3a062a72aa805dfb9e50711258baf0ee3d278aaf4a0f2d4"
+      },
+      "viewed_by_root": [
+        "r1-setup",
+        "ProtectAnchor-guard",
+        "DirectAttack-counter"
+      ]
+    },
+    {
+      "name": "compact-depth",
+      "pitch": 35.264,
+      "yaw": -45,
+      "target_y": 1.5,
+      "depth_spacing": 1.25,
+      "ortho": 16,
+      "actor_height": 3,
+      "base_head": "4d19223dcbd3fcc55f8ebb2baf0b23a8ea763654",
+      "unity_diff_sha256": "a2c4524d779ec76c4cacf1fdfb8d056692373d883708921bd9e63cdddf7a3bdf",
+      "private_patch_sha256": "a2c4524d779ec76c4cacf1fdfb8d056692373d883708921bd9e63cdddf7a3bdf",
+      "tests": {
+        "EditMode": {
+          "total": "0",
+          "passed": "0",
+          "failed": "0",
+          "result": "Passed",
+          "xml_sha256": "b841f8c89e0fe94073037c722459509d5718182207a7cb706375ea5f05a0a0d1"
+        },
+        "PlayMode": {
+          "total": "1",
+          "passed": "1",
+          "failed": "0",
+          "result": "Passed",
+          "xml_sha256": "0a1bf0049fe69d655a17fdb41489f099b38ba8b1c43ce17b5eaf00e0f7bfea56"
+        }
+      },
+      "failure": [],
+      "capture_sha256": {
+        "r1-setup": "659e007ae145a56f2469e54dc7892b736b837fec5fb39352684152f676c5e984",
+        "ProtectAnchor-guard": "e2600db26b22317a427b59c0e38e0d5a75c6d656cd481c50efc078d7a6a79e19",
+        "ProtectAnchor-heal": "21c29b3274e9a38183ff69baca9272c00ca01c781b6b9938b96d19821ee8b9c3",
+        "DirectAttack-counter": "b7adc46934d65d7a8b1bd7c9b859d8852976e6483357a47c68a6dd16ef6d0501",
+        "DirectAttack-death": "62f7e37353032ee91a035ce10c0a421082b775316b47eafe8b41e586327e7896",
+        "ProtectAnchor-comparison": "0034227ab5df5eaa8a22684d807e1c686385d73cc75664217bca3026f0a2f391",
+        "DirectAttack-comparison": "9983e52d6a31dcb34a17bebb882b63f9402430146a2054973b19b40b534e53b6"
+      },
+      "viewed_by_root": [
+        "r1-setup",
+        "ProtectAnchor-guard",
+        "DirectAttack-counter"
+      ]
+    },
+    {
+      "name": "compact-fit-full",
+      "pitch": 35.264,
+      "yaw": -45,
+      "target_y": 1.5,
+      "depth_spacing": 1.25,
+      "ortho": 12,
+      "actor_height": 3,
+      "base_head": "4d19223dcbd3fcc55f8ebb2baf0b23a8ea763654",
+      "unity_diff_sha256": "6e47ad31b313d23b12f5a27be6592bd351a76c079bc0e0793584946be23190f9",
+      "private_patch_sha256": "6e47ad31b313d23b12f5a27be6592bd351a76c079bc0e0793584946be23190f9",
+      "tests": {
+        "EditMode": {
+          "total": "14",
+          "passed": "14",
+          "failed": "0",
+          "result": "Passed",
+          "xml_sha256": "5a97fd7bafe3d67a1ef724181ea0b5831f5d2826fcd6d608791084e980a0367d"
+        },
+        "PlayMode": {
+          "total": "9",
+          "passed": "8",
+          "failed": "1",
+          "result": "Failed(Child)",
+          "xml_sha256": "e5070d4905fd789bfcba25f9a29a38fe78450f7b9d8e3ef6fe89b6b005fa7c3d"
+        }
+      },
+      "failure": [
+        {
+          "test": "JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults",
+          "message": "  Silhouette separation A / B at step 0 rects (x:179.10, y:-244.69, width:42.47, height:56.63) / (x:145.74, y:-225.42, width:42.47, height:56.63)\n  Expected: False\n  But was:  True\n"
+        }
+      ],
+      "capture_sha256": {
+        "r1-setup": "e0b278367936e131dcd1889be941a10c9efdd21839c1ce014259fdaff2a94ef8",
+        "ProtectAnchor-guard": "fcf0767833c0bae1b95f2752c7423f81fd5c60119e8a839795ad6ffa90cd242c",
+        "ProtectAnchor-heal": "e60d4cc7b93d4697057b8f495aa2f92b2f7b231ade3efdf5dd405511684b3a54",
+        "DirectAttack-counter": "0b340451bf8b8db0294626b132ffc11d41fcc70c24d1aaf2be4c1a3e40b707e4",
+        "DirectAttack-death": "53143b4e4e198b3cf7ede2499b148ae3d1d9db17c7b4194b924286f64fb8739b",
+        "ProtectAnchor-comparison": "95764b6f21391fb60f1db40dab21b726c91aad57e011baf010b429c2b8a16f58",
+        "DirectAttack-comparison": "d495b3a7ea83f964efc52c0d4b5534ea2accb9ae9df19a844083fdb6e987d72d"
+      },
+      "viewed_by_root": [
+        "r1-setup",
+        "ProtectAnchor-guard",
+        "DirectAttack-counter"
+      ]
+    }
+  ],
+  "fixed_hashes": {
+    "ProtectAnchor": "e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d",
+    "DirectAttack": "85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e"
+  },
+  "independent_review": {
+    "astra": "gpt-6-astra/high actual sanitized text-only advice before experiments; images not viewed",
+    "neutral": "actual reference, retained setup, all3trial setup/guard/counter images viewed locally; final4faces visible, cast smaller, B HP ownership poor"
+  },
+  "restoration": {
+    "files": [
+      "unity/Assets/RogueTactics/Editor/MobileG1Setup.cs",
+      "unity/Assets/RogueTactics/Presentation/HqCamera.cs",
+      "unity/Assets/RogueTactics/Presentation/MobileG1View.cs",
+      "unity/Assets/RogueTactics/Scenes/MobileG1.unity"
+    ],
+    "unity_diff_to_start": "empty; verified after restoration",
+    "runtime_source": "8c71051e567cc4371e3e1d6f6ade0973daba75d5",
+    "fresh_restored_tests": "not repeated; exact restored runtime has prior Edit14/Play9 and Simulator proof at4d19223, not transferred to rejected candidate"
+  },
+  "disposition": "No runtime adopted; reference-angle likeness improved, overall cast/readability fails. R2 V0 FAIL. No criterion relaxation or Human quality approval.",
+  "private_artifact_root": "_userwork/hq-evidence/2026-10-23-reference-angle/",
+  "three_way_comparison_sha256": "d7f628f98eb36935b0d736d4030590e7a83e7914c57b9792bafc739c8398e8f2",
+  "new_simulator": false,
+  "new_testflight": false,
+  "physical_device": false,
+  "human_quality_pass": false,
+  "public_media_upload": false
+}

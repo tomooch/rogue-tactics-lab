@@ -1,0 +1,142 @@
+{
+  "scope": "one authored front-left hero ledge corner only; no gameplay/collider data",
+  "coordinates": "origin board center; Unity local X/Y/Z, Y-up; DisplayDepth=2 already authored; no Z stretch",
+  "reference": "baseline-contact.png inspected for composition. Original private concept was not copied or uploaded.",
+  "provenance": "Original deterministic geometry authored in tools/author_hero_ledge.py using the repository's local OBJ helper; no external meshes, textures, packages, or services.",
+  "prototype_limit": "This is a bounded representative corner for camera/import review, not a complete environment or visual acceptance claim.",
+  "layers": {
+    "HeroLedgeLimestone": {
+      "file": "HeroLedgeLimestone.obj",
+      "triangles": 646,
+      "bounds": [
+        [
+          -6.657,
+          -0.506
+        ],
+        [
+          -1.93,
+          0.125
+        ],
+        [
+          -11.353,
+          -9.703
+        ]
+      ],
+      "uv": "world planar X/Z"
+    },
+    "HeroLedgeCliff": {
+      "file": "HeroLedgeCliff.obj",
+      "triangles": 526,
+      "bounds": [
+        [
+          -6.659,
+          -0.548
+        ],
+        [
+          -4.2,
+          -0.306
+        ],
+        [
+          -11.391,
+          -9.306
+        ]
+      ],
+      "uv": "world planar X/Z"
+    },
+    "HeroLedgeFoliage": {
+      "file": "HeroLedgeFoliage.obj",
+      "triangles": 1146,
+      "bounds": [
+        [
+          -6.605,
+          -0.693
+        ],
+        [
+          -3.745,
+          0.122
+        ],
+        [
+          -11.214,
+          -9.425
+        ]
+      ],
+      "uv": "world planar X/Z"
+    },
+    "HeroLedgeFlowers": {
+      "file": "HeroLedgeFlowers.obj",
+      "triangles": 396,
+      "bounds": [
+        [
+          -6.297,
+          -1.022
+        ],
+        [
+          -2.873,
+          0.12
+        ],
+        [
+          -11.222,
+          -10.034
+        ]
+      ],
+      "uv": "world planar X/Z"
+    },
+    "HeroLedgeWater": {
+      "file": "HeroLedgeWater.obj",
+      "triangles": 64,
+      "bounds": [
+        [
+          -2.981,
+          -1.611
+        ],
+        [
+          -4.08,
+          0.08
+        ],
+        [
+          -11.341,
+          -11.241
+        ]
+      ],
+      "uv": "world X/Y sheet"
+    },
+    "HeroLedgeFoam": {
+      "file": "HeroLedgeFoam.obj",
+      "triangles": 5,
+      "bounds": [
+        [
+          -2.837,
+          -1.794
+        ],
+        [
+          -3.96,
+          0.057
+        ],
+        [
+          -11.374,
+          -11.316
+        ]
+      ],
+      "uv": "world planar X/Z"
+    },
+    "HeroLedgeDetail": {
+      "file": "HeroLedgeDetail.obj",
+      "triangles": 30,
+      "bounds": [
+        [
+          -6.28,
+          -0.78
+        ],
+        [
+          -1.53,
+          0.001
+        ],
+        [
+          -11.372,
+          -9.969
+        ]
+      ],
+      "uv": "world planar X/Z"
+    }
+  }
+}

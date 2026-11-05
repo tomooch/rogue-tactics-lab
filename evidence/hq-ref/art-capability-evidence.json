@@ -1,0 +1,880 @@
+{
+  "gate": "ART-CAPABILITY",
+  "status": "BLOCKED_ART_CAPABILITY",
+  "authority": "https://github.com/tomooch/rogue-tactics-lab/pull/21#pullrequestreview-5555468771",
+  "start_head": "cf1a214a136c6298c0334ff09307b3beb1a40193",
+  "retained_runtime": "fc005d4ddee3edc5ac5b035ecfefb5e132f5e25a",
+  "production_unity_tree": "05e6238b89ff2f1ae558cf5c287e6d2939aedba7",
+  "production_diff_after_rejection": 0,
+  "inventory": {
+    "head": "cf1a214a136c6298c0334ff09307b3beb1a40193",
+    "retained_runtime": "fc005d4ddee3edc5ac5b035ecfefb5e132f5e25a",
+    "package_manifest_sha256": "6a403f94c78dc6ef3004c5979fa26e7da2b837a92ff354787a89ccbca27a7d1c",
+    "package_lock_sha256": "83e482578d253de4de4f5b8e18eaaaa47cdadb4a5ab1646deadeeef1399487d1",
+    "mesh_authoring_packages": {
+      "com.unity.probuilder": {
+        "declared": false,
+        "resolved": false,
+        "cached": false
+      },
+      "com.unity.polybrush": {
+        "declared": false,
+        "resolved": false,
+        "cached": false
+      },
+      "com.unity.splines": {
+        "declared": false,
+        "resolved": false,
+        "cached": false
+      },
+      "com.unity.terrain-tools": {
+        "declared": false,
+        "resolved": false,
+        "cached": false
+      }
+    },
+    "local_model_inventory": {
+      "roots": [
+        "target worktree Assets",
+        "WorkSpaces",
+        "Downloads",
+        "Documents"
+      ],
+      "excluded": [
+        "Library",
+        "Packages",
+        "build",
+        ".git",
+        ".venv",
+        "node_modules",
+        "Pods"
+      ],
+      "matches": 26,
+      "project_script_authored_obj": 18,
+      "unrelated_gradio_demo_model_files_in_two_caches": 8,
+      "reusable_independent_limestone_source_found": false,
+      "note": "Additional candidate discovered in existing ShaderGraph PackageCache is recorded separately; bounded filename scan is not proof of absence everywhere on Mac."
+    },
+    "usdcat": "Existing converter/validator per --help, not interactive sculpt/editor",
+    "temporary_inspection": "Two cached official sample FBX copied locally, production runtime files remain unchanged; not an adopted art source",
+    "public_media": false,
+    "install_purchase_upload": false,
+    "terrain_module_declared": true,
+    "terrain_scope": "Built-in terrain height editing is not denied; arbitrary rock mesh vertex/face/undercut editing and a production art workflow were not established. No terrain editing PASS is claimed."
+  },
+  "source_candidates": [
+    {
+      "name": "Rock_A_01.fbx",
+      "source": "com.unity.shadergraph17.3.0/Samples~/Common/Meshes/Rock_A_01.fbx",
+      "sha256": "a89a0f2fbaf515dca9dd15618f80a643e2043f4f6710d39694466e5d9fbbbd80",
+      "bytes": 709520,
+      "package_license": "Unity Companion License for Unity-dependent projects",
+      "original": false
+    },
+    {
+      "name": "Rock_A_02.fbx",
+      "source": "com.unity.shadergraph17.3.0/Samples~/Common/Meshes/Rock_A_02.fbx",
+      "sha256": "720bffe56fe18225bd7c55c438b7c3569533eb11f1181c6dd8db98d7563ef562",
+      "bytes": 388784,
+      "package_license": "Unity Companion License for Unity-dependent projects",
+      "original": false
+    }
+  ],
+  "source_inspection": {
+    "unity": "6000.3.25f1",
+    "meshes": [
+      {
+        "file": "Assets/ArtCapabilityProbe/Rock_A_01.fbx",
+        "name": "Rock_A_02_LOD00",
+        "vertices": 4179,
+        "triangles": 7828,
+        "center": {
+          "x": 0.008442416787147522,
+          "y": 0.3871268928050995,
+          "z": 0.03848763555288315
+        },
+        "size": {
+          "x": 0.8032822608947754,
+          "y": 1.0981987714767456,
+          "z": 0.565584659576416
+        }
+      },
+      {
+        "file": "Assets/ArtCapabilityProbe/Rock_A_01.fbx",
+        "name": "Rock_A_02_LOD01",
+        "vertices": 2236,
+        "triangles": 3912,
+        "center": {
+          "x": 0.008442416787147522,
+          "y": 0.3871268928050995,
+          "z": 0.038460634648799896
+        },
+        "size": {
+          "x": 0.8032822608947754,
+          "y": 1.0981987714767456,
+          "z": 0.5655306577682495
+        }
+      },
+      {
+        "file": "Assets/ArtCapabilityProbe/Rock_A_01.fbx",
+        "name": "Rock_A_02_LOD03",
+        "vertices": 645,
+        "triangles": 856,
+        "center": {
+          "x": 0.0053449273109436035,
+          "y": 0.38816505670547485,
+          "z": 0.036173589527606964
+        },
+        "size": {
+          "x": 0.7954050302505493,
+          "y": 1.09612238407135,
+          "z": 0.5555738210678101
+        }
+      },
+      {
+        "file": "Assets/ArtCapabilityProbe/Rock_A_01.fbx",
+        "name": "Rock_A_02_LOD04",
+        "vertices": 386,
+        "triangles": 546,
+        "center": {
+          "x": 0.0053449273109436035,
+          "y": 0.3886687755584717,
+          "z": 0.036173589527606964
+        },
+        "size": {
+          "x": 0.7954050302505493,
+          "y": 1.0951149463653564,
+          "z": 0.5555738210678101
+        }
+      },
+      {
+        "file": "Assets/ArtCapabilityProbe/Rock_A_01.fbx",
+        "name": "Rock_A_02_LOD02",
+        "vertices": 1245,
+        "triangles": 1954,
+        "center": {
+          "x": 0.008444517850875854,
+          "y": 0.38816505670547485,
+          "z": 0.0397353395819664
+        },
+        "size": {
+          "x": 0.8016042113304138,
+          "y": 1.09612238407135,
+          "z": 0.5629812479019165
+        }
+      },
+      {
+        "file": "Assets/ArtCapabilityProbe/Rock_A_02.fbx",
+        "name": "Rock_A_03_LOD01",
+        "vertices": 1225,
+        "triangles": 2200,
+        "center": {
+          "x": -0.047990769147872925,
+          "y": 0.1716695874929428,
+          "z": 0.0018372386693954468
+        },
+        "size": {
+          "x": 0.8018036484718323,
+          "y": 0.33539143204689026,
+          "z": 0.5499145984649658
+        }
+      },
+      {
+        "file": "Assets/ArtCapabilityProbe/Rock_A_02.fbx",
+        "name": "Rock_A_03_LOD00",
+        "vertices": 2345,
+        "triangles": 4405,
+        "center": {
+          "x": -0.04712647199630737,
+          "y": 0.17130878567695618,
+          "z": 0.0018372386693954468
+        },
+        "size": {
+          "x": 0.8039780259132385,
+          "y": 0.3361130356788635,
+          "z": 0.5499145984649658
+        }
+      },
+      {
+        "file": "Assets/ArtCapabilityProbe/Rock_A_02.fbx",
+        "name": "Rock_A_03_LOD02",
+        "vertices": 676,
+        "triangles": 1098,
+        "center": {
+          "x": -0.047990769147872925,
+          "y": 0.17184600234031677,
+          "z": 0.003142327070236206
+        },
+        "size": {
+          "x": 0.8018036484718323,
+          "y": 0.33503860235214233,
+          "z": 0.5473044514656067
+        }
+      },
+      {
+        "file": "Assets/ArtCapabilityProbe/Rock_A_02.fbx",
+        "name": "Rock_A_03_LOD03",
+        "vertices": 319,
+        "triangles": 486,
+        "center": {
+          "x": -0.047990769147872925,
+          "y": 0.17050525546073914,
+          "z": 0.003142237663269043
+        },
+        "size": {
+          "x": 0.8018036484718323,
+          "y": 0.33235710859298706,
+          "z": 0.5473044514656067
+        }
+      }
+    ]
+  },
+  "runs": {
+    "a": {
+      "verification": {
+        "head": "cf1a214a136c6298c0334ff09307b3beb1a40193",
+        "unity_diff_sha256": "c308fdb1e94d44d9e4c3aca1c8de184b2cd8fbdfb02d782671fa7065813f9193",
+        "source_files": {
+          "unity/Assets/RogueTactics/Art/HqRuins/Blue.obj": "c25d669ad1a17e806f7b60b83a32245928b4a81e0a93912a9c535fb1d5a7f538",
+          "unity/Assets/RogueTactics/Art/HqRuins/Cliff.obj": "4636b8055d09acfc6d5e50d251c814bc2c06dd5c96aad5c17aba057d4bb544c2",
+          "unity/Assets/RogueTactics/Art/HqRuins/Courtyard.obj": "1e10beab2e7a3d134064fa5eff1a86412e01f4155b591de68ab6e752da98e12b",
+          "unity/Assets/RogueTactics/Art/HqRuins/Detail.obj": "bbf183571609f34ee69d0dc35e56058c8873e51928fdf18ac7c208db80570523",
+          "unity/Assets/RogueTactics/Art/HqRuins/Distant.obj": "0a82cd8192fd4fa2ec8fcde9f2bb26842ba4f9139e589dc0f3dc629333668abb",
+          "unity/Assets/RogueTactics/Art/HqRuins/Flowers.obj": "268f32aaceaba73e9b2fe27d10bd34ec27a31b609e9d1711f40a9d21441a775a",
+          "unity/Assets/RogueTactics/Art/HqRuins/Foliage.obj": "710847542b5d5e540ee29a4831e6297cee789922d67b29f0b77a541049784cd6",
+          "unity/Assets/RogueTactics/Art/HqRuins/Gold.obj": "98a71c531c5cf6b92411eb2889b9b279f6a5b2868a098c8e71d8f217fda48c97",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.obj": "29e957182bdb04a83441d5ba431e1d093f9521cebaee0212d7076b95a915e25e",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeDetail.obj": "12c35a97644e16346acd71be0f07c57d7a13b5d01a7f9314e74f249af3d5932f",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFlowers.obj": "166b903ad387ef2457cbe962bd460b9e7bcefae685b2bf0dfafcdb9fa0511ca4",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoam.obj": "21620aa32962e3d1cce8fc33a3791cf06655592d5a9e8160a6b2ca79048b6699",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoliage.obj": "03700bbca1ab9d5016ca5e14f27db10781e8087ab4ecea606262e20f3558f990",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeLimestone.obj": "58d337f0470ba2f9a4fef17a7291a917b75291ea8d0a04a2a7a9bdf5c78ba90e",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeWater.obj": "1e92d13b072588f5696273a4e4855312beb6f2c9a43dcb9189479737c03c4938",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedge_provenance.json": "43dadcc05a327f80f32dc6ffbcfb2ff157db65bece8e9b39183a52dcbc10c3eb",
+          "unity/Assets/RogueTactics/Art/HqRuins/Limestone.obj": "68bac484a019b526751edb225a7a0902ddad66bcda0027d01e24f9b0fb548966",
+          "unity/Assets/RogueTactics/Art/HqRuins/Warm.obj": "a5a68d1df19daa6c15ceec06bed4087beba83996aadc04c97e5885eeb6e59b24",
+          "unity/Assets/RogueTactics/Art/HqRuins/Water.obj": "c48427f964501ce18ad19365b2ac85844e5cfec9458b5f73f56ee8934fa27d02",
+          "unity/Assets/RogueTactics/Art/HqRuins/provenance.json": "1a70dbec1bf5fb726e4c2050c1fa072cffcd8c08b12596a98f4fd99adcbe5e94",
+          "unity/Assets/RogueTactics/Art/MobileG1/AuthoredRuins.shader": "54eac6cdb8574caa5fc6cf976e46f3666e7550013218404e7aa80ce029553101",
+          "unity/Assets/RogueTactics/Art/MobileG1/HqSky.shader": "469dfc46d58d92e093b2febe902b4ec718fbdfb1920d789dca4c553bb2aaec32",
+          "unity/Assets/RogueTactics/Art/MobileG1/StaticSkin.shader": "b7190c80e376509ac7cb2ba6fd54561e1e486388115eb2a053e557358a17d40e",
+          "unity/Assets/RogueTactics/Core/G1Battle.cs": "2adfee6c34152df63a9a25221531f81795829919d577925730594fd8a5bfb2f1",
+          "unity/Assets/RogueTactics/Core/GridPosition.cs": "c7f045f52ea00da6daae60939c7a8e1184794c034ea8b61a2289c479c6c21bb0",
+          "unity/Assets/RogueTactics/Editor/ArtCapabilityProbe.cs": "6a7f7ba4f39070765e66f7c6be398a7c5863da5d987da67876ed86d91810440a",
+          "unity/Assets/RogueTactics/Editor/AuthoredRuinsImport.cs": "76e57788d266bfa04e576a09ea811cc4eb1f673f58cc3794cd846232d83c05e0",
+          "unity/Assets/RogueTactics/Editor/DirectedRockSource.cs": "d3aae39a007f70a7323fddde77cec99a56a7bbf11c25896b674029da6ac1819b",
+          "unity/Assets/RogueTactics/Editor/G1Setup.cs": "ab582ac0c48c5d10b652a6a7708b79056c7216c96f8c2a8aa8deacf2f720fcc6",
+          "unity/Assets/RogueTactics/Editor/MobileG1Setup.cs": "c9cb5471a93f224498392449067e1116900307dac215f0c458280648d6a32a69",
+          "unity/Assets/RogueTactics/Editor/Stage0Setup.cs": "14f9a36c43cebcbc26fdc5e1e798bb08e5f27f57213182b9d09c861c831a9b33",
+          "unity/Assets/RogueTactics/Presentation/G1View.cs": "328ddcee9d46df30fe4987ec0ac324d9a360184f02b5d514622734ebf61a11ef",
+          "unity/Assets/RogueTactics/Presentation/HqAmbient.cs": "4fb77deeb841d7357a32bfb4ab8887f2bf8c2983a4d5e283bd46dd2c2937747c",
+          "unity/Assets/RogueTactics/Presentation/HqCamera.cs": "aed8a87c72dea0d038bb16c7c42ddfa40835588328607f921b3f3daaf33a2e6b",
+          "unity/Assets/RogueTactics/Presentation/HqContactShadow.cs": "de447c08670bb6c724af678918bbb94d40fd7b908aa5947981235d417cbb6c03",
+          "unity/Assets/RogueTactics/Presentation/HqCreature.cs": "fb3a8be6b0622c3edbe370427269d8fb03be7d3641ac8b4098d6529ed4e4cd46",
+          "unity/Assets/RogueTactics/Presentation/HqFootBadges.cs": "2c5fcd5cfb3b467b9578ef5dd6853686d5ddcacfd242fa9216abb15f7acb0ece",
+          "unity/Assets/RogueTactics/Presentation/HqFrameMetrics.cs": "3ea28b598a60aaf621c5c56d4004f0edc21f2bb4c16819388d02209d7eb195a0",
+          "unity/Assets/RogueTactics/Presentation/HqKnownPositions.cs": "12d4ac07b6b4a01b0b043b06dcbedda39536be25e873c1c39e0d45b9e6af04ac",
+          "unity/Assets/RogueTactics/Presentation/HqMotion.cs": "67ddbba29b391fac5b5d5899bf29597ff1034258f24dbaf7ec91bc8b30e5c217",
+          "unity/Assets/RogueTactics/Presentation/HqProductHud.cs": "995eb6397a0ed7696ae0cc7939ce7326e374a898bcdfb65a52673863b0845665",
+          "unity/Assets/RogueTactics/Presentation/HqRelations.cs": "8992072881f55a81f9e2928b3d692effe2e3015bd440b1fda5828de036d52a61",
+          "unity/Assets/RogueTactics/Presentation/HqRoute.cs": "28de45517dac327dce222dc16c59e61d4560464a15bb6e3955ae9f9bb4e7a7c3",
+          "unity/Assets/RogueTactics/Presentation/HqSkyRuins.cs": "2c7d7ae33a2a064b8f36cb2c2bb32841aa0607c58a8229f05e05f248bb6ff3ae",
+          "unity/Assets/RogueTactics/Presentation/MobileG1Session.cs": "fd0a2c0932f68104fb5d5b1846535f1a9f64905478070e9eb30d9f6b1edaa7d0",
+          "unity/Assets/RogueTactics/Presentation/MobileG1View.cs": "e50be6533580aefed234a59212c0c70443b58d04844f79222ba0fd94c7cc7dbd",
+          "unity/Assets/RogueTactics/Presentation/Stage0View.cs": "ae3ec1510f7d6e96d3f7e6ee5f30000695023e494d562f71c4f8697149eb3249",
+          "unity/Assets/RogueTactics/Tests/EditMode/G1CoreTests.cs": "7e223b549d520b947810642d07ee3bf440692575da1ba78e99731d4b2b6e7f69",
+          "unity/Assets/RogueTactics/Tests/EditMode/MobileG1SessionTests.cs": "f9ca45ffc81b9996aa40d7ec7c43e5655a48c1ffd5708dd6dcd7e4dd208f5cae",
+          "unity/Assets/RogueTactics/Tests/EditMode/ScaffoldTests.cs": "8bf95d20902252052479e5e543998281afd3682a7803e8a59029f7f0b2a8c76f",
+          "unity/Assets/RogueTactics/Tests/PlayMode/G1InteractionTests.cs": "b79226cc0fbd212bd46a53c3d6fb5181983ce8e0389f20de014c4ad7f8980fd1",
+          "unity/Assets/RogueTactics/Tests/PlayMode/HqPresentationTests.cs": "935b43f18e9a996893a60d5ccb0c0e99a6d7c2ed2374251feef85057a6ed28a8",
+          "unity/Assets/RogueTactics/Tests/PlayMode/MobileG1InteractionTests.cs": "feb0ae5b4a239b22dfba912668a5263728e5514081e4c0f797dc290abd4c2f6f",
+          "unity/Assets/RogueTactics/Tests/PlayMode/PortraitSmokeTests.cs": "2852678be1568dfd456cf5663a3c5941c417294c7d96bc362aeb456cd03e5419"
+        },
+        "editor": "/Applications/Unity/Hub/Editor/6000.3.25f1/Unity.app/Contents/MacOS/Unity",
+        "filter": "RogueTactics.Tests.HqPresentationTests.ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+        "results": {
+          "EditMode": {
+            "exit": 0,
+            "argv": [
+              "/Applications/Unity/Hub/Editor/6000.3.25f1/Unity.app/Contents/MacOS/Unity",
+              "-batchmode",
+              "-projectPath",
+              "/private/tmp/rogue-hq-ref/unity",
+              "-logFile",
+              "/private/tmp/rogue-art-capability/authored-a/EditMode.log",
+              "-runTests",
+              "-testPlatform",
+              "EditMode",
+              "-testResults",
+              "/private/tmp/rogue-art-capability/authored-a/EditMode.xml",
+              "-testFilter",
+              "RogueTactics.Tests.HqPresentationTests.ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes"
+            ],
+            "tests": {
+              "id": "2",
+              "testcasecount": "0",
+              "result": "Passed",
+              "total": "0",
+              "passed": "0",
+              "failed": "0",
+              "inconclusive": "0",
+              "skipped": "0",
+              "asserts": "0",
+              "engine-version": "3.5.0.0",
+              "clr-version": "4.0.30319.42000",
+              "start-time": "2026-10-17 02:11:47Z",
+              "end-time": "2026-10-17 02:11:47Z",
+              "duration": "0.004361"
+            }
+          },
+          "PlayMode": {
+            "exit": 0,
+            "argv": [
+              "/Applications/Unity/Hub/Editor/6000.3.25f1/Unity.app/Contents/MacOS/Unity",
+              "-batchmode",
+              "-projectPath",
+              "/private/tmp/rogue-hq-ref/unity",
+              "-logFile",
+              "/private/tmp/rogue-art-capability/authored-a/PlayMode.log",
+              "-runTests",
+              "-testPlatform",
+              "PlayMode",
+              "-testResults",
+              "/private/tmp/rogue-art-capability/authored-a/PlayMode.xml",
+              "-testFilter",
+              "RogueTactics.Tests.HqPresentationTests.ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes"
+            ],
+            "tests": {
+              "id": "2",
+              "testcasecount": "1",
+              "result": "Passed",
+              "total": "1",
+              "passed": "1",
+              "failed": "0",
+              "inconclusive": "0",
+              "skipped": "0",
+              "asserts": "0",
+              "engine-version": "3.5.0.0",
+              "clr-version": "4.0.30319.42000",
+              "start-time": "2026-10-17 02:12:18Z",
+              "end-time": "2026-10-17 02:13:05Z",
+              "duration": "46.3051153"
+            }
+          }
+        },
+        "physical_device": false,
+        "human_acceptance": false,
+        "configured_scene_sha256": "167e3d2ddd396c20e26b15d04b3868b88e7a904b4c823b0fb927f723de5deec4"
+      },
+      "editability": {
+        "local_edit_changed_vertices": true,
+        "save_reload_controls_equal": true,
+        "reapply_vertices_equal": true,
+        "original_topology_preserved": true,
+        "bounds_valid": true,
+        "vertices": 2345,
+        "triangles": 4405,
+        "phone_art_gate": "NOT_EVALUATED"
+      }
+    },
+    "b": {
+      "verification": {
+        "head": "cf1a214a136c6298c0334ff09307b3beb1a40193",
+        "unity_diff_sha256": "c308fdb1e94d44d9e4c3aca1c8de184b2cd8fbdfb02d782671fa7065813f9193",
+        "source_files": {
+          "unity/Assets/RogueTactics/Art/HqRuins/Blue.obj": "c25d669ad1a17e806f7b60b83a32245928b4a81e0a93912a9c535fb1d5a7f538",
+          "unity/Assets/RogueTactics/Art/HqRuins/Cliff.obj": "4636b8055d09acfc6d5e50d251c814bc2c06dd5c96aad5c17aba057d4bb544c2",
+          "unity/Assets/RogueTactics/Art/HqRuins/Courtyard.obj": "1e10beab2e7a3d134064fa5eff1a86412e01f4155b591de68ab6e752da98e12b",
+          "unity/Assets/RogueTactics/Art/HqRuins/Detail.obj": "bbf183571609f34ee69d0dc35e56058c8873e51928fdf18ac7c208db80570523",
+          "unity/Assets/RogueTactics/Art/HqRuins/Distant.obj": "0a82cd8192fd4fa2ec8fcde9f2bb26842ba4f9139e589dc0f3dc629333668abb",
+          "unity/Assets/RogueTactics/Art/HqRuins/Flowers.obj": "268f32aaceaba73e9b2fe27d10bd34ec27a31b609e9d1711f40a9d21441a775a",
+          "unity/Assets/RogueTactics/Art/HqRuins/Foliage.obj": "710847542b5d5e540ee29a4831e6297cee789922d67b29f0b77a541049784cd6",
+          "unity/Assets/RogueTactics/Art/HqRuins/Gold.obj": "98a71c531c5cf6b92411eb2889b9b279f6a5b2868a098c8e71d8f217fda48c97",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.obj": "29e957182bdb04a83441d5ba431e1d093f9521cebaee0212d7076b95a915e25e",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeDetail.obj": "12c35a97644e16346acd71be0f07c57d7a13b5d01a7f9314e74f249af3d5932f",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFlowers.obj": "166b903ad387ef2457cbe962bd460b9e7bcefae685b2bf0dfafcdb9fa0511ca4",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoam.obj": "21620aa32962e3d1cce8fc33a3791cf06655592d5a9e8160a6b2ca79048b6699",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoliage.obj": "03700bbca1ab9d5016ca5e14f27db10781e8087ab4ecea606262e20f3558f990",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeLimestone.obj": "58d337f0470ba2f9a4fef17a7291a917b75291ea8d0a04a2a7a9bdf5c78ba90e",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeWater.obj": "1e92d13b072588f5696273a4e4855312beb6f2c9a43dcb9189479737c03c4938",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedge_provenance.json": "43dadcc05a327f80f32dc6ffbcfb2ff157db65bece8e9b39183a52dcbc10c3eb",
+          "unity/Assets/RogueTactics/Art/HqRuins/Limestone.obj": "68bac484a019b526751edb225a7a0902ddad66bcda0027d01e24f9b0fb548966",
+          "unity/Assets/RogueTactics/Art/HqRuins/Warm.obj": "a5a68d1df19daa6c15ceec06bed4087beba83996aadc04c97e5885eeb6e59b24",
+          "unity/Assets/RogueTactics/Art/HqRuins/Water.obj": "c48427f964501ce18ad19365b2ac85844e5cfec9458b5f73f56ee8934fa27d02",
+          "unity/Assets/RogueTactics/Art/HqRuins/provenance.json": "1a70dbec1bf5fb726e4c2050c1fa072cffcd8c08b12596a98f4fd99adcbe5e94",
+          "unity/Assets/RogueTactics/Art/MobileG1/AuthoredRuins.shader": "54eac6cdb8574caa5fc6cf976e46f3666e7550013218404e7aa80ce029553101",
+          "unity/Assets/RogueTactics/Art/MobileG1/HqSky.shader": "469dfc46d58d92e093b2febe902b4ec718fbdfb1920d789dca4c553bb2aaec32",
+          "unity/Assets/RogueTactics/Art/MobileG1/StaticSkin.shader": "b7190c80e376509ac7cb2ba6fd54561e1e486388115eb2a053e557358a17d40e",
+          "unity/Assets/RogueTactics/Core/G1Battle.cs": "2adfee6c34152df63a9a25221531f81795829919d577925730594fd8a5bfb2f1",
+          "unity/Assets/RogueTactics/Core/GridPosition.cs": "c7f045f52ea00da6daae60939c7a8e1184794c034ea8b61a2289c479c6c21bb0",
+          "unity/Assets/RogueTactics/Editor/ArtCapabilityProbe.cs": "6a7f7ba4f39070765e66f7c6be398a7c5863da5d987da67876ed86d91810440a",
+          "unity/Assets/RogueTactics/Editor/AuthoredRuinsImport.cs": "76e57788d266bfa04e576a09ea811cc4eb1f673f58cc3794cd846232d83c05e0",
+          "unity/Assets/RogueTactics/Editor/DirectedRockSource.cs": "843fcc5426af1520437ce76e9b9d1c793ec06c90d6efa06d75d8ca6f8396b778",
+          "unity/Assets/RogueTactics/Editor/G1Setup.cs": "ab582ac0c48c5d10b652a6a7708b79056c7216c96f8c2a8aa8deacf2f720fcc6",
+          "unity/Assets/RogueTactics/Editor/MobileG1Setup.cs": "c9cb5471a93f224498392449067e1116900307dac215f0c458280648d6a32a69",
+          "unity/Assets/RogueTactics/Editor/Stage0Setup.cs": "14f9a36c43cebcbc26fdc5e1e798bb08e5f27f57213182b9d09c861c831a9b33",
+          "unity/Assets/RogueTactics/Presentation/G1View.cs": "328ddcee9d46df30fe4987ec0ac324d9a360184f02b5d514622734ebf61a11ef",
+          "unity/Assets/RogueTactics/Presentation/HqAmbient.cs": "4fb77deeb841d7357a32bfb4ab8887f2bf8c2983a4d5e283bd46dd2c2937747c",
+          "unity/Assets/RogueTactics/Presentation/HqCamera.cs": "aed8a87c72dea0d038bb16c7c42ddfa40835588328607f921b3f3daaf33a2e6b",
+          "unity/Assets/RogueTactics/Presentation/HqContactShadow.cs": "de447c08670bb6c724af678918bbb94d40fd7b908aa5947981235d417cbb6c03",
+          "unity/Assets/RogueTactics/Presentation/HqCreature.cs": "fb3a8be6b0622c3edbe370427269d8fb03be7d3641ac8b4098d6529ed4e4cd46",
+          "unity/Assets/RogueTactics/Presentation/HqFootBadges.cs": "2c5fcd5cfb3b467b9578ef5dd6853686d5ddcacfd242fa9216abb15f7acb0ece",
+          "unity/Assets/RogueTactics/Presentation/HqFrameMetrics.cs": "3ea28b598a60aaf621c5c56d4004f0edc21f2bb4c16819388d02209d7eb195a0",
+          "unity/Assets/RogueTactics/Presentation/HqKnownPositions.cs": "12d4ac07b6b4a01b0b043b06dcbedda39536be25e873c1c39e0d45b9e6af04ac",
+          "unity/Assets/RogueTactics/Presentation/HqMotion.cs": "67ddbba29b391fac5b5d5899bf29597ff1034258f24dbaf7ec91bc8b30e5c217",
+          "unity/Assets/RogueTactics/Presentation/HqProductHud.cs": "995eb6397a0ed7696ae0cc7939ce7326e374a898bcdfb65a52673863b0845665",
+          "unity/Assets/RogueTactics/Presentation/HqRelations.cs": "8992072881f55a81f9e2928b3d692effe2e3015bd440b1fda5828de036d52a61",
+          "unity/Assets/RogueTactics/Presentation/HqRoute.cs": "28de45517dac327dce222dc16c59e61d4560464a15bb6e3955ae9f9bb4e7a7c3",
+          "unity/Assets/RogueTactics/Presentation/HqSkyRuins.cs": "2c7d7ae33a2a064b8f36cb2c2bb32841aa0607c58a8229f05e05f248bb6ff3ae",
+          "unity/Assets/RogueTactics/Presentation/MobileG1Session.cs": "fd0a2c0932f68104fb5d5b1846535f1a9f64905478070e9eb30d9f6b1edaa7d0",
+          "unity/Assets/RogueTactics/Presentation/MobileG1View.cs": "e50be6533580aefed234a59212c0c70443b58d04844f79222ba0fd94c7cc7dbd",
+          "unity/Assets/RogueTactics/Presentation/Stage0View.cs": "ae3ec1510f7d6e96d3f7e6ee5f30000695023e494d562f71c4f8697149eb3249",
+          "unity/Assets/RogueTactics/Tests/EditMode/G1CoreTests.cs": "7e223b549d520b947810642d07ee3bf440692575da1ba78e99731d4b2b6e7f69",
+          "unity/Assets/RogueTactics/Tests/EditMode/MobileG1SessionTests.cs": "f9ca45ffc81b9996aa40d7ec7c43e5655a48c1ffd5708dd6dcd7e4dd208f5cae",
+          "unity/Assets/RogueTactics/Tests/EditMode/ScaffoldTests.cs": "8bf95d20902252052479e5e543998281afd3682a7803e8a59029f7f0b2a8c76f",
+          "unity/Assets/RogueTactics/Tests/PlayMode/G1InteractionTests.cs": "b79226cc0fbd212bd46a53c3d6fb5181983ce8e0389f20de014c4ad7f8980fd1",
+          "unity/Assets/RogueTactics/Tests/PlayMode/HqPresentationTests.cs": "935b43f18e9a996893a60d5ccb0c0e99a6d7c2ed2374251feef85057a6ed28a8",
+          "unity/Assets/RogueTactics/Tests/PlayMode/MobileG1InteractionTests.cs": "feb0ae5b4a239b22dfba912668a5263728e5514081e4c0f797dc290abd4c2f6f",
+          "unity/Assets/RogueTactics/Tests/PlayMode/PortraitSmokeTests.cs": "2852678be1568dfd456cf5663a3c5941c417294c7d96bc362aeb456cd03e5419"
+        },
+        "editor": "/Applications/Unity/Hub/Editor/6000.3.25f1/Unity.app/Contents/MacOS/Unity",
+        "filter": "RogueTactics.Tests.HqPresentationTests.ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+        "results": {
+          "EditMode": {
+            "exit": 0,
+            "argv": [
+              "/Applications/Unity/Hub/Editor/6000.3.25f1/Unity.app/Contents/MacOS/Unity",
+              "-batchmode",
+              "-projectPath",
+              "/private/tmp/rogue-hq-ref/unity",
+              "-logFile",
+              "/private/tmp/rogue-art-capability/authored-b/EditMode.log",
+              "-runTests",
+              "-testPlatform",
+              "EditMode",
+              "-testResults",
+              "/private/tmp/rogue-art-capability/authored-b/EditMode.xml",
+              "-testFilter",
+              "RogueTactics.Tests.HqPresentationTests.ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes"
+            ],
+            "tests": {
+              "id": "2",
+              "testcasecount": "0",
+              "result": "Passed",
+              "total": "0",
+              "passed": "0",
+              "failed": "0",
+              "inconclusive": "0",
+              "skipped": "0",
+              "asserts": "0",
+              "engine-version": "3.5.0.0",
+              "clr-version": "4.0.30319.42000",
+              "start-time": "2026-10-17 02:16:14Z",
+              "end-time": "2026-10-17 02:16:14Z",
+              "duration": "0.0028454"
+            }
+          },
+          "PlayMode": {
+            "exit": 0,
+            "argv": [
+              "/Applications/Unity/Hub/Editor/6000.3.25f1/Unity.app/Contents/MacOS/Unity",
+              "-batchmode",
+              "-projectPath",
+              "/private/tmp/rogue-hq-ref/unity",
+              "-logFile",
+              "/private/tmp/rogue-art-capability/authored-b/PlayMode.log",
+              "-runTests",
+              "-testPlatform",
+              "PlayMode",
+              "-testResults",
+              "/private/tmp/rogue-art-capability/authored-b/PlayMode.xml",
+              "-testFilter",
+              "RogueTactics.Tests.HqPresentationTests.ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes"
+            ],
+            "tests": {
+              "id": "2",
+              "testcasecount": "1",
+              "result": "Passed",
+              "total": "1",
+              "passed": "1",
+              "failed": "0",
+              "inconclusive": "0",
+              "skipped": "0",
+              "asserts": "0",
+              "engine-version": "3.5.0.0",
+              "clr-version": "4.0.30319.42000",
+              "start-time": "2026-10-17 02:16:37Z",
+              "end-time": "2026-10-17 02:17:22Z",
+              "duration": "45.8191632"
+            }
+          }
+        },
+        "physical_device": false,
+        "human_acceptance": false,
+        "configured_scene_sha256": "167e3d2ddd396c20e26b15d04b3868b88e7a904b4c823b0fb927f723de5deec4"
+      },
+      "editability": {
+        "invalid_radius_refused_without_mutation": true,
+        "save_reload_orientation_and_vertices_equal": true,
+        "original_topology_preserved": true,
+        "gui_preview_drag_undo": "NOT_YET_OBSERVED",
+        "phone_art_gate": "NOT_EVALUATED"
+      }
+    }
+  },
+  "phone_art_decision": {
+    "a": "FAIL: rounded continuous brown boulder, no readable limestone strata/fracture silhouette",
+    "b": "FAIL: rotated fracture surface still not phone-readable as strata; unsupported ivy fragments visible",
+    "independent_local_image_review": "A and B rejected; no actor/HP interference observed",
+    "human_or_webgpt_pixel_review": false
+  },
+  "editability_scope": {
+    "programmatic_local_edit_and_save_reload": "PASS in A; B rejects invalid radius without mutation and preserves reloaded orientation/vertices/topology",
+    "scene_handle_drag_undo_save_reopen": "UNVERIFIED; helper preview/Undo path was implemented but not directly operated before phone art rejection",
+    "production_capability": "NOT_ESTABLISHED; an editable data format and imported rock are insufficient"
+  },
+  "candidate_comparisons": {
+    "a": [
+      {
+        "stage": "r1-setup",
+        "files": [
+          {
+            "path": "/private/tmp/rogue-hq-pass5/control-images/r1-setup.png",
+            "sha256": "9b6cecbfbd32b85ada00da8e1de2d3ec045b3b302da29383117a61bef75b1256"
+          },
+          {
+            "path": "/private/tmp/rogue-art-capability/authored-a-images/r1-setup.png",
+            "sha256": "d9db55481a032aa679dc5ee64c8bd294c566b9bbdea99378bcf2893c3effbc19"
+          }
+        ],
+        "difference_bounds": [
+          9,
+          127,
+          377,
+          596
+        ],
+        "note": "Ambient animation time is not locked; diff is not an art-quality metric."
+      },
+      {
+        "stage": "ProtectAnchor-guard",
+        "files": [
+          {
+            "path": "/private/tmp/rogue-hq-pass5/control-images/ProtectAnchor-guard.png",
+            "sha256": "a618bd7088a31f07bf3c1956c09d13d4083f4659f833293e704d5ad5ed616203"
+          },
+          {
+            "path": "/private/tmp/rogue-art-capability/authored-a-images/ProtectAnchor-guard.png",
+            "sha256": "28bd5abed7ff00ade228f6e4501a16b1904fbed2fd8a631975e7b9eb259b59c3"
+          }
+        ],
+        "difference_bounds": [
+          7,
+          169,
+          381,
+          596
+        ],
+        "note": "Ambient animation time is not locked; diff is not an art-quality metric."
+      },
+      {
+        "stage": "ProtectAnchor-heal",
+        "files": [
+          {
+            "path": "/private/tmp/rogue-hq-pass5/control-images/ProtectAnchor-heal.png",
+            "sha256": "0d66813c2bbd46e3bd2134ef938172a03c2423ce9e2cb376b894caebf5aafa9a"
+          },
+          {
+            "path": "/private/tmp/rogue-art-capability/authored-a-images/ProtectAnchor-heal.png",
+            "sha256": "65473f258f6721f5b9559f05e783f585aecfd73c50793c55b372a3961fd079ae"
+          }
+        ],
+        "difference_bounds": [
+          7,
+          129,
+          378,
+          596
+        ],
+        "note": "Ambient animation time is not locked; diff is not an art-quality metric."
+      },
+      {
+        "stage": "DirectAttack-counter",
+        "files": [
+          {
+            "path": "/private/tmp/rogue-hq-pass5/control-images/DirectAttack-counter.png",
+            "sha256": "4697d7042d4ac53c96a01b2baa69f846766233a2cba1fa22f74052ba459710cc"
+          },
+          {
+            "path": "/private/tmp/rogue-art-capability/authored-a-images/DirectAttack-counter.png",
+            "sha256": "7dca7b27cc2ba68c93ae7792ebec7e0da6f7d028faef5937cc791f912f657933"
+          }
+        ],
+        "difference_bounds": [
+          7,
+          133,
+          380,
+          596
+        ],
+        "note": "Ambient animation time is not locked; diff is not an art-quality metric."
+      },
+      {
+        "stage": "DirectAttack-death",
+        "files": [
+          {
+            "path": "/private/tmp/rogue-hq-pass5/control-images/DirectAttack-death.png",
+            "sha256": "c2d60119d098d9e87f8cdd6b234d2c511b71415e9ebb95dafdd9b00ca35da9c6"
+          },
+          {
+            "path": "/private/tmp/rogue-art-capability/authored-a-images/DirectAttack-death.png",
+            "sha256": "7b576aedb924233eeceb14d1d4ce1f9a7d92841b7af58f65418061fcfd579048"
+          }
+        ],
+        "difference_bounds": [
+          7,
+          125,
+          381,
+          596
+        ],
+        "note": "Ambient animation time is not locked; diff is not an art-quality metric."
+      },
+      {
+        "stage": "ProtectAnchor-comparison",
+        "files": [
+          {
+            "path": "/private/tmp/rogue-hq-pass5/control-images/ProtectAnchor-comparison.png",
+            "sha256": "242d83c9ae59088457b04c2380de47ff2d3bea6fbbb73a4ed3b32c24761a4ac7"
+          },
+          {
+            "path": "/private/tmp/rogue-art-capability/authored-a-images/ProtectAnchor-comparison.png",
+            "sha256": "a6c180618305210190ace25243c5bfa06e3794f9df96e833da37f75fc8c71a9c"
+          }
+        ],
+        "difference_bounds": [
+          9,
+          385,
+          10,
+          410
+        ],
+        "note": "Ambient animation time is not locked; diff is not an art-quality metric."
+      },
+      {
+        "stage": "DirectAttack-comparison",
+        "files": [
+          {
+            "path": "/private/tmp/rogue-hq-pass5/control-images/DirectAttack-comparison.png",
+            "sha256": "2e92d50ba66b837b2df0caab99370a15a0ae87ad8ad9e6b11cc5c9ea34b0667a"
+          },
+          {
+            "path": "/private/tmp/rogue-art-capability/authored-a-images/DirectAttack-comparison.png",
+            "sha256": "926aeb3e468acf903739d02d00cf03fc6c382ef76466c610d3b72d7e8dd06863"
+          }
+        ],
+        "difference_bounds": [
+          7,
+          347,
+          378,
+          790
+        ],
+        "note": "Ambient animation time is not locked; diff is not an art-quality metric."
+      }
+    ],
+    "b": [
+      {
+        "stage": "r1-setup",
+        "files": [
+          {
+            "path": "/private/tmp/rogue-hq-pass5/control-images/r1-setup.png",
+            "sha256": "9b6cecbfbd32b85ada00da8e1de2d3ec045b3b302da29383117a61bef75b1256"
+          },
+          {
+            "path": "/private/tmp/rogue-art-capability/authored-b-images/r1-setup.png",
+            "sha256": "fd586da7488e52498961bdde37e62f1a08501970a4a86461677e55cbc088a30e"
+          }
+        ],
+        "difference_bounds": [
+          7,
+          126,
+          381,
+          596
+        ],
+        "note": "Ambient animation time is not locked; diff is not an art-quality metric."
+      },
+      {
+        "stage": "ProtectAnchor-guard",
+        "files": [
+          {
+            "path": "/private/tmp/rogue-hq-pass5/control-images/ProtectAnchor-guard.png",
+            "sha256": "a618bd7088a31f07bf3c1956c09d13d4083f4659f833293e704d5ad5ed616203"
+          },
+          {
+            "path": "/private/tmp/rogue-art-capability/authored-b-images/ProtectAnchor-guard.png",
+            "sha256": "b1f96e466a894c39f1d98cfcf04e9170edb2e1fe850d616921d73b74706b3814"
+          }
+        ],
+        "difference_bounds": [
+          7,
+          126,
+          381,
+          596
+        ],
+        "note": "Ambient animation time is not locked; diff is not an art-quality metric."
+      },
+      {
+        "stage": "ProtectAnchor-heal",
+        "files": [
+          {
+            "path": "/private/tmp/rogue-hq-pass5/control-images/ProtectAnchor-heal.png",
+            "sha256": "0d66813c2bbd46e3bd2134ef938172a03c2423ce9e2cb376b894caebf5aafa9a"
+          },
+          {
+            "path": "/private/tmp/rogue-art-capability/authored-b-images/ProtectAnchor-heal.png",
+            "sha256": "03111d216c7ed1f6f967261edf2c21a3cff3c69221b2f672cf49a0d367457e0a"
+          }
+        ],
+        "difference_bounds": [
+          7,
+          126,
+          381,
+          596
+        ],
+        "note": "Ambient animation time is not locked; diff is not an art-quality metric."
+      },
+      {
+        "stage": "DirectAttack-counter",
+        "files": [
+          {
+            "path": "/private/tmp/rogue-hq-pass5/control-images/DirectAttack-counter.png",
+            "sha256": "4697d7042d4ac53c96a01b2baa69f846766233a2cba1fa22f74052ba459710cc"
+          },
+          {
+            "path": "/private/tmp/rogue-art-capability/authored-b-images/DirectAttack-counter.png",
+            "sha256": "b4fc31f027b38fd7b2acd0db9a43d7ccd00751ffe04fa267fd11f7a20c623bb9"
+          }
+        ],
+        "difference_bounds": [
+          7,
+          124,
+          381,
+          596
+        ],
+        "note": "Ambient animation time is not locked; diff is not an art-quality metric."
+      },
+      {
+        "stage": "DirectAttack-death",
+        "files": [
+          {
+            "path": "/private/tmp/rogue-hq-pass5/control-images/DirectAttack-death.png",
+            "sha256": "c2d60119d098d9e87f8cdd6b234d2c511b71415e9ebb95dafdd9b00ca35da9c6"
+          },
+          {
+            "path": "/private/tmp/rogue-art-capability/authored-b-images/DirectAttack-death.png",
+            "sha256": "67daf74854c9882977949d56dc596919940fdde93b0dc6ec8a70032b3d209f7a"
+          }
+        ],
+        "difference_bounds": [
+          7,
+          125,
+          381,
+          596
+        ],
+        "note": "Ambient animation time is not locked; diff is not an art-quality metric."
+      },
+      {
+        "stage": "ProtectAnchor-comparison",
+        "files": [
+          {
+            "path": "/private/tmp/rogue-hq-pass5/control-images/ProtectAnchor-comparison.png",
+            "sha256": "242d83c9ae59088457b04c2380de47ff2d3bea6fbbb73a4ed3b32c24761a4ac7"
+          },
+          {
+            "path": "/private/tmp/rogue-art-capability/authored-b-images/ProtectAnchor-comparison.png",
+            "sha256": "7b0b8060298e7d650bf0c3e9a79f4745909b38f179c60a1a99803afde552160a"
+          }
+        ],
+        "difference_bounds": [
+          7,
+          346,
+          378,
+          790
+        ],
+        "note": "Ambient animation time is not locked; diff is not an art-quality metric."
+      },
+      {
+        "stage": "DirectAttack-comparison",
+        "files": [
+          {
+            "path": "/private/tmp/rogue-hq-pass5/control-images/DirectAttack-comparison.png",
+            "sha256": "2e92d50ba66b837b2df0caab99370a15a0ae87ad8ad9e6b11cc5c9ea34b0667a"
+          },
+          {
+            "path": "/private/tmp/rogue-art-capability/authored-b-images/DirectAttack-comparison.png",
+            "sha256": "872998118de936c980ec84d2b58b9693e16798287e7cbdad09d7f9f28b365fbc"
+          }
+        ],
+        "difference_bounds": [
+          7,
+          282,
+          381,
+          387
+        ],
+        "note": "Ambient animation time is not locked; diff is not an art-quality metric."
+      }
+    ]
+  },
+  "canonical_comparison": {
+    "path": "/private/tmp/rogue-art-capability/canonical-control-a-b.png",
+    "sha256": "311600f6e0eadd3a617fcf1b0f05554435f71b6ddd1d8917d6e77dff80c35681",
+    "original_file_sha256": "99a76f33c60e74d7fd890e9cf188531280e030e58a5893bafd90899ea2b965b8",
+    "original_decoded_rgb_reference_sha256": "fd52b3654adc91c3e086b21cc83a4d9cb1d2057a5cd527b0fbc5cbb3a15a3ce4",
+    "display": "Each image390px width, original aspect ratio, no crop/stretch"
+  },
+  "private_editable_source": {
+    "path": "/private/tmp/rogue-art-capability/editable-source-probe",
+    "files_sha256": {
+      "Assets/ArtCapabilityProbe/DirectedCliff.asset": "ea2c9a9f9f1005e0aac5a27e3959d7e6ca9683bbaee00ef786d940163150e5e7",
+      "Assets/ArtCapabilityProbe/DirectedCliff.asset.meta": "b3b4ea3c4d6ae7ec91d019ce4c1b3cff1d6311c02977aa8eb58667245f62529b",
+      "Assets/ArtCapabilityProbe/DirectedRockSource.asset": "539ae38154798f8127884d34e3afab2d025c73804af5104161dc31fc9dfbd85b",
+      "Assets/ArtCapabilityProbe/DirectedRockSource.asset.meta": "23f76bd9f0ca236a4cad82144a6e4a61695d70da89b20d3c3091197ff3e8dc65",
+      "Assets/ArtCapabilityProbe/LICENSE.md": "364b0c08b7fe15b70c4777dccb26fc21d02ae831c2f707dbe29879ac15ece353",
+      "Assets/ArtCapabilityProbe/LICENSE.md.meta": "735a5c1432e55d6166f33c39e6e71266837ee141c231386bef44765e5ce55d44",
+      "Assets/ArtCapabilityProbe/Rock_A_01.fbx": "a89a0f2fbaf515dca9dd15618f80a643e2043f4f6710d39694466e5d9fbbbd80",
+      "Assets/ArtCapabilityProbe/Rock_A_01.fbx.meta": "6041d0d7dde9147cb49c3ed3cafff0439a4ce62ba63abea35d71d77d02623078",
+      "Assets/ArtCapabilityProbe/Rock_A_02.fbx": "720bffe56fe18225bd7c55c438b7c3569533eb11f1181c6dd8db98d7563ef562",
+      "Assets/ArtCapabilityProbe/Rock_A_02.fbx.meta": "1fc1f8e965df37303b69117613bb420a6ac3938541fde5d0f0b00289ef75e978",
+      "Assets/ArtCapabilityProbe.meta": "0729ba224ce5278b2eb5754d7078320f532c864a0d0f5ee2eca6952bf4233b8e",
+      "Assets/RogueTactics/Editor/ArtCapabilityProbe.cs": "6a7f7ba4f39070765e66f7c6be398a7c5863da5d987da67876ed86d91810440a",
+      "Assets/RogueTactics/Editor/ArtCapabilityProbe.cs.meta": "7a96c6e783d39d795226df75d3e8b5d4adf3de592793505334232b0b90a40886",
+      "Assets/RogueTactics/Editor/DirectedRockSource.cs": "843fcc5426af1520437ce76e9b9d1c793ec06c90d6efa06d75d8ca6f8396b778",
+      "Assets/RogueTactics/Editor/DirectedRockSource.cs.meta": "4c7de2d97f8c3f266a8345a7b6e1f158b70a55c9d0a4971c7e3c3c3fa7ad0995",
+      "MobileG1-candidate-b.unity": "167e3d2ddd396c20e26b15d04b3868b88e7a904b4c823b0fb927f723de5deec4"
+    },
+    "original_sculpt_owner": "Unity sample Work; derivative rights subject to Unity Companion License; not claimed original project sculpt"
+  },
+  "retained_validation": {
+    "all_prior_tested_cs_shader_obj_provenance_hashes_match": true,
+    "skin_sha256": {
+      "garu.png": "04051f21042b365c767124f4931f8189502a24eab9896089e8850b3e8e76c015",
+      "momo.png": "d8f62c2299c2772ce21ded771ec2faf6c50f9d18d4f585ba2fe7a63d698daa74",
+      "myaru.png": "3f064518faf44e308614ddaaaa81eb108d909c116e0a0a21cadf8d33e64a8fd5",
+      "shiro.png": "5f9bd5d0f8f7569987f0df3393d2236a032b75091e7af9c6f10ba17b3c7a7c73"
+    },
+    "core_tree": "50274c84cb56344d1394b4283833728c72cd7577",
+    "tests_tree": "1ecdc31db505a03310095886d5d2a3e363be797c",
+    "full_hashes": {
+      "ProtectAnchor": "e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d",
+      "DirectAttack": "85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e"
+    },
+    "full_suite_this_gate": "NOT_RUN: candidates rejected, production restored byte-for-byte; prior retained-source14/14 and9/9 remain explicitly prior evidence",
+    "previous_full_suite": "pass5-source-verification.json"
+  },
+  "new_simulator_testflight_or_physical_device": false,
+  "new_tool_install_or_package": false,
+  "purchases_or_commissions": false,
+  "external_private_image_transmission": false,
+  "private_media_publication": false,
+  "direct_cross_session_media_sharing": false,
+  "limitations": [
+    "Negative tool/source search covers specified roots/PATH/packages, not every possible Mac location",
+    "Preserving sculpted topology and four smooth local deformations did not create required fractured limestone form",
+    "GUI editing workflow is unverified",
+    "Original artist/Human aesthetic acceptance remains pending"
+  ]
+}

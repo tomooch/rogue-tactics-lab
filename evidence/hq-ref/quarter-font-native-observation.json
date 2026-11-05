@@ -1,0 +1,123 @@
+{
+  "source_head": "8c71051e567cc4371e3e1d6f6ade0973daba75d5",
+  "unity": "6000.3.25f1",
+  "platform": "iOS27.0 Simulator, dedicated Rogue Tactics G1 QA",
+  "simulator_id": "48E63FF9-C98B-4424-B3F0-47CD7007DF16",
+  "physical_device": false,
+  "export_exit": 0,
+  "first_export_guard": "Failed on automatically regenerated icon metadata; reviewed exact differences, preserved patches, restored all5 generated settings; no code/skin/font change.",
+  "build_exit": 0,
+  "install_and_launch": "Observed successful through XcodeBuildMCP and actual screenshot. AX snapshot timeout and CUA display-name resolution failure recorded; interacted through existing Device Hub QA row.",
+  "app_binary_sha256": "e8aa42ae8b1cdecee4781ea349f7c8438c8335f8ad74ace3e76bb01564a33392",
+  "fixed_hashes_observed_in_native_log": {
+    "ProtectAnchor": "e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d",
+    "DirectAttack": "85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e"
+  },
+  "observations": [
+    "Japanese title, HP, action receipts and controls readable in actual Simulator.",
+    "Japanese keyboard composing か; selected displayed candidate かつ; Return dismissed keyboard and restored prediction position; Protect comparison retains exact かつ.",
+    "Protect observed 14 actions, alive4, HP16/16/12/10, heals0; pause/resume and close/initial retry observed.",
+    "Attack preference selected on same initial fixture; movement then X attack -6 observed live. End and both-condition comparison show14 actions, alive3, HP0/16/12/10, heals1.",
+    "No new clipped/corrupt Japanese glyph observed in checked setup/input/action/comparison.",
+    "R2 V0 remains FAIL; no Human fun or physical-iPhone claim."
+  ],
+  "pause_visible_check": {
+    "seconds_between_captures": 20.891038179397583,
+    "image_size": [
+      1206,
+      2622
+    ],
+    "roster_caption_transport_roi": [
+      0,
+      1888,
+      1206,
+      2491
+    ],
+    "roi_identical": true,
+    "limitation": "Proves stable visible roster/caption/transport over observed interval, not a hidden Core cursor assertion"
+  },
+  "captures": {
+    "attack-progress.png": {
+      "sha256": "8b48dc42f523c55f6297568fc0c213bf4d40364863a7a733abc6d5e8c44b824d",
+      "bytes": 1945802
+    },
+    "both-comparison.png": {
+      "sha256": "b8ac7ca8c06913675b3967a8bba728f049142979b5e0b0fd29b333f9dd12f7d5",
+      "bytes": 495684
+    },
+    "ime-committed-restored.png": {
+      "sha256": "b0de263a430cf88aa9d33e85491f3a31429b71607bb1860bf1beecf57d88780e",
+      "bytes": 1983250
+    },
+    "ime-composing.png": {
+      "sha256": "644bb98bc3422dc622fd83eb05697f8f6dd0642ac5cb0a4db50e7ace9454ea0d",
+      "bytes": 1810971
+    },
+    "protect-comparison.png": {
+      "sha256": "2b6d14bd13958e1e4081366829962e876eff16fb6960cebd8a05361122004059",
+      "bytes": 374071
+    },
+    "protect-paused-a.png": {
+      "sha256": "dc520c53e27c91b2581a957c8ecba8578a704a3d660e34f2164059a998e4c825",
+      "bytes": 1987954
+    },
+    "protect-paused-b.png": {
+      "sha256": "c5839a48c62f7c8e81263fd52f1698a474146c1039f474b27c672f57e51713f1",
+      "bytes": 1988698
+    },
+    "protect-resumed.png": {
+      "sha256": "033a76375dffdb59601c5474e8c177cb16af780143a1d11ce75c27475854ecf5",
+      "bytes": 2004722
+    },
+    "setup.png": {
+      "sha256": "2e3fc60d9054849b629771aba284fd3788de01f76753e2ed21f6a1c94da808c1",
+      "bytes": 1990072
+    }
+  },
+  "runtime_log_sha256": "8b8d2d7a318d12e0d5d1a9610c10fdccce7cf7e21b299679318e2d1da8537a17",
+  "video": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 1206,
+        "height": 2622,
+        "avg_frame_rate": "557880/9293",
+        "nb_frames": "4649"
+      }
+    ],
+    "format": {
+      "duration": "77.440000",
+      "size": "101041304"
+    },
+    "sha256": "e6dd3492524d23ba01eb0ae895ec9bb581a583bbe561b61c435b0ae444febe25"
+  },
+  "normal_speed_playback": {
+    "player": "QuickTime Player, actual owner-local attack-native.mp4 opened",
+    "observed_playheads_seconds": [
+      16.338989,
+      42.038857,
+      18.381363,
+      36.081934,
+      51.740132
+    ],
+    "observations": "Actual play mode on while clock advanced; setup to live battle, later A5/Y1 and then three survivors/end observed. Live UI also observed Move then X attack and post-pause HP changes.",
+    "limits": "Bounded normal playback observations, not continuous per-frame visual inspection of all4649frames."
+  },
+  "media_location": "_userwork/hq-evidence/2026-10-23-b-quarter-view/font-native-observation/",
+  "media_uploaded": false,
+  "cross_session_media_sharing_established": false,
+  "testflight_archive_upload_distribution": false,
+  "human_criterion_choice": "pending; no answer inferred",
+  "all_generated_settings_restored": true,
+  "local_simulator_app_version": {
+    "CFBundleShortVersionString": "0.1.0",
+    "CFBundleVersion": "5",
+    "limitation": "Existing local QA version metadata only; freshly compiled source8c71051, not an App Store Connect upload or new TestFlight build."
+  },
+  "runtime_log_warning": {
+    "observed": "IOSurfaceClientSetSurfaceNotify failed e00002c7",
+    "status": "Undiagnosed platform/runtime warning retained in raw log. Both tested flows reached expected outcomes; no observed glyph corruption/crash in those checks. No error-free-log claim."
+  }
+}

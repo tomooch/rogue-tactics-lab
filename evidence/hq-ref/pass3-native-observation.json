@@ -1,0 +1,153 @@
+{
+  "source_commit": "9e5fd06eda2c1fe11cf883335c316b988a3f1845",
+  "unity": "6000.3.25f1",
+  "simulator": "Rogue Tactics G1 QA iOS27.0",
+  "simulator_id": "48E63FF9-C98B-4424-B3F0-47CD7007DF16",
+  "install_launch": "PASS",
+  "native_full_hashes": {
+    "ProtectAnchor": "e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d",
+    "DirectAttack": "85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e"
+  },
+  "frame_metrics_in_trial_order": [
+    {
+      "runtime": "Unity native player",
+      "unity": "6000.3.25f1",
+      "graphics": "Metal",
+      "samples": 1327,
+      "p50_ms": 16.66683006286621,
+      "p95_ms": 17.231874465942383,
+      "reduced_effects": false,
+      "limitation": "Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"
+    },
+    {
+      "runtime": "Unity native player",
+      "unity": "6000.3.25f1",
+      "graphics": "Metal",
+      "samples": 1281,
+      "p50_ms": 16.666000366210938,
+      "p95_ms": 17.27132797241211,
+      "reduced_effects": false,
+      "limitation": "Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"
+    }
+  ],
+  "media": [
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/simulator/protect-full-pause.mp4",
+      "sha256": "303455edf6495e17272db1d7cac1491c9a869203fd698a3f479718ee8875b75c",
+      "bytes": 63587524,
+      "video": {
+        "width": 1206,
+        "height": 2622,
+        "r_frame_rate": "60000/1001",
+        "avg_frame_rate": "664400/11069",
+        "duration": "55.333333",
+        "nb_frames": "3322"
+      }
+    },
+    {
+      "owner_local_path": "/private/tmp/rogue-hq-pass3/simulator/attack-full.mp4",
+      "sha256": "7afacdcc5361210931409cee2a8099fe1952ec8de89ae5d36137a48266c30cee",
+      "bytes": 35947729,
+      "video": {
+        "width": 1206,
+        "height": 2622,
+        "r_frame_rate": "60/1",
+        "avg_frame_rate": "46825/774",
+        "duration": "30.956667",
+        "nb_frames": "1873"
+      }
+    }
+  ],
+  "protect": {
+    "actions": 14,
+    "alive": 4,
+    "hp": [
+      16,
+      16,
+      12,
+      10
+    ],
+    "heals_left": 0,
+    "pause_hold": "A13/X5/Y12 and same receipt held from video8s through26s; resumed to terminal"
+  },
+  "attack": {
+    "actions": 14,
+    "alive": 3,
+    "hp": [
+      0,
+      16,
+      12,
+      10
+    ],
+    "heals_left": 1,
+    "prediction": "aattackcheck",
+    "prediction_saved_in_comparison": true
+  },
+  "ui": "Comparison modal/retry/initial reset/input IME confirm/Start redisplay observed. Current IME literal differs from typed English; only entered/confirmed text retention is claimed.",
+  "warnings": [
+    "ASTC6x6 unsupported on Simulator; decompressed texture (2 warnings)",
+    "URP shadowmap RenderTexture depth fallback to16bit"
+  ],
+  "physical_device": false,
+  "human_acceptance": false,
+  "testflight_new_upload": false,
+  "apple_build5_source": "d5e8e08; this is a local development build with same number5, not that uploaded binary",
+  "public_media": false,
+  "remote_media_access": false,
+  "notion": {
+    "initial_pass3_todo_and_lesson": "synced and read back",
+    "final_native_todo": "update tool returned success",
+    "final_native_lesson": "not executed: automatic approval review usage limit"
+  },
+  "simulator_build_evidence": {
+    "source_head": "9e5fd06eda2c1fe11cf883335c316b988a3f1845",
+    "unity": "6000.3.25f1",
+    "bundle_id": "com.tomooch.roguetacticslab",
+    "build_number": "5 local development only; not uploaded",
+    "steps": {
+      "export": {
+        "argv": [
+          "/Applications/Unity/Hub/Editor/6000.3.25f1/Unity.app/Contents/MacOS/Unity",
+          "-batchmode",
+          "-quit",
+          "-projectPath",
+          "/private/tmp/rogue-hq-ref/unity",
+          "-buildTarget",
+          "iOS",
+          "-executeMethod",
+          "RogueTactics.Editor.MobileG1Setup.ExportIosSimulator",
+          "-logFile",
+          "/private/tmp/rogue-hq-pass3/simulator/export.log"
+        ],
+        "exit": 0
+      },
+      "build": {
+        "argv": [
+          "xcodebuild",
+          "-project",
+          "/private/tmp/rogue-hq-ref/build/ios-simulator/Unity-iPhone.xcodeproj",
+          "-scheme",
+          "Unity-iPhone",
+          "-configuration",
+          "Debug",
+          "-sdk",
+          "iphonesimulator",
+          "-destination",
+          "generic/platform=iOS Simulator",
+          "-derivedDataPath",
+          "/private/tmp/rogue-hq-ref/build/sim-derived",
+          "-jobs",
+          "2",
+          "ARCHS=arm64",
+          "CODE_SIGNING_ALLOWED=NO",
+          "build"
+        ],
+        "exit": 0
+      }
+    },
+    "physical_device": false,
+    "human_acceptance": false,
+    "testflight_upload": false,
+    "app_path": "/private/tmp/rogue-hq-ref/build/sim-derived/Build/Products/Debug-iphonesimulator/RogueTacticsLab.app"
+  }
+}

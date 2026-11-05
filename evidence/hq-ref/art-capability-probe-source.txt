@@ -1,0 +1,215 @@
+UNADOPTED OWNER-LOCAL CAPABILITY PROBE — NOT COMPILED PRODUCT CODE
+Authority: PR21 review5555468771; verdict BLOCKED_ART_CAPABILITY.
+Source geometry is NOT included here. Existing cached Unity ShaderGraph rock FBX remains subject to Unity Companion License.
+Code below authored for the probe; GUI editing was NOT operated/validated.
+
+===== ArtCapabilityProbe.cs (final B probe version) =====
+using System;
+using System.IO;
+using System.Linq;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+
+namespace RogueTactics.Editor
+{
+    // Temporary, owner-local inspection of already-cached licensed meshes, not an art-quality gate.
+    public static class ArtCapabilityProbe
+    {
+        [Serializable] private class MeshRecord { public string file,name; public int vertices,triangles; public Vector3 center,size; }
+        [Serializable] private class Report { public string unity; public List<MeshRecord> meshes=new List<MeshRecord>(); }
+        public static void Inspect()
+        {
+            const string output="/private/tmp/rogue-art-capability/source-inspection";
+            Directory.CreateDirectory(output);AssetDatabase.Refresh();
+            var report=new Report{unity=Application.unityVersion};
+            foreach(var name in new[]{"Rock_A_01","Rock_A_02"})
+            {
+                var path="Assets/ArtCapabilityProbe/"+name+".fbx";
+                var importer=(ModelImporter)AssetImporter.GetAtPath(path);
+                importer.isReadable=true;importer.importAnimation=false;importer.materialImportMode=ModelImporterMaterialImportMode.None;importer.SaveAndReimport();
+                var meshes=AssetDatabase.LoadAllAssetsAtPath(path).OfType<Mesh>().ToArray();
+                foreach(var mesh in meshes)report.meshes.Add(new MeshRecord{file=path,name=mesh.name,vertices=mesh.vertexCount,triangles=mesh.triangles.Length/3,center=mesh.bounds.center,size=mesh.bounds.size});
+                var source=meshes.OrderByDescending(m=>m.vertexCount).First();
+                foreach(var yaw in new[]{0f,90f,180f})Preview(source,name,yaw,output);
+            }
+            File.WriteAllText(output+"/meshes.json",JsonUtility.ToJson(report,true));
+            Debug.Log("ART_CAPABILITY_SOURCE_INSPECTION_COMPLETE meshes="+report.meshes.Count);
+        }
+        private static void Preview(Mesh mesh,string name,float yaw,string output)
+        {
+            EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
+            RenderSettings.ambientMode=UnityEngine.Rendering.AmbientMode.Flat;RenderSettings.ambientLight=new Color(.28f,.31f,.34f);
+            var model=new GameObject(name);model.AddComponent<MeshFilter>().sharedMesh=mesh;
+            var material=new Material(Shader.Find("Universal Render Pipeline/Lit"));material.SetColor("_BaseColor",new Color(.72f,.71f,.65f));material.SetFloat("_Smoothness",.05f);
+            model.AddComponent<MeshRenderer>().sharedMaterial=material;model.transform.position=-mesh.bounds.center;
+            var light=new GameObject("Inspection sun").AddComponent<Light>();light.type=LightType.Directional;light.intensity=1.6f;light.transform.rotation=Quaternion.Euler(48,-35,0);light.shadows=LightShadows.Soft;
+            var camera=new GameObject("Inspection camera").AddComponent<Camera>();camera.clearFlags=CameraClearFlags.SolidColor;camera.backgroundColor=new Color(.12f,.16f,.19f);camera.orthographic=true;
+            var extent=mesh.bounds.size.magnitude;camera.orthographicSize=extent*.52f;camera.transform.position=Quaternion.Euler(25,yaw,0)*new Vector3(0,0,-extent*2);camera.transform.LookAt(Vector3.zero);camera.nearClipPlane=.01f;camera.farClipPlane=extent*5+10;
+            var rt=new RenderTexture(640,640,24);rt.Create();camera.targetTexture=rt;camera.Render();
+            var old=RenderTexture.active;RenderTexture.active=rt;var image=new Texture2D(640,640,TextureFormat.RGB24,false);image.ReadPixels(new Rect(0,0,640,640),0,0);image.Apply();File.WriteAllBytes(output+"/"+name+"-"+yaw+".png",image.EncodeToPNG());RenderTexture.active=old;
+            camera.targetTexture=null;UnityEngine.Object.DestroyImmediate(image);rt.Release();UnityEngine.Object.DestroyImmediate(rt);UnityEngine.Object.DestroyImmediate(material);
+        }
+    }
+}
+
+===== DirectedRockSource.cs (final B probe version) =====
+using System;
+using System.IO;
+using System.Linq;
+using System.Text;
+using System.Globalization;
+using UnityEditor;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using RogueTactics.Presentation;
+
+namespace RogueTactics.Editor
+{
+    // Editable deformation of an existing licensed sculpted topology. No slab/ring generation.
+    public sealed class DirectedRockSource:ScriptableObject
+    {
+        [Serializable] public struct Edit { public string intent; public Vector3 point; public float radius; public Vector3 offset; }
+        public Mesh source;
+        public Mesh controlPalette;
+        public Mesh result;
+        public Vector3 center=new Vector3(-3.6f,-2.12f,-10.35f);
+        public Vector3 size=new Vector3(5.8f,3.7f,1.9f);
+        public bool fracturedTopFacesCamera;
+        public Edit[] edits;
+
+        public void Apply()
+        {
+            if(source==null || controlPalette==null || result==null || edits==null || edits.Any(e=>e.radius<=.001f || float.IsNaN(e.radius) || float.IsInfinity(e.radius)))throw new InvalidOperationException("Every sculpt influence needs a finite radius >0.001; refusing to alter mesh");
+            var b=source.bounds;var input=source.vertices;var vertices=new Vector3[input.Length];
+            var palettePoints=controlPalette.vertices;var paletteColors=controlPalette.colors;var colors=new Color[input.Length];
+            for(var i=0;i<input.Length;i++)
+            {
+                var p=input[i]-b.center;p=new Vector3(p.x/b.extents.x,p.y/b.extents.y,p.z/b.extents.z);
+                if(fracturedTopFacesCamera)p=new Vector3(p.x,p.z,-p.y);
+                var original=p;
+                foreach(var edit in edits)
+                {
+                    var distance=(original-edit.point).sqrMagnitude;var w=Mathf.Exp(-distance/(edit.radius*edit.radius));p+=edit.offset*w;
+                }
+                // Reserve the original ledge footprint. Cavity edits change the source surface, not topology.
+                p=new Vector3(Mathf.Clamp(p.x,-1,1),Mathf.Clamp(p.y,-1,1),Mathf.Clamp(p.z,-1,1));
+                vertices[i]=center+Vector3.Scale(p,size*.5f);
+                var nearest=0;var best=float.MaxValue;
+                for(var j=0;j<palettePoints.Length;j++){var d=(vertices[i]-palettePoints[j]).sqrMagnitude;if(d<best){best=d;nearest=j;}}
+                colors[i]=paletteColors[nearest];
+            }
+            result.Clear();result.name="HeroLedgeCliff";result.vertices=vertices;result.triangles=source.triangles;result.colors=colors;
+            result.uv=vertices.Select(p=>new Vector2(p.x*.34f,p.z*.34f)).ToArray();result.RecalculateNormals();result.RecalculateBounds();
+            EditorUtility.SetDirty(result);EditorUtility.SetDirty(this);
+        }
+    }
+
+    [CustomEditor(typeof(DirectedRockSource))]
+    public sealed class DirectedRockSourceEditor:UnityEditor.Editor
+    {
+        private GameObject preview;
+        private Material previewMaterial;
+        private void OnEnable()
+        {
+            SceneView.duringSceneGui+=Scene;Undo.undoRedoPerformed+=Reapply;
+            var source=(DirectedRockSource)target;
+            if(!Application.isBatchMode && !Application.isPlaying && source!=null && source.result!=null)
+            {
+                preview=new GameObject("Rock source editing preview — unsaved"){hideFlags=HideFlags.HideAndDontSave};
+                preview.AddComponent<MeshFilter>().sharedMesh=source.result;
+                previewMaterial=new Material(Shader.Find("RogueTactics/AuthoredRuins")){hideFlags=HideFlags.HideAndDontSave};previewMaterial.SetFloat("_SrgbPalette",1);
+                preview.AddComponent<MeshRenderer>().sharedMaterial=previewMaterial;
+            }
+        }
+        private void OnDisable()
+        {
+            SceneView.duringSceneGui-=Scene;Undo.undoRedoPerformed-=Reapply;
+            if(preview!=null)UnityEngine.Object.DestroyImmediate(preview);
+            if(previewMaterial!=null)UnityEngine.Object.DestroyImmediate(previewMaterial);
+        }
+        private void Reapply(){if(target!=null){((DirectedRockSource)target).Apply();SceneView.RepaintAll();}}
+        public override void OnInspectorGUI()
+        {
+            DrawDefaultInspector();
+            if(GUILayout.Button("Apply edited source / save mesh")){var s=(DirectedRockSource)target;Undo.RecordObject(s.result,"Edit directed rock");s.Apply();AssetDatabase.SaveAssets();SceneView.RepaintAll();}
+        }
+        private void Scene(SceneView view)
+        {
+            var source=(DirectedRockSource)target;if(source==null || source.edits==null)return;
+            for(var i=0;i<source.edits.Length;i++)
+            {
+                var edit=source.edits[i];var at=source.center+Vector3.Scale(edit.point+edit.offset,source.size*.5f);
+                Handles.Label(at,edit.intent);EditorGUI.BeginChangeCheck();var moved=Handles.PositionHandle(at,Quaternion.identity);
+                if(EditorGUI.EndChangeCheck())
+                {
+                    Undo.RecordObject(source,"Move authored rock edit");Undo.RecordObject(source.result,"Deform rock surface");
+                    edit.offset+=new Vector3((moved.x-at.x)*2/source.size.x,(moved.y-at.y)*2/source.size.y,(moved.z-at.z)*2/source.size.z);
+                    source.edits[i]=edit;source.Apply();
+                }
+            }
+        }
+    }
+
+    public static class DirectedRockGate
+    {
+        [MenuItem("Tools/Rogue Tactics/ART Capability/Edit Rock Source")]
+        public static void OpenEditor()
+        {
+            var source=AssetDatabase.LoadAssetAtPath<DirectedRockSource>("Assets/ArtCapabilityProbe/DirectedRockSource.asset");
+            if(source==null)throw new Exception("Create the local source before opening its editor");
+            Selection.activeObject=source;EditorGUIUtility.PingObject(source);
+            if(SceneView.lastActiveSceneView!=null)SceneView.lastActiveSceneView.LookAtDirect(source.result.bounds.center,Quaternion.Euler(25,0,0),5);
+        }
+        public static void Repair()
+        {
+            var source=AssetDatabase.LoadAssetAtPath<DirectedRockSource>("Assets/ArtCapabilityProbe/DirectedRockSource.asset");
+            var before=source.result.vertices;var saved=source.edits[0];var invalid=saved;invalid.radius=0;source.edits[0]=invalid;
+            var refused=false;try{source.Apply();}catch(InvalidOperationException){refused=true;}
+            source.edits[0]=saved;if(!refused || !before.SequenceEqual(source.result.vertices))throw new Exception("Invalid radius must refuse save without mutation");
+            // The source's sculpted upper fracture was hidden by the control cap in A. Expose it as the cliff face.
+            source.fracturedTopFacesCamera=true;source.Apply();AssetDatabase.SaveAssets();
+            AssetDatabase.ImportAsset("Assets/ArtCapabilityProbe/DirectedRockSource.asset",ImportAssetOptions.ForceSynchronousImport|ImportAssetOptions.ForceUpdate);
+            source=AssetDatabase.LoadAssetAtPath<DirectedRockSource>("Assets/ArtCapabilityProbe/DirectedRockSource.asset");
+            var snapshot=source.result.vertices;source.Apply();
+            if(!source.fracturedTopFacesCamera || !snapshot.SequenceEqual(source.result.vertices) || !source.result.triangles.SequenceEqual(source.source.triangles))throw new Exception("B editable source round-trip failed");
+            Directory.CreateDirectory("/private/tmp/rogue-art-capability/authored-b");
+            File.WriteAllText("/private/tmp/rogue-art-capability/authored-b/editability.json","{\"invalid_radius_refused_without_mutation\":true,\"save_reload_orientation_and_vertices_equal\":true,\"original_topology_preserved\":true,\"gui_preview_drag_undo\":\"NOT_YET_OBSERVED\",\"phone_art_gate\":\"NOT_EVALUATED\"}");
+            Debug.Log("ART_CAPABILITY_REPAIR_COMPLETE invalid-input+round-trip verified; GUI and phone gates pending");
+        }
+        public static void Author()
+        {
+            const string folder="Assets/ArtCapabilityProbe/";const string output="/private/tmp/rogue-art-capability/authored-a";
+            Directory.CreateDirectory(output);AssetDatabase.Refresh();
+            var source=ScriptableObject.CreateInstance<DirectedRockSource>();
+            source.source=AssetDatabase.LoadAllAssetsAtPath(folder+"Rock_A_02.fbx").OfType<Mesh>().OrderByDescending(m=>m.vertexCount).First();
+            source.controlPalette=AssetDatabase.LoadAssetAtPath<Mesh>("Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.asset");
+            source.result=new Mesh{name="HeroLedgeCliff"};AssetDatabase.CreateAsset(source.result,folder+"DirectedCliff.asset");
+            source.edits=new[]{
+                new DirectedRockSource.Edit{intent="Upper broken overhang",point=new Vector3(-.35f,.72f,-.72f),radius=.65f,offset=new Vector3(-.04f,.06f,-.16f)},
+                new DirectedRockSource.Edit{intent="Recessed spring-side shadow pocket",point=new Vector3(.43f,.23f,-.88f),radius=.47f,offset=new Vector3(-.05f,-.06f,.24f)},
+                new DirectedRockSource.Edit{intent="Missing lower left corner",point=new Vector3(-.72f,-.68f,-.67f),radius=.53f,offset=new Vector3(.13f,.08f,.14f)},
+                new DirectedRockSource.Edit{intent="Offset lower bedding fracture",point=new Vector3(.08f,-.38f,-.86f),radius=.40f,offset=new Vector3(.04f,-.04f,.12f)}
+            };
+            AssetDatabase.CreateAsset(source,folder+"DirectedRockSource.asset");source.Apply();AssetDatabase.SaveAssets();
+            var before=source.result.vertices;var original=source.edits[1];var changed=original;changed.offset.z+=.09f;source.edits[1]=changed;source.Apply();
+            if(!source.result.vertices.Where((v,i)=>(v-before[i]).sqrMagnitude>1e-10).Any())throw new Exception("Local edit did not alter the saved mesh");
+            source.edits[1]=original;source.Apply();AssetDatabase.SaveAssets();
+            AssetDatabase.ImportAsset(folder+"DirectedRockSource.asset",ImportAssetOptions.ForceSynchronousImport|ImportAssetOptions.ForceUpdate);
+            source=AssetDatabase.LoadAssetAtPath<DirectedRockSource>(folder+"DirectedRockSource.asset");
+            if(source.edits.Length!=4 || source.edits[1].offset!=original.offset)throw new Exception("Editable source did not retain authored controls");
+            source.Apply();if(!source.result.vertices.SequenceEqual(before) || !source.result.triangles.SequenceEqual(source.source.triangles))throw new Exception("Source/topology round-trip failed");
+            var b=source.result.bounds;
+            if(b.min.x<-6.7f || b.max.x>-.5f || b.min.y<-4.2f || b.max.y>.15f || b.min.z<-11.4f || b.max.z>-9.3f)throw new Exception("Outside existing footprint");
+            var scene=EditorSceneManager.OpenScene("Assets/RogueTactics/Scenes/MobileG1.unity");var view=UnityEngine.Object.FindFirstObjectByType<MobileG1View>();
+            var index=Array.FindIndex(view.EnvironmentMeshes,m=>m.name=="HeroLedgeCliff");if(index<0)throw new Exception("Control cliff missing");view.EnvironmentMeshes[index]=source.result;
+            EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene);AssetDatabase.SaveAssets();
+            var ci=CultureInfo.InvariantCulture;var text=new StringBuilder("# Derived from existing Unity ShaderGraph Rock_A_02 under Unity Companion License; not original sculpt ownership.\n# Editable source: DirectedRockSource.asset + original FBX + four named local edits.\n");
+            foreach(var v in source.result.vertices)text.AppendLine("v "+v.x.ToString("R",ci)+" "+v.y.ToString("R",ci)+" "+v.z.ToString("R",ci));
+            var triangles=source.result.triangles;for(var i=0;i<triangles.Length;i+=3)text.AppendLine("f "+(triangles[i]+1)+" "+(triangles[i+1]+1)+" "+(triangles[i+2]+1));File.WriteAllText(output+"/directed-cliff.obj",text.ToString());
+            File.WriteAllText(output+"/editability.json","{\"local_edit_changed_vertices\":true,\"save_reload_controls_equal\":true,\"reapply_vertices_equal\":true,\"original_topology_preserved\":true,\"bounds_valid\":true,\"vertices\":"+source.result.vertexCount+",\"triangles\":"+triangles.Length/3+",\"phone_art_gate\":\"NOT_EVALUATED\"}");
+            Debug.Log("ART_CAPABILITY_AUTHOR_COMPLETE source/controlpoint save-reload+topology validated; only front-left cliff replaced");
+        }
+    }
+}

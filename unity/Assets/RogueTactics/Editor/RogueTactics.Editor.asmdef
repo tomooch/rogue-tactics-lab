@@ -3,7 +3,9 @@
   "rootNamespace": "RogueTactics",
   "references": [
     "RogueTactics.Presentation",
-    "Unity.ugui"
+    "Unity.ugui",
+    "Unity.RenderPipelines.Universal.Runtime",
+    "Unity.RenderPipelines.Core.Runtime"
   ],
   "includePlatforms": [
     "Editor"

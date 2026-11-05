@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="1" result="Passed" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-10-29 21:55:41Z" end-time="2026-10-29 21:56:21Z" duration="39.4304048">
+  <test-suite type="TestSuite" id="1030" name="Rogue Tactics Lab" fullname="Rogue Tactics Lab" runstate="Runnable" testcasecount="17" result="Passed" start-time="2026-10-29 21:55:41Z" end-time="2026-10-29 21:56:21Z" duration="39.430405" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="PlayMode" />
+    </properties>
+    <test-suite type="Assembly" id="1024" name="RogueTactics.Tests.PlayMode.dll" fullname="/Users/tomoki/.codex/visualizations/2026/10/15/01a13dcb-2d2e-7aa3-b4f2-02f23af888ce/hq-production/unity/Library/ScriptAssemblies/RogueTactics.Tests.PlayMode.dll" runstate="Runnable" testcasecount="17" result="Passed" start-time="2026-10-29 21:55:41Z" end-time="2026-10-29 21:56:21Z" duration="39.423501" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="31283" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="PlayMode" />
+        <property name="EditorOnly" value="False" />
+      </properties>
+      <test-suite type="TestSuite" id="1025" name="RogueTactics" fullname="RogueTactics" runstate="Runnable" testcasecount="17" result="Passed" start-time="2026-10-29 21:55:41Z" end-time="2026-10-29 21:56:21Z" duration="39.422476" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1026" name="Tests" fullname="RogueTactics.Tests" runstate="Runnable" testcasecount="17" result="Passed" start-time="2026-10-29 21:55:41Z" end-time="2026-10-29 21:56:21Z" duration="39.421875" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestFixture" id="1009" name="GauntletFlowTests" fullname="RogueTactics.Tests.GauntletFlowTests" classname="RogueTactics.Tests.GauntletFlowTests" runstate="Runnable" testcasecount="3" result="Passed" start-time="2026-10-29 21:55:41Z" end-time="2026-10-29 21:56:21Z" duration="39.420484" total="1" passed="1" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-case id="1011" name="FirstEncounterAlternativeInstructionChangesObservedOutcome" fullname="RogueTactics.Tests.GauntletFlowTests.FirstEncounterAlternativeInstructionChangesObservedOutcome" methodname="FirstEncounterAlternativeInstructionChangesObservedOutcome" classname="RogueTactics.Tests.GauntletFlowTests" runstate="Runnable" seed="135074726" result="Passed" start-time="2026-10-29 21:55:41Z" end-time="2026-10-29 21:56:21Z" duration="39.404942" asserts="0">
+              <properties>
+                <property name="_JOINTYPE" value="UnityCombinatorial" />
+                <property name="Timeout" value="300000" />
+                <property name="retryIteration" value="0" />
+                <property name="repeatIteration" value="0" />
+              </properties>
+              <output><![CDATA[HQ_FRAME_METRICS {"runtime":"Unity Editor","unity":"6000.3.25f1","graphics":"Metal","samples":1279,"p50_ms":16.68842124938965,"p95_ms":16.798540115356447,"reduced_effects":false,"limitation":"Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"}
+MOBILE_G1_RESULT DirectAttack 85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e
+HQ_FRAME_METRICS {"runtime":"Unity Editor","unity":"6000.3.25f1","graphics":"Metal","samples":972,"p50_ms":16.689329147338868,"p95_ms":16.78000259399414,"reduced_effects":false,"limitation":"Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"}
+MOBILE_G1_RESULT DirectAttack 6cce704f813cc5f41500c715f5e046d5bbf6e312c277253c64074e8f26a81466
+Saving results to: /Users/tomoki/Library/Application Support/Rogue Tactics Lab/Rogue Tactics Lab/TestResults.xml
+]]></output>
+            </test-case>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

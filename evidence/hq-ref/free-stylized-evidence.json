@@ -1,0 +1,1233 @@
+{
+  "scope": "Free native source integrated-rim pilot; source-free public evidence only",
+  "head": "f64e04c58b003ed5bc79cb7374b3d8f5caccaf97",
+  "retained_art_source": "fc005d4ddee3edc5ac5b035ecfefb5e132f5e25a",
+  "verdict": "REJECTED_ART_INTEGRATION; R2 V0 FAIL; adopted art changes zero",
+  "private_evidence_root": "_userwork/hq-evidence/2026-10-21-free-stylized/",
+  "author_source": {
+    "author": "Quaternius",
+    "page": "https://quaternius.com/packs/ultimatestylizednature.html",
+    "license_basis": "Official author page CC0; package License.txt not obtained",
+    "blend_sha256": "6dbd16ccc5bbbf5f59306c4e49fa875552d35fd95a7bfc84f521af8fb35a60cd",
+    "blend_bytes": 36730024,
+    "original_texture_reproduced": false,
+    "dependency_failure": "First reported License.txt request returned Drive quota-exceeded HTML; required four PNG files absent. No quota/auth bypass."
+  },
+  "runs": {
+    "a": {
+      "job_id": "ba863109-653b-4241-b108-5cdd3394c2cc",
+      "exit_code": 0,
+      "duration_seconds": 114.751835667,
+      "base_head": "f64e04c58b003ed5bc79cb7374b3d8f5caccaf97",
+      "unity_diff_sha256": "5e5681f22197e479240b5851e8730801de89ec82c05217a0f53706c131d7044a",
+      "scene_sha256": "01c8235530465fbeac2e6c999333fd9f8dcfe93f87e394ed91cfecdf55c8129f",
+      "filter": "RogueTactics.Tests.HqPresentationTests.ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+      "tests": {
+        "EditMode": {
+          "raw_xml_sha256": "82ab159ab7276bbe9cd94043fe28cb87c1ad622305c7daad4ce9e60096825451",
+          "result": "Passed",
+          "total": "0",
+          "passed": "0",
+          "failed": "0"
+        },
+        "PlayMode": {
+          "raw_xml_sha256": "1ecf65c2f252c930fa8fbe58db97d7b243ea4ff2b0a872ab6af0d58acbf4e120",
+          "result": "Passed",
+          "total": "1",
+          "passed": "1",
+          "failed": "0"
+        }
+      },
+      "captures_sha256": {
+        "r1-setup": "740fe75399a5b90862d55eb8b032d6aa6d86d609c6d0f2e587127c6658fb8934",
+        "ProtectAnchor-guard": "49e53afe05e30413a17a3305c517ce49572ba53c8d8d2ecba4e278a392c1a9f2",
+        "ProtectAnchor-heal": "fb3c9c3d11053ddfa41089cbc8104e72e9894f9a4c95d6fb56f17a1915811b7c",
+        "DirectAttack-counter": "1f366fa48ae712def6ace366e1aebeb9423f1efca003b5b38674ab0f66323f7b",
+        "DirectAttack-death": "51098b6cabbebb234e40ab4b9d2d5e6839dab10e6ca6331263c5637ad1a095cd",
+        "ProtectAnchor-comparison": "d81ccd7515ef428fd2ecbbc1a57bb5812f1edefb01d877efaddefedee5c275c1",
+        "DirectAttack-comparison": "236b81e2a44c23553dfc28affa2b80eb27ddb97c037ed528a91523f0dd24e08f"
+      },
+      "export": {
+        "stage": "Integrated native-source module A; no art acceptance",
+        "author_source": "Quaternius Ultimate Stylized Nature Pack / CC0; original source, not Codex sculpt",
+        "source_blend_sha256": "6dbd16ccc5bbbf5f59306c4e49fa875552d35fd95a7bfc84f521af8fb35a60cd",
+        "artist_rock_texture_sha256": null,
+        "material_mode": "Gate0 retained stone sRGB .59/.51/.41; original author texture unavailable, not reproduced",
+        "main_variable": "Local cap/support/gutter/fall/plant contact composition; no Core/camera/HUD/floor/hero changes",
+        "rock_edits": [
+          {
+            "source": "Rock_4",
+            "uniform_scale": 1.8,
+            "nonmanifold_edges_after_peak_cap": 0,
+            "yaw_degrees": 8,
+            "flat_contact_unity_y": -0.39,
+            "source_peak_cut_fraction": 0.12,
+            "geometry": "Original rock topology, peak cut/fill, one coplanar sample subdivision; no extrusion"
+          },
+          {
+            "source": "Rock_3",
+            "uniform_scale": 1.65,
+            "nonmanifold_edges_after_peak_cap": 0,
+            "yaw_degrees": -12,
+            "flat_contact_unity_y": -0.405,
+            "source_peak_cut_fraction": 0.12,
+            "geometry": "Original rock topology, peak cut/fill, one coplanar sample subdivision; no extrusion"
+          },
+          {
+            "source": "Rock_1",
+            "uniform_scale": 1.55,
+            "nonmanifold_edges_after_peak_cap": 0,
+            "yaw_degrees": 12,
+            "flat_contact_unity_y": -0.395,
+            "source_peak_cut_fraction": 0.12,
+            "geometry": "Original rock topology, peak cut/fill, one coplanar sample subdivision; no extrusion"
+          }
+        ],
+        "plant_contact": {
+          "HeroLedgeFoliage": {
+            "input_groups": 191,
+            "attached_groups": 108,
+            "removed_unsupported_or_channel": 83
+          },
+          "HeroLedgeFlowers": {
+            "input_groups": 36,
+            "attached_groups": 17,
+            "removed_unsupported_or_channel": 19
+          }
+        },
+        "layers": {
+          "HeroLedgeLimestone": {
+            "sha256": "fbf0eec389acd1835721ab9f8d8bf1499645c04c913d9a36c2430c7fe63c64ad",
+            "triangles": 88,
+            "vertices": 264,
+            "bounds": [
+              [
+                -6.652480125427246,
+                -0.4050000011920929,
+                -11.156550407409668
+              ],
+              [
+                -3.393359899520874,
+                -0.125,
+                -9.703410148620605
+              ]
+            ]
+          },
+          "HeroLedgeCliff": {
+            "sha256": "cefb35b65e77a0eb66522e749e4ef44de8df3b3526a0bb03d9096b25e89025d5",
+            "triangles": 5616,
+            "vertices": 16848,
+            "bounds": [
+              [
+                -6.5437469482421875,
+                -3.800292491912842,
+                -11.165375709533691
+              ],
+              [
+                -0.6749319434165955,
+                -0.39000001549720764,
+                -9.60477066040039
+              ]
+            ]
+          },
+          "HeroLedgeFoliage": {
+            "sha256": "1d2e345dc980c4edb59c30238499d8b142e9e2de73f41daba41d227d58379cd7",
+            "triangles": 648,
+            "vertices": 1944,
+            "bounds": [
+              [
+                -6.605249881744385,
+                -3.2123100757598877,
+                -11.270430564880371
+              ],
+              [
+                -0.6932700276374817,
+                -0.06385999172925949,
+                -9.528590202331543
+              ]
+            ]
+          },
+          "HeroLedgeFlowers": {
+            "sha256": "daa70224877bdcef2b796047e8695a3ccee90589472888da26e4331d7839458f",
+            "triangles": 187,
+            "vertices": 561,
+            "bounds": [
+              [
+                -6.2970099449157715,
+                -2.6419200897216797,
+                -10.963409423828125
+              ],
+              [
+                -1.183109998703003,
+                -0.07499987632036209,
+                -10.03439998626709
+              ]
+            ]
+          },
+          "HeroLedgeWater": {
+            "sha256": "1af2fd478dbd44231ab71079c8ba516c36acf1197dc21f6060406fc1e9a36f0f",
+            "triangles": 72,
+            "vertices": 216,
+            "bounds": [
+              [
+                -2.9805400371551514,
+                -4.079999923706055,
+                -11.3406400680542
+              ],
+              [
+                -1.6106799840927124,
+                -0.17000000178813934,
+                -10.449999809265137
+              ]
+            ]
+          },
+          "HeroLedgeFoam": {
+            "sha256": "add8fdbfba170bcc52399e927ea0bd294bd3cdf48bbc08a37755b4727107f9c3",
+            "triangles": 5,
+            "vertices": 15,
+            "bounds": [
+              [
+                -2.836869955062866,
+                -3.967587471008301,
+                -11.374500274658203
+              ],
+              [
+                -1.7936099767684937,
+                -0.19180576503276825,
+                -11.316499710083008
+              ]
+            ]
+          },
+          "HeroLedgeDetail": {
+            "sha256": "d9995d7c478b0ee168fa55eb1cb75debf6faeaacfdfb9e2cd7a8089a9136f887",
+            "triangles": 18,
+            "vertices": 54,
+            "bounds": [
+              [
+                -6.25,
+                -0.2549999952316284,
+                -10.238089561462402
+              ],
+              [
+                -0.7799999713897705,
+                -0.24899999797344208,
+                -9.968850135803223
+              ]
+            ]
+          },
+          "Limestone": {
+            "sha256": "da7ce8450439b429d9502e223a3cef7f88d28f69356c7f4b340cda237dc9bd8b",
+            "vertices": 5436,
+            "triangles": 1812
+          },
+          "Cliff": {
+            "sha256": "abad20694b67101bffc6015ea7f2b83a56b0af7541ee90224bf9ee4d79c79886",
+            "vertices": 3441,
+            "triangles": 1147
+          }
+        },
+        "working_blend_sha256": "7d6681d27c411adedb2fa0945bc440722e52f158ea76b047ba05d355e865eece"
+      },
+      "root_review": {
+        "verdict": "NOT_ACCEPTED; repair contact/continuous silhouette",
+        "observed": [
+          "Actual control and A 390x844 setup and approved reference viewed",
+          "A exposes rock facets and clearer fall origin but distinct narrow supports read as legs rather than coherent ruined rim",
+          "No whole-frame character or floor hierarchy improvement claimed"
+        ],
+        "independent_review": "Neutral reviewer viewed six actual images, Y(A) preferred local stone/water clarity but notes support disconnection and weaker plant roots; no motion or human judgement",
+        "next": "B restore original cap elevation, overlap four distinct rocks at contact plane, remove unused coplanar subdivision; same bounded art envelope"
+      },
+      "raw_log_sha256": {
+        "stdout": "9eae04b1e06f493af48b9a8e561c9d10526086eab244f721c39d3e662a7027bd",
+        "stderr": "a096d819dfb38d8796af3036d4f8ea5cb6775761692b61fcb366128f0a5562b5"
+      }
+    },
+    "b": {
+      "job_id": "62b25d67-487e-4672-aece-9fcdca0dad21",
+      "exit_code": 0,
+      "duration_seconds": 119.088415916,
+      "base_head": "f64e04c58b003ed5bc79cb7374b3d8f5caccaf97",
+      "unity_diff_sha256": "eea3a88fc986307ca69191d41d799474d373af7fd3a28ec90abb529b321c5cd3",
+      "scene_sha256": "01c8235530465fbeac2e6c999333fd9f8dcfe93f87e394ed91cfecdf55c8129f",
+      "filter": "RogueTactics.Tests.HqPresentationTests.ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+      "tests": {
+        "EditMode": {
+          "raw_xml_sha256": "4d2f3bcd2c79698cd33c139a584a6ba545b9081f0688cc8d7021400071a7c074",
+          "result": "Passed",
+          "total": "0",
+          "passed": "0",
+          "failed": "0"
+        },
+        "PlayMode": {
+          "raw_xml_sha256": "8ac8b16fda5ca6174b7d12903deabb179bd130be6dd7b88ff3076ec57d8190b7",
+          "result": "Passed",
+          "total": "1",
+          "passed": "1",
+          "failed": "0"
+        }
+      },
+      "captures_sha256": {
+        "r1-setup": "276983eada2100fa4d1d29e0a2e1a489f92d3b5281ec82b93056e0104c484328",
+        "ProtectAnchor-guard": "74d0ad6b116e52ad874df9c50100a60f0b7aa32d5e37f7352bbd3e4bf28703bc",
+        "ProtectAnchor-heal": "706a11619b3596df16505a53be6354cfaf42b5cf3c7303bee8c93c18b9ab6c83",
+        "DirectAttack-counter": "5a49009e66c09ac5dc3dccb5a7aa501ea569ee7d8d80c253fa9d7498bd8b33ca",
+        "DirectAttack-death": "e7027950e86be63d82b850d694142a2bdcf5ec5c687f0196692d35b85602dc69",
+        "ProtectAnchor-comparison": "85d528b4b6d5be1d7797d07c2a2597c0efc35cfc40654407a68d60a4befe70da",
+        "DirectAttack-comparison": "e50b8198bb503d579364748f61056e7c7aac75d89b354849ae857d7eb1469e04"
+      },
+      "export": {
+        "stage": "Integrated native-source module B; no art acceptance",
+        "author_source": "Quaternius Ultimate Stylized Nature Pack / CC0; original source, not Codex sculpt",
+        "source_blend_sha256": "6dbd16ccc5bbbf5f59306c4e49fa875552d35fd95a7bfc84f521af8fb35a60cd",
+        "artist_rock_texture_sha256": null,
+        "material_mode": "Gate0 retained stone sRGB .59/.51/.41; original author texture unavailable, not reproduced",
+        "main_variable": "Repair A detached supports: restore original cap height and overlap four distinct original rock masses; no Core/camera/HUD/floor/hero changes",
+        "rock_edits": [
+          {
+            "source": "Rock_4",
+            "uniform_scale": 2.05,
+            "nonmanifold_edges_after_peak_cap": 0,
+            "yaw_degrees": 0,
+            "flat_contact_unity_y": -0.14,
+            "source_peak_cut_fraction": 0.12,
+            "geometry": "Original rock topology, peak cut/fill; no sampling subdivision or extrusion"
+          },
+          {
+            "source": "Rock_2",
+            "uniform_scale": 1.8,
+            "nonmanifold_edges_after_peak_cap": 0,
+            "yaw_degrees": 0,
+            "flat_contact_unity_y": -0.145,
+            "source_peak_cut_fraction": 0.12,
+            "geometry": "Original rock topology, peak cut/fill; no sampling subdivision or extrusion"
+          },
+          {
+            "source": "Rock_3",
+            "uniform_scale": 1.8,
+            "nonmanifold_edges_after_peak_cap": 0,
+            "yaw_degrees": 0,
+            "flat_contact_unity_y": -0.135,
+            "source_peak_cut_fraction": 0.12,
+            "geometry": "Original rock topology, peak cut/fill; no sampling subdivision or extrusion"
+          },
+          {
+            "source": "Rock_1",
+            "uniform_scale": 1.8,
+            "nonmanifold_edges_after_peak_cap": 0,
+            "yaw_degrees": 0,
+            "flat_contact_unity_y": -0.14,
+            "source_peak_cut_fraction": 0.12,
+            "geometry": "Original rock topology, peak cut/fill; no sampling subdivision or extrusion"
+          }
+        ],
+        "plant_contact": {
+          "HeroLedgeFoliage": {
+            "input_groups": 191,
+            "attached_groups": 69,
+            "removed_unsupported_or_channel": 122
+          },
+          "HeroLedgeFlowers": {
+            "input_groups": 36,
+            "attached_groups": 11,
+            "removed_unsupported_or_channel": 25
+          }
+        },
+        "layers": {
+          "HeroLedgeLimestone": {
+            "sha256": "85751ec868012f7f118798297b742e6a4f0d6a05e14a588a60af35bd62b07368",
+            "triangles": 88,
+            "vertices": 264,
+            "bounds": [
+              [
+                -6.652480125427246,
+                -0.1550000011920929,
+                -11.156550407409668
+              ],
+              [
+                -3.393359899520874,
+                0.125,
+                -9.703410148620605
+              ]
+            ]
+          },
+          "HeroLedgeCliff": {
+            "sha256": "ee5489be8890d1b61099434fd3841d4b6a8b74d7044d176e9f55c0335a8b10cc",
+            "triangles": 1606,
+            "vertices": 4818,
+            "bounds": [
+              [
+                -6.630704402923584,
+                -4.02394437789917,
+                -11.318044662475586
+              ],
+              [
+                -0.7103927135467529,
+                -0.135000079870224,
+                -9.38195514678955
+              ]
+            ]
+          },
+          "HeroLedgeFoliage": {
+            "sha256": "b206402fbb3f25367d2c255147b566d99a33ad72fad6f51eadd0f435da7030e8",
+            "triangles": 414,
+            "vertices": 1242,
+            "bounds": [
+              [
+                -6.486969947814941,
+                -3.4549999237060547,
+                -11.309757232666016
+              ],
+              [
+                -0.6932700276374817,
+                0.1433129906654358,
+                -9.425089836120605
+              ]
+            ]
+          },
+          "HeroLedgeFlowers": {
+            "sha256": "2ef95704b67826e0608858601778ecac7da2fda571ca7a0434e0ebb0d0cca94d",
+            "triangles": 121,
+            "vertices": 363,
+            "bounds": [
+              [
+                -6.2970099449157715,
+                -2.6419200897216797,
+                -11.158370018005371
+              ],
+              [
+                -1.183109998703003,
+                -0.5766358971595764,
+                -10.120309829711914
+              ]
+            ]
+          },
+          "HeroLedgeWater": {
+            "sha256": "e6ab09f8c2117a80b01b783e5dc989e206f357a9e1e9d439b26c57563b3bfe07",
+            "triangles": 72,
+            "vertices": 216,
+            "bounds": [
+              [
+                -2.9805400371551514,
+                -4.079999923706055,
+                -11.3406400680542
+              ],
+              [
+                -1.6106799840927124,
+                0.07999999821186066,
+                -10.449999809265137
+              ]
+            ]
+          },
+          "HeroLedgeFoam": {
+            "sha256": "b80bbaa6fa2563f2bea053cded2eaad33abc1f6550a24d63165961a85864066b",
+            "triangles": 5,
+            "vertices": 15,
+            "bounds": [
+              [
+                -2.836869955062866,
+                -3.960400104522705,
+                -11.374500274658203
+              ],
+              [
+                -1.7936099767684937,
+                0.0568000003695488,
+                -11.316499710083008
+              ]
+            ]
+          },
+          "HeroLedgeDetail": {
+            "sha256": "7a8a7b4640b7ac197a1fee67999341345202a603cad9ddcc17953ceabf991a0f",
+            "triangles": 18,
+            "vertices": 54,
+            "bounds": [
+              [
+                -6.25,
+                -0.004999999888241291,
+                -10.238089561462402
+              ],
+              [
+                -0.7799999713897705,
+                0.0010000000474974513,
+                -9.968850135803223
+              ]
+            ]
+          },
+          "Limestone": {
+            "sha256": "da7ce8450439b429d9502e223a3cef7f88d28f69356c7f4b340cda237dc9bd8b",
+            "vertices": 5436,
+            "triangles": 1812
+          },
+          "Cliff": {
+            "sha256": "abad20694b67101bffc6015ea7f2b83a56b0af7541ee90224bf9ee4d79c79886",
+            "vertices": 3441,
+            "triangles": 1147
+          }
+        },
+        "working_blend_sha256": "35af62f2ba4162f06a0964cb4c196253fd86b7ccc9fb69e5dafc2210b907f57c"
+      },
+      "root_review": {
+        "verdict": "NOT_ACCEPTED; actual cap deletion requires geometry repair",
+        "root_observed": [
+          "A/B setup and B Guard/Counter whole frames",
+          "B rocks more continuous, but cap afterBoolean bounds stop at X -3.39336 rather than -.50648: right two capstones missing",
+          "B plant crown contact still weak; no whole-frame art quality or Human pass"
+        ],
+        "neutral": "B preferred local continuous support over A/control but dark seam and ambiguous rock/plant surface remain; no motion judgement",
+        "repair": "Each capstone closed and outward-oriented separately, positive volume before/after cut and rightmost bounds assertions; normal scene-focused blend save rather than library startup"
+      },
+      "raw_log_sha256": {
+        "stdout": "7586b7d965c5f63c4719896ad1f029279d47b09f8752c21e3a304903fa0efa0f",
+        "stderr": "ecfef563de961cdba0d5deb8230ce9fa0eac9dc182099d939978f7396978f50d"
+      }
+    },
+    "c": {
+      "job_id": "813d33d4-c3ab-488a-88d3-5b7806e317fc",
+      "exit_code": 0,
+      "duration_seconds": 115.902883083,
+      "base_head": "f64e04c58b003ed5bc79cb7374b3d8f5caccaf97",
+      "unity_diff_sha256": "1caa57f806e27807867f8aacea08094c0c133fd413079ba08c97a18c8326fde8",
+      "scene_sha256": "01c8235530465fbeac2e6c999333fd9f8dcfe93f87e394ed91cfecdf55c8129f",
+      "filter": "RogueTactics.Tests.HqPresentationTests.ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+      "tests": {
+        "EditMode": {
+          "raw_xml_sha256": "9f922113fe6232b34ad90468098166fff55127d67c0f96970e384435344b27e0",
+          "result": "Passed",
+          "total": "0",
+          "passed": "0",
+          "failed": "0"
+        },
+        "PlayMode": {
+          "raw_xml_sha256": "7b7e0271f451b8b3808ab0a75510516b843ce882113c95d36fbf974eaca0543d",
+          "result": "Passed",
+          "total": "1",
+          "passed": "1",
+          "failed": "0"
+        }
+      },
+      "captures_sha256": {
+        "r1-setup": "8b7c428aa1a1a0626ddc92c6257594436559bd9a82cfcd24a6cf5dc431503b0e",
+        "ProtectAnchor-guard": "d83c667e75ec3cd896bd997148881dd52ddb21ec9ed77b1d4105927e32a0d57f",
+        "ProtectAnchor-heal": "9b3626a0d97a06f0641047cf367e0e0161170d6db42ca0250b7e6b74a5e117f8",
+        "DirectAttack-counter": "d1ca3db1c7171e8b8f772b4dac9cb3bb7324ba44f303399e3bc29969d14218c5",
+        "DirectAttack-death": "2e2c8a0ca2048ae9b1fb122410b2e21e05269d9b368d086b14f19306e0ab0e24",
+        "ProtectAnchor-comparison": "e3eb044e081a6376644094c20af520026377c745d1ee348e869891aa787ded47",
+        "DirectAttack-comparison": "bf2407e5edf5ef00854b5164fd315f212a2074b20d29f8af0b728bb1a211cb71"
+      },
+      "export": {
+        "stage": "Integrated native-source module C; no art acceptance",
+        "author_source": "Quaternius Ultimate Stylized Nature Pack / CC0; original source, not Codex sculpt",
+        "source_blend_sha256": "6dbd16ccc5bbbf5f59306c4e49fa875552d35fd95a7bfc84f521af8fb35a60cd",
+        "artist_rock_texture_sha256": null,
+        "material_mode": "Gate0 retained stone sRGB .59/.51/.41; original author texture unavailable, not reproduced",
+        "main_variable": "Repair B Boolean deletion: closed outward capstones cut separately with positive volume assertions; no Core/camera/HUD/floor/hero changes",
+        "rock_edits": [
+          {
+            "source": "Rock_4",
+            "uniform_scale": 2.05,
+            "nonmanifold_edges_after_peak_cap": 0,
+            "yaw_degrees": 0,
+            "flat_contact_unity_y": -0.14,
+            "source_peak_cut_fraction": 0.12,
+            "geometry": "Original rock topology, peak cut/fill; no sampling subdivision or extrusion"
+          },
+          {
+            "source": "Rock_2",
+            "uniform_scale": 1.8,
+            "nonmanifold_edges_after_peak_cap": 0,
+            "yaw_degrees": 0,
+            "flat_contact_unity_y": -0.145,
+            "source_peak_cut_fraction": 0.12,
+            "geometry": "Original rock topology, peak cut/fill; no sampling subdivision or extrusion"
+          },
+          {
+            "source": "Rock_3",
+            "uniform_scale": 1.8,
+            "nonmanifold_edges_after_peak_cap": 0,
+            "yaw_degrees": 0,
+            "flat_contact_unity_y": -0.135,
+            "source_peak_cut_fraction": 0.12,
+            "geometry": "Original rock topology, peak cut/fill; no sampling subdivision or extrusion"
+          },
+          {
+            "source": "Rock_1",
+            "uniform_scale": 1.8,
+            "nonmanifold_edges_after_peak_cap": 0,
+            "yaw_degrees": 0,
+            "flat_contact_unity_y": -0.14,
+            "source_peak_cut_fraction": 0.12,
+            "geometry": "Original rock topology, peak cut/fill; no sampling subdivision or extrusion"
+          }
+        ],
+        "plant_contact": {
+          "cap_boolean": [
+            {
+              "stone": 0,
+              "closed_before": true,
+              "volume_before": 0.43309560357721233,
+              "volume_after": 0.43309560357721233
+            },
+            {
+              "stone": 1,
+              "closed_before": true,
+              "volume_before": 0.5801640608931584,
+              "volume_after": 0.5801640608931585
+            },
+            {
+              "stone": 2,
+              "closed_before": true,
+              "volume_before": 0.40520862651741696,
+              "volume_after": 0.33558897642812424
+            },
+            {
+              "stone": 3,
+              "closed_before": true,
+              "volume_before": 0.37661545164343296,
+              "volume_after": 0.36773344166542815
+            }
+          ],
+          "HeroLedgeFoliage": {
+            "input_groups": 191,
+            "attached_groups": 50,
+            "removed_unsupported_or_channel": 141
+          },
+          "HeroLedgeFlowers": {
+            "input_groups": 36,
+            "attached_groups": 6,
+            "removed_unsupported_or_channel": 30
+          }
+        },
+        "layers": {
+          "HeroLedgeLimestone": {
+            "sha256": "0bc36d78c288988f4e9215ade2a7f9024dd2f69eea85f77f0459accfea8ff387",
+            "triangles": 230,
+            "vertices": 690,
+            "bounds": [
+              [
+                -6.652480125427246,
+                -0.1550000011920929,
+                -11.172800064086914
+              ],
+              [
+                -0.5064799785614014,
+                0.125,
+                -9.703410148620605
+              ]
+            ]
+          },
+          "HeroLedgeCliff": {
+            "sha256": "ee5489be8890d1b61099434fd3841d4b6a8b74d7044d176e9f55c0335a8b10cc",
+            "triangles": 1606,
+            "vertices": 4818,
+            "bounds": [
+              [
+                -6.630704402923584,
+                -4.02394437789917,
+                -11.318044662475586
+              ],
+              [
+                -0.7103927135467529,
+                -0.135000079870224,
+                -9.38195514678955
+              ]
+            ]
+          },
+          "HeroLedgeFoliage": {
+            "sha256": "4a4dd0b8b255b2fe770f63d2c78624c515ed832d16fe10c5398fa62fa09d4a1d",
+            "triangles": 300,
+            "vertices": 900,
+            "bounds": [
+              [
+                -6.486969947814941,
+                -3.4549999237060547,
+                -11.309757232666016
+              ],
+              [
+                -0.8329600095748901,
+                0.14903230965137482,
+                -9.425089836120605
+              ]
+            ]
+          },
+          "HeroLedgeFlowers": {
+            "sha256": "101491f92ccb541f7af1573f69311c2a65a8f13ddefcd2b1d92d648cbbc1c03e",
+            "triangles": 66,
+            "vertices": 198,
+            "bounds": [
+              [
+                -6.2970099449157715,
+                -2.6419200897216797,
+                -11.158370018005371
+              ],
+              [
+                -1.183109998703003,
+                -0.7584599852561951,
+                -10.361921310424805
+              ]
+            ]
+          },
+          "HeroLedgeWater": {
+            "sha256": "e6ab09f8c2117a80b01b783e5dc989e206f357a9e1e9d439b26c57563b3bfe07",
+            "triangles": 72,
+            "vertices": 216,
+            "bounds": [
+              [
+                -2.9805400371551514,
+                -4.079999923706055,
+                -11.3406400680542
+              ],
+              [
+                -1.6106799840927124,
+                0.07999999821186066,
+                -10.449999809265137
+              ]
+            ]
+          },
+          "HeroLedgeFoam": {
+            "sha256": "b80bbaa6fa2563f2bea053cded2eaad33abc1f6550a24d63165961a85864066b",
+            "triangles": 5,
+            "vertices": 15,
+            "bounds": [
+              [
+                -2.836869955062866,
+                -3.960400104522705,
+                -11.374500274658203
+              ],
+              [
+                -1.7936099767684937,
+                0.0568000003695488,
+                -11.316499710083008
+              ]
+            ]
+          },
+          "HeroLedgeDetail": {
+            "sha256": "7a8a7b4640b7ac197a1fee67999341345202a603cad9ddcc17953ceabf991a0f",
+            "triangles": 18,
+            "vertices": 54,
+            "bounds": [
+              [
+                -6.25,
+                -0.004999999888241291,
+                -10.238089561462402
+              ],
+              [
+                -0.7799999713897705,
+                0.0010000000474974513,
+                -9.968850135803223
+              ]
+            ]
+          },
+          "Limestone": {
+            "sha256": "da7ce8450439b429d9502e223a3cef7f88d28f69356c7f4b340cda237dc9bd8b",
+            "vertices": 5436,
+            "triangles": 1812
+          },
+          "Cliff": {
+            "sha256": "abad20694b67101bffc6015ea7f2b83a56b0af7541ee90224bf9ee4d79c79886",
+            "vertices": 3441,
+            "triangles": 1147
+          }
+        },
+        "working_blend_sha256": "581f6f5d5c6861b3ffc0c4b999275e009be9d4e20206ae583eca36bf27202b3f"
+      },
+      "root_review": {
+        "verdict": "Structure candidate only; vegetation repair required before art retention",
+        "observed": [
+          "CONTROL/C setup and C Guard/Counter actual whole frames",
+          "Four positive-volume capstones, capbounds[-6.65248,-.50648] retained; ordinary scene startup validated",
+          "Rock support more legible than control but earthy isolated masses, cap seam and sparse plant roots remain",
+          "Neutral actual-six-image reviewer prefers local support readability but notes cap visually interrupted at waterfall and poor plants; no approved reference was provided to this reviewer"
+        ],
+        "limits": "Edit0/Play1 filter, fixed outcomes maintained; not full suite or motion/Simulator/Human acceptance",
+        "next": "Root actual existing leaf base to rock/cap front and rotate whole existing leaves into hanging plane; retain C stone/water export hashes"
+      },
+      "raw_log_sha256": {
+        "stdout": "5cdf9edca9587eb4bc5ea84c0809f695546f4ce84eb89a2c734daea728c7886d",
+        "stderr": "38c20a14f785e6491997751ef2661681c2602158cb87b1255e251726570413ef"
+      }
+    },
+    "d": {
+      "job_id": "613f5dde-e39f-4fdd-976b-ba69ebca76af",
+      "exit_code": 0,
+      "duration_seconds": 113.501326166,
+      "base_head": "f64e04c58b003ed5bc79cb7374b3d8f5caccaf97",
+      "unity_diff_sha256": "977324b8d85818bc70894870e0daafa447902596c57a32ad614610f1ad94f3ea",
+      "scene_sha256": "01c8235530465fbeac2e6c999333fd9f8dcfe93f87e394ed91cfecdf55c8129f",
+      "filter": "RogueTactics.Tests.HqPresentationTests.ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+      "tests": {
+        "EditMode": {
+          "raw_xml_sha256": "4c1a446ae867cc9d207341873be993edb55da4094d3a164411e1282444887022",
+          "result": "Passed",
+          "total": "0",
+          "passed": "0",
+          "failed": "0"
+        },
+        "PlayMode": {
+          "raw_xml_sha256": "8dce03c2b3cf583f02d106efef52fb2f45d22b4a494787a33b02eae67cd499f1",
+          "result": "Passed",
+          "total": "1",
+          "passed": "1",
+          "failed": "0"
+        }
+      },
+      "captures_sha256": {
+        "r1-setup": "cc6339a5723d47ed4b274d7b8143cc52a41146e51a01d7a5127a9ab6be5bf772",
+        "ProtectAnchor-guard": "2f563f43e2947a799acd72417c69167791077bd3da4dc39f67aaa005ee6db163",
+        "ProtectAnchor-heal": "0877501a735c694e16cdf23ca0c9cd653bdfc1696a60b0b8a8bed208f593b911",
+        "DirectAttack-counter": "1efab6a2ad452a29d5ba46958ce6b597b64b6c7e58a36bd0deb0142cc8fdf98d",
+        "DirectAttack-death": "ed27a2b24426ed26a87fa8b4b4a1b38896ffde15c5364b5911f03465514976ef",
+        "ProtectAnchor-comparison": "dca53aa5696c70db7b5391762b1c7f28999eaa5448584f2ee772ac7465ebea84",
+        "DirectAttack-comparison": "bf2407e5edf5ef00854b5164fd315f212a2074b20d29f8af0b728bb1a211cb71"
+      },
+      "export": {
+        "stage": "Integrated native-source module D; no art acceptance",
+        "author_source": "Quaternius Ultimate Stylized Nature Pack / CC0; original source, not Codex sculpt",
+        "source_blend_sha256": "6dbd16ccc5bbbf5f59306c4e49fa875552d35fd95a7bfc84f521af8fb35a60cd",
+        "artist_rock_texture_sha256": null,
+        "material_mode": "Gate0 retained stone sRGB .59/.51/.41; original author texture unavailable, not reproduced",
+        "main_variable": "Repair C vegetation contact: existing leaf base/blossom center rooted to actual front surface and rigidly posed along it; stone/water unchanged; no Core/camera/HUD/floor/hero changes",
+        "rock_edits": [
+          {
+            "source": "Rock_4",
+            "uniform_scale": 2.05,
+            "nonmanifold_edges_after_peak_cap": 0,
+            "yaw_degrees": 0,
+            "flat_contact_unity_y": -0.14,
+            "source_peak_cut_fraction": 0.12,
+            "geometry": "Original rock topology, peak cut/fill; no sampling subdivision or extrusion"
+          },
+          {
+            "source": "Rock_2",
+            "uniform_scale": 1.8,
+            "nonmanifold_edges_after_peak_cap": 0,
+            "yaw_degrees": 0,
+            "flat_contact_unity_y": -0.145,
+            "source_peak_cut_fraction": 0.12,
+            "geometry": "Original rock topology, peak cut/fill; no sampling subdivision or extrusion"
+          },
+          {
+            "source": "Rock_3",
+            "uniform_scale": 1.8,
+            "nonmanifold_edges_after_peak_cap": 0,
+            "yaw_degrees": 0,
+            "flat_contact_unity_y": -0.135,
+            "source_peak_cut_fraction": 0.12,
+            "geometry": "Original rock topology, peak cut/fill; no sampling subdivision or extrusion"
+          },
+          {
+            "source": "Rock_1",
+            "uniform_scale": 1.8,
+            "nonmanifold_edges_after_peak_cap": 0,
+            "yaw_degrees": 0,
+            "flat_contact_unity_y": -0.14,
+            "source_peak_cut_fraction": 0.12,
+            "geometry": "Original rock topology, peak cut/fill; no sampling subdivision or extrusion"
+          }
+        ],
+        "plant_contact": {
+          "cap_boolean": [
+            {
+              "stone": 0,
+              "closed_before": true,
+              "volume_before": 0.43309560357721233,
+              "volume_after": 0.43309560357721233
+            },
+            {
+              "stone": 1,
+              "closed_before": true,
+              "volume_before": 0.5801640608931584,
+              "volume_after": 0.5801640608931585
+            },
+            {
+              "stone": 2,
+              "closed_before": true,
+              "volume_before": 0.40520862651741696,
+              "volume_after": 0.33558897642812424
+            },
+            {
+              "stone": 3,
+              "closed_before": true,
+              "volume_before": 0.37661545164343296,
+              "volume_after": 0.36773344166542815
+            }
+          ],
+          "HeroLedgeFoliage": {
+            "input_groups": 191,
+            "root_attached_groups": 88,
+            "removed_unsupported_channel_bounds": 103,
+            "placement": "Actual leaf base / blossom center raycast; rigid 90deg rotation from horizontal to front surface"
+          },
+          "HeroLedgeFlowers": {
+            "input_groups": 36,
+            "root_attached_groups": 19,
+            "removed_unsupported_channel_bounds": 17,
+            "placement": "Actual leaf base / blossom center raycast; rigid 90deg rotation from horizontal to front surface"
+          }
+        },
+        "layers": {
+          "HeroLedgeLimestone": {
+            "sha256": "0bc36d78c288988f4e9215ade2a7f9024dd2f69eea85f77f0459accfea8ff387",
+            "triangles": 230,
+            "vertices": 690,
+            "bounds": [
+              [
+                -6.652480125427246,
+                -0.1550000011920929,
+                -11.172800064086914
+              ],
+              [
+                -0.5064799785614014,
+                0.125,
+                -9.703410148620605
+              ]
+            ]
+          },
+          "HeroLedgeCliff": {
+            "sha256": "ee5489be8890d1b61099434fd3841d4b6a8b74d7044d176e9f55c0335a8b10cc",
+            "triangles": 1606,
+            "vertices": 4818,
+            "bounds": [
+              [
+                -6.630704402923584,
+                -4.02394437789917,
+                -11.318044662475586
+              ],
+              [
+                -0.7103927135467529,
+                -0.135000079870224,
+                -9.38195514678955
+              ]
+            ]
+          },
+          "HeroLedgeFoliage": {
+            "sha256": "0a26ad127139445d2f254a2b59ec9451eb9c3a9f0e0d2131cd1aeb296cd493aa",
+            "triangles": 528,
+            "vertices": 1584,
+            "bounds": [
+              [
+                -6.605249881744385,
+                -3.5015697479248047,
+                -11.233329772949219
+              ],
+              [
+                -0.6932700276374817,
+                0.14883951842784882,
+                -9.969261169433594
+              ]
+            ]
+          },
+          "HeroLedgeFlowers": {
+            "sha256": "9eba5db6060632a28cdc8f4b7722fa0baba509b0dc84e95ce3293761cf38d59e",
+            "triangles": 209,
+            "vertices": 627,
+            "bounds": [
+              [
+                -6.2970099449157715,
+                -2.71781063079834,
+                -11.208209037780762
+              ],
+              [
+                -1.183109998703003,
+                0.12972012162208557,
+                -10.610942840576172
+              ]
+            ]
+          },
+          "HeroLedgeWater": {
+            "sha256": "e6ab09f8c2117a80b01b783e5dc989e206f357a9e1e9d439b26c57563b3bfe07",
+            "triangles": 72,
+            "vertices": 216,
+            "bounds": [
+              [
+                -2.9805400371551514,
+                -4.079999923706055,
+                -11.3406400680542
+              ],
+              [
+                -1.6106799840927124,
+                0.07999999821186066,
+                -10.449999809265137
+              ]
+            ]
+          },
+          "HeroLedgeFoam": {
+            "sha256": "b80bbaa6fa2563f2bea053cded2eaad33abc1f6550a24d63165961a85864066b",
+            "triangles": 5,
+            "vertices": 15,
+            "bounds": [
+              [
+                -2.836869955062866,
+                -3.960400104522705,
+                -11.374500274658203
+              ],
+              [
+                -1.7936099767684937,
+                0.0568000003695488,
+                -11.316499710083008
+              ]
+            ]
+          },
+          "HeroLedgeDetail": {
+            "sha256": "7a8a7b4640b7ac197a1fee67999341345202a603cad9ddcc17953ceabf991a0f",
+            "triangles": 18,
+            "vertices": 54,
+            "bounds": [
+              [
+                -6.25,
+                -0.004999999888241291,
+                -10.238089561462402
+              ],
+              [
+                -0.7799999713897705,
+                0.0010000000474974513,
+                -9.968850135803223
+              ]
+            ]
+          },
+          "Limestone": {
+            "sha256": "da7ce8450439b429d9502e223a3cef7f88d28f69356c7f4b340cda237dc9bd8b",
+            "vertices": 5436,
+            "triangles": 1812
+          },
+          "Cliff": {
+            "sha256": "abad20694b67101bffc6015ea7f2b83a56b0af7541ee90224bf9ee4d79c79886",
+            "vertices": 3441,
+            "triangles": 1147
+          }
+        },
+        "working_blend_sha256": "3c170edb7f4a121eebad4436ef80206bbc65aa030ee254291fd2ab62a5f7cdb7"
+      },
+      "root_review": {
+        "verdict": "REJECTED_ART_INTEGRATION; adoption zero",
+        "root_observed": [
+          "CONTROL/C/D setup at actual 390x844",
+          "D contact leaves visible below cap but dark seams, small plant fragments and earthy separate supports remain",
+          "Existing fixed art envelope and native standalone-rock composition failed representative integration gate; no paint rescue or same parameter loop"
+        ],
+        "controlled_comparison": {
+          "unchanged_from_C": [
+            "HeroLedgeLimestone",
+            "HeroLedgeCliff",
+            "HeroLedgeWater",
+            "HeroLedgeFoam",
+            "HeroLedgeDetail",
+            "Limestone",
+            "Cliff"
+          ],
+          "changed_from_C": [
+            "HeroLedgeFoliage",
+            "HeroLedgeFlowers"
+          ]
+        },
+        "neutral_pixels": "Root-to-stone proximity improves over C, but cap/green band/brown rocks read as separate stacked materials; no strong representative sample, material finish NO; approved reference actually viewed by reviewer",
+        "technical": "Filtered Play1/1, Edit0, both fixed outcomes; full suite on restored runtime pending",
+        "limits": "No video/Simulator/new TestFlight/real iPhone/Human quality pass for rejected candidate; source CLI normal startup succeeds, GUI editing not newly claimed"
+      },
+      "raw_log_sha256": {
+        "stdout": "6efc97e5d4c3d23307d0ec2d24514430ad559b47ae8a2ba02f0d8585b578e157",
+        "stderr": "f7bd5fa2e39a5fed02eda72f13111b62d4aac6fa2beadb693c6c06af4ce4aca5"
+      }
+    }
+  },
+  "limits": [
+    "No candidate video because static integration gate failed",
+    "No new Simulator, TestFlight, physical iPhone or Human acceptance",
+    "Astra sanitized text-only advisory, no pixel judgement",
+    "Ordinary source startup fixed in C/D; no new GUI edit claimed",
+    "Comparison HTML owner-local; browser file navigation blocked and not bypassed; no browser display or external pixel-sharing claim"
+  ],
+  "restored_art": {
+    "source_head": "f64e04c58b003ed5bc79cb7374b3d8f5caccaf97",
+    "rejected_patch_sha256": "977324b8d85818bc70894870e0daafa447902596c57a32ad614610f1ad94f3ea",
+    "restored_art": {
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeLimestone.obj": "58d337f0470ba2f9a4fef17a7291a917b75291ea8d0a04a2a7a9bdf5c78ba90e",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeLimestone.asset": "04fd82817374d702c7fba36576a3cb89e0e0970cd1c1fd6650ff0c5d726fc3a2",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.obj": "29e957182bdb04a83441d5ba431e1d093f9521cebaee0212d7076b95a915e25e",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.asset": "0abebb1bc7e564d80ee08d0550f706b1b4777ed4a98ef8225d8f9e0ee1028827",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoliage.obj": "03700bbca1ab9d5016ca5e14f27db10781e8087ab4ecea606262e20f3558f990",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoliage.asset": "ab5a98894b13b20579d0b936568b7c21f705d98ed26b0e1b7e8091904ec84956",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFlowers.obj": "166b903ad387ef2457cbe962bd460b9e7bcefae685b2bf0dfafcdb9fa0511ca4",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFlowers.asset": "21504f4f127b14543027481e4d3ee930ea0d5aa0cdaa2e24dfaaffb3ddf75406",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeWater.obj": "1e92d13b072588f5696273a4e4855312beb6f2c9a43dcb9189479737c03c4938",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeWater.asset": "2b133b0d47fced6010832f66a4ed3ae5e373d80b828cffc7260fc9273a0bac6d",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoam.obj": "21620aa32962e3d1cce8fc33a3791cf06655592d5a9e8160a6b2ca79048b6699",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoam.asset": "49e7d0c9cda11fd8bab6b36449c1c13a4ed25dd4a75e49f757ed8436aa456de9",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeDetail.obj": "12c35a97644e16346acd71be0f07c57d7a13b5d01a7f9314e74f249af3d5932f",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeDetail.asset": "1265ee72e61fdaa21ecccadf909b696e9be94cf0bc4b754e9162e335d9320c01",
+      "unity/Assets/RogueTactics/Art/HqRuins/Limestone.obj": "68bac484a019b526751edb225a7a0902ddad66bcda0027d01e24f9b0fb548966",
+      "unity/Assets/RogueTactics/Art/HqRuins/Limestone.asset": "fb54990840a3595b6c8358aaad44261834bf443f2f95a7c3a09a9b4219fc2731",
+      "unity/Assets/RogueTactics/Art/HqRuins/Cliff.obj": "4636b8055d09acfc6d5e50d251c814bc2c06dd5c96aad5c17aba057d4bb544c2",
+      "unity/Assets/RogueTactics/Art/HqRuins/Cliff.asset": "0713969c955eb7be31cd82be84287eb7e798c1965a532a8476a2be818f933711"
+    }
+  },
+  "retained_full": {
+    "job_id": "0761a270-4a6b-4ae6-8441-a6a00db45188",
+    "duration_seconds": 193.336040875,
+    "exit_code": 0,
+    "source_head": "f64e04c58b003ed5bc79cb7374b3d8f5caccaf97",
+    "unity_diff_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "scene_sha256": "01c8235530465fbeac2e6c999333fd9f8dcfe93f87e394ed91cfecdf55c8129f",
+    "editor": "Unity6000.3.25f1",
+    "tests": {
+      "EditMode": {
+        "raw_xml_sha256": "6f871009a8d89f4714d92974c498e1f6be8d40b9f719a9579250cf585a785fdc",
+        "summary": {
+          "id": "2",
+          "testcasecount": "14",
+          "result": "Passed",
+          "total": "14",
+          "passed": "14",
+          "failed": "0",
+          "inconclusive": "0",
+          "skipped": "0",
+          "asserts": "0",
+          "engine-version": "3.5.0.0",
+          "clr-version": "4.0.30319.42000",
+          "start-time": "2026-10-21 01:35:23Z",
+          "end-time": "2026-10-21 01:35:23Z",
+          "duration": "0.0802636"
+        },
+        "cases": [
+          {
+            "fullname": "RogueTactics.Tests.G1CoreTests.BlockedMovementMaintainsAndIllegalFixtureRejected",
+            "result": "Passed"
+          },
+          {
+            "fullname": "RogueTactics.Tests.G1CoreTests.EveryActionLegalAndNoDeadActorOrTargetCanActOrHeal(ProtectAnchor)",
+            "result": "Passed"
+          },
+          {
+            "fullname": "RogueTactics.Tests.G1CoreTests.EveryActionLegalAndNoDeadActorOrTargetCanActOrHeal(DirectAttack)",
+            "result": "Passed"
+          },
+          {
+            "fullname": "RogueTactics.Tests.G1CoreTests.LethalHitSuppressesAnchorCounter",
+            "result": "Passed"
+          },
+          {
+            "fullname": "RogueTactics.Tests.G1CoreTests.ReplayIsByteIdenticalAndIndependentOfCulture(ProtectAnchor)",
+            "result": "Passed"
+          },
+          {
+            "fullname": "RogueTactics.Tests.G1CoreTests.ReplayIsByteIdenticalAndIndependentOfCulture(DirectAttack)",
+            "result": "Passed"
+          },
+          {
+            "fullname": "RogueTactics.Tests.G1CoreTests.SinglePreferenceForkChangesRealPlanAndOutcomeMeasures",
+            "result": "Passed"
+          },
+          {
+            "fullname": "RogueTactics.Tests.MobileG1SessionTests.MobileAdapterPreservesFrozenG1Trace(ProtectAnchor,\"e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d\")",
+            "result": "Passed"
+          },
+          {
+            "fullname": "RogueTactics.Tests.MobileG1SessionTests.MobileAdapterPreservesFrozenG1Trace(DirectAttack,\"85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e\")",
+            "result": "Passed"
+          },
+          {
+            "fullname": "RogueTactics.Tests.ScaffoldTests.CoordinateOverflowFailsExplicitly",
+            "result": "Passed"
+          },
+          {
+            "fullname": "RogueTactics.Tests.ScaffoldTests.CoreReferencesNeitherUnityNorPresentation",
+            "result": "Passed"
+          },
+          {
+            "fullname": "RogueTactics.Tests.ScaffoldTests.PortraitConfigurationIsPinned",
+            "result": "Passed"
+          },
+          {
+            "fullname": "RogueTactics.Tests.ScaffoldTests.SameCoordinateOffsetsProduceSameSequence",
+            "result": "Passed"
+          },
+          {
+            "fullname": "RogueTactics.Tests.ScaffoldTests.UrpIsConfigured",
+            "result": "Passed"
+          }
+        ]
+      },
+      "PlayMode": {
+        "raw_xml_sha256": "b2602e35cb918766113a82c75fda4353dd285f8c6572b91dd14acbed0e0c577c",
+        "summary": {
+          "id": "2",
+          "testcasecount": "9",
+          "result": "Passed",
+          "total": "9",
+          "passed": "9",
+          "failed": "0",
+          "inconclusive": "0",
+          "skipped": "0",
+          "asserts": "0",
+          "engine-version": "3.5.0.0",
+          "clr-version": "4.0.30319.42000",
+          "start-time": "2026-10-21 01:35:46Z",
+          "end-time": "2026-10-21 01:38:14Z",
+          "duration": "147.075648"
+        },
+        "cases": [
+          {
+            "fullname": "RogueTactics.Tests.G1InteractionTests.InputToBattleToAlternativeComparisonRendersOnlyCoreEvents",
+            "result": "Passed"
+          },
+          {
+            "fullname": "RogueTactics.Tests.HqPresentationTests.FixedYawCameraComparisonPreservesState",
+            "result": "Passed"
+          },
+          {
+            "fullname": "RogueTactics.Tests.HqPresentationTests.PauseDuringMovementPreservesVisiblePoseAndCursor",
+            "result": "Passed"
+          },
+          {
+            "fullname": "RogueTactics.Tests.HqPresentationTests.ProductFlowPreservesDisplayedCursorAndBothFrozenOutcomes",
+            "result": "Passed"
+          },
+          {
+            "fullname": "RogueTactics.Tests.MobileG1InteractionTests.JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults",
+            "result": "Passed"
+          },
+          {
+            "fullname": "RogueTactics.Tests.MobileG1InteractionTests.PredictionStaysAboveKeyboardAndReturnsWithoutChangingCore",
+            "result": "Passed"
+          },
+          {
+            "fullname": "RogueTactics.Tests.MobileG1InteractionTests.QueuedMouseReachesButtonsThroughInputSystem",
+            "result": "Passed"
+          },
+          {
+            "fullname": "RogueTactics.Tests.MobileG1InteractionTests.QueuedTouchReachesButtonsThroughInputSystem",
+            "result": "Passed"
+          },
+          {
+            "fullname": "RogueTactics.Tests.PortraitSmokeTests.Stage0RendersAtPortraitReferenceWithoutHorizontalClipping",
+            "result": "Passed"
+          }
+        ]
+      }
+    },
+    "frozen_source_count": 55,
+    "all_frozen_unchanged": true,
+    "core_tree": "50274c84cb56344d1394b4283833728c72cd7577",
+    "tests_tree": "1ecdc31db505a03310095886d5d2a3e363be797c",
+    "approved_skin_png_sha256": {
+      "shiro": "5f9bd5d0f8f7569987f0df3393d2236a032b75091e7af9c6f10ba17b3c7a7c73",
+      "myaru": "3f064518faf44e308614ddaaaa81eb108d909c116e0a0a21cadf8d33e64a8fd5",
+      "momo": "d8f62c2299c2772ce21ded771ec2faf6c50f9d18d4f585ba2fe7a63d698daa74",
+      "garu": "04051f21042b365c767124f4931f8189502a24eab9896089e8850b3e8e76c015"
+    },
+    "fixed_hash_assertions": {
+      "ProtectAnchor": "e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d",
+      "DirectAttack": "85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e"
+    },
+    "captures_sha256": {
+      "r1-setup": "c010b012df934c1da3ca0252756137558791378dd1acae37062b96725ad5a570",
+      "ProtectAnchor-guard": "dea2b3a2f3a92af1524c30e7be98b5b5edcfd91acdde4f94fe55e1d48552b5fd",
+      "ProtectAnchor-heal": "28ca142228d56f6af622414aadb3ed3be3b2b0e39fa759cc4ded91429f9c562a",
+      "DirectAttack-counter": "f9b2d9ee7c77fc097dc5111715a49e128486602ac88586dc06a58be8e5372b7f",
+      "DirectAttack-death": "e35e3f9f9d5e7f148aaacff160b94a112b3b0585dd6891e6e9331ddd71db320d",
+      "ProtectAnchor-comparison": "a2685f5f573861ba279cabab758bae1b0479608ea3243e19e467d02d71df516a",
+      "DirectAttack-comparison": "84ae2673bd2201c343f2206b2369a362dd91ba6035cb5aa6be28cc69750d9f15"
+    },
+    "root_observation": "Fresh retained setup viewed; candidate A-D removed",
+    "limits": "Full local Unity result, not new Simulator/TestFlight/physical iPhone/Human play"
+  }
+}

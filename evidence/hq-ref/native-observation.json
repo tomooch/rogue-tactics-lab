@@ -1,0 +1,73 @@
+{
+  "source_head": "d7824378755d52cffbdb6add558bef0f50baefe8",
+  "bundle_id": "com.tomooch.roguetacticslab",
+  "build": "0.1.0 (4)",
+  "environment": "Dedicated iPhone17 iOS27 Simulator; native Metal player; CUA pointer",
+  "physical_device": false,
+  "human_play": false,
+  "observed": [
+    "Japanese on-screen kana input visible above keyboard; confirm restores field and stored prediction",
+    "normal Protect entrust auto battle",
+    "mid-battle pause held same visible state then resumed",
+    "Protect victory14 A16 B16 C12 D10 alive4 heals0",
+    "reset, Attack entrust auto battle",
+    "Attack victory14 A0 B16 C12 D10 alive3 heals1",
+    "both results and stored Japanese prediction visible in comparison"
+  ],
+  "terminal_hashes": {
+    "ProtectAnchor": "e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d",
+    "DirectAttack": "85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e"
+  },
+  "frame_intervals": [
+    {
+      "runtime": "Unity native player",
+      "unity": "6000.3.25f1",
+      "graphics": "Metal",
+      "samples": 1328,
+      "p50_ms": 16.666418075561523,
+      "p95_ms": 17.267545700073242,
+      "reduced_effects": false,
+      "limitation": "Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"
+    },
+    {
+      "runtime": "Unity native player",
+      "unity": "6000.3.25f1",
+      "graphics": "Metal",
+      "samples": 1281,
+      "p50_ms": 16.666460037231445,
+      "p95_ms": 16.69679069519043,
+      "reduced_effects": false,
+      "limitation": "Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"
+    }
+  ],
+  "limitations": [
+    "Simulator frame interval includes video/host overhead, no physical thermal or memory evidence",
+    "R2 V0 FAIL",
+    "long obstacle-avoiding arrows can resemble movement paths; R3 visual acceptance pending",
+    "small actor tiles remain ID-dependent",
+    "Human visual/fun acceptance pending"
+  ],
+  "private_evidence": [
+    {
+      "path": "/private/tmp/rogue-hq-evidence/build4-final-native.mp4",
+      "sha256": "3a28a94100901579e3f40e3752d99ccec52cef1c239d64470cb1ff2cfe670251",
+      "public_git": false
+    },
+    {
+      "path": "/private/tmp/rogue-hq-evidence/build4-paused.jpg",
+      "sha256": "d14d0c4b020ac208ebf52418facf84733592d4dac1c1af187c72953f273cd5e5",
+      "public_git": false
+    },
+    {
+      "path": "/private/tmp/rogue-hq-evidence/build4-comparison.jpg",
+      "sha256": "48c5262e9169e7781a0f0c456c044f23dc4329366881613ca5dedfd3de687947",
+      "public_git": false
+    },
+    {
+      "path": "/private/tmp/rogue-hq-evidence/build4-action-clip.mp4",
+      "sha256": "7556da0eeb6b1d8ee512bcc736042eba4266a66d0b6a80156f866128a7f89610",
+      "public_git": false,
+      "derived_from": "build4-final-native.mp4; stream-copy 40s offset / 30s duration; no synthesized frames"
+    }
+  ]
+}

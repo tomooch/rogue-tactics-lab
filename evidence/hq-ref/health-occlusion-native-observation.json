@@ -1,0 +1,153 @@
+{
+  "schema_version": 1,
+  "executed_source_revision": "2abff2d6fd5e7089d32e6ceb3b145c15f282204f",
+  "unity_editor": "6000.3.25f1",
+  "simulator_name": "Rogue Tactics G1 QA",
+  "simulator_id": "48E63FF9-C98B-4424-B3F0-47CD7007DF16",
+  "runtime": "iOS27.0 QA Simulator",
+  "export_exit": 0,
+  "xcode_build_exit": 0,
+  "binary_sha256": "7a3400d0b992748dfb0e296a9ab16392da7dac1403a33c9b1c11b62e7e44e528",
+  "bundle_id": "com.tomooch.roguetacticslab",
+  "local_bundle_version": "0.1.0(5), not a new ASC/TestFlight build5",
+  "source_restored_after_generated_settings": true,
+  "unexpected_mutations": [],
+  "native_results": [
+    "MOBILE_G1_RESULT DirectAttack 85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e",
+    "MOBILE_G1_RESULT ProtectAnchor e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d"
+  ],
+  "observed_flow": [
+    "Initial6HP visible; Momo owner-specific panel; attack selected on same G1 fixture",
+    "Attack movement -> Shiro counter/HP loss -> pause at Shiro5 with X dead -> observed later same visible HP/pose -> resume ->14actions/3alive/HP0,16,12,10/heals1 ->comparison ->retry initial6HP",
+    "Protect selected; optional Japanese composingか; outside tap keyboard dismiss/field restored; start ->14actions/4alive/HP16,16,12,10/heals0; both comparison retainsProtectか separately fromAttackunentered"
+  ],
+  "pause_check": {
+    "image_size": [
+      1206,
+      2622
+    ],
+    "roi": [
+      0,
+      140,
+      1206,
+      2472
+    ],
+    "equal_rgb_in_roi": false,
+    "limits": "Only displayed UI/game pixels in ROI; no real-device or global future-state proof."
+  },
+  "pause_limit": "Displayed HP and pose visually unchanged at two observations; broad ROI RGB equality is false. No exact global pixel freeze claim; cause of pixel delta not isolated. Editor event-cursor/tween pause tests pass.",
+  "comparison": {
+    "before_private": "native-observation/attack-12s.png",
+    "before_source": "48cdc6c90d8c42f536970d256d3a2a67f65a2178",
+    "before_sha256": "70348a65b614634aefcbba9fbce6160e93b9db883d9d2125e7d5a65488525172",
+    "after_private": "native-health-observation/video-30s.png",
+    "after_source": "2abff2d6fd5e7089d32e6ceb3b145c15f282204f",
+    "after_sha256": "017ced7c4a6169b96ba7d21fa0321bc0a21177f48fe6e85cfe1167d4d2f420ae",
+    "controlled_state": "Both show Garu→moss attack-6 receipt, ShiroHP12, other allyHP16/12/10, same G1 fixture. Active accent/tween phase differ; not pixel-aligned same-frame comparison.",
+    "root_finding": "Before rear Momo health strip crosses Shiro upper head/face. After suppressed strip leaves that region visible; all6initial strips preserved. Local repair only."
+  },
+  "video": {
+    "live_observation": "Real CUA input during recorded action/pause/resume/result/retry/policy/IME/both result sequence; not merely inferred from sampled frames.",
+    "sampled_seconds": [
+      20,
+      25,
+      30
+    ],
+    "quicktime_playback": "Attempt to open QuickTime timed out (-10005); no successful new video playback claimed. Prior48cdc6c playback is separate.",
+    "every_frame_manually_reviewed": false
+  },
+  "warnings": [
+    "ASTC6X6 unsupported/decompression twice on Simulator",
+    "Shadowmap depth fallback16bit"
+  ],
+  "exceptions_or_crash_observed": false,
+  "crash_log_note": "CrashReporter: No pending report exists is initialization info, not a crash.",
+  "R2": "V0 FAIL",
+  "original_full_mesh_gate": "FAIL step0 X/C in final Editor run; other first pairs possible",
+  "human_quality_pass": false,
+  "physical_iphone": false,
+  "new_testflight_archive_upload_distribution": false,
+  "private_root": "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-10-23-integrated-hud/native-health-observation",
+  "public_media": false,
+  "media": [
+    {
+      "filename": "attack-comparison.png",
+      "bytes": 1040176,
+      "sha256": "67d208485d9215df6687fd30572f12c0125081bd6efe5173db9d35fefad6474e"
+    },
+    {
+      "filename": "attack-paused-a.png",
+      "bytes": 1823596,
+      "sha256": "f359b17418e4fe3b405acae4156e6fc2769e1b7c781064afff884f037f11860c"
+    },
+    {
+      "filename": "attack-paused-b.png",
+      "bytes": 1823310,
+      "sha256": "fbd7ea3f3b792a0365cc69f0355b4b51e3e4bcfbd85a0b5585938de2c29039d2"
+    },
+    {
+      "filename": "both-comparison.png",
+      "bytes": 984519,
+      "sha256": "0bc13da747faac65eb0c4a80a8108642059ebe95dc9f8a7f7c4228021fbc0d7d"
+    },
+    {
+      "filename": "ime-composition.png",
+      "bytes": 1527349,
+      "sha256": "779e386e39d28f707ebed47c9402c3acee5d802988e7c234976cc75793baf89f"
+    },
+    {
+      "filename": "native-flow.mp4",
+      "bytes": 428104482,
+      "sha256": "f65c5a64df6fa3146b0ffb34088b5df00a12f16adec96f69a420f956b7a008bf",
+      "metadata": {
+        "programs": [],
+        "stream_groups": [],
+        "streams": [
+          {
+            "codec_name": "h264",
+            "width": 1206,
+            "height": 2622
+          }
+        ],
+        "format": {
+          "duration": "343.550000"
+        }
+      }
+    },
+    {
+      "filename": "setup.png",
+      "bytes": 1755854,
+      "sha256": "fd2e48a9265b2e8230fe3dd69f11e6262702cc032d9024a1faf0c832c54cc7fc"
+    },
+    {
+      "filename": "video-20s.png",
+      "bytes": 1344194,
+      "sha256": "25d8940a0ad460a134bf78ea3cfb1df2c1eb1062c13693d63349eb3528155f6c"
+    },
+    {
+      "filename": "video-25s.png",
+      "bytes": 1357606,
+      "sha256": "89ef479f5ddd4948211e36b543145209c325978178a5ba4cd542425d37d33678"
+    },
+    {
+      "filename": "video-30s.png",
+      "bytes": 1364030,
+      "sha256": "017ced7c4a6169b96ba7d21fa0321bc0a21177f48fe6e85cfe1167d4d2f420ae"
+    }
+  ],
+  "runtime_log_sha256": "ef5b8893eeb50a0e030b87003a0b6a7212cb116f155bfbc677ec03f5873bf349",
+  "native_build_result_private_sha256": "a6b0f4ead3c3db1d5296b04018ca81657bba11d0679fab4cfac3499fce9e58e5",
+  "operational_failures": [
+    "Initial MCP session defaults missing; no install/launch happened until exact QA defaults set, then stop/install/launch succeeded",
+    "QuickTime open timeout; new movie playback not verified"
+  ],
+  "independent_native_pixel_review": {
+    "reviewed": [
+      "prior native-observation/attack-12s.png",
+      "new native-health-observation/video-30s.png",
+      "new native-health-observation/setup.png"
+    ],
+    "finding": "Old cyan strip crosses Shiro upper head/fringe. New corresponding strip suppressed and face visible. Same ShiroHP12 and Garu-to-moss attack-6 receipt; initial4ally+2enemy strips present. Tween/accent phase differs, not identical-frame comparison. Prior non-confirmation is superseded by this new native pair review.",
+    "tradeoff": "Temporary removal reduces foot-location cue; named cards preserve allyHP. No Human quality/R2 pass."
+  }
+}

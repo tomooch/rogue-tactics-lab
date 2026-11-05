@@ -1,0 +1,831 @@
+{
+  "date": "2026-10-19",
+  "start_head": "7cb7f0c6804881e3446f57f2311eb5609555c8e8",
+  "retained_runtime": "fc005d4ddee3edc5ac5b035ecfefb5e132f5e25a",
+  "branch": "codex/hq-ref-vertical-slice",
+  "base_branch": "codex/mobile-visual-g1",
+  "review": "https://github.com/tomooch/rogue-tactics-lab/pull/21#pullrequestreview-5566270401",
+  "decision": {
+    "gate0_a": "FAIL",
+    "gate0_b": "FAIL",
+    "adopted": 0,
+    "r2_v0": "FAIL",
+    "blocked": "BLOCKED_ART_PRODUCTION",
+    "human_quality": "OPEN",
+    "route": "No detailed sculpt or wider rollout of these blockouts"
+  },
+  "baseline": {
+    "head": "7cb7f0c6804881e3446f57f2311eb5609555c8e8",
+    "main": "ab9fa5dc729dcea07f8680e7b22544627c5e5bed",
+    "base": "ce4ffac8d2216973c391d801cf5f6d41fbde66b5",
+    "trees": {
+      "unity": "05e6238b89ff2f1ae558cf5c287e6d2939aedba7",
+      "unity/Assets/RogueTactics/Core": "50274c84cb56344d1394b4283833728c72cd7577",
+      "unity/Assets/RogueTactics/Tests": "1ecdc31db505a03310095886d5d2a3e363be797c"
+    },
+    "files": {
+      "unity/Assets/RogueTactics/Scenes/MobileG1.unity": "4e6b58ed0b3e80938d2d1b25b2e801013c0b0fe6d6ff2ea908657184d3fc3704",
+      "unity/Assets/RogueTactics/Art/MobileG1/Private/garu.png": "04051f21042b365c767124f4931f8189502a24eab9896089e8850b3e8e76c015",
+      "unity/Assets/RogueTactics/Art/MobileG1/Private/momo.png": "d8f62c2299c2772ce21ded771ec2faf6c50f9d18d4f585ba2fe7a63d698daa74",
+      "unity/Assets/RogueTactics/Art/MobileG1/Private/myaru.png": "3f064518faf44e308614ddaaaa81eb108d909c116e0a0a21cadf8d33e64a8fd5",
+      "unity/Assets/RogueTactics/Art/MobileG1/Private/shiro.png": "5f9bd5d0f8f7569987f0df3393d2236a032b75091e7af9c6f10ba17b3c7a7c73"
+    },
+    "reference_byte_sha256": "99a76f33c60e74d7fd890e9cf188531280e030e58a5893bafd90899ea2b965b8",
+    "review": "https://github.com/tomooch/rogue-tactics-lab/pull/21#pullrequestreview-5566270401",
+    "head_runtime_unity_tools_diff_empty": true,
+    "art_bounds": {
+      "x": [
+        -6.7,
+        -0.5
+      ],
+      "y": [
+        -4.2,
+        0.15
+      ],
+      "z": [
+        -11.4,
+        -9.3
+      ]
+    }
+  },
+  "variants": {
+    "control": {
+      "images": {
+        "start": 1792399151.533144,
+        "images": {
+          "r1-setup": {
+            "sha256": "1a8bc41156f2e532884e64f507fdce8d04207ce48e71205ebab2dd8ea7a1250e",
+            "mtime": 1792399189.0482247
+          },
+          "ProtectAnchor-guard": {
+            "sha256": "b98541d24c47455236623dcfa9d3a81a5b703b60c593aea1c4d945e3a809adf4",
+            "mtime": 1792399190.3991792
+          },
+          "ProtectAnchor-heal": {
+            "sha256": "afa3eb2cca6aaf61cfde074a9e3ce501dc8f2c6a9e5175c4de9a5cea85620f71",
+            "mtime": 1792399198.2415102
+          },
+          "DirectAttack-counter": {
+            "sha256": "e9753361a8cb0939ac813818950fd7e5186e0deebf7484382df24b68989f5bd5",
+            "mtime": 1792399215.219085
+          },
+          "DirectAttack-death": {
+            "sha256": "6d00b5f55a212e3e72f1441b4e5b2fe50ffb88e8462d75c387a6b4e1c5363b05",
+            "mtime": 1792399225.0477402
+          },
+          "ProtectAnchor-comparison": {
+            "sha256": "e9984bf7597b4f19693891975566a39f5e32301610c3ea4e7428e6da0f3ff6d8",
+            "mtime": 1792399211.9011471
+          },
+          "DirectAttack-comparison": {
+            "sha256": "7567344a5b8af1443f64514f35d290c86cdd87dd28c82329d2196ad8a31ae6a0",
+            "mtime": 1792399233.9307804
+          }
+        }
+      },
+      "source_and_results_sha256": "e9f5af2c84e68c20e36af2cfc37d600b10b19671a82c2b409af79661c8c06f6f",
+      "results": {
+        "EditMode": {
+          "exit": 0,
+          "tests": {
+            "id": "2",
+            "testcasecount": "0",
+            "result": "Passed",
+            "total": "0",
+            "passed": "0",
+            "failed": "0",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-10-19 08:39:28Z",
+            "end-time": "2026-10-19 08:39:28Z",
+            "duration": "0.0029268"
+          }
+        },
+        "PlayMode": {
+          "exit": 0,
+          "tests": {
+            "id": "2",
+            "testcasecount": "1",
+            "result": "Passed",
+            "total": "1",
+            "passed": "1",
+            "failed": "0",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-10-19 08:39:48Z",
+            "end-time": "2026-10-19 08:40:34Z",
+            "duration": "45.7919879"
+          }
+        }
+      }
+    },
+    "blockout-a": {
+      "images": {
+        "start": 1792412822.171443,
+        "images": {
+          "r1-setup": {
+            "sha256": "debb643cf1db43ed5b6743fb233ee7aeb6544fb72452be573505f987b4fd19bc",
+            "mtime": 1792412852.0628967
+          },
+          "ProtectAnchor-guard": {
+            "sha256": "0a39d5e4616e6ff219085fcf37f2ba39a77d3be5cfa7a78b3486bad3d660bbd4",
+            "mtime": 1792412853.403311
+          },
+          "ProtectAnchor-heal": {
+            "sha256": "212b868d47a9d2a84b27cc3bd0b44d2d49db706f5a46adba13512cf1007fd264",
+            "mtime": 1792412861.2740178
+          },
+          "DirectAttack-counter": {
+            "sha256": "e5b6ae0738ca3559429cb17ef132f928561cf82728e4f9e75f06552dc54e0cb2",
+            "mtime": 1792412878.2381697
+          },
+          "DirectAttack-death": {
+            "sha256": "d4e6b309b1e83711edc151372e0bdba53c694ca1400803a84370871db9d2d826",
+            "mtime": 1792412888.0826235
+          },
+          "ProtectAnchor-comparison": {
+            "sha256": "206fa5fadb4fc9ea698a31c6bd8db2b774f31e46f618aa88465a6e4797d3e56e",
+            "mtime": 1792412874.9215477
+          },
+          "DirectAttack-comparison": {
+            "sha256": "875d5a461631f392cb8af54b3d3f439b3498e4536effa42a65b55c55f3d25f1b",
+            "mtime": 1792412896.9909732
+          }
+        }
+      },
+      "source_and_results_sha256": "3ad78d9efa2d6413b5cb8dcdc139d720650294c0f58f00d2404a684b6b030e89",
+      "results": {
+        "EditMode": {
+          "exit": 0,
+          "tests": {
+            "id": "2",
+            "testcasecount": "0",
+            "result": "Passed",
+            "total": "0",
+            "passed": "0",
+            "failed": "0",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-10-19 12:27:16Z",
+            "end-time": "2026-10-19 12:27:16Z",
+            "duration": "0.0024561"
+          }
+        },
+        "PlayMode": {
+          "exit": 0,
+          "tests": {
+            "id": "2",
+            "testcasecount": "1",
+            "result": "Passed",
+            "total": "1",
+            "passed": "1",
+            "failed": "0",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-10-19 12:27:31Z",
+            "end-time": "2026-10-19 12:28:17Z",
+            "duration": "45.70381"
+          }
+        }
+      },
+      "source": {
+        "stage": "Gate0, not final art",
+        "blend_sha256": "10ab908679430dcf3c355c444ef0b471a5435ad4d9aedc23b651908448e60805",
+        "blender": "5.2.2 LTS",
+        "layers": {
+          "HeroLedgeCliff": {
+            "sha256": "19046228a0f1b21875a221fa193f0a226304861ce907e895d0f6bdeec624b47b",
+            "vertices": 72,
+            "triangles": 40
+          },
+          "HeroLedgeDetail": {
+            "sha256": "491eb7a84d91b0404b128f270489175b889486402e309e5d19b7d30ddda3aa25",
+            "vertices": 72,
+            "triangles": 36
+          },
+          "HeroLedgeFlowers": {
+            "sha256": "262ef2ea3c79999662045e37afd0effcfb2d074f2fb175edab25bc6d477d98b4",
+            "vertices": 4,
+            "triangles": 2
+          },
+          "HeroLedgeFoam": {
+            "sha256": "29aa3162208eccbbad790ba710d8c966ea18592309ba78830c9135d151465e24",
+            "vertices": 4,
+            "triangles": 2
+          },
+          "HeroLedgeFoliage": {
+            "sha256": "7ce7557e18559078e9eb70fd217577558ba2ad062b8f60afca420d5f1f85878f",
+            "vertices": 32,
+            "triangles": 16
+          },
+          "HeroLedgeLimestone": {
+            "sha256": "c40b88f5fc12246106795cae292257e9d77239e33665c51c442fed58d8229269",
+            "vertices": 72,
+            "triangles": 44
+          },
+          "HeroLedgeWater": {
+            "sha256": "529935af57e1475cea1d76e32833eadc75ff7612f1817c3ce2366ab9ca5679ef",
+            "vertices": 28,
+            "triangles": 14
+          }
+        }
+      },
+      "gate0": {
+        "candidate": "blockout-a",
+        "gate0": "FAIL",
+        "art_adoption": false,
+        "images_reviewed": [
+          "r1-setup",
+          "ProtectAnchor-guard",
+          "DirectAttack-counter"
+        ],
+        "local_independent_reviewer": {
+          "agent": "/root/hud_review",
+          "pixels_viewed": true,
+          "stages_viewed": 7,
+          "reference_viewed": true,
+          "decision": "FAIL"
+        },
+        "observations": [
+          "Original cream front rim remains across candidate silhouette and interrupts gray cap/water source/cliff continuity.",
+          "No clear side-open notch at native390; new gray surfaces read as short planar additions behind legacy rim.",
+          "Ivy reads as disconnected green vertical marker.",
+          "No obvious new clipping or readability failure in four actors, HP, receipts or lower HUD."
+        ],
+        "repair_b": {
+          "principal_variable": "Remove duplicated occluding legacy rim and backing cliff ONLY inside approved art AABB; retain same seven authored blockout layers",
+          "scope": [
+            "Legacy Limestone and Cliff local patch"
+          ],
+          "frozen": [
+            "Courtyard floor",
+            "Core",
+            "actors and skins",
+            "camera",
+            "light",
+            "HUD",
+            "events"
+          ]
+        },
+        "limits": [
+          "Gate0 is visibility/contact feasibility, not finished art or Human quality approval.",
+          "Root viewed setup, guard and counter pairs plus reference; independent reviewer viewed all seven stages."
+        ]
+      },
+      "rendered_assets": {
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeLimestone.obj": "c40b88f5fc12246106795cae292257e9d77239e33665c51c442fed58d8229269",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.obj": "19046228a0f1b21875a221fa193f0a226304861ce907e895d0f6bdeec624b47b",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeWater.obj": "529935af57e1475cea1d76e32833eadc75ff7612f1817c3ce2366ab9ca5679ef",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoliage.obj": "7ce7557e18559078e9eb70fd217577558ba2ad062b8f60afca420d5f1f85878f",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoam.obj": "29aa3162208eccbbad790ba710d8c966ea18592309ba78830c9135d151465e24",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeDetail.obj": "491eb7a84d91b0404b128f270489175b889486402e309e5d19b7d30ddda3aa25",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFlowers.obj": "262ef2ea3c79999662045e37afd0effcfb2d074f2fb175edab25bc6d477d98b4",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoliage.asset": "ceef64dc40e0a32204aea0eed77d9f2057756fbe7c508776d7812a8c32c29623",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFlowers.asset": "5a6ee50c5929caf6500211856132ab28390c0416024f6fc1fd2367b994a21ba1",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeWater.asset": "1ea88e9fc8d789f1e1348555ef2f2d47fc3958bb7ead9ddd2b9fd4ddbc16f993",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.asset": "1ec3e787259e6179aedeefe0085a123723fea6b7fc90c4b085ea31ba09f0fdcb",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoam.asset": "2bb75995506de7e5de2026a3eb25262bbf5258792aacb700adf586546e18ff36",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeLimestone.asset": "b0d51ba8fe225a14f02313bea89b280fac99546ff12719e654312ac2efea2c86",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeDetail.asset": "0b58ae6908e61d1495bcf462edcc2c3e34f76dac90370760e0a657ee0fcf0255",
+        "unity/Assets/RogueTactics/Scenes/MobileG1.unity": "4e6b58ed0b3e80938d2d1b25b2e801013c0b0fe6d6ff2ea908657184d3fc3704"
+      },
+      "frozen_invariants": {
+        "head": "7cb7f0c6804881e3446f57f2311eb5609555c8e8",
+        "fixed_sources_match_fresh_control": true,
+        "scene_and_approved_skins_match_baseline": true,
+        "changed_source_scope": [
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.obj",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeDetail.obj",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFlowers.obj",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoam.obj",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoliage.obj",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeLimestone.obj",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeWater.obj"
+        ],
+        "scope": "Local integrated rim Gate0 only; no finished art acceptance"
+      }
+    },
+    "blockout-b": {
+      "images": {
+        "start": 1792413125.023788,
+        "images": {
+          "r1-setup": {
+            "sha256": "b797c7cdb57ba7c8c97ab8a3802d308e64b8bdc63c9ee3ba7b1ff55dee2415ab",
+            "mtime": 1792413157.307409
+          },
+          "ProtectAnchor-guard": {
+            "sha256": "084c6f7fb8f82bda6d37738a1ace571799cce7d9a92974b9f3d23fc3b4297c5b",
+            "mtime": 1792413158.6390867
+          },
+          "ProtectAnchor-heal": {
+            "sha256": "c61a8c3e864f07b1c553a69a5d8218fe57fd776e36e670a9ba15372ee8d128a7",
+            "mtime": 1792413166.5034595
+          },
+          "DirectAttack-counter": {
+            "sha256": "eb647d92db9feba0d76561010fd061252166679f81834d4c7148178c3d94b272",
+            "mtime": 1792413183.492098
+          },
+          "DirectAttack-death": {
+            "sha256": "660d66328f53f5a0c9f809d4c64acd1d646941f972224402a80d9a932e62023a",
+            "mtime": 1792413193.3503082
+          },
+          "ProtectAnchor-comparison": {
+            "sha256": "42349429a5cbae05033d46c8444e4bc0bfe1be37e880aa4f63abafaee3e51c55",
+            "mtime": 1792413180.1873927
+          },
+          "DirectAttack-comparison": {
+            "sha256": "b0c407e2e1fb20f9637160aca97077da6973c2f1991d92c38da3185ad32b97a1",
+            "mtime": 1792413202.2492335
+          }
+        }
+      },
+      "source_and_results_sha256": "45124b2cce725517a91593b692db55836785d595348eed54240c82d410295119",
+      "results": {
+        "EditMode": {
+          "exit": 0,
+          "tests": {
+            "id": "2",
+            "testcasecount": "0",
+            "result": "Passed",
+            "total": "0",
+            "passed": "0",
+            "failed": "0",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-10-19 12:32:18Z",
+            "end-time": "2026-10-19 12:32:18Z",
+            "duration": "0.0020876"
+          }
+        },
+        "PlayMode": {
+          "exit": 0,
+          "tests": {
+            "id": "2",
+            "testcasecount": "1",
+            "result": "Passed",
+            "total": "1",
+            "passed": "1",
+            "failed": "0",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-10-19 12:32:36Z",
+            "end-time": "2026-10-19 12:33:22Z",
+            "duration": "45.7782891"
+          }
+        }
+      },
+      "source": {
+        "stage": "Gate0 B, duplicate local legacy cap/wall removed; not final art",
+        "blend_sha256": "8e5e550ff2466cf5fd39e35864d609fee623162365eb3e694691d5cfaf1d6a9b",
+        "blender": "5.2.2 LTS",
+        "layers": {
+          "HeroLedgeCliff": {
+            "sha256": "19046228a0f1b21875a221fa193f0a226304861ce907e895d0f6bdeec624b47b",
+            "vertices": 72,
+            "triangles": 40
+          },
+          "HeroLedgeDetail": {
+            "sha256": "491eb7a84d91b0404b128f270489175b889486402e309e5d19b7d30ddda3aa25",
+            "vertices": 72,
+            "triangles": 36
+          },
+          "HeroLedgeFlowers": {
+            "sha256": "262ef2ea3c79999662045e37afd0effcfb2d074f2fb175edab25bc6d477d98b4",
+            "vertices": 4,
+            "triangles": 2
+          },
+          "HeroLedgeFoam": {
+            "sha256": "29aa3162208eccbbad790ba710d8c966ea18592309ba78830c9135d151465e24",
+            "vertices": 4,
+            "triangles": 2
+          },
+          "HeroLedgeFoliage": {
+            "sha256": "7ce7557e18559078e9eb70fd217577558ba2ad062b8f60afca420d5f1f85878f",
+            "vertices": 32,
+            "triangles": 16
+          },
+          "HeroLedgeLimestone": {
+            "sha256": "c40b88f5fc12246106795cae292257e9d77239e33665c51c442fed58d8229269",
+            "vertices": 72,
+            "triangles": 44
+          },
+          "HeroLedgeWater": {
+            "sha256": "529935af57e1475cea1d76e32833eadc75ff7612f1817c3ce2366ab9ca5679ef",
+            "vertices": 28,
+            "triangles": 14
+          },
+          "Limestone": {
+            "sha256": "5a95c7b473d851bb8be2fa0dcdbae75535802df3d5e527a7f6737b7216a11140",
+            "vertices": 5436,
+            "triangles": 1812
+          },
+          "Cliff": {
+            "sha256": "a10b87b22a8412cfbe2cb5f23aabe56a3335522b15b92a9361d44b719928ec8d",
+            "vertices": 3441,
+            "triangles": 1147
+          }
+        }
+      },
+      "gate0": {
+        "candidate": "blockout-b",
+        "gate0": "FAIL",
+        "art_adoption": false,
+        "root_actual_pairs_viewed": 7,
+        "local_independent_reviewer": {
+          "agent": "/root/hud_review",
+          "pixels_viewed": true,
+          "stages_viewed": 7,
+          "decision": "FAIL"
+        },
+        "improvement_over_a": "Less duplicate legacy rim/wall occlusion; more candidate cliff surface visible. This is an occlusion repair, not integrated art feasibility.",
+        "remaining_failures": [
+          "Cap and shelf read as horizontal planar strip with short hanging gray slabs; cut openings read as teeth/random slots rather than a supported eroded side-open notch.",
+          "Upper water course is still obscured at the lip; fall reads as an attached strip rather than visible source/lip/fall.",
+          "Ivy remains a thin green vertical marker, without readable root/support contact.",
+          "No demonstrated whole-frame art or party-focus gain over CONTROL."
+        ],
+        "preserved_observation": "No major new actor, HP, event receipt or lower UI occlusion in seven stages; not Human readability or fun approval.",
+        "route_disposition": "Stop detailed sculpt of this blockout route; retain runtime fc005d4 and propose legitimate authored source/artist or separately approved environment-only hybrid representation.",
+        "astra": {
+          "consultations": 2,
+          "native_model": "gpt-6-astra",
+          "effort": "high",
+          "pixels_seen": false,
+          "inputs": "Sanitized text only, no private paths, images or meshes",
+          "advice": "Gate0 requires coherent supported silhouette and source/lip/fall/ivy contact at390; less occlusion alone is insufficient. No detail rescue for planar/tooth form."
+        },
+        "no_new_gui_claim": "This Gate0 used code-directed simple editable Blender geometry, not a new observed GUI sculpt. Previous GUI capability evidence remains historical."
+      },
+      "rendered_assets": {
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.obj": "19046228a0f1b21875a221fa193f0a226304861ce907e895d0f6bdeec624b47b",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.asset": "1ec3e787259e6179aedeefe0085a123723fea6b7fc90c4b085ea31ba09f0fdcb",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeDetail.obj": "491eb7a84d91b0404b128f270489175b889486402e309e5d19b7d30ddda3aa25",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeDetail.asset": "0b58ae6908e61d1495bcf462edcc2c3e34f76dac90370760e0a657ee0fcf0255",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFlowers.obj": "262ef2ea3c79999662045e37afd0effcfb2d074f2fb175edab25bc6d477d98b4",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFlowers.asset": "5a6ee50c5929caf6500211856132ab28390c0416024f6fc1fd2367b994a21ba1",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoam.obj": "29aa3162208eccbbad790ba710d8c966ea18592309ba78830c9135d151465e24",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoam.asset": "2bb75995506de7e5de2026a3eb25262bbf5258792aacb700adf586546e18ff36",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoliage.obj": "7ce7557e18559078e9eb70fd217577558ba2ad062b8f60afca420d5f1f85878f",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoliage.asset": "ceef64dc40e0a32204aea0eed77d9f2057756fbe7c508776d7812a8c32c29623",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeLimestone.obj": "c40b88f5fc12246106795cae292257e9d77239e33665c51c442fed58d8229269",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeLimestone.asset": "b0d51ba8fe225a14f02313bea89b280fac99546ff12719e654312ac2efea2c86",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeWater.obj": "529935af57e1475cea1d76e32833eadc75ff7612f1817c3ce2366ab9ca5679ef",
+        "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeWater.asset": "1ea88e9fc8d789f1e1348555ef2f2d47fc3958bb7ead9ddd2b9fd4ddbc16f993",
+        "unity/Assets/RogueTactics/Art/HqRuins/Limestone.obj": "5a95c7b473d851bb8be2fa0dcdbae75535802df3d5e527a7f6737b7216a11140",
+        "unity/Assets/RogueTactics/Art/HqRuins/Limestone.asset": "07003adb28c1bddc13377406c239920e7b091e6423598edd565304a680184406",
+        "unity/Assets/RogueTactics/Art/HqRuins/Cliff.obj": "a10b87b22a8412cfbe2cb5f23aabe56a3335522b15b92a9361d44b719928ec8d",
+        "unity/Assets/RogueTactics/Art/HqRuins/Cliff.asset": "399d10be4ce2e7dc860469ee3511e7787784900a87a60cbdb41df4180726817c",
+        "unity/Assets/RogueTactics/Scenes/MobileG1.unity": "4e6b58ed0b3e80938d2d1b25b2e801013c0b0fe6d6ff2ea908657184d3fc3704"
+      },
+      "frozen_invariants": {
+        "head": "7cb7f0c6804881e3446f57f2311eb5609555c8e8",
+        "fixed_sources_match_fresh_control": true,
+        "scene_and_approved_skins_match_baseline": true,
+        "changed_source_scope": [
+          "unity/Assets/RogueTactics/Art/HqRuins/Cliff.obj",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.obj",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeDetail.obj",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFlowers.obj",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoam.obj",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoliage.obj",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeLimestone.obj",
+          "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeWater.obj",
+          "unity/Assets/RogueTactics/Art/HqRuins/Limestone.obj"
+        ],
+        "scope": "Local integrated rim Gate0 only; no finished art acceptance"
+      }
+    },
+    "retained-full": {
+      "images": {
+        "start": 1792413342.187757,
+        "images": {
+          "r1-setup": {
+            "sha256": "3e30887334d5250433b56fadb02e231387aa250071b753629335e35c38223fc1",
+            "mtime": 1792413381.9904916
+          },
+          "ProtectAnchor-guard": {
+            "sha256": "cacad31366f3bd3cf1bf9c1fae240041601e7ca18e798ee26aa8129012c477ab",
+            "mtime": 1792413383.3411071
+          },
+          "ProtectAnchor-heal": {
+            "sha256": "35873cf3129d93ef7543ba68ee800b0d6d7eaaf5658e6298eafe5f040d76b030",
+            "mtime": 1792413391.1833513
+          },
+          "DirectAttack-counter": {
+            "sha256": "5e0ecea0ef858e78848b7d1b4b4fd395586b20adbb4b2d9dd5de80e3de1ff7d6",
+            "mtime": 1792413408.1309657
+          },
+          "DirectAttack-death": {
+            "sha256": "44eed2eadd6519374e362eea5d98354667df296efae2f01e71afebf1ed774246",
+            "mtime": 1792413417.9849567
+          },
+          "ProtectAnchor-comparison": {
+            "sha256": "d3673b8a736c03f4b5bbc72e31d1a9b992ebbfda7e2533275514975bd316346a",
+            "mtime": 1792413404.8153934
+          },
+          "DirectAttack-comparison": {
+            "sha256": "7310c8940932d5942ce33ca681b6f25264377eee49a728aaa97783d5773406bd",
+            "mtime": 1792413426.8846953
+          }
+        }
+      },
+      "source_and_results_sha256": "c2582a7409ce498862bb6f6bd9bad29ca9cb82c1392417f9ca0fcf50c2856d48",
+      "results": {
+        "EditMode": {
+          "exit": 0,
+          "tests": {
+            "id": "2",
+            "testcasecount": "14",
+            "result": "Passed",
+            "total": "14",
+            "passed": "14",
+            "failed": "0",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-10-19 12:35:59Z",
+            "end-time": "2026-10-19 12:35:59Z",
+            "duration": "0.0480189"
+          }
+        },
+        "PlayMode": {
+          "exit": 0,
+          "tests": {
+            "id": "2",
+            "testcasecount": "9",
+            "result": "Passed",
+            "total": "9",
+            "passed": "9",
+            "failed": "0",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-10-19 12:36:16Z",
+            "end-time": "2026-10-19 12:38:41Z",
+            "duration": "145.4486415"
+          }
+        }
+      }
+    }
+  },
+  "full_tests": {
+    "EditMode": {
+      "exit": 0,
+      "passed": 14,
+      "failed": 0,
+      "started_at": "2026-10-19 12:35:59Z",
+      "ended_at": "2026-10-19 12:35:59Z",
+      "raw_xml_sha256": "b69873099e5bb3ec18cd026366a8f38f56b602fe02eb120f8ce7180e84ec05d5"
+    },
+    "PlayMode": {
+      "exit": 0,
+      "passed": 9,
+      "failed": 0,
+      "started_at": "2026-10-19 12:36:16Z",
+      "ended_at": "2026-10-19 12:38:41Z",
+      "raw_xml_sha256": "60f4154799495282915768d94b0330d6033799acf2c5108de1fd22a9395ee4b0"
+    }
+  },
+  "restoration": {
+    "head": "7cb7f0c6804881e3446f57f2311eb5609555c8e8",
+    "restored_runtime": "fc005d4ddee3edc5ac5b035ecfefb5e132f5e25a",
+    "task_owned_only": [
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.obj",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeCliff.asset",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeDetail.obj",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeDetail.asset",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFlowers.obj",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFlowers.asset",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoam.obj",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoam.asset",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoliage.obj",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeFoliage.asset",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeLimestone.obj",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeLimestone.asset",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeWater.obj",
+      "unity/Assets/RogueTactics/Art/HqRuins/HeroLedgeWater.asset",
+      "unity/Assets/RogueTactics/Art/HqRuins/Limestone.obj",
+      "unity/Assets/RogueTactics/Art/HqRuins/Limestone.asset",
+      "unity/Assets/RogueTactics/Art/HqRuins/Cliff.obj",
+      "unity/Assets/RogueTactics/Art/HqRuins/Cliff.asset",
+      "unity/Assets/RogueTactics/Editor/RimIntegratedImport.cs",
+      "unity/Assets/RogueTactics/Editor/RimIntegratedImport.cs.meta"
+    ],
+    "unity_tools_diff_empty": true,
+    "worktree_clean": true,
+    "rejected_source_preserved": "blockout-a/source, source-b, blockout-b/native-assets"
+  },
+  "jobs": {
+    "rim-integrated-control": {
+      "job_id": "74a0462b-f7a5-4429-8d34-687e6aa710c7",
+      "purpose": "Integrated rim experiment fresh frozen CONTROL seven native390 stages and both frozen outcome assertions",
+      "command": [
+        "/usr/bin/python3",
+        "-u",
+        "/private/tmp/rogue-hq-rim-integrated/capture_control.py"
+      ],
+      "cwd": "/private/tmp/rogue-hq-ref",
+      "started_at": "2026-10-19T08:39:11.487141+00:00",
+      "completed_at": "2026-10-19T08:40:35.698145+00:00",
+      "duration_seconds": 84.211013667,
+      "terminal_status": "completed",
+      "exit_code": 0,
+      "queue_delivery_status": "sent"
+    },
+    "rim-integrated-source-a": {
+      "job_id": "43cb48eb-060e-4cf1-a9d8-a826a83b7c3f",
+      "purpose": "Original integrated rim Gate0 editable Blender blockout and seven semantic OBJ exports; no Unity mutation",
+      "command": [
+        "/usr/bin/python3",
+        "-u",
+        "/private/tmp/rogue-hq-rim-integrated/build_blockout_source.py"
+      ],
+      "cwd": "/private/tmp/rogue-hq-ref",
+      "started_at": "2026-10-19T08:42:39.736146+00:00",
+      "completed_at": "2026-10-19T08:42:41.474986+00:00",
+      "duration_seconds": 1.7386980420000002,
+      "terminal_status": "failed",
+      "exit_code": 1,
+      "queue_delivery_status": "sent"
+    },
+    "rim-integrated-source-a-fixed": {
+      "job_id": "40d0f928-3524-4b8f-9fbc-4afd496a3e4d",
+      "purpose": "Repair removed-object reference; save original editable integrated rim Gate0 Blender source and seven OBJ layers",
+      "command": [
+        "/usr/bin/python3",
+        "-u",
+        "/private/tmp/rogue-hq-rim-integrated/build_blockout_source_fixed.py"
+      ],
+      "cwd": "/private/tmp/rogue-hq-ref",
+      "started_at": "2026-10-19T08:50:07.454091+00:00",
+      "completed_at": "2026-10-19T08:50:08.008722+00:00",
+      "duration_seconds": 0.55455625,
+      "terminal_status": "failed",
+      "exit_code": 1,
+      "queue_delivery_status": "failed"
+    },
+    "rim-integrated-source-a-metal": {
+      "job_id": "8ae97dfa-b6c4-4f3d-ab55-35803cf4f701",
+      "purpose": "Run repaired integrated rim Blender Gate0 source with native Metal access and local completion delivery",
+      "command": [
+        "/usr/bin/python3",
+        "-u",
+        "/private/tmp/rogue-hq-rim-integrated/build_blockout_source_fixed.py"
+      ],
+      "cwd": "/private/tmp/rogue-hq-ref",
+      "started_at": "2026-10-19T12:26:00.768205+00:00",
+      "completed_at": "2026-10-19T12:26:03.715681+00:00",
+      "duration_seconds": 2.947193291,
+      "terminal_status": "completed",
+      "exit_code": 0,
+      "queue_delivery_status": "sent"
+    },
+    "rim-integrated-unity-a": {
+      "job_id": "ab78c682-ef19-4250-bfc4-06db8bfa1055",
+      "purpose": "Import integrated rim Gate0 seven layers, verify frozen assets and capture seven actual Unity 390x844 scenes with both fixed battle outcomes",
+      "command": [
+        "/usr/bin/python3",
+        "-u",
+        "/private/tmp/rogue-hq-rim-integrated/capture_module.py",
+        "blockout-a",
+        "/private/tmp/rogue-hq-rim-integrated/source"
+      ],
+      "cwd": "/private/tmp/rogue-hq-ref",
+      "started_at": "2026-10-19T12:26:45.539720+00:00",
+      "completed_at": "2026-10-19T12:28:18.969703+00:00",
+      "duration_seconds": 93.429832834,
+      "terminal_status": "completed",
+      "exit_code": 0,
+      "queue_delivery_status": "sent"
+    },
+    "rim-integrated-source-b": {
+      "job_id": "b940147e-17be-4481-b15b-c3e2206bcc3c",
+      "purpose": "Save editable integrated Gate0 B source with bounded removal of duplicate legacy rim and wall; unchanged seven authored blockout layers",
+      "command": [
+        "/private/tmp/rogue-hq-longrun/tools/Blender.app/Contents/MacOS/Blender",
+        "--background",
+        "--python-exit-code",
+        "1",
+        "--python",
+        "/private/tmp/rogue-hq-rim-integrated/save_blockout_b.py"
+      ],
+      "cwd": "/private/tmp/rogue-hq-ref",
+      "started_at": "2026-10-19T12:31:04.306109+00:00",
+      "completed_at": "2026-10-19T12:31:06.240428+00:00",
+      "duration_seconds": 1.933739875,
+      "terminal_status": "completed",
+      "exit_code": 0,
+      "queue_delivery_status": "sent"
+    },
+    "rim-integrated-unity-b": {
+      "job_id": "ac0e3509-8eca-438d-af9c-6544d1d459ea",
+      "purpose": "Unity390x844 seven-scene revalidation of integrated Gate0 B after bounded duplicate-rim/wall subtraction; actors floor camera light HUD Core fixed",
+      "command": [
+        "/usr/bin/python3",
+        "-u",
+        "/private/tmp/rogue-hq-rim-integrated/capture_module_b.py",
+        "blockout-b",
+        "/private/tmp/rogue-hq-rim-integrated/source-b"
+      ],
+      "cwd": "/private/tmp/rogue-hq-ref",
+      "started_at": "2026-10-19T12:31:52.425741+00:00",
+      "completed_at": "2026-10-19T12:33:24.314071+00:00",
+      "duration_seconds": 91.888464042,
+      "terminal_status": "completed",
+      "exit_code": 0,
+      "queue_delivery_status": "sent"
+    },
+    "rim-integrated-retained-full": {
+      "job_id": "bfb398cd-d0d2-49d5-ba9c-859cb579a7dc",
+      "purpose": "Fresh full EditMode and PlayMode plus seven rendered scenes after rejecting integrated blockouts and restoring exact fc005d4 runtime",
+      "command": [
+        "/usr/bin/python3",
+        "-u",
+        "/private/tmp/rogue-hq-rim-integrated/capture_retained_full.py"
+      ],
+      "cwd": "/private/tmp/rogue-hq-ref",
+      "started_at": "2026-10-19T12:34:53.979275+00:00",
+      "completed_at": "2026-10-19T12:34:54.043717+00:00",
+      "duration_seconds": 0.06370975,
+      "terminal_status": "failed",
+      "exit_code": 2,
+      "queue_delivery_status": "sent"
+    },
+    "rim-integrated-retained-full-restored": {
+      "job_id": "a66391ef-5327-46c6-a685-edf47cb85504",
+      "purpose": "Full EditMode PlayMode and fresh seven scenes on verified restored exact fc005d4 runtime; previous setup attempt failed before test harness creation",
+      "command": [
+        "/usr/bin/python3",
+        "-u",
+        "/private/tmp/rogue-hq-rim-integrated/capture_retained_full.py"
+      ],
+      "cwd": "/private/tmp/rogue-hq-ref",
+      "started_at": "2026-10-19T12:35:42.130061+00:00",
+      "completed_at": "2026-10-19T12:38:43.505620+00:00",
+      "duration_seconds": 181.3760575,
+      "terminal_status": "completed",
+      "exit_code": 0,
+      "queue_delivery_status": "sent"
+    }
+  },
+  "astra": {
+    "consultations": 2,
+    "requested_model": "gpt-6-astra",
+    "requested_effort": "high",
+    "native": true,
+    "pixels_seen": false,
+    "inputs": "Sanitized text only; no private paths/images/meshes"
+  },
+  "independent_pixel_review": {
+    "agent": "/root/hud_review",
+    "candidate_stage_sets_viewed": {
+      "blockout-a": 7,
+      "blockout-b": 7
+    },
+    "decision": "FAIL both"
+  },
+  "new_execution_limits": {
+    "simulator": false,
+    "testflight_upload": false,
+    "asc_state_check": false,
+    "physical_iphone": false,
+    "candidate_video_observed": false,
+    "new_gui_sculpt": false,
+    "ci": false
+  },
+  "privacy": {
+    "public_media": false,
+    "source_models_public": false,
+    "external_reference_upload": false,
+    "paid_spend": 0,
+    "private_sharing_path_established": false,
+    "owner_local_temporary_root": "/private/tmp/rogue-hq-rim-integrated",
+    "private_comparison_html_sha256": "fc178d7dfb511f9d825a4fc5daf2bd3e688bb9a52e0ac91975df5e95d088f507"
+  },
+  "frozen_hashes": {
+    "ProtectAnchor": "e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d",
+    "DirectAttack": "85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e"
+  }
+}

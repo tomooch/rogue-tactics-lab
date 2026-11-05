@@ -1,0 +1,66 @@
+{
+  "source_head": "d7824378755d52cffbdb6add558bef0f50baefe8",
+  "observations": [
+    {
+      "runtime": "Unity Editor",
+      "unity": "6000.3.25f1",
+      "graphics": "Metal",
+      "samples": 1326,
+      "p50_ms": 16.690837860107422,
+      "p95_ms": 16.740249633789062,
+      "reduced_effects": false,
+      "limitation": "Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"
+    },
+    {
+      "runtime": "Unity Editor",
+      "unity": "6000.3.25f1",
+      "graphics": "Metal",
+      "samples": 1277,
+      "p50_ms": 16.68733024597168,
+      "p95_ms": 16.75678825378418,
+      "reduced_effects": false,
+      "limitation": "Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"
+    },
+    {
+      "runtime": "Unity Editor",
+      "unity": "6000.3.25f1",
+      "graphics": "Metal",
+      "samples": 1329,
+      "p50_ms": 16.69254493713379,
+      "p95_ms": 16.722917556762695,
+      "reduced_effects": false,
+      "limitation": "Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"
+    },
+    {
+      "runtime": "Unity Editor",
+      "unity": "6000.3.25f1",
+      "graphics": "Metal",
+      "samples": 1278,
+      "p50_ms": 16.691787719726562,
+      "p95_ms": 16.732999801635742,
+      "reduced_effects": false,
+      "limitation": "Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"
+    },
+    {
+      "runtime": "Unity Editor",
+      "unity": "6000.3.25f1",
+      "graphics": "Metal",
+      "samples": 1333,
+      "p50_ms": 16.689165115356445,
+      "p95_ms": 16.78299331665039,
+      "reduced_effects": false,
+      "limitation": "Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"
+    },
+    {
+      "runtime": "Unity Editor",
+      "unity": "6000.3.25f1",
+      "graphics": "Metal",
+      "samples": 1333,
+      "p50_ms": 16.68070411682129,
+      "p95_ms": 16.777629852294922,
+      "reduced_effects": false,
+      "limitation": "Local frame intervals; includes capture/runtime overhead; not proof of physical iPhone performance"
+    }
+  ],
+  "physical_iPhone": false
+}

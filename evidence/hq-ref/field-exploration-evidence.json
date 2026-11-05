@@ -1,0 +1,382 @@
+{
+  "schema_version": 1,
+  "task": "Human option1 actual traversable multiroom field + graphical factual parts",
+  "pr": 21,
+  "base_head": "464516e974e385261a663693f3ec308af50abbee",
+  "runtime_commit": "d521d32389c42f0987558af667084dc26c0eb8bb",
+  "status": "Retain bounded traversal prototype; exact final fullEdit21/21 Play11/12, oldstrictquadFAIL; native finalUI and Protectexploration observed; R2 FAIL",
+  "scope": {
+    "approved": "Multiple actual rooms/corridors on same field; supervisor exploration",
+    "trial_only": [
+      "31x27 candidate bounds/6rooms",
+      "known destination-tap",
+      "arrival/newroom discovery stop",
+      "party-following order"
+    ],
+    "not_implemented": [
+      "new encounters/enemies/rewards/abilities/stairs",
+      "completeG2/onefloorloop"
+    ]
+  },
+  "trials": [
+    {
+      "run": "floor-a",
+      "Edit": "7/7",
+      "Play": "0/1",
+      "cause": "First-frame pause raycast hits Field; known map blank",
+      "repair": "actual UI render before same hit assertion; CanvasRenderer/mesh check; door aprons"
+    },
+    {
+      "run": "floor-b",
+      "Edit": "7/7",
+      "Play": "0/1",
+      "cause": "New map diagnostic Debug.Log rejected by strict NoUnexpectedReceived; tiny map/stale retry discovered",
+      "repair": "TestContext diagnostic output; knownbounds framing/mapreset"
+    },
+    {
+      "run": "floor-c",
+      "Edit": "7/7",
+      "Play": "0/1",
+      "cause": "Existing intentional HQ_FRAME_METRICS not expected by new test; unsupported elevated source geometry found",
+      "repair": "Exact intentional metrics/result expectations; strict check retained; knownselection marker/low source geometry"
+    },
+    {
+      "run": "floor-d",
+      "Edit": "7/7",
+      "Play": "2/2",
+      "coverage": [
+        "real EventSystem floor/control taps",
+        "Protect exact handoff/all6centers/return",
+        "constant camera scale/HP/frozencombat hash",
+        "pauseholds/resume/discovery/arrival/retrymapreset",
+        "Attack exact3survivors/no revival/nextroom",
+        "unknown target rejected inCore"
+      ],
+      "capture_sha256": {
+        "floor-room-5-center.png": "fe2a974adeaa7a14117628abbfa4169d8d66dad636964e4689ff967263f0d622",
+        "floor-attack-discovery.png": "f4e8b18852b5deb89175d6dfb5104c618bf34ae8fdda5ec0f474ebce72acc112",
+        "floor-paused.png": "6c0734db0b85f7ce5d0a27c2fa2e27e52ebb2b668cb9b076076f1b09edcc0e66",
+        "floor-room-0-center.png": "856994be9e4e98900f05ed86d903d071ec292d43bf5e5e91b2fd834bbea4b22d",
+        "floor-entry.png": "9eae684c9c2a4d5e37dbddcebace597a59f76c6c9b5c86f52da1d0690497e424",
+        "floor-room-2-center.png": "0f26d6dd476a455e265da9a4c39441c923dd67205800746f982b6dff01ced85e",
+        "floor-room-1-center.png": "530ef7af2055bd96457981da9ac7263738bb80ad95209a3597d13457bb92937e",
+        "floor-room-4-center.png": "8b54bc0e531069d4e82880e31b50c76120ba432739981c46ce4cb5bed048a74c",
+        "floor-initial.png": "8a48992bad4d8e8125b26901570f1a9f24f9aafb8d9c93a1d1ca78b76d9e5cc8",
+        "floor-moving.png": "24e8a6d2e8fb8097e71a1bbf6d29207089858bb37fc9039c07fedea03de12f55",
+        "floor-retry.png": "84a71ed92ccec6e7f90e7ac00e0a91df2fee7315740fa82ba907efaf980c5561",
+        "floor-before-exploration.png": "16f732f6d0e1f3e5aa82ef60821a9b0327905fe076d7a578907ca5fdb7c1d3f5",
+        "floor-room-one.png": "17a761c6db24f1f9f0c06418cc8485fb3e36861009e5e6c1995f45778602f294",
+        "floor-room-3-center.png": "101170e8857c06b08753402a106c8600db51ee79d7d0e580faecfbd58624da49",
+        "floor-discovery.png": "455f8643cf93eb725b0ae7dd07817dc3f80dca7c21cbc0a166dd1ec1d8aa5efb",
+        "floor-attack-entry.png": "6dad3856707459cc03fdd188ae802b92ae79fc9ddfe904704c573b511341c167"
+      }
+    }
+  ],
+  "render_source_manifest": {
+    "unity/Assets/RogueTactics/Presentation/HqContactShadow.cs": "de447c08670bb6c724af678918bbb94d40fd7b908aa5947981235d417cbb6c03",
+    "unity/Assets/RogueTactics/Presentation/HqCreature.cs": "fb3a8be6b0622c3edbe370427269d8fb03be7d3641ac8b4098d6529ed4e4cd46",
+    "unity/Assets/RogueTactics/Art/MobileG1/Private/ReferenceParts/reference.png": "99a76f33c60e74d7fd890e9cf188531280e030e58a5893bafd90899ea2b965b8",
+    "unity/Assets/RogueTactics/Tests/EditMode/G1CoreTests.cs": "7e223b549d520b947810642d07ee3bf440692575da1ba78e99731d4b2b6e7f69",
+    "unity/Assets/RogueTactics/Presentation/HqAmbient.cs": "4fb77deeb841d7357a32bfb4ab8887f2bf8c2983a4d5e283bd46dd2c2937747c",
+    "unity/Assets/RogueTactics/Presentation/HqCamera.cs": "fe564e50924bab286f68056c226956d448084f4b2767e1d61a3a7715acaaa20e",
+    "unity/Assets/RogueTactics/Editor/G1Setup.cs": "ab582ac0c48c5d10b652a6a7708b79056c7216c96f8c2a8aa8deacf2f720fcc6",
+    "unity/Assets/RogueTactics/Tests/PlayMode/G1InteractionTests.cs": "b79226cc0fbd212bd46a53c3d6fb5181983ce8e0389f20de014c4ad7f8980fd1",
+    "unity/Assets/RogueTactics/Scenes/HqExploration.unity": "3c86202d7c225f5930f721222c6bec62ec6c2c47f59d8ddba8138493922b94c5",
+    "unity/Assets/RogueTactics/Presentation/HqRelations.cs": "8992072881f55a81f9e2928b3d692effe2e3015bd440b1fda5828de036d52a61",
+    "unity/Assets/RogueTactics/Editor/AuthoredRuinsImport.cs": "76e57788d266bfa04e576a09ea811cc4eb1f673f58cc3794cd846232d83c05e0",
+    "unity/Assets/RogueTactics/Art/MobileG1/Private/myaru.png": "3f064518faf44e308614ddaaaa81eb108d909c116e0a0a21cadf8d33e64a8fd5",
+    "unity/Assets/RogueTactics/Editor/Stage0Setup.cs": "14f9a36c43cebcbc26fdc5e1e798bb08e5f27f57213182b9d09c861c831a9b33",
+    "unity/Assets/RogueTactics/Presentation/G1View.cs": "328ddcee9d46df30fe4987ec0ac324d9a360184f02b5d514622734ebf61a11ef",
+    "unity/Assets/RogueTactics/Art/MobileG1/AuthoredRuins.shader": "54eac6cdb8574caa5fc6cf976e46f3666e7550013218404e7aa80ce029553101",
+    "unity/Assets/RogueTactics/Presentation/HqKnownPositions.cs": "12d4ac07b6b4a01b0b043b06dcbedda39536be25e873c1c39e0d45b9e6af04ac",
+    "unity/Assets/RogueTactics/Presentation/HqRoute.cs": "28de45517dac327dce222dc16c59e61d4560464a15bb6e3955ae9f9bb4e7a7c3",
+    "unity/Assets/RogueTactics/Editor/HqFloorSetup.cs": "45335c05ca75ffe687b50c69e106467ad1045f4c9cf4bd88383b9161f19588fe",
+    "unity/Assets/RogueTactics/Presentation/HqMotion.cs": "e7a5cc3bcff7143add812b84e30f6387a502b679e5b3adc1a8f31a98eaf1ffe2",
+    "unity/Assets/RogueTactics/Art/MobileG1/Private/ReferenceParts/parts.svg": "ad9c774b32f24505495497788d11a9e6e400e84102f9729c97bdfee881ae64ad",
+    "unity/Assets/RogueTactics/Presentation/HqReferenceParts.cs": "47ae7dab5ea4254ca92103a966bbe970daad244ce76b8d814dc6c2860e94d19b",
+    "unity/Assets/RogueTactics/Presentation/HqSkyRuins.cs": "2c7d7ae33a2a064b8f36cb2c2bb32841aa0607c58a8229f05e05f248bb6ff3ae",
+    "unity/Assets/RogueTactics/Tests/EditMode/ScaffoldTests.cs": "8bf95d20902252052479e5e543998281afd3682a7803e8a59029f7f0b2a8c76f",
+    "unity/Assets/RogueTactics/Presentation/MobileG1View.cs": "b490d7600a4316c432153ef082c0c49bd0eef1da09a6de76f2aef268bb1abd3b",
+    "unity/Assets/RogueTactics/Presentation/Stage0View.cs": "ae3ec1510f7d6e96d3f7e6ee5f30000695023e494d562f71c4f8697149eb3249",
+    "unity/Assets/RogueTactics/Tests/PlayMode/MobileG1InteractionTests.cs": "6a32e3cb44e4d3846d9d07ca4b29f967dd546a592fd9adc5039ed9e157862f2e",
+    "unity/Assets/RogueTactics/Tests/EditMode/FloorExplorationTests.cs": "70209f12207666c04aed6f0429088962edd7b586b4db37bfc7f80b0888b8ba96",
+    "unity/Assets/RogueTactics/Editor/MobileG1Setup.cs": "63010d9636a29f808aa6af5dc2c530dad83043bb76bb65b4e5e7bf7370cc2862",
+    "unity/Assets/RogueTactics/Scenes/MobileG1.unity": "c7a735d64a5481547739995c3a05f8fe1ec4607ac373dd41e05816760f333ff9",
+    "unity/Assets/RogueTactics/Art/MobileG1/Private/shiro.png": "5f9bd5d0f8f7569987f0df3393d2236a032b75091e7af9c6f10ba17b3c7a7c73",
+    "unity/Assets/RogueTactics/Tests/PlayMode/PortraitSmokeTests.cs": "2852678be1568dfd456cf5663a3c5941c417294c7d96bc362aeb456cd03e5419",
+    "unity/Assets/RogueTactics/Presentation/HqFrameMetrics.cs": "3ea28b598a60aaf621c5c56d4004f0edc21f2bb4c16819388d02209d7eb195a0",
+    "unity/Assets/RogueTactics/Presentation/HqProductHud.cs": "991814014bc25e2dd22e3edacc3a3a6d79b40946069ab386e7ee133748a4d715",
+    "unity/Assets/RogueTactics/Editor/ReferencePartsImport.cs": "2db29ebaa30ccd3075b5089091889bb65adb00f3f4390a6034f55296c7d9afb1",
+    "unity/Assets/RogueTactics/Core/DungeonFloor.cs": "ee8444139a8161a7d06d9c089da67670f308f7f6b2bf9f7eb43c510c75001461",
+    "unity/Assets/RogueTactics/Tests/PlayMode/FloorExplorationFlowTests.cs": "4b7167d0a891b8d6640e96e58e90f6bee46af43a4e87526e0c9bac4645d8f0c9",
+    "unity/Assets/RogueTactics/Art/MobileG1/StaticSkin.shader": "b7190c80e376509ac7cb2ba6fd54561e1e486388115eb2a053e557358a17d40e",
+    "unity/Assets/RogueTactics/Art/MobileG1/Private/garu.png": "04051f21042b365c767124f4931f8189502a24eab9896089e8850b3e8e76c015",
+    "unity/Assets/RogueTactics/Art/MobileG1/HqSky.shader": "469dfc46d58d92e093b2febe902b4ec718fbdfb1920d789dca4c553bb2aaec32",
+    "unity/Assets/RogueTactics/Presentation/MobileG1Session.cs": "fd0a2c0932f68104fb5d5b1846535f1a9f64905478070e9eb30d9f6b1edaa7d0",
+    "unity/Assets/RogueTactics/Art/MobileG1/Private/momo.png": "d8f62c2299c2772ce21ded771ec2faf6c50f9d18d4f585ba2fe7a63d698daa74",
+    "unity/Assets/RogueTactics/Core/G1Battle.cs": "2adfee6c34152df63a9a25221531f81795829919d577925730594fd8a5bfb2f1",
+    "unity/Assets/RogueTactics/Presentation/HqFloorScenery.cs": "e276349408c5069acce1b404b4ea40084f35fcc855763a1a3f77f55828a4f241",
+    "unity/Assets/RogueTactics/Tests/PlayMode/HqPresentationTests.cs": "524913a4f1c1ea26fb7c8a3c967d49f7f70843bd0291fec3e004673782635ceb",
+    "unity/Assets/RogueTactics/Presentation/HqFootBadges.cs": "e5fd9f2d252761e99a55249e052a9fd33d50ca4e7c3eefd570510eef174b63a3",
+    "unity/Assets/RogueTactics/Presentation/HqExploration.cs": "b65dceef58752286e6b85acb00fe297156974d38c2595424806f54c8d60fe813",
+    "unity/Assets/RogueTactics/Tests/EditMode/MobileG1SessionTests.cs": "f9ca45ffc81b9996aa40d7ec7c43e5655a48c1ffd5708dd6dcd7e4dd208f5cae",
+    "unity/Assets/RogueTactics/Core/GridPosition.cs": "c7f045f52ea00da6daae60939c7a8e1184794c034ea8b61a2289c479c6c21bb0"
+  },
+  "root_adversarial_review": {
+    "status": "TARGETED_PASS_FULL_NATIVE_PENDING",
+    "Edit": "7/7",
+    "Play": "2/2",
+    "actual_root_images_seen": [
+      "floor-moving.png",
+      "floor-room-3-center.png",
+      "floor-room-5-center.png",
+      "floor-attack-discovery.png",
+      "floor-retry.png"
+    ],
+    "observed_improvement": [
+      "Known map visible and retry clears visited areas.",
+      "Gold ground outline marks accepted known tile without hidden route.",
+      "Unsupported high flora and stray columns removed in room5 before/after.",
+      "Character size stays constant and same3survivors continue after Attack."
+    ],
+    "adviser": {
+      "actual_images_seen": [
+        "C room5",
+        "D moving",
+        "D room5",
+        "D Attackdiscovery"
+      ],
+      "conclusion": "Local traversal/terrain reading improvement; no new face/HP/UI occlusion in inspected4stills.",
+      "remaining": [
+        "Uniform newroom slab/plaincliff",
+        "Blue foot frame plusgoldselection double outline",
+        "Static review does not prove temporal behavior"
+      ]
+    },
+    "protected_guard": {
+      "changed_files": [],
+      "protected_unchanged": true
+    },
+    "R2": "V0 FAIL",
+    "human_quality": false,
+    "simulator": "pending new explicit exploration entry build",
+    "pending_job": "86976bb9-6f34-4586-8b05-106b8ca57a15"
+  },
+  "full_and_native_job": "86976bb9-6f34-4586-8b05-106b8ca57a15",
+  "private_evidence": "Owner-local _userwork/hq-evidence/2026-10-25-field-parts/; local path is not cross-session shared access",
+  "privacy": "No private PNG/SVG/skins/video committed or uploaded; paidassets/outsourcing/merge/Ready prohibited",
+  "full_results": {
+    "Edit": "21/21",
+    "Play": "10/11",
+    "failure": [
+      [
+        "PlayMode",
+        "RogueTactics.Tests.MobileG1InteractionTests.JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults",
+        "  Silhouette separation D / B at step 0 rects (x:94.75, y:-192.41, width:46.80, height:62.40) / (x:140.71, y:-165.87, width:46.80, height:62.40)\n  Expected: False\n  But was:  True\n"
+      ]
+    ],
+    "source_guard": {
+      "changed_files": [],
+      "protected_unchanged": true
+    }
+  },
+  "native_attempt_1": {
+    "status": "REPAIR_NATIVE_STARTUP_FAIL",
+    "export": 0,
+    "build": 0,
+    "installed": true,
+    "launched": true,
+    "binary_sha256": "260687c57c0a18dd3773718b2ab932f42f348335bf52d5079f26e77326ddf26d",
+    "actual_observation": "Explore action incorrectly visible over portraits before battle, magenta fragment at worldorigin, development exception overlay.",
+    "confirmed_log": "ArgumentNullException shader at Material..ctor in MobileG1View.BuildFloorUi",
+    "cause": "URP/Unlit queried only via Shader.Find not retained in native shader collection.",
+    "repair": "Clone serialized SpriteTemplate shader already referenced by scene, white texture, gold multiplier, queue2450 below actors.",
+    "not_exploration_success": true,
+    "full_editor": {
+      "Edit": "21/21",
+      "Play": "10/11",
+      "only_failure": "Unchanged strict fullquad gate step0D/B"
+    },
+    "runtime_source_unchanged_after_export": true
+  },
+  "pending_job": null,
+  "full_fixed_results": {
+    "Edit": "21/21",
+    "Play": "10/11",
+    "failure": [
+      [
+        "PlayMode",
+        "RogueTactics.Tests.MobileG1InteractionTests.JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults",
+        "  Silhouette separation B / A at step 0 rects (x:140.71, y:-165.87, width:46.80, height:62.40) / (x:177.48, y:-187.10, width:46.80, height:62.40)\n  Expected: False\n  But was:  True\n"
+      ]
+    ],
+    "source_guard": {
+      "changed_files": [],
+      "protected_unchanged": true
+    }
+  },
+  "native_attempt_2": {
+    "binary": {
+      "path": "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-10-25-field-parts/floor-native-fixed/DerivedData/Build/Products/Debug-iphonesimulator/RogueTacticsLab.app",
+      "bundle_id": "com.tomooch.roguetacticslab",
+      "binary_sha256": "39c8adcc93136a7c35dba9af69761e1a838118176b45396bef0057fb684a9eb4",
+      "version": "0.1.0",
+      "build": "5"
+    },
+    "export_exit": 0,
+    "build_exit": 0,
+    "generated_changes_restored": [
+      "unity/Assets/Settings/DefaultVolumeProfile.asset",
+      "unity/Assets/Settings/Mobile_RPAsset.asset",
+      "unity/Assets/Settings/UniversalRenderPipelineGlobalSettings.asset",
+      "unity/ProjectSettings/ProjectSettings.asset"
+    ],
+    "unexpected_changes": [],
+    "source_assets_unchanged": true,
+    "observations": {
+      "binary_sha256": "39c8adcc93136a7c35dba9af69761e1a838118176b45396bef0057fb684a9eb4",
+      "runtime": "QA iOS27.0",
+      "startup_exception": "No exception observed after new build; initial Explore hidden, no pink fragment",
+      "observed_protect": [
+        "actualStart/guard/livechangingHP",
+        "finished14actions4alive16/16/12/10",
+        "actualcomparisonopened",
+        "samepositionsHPExplorehandoff",
+        "first side/frontfaceclick rejected; surfacecenter click starts actualbridge traversal",
+        "newroomdiscoveryautomaticstop",
+        "actualroomdestinationtap and pause produces visibleheld midtravel pose"
+      ],
+      "scope_limits": [
+        "native6room circuit not yet performed",
+        "firstbattle pause attempt occurredafter terminal and openedcomparison; do not countbattlepause",
+        "no physicaliPhone/Humanquality/TestFlight"
+      ],
+      "additional_observed": [
+        "Protect midtravel pose/map/HP held over separateobservations then actualresume/arrival",
+        "Exploration record remains completedcombatresults",
+        "Reset restores original6units/HP/knownmap",
+        "Attack actualIME kanaか→candidateかつ→confirm/dismiss/layoutreturn, capturekeyboard restoredOFF",
+        "Attack14actions3alive/HP0 and bothresultcomparison retainsAttack predictiononly",
+        "Attack3survivors enterexploration and actuallybridge move",
+        "Native both fullfixedhashes freshlog match"
+      ],
+      "new_issue": "New map panel overlaps right side of docked prediction during nativeIME; root repair now hides map while policy/modal and adds realUI regression.",
+      "recorded_file_playback": {
+        "app": "QuickTime Player",
+        "file": "floor-native-fixed/native-flow.mp4",
+        "verified_exact_local_URL": true,
+        "normal_playback_start_seconds": 140,
+        "normal_playback_end_seconds": 219,
+        "bounded_observation": "UI confirms actual playback timeline advancement and discovery-to-room-arrival endpoints, plus separate live pose/pause/resume observations; not a claim to see every frame or all640seconds"
+      }
+    },
+    "recording": {
+      "duration_seconds": 640.13,
+      "width": 1206,
+      "height": 2622,
+      "codec": "h264",
+      "sha256": "b5e348917906d8b87ee1ed721de7b1f3cf22fa07b3f7fddf366825445db42030"
+    },
+    "limits": "native6room circuit not performed; actual Editor sixroom circuit separate; later UI source fix not this binary"
+  },
+  "render_source_manifest_scope": "Final full-ui tested source; earlier A-D capture/source revisions remain separate in owner-local trial folders",
+  "final_full_results": {
+    "Edit": "21/21",
+    "Play": "11/12",
+    "new_floor_play_tests": "3/3",
+    "exit": 2,
+    "all_green": false,
+    "only_failure": [
+      [
+        "PlayMode",
+        "RogueTactics.Tests.MobileG1InteractionTests.JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults",
+        "  Silhouette separation C / X at step 0 rects (x:260.21, y:-181.79, width:46.80, height:62.40) / (x:240.08, y:-159.24, width:33.37, height:26.10)\n  Expected: False\n  But was:  True\n"
+      ]
+    ],
+    "source_guard": {
+      "changed_files": [],
+      "protected_unchanged": true
+    },
+    "capture_sha256": {
+      "floor-room-5-center.png": "e455b810f3a97b8f4ac32468e7bc74d58fac5231536ea092c53f503b6756e38d",
+      "floor-attack-discovery.png": "3629ce5ee65b89903777992db78152db3b76d68da55ce0277947b7027b42268f",
+      "floor-paused.png": "cb5e33e6fdfc8db06566c80346b544d7404378c3f65ad460ae5c9572414c3d13",
+      "floor-room-0-center.png": "679f4b18a1b8d25373d5db4ef09228125ae72f67fd6ac4ff0061d060c0048414",
+      "floor-entry.png": "c5559ec43537ae1e40b1daf26115e3d2d4b2579231d0d1a3f848010a0f2d55db",
+      "floor-room-2-center.png": "031f6628ca04b932209cee954cd9bb93cbe4c6b3e9df784e168cca6aae6ab93c",
+      "floor-room-1-center.png": "a45613b875b10cc485f7c3816acd3a6cead0ee373f376903a85a17a5378f03ea",
+      "floor-room-4-center.png": "9f5e3ac79fee71feeff19b916f8c0f6b30b2e8f2a186d0e0729fc1d185ff5e28",
+      "floor-initial.png": "2c49676cc624396a8949cdc80f2f5db066d145fdcf5b25abdf19ac1eaadb5c5d",
+      "floor-moving.png": "e55c7f34514a5682cee851faf68cad0e37eb6a3105edea85a3ad37cd6088fed8",
+      "floor-before-policy.png": "f9d2f87a7e80d667701da3f9d2520496e79e4473d55d4e01960444602720abc3",
+      "floor-after-record.png": "42f1b232392393a7f5c2771adf2a278446662ae23b999f00e421dd98b1363601",
+      "floor-retry.png": "d14ad065fb487cb7cb17e15d992b1bed6f0e9dfe9eeecb99fadf94c439978c9f",
+      "floor-before-exploration.png": "71324da5330a2f3a321afe7e5a81e2b608ceaeafa6f0f54f48cc7cfdb4d74a85",
+      "floor-room-one.png": "fb289d3bc4697e8c5cc0a2a9d34b24069e6c5163750f6a1f3c83b3c57ebdfa3d",
+      "floor-record.png": "7a8ca21603ae2440072c88effd53e84cb6a577c1347503e9ecc2e19c5ad1400d",
+      "floor-room-3-center.png": "fd97947903c23e22d430ecb2814efac0b9190b19bb18844434b9a86086d383c2",
+      "floor-policy.png": "34598a98d69e7df6b77df95e4f1909154ab137abf5bc72c9bdec9c6fc5ec2e9e",
+      "floor-discovery.png": "7a8b5b0f3724caa471d043d91c148522f4c92a1762479f5bb2825d13f3bf6585",
+      "floor-after-policy.png": "d898c1dd4151dcf234a215fef240e2194261b919321912028831fed6f78d23e0",
+      "floor-attack-entry.png": "2040174ad01162c08a050e293b36b6e12845273566a131270f4746ad883d2d07"
+    }
+  },
+  "final_native": {
+    "export_exit": 0,
+    "build_exit": 0,
+    "generated_changes_restored": [
+      "unity/Assets/Settings/DefaultVolumeProfile.asset",
+      "unity/Assets/Settings/Mobile_RPAsset.asset",
+      "unity/Assets/Settings/UniversalRenderPipelineGlobalSettings.asset",
+      "unity/ProjectSettings/ProjectSettings.asset"
+    ],
+    "unexpected_changes": [],
+    "source_assets_unchanged": true,
+    "observation": {
+      "binary_sha256": "fcd44ee9373ae4ca1fb00409d95a3c27edd036ffccfa3185dda4e0c629405eba",
+      "environment": "QA iOS27.0 Simulator / Unity6000.3.25f1 / Metal",
+      "installed": true,
+      "launched": true,
+      "actual_cua_observations": [
+        "Initial map/6units/realHP; no startup exception or prematureExplore",
+        "Policy card hides map; docked prediction fullwidth no mapoverlay",
+        "Kanaか→candidateかつ→confirm, keyboard dismissal and input retained",
+        "ClosePolicy restores map; Details hides map; closing returns field",
+        "CaptureKeyboard restoredOFF",
+        "Protect actualbattle14actions4alive16/16/12/10; freshnative fixedhash matches",
+        "Samepositions/HP enterexploration; actualknownbridge tap and newroomdiscovery"
+      ],
+      "limits": [
+        "Final native Attack/full6room/pause/retry not repeated; previousbinary39c8adcc evidence is separate.",
+        "Final fullEditor tests cover bothconditions/all6rooms/pause/retry/3survivors and UIpriority.",
+        "No physicaliPhone/Humanquality/TestFlight upload."
+      ],
+      "private_stills": {
+        "protect-discovery.jpg": "588d2fed3ea72f8db037495b8f389f2542dc32eda0b2f97fecdfed9f29c9e7b4",
+        "prediction-uncovered.jpg": "2b0c471e5d8481eb51ec4a5ec1611b31519f47ae73579f83cf09151d35e983ad"
+      }
+    }
+  },
+  "root_final_judgment": {
+    "retain": "Actual connected-field traversal and factual graphical map/known-selection modules, with no actor shrink and both exact battlehandoffs; native startup/UIdefects fixed.",
+    "not_accepted": [
+      "R2 V0 whole art",
+      "Human cute/readable/fun",
+      "physicaliPhone",
+      "completeG2/onefloorloop"
+    ],
+    "remaining": [
+      "Original whole-billboard separation failure",
+      "Uniform large slab/plaincliff/repeated empty rooms",
+      "Bridge-side/frontier affordance",
+      "Goldselection/bluefoot doubleoutline",
+      "Unmeasured exploration allocations/performance on physicaldevice"
+    ]
+  },
+  "committed_source_check": {
+    "runtime_files_checked": 48,
+    "mismatches": [],
+    "protected_G1_and_skins_unchanged": true,
+    "unity_generated_scene_metadata": "preserved verbatim; Unity empty field trailing spaces only"
+  }
+}
