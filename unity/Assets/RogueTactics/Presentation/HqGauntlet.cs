@@ -119,10 +119,12 @@ namespace RogueTactics.Presentation
             }
         }
         public bool InstructionOpen=>instructionOverlay!=null && instructionOverlay.gameObject.activeSelf;
-        public void RequestInstruction()
+        private string requestedInstructionAlly="";
+        public void RequestInstruction()=>RequestInstructionForAlly("");
+        private void RequestInstructionForAlly(string ally)
         {
-            if(!Session.Started || terminalSeen || IsExploring || Session.Replay.CorrectionsLeft<1 || InstructionOpen)return;
-            interruptRequested=true;Auto=false;
+            if(!Session.Started || terminalSeen || IsExploring || Session.Replay.CorrectionsLeft<1 || InstructionOpen || interruptRequested)return;
+            requestedInstructionAlly=ally;interruptRequested=true;Auto=false;
             // Finish the already resolved action's presentation before exposing any new state.
             Paused=false;if(!Busy)OpenInstruction();Refresh();
         }
@@ -130,13 +132,21 @@ namespace RogueTactics.Presentation
         {
             interruptRequested=false;
             if(terminalSeen || Session.Replay.State.Outcome!=Outcome.Active)return;
-            Paused=true;directedAlly="";directedEnemy="";
+            Paused=true;directedAlly=requestedInstructionAlly!="" && Session.Replay.State.Find(requestedInstructionAlly).Alive?requestedInstructionAlly:"";directedEnemy="";requestedInstructionAlly="";
             instructionOverlay.gameObject.SetActive(true);instructionOverlay.SetAsLastSibling();RefreshInstruction();Canvas.ForceUpdateCanvases();
         }
         private void EnsureInstructionUi()
         {
             if(instructionOverlay!=null)return;
-            MakeButton(SafeRoot,"Interrupt","指示する · 残り1回",12,0,366,48,RequestInstruction,16);
+            foreach(var id in CardOrder)
+            {
+                var card=cardValues[id].transform.parent.GetComponent<RectTransform>();
+                MakeButton(card,"DirectCard"+id,"",0,0,card.rect.width,144,()=>RequestInstructionForAlly(id),12);
+                var direct=buttons["DirectCard"+id];direct.GetComponent<Image>().color=Color.clear;
+                direct.transition=Selectable.Transition.None;direct.gameObject.SetActive(false);
+            }
+
+            MakeButton(SafeRoot,"Interrupt","指示する · 残り1回（顔からも）",12,0,366,48,RequestInstruction,16);
             StyleReferenceButton("Interrupt",HudSymbol.Swords,Gold);
             var receiptRoot=Rect(SafeRoot,"Instruction receipt panel",12,0,366,48);
             Frame(receiptRoot,new Color(.045f,.085f,.12f,.95f),new Color(.45f,.57f,.66f),10);
@@ -260,7 +270,14 @@ namespace RogueTactics.Presentation
             instructionSheet.anchoredPosition=new Vector2(10,-(h-330));
             var canDirect=Session.Started && !terminalSeen && !IsExploring && !modalObject.activeSelf && Session.Replay.CorrectionsLeft>0;
             buttons["Interrupt"].gameObject.SetActive(canDirect);
-            PositionReferenceAction("Interrupt",12,h-268,w-24,interruptRequested?"行動が終わるのを待っています…":"指示する · 残り1回");
+            foreach(var id in CardOrder)
+            {
+                var direct=buttons["DirectCard"+id];
+                direct.gameObject.SetActive(canDirect && !interruptRequested && !InstructionOpen && !dead.Contains(id));
+                direct.GetComponent<RectTransform>().sizeDelta=direct.transform.parent.GetComponent<RectTransform>().rect.size;
+            }
+
+            PositionReferenceAction("Interrupt",12,h-268,w-24,interruptRequested?"行動が終わるのを待っています…":"指示する · 残り1回（顔からも）");
             buttons["Interrupt"].interactable=!interruptRequested;
             instructionReceipt.transform.parent.GetComponent<RectTransform>().anchoredPosition=new Vector2(12,-(h-268));
             instructionReceipt.text=instructionReceiptText;

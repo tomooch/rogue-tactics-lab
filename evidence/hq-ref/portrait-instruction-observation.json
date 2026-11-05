@@ -1,0 +1,22 @@
+{
+  "source_manifest": "portrait-instruction-source-and-results.json",
+  "edit": "32/32",
+  "play": "17/18",
+  "failure": "Existing initial whole-mesh overlap gate Y/C, unchanged.",
+  "images": [
+    {
+      "path": "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-11-05-portrait-instruction/retained/gauntlet-current-action.png",
+      "sha256": "11ba4fc0af1381e868374c3554cc7e736284c343fca62bf3d799fd5dad93ee33"
+    },
+    {
+      "path": "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-11-05-portrait-instruction/retained/choice-garu-flower-selection.png",
+      "sha256": "c03e62a686e8b945832549ec098ed7d13cea2776f29ab57aade3b0d002221559"
+    },
+    {
+      "path": "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-11-05-portrait-instruction/retained/choice-directed-four-survivors.png",
+      "sha256": "44e5c62db7027ecda9e644bb050ecf25e94377fa3e17852925fdf28ec7052cae"
+    }
+  ],
+  "observed": "Actual raycast Garu portrait selects him after current action finishes; flower target confirmation changes same-encounter outcome from3 to4survivors. Preparation and consumed-budget portrait shortcuts inactive.",
+  "native_this_change": false
+}

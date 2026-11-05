@@ -94,3 +94,12 @@ Added compact actual history to the existing survivor line: 4人が生還（前�
 Installed c2e4a0c Simulator binary ab0ffd6e1e8dd6e1ab526c32e1bfe3f0d657400eeb53484df4ea42d1ce0336f0. Actual CUA input observed DirectAttack baseline3 survivors, retry, Garu→flower instruction, waiting receipt, automatic victory4 survivors, previous3 and flower6damage. One delayed automation attempt missed the intervention window and ended unmodified; not counted as a successful instruction. Details and local screenshot hashes: threat-choice-native-observation.json.
 
 Native exposed missing numeric HP on all companion cards, despite visible bars and selectorHP. Card line box15px at font11 was tight; expanded to20px within existing card and lifted name2px to retain separation. New test checks actual glyph vertices and TextGenerator at1x/2x/3x (focused1/1pass), with fresh390×844image inspected. Editor evidence does not prove native font behavior; rebuilt Simulator check pending. No Core or private pixels changed. Five playability criteria remain not all strong.
+
+Native follow-through of f044405: export/build succeeded, generated source settings restored. Actual Simulator screen now shows all four numeric HP labels (18/18,10/10,12/12,16/16), with card names/bars/roles intact. Exact binary and private screenshot hash: health-glyphs-native-observation.json. This closes the observed native glyph omission; no physical-device or Human play claim.
+
+
+## Portrait entry into voluntary instruction (2026-11-05)
+
+Living companion cards now open the existing instruction selector with that ally selected, after the already-resolving action finishes. Existing instruction button remains, with remaining1 and portrait-entry hint. First pending request wins; dead actors are not preselected at the boundary. Preparation policy, modal screens, spent budget and terminal state do not expose these shortcuts. Reset clears the queued ally. This is another entry into the same one-action Core command, not an added ability or correction charge.
+
+Full Edit32/32, Play17/18. Existing whole-mesh overlap gate remains failed Y/C; no gate weakened. Real raycast comparison uses Garu's card then flower target, and still changes3→4survivors. Existing cancel/reopen/confirmation and three-encounter regression passes. Viewed390×844 action/selection/result captures. Exact source and private image hashes are portrait-instruction-*. Simulator verification of this entry is pending; earlier native HP fix remains separately verified at f044405. Executor playability judgment still not all strong.
