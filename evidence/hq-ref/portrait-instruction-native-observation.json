@@ -1,0 +1,21 @@
+{
+  "source": "d161ac33a8e38c01386f7cb6e63c14377fe63a4b",
+  "binary_sha256": "60570d5825a66561e59294bb06eac4b3c5e52aa2e261238652b0104fa36ceb0a",
+  "environment": "iOS 27.0 QA Simulator",
+  "observed": [
+    "Default guard preparation started; Garu portrait opened selector with Garu preselected.",
+    "Cancel then Myaru portrait: current action finished, selector reopened with Myaru preselected, no charge consumed.",
+    "Selected Garu then flower; preview showed attack and next-action-only qualification.",
+    "Confirmed; automatic combat resumed, Garu executing receipt appeared.",
+    "Subsequent live screen showed flower 6 damage receipt and continued healing action. Numeric HP remained visible."
+  ],
+  "limits": [
+    "Not physical iPhone or Human play.",
+    "This manual run used default guard, not the separate automated DirectAttack 3-to-4 survivor comparison.",
+    "Full suite still has existing mesh-overlap failure; playability not all strong."
+  ],
+  "capture": {
+    "path": "/Users/tomoki/Desktop/WorkSpaces/rogue-tactics-lab/_userwork/hq-evidence/2026-11-05-portrait-instruction/native-retained/portrait-followthrough.jpg",
+    "sha256": "65c7b9227f7b8d2a567d87aafaa307d21332ca136dd32e83ecc28b24191707aa"
+  }
+}
