@@ -1,0 +1,217 @@
+{
+  "source_commit": "1ccc436894e56cd6d8a0389a048b2d23bf3f378c",
+  "C0_gate": "FAIL",
+  "C1": "NOT_RUN_BY_GATE",
+  "baseline_A_B_inventory_hashes_preserved": true,
+  "preserved_file_count": 68,
+  "bind_reconstruction_bitwise_equal": true,
+  "source_face_ROI_bitwise_equal_in_common_head_part": true,
+  "common_head_part_sha256": "26eca8e04ab849178671433536fc0d00b3e500145860ff863f28dd9855f290be",
+  "face_render_note": "Common source texture reused; fractional source transforms and resampling may alter export pixels. No claim rendered face pixels identical or natural gait proven.",
+  "scale": 0.33452830188679245,
+  "same_scale_all_poses": true,
+  "numeric_joint_length_constancy": "PASS; trial points are inferred, not measured hidden anatomy",
+  "frames": [
+    {
+      "pose": "01_left_contact",
+      "sha256": "42fd7812b72091cb18930502c1db609f4e9167e65bd99a949b25334cd86dd06c",
+      "RGBA_size": "PASS",
+      "margins_ltrb_px": [
+        61,
+        54,
+        97,
+        44
+      ],
+      "boundary": "PASS",
+      "known_exterior_mask_pixels": 22,
+      "fringe": "FAIL",
+      "numeric_hinge_error_source_px": 2.2737367544323206e-13,
+      "joint_lengths_source_px": {
+        "L": {
+          "hip_knee": 146.01369798755178,
+          "knee_ankle": 130.06152390311289
+        },
+        "R": {
+          "hip_knee": 146.01369798755178,
+          "knee_ankle": 130.06152390311289
+        }
+      },
+      "sole_points_measured_cell_px": {
+        "L": [
+          263.9345855542766,
+          466.85694717233537
+        ],
+        "R": [
+          227.93219489390475,
+          463.104533508449
+        ]
+      },
+      "semantic_phase": "NOT_VALIDATED; names are intended trial poses, not gait acceptance"
+    },
+    {
+      "pose": "02_passing",
+      "sha256": "db78025b17f9c8e8034c9ffd46ace43476b2152d8dba54ca9178cdb4ca6debea",
+      "RGBA_size": "PASS",
+      "margins_ltrb_px": [
+        61,
+        54,
+        97,
+        47
+      ],
+      "boundary": "PASS",
+      "known_exterior_mask_pixels": 23,
+      "fringe": "FAIL",
+      "numeric_hinge_error_source_px": 1.1368683772161603e-13,
+      "joint_lengths_source_px": {
+        "L": {
+          "hip_knee": 146.0136979875519,
+          "knee_ankle": 130.06152390311286
+        },
+        "R": {
+          "hip_knee": 146.01369798755186,
+          "knee_ankle": 130.06152390311289
+        }
+      },
+      "sole_points_measured_cell_px": {
+        "L": [
+          270.59772974634086,
+          464.5582854518585
+        ],
+        "R": [
+          249.40715383180097,
+          460.44659662609786
+        ]
+      },
+      "semantic_phase": "NOT_VALIDATED; names are intended trial poses, not gait acceptance"
+    },
+    {
+      "pose": "03_right_contact",
+      "sha256": "3e84c261c6ee1e2e57307d87775d1e3f4c6bf91402968b15d04c2e85fd8b0f7f",
+      "RGBA_size": "PASS",
+      "margins_ltrb_px": [
+        60,
+        54,
+        97,
+        44
+      ],
+      "boundary": "PASS",
+      "known_exterior_mask_pixels": 22,
+      "fringe": "FAIL",
+      "numeric_hinge_error_source_px": 2.5421149729252077e-13,
+      "joint_lengths_source_px": {
+        "L": {
+          "hip_knee": 146.01369798755178,
+          "knee_ankle": 130.0615239031128
+        },
+        "R": {
+          "hip_knee": 146.0136979875519,
+          "knee_ankle": 130.06152390311277
+        }
+      },
+      "sole_points_measured_cell_px": {
+        "L": [
+          258.58988057779334,
+          463.104533508449
+        ],
+        "R": [
+          222.58748991742144,
+          466.85694717233537
+        ]
+      },
+      "semantic_phase": "NOT_VALIDATED; names are intended trial poses, not gait acceptance"
+    }
+  ],
+  "visual_review": {
+    "executor_visual_gate": "FAIL",
+    "independent_bounded_visual_review": "FAIL",
+    "Human_art_judgment": "not solicited as completed walk; not observed",
+    "observed_failures": [
+      "Hard jagged/dashed cut contours around thighs and ankle/stocking joins in all three poses",
+      "Passing inner-thigh blue underpaint wedge; hip/skirt depth not coherently recovered",
+      "Grip/staff part retains adjacent white hair/cape/sleeve fragments",
+      "Boot/thigh/cape parts retain unrelated clothing fragments; partial mask cannot recover missing surfaces",
+      "Three labels denote intended Contact/Passing/opposite Contact; genuine weight transfer and single-foot contact not established"
+    ],
+    "limited_repair": "One local hidden-pelvis/upper-leg completion plus one hidden-clothing completion; repair still leaves seams/foreign paint and extra frill geometry risk",
+    "interpretation": "Numerical hinge equality and common face do not establish painted anatomical connections. Flat source lacks neutral/rest geometry and complementary hidden cloth.",
+    "decision": "Stop at C0. Do not produce six C frames or import failed candidate into Unity. Keep A/B and failed C0 evidence. No long-term production adoption.",
+    "next_proposal": "Prepare genuinely editable neutral/rest artwork with complete pelvis, full thighs/knees/shins, clean arm/staff and complementary skirt/cape/hair occlusions. Rerun only this three-pose gate. Video-derived production remains a separate proposal needing paid/upload GO if used."
+  },
+  "Unity_C": "NOT_RUN; C0 failed before C1",
+  "Human_C": "NOT_ASSESSED",
+  "no_art_adoption": true,
+  "artifact_parts": [
+    {
+      "file": "continuity/C0/parts/back_hair_left.png",
+      "sha256": "a200906e614718e47303fa90acec9cbf202f683413665174e7c26f60e8fa2f76"
+    },
+    {
+      "file": "continuity/C0/parts/back_hair_right.png",
+      "sha256": "92a046ccedb1e90cb4ac13e1492546dba34e9e30c3a9e9466cb0b179042eb406"
+    },
+    {
+      "file": "continuity/C0/parts/cape_left.png",
+      "sha256": "e66aa8507f06995690c174a19bee8fdee72f2791ae1684b497ad5bbf0c3822ed"
+    },
+    {
+      "file": "continuity/C0/parts/cape_right.png",
+      "sha256": "0ca0859ccc9c274a799f06fd6f670e1d76cf4ceb19396740c2db69f99bb96697"
+    },
+    {
+      "file": "continuity/C0/parts/clothing_underpaint.png",
+      "sha256": "74aabee8b44e8a315a9989693af56632d8a43c488a86c58a9aca8b3cc7e79c77"
+    },
+    {
+      "file": "continuity/C0/parts/free_arm.png",
+      "sha256": "9082b5da77a3609eac0d7b61462a7434adfb83889caf5422854e0b332257ba3f"
+    },
+    {
+      "file": "continuity/C0/parts/grip_staff.png",
+      "sha256": "961b4046c7ce91624f37c5e8fac0ffc31373dfa2eaf55c705cef54933c2951d1"
+    },
+    {
+      "file": "continuity/C0/parts/head_face_hat.png",
+      "sha256": "26eca8e04ab849178671433536fc0d00b3e500145860ff863f28dd9855f290be"
+    },
+    {
+      "file": "continuity/C0/parts/left_shin_boot.png",
+      "sha256": "3679abdc6a2f45fbbcaabc622846291ce342cb2abc56001af7926e959ba9b479"
+    },
+    {
+      "file": "continuity/C0/parts/left_thigh.png",
+      "sha256": "6499df33f8dd6df4a5efe2a766d63039bb141a573525c951d1250401d7d17bb3"
+    },
+    {
+      "file": "continuity/C0/parts/pelvis_underpaint.png",
+      "sha256": "fad16e23f70080f1c5984ed92d0af36c3cebd87979ed6a81656694d2a4f046f3"
+    },
+    {
+      "file": "continuity/C0/parts/right_shin_boot.png",
+      "sha256": "6c25a2568d6369f598a4a1ad20c9cf564a3ceca66a559b47c2e727a43143f237"
+    },
+    {
+      "file": "continuity/C0/parts/right_thigh.png",
+      "sha256": "72dda73f1404e252cd69893e247bbaa4f7951f860a0e56701a4218aa5842a95f"
+    },
+    {
+      "file": "continuity/C0/parts/skirt_front.png",
+      "sha256": "ab17083bf3aff11a9fd3e52269b492e02ad83eb852f37cd6d7955e02f30ad808"
+    },
+    {
+      "file": "continuity/C0/parts/torso_front.png",
+      "sha256": "a82f71a5ba0dd263ceb911a712b926b536ea4cb5b2aa8d2fc3b8cf7ecd10cf51"
+    },
+    {
+      "file": "continuity/C0/parts/trial_left_thigh.png",
+      "sha256": "2c6c27f6a4b02129d04e84389606f920c4841f144a79c3def2abd40a4f6e4506"
+    },
+    {
+      "file": "continuity/C0/parts/trial_right_shin_boot.png",
+      "sha256": "54431fdc58782c527ef6fc8b3d160d3b4d110a847706595af50c3fc834b624b0"
+    },
+    {
+      "file": "continuity/C0/parts/trial_right_thigh.png",
+      "sha256": "bd78a3f952518c0891b1c7f9b01d4222e79b992124c0e88834edb9b3b857eff6"
+    }
+  ]
+}

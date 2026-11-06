@@ -1,0 +1,145 @@
+{
+  "status": "CONTOUR_NORMALIZATION_ONLY",
+  "human_authorization": "AUTO-GO: contour cleanup and suitable-scale placement; originals preserved",
+  "method": "known saturated mask colors in exterior 4px band; isolated alpha pruning; preserve adjacent AA, face ROI and eroded interior",
+  "frames": [
+    {
+      "removed_mask_color_pixels": 4537,
+      "removed_isolated_or_low_alpha_pixels": 23995,
+      "changed_visible_pixels": 72,
+      "protected_nontransparent_pixels": 709379,
+      "protected_design_changes": 0,
+      "remaining_known_mask_color_pixels": 0,
+      "original_alpha_bbox": [
+        0,
+        0,
+        1230,
+        1254
+      ],
+      "clean_alpha_bbox": [
+        111,
+        7,
+        1168,
+        1245
+      ],
+      "file": "shiro_walk_front_01.png",
+      "source_sha256": "31bd9597a500fe31f23ad7836396f7228eff22a9475c873d5ed00e2204d943c5",
+      "clean_sha256": "e19eccab1a6e2a6ac2a214e6af76e2cd8d8202cc5496690e47fafc35dec98929"
+    },
+    {
+      "removed_mask_color_pixels": 4991,
+      "removed_isolated_or_low_alpha_pixels": 19322,
+      "changed_visible_pixels": 56,
+      "protected_nontransparent_pixels": 712726,
+      "protected_design_changes": 0,
+      "remaining_known_mask_color_pixels": 0,
+      "original_alpha_bbox": [
+        33,
+        0,
+        1228,
+        1254
+      ],
+      "clean_alpha_bbox": [
+        109,
+        7,
+        1171,
+        1247
+      ],
+      "file": "shiro_walk_front_02.png",
+      "source_sha256": "077df76fcde6f881accb2b567d1b843e2ebe2e3f6a1bf0b9f12244f8af00ae82",
+      "clean_sha256": "0d198133480c7850cf306595e1940d473a1b405f35a219e66484d648dba88596"
+    },
+    {
+      "removed_mask_color_pixels": 3871,
+      "removed_isolated_or_low_alpha_pixels": 18950,
+      "changed_visible_pixels": 38,
+      "protected_nontransparent_pixels": 708640,
+      "protected_design_changes": 0,
+      "remaining_known_mask_color_pixels": 0,
+      "original_alpha_bbox": [
+        0,
+        8,
+        1224,
+        1254
+      ],
+      "clean_alpha_bbox": [
+        91,
+        11,
+        1174,
+        1245
+      ],
+      "file": "shiro_walk_front_03.png",
+      "source_sha256": "74f61a4cfc4ae880daff9cbe9cc1f2318c1bc043d880bc8c4a9d1b96165981ee",
+      "clean_sha256": "aa89b152329ed8f5afcf2bd97dc09e7bc93b5798040894bb8c928d18c89ce401"
+    },
+    {
+      "removed_mask_color_pixels": 5188,
+      "removed_isolated_or_low_alpha_pixels": 22499,
+      "changed_visible_pixels": 136,
+      "protected_nontransparent_pixels": 683496,
+      "protected_design_changes": 0,
+      "remaining_known_mask_color_pixels": 0,
+      "original_alpha_bbox": [
+        0,
+        1,
+        1238,
+        1254
+      ],
+      "clean_alpha_bbox": [
+        129,
+        9,
+        1158,
+        1244
+      ],
+      "file": "shiro_walk_front_04.png",
+      "source_sha256": "43da5e05c71cc6e8a17f69bbfa5c2d1e2df2ea50af2d57b77999518f318b29d4",
+      "clean_sha256": "518bdd3dbfdfd6196f6fd728f76d2d092d63b5dcbde6607be30a153b5fa1f269"
+    },
+    {
+      "removed_mask_color_pixels": 4287,
+      "removed_isolated_or_low_alpha_pixels": 23219,
+      "changed_visible_pixels": 77,
+      "protected_nontransparent_pixels": 718035,
+      "protected_design_changes": 0,
+      "remaining_known_mask_color_pixels": 0,
+      "original_alpha_bbox": [
+        37,
+        0,
+        1196,
+        1243
+      ],
+      "clean_alpha_bbox": [
+        90,
+        7,
+        1193,
+        1242
+      ],
+      "file": "shiro_walk_front_05.png",
+      "source_sha256": "3a2b687dce248d70aab1b55eb3eebbfc8e579872469d9d7269fff1787a270a5b",
+      "clean_sha256": "10d14369e81e277cac94aa1b88a5a2f98b221dd5a6b2f6af784dc7e941b14e71"
+    },
+    {
+      "removed_mask_color_pixels": 4287,
+      "removed_isolated_or_low_alpha_pixels": 17720,
+      "changed_visible_pixels": 119,
+      "protected_nontransparent_pixels": 679238,
+      "protected_design_changes": 0,
+      "remaining_known_mask_color_pixels": 0,
+      "original_alpha_bbox": [
+        0,
+        0,
+        1202,
+        1254
+      ],
+      "clean_alpha_bbox": [
+        126,
+        9,
+        1160,
+        1246
+      ],
+      "file": "shiro_walk_front_06.png",
+      "source_sha256": "378d859edd0235c37d139167940f94ba253465c0bf9aa8fa0b85e812dcad0f17",
+      "clean_sha256": "e25bb5fb3e70aa096ac64c428fdef93e37f9dd88735d5e3c24aa7cf8659b0462"
+    }
+  ]
+}

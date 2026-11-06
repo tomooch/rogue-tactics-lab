@@ -1,0 +1,15 @@
+{
+  "executor_art_result": "FAIL",
+  "independent_actual_image_review": "FAIL",
+  "observed": [
+    "hair/staff extraction halos and background tint",
+    "both local fill algorithms smear skin/cloth boundaries after mask correction"
+  ],
+  "clarification": "Staff occluder removal inside the diagnostic patch is intended; failure is missing underlying skin/cloth structure, not failure to repaint the staff itself. Original staff/source remains untouched.",
+  "limitations": [
+    "Only bounded local Telea/Navier-Stokes trial; not proof all raster authoring methods fail",
+    "No complete skeletal layers or actual poses produced"
+  ],
+  "decision": "Stop these interpolation methods; no 3-pose/loop/Unity promotion",
+  "private_local_artifacts": "/Users/tomoki/.codex/visualizations/2026/10/11/01a12b8b-cc88-7592-9846-85a0ade0eb48/shiro-raster-pilot"
+}

@@ -1,0 +1,37 @@
+{
+  "executed_source_commit": "188eedf3e815341082295118be410f81c6f9a574",
+  "frontal_source_download_decode": "PASS",
+  "head_coverage": "NOT_PRESENT_IN_SOURCE",
+  "body_markers": "shoulders/elbows/wrists/hips/knees/ankles observed, gaps explicit null",
+  "missing_marker_frames": [
+    61,
+    62,
+    63,
+    64
+  ],
+  "three_source_times_s": [
+    0.0,
+    0.567234,
+    2.902903
+  ],
+  "gate": "PARTIAL; no head or certified sole/force/contact, sad emotion",
+  "preview_probe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 390,
+        "height": 844,
+        "pix_fmt": "yuv420p",
+        "r_frame_rate": "1000000/33367"
+      }
+    ],
+    "format": {
+      "duration": "3.036000"
+    }
+  },
+  "full_video_decode": "PASS",
+  "art_generation": "NONE",
+  "source_assets_unchanged": true
+}

@@ -1,0 +1,67 @@
+{
+  "baseline": "8524ddb4a389deb878a5487611e02ecd196bd70c",
+  "parts": [
+    {
+      "name": "head_face_hat",
+      "source": "input/shiro_walk_front_01.png",
+      "status": "visible common artwork; face/hat retained without repaint",
+      "missing": "neck rear edge and hanging hair overlap require separate treatment"
+    },
+    {
+      "name": "chest_shoulders",
+      "source": "input/shiro_walk_front_01.png",
+      "status": "front visible; incomplete behind hair/sleeves",
+      "missing": "shoulder roots, arm-hidden chest side"
+    },
+    {
+      "name": "pelvis",
+      "source": "input/shiro_walk_front_01.png",
+      "status": "not visible under opaque skirt",
+      "missing": "hip joint position and fully clothed underside; local paint candidate requested"
+    },
+    {
+      "name": "left_thigh_knee_shin_boot",
+      "source": "input/shiro_walk_front_01.png",
+      "status": "front leg surface visible; upper hip root and knee contour incomplete",
+      "missing": "under-skirt upper thigh, staff occlusion, back contour"
+    },
+    {
+      "name": "right_thigh_knee_shin_boot",
+      "source": "input/shiro_walk_front_01.png",
+      "status": "rear leg foreshortened/bent in painted source",
+      "missing": "neutral straight leg/rest projection; knee and hip under skirt"
+    },
+    {
+      "name": "free_arm",
+      "source": "input/shiro_walk_front_01.png",
+      "status": "hand and sleeve visible",
+      "missing": "shoulder hidden by cape/hair; elbow/forearm sleeve thickness"
+    },
+    {
+      "name": "grip_and_staff",
+      "source": "input/shiro_walk_front_01.png",
+      "status": "keep one connected common element",
+      "missing": "arm behind shaft/cuff; torso/hair pixels revealed if this assembly moves"
+    },
+    {
+      "name": "skirt",
+      "source": "input/shiro_walk_front_01.png",
+      "status": "front frills visible and painted over thighs",
+      "missing": "underside, depth-changing hem/leg overlap"
+    },
+    {
+      "name": "cape",
+      "source": "input/shiro_walk_front_01.png",
+      "status": "two visible side panels",
+      "missing": "back behind torso/legs/staff and rear hair"
+    },
+    {
+      "name": "back_hair",
+      "source": "input/shiro_walk_front_01.png",
+      "status": "visible outer strands",
+      "missing": "occluded locks behind sleeve/cape, shoulder boundary"
+    }
+  ],
+  "gate": "closed articulated hip/knee/arm connections and stable identity through three poses; not just face-pixel PASS",
+  "limits": "Flat PNG has only visible pixels; missing rest-pose/anatomical geometry is not a measured skeleton."
+}

@@ -1,0 +1,127 @@
+{
+  "machine_qa": "PASS",
+  "human_art_and_gait_acceptance": "PENDING",
+  "unity": "SEPARATE_EVIDENCE",
+  "atlas_size": [
+    1536,
+    1024
+  ],
+  "cell_size": [
+    512,
+    512
+  ],
+  "grid": [
+    3,
+    2
+  ],
+  "foot_target_px": [
+    256,
+    470
+  ],
+  "rasterization_tolerance_px": 0.5,
+  "all_sources_preserved": true,
+  "all_protected_design_regions_unchanged": true,
+  "preview": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "width": 390,
+        "height": 844,
+        "pix_fmt": "yuv420p",
+        "r_frame_rate": "8/1"
+      }
+    ],
+    "format": {
+      "duration": "6.000000"
+    }
+  },
+  "frames": [
+    {
+      "file": "shiro_walk_front_01.png",
+      "margins_ltrb_px": [
+        51,
+        57,
+        107,
+        41
+      ],
+      "foot_error_px": 0.2999053926206443,
+      "known_contour_fringe_pixels": 0,
+      "sha256": "5ec32992c5a38d9403b9efcfd34778270f02502868aafa5be56cd50b54283ec8",
+      "original_preserved": true,
+      "face_roi_bitwise_unchanged": true
+    },
+    {
+      "file": "shiro_walk_front_02.png",
+      "margins_ltrb_px": [
+        55,
+        56,
+        102,
+        41
+      ],
+      "foot_error_px": 0.23352165725043506,
+      "known_contour_fringe_pixels": 0,
+      "sha256": "207b9f1de5e4716ac5caf701810248b834b39263207ed17c801f2dbffb6f7ebe",
+      "original_preserved": true,
+      "face_roi_bitwise_unchanged": true
+    },
+    {
+      "file": "shiro_walk_front_03.png",
+      "margins_ltrb_px": [
+        51,
+        58,
+        99,
+        41
+      ],
+      "foot_error_px": 0.43490304709141014,
+      "known_contour_fringe_pixels": 0,
+      "sha256": "086a6c85ca75859ad8f79f2c6a19d9bbd501dff4fdc8f4babb445a7d03731d75",
+      "original_preserved": true,
+      "face_roi_bitwise_unchanged": true
+    },
+    {
+      "file": "shiro_walk_front_04.png",
+      "margins_ltrb_px": [
+        105,
+        58,
+        63,
+        41
+      ],
+      "foot_error_px": 0.4402332361515846,
+      "known_contour_fringe_pixels": 0,
+      "sha256": "f0a80d960e718fc731da9ecc7e5cb9e2e6eda385c478256c080047b9972b198f",
+      "original_preserved": true,
+      "face_roi_bitwise_unchanged": true
+    },
+    {
+      "file": "shiro_walk_front_05.png",
+      "margins_ltrb_px": [
+        100,
+        58,
+        43,
+        41
+      ],
+      "foot_error_px": 0.23118766999095897,
+      "known_contour_fringe_pixels": 0,
+      "sha256": "9839ecd3bdfc556f7d55500b0ead84a688ab9335825d7e53031bc680e91ebff8",
+      "original_preserved": true,
+      "face_roi_bitwise_unchanged": true
+    },
+    {
+      "file": "shiro_walk_front_06.png",
+      "margins_ltrb_px": [
+        103,
+        57,
+        63,
+        41
+      ],
+      "foot_error_px": 0.2572533849129286,
+      "known_contour_fringe_pixels": 0,
+      "sha256": "1995706e651b63514c25399d5dae7a87bea6ce23952e71346c3a8a523ebd628e",
+      "original_preserved": true,
+      "face_roi_bitwise_unchanged": true
+    }
+  ],
+  "verified_source_commit": "6ed401b866d7a6c77cea8ad8a12ed067e3468740"
+}

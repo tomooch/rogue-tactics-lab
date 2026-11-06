@@ -1,0 +1,472 @@
+{
+  "verified_source_commit": "f0776ddfc7569edd381781b4ecae91bb736112ad",
+  "machine_qa": {
+    "machine_qa": "PASS",
+    "baseline_commit": "0572960aaf21855dff0b05467e8c64339a4480c1",
+    "baseline_files_unchanged": [
+      {
+        "file": "input/foot_anchors.json",
+        "sha256": "76cf6b0eb2ac1fda5327168cd611cefb944834ffad57d274e937ea9325d3256a"
+      },
+      {
+        "file": "input/shiro_walk_front_01.png",
+        "sha256": "e19eccab1a6e2a6ac2a214e6af76e2cd8d8202cc5496690e47fafc35dec98929"
+      },
+      {
+        "file": "input/shiro_walk_front_02.png",
+        "sha256": "0d198133480c7850cf306595e1940d473a1b405f35a219e66484d648dba88596"
+      },
+      {
+        "file": "input/shiro_walk_front_03.png",
+        "sha256": "aa89b152329ed8f5afcf2bd97dc09e7bc93b5798040894bb8c928d18c89ce401"
+      },
+      {
+        "file": "input/shiro_walk_front_04.png",
+        "sha256": "518bdd3dbfdfd6196f6fd728f76d2d092d63b5dcbde6607be30a153b5fa1f269"
+      },
+      {
+        "file": "input/shiro_walk_front_05.png",
+        "sha256": "10d14369e81e277cac94aa1b88a5a2f98b221dd5a6b2f6af784dc7e941b14e71"
+      },
+      {
+        "file": "input/shiro_walk_front_06.png",
+        "sha256": "e25bb5fb3e70aa096ac64c428fdef93e37f9dd88735d5e3c24aa7cf8659b0462"
+      },
+      {
+        "file": "output/frames/shiro_walk_front_01.png",
+        "sha256": "5ec32992c5a38d9403b9efcfd34778270f02502868aafa5be56cd50b54283ec8"
+      },
+      {
+        "file": "output/frames/shiro_walk_front_02.png",
+        "sha256": "207b9f1de5e4716ac5caf701810248b834b39263207ed17c801f2dbffb6f7ebe"
+      },
+      {
+        "file": "output/frames/shiro_walk_front_03.png",
+        "sha256": "086a6c85ca75859ad8f79f2c6a19d9bbd501dff4fdc8f4babb445a7d03731d75"
+      },
+      {
+        "file": "output/frames/shiro_walk_front_04.png",
+        "sha256": "f0a80d960e718fc731da9ecc7e5cb9e2e6eda385c478256c080047b9972b198f"
+      },
+      {
+        "file": "output/frames/shiro_walk_front_05.png",
+        "sha256": "9839ecd3bdfc556f7d55500b0ead84a688ab9335825d7e53031bc680e91ebff8"
+      },
+      {
+        "file": "output/frames/shiro_walk_front_06.png",
+        "sha256": "1995706e651b63514c25399d5dae7a87bea6ce23952e71346c3a8a523ebd628e"
+      },
+      {
+        "file": "output/manifest.json",
+        "sha256": "f45c39fdc61e40d0d0434b787039ebad2dd4f37c626b508f1c2dffae8780dfa0"
+      },
+      {
+        "file": "output/qa/contact_sheet.jpg",
+        "sha256": "0ebbd7ff341d00cbc350f833aacdbd49677daf4a58a6e4731bd60ac1f3b1ccc1"
+      },
+      {
+        "file": "output/qa/final_validation.json",
+        "sha256": "d13a9d7f0cc806d1b51f9e8a647fcc7f356cfa888a1fdaf9049e4ebfca077131"
+      },
+      {
+        "file": "output/qa/shiro_walk_front_iPhone.gif",
+        "sha256": "9a34a886a686d1febb9bfbf01f7182ffd50b5a344b7311370e732a4400e029c2"
+      },
+      {
+        "file": "output/qa/shiro_walk_front_iPhone.mp4",
+        "sha256": "853ff2b2c399e063bfa7e96fb8a4eea16dadda7a95682a01a792b8c55b636efc"
+      },
+      {
+        "file": "output/qa/technical_validation.json",
+        "sha256": "ecd5f0a44cccac9d37fe6794df2bb310e275745b5a1ae0657f34b0c3e9f795d8"
+      },
+      {
+        "file": "output/shiro_walk_front_atlas.png",
+        "sha256": "a05c72fbc76af6a2411b16fe0483398391014b8a2a0414c62648a87ad0755473"
+      },
+      {
+        "file": "source/foot_anchors.json",
+        "sha256": "9fc1f2fbae8ad9cae44ff40e5d85023217c903c536fd40bcb2c964881b6ecfaf"
+      },
+      {
+        "file": "source/shiro_walk_front_01.png",
+        "sha256": "31bd9597a500fe31f23ad7836396f7228eff22a9475c873d5ed00e2204d943c5"
+      },
+      {
+        "file": "source/shiro_walk_front_02.png",
+        "sha256": "077df76fcde6f881accb2b567d1b843e2ebe2e3f6a1bf0b9f12244f8af00ae82"
+      },
+      {
+        "file": "source/shiro_walk_front_03.png",
+        "sha256": "74f61a4cfc4ae880daff9cbe9cc1f2318c1bc043d880bc8c4a9d1b96165981ee"
+      },
+      {
+        "file": "source/shiro_walk_front_04.png",
+        "sha256": "43da5e05c71cc6e8a17f69bbfa5c2d1e2df2ea50af2d57b77999518f318b29d4"
+      },
+      {
+        "file": "source/shiro_walk_front_05.png",
+        "sha256": "3a2b687dce248d70aab1b55eb3eebbfc8e579872469d9d7269fff1787a270a5b"
+      },
+      {
+        "file": "source/shiro_walk_front_06.png",
+        "sha256": "378d859edd0235c37d139167940f94ba253465c0bf9aa8fa0b85e812dcad0f17"
+      }
+    ],
+    "B_atlas_sha256": "8be8019ea74d4bcdb376f2bf6b6fd6d9e24174a185aa7b166dd0d096a5964810",
+    "grid": [
+      3,
+      2
+    ],
+    "cell_size": [
+      512,
+      512
+    ],
+    "atlas_size": [
+      1536,
+      1024
+    ],
+    "frames": [
+      {
+        "file": "shiro_walk_front_01.png",
+        "delta_xy": [
+          10,
+          0
+        ],
+        "margins_ltrb_px": [
+          61,
+          57,
+          97,
+          41
+        ],
+        "exact_integer_translation": true,
+        "painted_pixels_bitwise_unchanged": true,
+        "anatomical_composite_error_x_px": -0.05551561021758289,
+        "support_sole_measured_not_fixed": [
+          266.29990539262064,
+          469.9967689822294
+        ]
+      },
+      {
+        "file": "shiro_walk_front_02.png",
+        "delta_xy": [
+          6,
+          0
+        ],
+        "margins_ltrb_px": [
+          61,
+          56,
+          96,
+          41
+        ],
+        "exact_integer_translation": true,
+        "painted_pixels_bitwise_unchanged": true,
+        "anatomical_composite_error_x_px": 0.11461864406777522,
+        "support_sole_measured_not_fixed": [
+          262.23352165725044,
+          469.9959677419355
+        ]
+      },
+      {
+        "file": "shiro_walk_front_03.png",
+        "delta_xy": [
+          3,
+          0
+        ],
+        "margins_ltrb_px": [
+          54,
+          58,
+          96,
+          41
+        ],
+        "exact_integer_translation": true,
+        "painted_pixels_bitwise_unchanged": true,
+        "anatomical_composite_error_x_px": -0.08890120036932103,
+        "support_sole_measured_not_fixed": [
+          258.56509695290856,
+          469.9959481361426
+        ]
+      },
+      {
+        "file": "shiro_walk_front_04.png",
+        "delta_xy": [
+          -36,
+          0
+        ],
+        "margins_ltrb_px": [
+          69,
+          58,
+          99,
+          41
+        ],
+        "exact_integer_translation": true,
+        "painted_pixels_bitwise_unchanged": true,
+        "anatomical_composite_error_x_px": -0.07327502429541255,
+        "support_sole_measured_not_fixed": [
+          220.44023323615158,
+          470.33117408906884
+        ]
+      },
+      {
+        "file": "shiro_walk_front_05.png",
+        "delta_xy": [
+          -45,
+          0
+        ],
+        "margins_ltrb_px": [
+          55,
+          58,
+          88,
+          41
+        ],
+        "exact_integer_translation": true,
+        "painted_pixels_bitwise_unchanged": true,
+        "anatomical_composite_error_x_px": -0.35499546690846273,
+        "support_sole_measured_not_fixed": [
+          211.23118766999096,
+          469.99676113360323
+        ]
+      },
+      {
+        "file": "shiro_walk_front_06.png",
+        "delta_xy": [
+          -36,
+          0
+        ],
+        "margins_ltrb_px": [
+          67,
+          57,
+          99,
+          41
+        ],
+        "exact_integer_translation": true,
+        "painted_pixels_bitwise_unchanged": true,
+        "anatomical_composite_error_x_px": -0.0384912959381154,
+        "support_sole_measured_not_fixed": [
+          220.25725338491293,
+          469.99595796281324
+        ]
+      }
+    ],
+    "uniform_scale_A_B": 0.33452830188679245,
+    "no_resampling_or_art_edit": true,
+    "vertical_A_B_bitwise_identical": true,
+    "B_contract": "composite X=256 +/-0.5px, exact integer translation, >=40px margins, both soles measured, no fixed sole X assertion",
+    "B_face_x_range": 1.083136705530535,
+    "B_torso_x_range": 0.682589933480358,
+    "videos": [
+      {
+        "file": "A_iPhone.mp4",
+        "sha256": "ed874c370b1e5cbe1644c652c9fb979574601ad6b48d7427a0b2b7ee15d48074",
+        "probe": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_name": "h264",
+              "width": 390,
+              "height": 844,
+              "pix_fmt": "yuv420p",
+              "r_frame_rate": "8/1"
+            }
+          ],
+          "format": {
+            "duration": "6.000000"
+          }
+        },
+        "full_decode": "PASS"
+      },
+      {
+        "file": "B_iPhone.mp4",
+        "sha256": "c26f7221daf58a66920ee2b127e25d5be36a1e1c170791468e7f9c86327719e4",
+        "probe": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_name": "h264",
+              "width": 390,
+              "height": 844,
+              "pix_fmt": "yuv420p",
+              "r_frame_rate": "8/1"
+            }
+          ],
+          "format": {
+            "duration": "6.000000"
+          }
+        },
+        "full_decode": "PASS"
+      },
+      {
+        "file": "AB_iPhone.mp4",
+        "sha256": "0b76728f389a9cbf178dde964e8613e0f51935ba747aa095bc7a6e6f5b27828f",
+        "probe": {
+          "programs": [],
+          "stream_groups": [],
+          "streams": [
+            {
+              "codec_name": "h264",
+              "width": 390,
+              "height": 844,
+              "pix_fmt": "yuv420p",
+              "r_frame_rate": "8/1"
+            }
+          ],
+          "format": {
+            "duration": "6.000000"
+          }
+        },
+        "full_decode": "PASS"
+      }
+    ],
+    "Human_B": "PENDING",
+    "Unity_B": "PASS; see unity_verification.json",
+    "verified_source_commit": "f0776ddfc7569edd381781b4ecae91bb736112ad"
+  },
+  "independent_qa": {
+    "status": "PASS",
+    "checks": "independent actual pixels/bbox/atlas/hash/source/semantic landmark transform and old sole-lock rejection",
+    "frames": [
+      {
+        "file": "shiro_walk_front_01.png",
+        "dx": 10,
+        "composite_x": 255.94448438978242,
+        "painted_pixels_identical": true
+      },
+      {
+        "file": "shiro_walk_front_02.png",
+        "dx": 6,
+        "composite_x": 256.1146186440678,
+        "painted_pixels_identical": true
+      },
+      {
+        "file": "shiro_walk_front_03.png",
+        "dx": 3,
+        "composite_x": 255.91109879963068,
+        "painted_pixels_identical": true
+      },
+      {
+        "file": "shiro_walk_front_04.png",
+        "dx": -36,
+        "composite_x": 255.92672497570456,
+        "painted_pixels_identical": true
+      },
+      {
+        "file": "shiro_walk_front_05.png",
+        "dx": -45,
+        "composite_x": 255.64500453309157,
+        "painted_pixels_identical": true
+      },
+      {
+        "file": "shiro_walk_front_06.png",
+        "dx": -36,
+        "composite_x": 255.96150870406188,
+        "painted_pixels_identical": true
+      }
+    ],
+    "support_sole_x_measured": [
+      266.29990539262064,
+      262.23352165725044,
+      258.56509695290856,
+      220.44023323615158,
+      211.23118766999096,
+      220.25725338491293
+    ],
+    "source_commit": "f0776ddfc7569edd381781b4ecae91bb736112ad",
+    "Human_B": "PENDING"
+  },
+  "Unity": {
+    "source_commit": "f0776ddfc7569edd381781b4ecae91bb736112ad",
+    "baseline_PR_head": "0572960aaf21855dff0b05467e8c64339a4480c1",
+    "prior_Unity_source": "6ed401b866d7a6c77cea8ad8a12ed067e3468740",
+    "editor": "6000.3.25f1",
+    "actual_Play_Mode": true,
+    "import_compile": "PASS",
+    "B_atlas_sha256": "8be8019ea74d4bcdb376f2bf6b6fd6d9e24174a185aa7b166dd0d096a5964810",
+    "actual_order_and_wrap": "PASS",
+    "frame_rate": 8,
+    "clip_seconds": 0.75,
+    "actual_transition_count": 17,
+    "full_frame_game_time_intervals_seconds": {
+      "min": 0.12483596801757812,
+      "max": 0.12550711631774902,
+      "mean": 0.12504029870033265,
+      "first_partial_interval_excluded": true
+    },
+    "root_position": {
+      "x": 0.0,
+      "y": 0.0,
+      "z": 0.0
+    },
+    "per_pose_root_compensation": false,
+    "pivot_bottom_left_px": [
+      256,
+      256
+    ],
+    "face_world_x_range": 0.010831298306584358,
+    "torso_world_x_range": 0.006825866177678108,
+    "tests": [
+      {
+        "phase": "EditMode",
+        "total": 6,
+        "passed": 6,
+        "failed": 0,
+        "exit_code": 0,
+        "source_commit": "f0776ddfc7569edd381781b4ecae91bb736112ad",
+        "command": [
+          "/Applications/Unity/Hub/Editor/6000.3.25f1/Unity.app/Contents/MacOS/Unity",
+          "-batchmode",
+          "-projectPath",
+          "/private/tmp/rogue-shiro-front-walk-spike/unity",
+          "-runTests",
+          "-testPlatform",
+          "EditMode",
+          "-logFile",
+          "/private/tmp/shiro-anchor-B-tests/EditMode.log",
+          "-testResults",
+          "/private/tmp/shiro-anchor-B-tests/EditMode.xml"
+        ]
+      },
+      {
+        "phase": "PlayMode",
+        "total": 1,
+        "passed": 1,
+        "failed": 0,
+        "exit_code": 0,
+        "source_commit": "f0776ddfc7569edd381781b4ecae91bb736112ad",
+        "command": [
+          "/Applications/Unity/Hub/Editor/6000.3.25f1/Unity.app/Contents/MacOS/Unity",
+          "-batchmode",
+          "-projectPath",
+          "/private/tmp/rogue-shiro-front-walk-spike/unity",
+          "-runTests",
+          "-testPlatform",
+          "PlayMode",
+          "-logFile",
+          "/private/tmp/shiro-anchor-B-tests/PlayMode.log",
+          "-testResults",
+          "/private/tmp/shiro-anchor-B-tests/PlayMode.xml"
+        ]
+      }
+    ],
+    "renders": {
+      "count": 12,
+      "size": [
+        390,
+        844
+      ],
+      "light_dark": true,
+      "visually_inspected": true
+    },
+    "source_changed_after_test": false,
+    "Human_B": "PENDING",
+    "limits": [
+      "Physical iPhone / iOS build not observed",
+      "No CI",
+      "World coordinates use measured source landmarks projected through actual renderer transform; not independent anatomical landmark detection",
+      "Human naturalness/cuteness cannot be inferred from technical PASS"
+    ]
+  },
+  "Human_A": "NG after actual Human video observation",
+  "Human_B": "PENDING"
+}

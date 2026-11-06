@@ -1,0 +1,8 @@
+{
+  "source_commit": "188eedf3e815341082295118be410f81c6f9a574",
+  "job_id": "3079bb85-be14-467f-9543-0e190bfea692",
+  "exit_code": 1,
+  "frames": 180,
+  "reason": "UnityEditor.Search.SearchDatabase.GetDefaultSearchDatabase / SearchInit.IndexationOnStartup ArgumentOutOfRangeException",
+  "decision": "FAIL; do not suppress error. Retry initialized isolated project with idempotent generated-asset setup."
+}

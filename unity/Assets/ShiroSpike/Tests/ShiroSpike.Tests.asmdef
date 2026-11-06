@@ -1,0 +1,6 @@
+{
+  "name": "ShiroSpike.Tests",
+  "references": ["ShiroSpike.Editor"],
+  "includePlatforms": ["Editor"],
+  "optionalUnityReferences": ["TestAssemblies"]
+}

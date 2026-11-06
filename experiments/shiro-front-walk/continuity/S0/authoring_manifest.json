@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "scope": "S0 LOCAL ART-AUTHORING CAPABILITY PILOT, not full neutral Shiro; not S1 or gait",
+  "tools": {
+    "node": "/Users/tomoki/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/bin/node",
+    "sharp_module": "/Users/tomoki/.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules/sharp",
+    "python": "Pillow/stdlib"
+  },
+  "source_pixels_in_parts": false,
+  "dimensions": [
+    512,
+    512
+  ],
+  "part_order_back_to_front": [
+    "thigh_hidden_hip",
+    "shin_hidden_knee",
+    "boot_complete",
+    "upper_arm_hidden_shoulder",
+    "forearm_hidden_elbow",
+    "sleeve_inner_cuff",
+    "hand_closed_wrist",
+    "skirt_back_complete",
+    "skirt_inside_frill"
+  ],
+  "pivots": {
+    "hip": [
+      151,
+      88
+    ],
+    "knee": [
+      151,
+      191
+    ],
+    "ankle": [
+      151,
+      271
+    ],
+    "shoulder": [
+      371,
+      90
+    ],
+    "elbow": [
+      360,
+      172
+    ],
+    "wrist": [
+      348,
+      236
+    ],
+    "skirt": [
+      350,
+      320
+    ]
+  },
+  "pivot_status": "proposed anatomy/range, NOT M0 measured landmarks",
+  "hidden_paint": {
+    "thigh_hidden_hip": "closed upper cap and complete thigh",
+    "shin_hidden_knee": "closed knee behind thigh",
+    "upper_arm_hidden_shoulder": "closed shoulder behind sleeve",
+    "forearm_hidden_elbow": "closed elbow behind upper sleeve",
+    "sleeve_inner_cuff": "painted inner cuff; hidden wrist unproven",
+    "skirt_back_complete": "closed rear skirt, provisional shape",
+    "skirt_inside_frill": "new scalloped underskirt"
+  },
+  "missing_complete_character": [
+    "face/head/hat/hair",
+    "chest/shoulder/pelvis",
+    "anatomically distinct left/right limbs",
+    "hand-held staff",
+    "cape and complete skirt front/back interaction",
+    "matching approved texture/model details"
+  ],
+  "attempts": [
+    {
+      "attempt": "attempt1",
+      "paint": "all pilot paths newly authored; no copied texture pixels",
+      "parts": [
+        "thigh_hidden_hip",
+        "shin_hidden_knee",
+        "boot_complete",
+        "upper_arm_hidden_shoulder",
+        "forearm_hidden_elbow",
+        "sleeve_inner_cuff",
+        "hand_closed_wrist",
+        "skirt_back_complete",
+        "skirt_inside_frill"
+      ],
+      "pose_tests": [
+        {
+          "file": "range_0.png",
+          "knee_deg": 0,
+          "elbow_deg": 0,
+          "role": "inferred articulation range, NOT measured gait or S1 Contact/Passing"
+        },
+        {
+          "file": "range_1.png",
+          "knee_deg": 25,
+          "elbow_deg": -18,
+          "role": "inferred articulation range, NOT measured gait or S1 Contact/Passing"
+        },
+        {
+          "file": "range_2.png",
+          "knee_deg": -20,
+          "elbow_deg": 15,
+          "role": "inferred articulation range, NOT measured gait or S1 Contact/Passing"
+        }
+      ],
+      "repair": false,
+      "source_art_gate": "PENDING_VISUAL_REVIEW"
+    },
+    {
+      "attempt": "attempt2",
+      "paint": "all pilot paths newly authored; no copied texture pixels",
+      "parts": [
+        "thigh_hidden_hip",
+        "shin_hidden_knee",
+        "boot_complete",
+        "upper_arm_hidden_shoulder",
+        "forearm_hidden_elbow",
+        "sleeve_inner_cuff",
+        "hand_closed_wrist",
+        "skirt_back_complete",
+        "skirt_inside_frill"
+      ],
+      "pose_tests": [
+        {
+          "file": "range_0.png",
+          "knee_deg": 0,
+          "elbow_deg": 0,
+          "role": "inferred articulation range, NOT measured gait or S1 Contact/Passing"
+        },
+        {
+          "file": "range_1.png",
+          "knee_deg": 25,
+          "elbow_deg": -18,
+          "role": "inferred articulation range, NOT measured gait or S1 Contact/Passing"
+        },
+        {
+          "file": "range_2.png",
+          "knee_deg": -20,
+          "elbow_deg": 15,
+          "role": "inferred articulation range, NOT measured gait or S1 Contact/Passing"
+        }
+      ],
+      "repair": true,
+      "source_art_gate": "PENDING_VISUAL_REVIEW"
+    }
+  ]
+}

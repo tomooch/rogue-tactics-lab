@@ -1,0 +1,52 @@
+[
+  {
+    "local_path": "source/shiro_walk_front_01.png",
+    "sha256": "31bd9597a500fe31f23ad7836396f7228eff22a9475c873d5ed00e2204d943c5",
+    "status": "fringe-fail diagnostic only"
+  },
+  {
+    "local_path": "source/shiro_walk_front_02.png",
+    "sha256": "077df76fcde6f881accb2b567d1b843e2ebe2e3f6a1bf0b9f12244f8af00ae82",
+    "status": "fringe-fail diagnostic only"
+  },
+  {
+    "local_path": "source/shiro_walk_front_03.png",
+    "sha256": "74f61a4cfc4ae880daff9cbe9cc1f2318c1bc043d880bc8c4a9d1b96165981ee",
+    "status": "fringe-fail diagnostic only"
+  },
+  {
+    "local_path": "source/shiro_walk_front_04.png",
+    "sha256": "43da5e05c71cc6e8a17f69bbfa5c2d1e2df2ea50af2d57b77999518f318b29d4",
+    "status": "fringe-fail diagnostic only"
+  },
+  {
+    "local_path": "source/shiro_walk_front_05.png",
+    "sha256": "3a2b687dce248d70aab1b55eb3eebbfc8e579872469d9d7269fff1787a270a5b",
+    "status": "fringe-fail diagnostic only"
+  },
+  {
+    "local_path": "source/shiro_walk_front_06.png",
+    "sha256": "378d859edd0235c37d139167940f94ba253465c0bf9aa8fa0b85e812dcad0f17",
+    "status": "fringe-fail diagnostic only"
+  },
+  {
+    "local_path": "rejected/frame02-fringe-repair-failed.png",
+    "sha256": "b281bfd72016f288e73190688b35be73519ad52a070d2e3248779442dc9770e6",
+    "status": "rejected"
+  },
+  {
+    "local_path": "rejected/frame06-background-extraction-failed.png",
+    "sha256": "ef8848b09724f18f719aad323bbc78925d7e32dcd7b2578bdd13361b04c109a6",
+    "status": "rejected"
+  },
+  {
+    "local_path": "rejected/frame06-background.png",
+    "sha256": "e9f31b0863f87080e5a3a0cde25d05c8fd2f6c879e91faab26957671ccb9b3ef",
+    "status": "rejected"
+  },
+  {
+    "local_path": "rejected/frame06-wrong-support.png",
+    "sha256": "f741a584b4fd40cce5a2bec79a6af1b1ec5eb6655131d6a4fc1aa93d54aa7e6c",
+    "status": "rejected"
+  }
+]

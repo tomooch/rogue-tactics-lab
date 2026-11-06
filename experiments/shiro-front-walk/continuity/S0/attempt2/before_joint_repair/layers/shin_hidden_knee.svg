@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" width="512" height="512" viewBox="0 0 512 512"><defs>
+<linearGradient id="skin"><stop stop-color="#ffe7d4"/><stop offset=".55" stop-color="#fff0df"/><stop offset="1" stop-color="#efbbac"/></linearGradient>
+<linearGradient id="blue"><stop stop-color="#42416e"/><stop offset=".45" stop-color="#6375b7"/><stop offset="1" stop-color="#353762"/></linearGradient>
+<linearGradient id="white"><stop stop-color="#c6bfdf"/><stop offset=".5" stop-color="#fff7e9"/><stop offset="1" stop-color="#dfd8ed"/></linearGradient>
+<linearGradient id="gold"><stop stop-color="#b98250"/><stop offset=".5" stop-color="#ffe0a4"/><stop offset="1" stop-color="#cf985d"/></linearGradient>
+</defs><path d="M132 179 C140 164 165 165 172 180 C180 204 168 231 171 273 C167 291 140 294 131 277 C130 250 124 204 132 179 Z" fill="url(#skin)" stroke="#715969" stroke-width="1.4" stroke-linejoin="round"/></svg>

@@ -1,0 +1,60 @@
+{
+  "references": [
+    {
+      "local_read_only_path": "/private/tmp/shiro-spike-input/Shiro_HatchPet_Unity_Spike_v1/references/CANDIDATE_full_body.png",
+      "size": [
+        1086,
+        1448
+      ],
+      "mode": "RGB",
+      "sha256": "8d1323045422d60774adda005eb04f23dcfcbfe8ae9b6a728d8675da33f979d9",
+      "source_manifest_approved_as_final": false,
+      "private_original_not_published": true
+    },
+    {
+      "local_read_only_path": "/private/tmp/shiro-spike-input/Shiro_HatchPet_Unity_Spike_v1/references/CANDIDATE_face_standard.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGB",
+      "sha256": "ddaf1cfb3b8d9fdd5c572477779bc5652e29b73237ee2d8a2c2191a074c18124",
+      "source_manifest_approved_as_final": false,
+      "private_original_not_published": true
+    },
+    {
+      "local_read_only_path": "/private/tmp/shiro-spike-input/Shiro_HatchPet_Unity_Spike_v1/references/CANDIDATE_4way_sheet.png",
+      "size": [
+        1254,
+        1254
+      ],
+      "mode": "RGBA",
+      "sha256": "be36f22dfcd4ede4fa8ef33783f6f8e942f0978271d6061f8ad2160ff64d4287",
+      "source_manifest_approved_as_final": false,
+      "private_original_not_published": true
+    }
+  ],
+  "editable_master_found": false,
+  "existing_B_source_usage": "public comparison only; not neutral rig art or approved-master proof",
+  "tools": {
+    "Photoshop2024": "installed; cua getApp denied Computer Use; not operated or bypassed",
+    "ImageGen": "not used: reference mechanism uploads raster externally, disallowed",
+    "local_diffusion": "torch/diffusers/models not detected; learned paint capability unvalidated",
+    "local_vector_authoring": "Python3.12/Pillow + bundled Node/sharp0.35.5/cairo1.18.6/rsvg2.63.2 actual newpaint SVG render and ORA packaging",
+    "free_editor_install": "Krita/Blender absent; installing editor alone does not supply matching artist-authored hidden anatomy/materials; not installed",
+    "new_paid_service": "NONE",
+    "private_art_upload": "NONE"
+  },
+  "format": [
+    "editable named-layer SVG",
+    "OpenRaster ORA9layers",
+    "separate RGBA PNG"
+  ],
+  "automatic": "vector path paint/render/archive; NOT identity-preserving automatic art",
+  "manual_art_needed": [
+    "canonical source validation",
+    "visible shapes/material/pattern reconstruction",
+    "face/head/hat common layers and complete hidden artwork",
+    "pose-dependent costume/held prop"
+  ]
+}

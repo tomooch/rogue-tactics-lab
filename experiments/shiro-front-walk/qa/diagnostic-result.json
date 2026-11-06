@@ -1,0 +1,17 @@
+{
+  "overall_status": "FAIL_PROVISIONAL",
+  "geometry_only": "PASS",
+  "source_contour": "FAIL",
+  "preview_codec": "h264",
+  "preview_size": [
+    390,
+    844
+  ],
+  "preview_seconds": 6,
+  "human_gait_approved": false,
+  "unity_tested": false,
+  "visible_character_height_approx_px": 154,
+  "reason": "low-alpha source noise below sole constrains uniform scale; saturated edge fringe remains",
+  "next": "Superseded by authorized contour cleanup and final output; retain as historical FAIL only",
+  "historical_only": true
+}

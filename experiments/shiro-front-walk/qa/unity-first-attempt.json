@@ -1,0 +1,11 @@
+{
+  "source_commit": "f794387ff80ababdb5c1e3475d71f2944ce038f4",
+  "EditMode": {
+    "passed": 5,
+    "failed": 1
+  },
+  "reason": "Editor-only coroutine attempted LoadSceneAsyncInPlayMode before entering Play Mode",
+  "repair": "EnterPlayMode/ExitPlayMode in dedicated test only; no Core, scene or asset change",
+  "retry_source_commit": "ef8826f0c19378565b240aa140cbf0ba63282c86",
+  "PlayMode": "not reached in failed attempt"
+}

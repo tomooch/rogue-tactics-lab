@@ -1,0 +1,648 @@
+{
+  "schema_version": 1,
+  "baseline": "8524ddb4a389deb878a5487611e02ecd196bd70c",
+  "master_png_sha256": "e19eccab1a6e2a6ac2a214e6af76e2cd8d8202cc5496690e47fafc35dec98929",
+  "canvas": [
+    1254,
+    1254
+  ],
+  "face_and_hat_source": "head_face_hat",
+  "original_parts_bind_reconstruction": "bitwise exact; this is not articulation PASS",
+  "parts": [
+    {
+      "id": "grip_staff",
+      "source": "input/shiro_walk_front_01.png",
+      "mask_polygon": [
+        [
+          910,
+          240
+        ],
+        [
+          1194,
+          225
+        ],
+        [
+          1194,
+          475
+        ],
+        [
+          1108,
+          579
+        ],
+        [
+          987,
+          749
+        ],
+        [
+          876,
+          1000
+        ],
+        [
+          755,
+          1009
+        ],
+        [
+          784,
+          963
+        ],
+        [
+          853,
+          812
+        ],
+        [
+          897,
+          730
+        ],
+        [
+          897,
+          619
+        ],
+        [
+          937,
+          491
+        ],
+        [
+          903,
+          450
+        ]
+      ],
+      "ownership_order": "first matching region owns source pixel",
+      "painting": "none",
+      "missing_hidden_art": true
+    },
+    {
+      "id": "left_shin_boot",
+      "source": "input/shiro_walk_front_01.png",
+      "mask_polygon": [
+        [
+          655,
+          1005
+        ],
+        [
+          790,
+          1008
+        ],
+        [
+          832,
+          1060
+        ],
+        [
+          831,
+          1253
+        ],
+        [
+          620,
+          1253
+        ],
+        [
+          622,
+          1120
+        ]
+      ],
+      "ownership_order": "first matching region owns source pixel",
+      "painting": "none",
+      "missing_hidden_art": true
+    },
+    {
+      "id": "right_shin_boot",
+      "source": "input/shiro_walk_front_01.png",
+      "mask_polygon": [
+        [
+          502,
+          952
+        ],
+        [
+          629,
+          950
+        ],
+        [
+          650,
+          992
+        ],
+        [
+          626,
+          1148
+        ],
+        [
+          484,
+          1155
+        ],
+        [
+          474,
+          1036
+        ]
+      ],
+      "ownership_order": "first matching region owns source pixel",
+      "painting": "none",
+      "missing_hidden_art": true
+    },
+    {
+      "id": "left_thigh",
+      "source": "input/shiro_walk_front_01.png",
+      "mask_polygon": [
+        [
+          654,
+          884
+        ],
+        [
+          783,
+          864
+        ],
+        [
+          799,
+          946
+        ],
+        [
+          788,
+          1038
+        ],
+        [
+          674,
+          1042
+        ],
+        [
+          650,
+          938
+        ]
+      ],
+      "ownership_order": "first matching region owns source pixel",
+      "painting": "none",
+      "missing_hidden_art": true
+    },
+    {
+      "id": "right_thigh",
+      "source": "input/shiro_walk_front_01.png",
+      "mask_polygon": [
+        [
+          508,
+          907
+        ],
+        [
+          557,
+          873
+        ],
+        [
+          654,
+          884
+        ],
+        [
+          652,
+          953
+        ],
+        [
+          609,
+          991
+        ],
+        [
+          523,
+          982
+        ],
+        [
+          498,
+          946
+        ]
+      ],
+      "ownership_order": "first matching region owns source pixel",
+      "painting": "none",
+      "missing_hidden_art": true
+    },
+    {
+      "id": "free_arm",
+      "source": "input/shiro_walk_front_01.png",
+      "mask_polygon": [
+        [
+          575,
+          549
+        ],
+        [
+          648,
+          583
+        ],
+        [
+          576,
+          697
+        ],
+        [
+          463,
+          724
+        ],
+        [
+          364,
+          678
+        ],
+        [
+          338,
+          588
+        ],
+        [
+          399,
+          553
+        ],
+        [
+          474,
+          562
+        ]
+      ],
+      "ownership_order": "first matching region owns source pixel",
+      "painting": "none",
+      "missing_hidden_art": true
+    },
+    {
+      "id": "head_face_hat",
+      "source": "input/shiro_walk_front_01.png",
+      "mask_polygon": [
+        [
+          200,
+          0
+        ],
+        [
+          1050,
+          0
+        ],
+        [
+          1050,
+          468
+        ],
+        [
+          932,
+          565
+        ],
+        [
+          846,
+          542
+        ],
+        [
+          766,
+          511
+        ],
+        [
+          667,
+          508
+        ],
+        [
+          558,
+          512
+        ],
+        [
+          479,
+          569
+        ],
+        [
+          354,
+          552
+        ],
+        [
+          239,
+          494
+        ]
+      ],
+      "ownership_order": "first matching region owns source pixel",
+      "painting": "none",
+      "missing_hidden_art": true
+    },
+    {
+      "id": "skirt_front",
+      "source": "input/shiro_walk_front_01.png",
+      "mask_polygon": [
+        [
+          563,
+          704
+        ],
+        [
+          787,
+          700
+        ],
+        [
+          951,
+          829
+        ],
+        [
+          919,
+          911
+        ],
+        [
+          798,
+          942
+        ],
+        [
+          689,
+          924
+        ],
+        [
+          653,
+          951
+        ],
+        [
+          551,
+          938
+        ],
+        [
+          423,
+          888
+        ],
+        [
+          359,
+          842
+        ],
+        [
+          470,
+          769
+        ]
+      ],
+      "ownership_order": "first matching region owns source pixel",
+      "painting": "none",
+      "missing_hidden_art": true
+    },
+    {
+      "id": "cape_left",
+      "source": "input/shiro_walk_front_01.png",
+      "mask_polygon": [
+        [
+          100,
+          710
+        ],
+        [
+          393,
+          665
+        ],
+        [
+          548,
+          796
+        ],
+        [
+          607,
+          963
+        ],
+        [
+          507,
+          1010
+        ],
+        [
+          361,
+          1012
+        ],
+        [
+          299,
+          964
+        ],
+        [
+          196,
+          875
+        ],
+        [
+          100,
+          827
+        ]
+      ],
+      "ownership_order": "first matching region owns source pixel",
+      "painting": "none",
+      "missing_hidden_art": true
+    },
+    {
+      "id": "cape_right",
+      "source": "input/shiro_walk_front_01.png",
+      "mask_polygon": [
+        [
+          791,
+          757
+        ],
+        [
+          1168,
+          781
+        ],
+        [
+          1168,
+          1088
+        ],
+        [
+          956,
+          1090
+        ],
+        [
+          837,
+          941
+        ],
+        [
+          803,
+          834
+        ]
+      ],
+      "ownership_order": "first matching region owns source pixel",
+      "painting": "none",
+      "missing_hidden_art": true
+    },
+    {
+      "id": "back_hair_left",
+      "source": "input/shiro_walk_front_01.png",
+      "mask_polygon": [
+        [
+          180,
+          447
+        ],
+        [
+          551,
+          483
+        ],
+        [
+          550,
+          720
+        ],
+        [
+          371,
+          799
+        ],
+        [
+          217,
+          736
+        ]
+      ],
+      "ownership_order": "first matching region owns source pixel",
+      "painting": "none",
+      "missing_hidden_art": true
+    },
+    {
+      "id": "back_hair_right",
+      "source": "input/shiro_walk_front_01.png",
+      "mask_polygon": [
+        [
+          802,
+          481
+        ],
+        [
+          1012,
+          477
+        ],
+        [
+          1012,
+          824
+        ],
+        [
+          850,
+          822
+        ],
+        [
+          818,
+          655
+        ]
+      ],
+      "ownership_order": "first matching region owns source pixel",
+      "painting": "none",
+      "missing_hidden_art": true
+    },
+    {
+      "id": "torso_front",
+      "source": "input/shiro_walk_front_01.png",
+      "mask": "remaining visible pixels after named part ownership",
+      "painting": "none",
+      "missing_hidden_art": true
+    },
+    {
+      "id": "pelvis_underpaint",
+      "source": "continuity/C0/lower_body_completion_candidate.png",
+      "source_resize": [
+        420,
+        464
+      ],
+      "source_translation": [
+        420,
+        790
+      ],
+      "mask_polygon": [
+        [
+          531,
+          798
+        ],
+        [
+          786,
+          798
+        ],
+        [
+          794,
+          917
+        ],
+        [
+          543,
+          934
+        ],
+        [
+          515,
+          880
+        ]
+      ],
+      "painting": "built-in ImageGen local occlusion completion; inferred blue undergarment, hidden only",
+      "excluded": "all regenerated boots/lower legs",
+      "missing_hidden_art": "side/back hip and neutral knee not authored"
+    },
+    {
+      "id": "trial_left_thigh",
+      "source": "continuity/C0/lower_body_completion_candidate.png",
+      "painting": "completed skin/blue shorts behind skirt; canonical visible boot retained",
+      "status": "candidate, incomplete back knee contour"
+    },
+    {
+      "id": "trial_right_thigh",
+      "source_part": "trial_left_thigh",
+      "transform": [
+        [
+          -1.0,
+          0.0,
+          1310.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "status": "reflected leg-normalization experiment; not approved original right-leg artwork"
+    },
+    {
+      "id": "trial_right_shin_boot",
+      "source_part": "left_shin_boot",
+      "transform": [
+        [
+          -1.0,
+          0.0,
+          1310.0
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.0,
+          0.0,
+          1.0
+        ]
+      ],
+      "status": "reflected front-boot texture; original rear-view boot retained separately, not overwritten"
+    },
+    {
+      "id": "clothing_underpaint",
+      "source": "continuity/C0/occluded_clothing_completion_candidate.png",
+      "source_resize": [
+        700,
+        440
+      ],
+      "source_translation": [
+        320,
+        650
+      ],
+      "mask_polygon": [
+        [
+          486,
+          853
+        ],
+        [
+          805,
+          853
+        ],
+        [
+          806,
+          1024
+        ],
+        [
+          490,
+          1024
+        ]
+      ],
+      "painting": "one bounded hidden-cloth repair; not existing canonical paint",
+      "status": "candidate: extra frill geometry must be reviewed"
+    }
+  ],
+  "hierarchy": "pelvis -> left/right hip -> thigh -> knee -> shin/boot; torso counter-rotates; head common unit; arm/staff share torso; cape/hair follow torso",
+  "joint_points": {
+    "hipL": [
+      718,
+      868
+    ],
+    "kneeL": [
+      720,
+      1014
+    ],
+    "ankleL": [
+      724,
+      1144
+    ],
+    "hipR": [
+      592,
+      868
+    ],
+    "kneeR": [
+      590,
+      1014
+    ],
+    "ankleR": [
+      586,
+      1144
+    ]
+  },
+  "joint_basis": "inferred 2D trial points, not observed neutral anatomy; body-hidden hip points lack original paint",
+  "art_status": "PROVISIONAL_C0_ONLY"
+}

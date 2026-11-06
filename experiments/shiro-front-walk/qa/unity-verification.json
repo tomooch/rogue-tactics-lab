@@ -1,0 +1,119 @@
+{
+  "source_commit": "6ed401b866d7a6c77cea8ad8a12ed067e3468740",
+  "baseline_commit": "ab9fa5dc729dcea07f8680e7b22544627c5e5bed",
+  "editor": "6000.3.25f1",
+  "import_compile": "PASS",
+  "actual_animation_playback": "PASS",
+  "distinct_sprites_observed": 6,
+  "actual_Play_Mode_entered": true,
+  "animation": "Animator; 8fps; six keyframes; 0.75s loop",
+  "slicing": "Six native Sprite.Create assets; 512x512 rects; common pivot (256,42); uncompressed alpha atlas",
+  "tests": [
+    {
+      "phase": "EditMode",
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "result": "Passed",
+      "command": [
+        "/Applications/Unity/Hub/Editor/6000.3.25f1/Unity.app/Contents/MacOS/Unity",
+        "-batchmode",
+        "-projectPath",
+        "/private/tmp/rogue-shiro-front-walk-spike/unity",
+        "-runTests",
+        "-testPlatform",
+        "EditMode",
+        "-logFile",
+        "/private/tmp/shiro-spike-unity-3/EditMode.log",
+        "-testResults",
+        "/private/tmp/shiro-spike-unity-3/EditMode.xml"
+      ],
+      "source_head": "6ed401b866d7a6c77cea8ad8a12ed067e3468740",
+      "exit_code": 0
+    },
+    {
+      "phase": "PlayMode",
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "result": "Passed",
+      "command": [
+        "/Applications/Unity/Hub/Editor/6000.3.25f1/Unity.app/Contents/MacOS/Unity",
+        "-batchmode",
+        "-projectPath",
+        "/private/tmp/rogue-shiro-front-walk-spike/unity",
+        "-runTests",
+        "-testPlatform",
+        "PlayMode",
+        "-logFile",
+        "/private/tmp/shiro-spike-unity-3/PlayMode.log",
+        "-testResults",
+        "/private/tmp/shiro-spike-unity-3/PlayMode.xml"
+      ],
+      "source_head": "6ed401b866d7a6c77cea8ad8a12ed067e3468740",
+      "exit_code": 0
+    }
+  ],
+  "actual_render_count": 12,
+  "render_size": [
+    390,
+    844
+  ],
+  "render_artifacts": [
+    {
+      "file": "dark_01.png",
+      "sha256": "354235cce3fc71780945e98358d6a1bf2c272f2f7817d886843b0e92e5943f3e"
+    },
+    {
+      "file": "dark_02.png",
+      "sha256": "e82807bfea7211004fab3033b4d02830805da182d2591b7d13876a74d3be1edb"
+    },
+    {
+      "file": "dark_03.png",
+      "sha256": "58977bc873a86cfc9cf002fe7317b074d0cc8dd4136c007d92d8f21377924ca3"
+    },
+    {
+      "file": "dark_04.png",
+      "sha256": "1ff6395c63ea492da0cd3941a53f13f21790e7223e243e58e91dcbabf3296aa5"
+    },
+    {
+      "file": "dark_05.png",
+      "sha256": "90c3a13509d3054fd83900bdcebb99a372d8a541384b292f8e203f49e1944475"
+    },
+    {
+      "file": "dark_06.png",
+      "sha256": "284606f7547b282b609c9b3fae61d41eaa0d92a1783b450fb42880568228e6b2"
+    },
+    {
+      "file": "light_01.png",
+      "sha256": "2212aa8e52b378793ce58751f7fc5de3d7c764405a4bbb9b61ecb6ab6d0938af"
+    },
+    {
+      "file": "light_02.png",
+      "sha256": "ef34548b9394990eb216e789ec15ebf3e9808314c6abe5baab0352767e99786d"
+    },
+    {
+      "file": "light_03.png",
+      "sha256": "00f8f5e405acae3889804ce218d4c2e7ed1893a91aafc748accea6ac7fa47993"
+    },
+    {
+      "file": "light_04.png",
+      "sha256": "6e7ab801c6f0c6acbfb4d841495baf0110c4cd247afe0472b6ce0c796d4107f4"
+    },
+    {
+      "file": "light_05.png",
+      "sha256": "24ef5beed86932bf4f752fabc217b27e567727730ad881356fad35b9f9ab04f3"
+    },
+    {
+      "file": "light_06.png",
+      "sha256": "31d26b04d3406f2a368fd73465805a500d2f62787964852350b45b68b80fcc8f"
+    }
+  ],
+  "limits": [
+    "No physical iPhone/iOS build observed",
+    "Human gait/cuteness not accepted",
+    "Unity MP4 is assembled from captured poses, not a live screen recording; live advancing animation is independently observed by the test",
+    "No CI configured or claimed"
+  ],
+  "source_changes_after_verified_revision": false
+}

@@ -1,0 +1,70 @@
+{
+  "executed_source_commit": "0e68e678e522cee6f1482e1331e64c02c8b55abc",
+  "generation_source_commit": "b9dc941103f9c76b07010bf3e79fa1e1cd88e24f",
+  "baseline_main": "ab9fa5dc729dcea07f8680e7b22544627c5e5bed",
+  "baseline_PR": "fdd02510f90faeb7dc89fd1d523b5c58f10aaf4c",
+  "runner_completion": {
+    "schema_version": 1,
+    "job_id": "023ed5be-c98a-4d0d-b6a7-9b14e590e897",
+    "root_thread_id": "01a12b8b-cc88-7592-9846-85a0ade0eb48",
+    "purpose": "Reverify exact ORA raster composition and fresh S0 failure diagnostic",
+    "command": [
+      "/Users/tomoki/.cache/codex-runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+      "experiments/shiro-front-walk/scripts/verify_s0_authoring_pilot.py"
+    ],
+    "cwd": "/private/tmp/rogue-shiro-front-walk-spike",
+    "started_at": "2026-10-12T22:41:49.281489+00:00",
+    "completed_at": "2026-10-12T22:41:49.796994+00:00",
+    "duration_seconds": 0.5153260000515729,
+    "terminal_status": "completed",
+    "exit_code": 0,
+    "runner_status": "terminal_observed",
+    "runner_error": null,
+    "stdout_location": "/private/tmp/shiro-spike-jobs/S0-authoring-qa-2/stdout.log",
+    "stderr_location": "/private/tmp/shiro-spike-jobs/S0-authoring-qa-2/stderr.log",
+    "artifact_locations": [
+      "/private/tmp/rogue-shiro-front-walk-spike/experiments/shiro-front-walk/continuity/S0/qa.json"
+    ],
+    "queue_delivery_status": "sent",
+    "queue_attempts": [
+      {
+        "attempt": 1,
+        "started_at": "2026-10-12T22:41:49.798010+00:00",
+        "exit_code": 0,
+        "error": null,
+        "stdout_location": "/private/tmp/shiro-spike-jobs/S0-authoring-qa-2/queue-1.stdout.log",
+        "stderr_location": "/private/tmp/shiro-spike-jobs/S0-authoring-qa-2/queue-1.stderr.log",
+        "completed_at": "2026-10-12T22:41:50.074269+00:00"
+      }
+    ],
+    "unverified_conditions": [],
+    "progress": {
+      "events_location": "/private/tmp/shiro-spike-jobs/S0-authoring-qa-2/progress.jsonl",
+      "observed_events": 0,
+      "notifications": 0,
+      "delivery_failures": 0,
+      "last_output_at": "2026-10-12T22:41:49.786005+00:00",
+      "coalesced_at_completion": [],
+      "errors": []
+    }
+  },
+  "artifact_SHA256": {
+    "qa.json": "54c4e982ee309ffe958ad619f7ba710c5b5b5fa2ff31703850864b0b6c869c9e",
+    "S0_failed_authoring_diagnostic_iPhone.mp4": "0cac571e68e24b06c6c253f0afb213c5dd8362316ff5b46da04cb9e57292300b",
+    "attempt2/editable_pilot.svg": "0c39f60f462de7285931470596f52be030d58518328c0da31a2e044d74dbf45c",
+    "attempt2/editable_pilot.ora": "7991498612a7b3ac8d1549bff62cfeafef830e29bfd995a44dee6f0774c54a84",
+    "attempt2/range_diagnostic.jpg": "77c9c04ca662d6f1aeba46da8d9d927d910272cc4b1c414286cad7453d2b0b21",
+    "attempt2/style_comparison.jpg": "d19c5158ed1a9533d2ac4a02ba89628b892598770d0357e9f75f741fac24e92d",
+    "visual_review.json": "8a8bb733ab024829c1f02eb1dd4769f06e6a99a4d15167a7e44d6c634e3f66a6",
+    "authoring_manifest.json": "c84cd0cbc98bab56cdebf0d0ef0e70aaec5abe1425a063e2184fe6324ddd0b9c"
+  },
+  "artifact_freshness": {
+    "qa_mtime_after_start": true
+  },
+  "verification_scope": "local files/rendered segment diagnostics; NOT Unity/Shiro/gait/naturalness",
+  "visual_art_gate": "FAIL",
+  "S1_S2_S3": "NOT_EXECUTED",
+  "Human_GO": "NOT_OBTAINED",
+  "later_evidence_commit": "evidence/docs only; source paths and range art unchanged",
+  "earlier_failed_job": "f7906841-4f18-46f6-a879-84fc70971918"
+}

@@ -1,0 +1,67 @@
+{
+  "source_commit": "a7df345ca27507b849d69781a0749c02144d2e6f",
+  "canonical_source_sha256": "59e6186b126d1c7c5ac05e577340af79bb5eddb04d0aaff270398686c465d317",
+  "rgba_source_rgb_exact": true,
+  "ora_trials": [
+    {
+      "attempt": "hidden",
+      "method": "telea",
+      "mask_pixels": 4329,
+      "outside_mask_changes": 0,
+      "stored_layer_composite_max_difference": 0
+    },
+    {
+      "attempt": "hidden",
+      "method": "navier_stokes",
+      "mask_pixels": 4329,
+      "outside_mask_changes": 0,
+      "stored_layer_composite_max_difference": 0
+    },
+    {
+      "attempt": "hidden2",
+      "method": "telea",
+      "mask_pixels": 5330,
+      "outside_mask_changes": 0,
+      "stored_layer_composite_max_difference": 0
+    },
+    {
+      "attempt": "hidden2",
+      "method": "navier_stokes",
+      "mask_pixels": 5330,
+      "outside_mask_changes": 0,
+      "stored_layer_composite_max_difference": 0
+    }
+  ],
+  "artifact_sha256": {
+    "extraction_metrics.json": "80d795f754ecb3c94c8341a226d284021ad55e04aac7a616f8cdd7d7c2240d58",
+    "extraction_review.png": "eaa759ac1071c02b2ef7e944ee927862b977076038b525d917b177e90dff4bba",
+    "hidden/hidden_paint_comparison.png": "ea87531712f9ef2863969c102b18d5e649c82a0672aa0dfbaa165c4d6a8c169b",
+    "hidden/hidden_paint_metrics.json": "70f399d18ac0d7d11b5fe350e46f5401928ea97577d07dadf751e73c9b69600b",
+    "hidden/mask_scope.png": "2c15d46e5b92449523d64b4fdd810e79d8c664126fc0e5ff02d341e9e1a8f34c",
+    "hidden/navier_stokes_composite.png": "1bb62f3b4c5c678bb7c998cf4ec45e5850353b47e73b6afb7a9eb20cfc5b99d4",
+    "hidden/navier_stokes_editable.ora": "dec5e52b17ef1219ed4a7092a99c808940a7efa578f6723e843f7a929cd58a6a",
+    "hidden/navier_stokes_paint_layer.png": "5f1028af697b432bada4996e9c31049e360d1b9bbbfa43b7e3ee41d6f05f7878",
+    "hidden/paint_mask.png": "ab37a835a4378beaeab6a91e0b9a5329b3df91fa8744e76bd37eaf688b61ed58",
+    "hidden/telea_composite.png": "da0914cc4bf7e361f91bd9e7753590a3b21fb89f4e29df1e87d445297ed0da85",
+    "hidden/telea_editable.ora": "65e45036929cbe92cc2d6da16643b90e3b9cba6e4e2feaa8ac94e3281129d887",
+    "hidden/telea_paint_layer.png": "8039d2432ba4d22fcb490b58283de85fd0282f3c8e7468218a90ab8dce371353",
+    "hidden2/hidden_paint_comparison.png": "723ccb027bde623fa67a8923d720324d9e1f258ebbf503a083e4dcd95e19e63e",
+    "hidden2/hidden_paint_metrics.json": "a4baba734397c59da26aaddd1d4f88e2ef903f34951b98970aee865bd8795e47",
+    "hidden2/mask_scope.png": "9c9968062add34d7520cd8060fa888413d732658b98506f5a70778e481ddc317",
+    "hidden2/navier_stokes_composite.png": "63b54fe3080a40bf649eb347550c6fc5316061a4e4c3ae23ceeec83fbc831f10",
+    "hidden2/navier_stokes_editable.ora": "e7ded9cf5b3fcb4db3b632b78bbaaed23695d537b7921907a224a6fd5eb7158b",
+    "hidden2/navier_stokes_paint_layer.png": "5c1359905e24adaa33375bccf87c008d09eb273546833ba32107c0d1b392b36f",
+    "hidden2/paint_mask.png": "6dad936e4e4a3e0b168ca1931ae330d57927acf7835c0d5a32ae098a00337901",
+    "hidden2/telea_composite.png": "9d49b9a2bc73a7a71426ff9888f5c7f8a7e735d587b417a280635ec2d8ecbdb8",
+    "hidden2/telea_editable.ora": "f57a048c3fb327ed200762c17549c7d1a98ebd3b9c9f9c1984d68176c761dd23",
+    "hidden2/telea_paint_layer.png": "9222f3523e230c3ecb588f3be21f91d4e039313ee98f74f65429c4703a380e37",
+    "lower_body_detail.png": "9440aa48ee16d642d2c0809ffd2409dd70ccad25780eee554cc37383ac26ec1f",
+    "raw_alpha.png": "4e8c7fbfbf234681508c0ef73b7bb481628dbb7b27006070fe967e5c1078cb55",
+    "source_rgb_raw_alpha.png": "ebb0d5899e2f921ac36bffab21bb7727831ace6e57289d520c6fdf1a972bcd65"
+  },
+  "technical_preservation_checks": "PASS",
+  "art_gate": "FAIL per actual-image review; not overridden by these checks",
+  "three_poses": "NOT_EXECUTED",
+  "walk": "NOT_EXECUTED",
+  "unity": "NOT_EXECUTED"
+}

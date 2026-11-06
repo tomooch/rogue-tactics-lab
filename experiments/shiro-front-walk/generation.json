@@ -1,0 +1,19 @@
+{
+  "tool": "built-in image_gen",
+  "source_packet_sha256": "e66a730a2aa5e349ec3b5c573421e137ce5730241e18c8e9c4af54aa4c493f42",
+  "references": [
+    {
+      "role": "canonical face",
+      "sha256": "ddaf1cfb3b8d9fdd5c572477779bc5652e29b73237ee2d8a2c2191a074c18124"
+    },
+    {
+      "role": "canonical full body",
+      "sha256": "8d1323045422d60774adda005eb04f23dcfcbfe8ae9b6a728d8675da33f979d9"
+    }
+  ],
+  "human_reference_confirmation": "よい",
+  "prompts": {
+    "1": "Create ONE independent transparent full-body game sprite of Shiro, front-view walk-in-place frame 1 of 6: character's LEFT foot contact forward (viewer RIGHT), right foot behind beginning to lift. Input 1 canonical face, input 2 canonical costume. Faithfully preserve the original small childlike chibi face, violet-blue oval eyes and open cheerful mouth, fluffy silver-white hair, blue floppy pointed witch hat with white flowers and gold stars, blue-white-gold dress/cape, flowered blue boots, identical crystal star staff held on viewer RIGHT as in full-body reference. Fixed frontal orthographic camera, full hat and staff and feet visible, ample blank margin. Natural small walking stride with foot depth and visible single-foot support, slight weight shift and gentle coherent body movement. Preserve face and exact outfit identity. Isolate ONLY character and attached staff on actual RGBA transparency; no scenery, floor, cast/contact shadow, glow, particles, text, labels, checkerboard, background color or halo. ONE pose only, square canvas. Painted illustration quality as reference.",
+    "repair_2": "Edit the attached Shiro walking sprite. Keep every face/costume/pose/prop detail and pixel scale unchanged. Precise cutout-edge repair ONLY: remove ALL stray red/orange mask pixels underneath the front boot, red fringe around cape/staff, electric blue/purple isolated fringe pixels around hat/hair, and detached transparent haze. The real gold boot sole is gold/beige with brown contour, not bright red. Preserve the correct character colors and fine white hair outline with neutral antialiasing. Output one fully isolated RGBA sprite on true transparent background, no new background, no shadow, no glowing outline, no extra object or text. Leave the boot contact pose exactly the same. Ample transparent margin around full character."
+  }
+}

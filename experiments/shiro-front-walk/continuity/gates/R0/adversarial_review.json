@@ -1,0 +1,29 @@
+{
+  "reviewer": "bounded independent read-only agent + Executor",
+  "findings": [
+    "explicit executeMethod and fresh runtime required",
+    "error-free exit alone is insufficient; assert 180 frames, 3 bone signatures, deformation, nonblank portrait, root, loops",
+    "sorting records do not establish visual occlusion",
+    "source PTS differs from median-FPS preview; label derivative",
+    "old runtime file must not be reused after timeout"
+  ],
+  "repairs": [
+    "Run invoked in actual Editor job",
+    "process_R0 observable guards",
+    "actual-image visual review still pending",
+    "M0 PTS retained/gaps null/CFR label",
+    "R0 run3 unique output; matching MonoBehaviour filename; defer Play startup; direct exit after JSON flush"
+  ],
+  "acceptance": "R0 sample tooling PASS within three visible pose/deformation scope; not Shiro/Human gait",
+  "actual_image_review": {
+    "result": "PASS_LIMITED_TO_VISIBLE_JOINS_IN_THREE_SAMPLE_POSES",
+    "observed": "lower-leg articulation; sleeve-to-hand and boot-to-leg joins closed; no obvious layer-order popping in hair/scarf/torso",
+    "limits": [
+      "tunic hides hip/upper-leg attachment",
+      "staff is independent sprite, no held-prop attachment test",
+      "three constant poses do not prove between-pose interpolation or natural walk",
+      "Fei is official sample, not Shiro"
+    ],
+    "review": "Executor image inspection and independent bounded actual-image adversarial review"
+  }
+}
