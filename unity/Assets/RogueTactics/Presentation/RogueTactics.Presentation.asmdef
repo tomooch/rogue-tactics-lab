@@ -2,7 +2,9 @@
   "name": "RogueTactics.Presentation",
   "rootNamespace": "RogueTactics",
   "references": [
-    "RogueTactics.Core"
+    "RogueTactics.Core",
+    "Unity.ugui",
+    "Unity.InputSystem"
   ],
   "includePlatforms": [],
   "excludePlatforms": [],

@@ -1,0 +1,38 @@
+g1-v1|5,5|0,0,2,0,0|A,0,18,18,5,2,2|B,1,16,16,4,1,2|C,2,12,12,4,3,3|D,3,10,10,2,1,1|X,4,18,18,6,2,3|Y,4,14,14,5,3,2
+commands:0;0;0;0;0;0;0;0;0;0;0;0;0;0
+1,0,B,A,0,16,1,2,Protect: Protect preference; adjacent living A
+1,2,B,A,3,18,2,2,Reduce incoming damage by 3 until B acts
+2,0,X,A,0,18,2,3,Attack: Adjacent living opponent
+2,3,X,A,3,15,2,2,Guard reduced damage by 3
+2,5,A,X,2,16,2,3,Living A counters a surviving adjacent hit
+3,0,A,X,0,15,2,2,Attack: Adjacent living opponent
+3,3,A,X,5,11,2,3,Attack
+4,0,C,X,0,12,3,3,Attack: Adjacent attack; complementary flank +2
+4,3,C,X,6,5,2,3,Flank +2
+5,0,Y,A,0,14,3,2,Attack: Adjacent living opponent
+5,3,Y,A,2,13,2,2,Guard reduced damage by 3
+5,5,A,Y,2,12,3,2,Living A counters a surviving adjacent hit
+6,0,D,A,0,10,1,1,Heal: Lowest HP ally in heal range; charge available
+6,4,D,A,4,17,2,2,Heal charge spent
+7,0,B,A,0,16,1,2,Protect: Protect preference; adjacent living A
+7,2,B,A,3,17,2,2,Reduce incoming damage by 3 until B acts
+8,0,X,A,0,5,2,3,Attack: Adjacent living opponent
+8,3,X,A,3,14,2,2,Guard reduced damage by 3
+8,5,A,X,2,3,2,3,Living A counters a surviving adjacent hit
+9,0,A,X,0,14,2,2,Attack: Adjacent living opponent
+9,3,A,X,3,0,2,3,Attack
+9,6,A,X,0,0,2,3,Lethal resolution
+10,0,C,Y,0,12,3,3,Attack: Adjacent attack; complementary flank +2
+10,3,C,Y,6,6,3,2,Flank +2
+11,0,Y,A,0,6,3,2,Attack: Adjacent living opponent
+11,3,Y,A,2,12,2,2,Guard reduced damage by 3
+11,5,A,Y,2,4,3,2,Living A counters a surviving adjacent hit
+12,0,D,A,0,10,1,1,Heal: Lowest HP ally in heal range; charge available
+12,4,D,A,4,16,2,2,Heal charge spent
+13,0,B,A,0,16,1,2,Protect: Protect preference; adjacent living A
+13,2,B,A,3,16,2,2,Reduce incoming damage by 3 until B acts
+14,0,A,Y,0,16,2,2,Attack: Adjacent living opponent
+14,3,A,Y,4,0,3,2,Attack
+14,6,A,Y,0,0,3,2,Lethal resolution
+14,7,,,0,0,0,0,Victory
+final:g1-v1|5,5|14,3,0,1,1|A,0,18,16,5,2,2|B,1,16,16,4,1,2|C,2,12,12,4,3,3|D,3,10,10,2,1,1|X,4,18,0,6,2,3|Y,4,14,0,5,3,2

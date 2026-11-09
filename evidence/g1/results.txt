@@ -1,0 +1,6 @@
+Attack: Victory / 14 actions
+HP A:0 B:16 C:12 D:10 / alive 3 / heals 1
+Protect: Victory / 14 actions
+HP A:16 B:16 C:12 D:10 / alive 4 / heals 0
+attack sha256 85770bb4c9e2c4cd5247a515e15bbdb3995dd6d20d4f44917fae832c109c9c2e
+protect sha256 e6f35225a2e812bc9e1e12521abb2ae94546650fceb8b8e64e2bf3950718b15d

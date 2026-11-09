@@ -1,6 +1,6 @@
 # Native mobile の設計方向
 
-正本は [Issue #1](https://github.com/tomooch/rogue-tactics-lab/issues/1)。本書は契約の要点であり、実装完了の記録ではない。Web v0 は retired historical evidence。[当時の設計](https://github.com/tomooch/rogue-tactics-lab/blob/0d8a2a68c37902256f5123ef86017ce83a60a64e/DESIGN.md) は immutable snapshot `0d8a2a68c37902256f5123ef86017ce83a60a64e`（tag `archive/web-v0-final`）に保持し、active tree に Web implementation を持たない。Pages は current product / runtime ではなく、Human が Unpublish 済み。PR #4 は merge 済みで、Web v0 は retired 済み。accepted implementation は常に actual GitHub `main` HEAD。[PR #5](https://github.com/tomooch/rogue-tactics-lab/pull/5) の Unity Stage 0 は Draft / pending implementation。実行した HEAD `6a0879e8877cf0717d2ac5019a923ea11fbbd0af` で Unity 6000.3.25f1、import / compile PASS、EditMode 5/5 PASS、PlayMode 1/1 PASS、390×844 portrait smoke PASS。証拠は [VERIFICATION.md](VERIFICATION.md)。実機未検証、CI なし、human play 未実施。Stage 0 の成立を gameplay 仮説や frozen direction の採用証拠にはしない。
+正本は [Issue #1](https://github.com/tomooch/rogue-tactics-lab/issues/1)。本書は契約の要点であり、実装完了の記録ではない。Web v0 は retired historical evidence。[当時の設計](https://github.com/tomooch/rogue-tactics-lab/blob/0d8a2a68c37902256f5123ef86017ce83a60a64e/DESIGN.md) は immutable snapshot `0d8a2a68c37902256f5123ef86017ce83a60a64e`（tag `archive/web-v0-final`）に保持し、active tree に Web implementation を持たない。Pages は current product / runtime ではなく、Human が Unpublish 済み。PR #4 は merge 済みで、Web v0 は retired 済み。accepted implementation は常に actual GitHub `main` HEAD。[PR #5](https://github.com/tomooch/rogue-tactics-lab/pull/5) のUnity Stage 0はmerge済み。以下はmerge前の実測revisionの記録。実行した HEAD `6a0879e8877cf0717d2ac5019a923ea11fbbd0af` で Unity 6000.3.25f1、import / compile PASS、EditMode 5/5 PASS、PlayMode 1/1 PASS、390×844 portrait smoke PASS。証拠は [VERIFICATION.md](VERIFICATION.md)。実機未検証、CI なし、human play 未実施。Stage 0 の成立を gameplay 仮説や frozen direction の採用証拠にはしない。
 
 ## Core hypothesis
 
@@ -32,8 +32,23 @@ strategist-dependent intervention hypothesis: E の experiment configuration に
 
 以下は gameplay 実装前にユーザーが決める。候補を承認済み仕様として扱わない。
 
-1. 探索操作とプレイヤーの立場: 盤面外から目的地を指示するか、A 自身を操作するか、別方式か。
+1. 探索gestureと目的の表現等。盤外のparty監督役BはHumanが#1で承認済み。Aを直接操作する方向にはしない。
 2. Resolution chunk: 1回の委譲でどこまで自律行動が解決され、どこで次の判断に戻るか。
 3. Intent horizon: 次の1行動か、複数手先か。
 
 PR #5 の Stage 0 は Unity 基盤のみ。上記 USER_DECISION を固定する gameplay、署名・実機検証は含まない。
+
+
+## Design Freeze G1 — 2026-10-13 / Issue #14
+
+最新の[実装契約 #14](https://github.com/tomooch/rogue-tactics-lab/issues/14)が今回の範囲を定める。Stage 0はPR #5でmainへmerge済み（baseline `ab9fa5dc729dcea07f8680e7b22544627c5e5bed`）。Humanは盤外の監督役Bを承認済み（#1）。探索入力の正確なgesture、resolution chunk、intent horizonは未決。PR #6の広いdocs同期は取り込まず、Stage 0 mergeと盤外Bに限りstale記述を訂正した。
+
+- 問い：同じ初期戦況からBの戦術選好だけを変えたとき、実行行動・HP・生存・行動数・回復資源に読み取れる差が出るか。Humanが次の変更を自発的に考えるかは人試遊でのみ判断する。
+- 二条件：`ProtectAnchor`（生存Aに隣接して守る／近づく）と`DirectAttack`（共通の近接攻撃規則）。Bの数値や他役の規則、敵、初期配置、行動順は同一。どちらも推薦しない。
+- fixture：5×5、A(2,2) HP18/攻撃5/生存被弾後counter2、B(1,2) HP16/攻撃4/guard軽減3、C(3,3) HP12/攻撃4/Aと同じ敵へ異なる隣接位置から攻撃時flank+2、D(1,1) HP10/攻撃2/射程2でHPが4以上欠けた最低HP味方を4回復（2charge）、X(2,3) HP18/攻撃6、Y(3,2) HP14/攻撃5。匿名実験役のみ。シロ魔法／ミャル弓／ガル大剣／モモ盾の最終能力とは対応させない。
+- 行動順B→X→A→C→Y→D、死亡actorはskip。敵は生存Aを優先、その他は距離→ID。移動は空いた隣接マスで距離が縮むN/E/S/W順。fixture用であり探索routeの仕様ではない。guardはBの次行動で失効、死亡／離隔で無効。致死被弾後のcounter・死者回復なし。
+- 予想は変更後・実行前に任意自由入力。Core規則を読む導線を設け、結論や正解は示さない。戦闘終了後は同一baselineへ戻して別条件を試し、独立の結果を併記する。
+- 検証adapter：Core APIは1 actionの純粋transition。UIでは1 actionまたはencounter終端までの明示的検証操作と、現在planの可視化を用いる。これらはG1実験用adapterで、正式resolution chunk／intent horizonの既定ではない。
+- 期待：同一入力でsnapshot・event・SHA-256が同一、合法行動のみ、単一選好による実行trace差、HP／行動数等の少なくとも1指標差、実390×844操作で開始・観察・比較・再試行できる。仮説や面白さ成立の観測とは区別する。
+- stop条件：勝利／全味方死亡／120 actions上限。差が実規則で生じなければNOT ESTABLISHEDとしてfixtureを記録付きで修正し、偽の結果は作らない。
+- 対象外：floor探索、宝箱／relic／第二戦、1 correction UI、E提案・受諾、正式class／skill、アニメーション、LLM、network、課金、telemetry、merge。G2とHuman試遊はNotion Todoに残す。
