@@ -6,9 +6,9 @@ Current design / experiment contract は [DESIGN.md](DESIGN.md)、[VERIFICATION.
 
 ## 現在地
 
-accepted implementation は常に actual GitHub `main` HEAD。PR #4 は merge 済みで、historical Web v0 は retired 済み。main に Web implementation / npm harness / Pages workflow はなく、Unity Stage 0 はまだ main に取り込まれていない。
+accepted implementation は常に actual GitHub `main` HEAD。PR #4 は merge 済みで、historical Web v0 は retired 済み。main に Web implementation / npm harness / Pages workflow はなく、Unity Stage 0 は PR #5 の merge により main に取り込み済み。
 
-[PR #5](https://github.com/tomooch/rogue-tactics-lab/pull/5) は Draft / pending。`unity/` の URP・portrait 基盤と pure C# / asmdef / test scaffold が検証済み。Unity **6000.3.25f1**、import / compile PASS、EditMode **5/5 PASS**、PlayMode **1/1 PASS**、390×844 portrait smoke PASS。実行した pending HEAD は `6a0879e8877cf0717d2ac5019a923ea11fbbd0af`。証拠と限界は [VERIFICATION.md](VERIFICATION.md) に記録する。gameplay は未実装、実機未検証、CI なし、human play 未実施。
+[PR #5](https://github.com/tomooch/rogue-tactics-lab/pull/5) は 2026-10-08 JST に merge 済み（merge commit `ab9fa5dc729dcea07f8680e7b22544627c5e5bed`）。`unity/` の URP・portrait 基盤と pure C# / asmdef / test scaffold が検証済み。Unity **6000.3.25f1**、import / compile PASS、EditMode **5/5 PASS**、PlayMode **1/1 PASS**、390×844 portrait smoke PASS。実行済みテストの対象は PR #5 の旧検証 HEAD `6a0879e8877cf0717d2ac5019a923ea11fbbd0af`。merge commit や今回の docs HEAD で再実行した結果ではない。証拠と限界は [VERIFICATION.md](VERIFICATION.md) に記録する。gameplay は未実装、実機未検証、CI なし、human play 未実施。
 
 - [Godot PR #2](https://github.com/tomooch/rogue-tactics-lab/pull/2) は closed / unmerged。流用しない。
 - [旧 Unity audit PR #3](https://github.com/tomooch/rogue-tactics-lab/pull/3) は closed / unmerged / historical audit evidence。旧 branch は保持し、新しい Stage 0 では再利用していない。
