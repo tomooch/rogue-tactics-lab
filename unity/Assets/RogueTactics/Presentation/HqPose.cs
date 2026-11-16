@@ -156,8 +156,8 @@ namespace RogueTactics.Presentation
                     {
                         // Each way of fighting lands differently, so the eye can tell who struck without reading.
                         var at=Chest(e.Target);var tint=TintOf(e.Actor);var power=e.Kind==EventKind.Counter?.85f:1;
-                        if(attackerStyle==PuppetStyle.Archer){vfx.Impact(at,tint,power*.7f);vfx.Pierce(at,targetAt-actorAt,tint);}
-                        else if(attackerStyle==PuppetStyle.Caster){vfx.Impact(at,tint,power*.9f);vfx.Blast(at,tint);}
+                        if(attackerStyle==PuppetStyle.Archer){vfx.Impact(at,tint,power*.7f,.3f);vfx.Pierce(at,targetAt-actorAt,tint);}
+                        else if(attackerStyle==PuppetStyle.Caster){vfx.Impact(at,tint,power*.9f,.6f);vfx.Blast(at,tint);}
                         else if(attackerStyle==PuppetStyle.Blade){vfx.Impact(at,tint,power);vfx.Cut(at,side>=0?-28:208,tint);}
                         else {vfx.Impact(at,tint,power);vfx.Slam(Ground(e.Target),tint);}
                     }

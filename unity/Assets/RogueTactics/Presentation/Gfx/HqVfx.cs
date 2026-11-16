@@ -63,18 +63,21 @@ namespace RogueTactics.Presentation.Gfx
             Gold=new Color(1f,.84f,.36f),Jade=new Color(.50f,1f,.68f),Moss=new Color(.72f,.95f,.35f),Violet=new Color(.80f,.52f,1f),Cream=new Color(1f,.96f,.86f),Ink=new Color(.05f,.07f,.22f);
 
         /// <summary>The moment a blow lands: flash, shock ring, sparks thrown outward, a little debris.</summary>
-        public void Impact(Vector3 at,Color tint,float power=1)
+        // rays: how much of the thrown-outward white the hit carries (blade and blunt 1, magic .6, arrow .3).
+        // The centre stays small and brief so the struck character's outline and face remain readable.
+        public void Impact(Vector3 at,Color tint,float power=1,float rays=1)
         {
             // A dark halo first, so everything bright in front of it reads against the pale ruins.
             Emit(Veil,at,4.6f*power,5.6f*power,.34f,With(Ink,.42f),With(Ink,0),fadeFrom:.3f);
-            Emit(Burst,at,2.0f*power,3.3f*power,.20f,Color.white,tint,light:1,k0:0,k1:1,seed:Range(0,1),fadeFrom:.5f);
-            Emit(Glow,at,.5f,1.5f*power,.12f,With(Color.white,.85f),With(tint,.5f),light:1,fadeFrom:.15f);
-            Emit(Sparkle,at,1.7f*power,.8f*power,.13f,With(Color.white,.9f),tint,light:1,rotation:Range(-25,25),fadeFrom:.3f);
-            Emit(Ring,at,.4f,2.3f*power,.30f,Color.white,tint,light:1,k0:.2f,k1:1,fadeFrom:.35f);
+            if(rays>.05f)Emit(Burst,at,2.0f*power,3.3f*power,.20f,With(Color.white,rays),With(tint,rays),light:1,k0:.25f,k1:1,seed:Range(0,1),fadeFrom:.5f);
+            Emit(Glow,at,.4f,.9f*power,.08f,With(Color.white,.6f),With(tint,.35f),light:1,fadeFrom:.15f);
+            Emit(Sparkle,at,1.2f*power,.6f*power,.13f,With(Color.white,.9f),tint,light:1,rotation:Range(-25,25),fadeFrom:.3f);
+            Emit(Ring,at,.6f,2.3f*power,.30f,With(Color.white,.8f),tint,light:1,k0:.5f,k1:1,fadeFrom:.35f);
             Emit(Ring,at,.3f,1.5f*power,.36f,With(tint,.9f),With(tint,0),light:1,k0:.5f,k1:1,fadeFrom:.3f,delay:.05f);
-            for(var i=0;i<16;i++)
+            var streaks=Mathf.RoundToInt(16*Mathf.Clamp01(rays));
+            for(var i=0;i<streaks;i++)
             {
-                var dir=Screen(i*22.5f+Range(-10,10),1);var speed=Range(7,14)*power;
+                var dir=Screen(i*360f/streaks+Range(-10,10),1);var speed=Range(7,14)*power;
                 Emit(Streak,at+dir*.2f,.46f,.06f,Range(.22f,.40f),Color.white,tint,light:1,velocity:dir*speed,drag:6,facing:Facing.Velocity,aspect:2.6f);
             }
             for(var i=0;i<6;i++)Emit(Sparkle,at+Screen(Range(0,360),Range(.5f,1.5f)*power),.34f,0,Range(.28f,.5f),Color.white,tint,light:1,spin:Range(-4,4),delay:Range(.03f,.14f));
