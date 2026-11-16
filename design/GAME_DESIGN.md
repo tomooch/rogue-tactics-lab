@@ -14,7 +14,7 @@
 | **[実験中]** | Human が方向を選び、実装はあるが人の試遊で確かめていないもの |
 | **[提案]** | 本書の提案。採用には Human の判断（HUMAN-GO）が要る |
 
-文書は4本あります。本書は「何を作るか」、[GRAPHICS.md](GRAPHICS.md) はグラフィックの仕様一覧、[IMPLEMENTATION_SPECS.md](IMPLEMENTATION_SPECS.md) はグラフィック以外の実装設計、[CRAFT_HANDBOOK.md](CRAFT_HANDBOOK.md) は「どう作るか・なぜそうしたか・どう確かめるか」の手引きです。実装を続ける Executor は CRAFT_HANDBOOK.md から読んでください。
+文書の入口と読む順番は [README.md](README.md)、完成までの作業票は [ROADMAP.md](ROADMAP.md) です。設計の本体は4本あります。本書は「何を作るか」、[GRAPHICS.md](GRAPHICS.md) はグラフィックの仕様一覧、[IMPLEMENTATION_SPECS.md](IMPLEMENTATION_SPECS.md) はグラフィック以外の実装設計、[CRAFT_HANDBOOK.md](CRAFT_HANDBOOK.md) は「どう作るか・なぜそうしたか・どう確かめるか」の手引きです。実装を続ける Executor は README.md → ROADMAP.md → CRAFT_HANDBOOK.md の順に読んでください。
 
 [提案] を実装で先に埋めないこと。Executor は [確定] と [実験中] の範囲だけを実装し、[提案] は Human が選んだ時点でこの表記を更新します。Notion の Decision Log は今回未確認（Claude 側未認証）です。Human 判断の出典は Issue / PR 本文と、Human が 2026-11-16 に会話で渡した共有資料（以下「共有資料」）です。共有資料と AGENTS.md が食い違う箇所（探索入力など）は、新しい共有資料を採り、その旨を書いています。AGENTS.md 側の更新は Executor / Human の作業です。
 
@@ -210,7 +210,7 @@
 
 | 観点 | 基準 | 確かめ方 |
 |---|---|---|
-| 滑らかさ | iPhone 12 相当で 60fps 目標、戦闘中の p95 フレーム時間 20ms 以下 | 実機計測（`HqFrameMetrics` を利用） |
+| 滑らかさ | iPhone 12 相当で 60fps 目標、戦闘中の p95 フレーム時間 20ms 以下 | 実機計測（計測の仕組みは未実装） |
 | 起動 | タップから盤が見えるまで 3 秒以内 | 実機計測 |
 | 読みやすさ | 腕の長さで、誰が誰に何をするかを 2 秒で言える | 人の試遊 |
 | 因果 | 守りで減ったダメージ・反撃・回復を、ログを読まずに説明できる | 人の試遊 |
@@ -221,9 +221,7 @@
 
 ## 12. 進め方
 
-| 順 | 仕事 | 担当 | 完了の証拠 |
-|---|---|---|---|
-共有資料 §12 の優先順位に合わせます。
+共有資料 §12 の優先順位に合わせます。作業票の単位まで割ったものは [ROADMAP.md](ROADMAP.md) です。
 
 | 順 | 仕事 | 担当 | 完了の証拠 |
 |---|---|---|---|
