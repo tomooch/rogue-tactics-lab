@@ -193,6 +193,33 @@ namespace RogueTactics.Presentation.Gfx
             {var a=i*45+Range(-15,15);var dir=Wide(Mathf.Cos(a*Mathf.Deg2Rad),Mathf.Sin(a*Mathf.Deg2Rad));Emit(Puff,ground+Up*.15f+dir*.5f,.3f,.8f,Range(.4f,.65f),With(Cream,.75f),With(Cream,0),velocity:dir*Range(1.5f,3)+Up*Range(.4f,1),drag:3,k0:.05f,k1:1,seed:Range(0,1));}
         }
 
+        /// <summary>A blade's edge passing through the target: one hard bright line along the cut.</summary>
+        public void Cut(Vector3 at,float degrees,Color tint)
+        {
+            var dir=Screen(degrees,1);
+            Emit(Streak,at-dir*.2f,.62f,.18f,.28f,With(tint,.85f),With(tint,0),light:1,velocity:dir*.01f,facing:Facing.Velocity,aspect:5,fadeFrom:.3f);
+            Emit(Streak,at-dir*.2f,.34f,.08f,.20f,Color.white,tint,light:1,velocity:dir*.01f,facing:Facing.Velocity,aspect:8,fadeFrom:.4f);
+        }
+
+        /// <summary>A spell going off on its target: a ring of runes thrown open and crystal flung out of it.</summary>
+        public void Blast(Vector3 at,Color tint)
+        {
+            Emit(Rune,at,.7f,2.1f,.36f,Color.white,tint,light:1,k0:0,k1:.22f,fadeFrom:.35f);
+            for(var i=0;i<10;i++)
+            {var dir=Screen(i*36+Range(-12,12),1);Emit(Shard,at+dir*.35f,.24f,.05f,Range(.38f,.6f),Color.white,tint,light:1,velocity:dir*Range(4,8.5f),drag:3.2f,spin:Range(-10,10),rotation:Range(0,360),fadeFrom:.6f);}
+            for(var i=0;i<6;i++)
+            {var dir=Screen(Range(0,360),1);Emit(Glow,at+dir*Range(.5f,1.1f),.36f,.05f,Range(.3f,.45f),With(tint,.9f),With(tint,0),light:1,velocity:dir*Range(.8f,2));}
+        }
+
+        /// <summary>An arrow driving through: a thin line carried past the target and leaves torn loose behind it.</summary>
+        public void Pierce(Vector3 at,Vector3 direction,Color tint)
+        {
+            var forward=View.transform.forward;var d=direction-forward*Vector3.Dot(direction,forward);if(d.sqrMagnitude<1e-6f)d=Right;d.Normalize();
+            Emit(Streak,at+d*.9f,.30f,.06f,.24f,Color.white,tint,light:1,velocity:d*8,drag:7,facing:Facing.Velocity,aspect:7,fadeFrom:.4f);
+            for(var i=0;i<7;i++)
+                Emit(Petal,at,.15f,.08f,Range(.5f,.85f),Leaf,With(Leaf,0),velocity:d*Range(1.5f,4.5f)+Screen(Range(0,360),1.6f),gravity:-5,drag:1.5f,spin:Range(-10,10),rotation:Range(0,360),fadeFrom:.6f);
+        }
+
         /// <summary>A heavy swing or a lunge cutting the air between two points.</summary>
         public void Swoosh(Vector3 from,Vector3 to,Color tint)
         {

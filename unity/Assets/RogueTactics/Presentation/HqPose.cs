@@ -147,13 +147,20 @@ namespace RogueTactics.Presentation
                 if(target?.Puppet!=null)target.Puppet.Knock=OnScreen(thrown).normalized*(guarded?.45f:1);
                 if(spirit!=null)spirit.Knock=thrown;
                 var attackerStyle=PoseOf(e.Actor)?.Puppet?.Skeleton.Style;
-                if(vfx!=null && (attackerStyle==PuppetStyle.Guardian || spirits.ContainsKey(e.Actor)))vfx.Slam(Ground(e.Target),TintOf(e.Actor));
                 if(target!=null){Face(target,-side);target.Puppet?.Play(PuppetClip.Hit,.5f,side!=0?1:0);target.Puppet?.Flash(guarded?new Color(.75f,.92f,1f):new Color(1f,.93f,.90f),guarded?.6f:1);}
                 if(spirit!=null){spirit.Play(PuppetClip.Hit,.5f,side);spirit.Flash();}
                 if(vfx!=null)
                 {
                     if(guarded){vfx.Shield(Chest(e.Target),new Color(.55f,.86f,1f),true);vfx.Impact(Chest(e.Target),TintOf(e.Actor),.55f);}
-                    else vfx.Impact(Chest(e.Target),TintOf(e.Actor),e.Kind==EventKind.Counter?.85f:1);
+                    else
+                    {
+                        // Each way of fighting lands differently, so the eye can tell who struck without reading.
+                        var at=Chest(e.Target);var tint=TintOf(e.Actor);var power=e.Kind==EventKind.Counter?.85f:1;
+                        if(attackerStyle==PuppetStyle.Archer){vfx.Impact(at,tint,power*.7f);vfx.Pierce(at,targetAt-actorAt,tint);}
+                        else if(attackerStyle==PuppetStyle.Caster){vfx.Impact(at,tint,power*.9f);vfx.Blast(at,tint);}
+                        else if(attackerStyle==PuppetStyle.Blade){vfx.Impact(at,tint,power);vfx.Cut(at,side>=0?-28:208,tint);}
+                        else {vfx.Impact(at,tint,power);vfx.Slam(Ground(e.Target),tint);}
+                    }
                 }
                 hitStop=guarded?.06f:.10f;
             }
