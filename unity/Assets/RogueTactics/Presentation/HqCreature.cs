@@ -1,17 +1,31 @@
 using System.Collections.Generic;
+using RogueTactics.Presentation.Gfx;
 using UnityEngine;
 namespace RogueTactics.Presentation
 {
     // Two locally authored garden spirits. Visuals only; their identity and HP stay X/Y in Core.
+    // The body mesh (name, shape, transform) is the anchor other code measures, so it is built exactly as before;
+    // everything that makes the spirit feel alive is the toon material, the face turned to the camera and HqCreatureAnim.
     public static class HqCreature
     {
-        public static Renderer Build(Transform parent,Material template,bool violet)
+        public static Renderer Build(Transform parent,Material template,bool violet,Camera view=null)
         {
             var owner=parent.gameObject.AddComponent<AssetsLifetime>();
-            Material Mat(Color c){var m=new Material(template);m.color=c;m.SetFloat("_Smoothness",.24f);owner.assets.Add(m);return m;}
-            var skin=Mat(violet?new Color(.61f,.43f,.70f):new Color(.55f,.76f,.29f));
-            var leaf=Mat(violet?new Color(.34f,.48f,.38f):new Color(.26f,.49f,.20f));var cream=Mat(new Color(1,.94f,.77f));var dark=Mat(new Color(.08f,.12f,.13f));var blush=Mat(new Color(.96f,.58f,.59f));
-            GameObject Shape(string name,Vector3 at,Vector3 size,Material material){var obj=GameObject.CreatePrimitive(PrimitiveType.Sphere);obj.name=name;obj.transform.SetParent(parent,false);obj.transform.localPosition=at;obj.transform.localScale=size;obj.GetComponent<Renderer>().sharedMaterial=material;Object.Destroy(obj.GetComponent<Collider>());return obj;}
+            var toon=Resources.Load<Shader>("Gfx/HqCreature");
+            var anim=toon!=null?parent.gameObject.AddComponent<HqCreatureAnim>():null;
+            Material Mat(Color c,Color shade,float flat=0,float gloss=.55f)
+            {
+                Material m;
+                if(toon!=null){m=new Material(toon);m.SetColor("_Color",c);m.SetColor("_Shade",shade);m.SetFloat("_Flat",flat);m.SetFloat("_Gloss",gloss);anim.Materials.Add(m);}
+                else {m=new Material(template);m.color=c;m.SetFloat("_Smoothness",.24f);}
+                owner.assets.Add(m);return m;
+            }
+            var skin=violet?Mat(new Color(.70f,.53f,.88f),new Color(.43f,.31f,.66f)):Mat(new Color(.60f,.84f,.34f),new Color(.30f,.58f,.30f));
+            var leaf=violet?Mat(new Color(.42f,.66f,.40f),new Color(.24f,.44f,.30f),0,.2f):Mat(new Color(.36f,.68f,.26f),new Color(.20f,.46f,.22f),0,.2f);
+            var petal=Mat(violet?new Color(1f,.80f,.90f):new Color(1f,.97f,.84f),violet?new Color(.86f,.56f,.74f):new Color(.86f,.80f,.60f),0,.15f);
+            var cream=Mat(new Color(1,.98f,.92f),Color.white,1,0);var dark=Mat(new Color(.13f,.10f,.20f),Color.black,1,0);
+            var blush=Mat(new Color(1f,.62f,.66f),Color.white,1,0);var pollen=Mat(new Color(1f,.82f,.32f),new Color(.86f,.56f,.20f),0,.3f);
+
             var mesh=new Mesh{name="Authored scalloped spirit body"};owner.assets.Add(mesh);var verts=new List<Vector3>();var tris=new List<int>();
             const int rings=13,sides=24;
             for(var j=0;j<=rings;j++)for(var i=0;i<=sides;i++)
@@ -22,21 +36,68 @@ namespace RogueTactics.Presentation
             }
             mesh.SetVertices(verts);mesh.SetTriangles(tris,0);mesh.RecalculateNormals();mesh.RecalculateBounds();
             var body=new GameObject("Fixture slime",typeof(MeshFilter),typeof(MeshRenderer));body.transform.SetParent(parent,false);body.GetComponent<MeshFilter>().sharedMesh=mesh;var renderer=body.GetComponent<Renderer>();renderer.sharedMaterial=skin;
-            foreach(var dx in new[]{-.22f,.22f})
+            renderer.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
+
+            // The camera looks down on the board, so the face sits on the part of the skin that actually faces it:
+            // a frame centred on the body whose -z points at the camera (turned, and tipped up most of the way).
+            var centre=new Vector3(0,.46f,.55f);
+            var flat=view!=null?-view.transform.forward:Vector3.back;var rise=Mathf.Clamp(flat.y,0,.9f)*.8f;flat.y=0;
+            flat=flat.sqrMagnitude<1e-4f?Vector3.back:flat.normalized;var towards=(flat+Vector3.up*rise).normalized;
+            var rig=new GameObject("Spirit face").transform;rig.SetParent(parent,false);rig.localPosition=centre;
+            rig.rotation=Quaternion.LookRotation(-towards,Vector3.up);
+            var upright=new GameObject("Spirit top").transform;upright.SetParent(parent,false);upright.localPosition=centre;
+            upright.rotation=Quaternion.LookRotation(-flat,Vector3.up);
+            Transform Shape(string name,Vector3 at,Vector3 size,Material material,Transform under=null)
             {
-                Shape("Bright spirit eye",new Vector3(dx,.59f,.045f),new Vector3(.11f,.16f,.055f),dark);
-                Shape("Eye catchlight",new Vector3(dx-.018f,.63f,.016f),new Vector3(.035f,.045f,.025f),cream);
-                Shape("Rosy cheek",new Vector3(dx*1.6f,.43f,.04f),new Vector3(.15f,.07f,.035f),blush);
+                var obj=GameObject.CreatePrimitive(PrimitiveType.Sphere);obj.name=name;obj.transform.SetParent(under!=null?under:rig,false);obj.transform.localPosition=at;obj.transform.localScale=size;
+                var r=obj.GetComponent<Renderer>();r.sharedMaterial=material;r.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;Object.Destroy(obj.GetComponent<Collider>());return obj.transform;
             }
-            Shape("Smile",new Vector3(0,.42f,-.012f),new Vector3(.065f,.035f,.025f),dark);
-            for(var i=0;i<3;i++)
+            // A point of the face (x across, y up, as seen by the camera), cast onto the ellipsoid skin.
+            Vector3 Face(float x,float y,float lift=0)
             {
-                var l=Shape("Crown leaf",new Vector3((i-1)*.22f,.87f,.55f),new Vector3(.20f,.09f,.43f),leaf);l.transform.localRotation=Quaternion.Euler(-18,(i-1)*48,0);
+                var ray=parent.InverseTransformDirection(rig.rotation*new Vector3(x*1.55f,y*1.55f,-1).normalized);
+                var reach=1/Mathf.Sqrt(ray.x*ray.x/(.68f*.68f)+ray.y*ray.y/(.40f*.40f)+ray.z*ray.z/(.56f*.56f));
+                return rig.InverseTransformDirection(parent.TransformDirection(ray))*(reach+lift);
             }
-            for(var i=0;i<5;i++)
-            {var a=i*Mathf.PI*2/5;Shape("Little crown petal",new Vector3(.30f+Mathf.Cos(a)*.09f,.88f,.45f+Mathf.Sin(a)*.09f),new Vector3(.14f,.055f,.14f),cream);}
-            Shape("Pollen",new Vector3(.30f,.92f,.45f),new Vector3(.07f,.06f,.07f),blush);
+            foreach(var side in new[]{-1f,1f})
+            {
+                var eye=Shape("Bright spirit eye",Face(side*.20f,.04f,.004f),new Vector3(.15f,.215f,.05f),dark);if(anim!=null)anim.Eyes.Add(eye);
+                Shape("Eye catchlight",new Vector3(-.16f,.22f,-.35f),new Vector3(.36f,.30f,.5f),cream,eye);
+                Shape("Eye catchlight",new Vector3(.20f,-.24f,-.35f),new Vector3(.18f,.14f,.5f),cream,eye);
+                Shape("Rosy cheek",Face(side*.36f,-.10f,.0f),new Vector3(.15f,.075f,.03f),blush);
+            }
+            Shape("Smile",Face(0,-.11f,.008f),new Vector3(.075f,.045f,.03f),dark);
+
+            var crown=new GameObject("Spirit crown").transform;crown.SetParent(upright,false);crown.localPosition=new Vector3(0,.37f,0);if(anim!=null)anim.Crown=crown;
+            if(!violet)
+            {
+                // Moss spirit: a sprout of two broad leaves.
+                Shape("Sprout stem",new Vector3(0,.06f,0),new Vector3(.05f,.16f,.05f),leaf,crown);
+                for(var i=0;i<2;i++)
+                {
+                    var l=Shape("Crown leaf",new Vector3((i*2-1)*.17f,.19f,0),new Vector3(.34f,.05f,.20f),leaf,crown);
+                    l.localRotation=Quaternion.Euler(0,0,(i*2-1)*-28);if(anim!=null)anim.Leaves.Add(l);
+                }
+            }
+            else
+            {
+                // Flower spirit: a five-petal bloom, tipped toward the camera, with two leaves beneath.
+                var bloom=new GameObject("Bloom").transform;bloom.SetParent(crown,false);bloom.localPosition=new Vector3(.12f,.10f,-.05f);bloom.localRotation=Quaternion.Euler(-38,0,-12);
+                for(var i=0;i<5;i++)
+                {
+                    var a=i*Mathf.PI*2/5;var p=Shape("Little crown petal",new Vector3(Mathf.Cos(a)*.13f,0,Mathf.Sin(a)*.13f),new Vector3(.20f,.045f,.15f),petal,bloom);
+                    p.localRotation=Quaternion.Euler(0,-a*Mathf.Rad2Deg,0);
+                }
+                Shape("Pollen",new Vector3(0,.025f,0),new Vector3(.11f,.07f,.11f),pollen,bloom);
+                if(anim!=null)anim.Leaves.Add(bloom);
+                for(var i=0;i<2;i++)
+                {
+                    var l=Shape("Crown leaf",new Vector3((i*2-1)*.20f-.04f,.02f,.03f),new Vector3(.26f,.045f,.15f),leaf,crown);
+                    l.localRotation=Quaternion.Euler(0,0,(i*2-1)*-16);if(anim!=null)anim.Leaves.Add(l);
+                }
+            }
             foreach(Transform child in parent)if(child.name!="Soft foot contact" && child.name!="Contact shadow" && !child.name.StartsWith("Known ")){child.localPosition*=1.3f;child.localScale*=1.3f;}
+            if(anim!=null){anim.Pivot=parent;anim.View=view;anim.Phase=violet?1.7f:0;anim.Tint=violet?HqVfx.Violet:HqVfx.Moss;anim.Capture();}
             return renderer;
         }
         private sealed class AssetsLifetime:MonoBehaviour

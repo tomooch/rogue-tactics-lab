@@ -1,88 +1,184 @@
 using System.Collections.Generic;
 using RogueTactics.Core.G1;
+using RogueTactics.Presentation.Gfx;
 using UnityEngine;
 
 namespace RogueTactics.Presentation
 {
     public sealed partial class MobileG1View
     {
-        // Display-only motion for the single approved image of each ally: facing, breath, steps,
-        // and short poses caused by queued Core events. Only shader vertex offsets change, so Core
-        // state, pawn transforms, renderer bounds and every projected rect stay exactly as before.
+        // Display-only life for the cast. Each ally is its single approved image moved as a soft puppet
+        // (HqPuppet); each garden spirit is posed in its shader (HqCreatureAnim); HqVfx draws what passes
+        // between them. All of it is caused by the queued Core event being shown and none of it changes
+        // Core state, pawn transforms, renderer bounds or any projected rect.
         private sealed class Pose
         {
-            public Material Skin;public Vector3 Last;public bool Placed;public bool Mirrored;public float Stride,Stepping;
-            public EventKind Kick;public float KickAt=-1,KickLength,KickSide;
+            public Material Skin;public HqPuppet Puppet;public Transform Quad;
+            public Vector3 Last;public bool Placed,Mirrored,Hidden;public float Stride,Stepping;
         }
         private readonly Dictionary<string,Pose> poses=new Dictionary<string,Pose>();
-        private static readonly int PoseId=Shader.PropertyToID("_Pose"),TiltId=Shader.PropertyToID("_Tilt");
+        private readonly Dictionary<string,HqCreatureAnim> spirits=new Dictionary<string,HqCreatureAnim>();
+        private readonly HashSet<string> hiddenSpirits=new HashSet<string>();
+        private readonly List<Mesh> puppetMeshes=new List<Mesh>();
+        private HqVfx vfx;private float hitStop;private string actingId="";
         public bool PoseMirrored(string id)=>poses.TryGetValue(id,out var pose) && pose.Mirrored;
+        /// <summary>Live effect quads; lets tests see that an event really drew something.</summary>
+        public int EffectCount=>vfx!=null?vfx.Alive:0;
 
-        private Pose PoseOf(string id)
+        // Called once per ally when the stage is built: swap the plain quad for the same-sized puppet grid.
+        private void RigPuppet(string id,int index,GameObject quad,Texture2D art)
         {
-            if(poses.TryGetValue(id,out var pose))return pose;
-            if(!bodies.TryGetValue(id,out var body) || body.name!="Private approved static skin")return null;
-            return poses[id]=new Pose{Skin=body.sharedMaterial};
+            var shader=Resources.Load<Shader>("Gfx/HqPuppet");
+            var pose=new Pose{Quad=quad.transform,Skin=quad.GetComponent<Renderer>().sharedMaterial};poses[id]=pose;
+            if(shader==null)return;
+            var rig=HqPuppet.Authored(index);puppetMeshes.Add(rig.Mesh);
+            var skin=new Material(shader){name="Puppet skin "+id,mainTexture=art};materials.Add(skin);
+            quad.GetComponent<MeshFilter>().sharedMesh=rig.Mesh;quad.GetComponent<Renderer>().sharedMaterial=skin;
+            pose.Skin=skin;pose.Puppet=new HqPuppet(rig,skin,index*1.7f);
         }
+        private void BuildEffects()
+        {
+            vfx=HqVfx.Create(FieldCamera,()=>Paused);if(vfx==null)return;
+            vfx.AmbientCentre=BattleCenter();vfx.Ambient=HqWorld;
+            foreach(var pair in pawns){var spirit=pair.Value.GetComponent<HqCreatureAnim>();if(spirit!=null)spirits[pair.Key]=spirit;}
+        }
+
+        private Pose PoseOf(string id)=>id!=null && poses.TryGetValue(id,out var pose)?pose:null;
         // Screen-horizontal side of a world direction: +1 right, -1 left, 0 when straight up/down the screen.
         private float ScreenSide(Vector3 direction){var x=Vector3.Dot(direction,FieldCamera.transform.right);return Mathf.Abs(x)<.05f?0:Mathf.Sign(x);}
         private void Face(Pose pose,float side){if(side!=0)pose.Mirrored=side>0;}
+        private static Color TintOf(string id)=>id=="A"?HqVfx.Azure:id=="B"?HqVfx.Rose:id=="C"?HqVfx.Steel:id=="D"?HqVfx.Leaf:id=="Y"?HqVfx.Violet:HqVfx.Moss;
+        private Vector3 Ground(string id)=>pawns[id].position;
+        // Where a blow lands on, or leaves, a body.
+        private Vector3 Chest(string id)
+        {
+            if(poses.ContainsKey(id))return pawns[id].position+Vector3.up*.12f+FieldCamera.transform.up*1.25f;
+            return bodies.TryGetValue(id,out var body)?body.bounds.center:pawns[id].position+Vector3.up*.6f;
+        }
+        private Vector3 Muzzle(string id){var pose=PoseOf(id);return pose?.Puppet!=null?pose.Puppet.Muzzle(pose.Quad):Chest(id);}
 
+        // The start of a shown Core event: choose the wind-up and schedule what flies before it lands.
         private void KickPoses(BattleEvent e,Vector3 actorAt,Vector3 targetAt,float duration)
         {
-            // side: where the motion leans or falls; face: which way the ally turns first.
-            void Kick(string id,EventKind kind,float side,float face)
-            {var pose=id==null?null:PoseOf(id);if(pose==null)return;pose.Kick=kind;pose.KickAt=0;pose.KickLength=duration;pose.KickSide=side;Face(pose,face);}
-            var side=ScreenSide(targetAt-actorAt);
-            // The striker leans into the target; the target faces the striker and is knocked away from it.
-            if(e.Kind==EventKind.Damage || e.Kind==EventKind.Counter){Kick(e.Actor,EventKind.Damage,side,side);Kick(e.Target,EventKind.Counter,side,-side);}
-            if(e.Kind==EventKind.Protect)Kick(e.Actor,EventKind.Protect,side,side);
-            if(e.Kind==EventKind.Heal){Kick(e.Actor,EventKind.Action,side,side);if(e.Target!=e.Actor)Kick(e.Target,EventKind.Heal,0,0);}
-            if(e.Kind==EventKind.Death){var pose=PoseOf(e.Target);Kick(e.Target,EventKind.Death,side!=0?side:pose!=null && pose.Mirrored?-1:1,0);}
+            var side=ScreenSide(targetAt-actorAt);var along=side!=0?1f:0f;
+            var actor=PoseOf(e.Actor);spirits.TryGetValue(e.Actor??"",out var actorSpirit);
+            actingId=e.Kind==EventKind.Death?"":e.Actor;
+            switch(e.Kind)
+            {
+                case EventKind.Damage:
+                case EventKind.Counter:
+                    if(actor!=null){Face(actor,side);actor.Puppet?.Play(PuppetClip.Attack,duration,along);}
+                    actorSpirit?.Play(PuppetClip.Attack,duration,side);
+                    if(vfx==null || !pawns.ContainsKey(e.Target))break;
+                    if(e.Kind==EventKind.Counter)vfx.Reaction(Chest(e.Actor)+FieldCamera.transform.up*.9f);
+                    var tint=TintOf(e.Actor);var to=Chest(e.Target);var id=e.Actor;
+                    if(actorSpirit!=null)vfx.After(duration*.62f,()=>vfx.Swoosh(Chest(id),to,tint));
+                    else switch(actor?.Puppet?.Skeleton.Style)
+                    {
+                        case PuppetStyle.Caster:
+                            vfx.CastCircle(Ground(id),tint,duration);vfx.Charge(Muzzle(id),tint,duration*.64f);
+                            vfx.After(duration*.66f,()=>vfx.Shoot(Muzzle(id),to,duration*.34f,tint,false));break;
+                        case PuppetStyle.Archer:
+                            vfx.Charge(Muzzle(id),tint,duration*.6f);
+                            vfx.After(duration*.68f,()=>vfx.Shoot(Muzzle(id),to,duration*.32f,tint,true));break;
+                        case PuppetStyle.Blade:
+                            vfx.After(duration*.74f,()=>vfx.Slash(to,side>=0?0:180,tint,2.0f,true));break;
+                        default:
+                            vfx.After(duration*.72f,()=>vfx.Swoosh(Muzzle(id),to,tint));break;
+                    }
+                    break;
+                case EventKind.Protect:
+                    if(actor!=null){Face(actor,side);actor.Puppet?.Play(PuppetClip.Guard,duration,along);}
+                    actorSpirit?.Play(PuppetClip.Guard,duration,side);
+                    if(vfx!=null && pawns.ContainsKey(e.Target)){var ward=e.Target;vfx.After(duration*.3f,()=>vfx.Shield(Chest(ward),new Color(.55f,.86f,1f),false));}
+                    break;
+                case EventKind.Heal:
+                    if(actor!=null){Face(actor,side);actor.Puppet?.Play(PuppetClip.Cast,duration,along);}
+                    actorSpirit?.Play(PuppetClip.Cast,duration,side);
+                    if(vfx!=null){vfx.CastCircle(Ground(e.Actor),HqVfx.Jade,duration);vfx.Charge(Muzzle(e.Actor),HqVfx.Jade,duration*.8f);}
+                    break;
+                case EventKind.Death:
+                {
+                    var fallen=PoseOf(e.Target);var away=side!=0?side:fallen!=null && fallen.Mirrored?-1:1;
+                    fallen?.Puppet?.Play(PuppetClip.Fall,duration,1);
+                    if(spirits.TryGetValue(e.Target,out var spirit))spirit.Play(PuppetClip.Fall,duration,away);
+                    if(vfx!=null){var gone=e.Target;var enemy=spirit!=null;vfx.After(duration*(enemy?.45f:.3f),()=>vfx.Vanish(Chest(gone),TintOf(gone),enemy));}
+                    break;
+                }
+                case EventKind.Move:
+                    actorSpirit?.Play(PuppetClip.Cheer,duration,side);
+                    if(vfx!=null && pawns.ContainsKey(e.Actor))vfx.Dust(Ground(e.Actor));
+                    break;
+                case EventKind.End:
+                    if(e.Detail==Outcome.Victory.ToString())
+                    {
+                        if(vfx!=null)vfx.Celebrate(BattleCenter());
+                        foreach(var pair in poses)if(pawns[pair.Key].gameObject.activeInHierarchy)pair.Value.Puppet?.Play(PuppetClip.Cheer,.7f,0);
+                    }
+                    break;
+            }
+        }
+
+        // The instant the shown event changes what the player sees (HP, guard): the blow lands, the light arrives.
+        private void LandPoses(BattleEvent e,Vector3 actorAt,Vector3 targetAt)
+        {
+            actingId="";
+            if(!pawns.TryGetValue(e.Target??"",out var targetRoot) || !targetRoot.gameObject.activeInHierarchy)return;
+            var side=ScreenSide(targetAt-actorAt);var target=PoseOf(e.Target);spirits.TryGetValue(e.Target,out var spirit);
+            if(e.Kind==EventKind.Damage || e.Kind==EventKind.Counter)
+            {
+                var guarded=e.Detail!=null && e.Detail.StartsWith("Guard");
+                // The target turns to the blow and is thrown back from it.
+                if(target!=null){Face(target,-side);target.Puppet?.Play(PuppetClip.Hit,.5f,side!=0?1:0);target.Puppet?.Flash(guarded?new Color(.75f,.92f,1f):new Color(1f,.93f,.90f),guarded?.6f:1);}
+                if(spirit!=null){spirit.Play(PuppetClip.Hit,.5f,side);spirit.Flash();}
+                if(vfx!=null)
+                {
+                    if(guarded){vfx.Shield(Chest(e.Target),new Color(.55f,.86f,1f),true);vfx.Impact(Chest(e.Target),TintOf(e.Actor),.55f);}
+                    else vfx.Impact(Chest(e.Target),TintOf(e.Actor),e.Kind==EventKind.Counter?.85f:1);
+                }
+                hitStop=.06f;
+            }
+            if(e.Kind==EventKind.Heal)
+            {
+                target?.Puppet?.Play(PuppetClip.Cheer,.55f,0);target?.Puppet?.Flash(new Color(.72f,1f,.80f),.55f);
+                if(spirit!=null){spirit.Play(PuppetClip.Cheer,.55f,0);}
+                if(vfx!=null)vfx.Heal(Ground(e.Target));
+            }
         }
 
         private void AnimatePoses()
         {
             if(FieldCamera==null)return;
-            var dt=Paused?0:Time.unscaledDeltaTime;var now=Time.unscaledTime;
+            var frame=Time.unscaledDeltaTime;var dt=Paused?0:frame;
+            // Hit-stop: the cast holds its pose for a few frames when a blow lands.
+            if(hitStop>0){hitStop-=frame;dt=0;}
+            var right=FieldCamera.transform.right;
             foreach(var pair in pawns)
             {
+                if(spirits.TryGetValue(pair.Key,out var spirit))
+                {
+                    // A defeated spirit is hidden by the projection; whenever it is shown again it is whole.
+                    if(!pair.Value.gameObject.activeInHierarchy){hiddenSpirits.Add(pair.Key);continue;}
+                    if(hiddenSpirits.Remove(pair.Key))spirit.ResetPose();
+                    spirit.Tick(dt);continue;
+                }
                 var pose=PoseOf(pair.Key);if(pose==null || pose.Skin==null)continue;
                 // A fallen ally is hidden by the projection; whenever it is shown again it starts upright.
-                if(!pair.Value.gameObject.activeInHierarchy){if(pose.Kick==EventKind.Death)pose.KickAt=-1;pose.Placed=false;continue;}
+                if(!pair.Value.gameObject.activeInHierarchy){pose.Hidden=true;pose.Placed=false;continue;}
+                if(pose.Hidden){pose.Hidden=false;pose.Puppet?.Reset();}
                 var at=pair.Value.position;var delta=at-pose.Last;pose.Last=at;
                 // A reset or retry teleports pawns; only a short per-frame step counts as walking.
                 var walked=pose.Placed && delta.magnitude<Cell*.6f?new Vector3(delta.x,0,delta.z).magnitude:0;pose.Placed=true;
+                var before=pose.Stride;
                 if(walked>.002f){Face(pose,ScreenSide(delta));pose.Stride+=walked*3.1f;}
-                pose.Stepping=Mathf.MoveTowards(pose.Stepping,walked>.002f?1:0,Time.unscaledDeltaTime*(walked>.002f?12:5));
-                var facing=pose.Mirrored?1:-1;
-                // Breath: a slow, slightly offset swell per ally, always from the feet.
-                var squash=.012f*Mathf.Sin(now*2.3f+pair.Key[0]*1.7f);var lean=0f;var lift=0f;var tilt=0f;
-                // Steps: a small bounce per cell-third with a forward lean into the walk.
-                var bounce=Mathf.Abs(Mathf.Sin(pose.Stride));
-                lift+=pose.Stepping*bounce*.035f;squash+=pose.Stepping*(.045f-bounce*.075f);lean+=pose.Stepping*facing*.07f;
-                if(pose.KickAt>=0)
-                {
-                    pose.KickAt+=dt;var t=Mathf.Clamp01(pose.KickAt/Mathf.Max(.01f,pose.KickLength));var s=pose.KickSide;
-                    if(pose.Kick==EventKind.Damage)
-                    {
-                        // Wind up away from the target, then strike into it and settle.
-                        var wind=t<.3f?Mathf.Sin(t/.3f*Mathf.PI*.5f):Mathf.Max(0,1-(t-.3f)/.12f);var strike=t<.3f?0:Mathf.Sin(Mathf.Clamp01((t-.3f)/.7f)*Mathf.PI);
-                        lean+=s*(strike*.24f-wind*.10f);squash+=wind*.06f-strike*.07f;
-                    }
-                    if(pose.Kick==EventKind.Counter)
-                    {
-                        // Hit: knocked back at the impact, recovering with a short wobble.
-                        var u=Mathf.Clamp01((t-.35f)/.65f);var hit=t<.35f?0:(1-u)*(1-u);
-                        lean+=s*hit*(.17f+.05f*Mathf.Sin(u*Mathf.PI*5));squash+=hit*.09f;
-                    }
-                    if(pose.Kick==EventKind.Protect){var p=Mathf.Sin(t*Mathf.PI);lift+=p*.04f;squash-=p*.06f;lean+=s*p*.06f;}
-                    if(pose.Kick==EventKind.Action){var p=Mathf.Sin(t*Mathf.PI);squash-=p*.05f;lift+=p*.02f;}
-                    if(pose.Kick==EventKind.Heal)lift+=Mathf.Abs(Mathf.Sin(t*Mathf.PI*2))*.05f;
-                    if(pose.Kick==EventKind.Death){var e=t*t;tilt=-s*1.2f*e;squash+=.10f*e;}
-                    if(t>=1 && pose.Kick!=EventKind.Death)pose.KickAt=-1;
-                }
-                pose.Skin.SetVector(PoseId,new Vector4(pose.Mirrored?1:0,lean,squash,lift));pose.Skin.SetFloat(TiltId,tilt);
+                pose.Stepping=Mathf.MoveTowards(pose.Stepping,walked>.002f?1:0,frame*(walked>.002f?12:5));
+                // Each footfall lifts a little dust.
+                if(vfx!=null && walked>.002f && Mathf.Floor(pose.Stride/Mathf.PI)!=Mathf.Floor(before/Mathf.PI))vfx.Dust(at,.7f);
+                if(pose.Puppet==null)continue;
+                pose.Puppet.Mirrored=pose.Mirrored;pose.Puppet.Aura=actingId==pair.Key?1:0;
+                // Screen speed in image heights per second, in the art's own (unmirrored) frame.
+                var speed=frame>0 && walked>0?Vector3.Dot(delta,right)/frame/3f:0;if(pose.Mirrored)speed=-speed;
+                pose.Puppet.Tick(dt,speed,pose.Stepping,pose.Stride);
             }
         }
     }
