@@ -1,122 +1,115 @@
 # 完成までの作業票
 
-- 版: 2026-11-17 / 作成: Claude Code
+- 版: 2026-11-17 改訂2 / 作成: Claude Code
 - 対象: `claude/hq-graphics-release`（Draft PR #23）時点の状態から、[GAME_DESIGN.md §3.3](GAME_DESIGN.md) の S3（リリース候補）まで
-- 位置づけ: 作業の順番と完了条件の**提案**です。HUMAN-GO ではありません。採否は Executor と Human が決めます。
+- 改訂2: Human が 2026-11-17 に判断待ち15件を「推奨通り」で決定（[DECISIONS.md](DECISIONS.md)）。判断待ちだった仕事を、詳細設計（[specs/](specs/)）つきの作業票に書き換えました。
+- 位置づけ: 作業の順番と完了条件です。どの票に着手するか、本 branch をどう取り込むかは Executor が決めます。merge、Draft-to-Ready、公開は別途 Human の明示許可が要ります。
 
 ## 0. 先に結論
 
-Executor が**誰にも聞かずに走れるのは A 群だけ**です。そこから先は次の2つで止まります。
+- **S1（1階を製品の質に）と S2（3階まで）は、Executor が誰にも聞かずに走れます。** 票ごとに、読む設計・完了条件・確かめ方があります。
+- **S3 の一部は、作る前に計算での検証が要ります**（茸の番人、影こうもり、守護者、装備）。やり方は各詳細設計に書いてあります。
+- **止まるのは次の3つだけ**です。
+  1. [DECISIONS.md](DECISIONS.md) §3 の未決（射程 N1、音楽 N2、価格 N3 ほか）。該当する票に印を付けてあります。
+  2. 人か実機でしか終わらない仕事（§5）。
+  3. merge・公開などの許可。
 
-- **B 群**: Human の一言（判断）が要る。推奨案は書いてあるので、Human が「推奨どおり」と答えれば走れます。答えが無いうちは実装で埋めないでください。
-- **C 群**: 人か実機でしか終わらない（試遊、実機計測、原画、公開）。agent の自動検証で代用しないでください。
-
-「完成」は [GAME_DESIGN.md §11](GAME_DESIGN.md) の基準を、実機と人の試遊で満たした S3 を指します。基準の数値は実機未計測の提案値です。
+「完成」は [GAME_DESIGN.md §11](GAME_DESIGN.md) の基準を、実機と人の試遊で満たした S3 を指します。
 
 ## 1. 票の読み方
 
-各票は「範囲 → 出典 → 完了条件 → 確かめ方」の順です。出典に無いことは作らない。完了条件を満たせないときは範囲を黙って削らず、PR 本文に未達として書く。
+各票は「範囲 → 読む設計 → 完了条件 → 確かめ方」です。設計に無いことは作らない。完了条件を満たせないときは範囲を黙って削らず、PR 本文に未達として書く。
 
 共通の決まり（毎回守る）:
 
 - 画面で起きることは必ず Core のイベントが原因。Presentation に規則を書かない。
-- 測るもの（`"Private approved static skin"` / `"Fixture slime"` の mesh・transform・カメラ）を演出で動かさない。
+- 測るもの（`"Private approved static skin"` / `"Fixture slime"` の mesh・transform）を演出で動かさない。カメラは一手の間は動かさない。
+- 既存の hash（`GauntletCoreTests.EncounterZeroIsTheFrozenG1FixtureAndHashes`）を壊さない。
 - 変更のたびに EditMode と PlayMode を回し、`RT_GFX_CAPTURE` のコマを目で見る（[CRAFT_HANDBOOK.md §7](CRAFT_HANDBOOK.md)）。
+- 数値は初期値。計算（[sim/](sim/README.md)）と Core の結果が食い違ったら、原因を調べてから進む。
 - Simulator の結果を実機の結果として書かない。人の試遊の結果を推定しない。
 
-## 2. A 群 — 今すぐ走れる（判断不要）
+## 2. S1 — 1階を製品の質にする
 
-[確定] と [実験中] の範囲だけです。上から順に。
+いまある3戦を、人に見せられる状態にします。上から順に。
 
-### A1. 表示の重なりの欠陥を直す
-
-- 範囲: PlayMode `JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults` が落ちる件。シルエットの重なりで、落ちる組は実行ごとに変わる（Y/C、D/B、X/C、C/Y、B/A を観測）。
-- 出典: [GAME_DESIGN.md §12](GAME_DESIGN.md) の順2。
-- 分かっていること: 本 branch の演出を入れる前から落ちていた。静止メッシュ同士の重なりが原因という見立ては推論で、未確認。まず落ちる組と座標を記録して原因を特定する。
-- 完了条件: PlayMode 19/19 が連続3回。テストを緩めて通さない。
-- 確かめ方: PlayMode。
-
-### A2. HUD の重なりを解く
-
-- 範囲: 左上の「階層」の帯と行動順の重なり。通常画面から開発用ボタンを外す。
-- 出典: [IMPLEMENTATION_SPECS.md §4.1](IMPLEMENTATION_SPECS.md)、[GAME_DESIGN.md §8](GAME_DESIGN.md)。
-- 完了条件: 390×844 と Simulator 実寸で、文字と部品が互いに重ならない。タップ領域 44pt 以上。
-- 確かめ方: PlayMode、Simulator の画面保存。
-- 注意: カードの高さを 20% 詰める案は B5（判断待ち）。ここでは触らない。
-
-### A3. 意図・行動順・危機を盤上で読めるようにする
-
-- 範囲: 次に動く者の実線の矢印と以降の点線、行動順の帯、倒れる恐れのある味方の「！」。
-- 出典: [IMPLEMENTATION_SPECS.md §4.2](IMPLEMENTATION_SPECS.md)（部品ごとに出典の Core API が決まっている。それ以外から作らない）。意図を一巡見せるのは D3 [実験中]。
-- 完了条件: 矢印と帯が Core の Plan / initiative と一致することをテストで固定。顔と HP を隠さない。
-- 確かめ方: PlayMode、コマの目視。
-
-### A4. 命中の見え方を詰める（グラフィック）
-
-- 範囲: 着弾の白い光が一瞬対象を覆う点、剣・鈍器・魔法・矢の差が見分けにくい点。
-- 出典: [CRAFT_HANDBOOK.md §5、§9](CRAFT_HANDBOOK.md)。`HqPose.LandPoses` と `HqVfx.Impact`。
-- 完了条件: 着弾コマで対象の輪郭が残る。4つの戦い方を、数字を隠した状態のコマで言い当てられる。
-- 確かめ方: `RT_GFX_CAPTURE` のコマ、Simulator。
-- 担当: Claude（Human 指示のグラフィック担当）。Executor が進めてもよい。
-
-### A5. 味方の戦闘不能と勝利の演出を確かめる
-
-- 範囲: 実装済みだが拡大して見ていない。崩れていれば直す。
-- 出典: [GRAPHICS.md §3、§4](GRAPHICS.md)。
-- 完了条件: 両方の演出が三拍（予備動作・着弾・余韻）で読め、0.9 秒以内。
-- 確かめ方: 味方が倒れる方針の組み合わせで撮ったコマ。
-
-### A6. Core が演出へ渡す契約をテストで固定する
-
-- 範囲: イベントの順序・`HpAfter`・行動者と対象を Presentation が推測せずに済む形。
-- 出典: [IMPLEMENTATION_SPECS.md §1.1〜1.2、§1.7](IMPLEMENTATION_SPECS.md)。
-- 完了条件: EditMode で不変条件と replay hash が固定されている。規則の追加はしない（`IntentReason` は B8）。
-
-## 3. B 群 — Human の一言で走れる（判断待ち）
-
-Human は「推奨」列でよければ番号だけ答えれば足ります。決まったら [GAME_DESIGN.md](GAME_DESIGN.md) の印を [確定] か [実験中] に書き換えてから実装してください。
-
-| # | 判断すること | 推奨 | 決まると走れる作業 | 出典 |
+| 票 | 範囲 | 読む設計 | 完了条件 | 確かめ方 |
 |---|---|---|---|---|
-| B1 | 1枚絵を骨で動かす方式を続けるか。揺れや伸縮が「うにょうにょ」「別人」に当たらないか | 続ける。当たる動きだけ外す | キャラ演出の残り全部 | GAME_DESIGN §14-1、HANDBOOK §3.2 |
-| B2 | 命中の強さ（暗い暈・放射線）は絵柄に対して強すぎないか | いまの強さから白い光だけ弱める | A4 の仕上げ | HANDBOOK §9 |
-| B3 | 方針を3つ（バランス・慎重・攻める）にするか（D4） | 3つ。対象を選べるのは S2 で試す | Core の方針追加、カード UI | GAME_DESIGN §4.3、SPECS §1.4 |
-| B4 | 連戦で HP を持ち越すか（D5） | 持ち越す。階ごとに泉 | Core の連戦、HUD | SPECS §1.5 |
-| B5 | カードを 20% 詰めて盤を広げ、戦闘中はカメラを寄せるか | 両方やる | HUD 割り付け、カメラ、投影矩形テストの調整 | SPECS §3、§4.1 |
-| B6 | 音を入れるか。素材の出どころ | 入れる。Core イベント起点、自作または無料で権利の明確な素材 | 音の仕組みと対応表 | SPECS §5 |
-| B7 | 敵を3種足すか（茸の番人・影こうもり・遺跡の守護者） | S2 で2種、S3 で守護者 | Core の敵規則、見た目 | GAME_DESIGN §5、SPECS §1.6 |
-| B8 | 仲間の「なぜその手か」を一言出すか（`IntentReason`） | 出す | Core の Plan 拡張、カード | SPECS §1.3 |
-| B9 | 成長と報酬の原則（戦い方が変わるを先に。数値成長の有無） | 原則を採る。数値成長は入れない | レリック、装備 | GAME_DESIGN §6 |
-| B10 | 階と遠征の規模（S2: 3階、S3: 5階＋守護者）と、手置きの部屋の並べ替え | 提案どおり | フィールド、進行、保存 | GAME_DESIGN §3.3、SPECS §2、§6 |
-| B11 | 保存と記録を入れるか | 入れる。端末内のみ、収集なし | 保存、振り返り | SPECS §6 |
-| B12 | 演出を減らす設定と早送り2倍 | 入れる | 設定画面、演出の `dt` | SPECS §4.4 |
-| B13 | 画面揺れを入れるか | 入れない（矩形計算をカメラから切り離す改修が先に要る） | — | HANDBOOK §2.2 |
-| B14 | 配信形態（買い切り）と価格 | 買い切り | 公開準備 | GAME_DESIGN §10 |
-| B15 | 本 branch を PR #21 の系列に取り込むか | Executor の採否 | 統合 | GAME_DESIGN §14-9 |
+| S1-1 | 表示の重なりの欠陥。PlayMode `JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults` が落ちる（落ちる組は実行ごとに変わる） | 下の注 | PlayMode 19/19 が連続3回。テストを緩めて通さない | PlayMode |
+| S1-2 | 命中の白い光を弱め、4つの戦い方を見分けられるようにする | [specs/07](specs/07_UI_AND_CAMERA.md) §5 | 着弾コマで対象の輪郭と顔が見える。数字を隠して4種を言い当てられる | コマ、Simulator |
+| S1-3 | 味方の戦闘不能と勝利の演出を拡大して確かめ、崩れを直す | [GRAPHICS.md §3〜4](GRAPHICS.md) | 三拍（予備動作・着弾・余韻）で読め、0.9 秒以内 | 味方が倒れる方針で撮ったコマ |
+| S1-4 | 表示へ渡す情報を型にする（守り・致命・挟撃） | [specs/01](specs/01_CORE_RULES.md) §6 | `HqPose` と `HqJuice` から `Detail` の文字列比較が無くなる。hash 不変 | EditMode、PlayMode |
+| S1-5 | 「なぜその手か」を出す | [specs/01](specs/01_CORE_RULES.md) §4、[specs/07](specs/07_UI_AND_CAMERA.md) §3 | 全 `Reason` に一言が対応。カードの一言と矢印が `Replay.Intents()` と一致 | EditMode、PlayMode |
+| S1-6 | 画面の割り付けを直す。カードを詰め、行動順を横の帯に | [specs/07](specs/07_UI_AND_CAMERA.md) §1 | 3つの画面サイズで重なりなし。盤が 55% 以上 | PlayMode、Simulator |
+| S1-7 | 戦闘中にカメラを寄せる | [specs/07](specs/07_UI_AND_CAMERA.md) §4 | 横幅 18.75・15.0・13.5 で `CheckVisibleHealth` が通る。カメラが動く間に一手が始まらない | PlayMode、コマ |
+| S1-8 | 効果音と環境音 | [specs/05](specs/05_AUDIO.md) | 無音の Core イベントが無い。波形の検査が通る | EditMode、**人が聴く**（§5 の C7） |
+| S1-9 | 設定（音量、演出を減らす、早送り2倍）と保存 | [specs/06](specs/06_SAVE_AND_SETTINGS.md) §1、§4 | どの設定でも表示したイベント列と最終状態が同じ。設定が次回起動で残る | PlayMode |
 
-走る順番の目安（依存の少ない順）: B1・B2 → B5 → B3・B8 → B6 → B4 → B7・B9 → B10・B11 → B12 → B14。
+- **S1-1 の注**: 本 branch の演出を入れる前から落ちていた。静止メッシュ同士の重なりが原因という見立ては推論で、未確認。まず落ちる組と座標を記録して原因を特定する。S1-7（寄せる）は悪化させる可能性があるので、必ず S1-1 の後に。
+- **担当**: S1-2・S1-3 は Claude（Human 指示のグラフィック担当）。Executor が進めてもよい。
+- S1 が終わったら、§5 の C1〜C3（実機、性能、人の試遊）に進める状態です。**S2 に入る前に C3 の試遊を1回行うことを推奨します。** 見た目が先に進んで芯が未検証のまま機能が増えるのを防ぐためです。
 
-## 4. C 群 — 人か実機でしか終わらない
+## 3. S2 — 3階まで
 
-| # | 仕事 | 誰が | 完了の証拠 |
-|---|---|---|---|
-| C1 | 最新 commit を実際の iPhone で動かす（署名は Human の資格情報。commit / log に入れない） | Human と Executor | 対象 commit の実機記録 |
-| C2 | 実機で性能を測り、[GAME_DESIGN.md §11](GAME_DESIGN.md) の数値を確定する | Executor | フレーム時間の計測値（計測の仕組みは未実装。Unity の Profiler か、`Time.unscaledDeltaTime` を記録する小さな計測を足す） |
-| C3 | 非誘導の人の試遊 S1（3〜5人）。[GAME_DESIGN.md §1](GAME_DESIGN.md) の6つの問い | Human | 初見の反応・発言・自発操作の記録 |
-| C4 | シロの正式な8コマ歩行（Issue #13）。表情差分・背面の原画を足すか | Human（原画） | Human の合格 |
-| C5 | Android 2機種、1時間 soak、ストア素材、プライバシー表示 | Executor と Human | [IMPLEMENTATION_SPECS.md §8](IMPLEMENTATION_SPECS.md) |
-| C6 | 公開 | Human の明示許可 | — |
+「次を試したくなる」が階をまたいで続くかを確かめる段階です。Core の変更は [specs/01](specs/01_CORE_RULES.md) §2 の順番を守ってください。
 
-S1 の試遊（C3）を S2 の作業（B7・B9・B10）に入る条件にすることを推奨します。見た目が先に進んで芯が未検証のまま機能が増えるのを防ぐためです（[GAME_DESIGN.md §13](GAME_DESIGN.md)）。
+| 票 | 範囲 | 読む設計 | 完了条件 | 確かめ方 |
+|---|---|---|---|---|
+| S2-1 | 方針「バランス」を足す | [specs/01](specs/01_CORE_RULES.md) §3 | 既存3戦でバランスの結果が計算と一致（3人・4人・4人生存）。hash 不変 | EditMode |
+| S2-2 | 敵の頭脳を駒ごとに。苔の精と花の精 | [specs/02](specs/02_ENEMIES.md) §1〜3 | 敵が `Hunter` だけの戦闘は hash 不変。狙いの選び方を単体で固定 | EditMode |
+| S2-3 | 部屋の定義と一覧（R01〜R11） | [specs/03](specs/03_DUNGEON_AND_ROOMS.md) §2〜3 | 全部屋で、3方針の生存者数と手数が一覧のとおり | EditMode |
+| S2-4 | HP の持ち越し、戦闘後の回復、泉、階の移動 | [specs/01](specs/01_CORE_RULES.md) §5 | `sim/floors.py` の「よく考える人」の選択列で、同じ HP の推移になる | EditMode |
+| S2-5 | 遠征の進行（2階・3階）と、成立する並び順 | [specs/03](specs/03_DUNGEON_AND_ROOMS.md) §1、§5〜6 | 既定の並びで3階まで通る。`RoomCatalog.Orders` の検査が通る | EditMode、PlayMode |
+| S2-6 | 方針を選ぶ画面（3択）、2階で3つ目が増える | [specs/07](specs/07_UI_AND_CAMERA.md) §2 | 説明文が Core の定義と対応。選ぶと矢印が描き変わる | PlayMode |
+| S2-7 | 遺物（規則の集約 `RuleSet`、6種、2階の終わりの報酬） | [specs/04](specs/04_RELICS_AND_GEAR.md) §1〜5 | 遺物なしは hash 不変。危機の判定と実際の被害が全遺物・全部屋で一致 | EditMode、PlayMode |
+| S2-8 | 保存（途中再開）と記録 | [specs/06](specs/06_SAVE_AND_SETTINGS.md) §2〜3、§5 | 途中再開しても最終の hash が一致。壊れた保存で落ちない | EditMode |
+| S2-9 | 画面のつながり（勝利後の回復を数字で見せる、泉、報酬） | [specs/07](specs/07_UI_AND_CAMERA.md) §7 | 回復の数字が Core の結果と一致。画面全体を覆う切り替えが無い | PlayMode、コマ |
+| S2-10 | 茸の番人と影こうもり。**先に計算で検証** | [specs/02](specs/02_ENEMIES.md) §4〜5 | 設計の「検証のやり方」の条件を満たす部屋が見つかり、Core の結果が計算と一致 | 計算、EditMode |
 
-## 5. この資料で足りないもの
+- S2-10 は S2 の中で最後に。数値が未検証なので、部屋が見つからなければ設計の数値を動かす（動かす範囲は設計に書いてある）。
+- S2 が終わったら、人の試遊 S2（§5 の C4）。
 
-正直に書きます。次は設計が薄く、該当の B が決まった後に詳細化が要ります。
+## 4. S3 — リリース候補
 
-- **敵の行動規則の数値**（B7）: ふるまいと「教えること」はあるが、HP・ダメージ・射程は未定。
-- **レリックと装備の中身**（B9）: 原則と検証用の候補2つだけ。
-- **部屋の形と並べ替えの規則**（B10）: 方針だけ。部屋の一覧は無い。
-- **音の素材**（B6）: 対応表はあるが、音そのものは無い。
-- **軍師・合議・経験学習**（[GAME_DESIGN.md §6.5](GAME_DESIGN.md)）: 長期構想。S3 の範囲に入れていない。
+| 票 | 範囲 | 読む設計 | 完了条件 | 止まる条件 |
+|---|---|---|---|---|
+| S3-1 | 4階・5階（番人・こうもりを混ぜた部屋への入れ替え） | [specs/03](specs/03_DUNGEON_AND_ROOMS.md) §1、§4 | 並び順の検査が通る | S2-10 の後 |
+| S3-2 | 遺跡の守護者と「退く」修正。**先に計算で検証** | [specs/02](specs/02_ENEMIES.md) §6、[specs/01](specs/01_CORE_RULES.md) §7 | 修正の使いどころで結果に差が出る数値が見つかる | — |
+| S3-3 | 3階・4階の終わりの報酬（遺物の残り2組） | [specs/04](specs/04_RELICS_AND_GEAR.md) §4 | 朝露の雫と巡礼の鈴が同時に持てない | — |
+| S3-4 | 記録の画面、同じ部屋に再挑戦したときの「前回」の1行 | [specs/06](specs/06_SAVE_AND_SETTINGS.md) §3 | 事実を並べるだけで、助言を出さない | — |
+| S3-5 | 全滅からのやり直し、遠征の終わりの画面 | [specs/03](specs/03_DUNGEON_AND_ROOMS.md) §1.1 | その階の最初から再開できる | — |
+| S3-6 | 射程 | [specs/01](specs/01_CORE_RULES.md) §8 | 全部屋を計算し直して選び直す | **N1 が未決** |
+| S3-7 | 装備 | [specs/04](specs/04_RELICS_AND_GEAR.md) §6 | 「どの方針でも全員生存」になる部屋が出ない | **原画の追加が未決**。N1 の後 |
+| S3-8 | 音楽 | [specs/05](specs/05_AUDIO.md) §4 | — | **N2 が未決** |
+| S3-9 | 敵の種類が増えたときの描画の結合、性能の段階 | [IMPLEMENTATION_SPECS.md §7](IMPLEMENTATION_SPECS.md) | 実機で予算内 | C2 の後 |
+| S3-10 | Android、ストア素材、プライバシー表示（収集なし） | [IMPLEMENTATION_SPECS.md §8](IMPLEMENTATION_SPECS.md) | — | Human の作業を含む |
 
-Notion（Todo / Decision Log / Tried & Learned）は Claude 側から未確認です。この票を Notion の代わりの正本として扱わないでください。
+## 5. 人か実機でしか終わらない仕事
+
+agent の自動検証で代用しないでください。
+
+| # | 仕事 | 誰が | いつ | 完了の証拠 |
+|---|---|---|---|---|
+| C1 | 最新 commit を実際の iPhone で動かす（署名は Human の資格情報。commit / log に入れない） | Human と Executor | S1 の後 | 対象 commit の実機記録 |
+| C2 | 実機で性能を測り、[GAME_DESIGN.md §11](GAME_DESIGN.md) の数値を確定する | Executor | C1 と同時 | `HQ_FRAME_METRICS` のログ（`HqFrameMetrics.cs`）。実機で取ったもの |
+| C3 | 非誘導の人の試遊 S1（3〜5人）。[GAME_DESIGN.md §1](GAME_DESIGN.md) の6つの問い | Human | S1 の後、S2 の前 | 初見の反応・発言・自発操作の記録 |
+| C4 | 人の試遊 S2。遺物を選んだ理由を自分から話すか、方針を変えたくなるか | Human | S2 の後 | 同上 |
+| C5 | シロの正式な8コマ歩行（Issue #13）。表情差分・背面・装備の原画を足すか | Human（原画） | 独立 | Human の合格 |
+| C6 | 1時間の連続プレイで破綻がないこと | Executor と Human | S3 の後 | 記録 |
+| C7 | 音を聴いて直す（スピーカーとイヤホン） | Human | S1-8 の後 | [specs/05](specs/05_AUDIO.md) §6 の5点 |
+| C8 | 公開 | Human の明示許可 | 最後 | — |
+
+## 6. 設計がまだ薄いところ
+
+正直に書きます。次は作る前に追加の作業が要ります。
+
+| 領域 | 何が足りないか | 誰が埋めるか |
+|---|---|---|
+| 茸の番人・影こうもり・守護者 | 数値が未検証。部屋がまだ無い | 票 S2-10・S3-2 の中で計算する |
+| 装備 | 方向と候補だけ。数値も原画も無い | N1 と原画の判断の後 |
+| 音 | 合成の数値は耳で確かめていない | 実装して聴く（C7） |
+| 2階以降の地図 | 「一本道＋分岐1つ」の最小構成だけ。景色の作り込みは未設計 | 優先度が低い（[GAME_DESIGN.md §2](GAME_DESIGN.md)）。S3 の後 |
+| 導入（初めての人への見せ方） | 「チュートリアル無しの導入」と書いただけ | C3 の試遊の観察から設計する。先に作らない |
+| 軍師・合議・経験学習 | 長期構想（[GAME_DESIGN.md §6.5](GAME_DESIGN.md)） | S3 の範囲外 |
+
+Notion（Todo / Decision Log / Tried & Learned）は Claude 側から未確認です。この票と [DECISIONS.md](DECISIONS.md) を Notion の代わりの正本として扱わないでください。Notion への転記と、root の AGENTS.md の未決事項の更新は Executor / Human の作業です。
