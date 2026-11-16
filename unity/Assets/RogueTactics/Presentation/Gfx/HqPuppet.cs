@@ -90,12 +90,13 @@ namespace RogueTactics.Presentation.Gfx
             rot[Head]+=.024f*Mathf.Sin(t*1.4f+.6f)*calm;ty[Head]+=.004f*Mathf.Sin(t*2.3f-.9f)*calm;
             rot[Weapon]+=.028f*Mathf.Sin(t*1.7f+1.3f)*calm;
 
-            // Walk: bounce on each footfall, lean into it, legs trade places, head and weapon counter the step.
+            // Walk: a pattering hop. The whole figure rocks from one foot to the other as a rigid piece;
+            // the legs are never bent or stretched (the owner rejected rubbery limbs), and a drawn
+            // 8-frame walk cycle can replace this without touching anything else.
             var bounce=Mathf.Abs(Mathf.Sin(stride));var swing=Mathf.Sin(stride);
-            ty[Root]+=stepping*bounce*.022f;sy[Root]+=stepping*(.030f-bounce*.055f);sx[Root]-=stepping*(.020f-bounce*.035f);
-            rot[Root]+=stepping*.06f;
-            rot[LegL]+=stepping*swing*.30f;rot[LegR]-=stepping*swing*.30f;ty[LegL]+=stepping*Mathf.Max(0,swing)*.012f;ty[LegR]+=stepping*Mathf.Max(0,-swing)*.012f;
-            rot[Head]-=stepping*.035f*Mathf.Sin(stride*2);rot[Weapon]+=stepping*.07f*Mathf.Sin(stride*2+1);rot[Body]+=stepping*.02f*swing;
+            ty[Root]+=stepping*bounce*.026f;sy[Root]+=stepping*(.010f-bounce*.018f);sx[Root]-=stepping*(.007f-bounce*.012f);
+            rot[Root]+=stepping*(.03f+.05f*swing);
+            rot[Head]-=stepping*.03f*Mathf.Sin(stride*2);rot[Weapon]+=stepping*.05f*Mathf.Sin(stride*2+1);
 
             var flare=0f;var dissolve=0f;
             if(Clip!=PuppetClip.None)
