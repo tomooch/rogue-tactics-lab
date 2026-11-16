@@ -14,6 +14,8 @@
 | **[実験中]** | Human が方向を選び、実装はあるが人の試遊で確かめていないもの |
 | **[提案]** | 本書の提案。採用には Human の判断（HUMAN-GO）が要る |
 
+文書は4本あります。本書は「何を作るか」、[GRAPHICS.md](GRAPHICS.md) はグラフィックの仕様一覧、[IMPLEMENTATION_SPECS.md](IMPLEMENTATION_SPECS.md) はグラフィック以外の実装設計、[CRAFT_HANDBOOK.md](CRAFT_HANDBOOK.md) は「どう作るか・なぜそうしたか・どう確かめるか」の手引きです。実装を続ける Executor は CRAFT_HANDBOOK.md から読んでください。
+
 [提案] を実装で先に埋めないこと。Executor は [確定] と [実験中] の範囲だけを実装し、[提案] は Human が選んだ時点でこの表記を更新します。Notion の Decision Log は今回未確認（Claude 側未認証）です。Human 判断の出典は Issue / PR 本文と、Human が 2026-11-16 に会話で渡した共有資料（以下「共有資料」）です。共有資料と AGENTS.md が食い違う箇所（探索入力など）は、新しい共有資料を採り、その旨を書いています。AGENTS.md 側の更新は Executor / Human の作業です。
 
 ## 1. 製品の芯

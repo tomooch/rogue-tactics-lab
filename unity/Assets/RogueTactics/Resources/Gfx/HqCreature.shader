@@ -14,6 +14,7 @@ Shader "RogueTactics/Creature" {
   [HideInInspector] _CreaturePivot("World foot pivot", Vector) = (0,0,0,0)
   [HideInInspector] _CreaturePose("Squash, lean, lift, wobble", Vector) = (0,0,0,0)
   [HideInInspector] _CreatureRight("Camera right", Vector) = (1,0,0,0)
+  [HideInInspector] _CreatureDash("World offset of a pounce or a knock-back", Vector) = (0,0,0,0)
  }
  SubShader {
   Tags { "RenderType"="Opaque" "Queue"="AlphaTest" "RenderPipeline"="UniversalPipeline" }
@@ -31,6 +32,7 @@ Shader "RogueTactics/Creature" {
    float4 _CreaturePivot;   // world foot pivot
    float4 _CreaturePose;    // x squash (+ flatter), y lean along camera right, z lift, w wobble
    float4 _CreatureRight;   // camera right in world space
+   float4 _CreatureDash;    // world offset: pounce toward a target, or thrown by a blow
    CBUFFER_END
    struct Attributes { float4 positionOS:POSITION; float3 normalOS:NORMAL; };
    struct Varyings { float4 positionCS:SV_POSITION; float3 normalWS:TEXCOORD0; float3 positionWS:TEXCOORD1; float3 rest:TEXCOORD2; };
@@ -43,6 +45,7 @@ Shader "RogueTactics/Creature" {
     rel.xz *= 1 + squash * .55;
     rel += _CreatureRight.xyz * (_CreaturePose.y * rel.y + _CreaturePose.w * sin(rel.y * 5.0) * .06);
     rel.y += _CreaturePose.z;
+    rel += _CreatureDash.xyz;
     Varyings o;
     o.positionWS = _CreaturePivot.xyz + rel;
     o.rest = wp - _CreaturePivot.xyz;

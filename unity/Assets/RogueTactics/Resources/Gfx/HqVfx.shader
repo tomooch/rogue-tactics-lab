@@ -104,11 +104,24 @@ Shader "RogueTactics/Vfx" {
      float g = saturate(outer + ticks * .8 + star * .8);
      return float2(g, g * .35);
     }
-    {                                   // 11 pillar: a column of light, bright at its base
+    if (id < 11.5) {                    // 11 pillar: a column of light, bright at its base
      float t = saturate((p.y + 1) * .5);
      float w = lerp(.55, .28, t);
      float g = saturate(1 - abs(p.x) / w); g = g * g * (1 - t) * smoothstep(0, .06, t);
      return float2(g, g * g);
+    }
+    if (id < 12.5) {                    // 12 veil: a soft dark halo that lets the light in front of it read on pale stone
+     float g = smoothstep(.04, .45, r) * (1 - smoothstep(.5, 1, r));
+     return float2(g, 0);
+    }
+    {                                   // 13 burst: impact lines thrown outward; k pushes them away from the centre
+     float a01 = ang / 6.2831853 + .5;
+     float c = floor(a01 * 46), f = frac(a01 * 46);
+     float rnd = hash(float2(c, seed * 91 + 3)), rnd2 = hash(float2(c + 7, seed * 53 + 1));
+     float lines = step(.42, rnd) * smoothstep(.26, .46, .5 - abs(f - .5));
+     float inner = lerp(.14, .60, k) + rnd2 * .16, outer = .58 + .42 * rnd;
+     float g = lines * smoothstep(inner, inner + .10, r) * (1 - smoothstep(outer - .22, outer, r));
+     return float2(g, g * .7);
     }
    }
 
@@ -118,7 +131,7 @@ Shader "RogueTactics/Vfx" {
     half3 rgb = lerp(i.color.rgb, half3(1, 1, 1), saturate(s.y) * .5);
     // Light adds (alpha 0 keeps what is behind); matter covers.
     // The ruins are sunlit and pale, so pure addition burns out at once: light also veils a little of what is behind it.
-    return half4(rgb * a * lerp(1, .78, i.mode.x), a * lerp(1, .42, i.mode.x));
+    return half4(rgb * a * lerp(1, .92, i.mode.x), a * lerp(1, .36, i.mode.x));
    }
    ENDHLSL
   }

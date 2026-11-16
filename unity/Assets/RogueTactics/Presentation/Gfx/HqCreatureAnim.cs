@@ -15,9 +15,13 @@ namespace RogueTactics.Presentation.Gfx
         public readonly List<Transform> Leaves=new List<Transform>();
         public Transform Crown,Pivot;public Camera View;public float Phase;public Color Tint=Color.white;
         public PuppetClip Clip{get;private set;}
+        /// <summary>World offset a pounce carries the spirit toward its target.</summary>
+        public Vector3 Dash;
+        /// <summary>World direction a blow throws the spirit (unit length).</summary>
+        public Vector3 Knock;
 
         private static readonly int PivotId=Shader.PropertyToID("_CreaturePivot"),PoseId=Shader.PropertyToID("_CreaturePose"),RightId=Shader.PropertyToID("_CreatureRight"),
-            FlashId=Shader.PropertyToID("_Flash"),DissolveId=Shader.PropertyToID("_Dissolve");
+            DashId=Shader.PropertyToID("_CreatureDash"),FlashId=Shader.PropertyToID("_Flash"),DissolveId=Shader.PropertyToID("_Dissolve");
         private readonly List<Vector3> eyeScale=new List<Vector3>();private readonly List<Quaternion> leafRest=new List<Quaternion>();
         private Vector3 crownRest;private float time,clipTime,clipLength=1,clipSide,flash,blinkAt=2,blink;
 
@@ -29,13 +33,13 @@ namespace RogueTactics.Presentation.Gfx
         /// <param name="side">Screen side of the action: +1 right, -1 left, 0 straight up or down the screen.</param>
         public void Play(PuppetClip clip,float length,float side){Clip=clip;clipTime=0;clipLength=Mathf.Max(.05f,length);clipSide=side;}
         public void Flash(float amount=1){flash=amount;}
-        public void ResetPose(){Clip=PuppetClip.None;clipTime=0;flash=0;Apply(0,0,0,0,0);}
+        public void ResetPose(){Clip=PuppetClip.None;clipTime=0;flash=0;Apply(0,0,0,0,0,Vector3.zero);}
 
         public void Tick(float dt)
         {
             dt=Mathf.Min(dt,.05f);time+=dt;var t=time+Phase;
             // Idle: a slow jelly breath with a quicker shiver riding on it.
-            var squash=.035f*Mathf.Sin(t*2.6f)+.008f*Mathf.Sin(t*7.3f);var lean=.02f*Mathf.Sin(t*1.3f);var lift=0f;var wobble=0f;var dissolve=0f;var crownBob=0f;
+            var squash=.035f*Mathf.Sin(t*2.6f)+.008f*Mathf.Sin(t*7.3f);var lean=.02f*Mathf.Sin(t*1.3f);var lift=0f;var wobble=0f;var dissolve=0f;var crownBob=0f;var carried=Vector3.zero;
             if(Clip!=PuppetClip.None)
             {
                 clipTime+=dt;var u=clipTime/clipLength;var post=clipTime-clipLength;
@@ -47,6 +51,7 @@ namespace RogueTactics.Presentation.Gfx
                         // Flatten and pull back, then spring at the target and land as the blow lands.
                         var gather=u<.6f?EaseOut(u/.6f):Mathf.Max(0,1-(u-.6f)/.15f);
                         var leap=u<.6f?0:u<1?Mathf.Sin((u-.6f)/.4f*Mathf.PI):0;
+                        var go=u<.6f?-.12f*gather:u<1?Mathf.SmoothStep(0,1,(u-.6f)/.4f):Mathf.Max(0,1-EaseOut(Mathf.Max(0,post-.08f)/.3f));carried=Dash*go;
                         var land=u>=1?Mathf.Exp(-post*9)*Mathf.Cos(post*24):0;
                         squash+=.26f*gather-.24f*leap+.16f*land;lean+=clipSide*(-.20f*gather+.42f*leap);lift+=.34f*leap;wobble=land;crownBob=-.05f*gather+.08f*leap;
                         if(post>.5f)Clip=PuppetClip.None;
@@ -56,7 +61,7 @@ namespace RogueTactics.Presentation.Gfx
                     {
                         // Jelly: squashed by the blow, then ringing back to shape.
                         var k=Mathf.Exp(-clipTime*6.5f);var ring=Mathf.Cos(clipTime*23);
-                        squash+=.30f*k*ring;lean+=clipSide*.38f*k*(.5f+.5f*ring);wobble=k;crownBob=.06f*k*ring;
+                        squash+=.30f*k*ring;lean+=clipSide*.38f*k*(.5f+.5f*ring);carried=Knock*(.55f*Mathf.Exp(-clipTime*5)*Mathf.Min(1,clipTime*30));lift+=.25f*Mathf.Sin(Mathf.Min(1,clipTime*4.5f)*Mathf.PI);wobble=k;crownBob=.06f*k*ring;
                         if(clipTime>.75f)Clip=PuppetClip.None;
                         break;
                     }
@@ -82,7 +87,7 @@ namespace RogueTactics.Presentation.Gfx
                 }
             }
             flash=Mathf.MoveTowards(flash,0,dt*7f);
-            Apply(squash,lean,lift,wobble,dissolve);
+            Apply(squash,lean,lift,wobble,dissolve,carried);
 
             // Blink: quick close, slower open, now and then twice.
             blinkAt-=dt;if(blinkAt<=0){blink=.16f;blinkAt=2.2f+Mathf.Abs(Mathf.Sin(t*3.7f))*3.2f;}
@@ -95,14 +100,14 @@ namespace RogueTactics.Presentation.Gfx
             if(Crown!=null)Crown.localPosition=crownRest+Vector3.up*crownBob;
         }
 
-        private void Apply(float squash,float lean,float lift,float wobble,float dissolve)
+        private void Apply(float squash,float lean,float lift,float wobble,float dissolve,Vector3 carried)
         {
             var pivot=Pivot!=null?Pivot.position:transform.position;var right=View!=null?View.transform.right:Vector3.right;
             var flashColor=new Color(1,1,1,Mathf.Clamp01(flash)*.6f);
             foreach(var m in Materials)
             {
                 if(m==null)continue;
-                m.SetVector(PivotId,pivot);m.SetVector(PoseId,new Vector4(squash,lean,lift,wobble*Mathf.Sin(time*34)));m.SetVector(RightId,right);
+                m.SetVector(PivotId,pivot);m.SetVector(PoseId,new Vector4(squash,lean,lift,wobble*Mathf.Sin(time*34)));m.SetVector(RightId,right);m.SetVector(DashId,carried);
                 m.SetColor(FlashId,flashColor);m.SetFloat(DissolveId,dissolve);
             }
         }

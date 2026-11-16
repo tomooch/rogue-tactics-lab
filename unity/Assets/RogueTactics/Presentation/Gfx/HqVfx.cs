@@ -11,7 +11,7 @@ namespace RogueTactics.Presentation.Gfx
     /// </summary>
     public sealed class HqVfx:MonoBehaviour
     {
-        public const float Glow=0,Ring=1,Sparkle=2,Crescent=3,Streak=4,Petal=5,Plus=6,Puff=7,Shard=8,Ward=9,Rune=10,Pillar=11;
+        public const float Glow=0,Ring=1,Sparkle=2,Crescent=3,Streak=4,Petal=5,Plus=6,Puff=7,Shard=8,Ward=9,Rune=10,Pillar=11,Veil=12,Burst=13;
         private const int Capacity=3000;
         private enum Facing:byte{Camera,Ground,Velocity}
 
@@ -60,19 +60,26 @@ namespace RogueTactics.Presentation.Gfx
         // ---- Recipes ----------------------------------------------------------------------------------
 
         public static readonly Color Azure=new Color(.42f,.74f,1f),Rose=new Color(1f,.52f,.70f),Steel=new Color(.80f,.90f,1f),Leaf=new Color(.62f,1f,.42f),
-            Gold=new Color(1f,.84f,.36f),Jade=new Color(.50f,1f,.68f),Moss=new Color(.72f,.95f,.35f),Violet=new Color(.80f,.52f,1f),Cream=new Color(1f,.96f,.86f);
+            Gold=new Color(1f,.84f,.36f),Jade=new Color(.50f,1f,.68f),Moss=new Color(.72f,.95f,.35f),Violet=new Color(.80f,.52f,1f),Cream=new Color(1f,.96f,.86f),Ink=new Color(.05f,.07f,.22f);
 
         /// <summary>The moment a blow lands: flash, shock ring, sparks thrown outward, a little debris.</summary>
         public void Impact(Vector3 at,Color tint,float power=1)
         {
-            Emit(Glow,at,.4f,1.25f*power,.12f,With(Color.white,.8f),With(tint,.5f),light:1,fadeFrom:.15f);
-            Emit(Ring,at,.3f,1.6f*power,.28f,With(Color.white,.9f),tint,light:1,k0:.35f,k1:1,fadeFrom:.3f);
-            for(var i=0;i<11;i++)
+            // A dark halo first, so everything bright in front of it reads against the pale ruins.
+            Emit(Veil,at,4.6f*power,5.6f*power,.34f,With(Ink,.42f),With(Ink,0),fadeFrom:.3f);
+            Emit(Burst,at,2.0f*power,3.3f*power,.20f,Color.white,tint,light:1,k0:0,k1:1,seed:Range(0,1),fadeFrom:.5f);
+            Emit(Glow,at,.5f,1.5f*power,.12f,With(Color.white,.85f),With(tint,.5f),light:1,fadeFrom:.15f);
+            Emit(Sparkle,at,1.7f*power,.8f*power,.13f,With(Color.white,.9f),tint,light:1,rotation:Range(-25,25),fadeFrom:.3f);
+            Emit(Ring,at,.4f,2.3f*power,.30f,Color.white,tint,light:1,k0:.2f,k1:1,fadeFrom:.35f);
+            Emit(Ring,at,.3f,1.5f*power,.36f,With(tint,.9f),With(tint,0),light:1,k0:.5f,k1:1,fadeFrom:.3f,delay:.05f);
+            for(var i=0;i<16;i++)
             {
-                var dir=Screen(Range(0,360),1);var speed=Range(5,10)*power;
-                Emit(Streak,at+dir*.15f,.34f,.05f,Range(.20f,.34f),Color.white,tint,light:1,velocity:dir*speed,drag:6,facing:Facing.Velocity,aspect:2.3f);
+                var dir=Screen(i*22.5f+Range(-10,10),1);var speed=Range(7,14)*power;
+                Emit(Streak,at+dir*.2f,.46f,.06f,Range(.22f,.40f),Color.white,tint,light:1,velocity:dir*speed,drag:6,facing:Facing.Velocity,aspect:2.6f);
             }
-            for(var i=0;i<4;i++)Emit(Sparkle,at+Screen(Range(0,360),Range(.3f,.8f)*power),.26f,0,Range(.25f,.42f),Color.white,tint,light:1,spin:Range(-4,4),delay:Range(0,.08f));
+            for(var i=0;i<6;i++)Emit(Sparkle,at+Screen(Range(0,360),Range(.5f,1.5f)*power),.34f,0,Range(.28f,.5f),Color.white,tint,light:1,spin:Range(-4,4),delay:Range(.03f,.14f));
+            for(var i=0;i<5;i++)
+            {var dir=Screen(Range(25,155),1);Emit(Shard,at+dir*.3f,.15f,.05f,Range(.45f,.7f),Color.white,tint,light:1,velocity:dir*Range(3,6.5f)*power,gravity:-11,drag:1,spin:Range(-12,12),rotation:Range(0,360),fadeFrom:.7f);}
             for(var i=0;i<3;i++)
             {
                 var dir=Screen(Range(20,160),1);
@@ -84,8 +91,10 @@ namespace RogueTactics.Presentation.Gfx
         public void Slash(Vector3 at,float degrees,Color tint,float size=1.9f,bool downward=true)
         {
             var flip=downward?-1f:1f;
-            Emit(Crescent,at,size,size*1.08f,.24f,Color.white,tint,light:1,rotation:degrees,k0:0,k1:1,fadeFrom:.55f,aspect:flip);
-            Emit(Crescent,at,size*1.12f,size*1.22f,.30f,With(tint,.55f),With(tint,0),light:1,rotation:degrees,k0:0,k1:.9f,fadeFrom:.4f,aspect:flip,delay:.02f);
+            Emit(Veil,at,size*1.9f,size*2.1f,.30f,With(Ink,.34f),With(Ink,0),fadeFrom:.3f);
+            Emit(Crescent,at,size*1.2f,size*1.34f,.34f,With(tint,.9f),With(tint,0),light:1,rotation:degrees,k0:0,k1:.9f,fadeFrom:.4f,aspect:flip);
+            Emit(Crescent,at,size,size*1.08f,.26f,Color.white,tint,light:1,rotation:degrees,k0:0,k1:1,fadeFrom:.55f,aspect:flip);
+            Emit(Crescent,at,size*.86f,size*.9f,.20f,Color.white,Color.white,light:1,rotation:degrees,k0:0,k1:1,fadeFrom:.6f,aspect:flip);
             for(var i=0;i<7;i++)
             {
                 var a=degrees+flip*Range(-80,80);var p=at+Screen(a,size*.74f);var dir=Screen(a-flip*90,1);
@@ -143,7 +152,10 @@ namespace RogueTactics.Presentation.Gfx
             Emit(Ring,at,.3f,1.6f,.36f,Color.white,tint,light:1,k1:1,fadeFrom:.3f);
             if(enemy)
             {
-                Emit(Glow,at,.5f,1.3f,.16f,With(Color.white,.8f),With(tint,.5f),light:1,fadeFrom:.2f);
+                Emit(Veil,at,5f,6.2f,.42f,With(Ink,.40f),With(Ink,0),fadeFrom:.3f);
+                Emit(Burst,at,2.4f,4.0f,.26f,Color.white,tint,light:1,k0:0,k1:1,seed:Range(0,1),fadeFrom:.5f);
+                Emit(Glow,at,.6f,1.9f,.15f,With(Color.white,.85f),With(tint,.5f),light:1,fadeFrom:.15f);
+                Emit(Ring,at,.5f,3.0f,.42f,With(tint,.9f),With(tint,0),light:1,k0:.3f,k1:1,fadeFrom:.3f,delay:.04f);
                 for(var i=0;i<9;i++)
                 {var dir=Screen(i*40+Range(-15,15),1);Emit(Puff,at+dir*.2f,.42f,.85f,Range(.45f,.7f),With(Color.Lerp(tint,Color.white,.72f),.9f),With(Color.white,0),velocity:dir*Range(1.5f,3.2f)+Up*.6f,drag:3.2f,k0:0,k1:1,seed:Range(0,1),fadeFrom:.35f);}
                 for(var i=0;i<8;i++)
@@ -173,11 +185,19 @@ namespace RogueTactics.Presentation.Gfx
             {var dir=Wide(Range(-1,1),Range(-.3f,.3f)).normalized;Emit(Puff,ground+Up*.12f+dir*.2f,.16f*amount,.42f*amount,Range(.3f,.5f),With(Cream,.5f),With(Cream,0),velocity:dir*Range(.5f,1.3f)+Up*Range(.2f,.6f),drag:3,k0:.1f,k1:1,seed:Range(0,1));}
         }
 
+        /// <summary>Something heavy meets the stone: a ring racing over the floor and dust thrown up around it.</summary>
+        public void Slam(Vector3 ground,Color tint)
+        {
+            Emit(Ring,ground,.5f,2.4f,.34f,Color.white,tint,light:1,k0:.2f,k1:1,facing:Facing.Ground,fadeFrom:.3f);
+            for(var i=0;i<8;i++)
+            {var a=i*45+Range(-15,15);var dir=Wide(Mathf.Cos(a*Mathf.Deg2Rad),Mathf.Sin(a*Mathf.Deg2Rad));Emit(Puff,ground+Up*.15f+dir*.5f,.3f,.8f,Range(.4f,.65f),With(Cream,.75f),With(Cream,0),velocity:dir*Range(1.5f,3)+Up*Range(.4f,1),drag:3,k0:.05f,k1:1,seed:Range(0,1));}
+        }
+
         /// <summary>A heavy swing or a lunge cutting the air between two points.</summary>
         public void Swoosh(Vector3 from,Vector3 to,Color tint)
         {
             var dir=to-from;var length=dir.magnitude;if(length<.01f)return;
-            for(var i=0;i<3;i++)Emit(Streak,from+dir*(.25f+i*.1f)+Up*Range(-.25f,.25f),length*.42f,length*.2f,.20f,With(Color.white,.85f),With(tint,0),light:1,velocity:dir/length*6,drag:5,facing:Facing.Velocity,aspect:1,delay:i*.02f,fadeFrom:.3f);
+            for(var i=0;i<5;i++)Emit(Streak,from+dir*(.2f+i*.1f)+Up*Range(-.45f,.45f),length*.5f,length*.22f,.22f,i%2==0?Color.white:tint,With(tint,0),light:1,velocity:dir/length*7,drag:5,facing:Facing.Velocity,aspect:1,delay:i*.015f,fadeFrom:.3f);
         }
 
         /// <summary>The encounter is won.</summary>

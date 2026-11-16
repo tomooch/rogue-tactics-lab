@@ -48,6 +48,10 @@ namespace RogueTactics.Presentation.Gfx
         public bool Mirrored;
         /// <summary>0..1 gold rim while this companion is the one acting.</summary>
         public float Aura;
+        /// <summary>Where a melee strike carries the figure, as a screen offset in image heights (x right, y up). Zero for ranged styles.</summary>
+        public Vector2 Dash;
+        /// <summary>Screen direction a blow throws the figure (unit length), or zero to fall back to the facing.</summary>
+        public Vector2 Knock;
         public PuppetClip Clip{get;private set;}
         public float ClipTime{get;private set;}
 
@@ -111,6 +115,9 @@ namespace RogueTactics.Presentation.Gfx
                         var strike=u<.7f?0:u<1?Square((u-.7f)/.3f):Mathf.Max(0,1-OutCubic(Mathf.Max(0,post-.07f)/.34f));
                         if(u>=1)gather=0;
                         Attack(gather,strike,h,ref flare);
+                        // The step through: a small draw back, then the whole figure carried to the target and home again.
+                        var carry=strike-.10f*gather;tx[Root]+=(Mirrored?-Dash.x:Dash.x)*carry;ty[Root]+=Dash.y*carry;
+                        sx[Root]+=.06f*strike*(u<1?1:0);
                         if(post>.45f)Clip=PuppetClip.None;
                         break;
                     }
@@ -136,7 +143,9 @@ namespace RogueTactics.Presentation.Gfx
                     {
                         // Knocked away from the blow, head a touch later, three damped wobbles back to rest.
                         var k=Mathf.Exp(-ClipTime*7.5f);var wobble=Mathf.Cos(ClipTime*26f);
-                        rot[Root]-=(.20f*k*(.55f+.45f*wobble))*(h==0?.5f:1);tx[Root]+=.045f*k*h;ty[Root]+=.012f*k*(1-h);
+                        rot[Root]-=(.20f*k*(.55f+.45f*wobble))*(h==0?.5f:1);
+                        if(Knock!=Vector2.zero){var shove=.11f*Mathf.Exp(-ClipTime*5f)*Mathf.Min(1,ClipTime*30);tx[Root]+=(Mirrored?-Knock.x:Knock.x)*shove;ty[Root]+=Knock.y*shove*.6f+.03f*Mathf.Sin(Mathf.Min(1,ClipTime*5)*Mathf.PI);}
+                        else {tx[Root]+=.045f*k*h;ty[Root]+=.012f*k*(1-h);}
                         sy[Root]-=.10f*k;sx[Root]+=.07f*k;rot[Head]-=.16f*Mathf.Exp(-Mathf.Max(0,ClipTime-.04f)*6f)*Mathf.Cos(ClipTime*19f);
                         flare+=k;
                         if(ClipTime>.7f)Clip=PuppetClip.None;

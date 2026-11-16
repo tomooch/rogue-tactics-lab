@@ -55,6 +55,10 @@ namespace RogueTactics.Presentation
             if(poses.ContainsKey(id))return pawns[id].position+Vector3.up*.12f+FieldCamera.transform.up*1.25f;
             return bodies.TryGetValue(id,out var body)?body.bounds.center:pawns[id].position+Vector3.up*.6f;
         }
+        // How far a melee attacker is carried toward its target: it stops a body's width short of it.
+        private Vector3 Lunge(Vector3 from,Vector3 to)
+        {var d=to-from;d.y=0;var length=d.magnitude;return length<.01f?Vector3.zero:d/length*Mathf.Clamp(length-1.05f,0,2.8f);}
+        private Vector2 OnScreen(Vector3 world)=>new Vector2(Vector3.Dot(world,FieldCamera.transform.right),Vector3.Dot(world,FieldCamera.transform.up));
         private Vector3 Muzzle(string id){var pose=PoseOf(id);return pose?.Puppet!=null?pose.Puppet.Muzzle(pose.Quad):Chest(id);}
 
         // The start of a shown Core event: choose the wind-up and schedule what flies before it lands.
@@ -67,8 +71,18 @@ namespace RogueTactics.Presentation
             {
                 case EventKind.Damage:
                 case EventKind.Counter:
-                    if(actor!=null){Face(actor,side);actor.Puppet?.Play(PuppetClip.Attack,duration,along);}
-                    actorSpirit?.Play(PuppetClip.Attack,duration,side);
+                    var lunge=Lunge(actorAt,targetAt);
+                    if(actor!=null)
+                    {
+                        Face(actor,side);
+                        if(actor.Puppet!=null)
+                        {
+                            var style=actor.Puppet.Skeleton.Style;var melee=style==PuppetStyle.Blade || style==PuppetStyle.Guardian;
+                            actor.Puppet.Dash=melee?OnScreen(lunge)/Mathf.Max(.01f,actor.Quad.lossyScale.y):Vector2.zero;
+                            actor.Puppet.Play(PuppetClip.Attack,duration,along);
+                        }
+                    }
+                    if(actorSpirit!=null){actorSpirit.Dash=lunge;actorSpirit.Play(PuppetClip.Attack,duration,side);}
                     if(vfx==null || !pawns.ContainsKey(e.Target))break;
                     if(e.Kind==EventKind.Counter)vfx.Reaction(Chest(e.Actor)+FieldCamera.transform.up*.9f);
                     var tint=TintOf(e.Actor);var to=Chest(e.Target);var id=e.Actor;
@@ -129,6 +143,11 @@ namespace RogueTactics.Presentation
             {
                 var guarded=e.Detail!=null && e.Detail.StartsWith("Guard");
                 // The target turns to the blow and is thrown back from it.
+                var thrown=targetAt-actorAt;thrown.y=0;thrown=thrown.sqrMagnitude<1e-4f?Vector3.zero:thrown.normalized;
+                if(target?.Puppet!=null)target.Puppet.Knock=OnScreen(thrown).normalized*(guarded?.45f:1);
+                if(spirit!=null)spirit.Knock=thrown;
+                var attackerStyle=PoseOf(e.Actor)?.Puppet?.Skeleton.Style;
+                if(vfx!=null && (attackerStyle==PuppetStyle.Guardian || spirits.ContainsKey(e.Actor)))vfx.Slam(Ground(e.Target),TintOf(e.Actor));
                 if(target!=null){Face(target,-side);target.Puppet?.Play(PuppetClip.Hit,.5f,side!=0?1:0);target.Puppet?.Flash(guarded?new Color(.75f,.92f,1f):new Color(1f,.93f,.90f),guarded?.6f:1);}
                 if(spirit!=null){spirit.Play(PuppetClip.Hit,.5f,side);spirit.Flash();}
                 if(vfx!=null)
@@ -136,7 +155,7 @@ namespace RogueTactics.Presentation
                     if(guarded){vfx.Shield(Chest(e.Target),new Color(.55f,.86f,1f),true);vfx.Impact(Chest(e.Target),TintOf(e.Actor),.55f);}
                     else vfx.Impact(Chest(e.Target),TintOf(e.Actor),e.Kind==EventKind.Counter?.85f:1);
                 }
-                hitStop=.06f;
+                hitStop=guarded?.06f:.10f;
             }
             if(e.Kind==EventKind.Heal)
             {
