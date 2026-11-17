@@ -16,6 +16,8 @@
 
 文書の入口と読む順番は [README.md](README.md)、完成までの作業票は [ROADMAP.md](ROADMAP.md) です。設計の本体は4本あります。本書は「何を作るか」、[GRAPHICS.md](GRAPHICS.md) はグラフィックの仕様一覧、[IMPLEMENTATION_SPECS.md](IMPLEMENTATION_SPECS.md) はグラフィック以外の実装設計、[CRAFT_HANDBOOK.md](CRAFT_HANDBOOK.md) は「どう作るか・なぜそうしたか・どう確かめるか」の手引きです。実装を続ける Executor は README.md → ROADMAP.md → CRAFT_HANDBOOK.md の順に読んでください。
 
+**2026-11-17 追記2**: 本書は概要です。総合設計の本体（なぜそう作るか）は [overall/](overall/) に、既存コードとの接続は [CODE_BRIDGE.md](CODE_BRIDGE.md) に、引き継ぎは [HANDOFF.md](HANDOFF.md) にあります。[overall/05](overall/05_AGENCY.md) は本書と specs の一部を上書きしています（部屋の順番と泉をプレイヤーが選ぶ、など）。
+
 **2026-11-17 追記**: Human が判断待ち15件を「推奨通り」で決めました。決定の一覧は [DECISIONS.md](DECISIONS.md)、決まった内容の詳細設計は [specs/](specs/) です。本書の [提案] のうち DECISIONS.md に載っているものは採用済みとして読んでください（下の各節の印は順に書き換えています）。
 
 [提案] を実装で先に埋めないこと。Executor は [確定] と [実験中] の範囲だけを実装し、[提案] は Human が選んだ時点でこの表記を更新します。Notion の Decision Log は今回未確認（Claude 側未認証）です。Human 判断の出典は Issue / PR 本文と、Human が 2026-11-16 に会話で渡した共有資料（以下「共有資料」）です。共有資料と AGENTS.md が食い違う箇所（探索入力など）は、新しい共有資料を採り、その旨を書いています。AGENTS.md 側の更新は Executor / Human の作業です。

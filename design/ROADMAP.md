@@ -1,11 +1,13 @@
 # 完成までの作業票
 
-- 版: 2026-11-17 改訂2 / 作成: Claude Code
+- 版: 2026-11-17 改訂3 / 作成: Claude Code
 - 対象: `claude/hq-graphics-release`（Draft PR #23）時点の状態から、[GAME_DESIGN.md §3.3](GAME_DESIGN.md) の S3（リリース候補）まで
 - 改訂2: Human が 2026-11-17 に判断待ち15件を「推奨通り」で決定（[DECISIONS.md](DECISIONS.md)）。判断待ちだった仕事を、詳細設計（[specs/](specs/)）つきの作業票に書き換えました。
 - 位置づけ: 作業の順番と完了条件です。どの票に着手するか、本 branch をどう取り込むかは Executor が決めます。merge、Draft-to-Ready、公開は別途 Human の明示許可が要ります。
 
 ## 0. 先に結論
+
+**最初に [HANDOFF.md](HANDOFF.md) を読んでください。** 2026-11-17 の改訂3で、[overall/05](overall/05_AGENCY.md)（正解当てにしない見直し）と [CODE_BRIDGE.md](CODE_BRIDGE.md)（既存コードとの接続）に合わせて票を足しました（S1-0、S1-10〜13、S2-5 の書き換え）。**S1-0 が最初の仕事です。**
 
 - **S1（1階を製品の質に）と S2（3階まで）は、Executor が誰にも聞かずに走れます。** 票ごとに、読む設計・完了条件・確かめ方があります。
 - **S3 の一部は、作る前に計算での検証が要ります**（茸の番人、影こうもり、守護者、装備）。やり方は各詳細設計に書いてあります。
@@ -35,6 +37,7 @@
 
 | 票 | 範囲 | 読む設計 | 完了条件 | 確かめ方 |
 |---|---|---|---|---|
+| S1-0 | 表示から固定の前提（味方4人・敵2体・既存の盤）を抜く。見た目も結果も変えない作り直し | [CODE_BRIDGE.md](CODE_BRIDGE.md) §4 の段 1〜7 | [CODE_BRIDGE.md](CODE_BRIDGE.md) §5 の検索が 0 件。敵 3 体の盤で PlayMode が通る。hash 不変 | EditMode、PlayMode、コマ |
 | S1-1 | 表示の重なりの欠陥。PlayMode `JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults` が落ちる（落ちる組は実行ごとに変わる） | 下の注 | PlayMode 19/19 が連続3回。テストを緩めて通さない | PlayMode |
 | S1-2 | 命中の白い光を弱め、4つの戦い方を見分けられるようにする | [specs/07](specs/07_UI_AND_CAMERA.md) §5 | 着弾コマで対象の輪郭と顔が見える。数字を隠して4種を言い当てられる | コマ、Simulator |
 | S1-3 | 味方の戦闘不能と勝利の演出を拡大して確かめ、崩れを直す | [GRAPHICS.md §3〜4](GRAPHICS.md) | 三拍（予備動作・着弾・余韻）で読め、0.9 秒以内 | 味方が倒れる方針で撮ったコマ |
@@ -44,6 +47,10 @@
 | S1-7 | 戦闘中にカメラを寄せる | [specs/07](specs/07_UI_AND_CAMERA.md) §4 | 横幅 18.75・15.0・13.5 で `CheckVisibleHealth` が通る。カメラが動く間に一手が始まらない | PlayMode、コマ |
 | S1-8 | 効果音と環境音 | [specs/05](specs/05_AUDIO.md) | 無音の Core イベントが無い。波形の検査が通る | EditMode、**人が聴く**（§5 の C7） |
 | S1-9 | 設定（音量、演出を減らす、早送り2倍）と保存 | [specs/06](specs/06_SAVE_AND_SETTINGS.md) §1、§4 | どの設定でも表示したイベント列と最終状態が同じ。設定が次回起動で残る | PlayMode |
+| S1-10 | 説明なしの導入（1階で部品を出す順番） | [overall/04](overall/04_ONBOARDING.md) | 段階ごとに出ている部品が §5 の表のとおり。段階が結果に影響しない | PlayMode、**人（C3）** |
+| S1-11 | 危機で止まったとき、別の方針の意図を見比べられる | [overall/05](overall/05_AGENCY.md) §3.2 | 見比べ中の矢印が `Rules.Intents`（別の方針）と一致。状態が変わらない | PlayMode |
+| S1-12 | 1階の敵（シロを狙う）に別の見た目と名前 | [overall/05](overall/05_AGENCY.md) §3.5、[specs/02](specs/02_ENEMIES.md) §7 | 1階の2体が同じ種類に見え、苔・花と見分けられる | コマ |
+| S1-13 | 見た目の自動の見張り（着弾のコマで、当たった側が白で覆われていないか） | [HANDOFF.md](HANDOFF.md) §3.1 | わざと光を強くすると落ちる | PlayMode |
 
 - **S1-2 の現状**（2026-11-17）: 白い光を弱める分は実装済み。4種の見分けは未完了。
 - **S1-1 の注**: 2026-11-17 の3回の実行では、どれも「step 0」（まだ誰も動いていない時点）で A/B、C/X、D/B の組が重なりと判定された。演出ではなく、初期配置の時点で起きている。本 branch の演出を入れる前から落ちていた。静止メッシュ同士の重なりが原因という見立ては推論で、未確認。まず落ちる組と座標を記録して原因を特定する。S1-7（寄せる）は悪化させる可能性があるので、必ず S1-1 の後に。
@@ -60,7 +67,7 @@
 | S2-2 | 敵の頭脳を駒ごとに。苔の精と花の精 | [specs/02](specs/02_ENEMIES.md) §1〜3 | 敵が `Hunter` だけの戦闘は hash 不変。狙いの選び方を単体で固定 | EditMode |
 | S2-3 | 部屋の定義と一覧（R01〜R11） | [specs/03](specs/03_DUNGEON_AND_ROOMS.md) §2〜3 | 全部屋で、3方針の生存者数と手数が一覧のとおり | EditMode |
 | S2-4 | HP の持ち越し、戦闘後の回復、泉、階の移動 | [specs/01](specs/01_CORE_RULES.md) §5 | `sim/floors.py` の「よく考える人」の選択列で、同じ HP の推移になる | EditMode |
-| S2-5 | 遠征の進行（2階・3階）と、成立する並び順 | [specs/03](specs/03_DUNGEON_AND_ROOMS.md) §1、§5〜6 | 既定の並びで3階まで通る。`RoomCatalog.Orders` の検査が通る | EditMode、PlayMode |
+| S2-5 | 遠征の進行（2階・3階）。**部屋の順番と泉の時機をプレイヤーが選ぶ** | [overall/05](overall/05_AGENCY.md) §3.3、[specs/03](specs/03_DUNGEON_AND_ROOMS.md) §1、§5〜6 | 初回は既定の道で3階まで通る。2回目以降は2部屋が見えて選べる。泉は階に1回 | EditMode、PlayMode |
 | S2-6 | 方針を選ぶ画面（3択）、2階で3つ目が増える | [specs/07](specs/07_UI_AND_CAMERA.md) §2 | 説明文が Core の定義と対応。選ぶと矢印が描き変わる | PlayMode |
 | S2-7 | 遺物（規則の集約 `RuleSet`、6種、2階の終わりの報酬） | [specs/04](specs/04_RELICS_AND_GEAR.md) §1〜5 | 遺物なしは hash 不変。危機の判定と実際の被害が全遺物・全部屋で一致 | EditMode、PlayMode |
 | S2-8 | 保存（途中再開）と記録 | [specs/06](specs/06_SAVE_AND_SETTINGS.md) §2〜3、§5 | 途中再開しても最終の hash が一致。壊れた保存で落ちない | EditMode |

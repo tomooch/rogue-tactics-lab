@@ -8,13 +8,28 @@ root の [DESIGN.md](../DESIGN.md) / [VERIFICATION.md](../VERIFICATION.md) / [AG
 
 | 順 | 文書 | 何が分かるか | 読む人 |
 |---|---|---|---|
+| 0 | [HANDOFF.md](HANDOFF.md) | **引き継ぎ。** 何がどこにあるか、迷ったときの決め方、作って確かめる輪、落とし穴 | Executor。最初にここ |
 | 1 | [ROADMAP.md](ROADMAP.md) | 完成までの作業票。順番、完了条件、どの設計を読めばよいか | 全員。まずここ |
 | 2 | [DECISIONS.md](DECISIONS.md) | Human が決めたこと（2026-11-17 の15件）と、まだ決まっていないこと | 全員 |
-| 3 | [GAME_DESIGN.md](GAME_DESIGN.md) | 何を作るか。製品の芯、遊びの構造、規則、品質の基準、未決事項 | 全員 |
+| 3 | [GAME_DESIGN.md](GAME_DESIGN.md) | 何を作るか（概要）。製品の芯、遊びの構造、規則、品質の基準 | 全員 |
+| 3.1 | [overall/](overall/) | **総合設計の本体。** なぜそう作るか。体験、システムの全体図、進行、導入、正解当てにしない設計、仲間の自律、試遊（下の表） | 全員 |
+| 3.2 | [CODE_BRIDGE.md](CODE_BRIDGE.md) | いまのコードのどこが完成形を妨げているか、直す順番（ファイルと行） | 実装する人 |
 | 4 | [CRAFT_HANDBOOK.md](CRAFT_HANDBOOK.md) | どう作るか。考え方、アーキテクチャ、手法、数値の根拠、確かめ方、失敗と直し方 | 実装する人 |
 | 5 | [specs/](specs/) | **詳細設計**。作る単位ごとに、型・数値・手順・テストまで（下の表） | 実装する人 |
 | 6 | [IMPLEMENTATION_SPECS.md](IMPLEMENTATION_SPECS.md) | グラフィック以外の実装設計の概要（Core / フィールド / カメラ / UI / 音 / 保存 / 性能 / 公開）。specs/ と食い違ったら specs/ が新しい | 実装する人 |
 | 7 | [GRAPHICS.md](GRAPHICS.md) | キャラ・アニメーション・エフェクトの実装済み仕様の一覧 | 演出を触る人 |
+
+## 総合設計（overall/）
+
+| 文書 | 中身 | 裏付け |
+|---|---|---|
+| [01_EXPERIENCE.md](overall/01_EXPERIENCE.md) | 誰として遊ぶか、5つの楽しさ、1戦の流れと秒数、介入、正解を言わないための禁止事項 | 秒数と手数は計算。気持ちの部分は仮説 |
+| [02_SYSTEMS.md](overall/02_SYSTEMS.md) | 全体図、判断の一覧と重さ、見える情報、仕組みどうしの噛み合い、覚えることの量 | 判断の重さは計算 |
+| [03_PROGRESSION.md](overall/03_PROGRESSION.md) | 遠征の進み方、難しさの山、長さ、作る量、遠征を重ねる動機 | 難しさと長さは計算。動機は仮説 |
+| [04_ONBOARDING.md](overall/04_ONBOARDING.md) | 説明なしの導入。1階の3戦で何をどの順に見せるか | 3戦の性質は既存テスト。人の反応は仮説 |
+| [05_AGENCY.md](overall/05_AGENCY.md) | 「正解当て」にしないための見直し。道と泉の選択、意図の見比べ、見た目＝ふるまい | 計算 |
+| [06_STRATEGIST.md](overall/06_STRATEGIST.md) | 仲間の自律から、気質・経験・軍師・合議へ一段ずつ進む道 | なし（長期構想） |
+| [07_PLAYTEST.md](overall/07_PLAYTEST.md) | 人の試遊の手順、記録用紙、読み方、設計への戻し方 | — |
 
 ## 詳細設計（specs/）
 

@@ -20,7 +20,7 @@
 | 4階 | R08 → R06 → 泉 → R10 | 茸の番人、影こうもり（[02](02_ENEMIES.md)。部屋は未作成） | S3 |
 | 5階 | R03 → R11 → 泉 → 守護者 | 遺跡の守護者 | S3 |
 
-- 1戦は 18〜37 手。1手の演出が約 0.6〜0.9 秒なので、1戦 60〜90 秒の目安に対して長い部屋（R05・R06・R10・R11 は 30 手超）は早送り（[06](06_SAVE_AND_SETTINGS.md) §4）が前提になります。試遊で長いと感じたら、敵の HP を 2 下げて再計算してください。
+- 1戦は 18〜37 手。演出の時間割から見積もると 1戦の演出は 24〜51 秒（平均 36 秒。`sim/pacing.py`）で、読む時間と余韻を足して 1戦 60〜90 秒の目安に収まります。試遊で長いと感じる部屋があれば、敵の HP を 2 下げて再計算してください。
 - 4階と5階に茸の番人・影こうもりを混ぜた部屋は**まだありません**。[02](02_ENEMIES.md) の検証のやり方で部屋を作ってから、R08・R06・R10 のいずれかと入れ替えます。
 
 ### 1.1 階の中の流れ
@@ -36,6 +36,8 @@
 ```
 
 ### 1.2 並び順と seed
+
+**2026-11-17 改訂**: 階の中の順番と泉の時機は、プレイヤーが選ぶ形に変えます（[overall/05](../overall/05_AGENCY.md) §3.3）。下の計算は「順番が決まっている場合」のもので、**初回の遠征（導入を終える前）の既定の道**としてだけ使います。2回目以降は、seed が「どの2部屋が先に見えるか」を決め、順番はプレイヤーが決めます。
 
 部屋の順番を入れ替えると、HP の持ち越しのせいで成立しなくなる並びがあります。計算した結果:
 
@@ -58,7 +60,7 @@ namespace RogueTactics.Core.Expedition
         public IReadOnlyDictionary<string,GridPosition> Allies;   // A/B/C/D の初期位置
         public IReadOnlyList<EnemyDef> Enemies;
         public IReadOnlyList<string> Initiative;             // 行動順
-        public RoomLesson Lesson;                            // Careful / Bold / Balanced / NeedsCorrection
+        public RoomNote DesignNote;                          // Careful / Bold / Balanced / NeedsCorrection。検査専用
     }
     public sealed class EnemyDef { public string Id; public EnemyKind Kind; public int Hp, Attack; public GridPosition Position; }
     public static class RoomCatalog { public static RoomDef Get(string id); public static IReadOnlyList<string[][]> Orders; }
@@ -67,7 +69,7 @@ namespace RogueTactics.Core.Expedition
 
 - 座標は Core の盤座標（x, y ともに 0〜4。既存の `Fixture` と同じ向き）。下の図は上が y=4。
 - 既存3戦も `RoomDef`（`G0`・`G1`・`G2`、敵は `Hunter`）として同じ表に載せ、`EncounterBuilder.Build` が `Fixture.Encounter(i)` と同じ直列化を返すことをテストで固定する。
-- `Lesson` は表示に使わない（プレイヤーに正解を教えない）。テストと並びの検査にだけ使う。
+- `DesignNote` は「満タンの一行ならどの方針で全員生存できるか」という**部屋を選ぶための物差し**で、部屋の正解ではありません。一行の状態が変わると最善の方針は変わります（`sim/answers.py`: 14 部屋すべてで変わる）。表示にもプレイヤー向けの文言にも一切使わない。テストと検査にだけ使う。
 
 ## 3. 部屋の一覧
 
@@ -274,7 +276,7 @@ y=0  ・・・・A
 ## 4. 部屋を足すとき
 
 1. `sim/rooms.py` の敵の種類と数値の範囲を必要に応じて広げ、実行する。方針ごとに候補が出る。
-2. 条件で絞る: 味方と敵が初手で隣り合わない（読む間を作る）。12〜44 手。間違えても倒れるのは原則1人まで（学びであって全滅ではない。いまの一覧では R11 の慎重だけ2人倒れる）。
+2. 条件で絞る（[overall/05](../overall/05_AGENCY.md) §3.4 の物差しも足す: 一行の状態8通りで最善の方針が3通り以上に変わること。`sim/answers.py`）: 味方と敵が初手で隣り合わない（読む間を作る）。12〜44 手。間違えても倒れるのは原則1人まで（学びであって全滅ではない。いまの一覧では R11 の慎重だけ2人倒れる）。
 3. `sim/pick.py` で選び、`sim/floors.py` で遠征を通し、`sim/orders.py` で並びを確かめる。
 4. Core に `RoomDef` を足し、方針ごとの生存者数を EditMode で固定する。計算と実装の結果が違ったら、実装ではなく**差の原因**を調べる（計算スクリプトは Core の写しなので、どちらかが規則を読み違えている）。
 

@@ -29,6 +29,9 @@ hash の一致までは確かめていません（イベントの文字列を写
 | `sweep.py` | 回復の規則を総当たり | 同上 |
 | `orders.py` | 階の中の部屋の順番を全通り試す（`good_orders.json`） | [specs/03](../specs/03_DUNGEON_AND_ROOMS.md) §1.2 |
 | `relics.py` | 遺物ごとに、14戦×3方針の結果がどう変わるか | [specs/04](../specs/04_RELICS_AND_GEAR.md) §2 |
+| `pacing.py` | 戦闘ごとの手数、最初の一撃・最初の危機までの手数、演出の秒数の見積もり | [overall/01](../overall/01_EXPERIENCE.md) §3 |
+| `answers.py` | 一行の状態を変えたとき、部屋ごとの最善の方針が変わるか | [overall/05](../overall/05_AGENCY.md) §1 |
+| `routes.py` | 部屋の順番と泉の時機をプレイヤーが選ぶ場合の結果 | [overall/05](../overall/05_AGENCY.md) §3.3 |
 
 ## 回し方
 
