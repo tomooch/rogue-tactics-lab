@@ -3,13 +3,25 @@ using RogueTactics.Presentation.Gfx;
 using UnityEngine;
 namespace RogueTactics.Presentation
 {
-    // Two locally authored garden spirits. Visuals only; their identity and HP stay X/Y in Core.
+    // Locally authored ruin creatures. Visuals only; their identity and HP stay X/Y in Core.
+    // One look means one behaviour (design/overall/05_AGENCY.md 3.5): moss and bloom spirits are kept for the
+    // nearest / weakest hunters of later floors; the first floor's anchor hunters are wardens.
+    public enum SpiritKind { Moss, Bloom, Warden }
     // The body mesh (name, shape, transform) is the anchor other code measures, so it is built exactly as before;
     // everything that makes the spirit feel alive is the toon material, the face turned to the camera and HqCreatureAnim.
     public static class HqCreature
     {
-        public static Renderer Build(Transform parent,Material template,bool violet,Camera view=null)
+        // Which look each Core enemy wears. Today every enemy is the G1 anchor hunter, so all are wardens;
+        // X wears the gold gem, Y the teal one. Replace with the roster once enemy kinds exist (design/CODE_BRIDGE.md).
+        public static SpiritKind KindOf(string id)=>SpiritKind.Warden;
+        public static bool AltOf(string id)=>id=="Y";
+        public static readonly Color WardenGold=new Color(1f,.80f,.30f),WardenTeal=new Color(.36f,.92f,.86f);
+        public static Color TintOf(string id)=>KindOf(id)==SpiritKind.Warden?(AltOf(id)?WardenTeal:WardenGold):AltOf(id)?HqVfx.Violet:HqVfx.Moss;
+        public static string NameOf(string id)=>KindOf(id)==SpiritKind.Warden?(AltOf(id)?"碧の番兵":"金の番兵"):AltOf(id)?"花の精":"苔の精";
+
+        public static Renderer Build(Transform parent,Material template,SpiritKind kind,bool alt,Camera view=null)
         {
+            var violet=kind==SpiritKind.Bloom;var warden=kind==SpiritKind.Warden;
             var owner=parent.gameObject.AddComponent<AssetsLifetime>();
             var toon=Resources.Load<Shader>("Gfx/HqCreature");
             var anim=toon!=null?parent.gameObject.AddComponent<HqCreatureAnim>():null;
@@ -20,7 +32,7 @@ namespace RogueTactics.Presentation
                 else {m=new Material(template);m.color=c;m.SetFloat("_Smoothness",.24f);}
                 owner.assets.Add(m);return m;
             }
-            var skin=violet?Mat(new Color(.70f,.53f,.88f),new Color(.43f,.31f,.66f)):Mat(new Color(.60f,.84f,.34f),new Color(.30f,.58f,.30f));
+            var skin=warden?Mat(new Color(.60f,.68f,.90f),new Color(.36f,.40f,.66f),0,.45f):violet?Mat(new Color(.70f,.53f,.88f),new Color(.43f,.31f,.66f)):Mat(new Color(.60f,.84f,.34f),new Color(.30f,.58f,.30f));
             var leaf=violet?Mat(new Color(.42f,.66f,.40f),new Color(.24f,.44f,.30f),0,.2f):Mat(new Color(.36f,.68f,.26f),new Color(.20f,.46f,.22f),0,.2f);
             var petal=Mat(violet?new Color(1f,.80f,.90f):new Color(1f,.97f,.84f),violet?new Color(.86f,.56f,.74f):new Color(.86f,.80f,.60f),0,.15f);
             var cream=Mat(new Color(1,.98f,.92f),Color.white,1,0);var dark=Mat(new Color(.13f,.10f,.20f),Color.black,1,0);
@@ -69,7 +81,25 @@ namespace RogueTactics.Presentation
             Shape("Smile",Face(0,-.11f,.008f),new Vector3(.075f,.045f,.03f),dark);
 
             var crown=new GameObject("Spirit crown").transform;crown.SetParent(upright,false);crown.localPosition=new Vector3(0,.37f,0);if(anim!=null)anim.Crown=crown;
-            if(!violet)
+            if(warden)
+            {
+                // Warden: a carved stone cap crowned by a star gem of the ruins' banners. The gem watches the party.
+                var stone=Mat(new Color(.97f,.93f,.84f),new Color(.72f,.66f,.58f),0,.2f);var gemColor=alt?WardenTeal:WardenGold;
+                var gem=Mat(gemColor,Color.Lerp(gemColor,new Color(.45f,.30f,.10f),.45f),.35f,.9f);
+                Shape("Stone cap",new Vector3(0,.0f,0),new Vector3(.40f,.10f,.34f),stone,crown);
+                Shape("Stone cap rim",new Vector3(0,.05f,0),new Vector3(.24f,.10f,.20f),stone,crown);
+                var star=new GameObject("Warden star").transform;star.SetParent(crown,false);star.localPosition=new Vector3(0,.25f,0);
+                // Face the star to the camera like the face does, so it reads as a star and not as two sticks.
+                star.rotation=Quaternion.LookRotation(-towards,Vector3.up);
+                // Long rays up/down and across, short ones on the diagonals: an eight-point sparkle that stays a star when small.
+                Shape("Star ray",Vector3.zero,new Vector3(.12f,.42f,.06f),gem,star);
+                Shape("Star ray",Vector3.zero,new Vector3(.34f,.10f,.06f),gem,star);
+                foreach(var d in new[]{45f,-45f})Shape("Star ray",Vector3.zero,new Vector3(.06f,.22f,.05f),gem,star).localRotation=Quaternion.Euler(0,0,d);
+                Shape("Star heart",new Vector3(0,0,-.01f),new Vector3(.15f,.15f,.07f),gem,star);
+                Shape("Star glint",new Vector3(-.03f,.04f,-.045f),new Vector3(.05f,.05f,.02f),cream,star);
+                if(anim!=null)anim.Leaves.Add(star);
+            }
+            else if(!violet)
             {
                 // Moss spirit: a sprout of two broad leaves.
                 Shape("Sprout stem",new Vector3(0,.06f,0),new Vector3(.05f,.16f,.05f),leaf,crown);
@@ -97,7 +127,7 @@ namespace RogueTactics.Presentation
                 }
             }
             foreach(Transform child in parent)if(child.name!="Soft foot contact" && child.name!="Contact shadow" && !child.name.StartsWith("Known ")){child.localPosition*=1.3f;child.localScale*=1.3f;}
-            if(anim!=null){anim.Pivot=parent;anim.View=view;anim.Phase=violet?1.7f:0;anim.Tint=violet?HqVfx.Violet:HqVfx.Moss;anim.Capture();}
+            if(anim!=null){anim.Pivot=parent;anim.View=view;anim.Phase=alt?1.7f:0;anim.Tint=warden?(alt?WardenTeal:WardenGold):violet?HqVfx.Violet:HqVfx.Moss;anim.Capture();}
             return renderer;
         }
         private sealed class AssetsLifetime:MonoBehaviour

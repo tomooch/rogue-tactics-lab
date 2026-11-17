@@ -161,10 +161,12 @@ namespace RogueTactics.Presentation.Gfx
                     }
                     case PuppetClip.Fall:
                     {
-                        // Stagger back, tip over, and scatter into light. Stays down until Reset.
+                        // Stagger back and sink down to rest. A fallen ally is not gone: a victory brings them back
+                        // (design/specs/01 5.1), so the figure stays whole and lies still; the view keeps a dimmed copy.
                         var e=Mathf.Clamp01(u);var tip=e*e;
-                        rot[Root]-=1.15f*tip;tx[Root]+=.05f*OutCubic(e)*(h==0?.6f:1);sy[Root]-=.08f*tip;rot[Head]-=.2f*Mathf.Sin(e*Mathf.PI);
-                        rot[Weapon]-=.5f*tip;flare+=1-e;dissolve=Mathf.SmoothStep(0,1,(e-.3f)/.7f);
+                        var rest=u>=1?Mathf.Exp(-(ClipTime-clipLength)*10)*Mathf.Sin((ClipTime-clipLength)*22)*.04f:0;
+                        rot[Root]-=1.25f*tip+rest;tx[Root]+=.06f*OutCubic(e)*(h==0?.6f:1);sy[Root]-=.06f*tip;rot[Head]-=.2f*Mathf.Sin(e*Mathf.PI);
+                        rot[Weapon]-=.6f*tip;flare+=.5f*(1-e);
                         break;
                     }
                 }

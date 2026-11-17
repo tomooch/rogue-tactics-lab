@@ -21,7 +21,7 @@ namespace RogueTactics.Presentation
         private Text policyHeading;
         private Image policyBackdrop, eventBackdrop;
         private static readonly string[] CardOrder={"A","D","C","B"};
-        private static string HeroName(string id)=>id=="A"?"シロ":id=="D"?"ミャル":id=="C"?"ガル":id=="B"?"モモ":id=="X"?"苔の精":"花の精";
+        private static string HeroName(string id)=>id=="A"?"シロ":id=="D"?"ミャル":id=="C"?"ガル":id=="B"?"モモ":HqCreature.NameOf(id);
         public void SetDeveloperMode(bool enabled){DeveloperMode=enabled;policyEditing=false;ApplySafeArea(safeRect,screenW,screenH);SetComparisonCamera(CameraPitch);}
         private void BuildProductHud()
         {

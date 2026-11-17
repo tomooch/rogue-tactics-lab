@@ -19,6 +19,10 @@ namespace RogueTactics.Presentation
         private readonly Dictionary<string,Pose> poses=new Dictionary<string,Pose>();
         private readonly Dictionary<string,HqCreatureAnim> spirits=new Dictionary<string,HqCreatureAnim>();
         private readonly HashSet<string> hiddenSpirits=new HashSet<string>();
+        // A fallen ally's pawn is hidden by the projection (it is no longer measured); this dimmed, unmeasured copy
+        // of its last pose keeps them lying on their cell until they stand again.
+        private readonly Dictionary<string,GameObject> fallenRest=new Dictionary<string,GameObject>();
+        private static readonly Color RestTint=new Color(.84f,.86f,.94f,1f);
         private readonly List<Mesh> puppetMeshes=new List<Mesh>();
         private HqVfx vfx;private float hitStop;private string actingId="";
         public bool PoseMirrored(string id)=>poses.TryGetValue(id,out var pose) && pose.Mirrored;
@@ -47,7 +51,7 @@ namespace RogueTactics.Presentation
         // Screen-horizontal side of a world direction: +1 right, -1 left, 0 when straight up/down the screen.
         private float ScreenSide(Vector3 direction){var x=Vector3.Dot(direction,FieldCamera.transform.right);return Mathf.Abs(x)<.05f?0:Mathf.Sign(x);}
         private void Face(Pose pose,float side){if(side!=0)pose.Mirrored=side>0;}
-        private static Color TintOf(string id)=>id=="A"?HqVfx.Azure:id=="B"?HqVfx.Rose:id=="C"?HqVfx.Steel:id=="D"?HqVfx.Leaf:id=="Y"?HqVfx.Violet:HqVfx.Moss;
+        private static Color TintOf(string id)=>id=="A"?HqVfx.Azure:id=="B"?HqVfx.Rose:id=="C"?HqVfx.Steel:id=="D"?HqVfx.Leaf:HqCreature.TintOf(id);
         private Vector3 Ground(string id)=>pawns[id].position;
         // Where a blow lands on, or leaves, a body.
         private Vector3 Chest(string id)
@@ -134,9 +138,30 @@ namespace RogueTactics.Presentation
         }
 
         // The instant the shown event changes what the player sees (HP, guard): the blow lands, the light arrives.
+        private void RestFallen(string id)
+        {
+            var pose=PoseOf(id);if(pose?.Puppet==null || pose.Quad==null || fallenRest.ContainsKey(id))return;
+            var holder=pawns[id].parent;var copy=new GameObject("Fallen rest "+id,typeof(MeshFilter),typeof(MeshRenderer));
+            copy.transform.SetParent(holder,false);copy.transform.SetPositionAndRotation(pose.Quad.position,pose.Quad.rotation);
+            var parentScale=holder!=null?holder.lossyScale:Vector3.one;var s=pose.Quad.lossyScale;
+            copy.transform.localScale=new Vector3(s.x/parentScale.x,s.y/parentScale.y,s.z/parentScale.z);
+            copy.GetComponent<MeshFilter>().sharedMesh=pose.Quad.GetComponent<MeshFilter>().sharedMesh;
+            var skin=new Material(pose.Skin){name="Fallen rest "+id};materials.Add(skin);
+            // Arrays set at run time are not carried by the Material copy; without the bones every vertex collapses.
+            skin.SetVectorArray("_BoneX",pose.Skin.GetVectorArray("_BoneX"));skin.SetVectorArray("_BoneY",pose.Skin.GetVectorArray("_BoneY"));
+            skin.SetFloat("_Mirror",pose.Skin.GetFloat("_Mirror"));
+            skin.SetFloat("_Dissolve",0);skin.SetColor("_Color",RestTint);
+            var aura=skin.GetColor("_Aura");aura.a=0;skin.SetColor("_Aura",aura);var flash=skin.GetColor("_Flash");flash.a=0;skin.SetColor("_Flash",flash);
+            var r=copy.GetComponent<MeshRenderer>();r.sharedMaterial=skin;r.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
+            fallenRest[id]=copy;
+        }
+        private void ClearFallen(string id)
+        {if(fallenRest.TryGetValue(id,out var copy)){if(copy!=null)Destroy(copy);fallenRest.Remove(id);}}
+
         private void LandPoses(BattleEvent e,Vector3 actorAt,Vector3 targetAt)
         {
             actingId="";
+            if(e.Kind==EventKind.Death && poses.ContainsKey(e.Target??""))RestFallen(e.Target);
             if(!pawns.TryGetValue(e.Target??"",out var targetRoot) || !targetRoot.gameObject.activeInHierarchy)return;
             var side=ScreenSide(targetAt-actorAt);var target=PoseOf(e.Target);spirits.TryGetValue(e.Target,out var spirit);
             if(e.Kind==EventKind.Damage || e.Kind==EventKind.Counter)
@@ -189,9 +214,16 @@ namespace RogueTactics.Presentation
                     spirit.Tick(dt);continue;
                 }
                 var pose=PoseOf(pair.Key);if(pose==null || pose.Skin==null)continue;
+                // A resting ally makes way when a living one stands on the same cell.
+                if(fallenRest.TryGetValue(pair.Key,out var resting) && resting!=null)
+                {
+                    var covered=false;foreach(var other in pawns)if(other.Key!=pair.Key && other.Value.gameObject.activeInHierarchy && Vector3.Distance(other.Value.position,pair.Value.position)<Cell*.5f)covered=true;
+                    resting.SetActive(!covered);
+                }
                 // A fallen ally is hidden by the projection; whenever it is shown again it starts upright.
                 if(!pair.Value.gameObject.activeInHierarchy){pose.Hidden=true;pose.Placed=false;continue;}
                 if(pose.Hidden){pose.Hidden=false;pose.Puppet?.Reset();}
+                ClearFallen(pair.Key);
                 var at=pair.Value.position;var delta=at-pose.Last;pose.Last=at;
                 // A reset or retry teleports pawns; only a short per-frame step counts as walking.
                 var walked=pose.Placed && delta.magnitude<Cell*.6f?new Vector3(delta.x,0,delta.z).magnitude:0;pose.Placed=true;

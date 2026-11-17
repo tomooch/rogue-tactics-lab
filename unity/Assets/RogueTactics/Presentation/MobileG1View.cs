@@ -282,7 +282,7 @@ namespace RogueTactics.Presentation
                     // Anchor the front contact edge to the cell, like the static portraits' feet.
                     // A centred sphere otherwise extends over the next row's portrait/foot HP.
                     if(!HqWorld)shadow.transform.localPosition+=Vector3.forward*.55f;
-                    if(HqWorld)bodies[u.Id]=HqCreature.Build(root,StoneTemplate,u.Id=="Y",FieldCamera);
+                    if(HqWorld)bodies[u.Id]=HqCreature.Build(root,StoneTemplate,HqCreature.KindOf(u.Id),HqCreature.AltOf(u.Id),FieldCamera);
                     else
                     {
                     var body=Sphere("Fixture slime",Vector3.zero,new Vector3(1.2f,.8f,1.08f),u.Id=="X"?new Color(.4f,.65f,.57f):new Color(.63f,.40f,.63f));body.transform.SetParent(root,false);body.transform.localPosition=new Vector3(0,.45f,.55f);bodies[u.Id]=body.GetComponent<Renderer>();
