@@ -178,6 +178,8 @@ t=duration     Display(e)     ここで初めて HP・状態の表示が変わ�
 - 体の mesh 名は全種 `Fixture slime`（測る側の約束）。目は全種 `Bright spirit eye` 2つ、口は全種 `Smile`。見張り（S1-13）と重なりの検査が目と口で顔を測るので、新しい種類でも名前を変えない。
 - 確かめ方: PlayMode `GfxSpiritGalleryTests`（1戦目の盤で番兵2体の代わりに各組を立たせ、待機と被弾を撮る）。`RT_GFX_CAPTURE=1` で `unity/Logs/hq/private/gallery/` に出す。
 - **予告**（守護者）: `HqCreatureAnim.Telegraphing = true` の間、額の紋（`Mark`）が 1.6 倍まで膨らんで白っぽく光り、後ろに光の輪（`Halo`、普段は大きさ 0）が開いて脈打つ。0.25 秒で立ち上がり、false で消える。Core の意図が「次に守護者が範囲を叩く」になったとき（specs/02 §6）に Presentation が立て、着弾で下ろす。範囲のマスの表示は意図の描画（線・アイコン・行き先）の側で作る。
+- **予告の範囲**（守護者）: `HqDangerTiles`（`Show(マスの中心の列, マスの大きさ)` → `Strike()` → 0.35 秒で消える、`Clear()`）。黄色寄りの琥珀に斜線の板を、床の石の上面（高さ .05）のすぐ上 .09 に置く。敵のマスの赤・味方の青・選んだ床の金と別の色。描く順は既知のマスの印と同じ透明の 3000（不透明の 2450 だと遺跡の床に隠れた）。マスの一覧は Core の `EncounterState.Telegraphed` / `Plan.Area` だけから渡し、Presentation が決めない。確かめ: PlayMode `GfxDangerRetreatTests`（`RT_GFX_CAPTURE=1` で `unity/Logs/hq/private/danger/`）。
+- **退く**（プレイヤーの修正 `RetreatOnce`）: `HqVfx.Retreat(元の足元, 行き先の足元, 色)` が、元に土煙、道筋に低い流れ、行き先に輪ときらめき（0.18 秒遅れ）を出す。仲間の移動そのものは既存の移動の補間に任せる。
 - **羽ばたき**（こうもり）: `HqCreatureAnim.Wings` に入れた羽は毎秒約3回（攻撃中は約4回）羽ばたく。葉の揺れとは別。
 - 未確認: 実際の戦闘で動かしたときの見え方（Core に種類がないため）、範囲のマスの予告表示、2マス分の高さ（今は約1.5倍）。**S3-2 で守護者を部屋に出す前に、`MobileG1InteractionTests.CheckLayout` / `CheckActorReadability` を守護者の盤で回して板の高さを決め、specs/02 §6 に書く。決まらなければ Human に聞く。**
 - 見張り（S1-13）と重なりの検査は、まだ新しい3種を測っていない。S2-10 / S3-2 で部屋に出したら `GfxReadabilityWatchdogTests` の対象にその部屋を足して全件を回す。精の平均しきい値（0.60）を種類ごとに変える必要が出たら、コマを並べて Human に見せる（しきい値を黙って緩めない）。
@@ -331,7 +333,7 @@ RT_GFX_CAPTURE=3 [RT_GFX_ENCOUNTER=2] <Unity 6000.3.25f1> -batchmode -projectPat
 
 ### 7.3 自動テストの位置づけ
 
-- PlayMode は 24 件（うち撮影専用の1件は普段スキップ）が通る状態が基準（PR #24 の遺物・泉の一覧を取り込んだ後。2026-11-18、S1-1・S1-13 と敵の見た目の一覧 `GfxSpiritGalleryTests` の後。重なりの検査を `MobileG1InteractionTests.CheckActorReadability`＝「手前の塗られた画素が奥の顔の部位の中心を隠さず、半分以上見える」に置き換え、19/19 を3回連続で確認）。1件でも落ちたら不具合として調べる。演出は顔の画素を覆いうるので、この検査は演出の変更で落ちることがある。
+- PlayMode は 27 件（うち撮影専用の1件は普段スキップ）が通る状態が基準（PR #24 の遺物・泉、PR #25 の階の景色、予告の範囲と退くの確認を足した後。2026-11-18、S1-1・S1-13 と敵の見た目の一覧 `GfxSpiritGalleryTests` の後。重なりの検査を `MobileG1InteractionTests.CheckActorReadability`＝「手前の塗られた画素が奥の顔の部位の中心を隠さず、半分以上見える」に置き換え、19/19 を3回連続で確認）。1件でも落ちたら不具合として調べる。演出は顔の画素を覆いうるので、この検査は演出の変更で落ちることがある。
 - テストは「壊していないこと」しか保証しない。「良く見えること」は §7.2 と人の目でしか分からない。実機・Simulator・人の試遊は未実施。
 
 ---

@@ -261,6 +261,17 @@ namespace RogueTactics.Presentation.Gfx
                 Emit(Petal,at,.15f,.08f,Range(.5f,.85f),Leaf,With(Leaf,0),velocity:d*Range(1.5f,4.5f)+Screen(Range(0,360),1.6f),gravity:-5,drag:1.5f,spin:Range(-10,10),rotation:Range(0,360),fadeFrom:.6f);
         }
 
+        /// <summary>Stepping back out of an announced area (the player's one "retreat" instruction): a light hop off the
+        /// floor, a low streak along the way, and a small sparkle where the companion lands safe.</summary>
+        public void Retreat(Vector3 fromGround,Vector3 toGround,Color tint)
+        {
+            Dust(fromGround,.8f);
+            var dir=toGround-fromGround;dir.y=0;var length=dir.magnitude;
+            if(length>.01f)for(var i=0;i<3;i++)Emit(Streak,fromGround+Up*(.35f+i*.25f)+dir*.25f,length*.45f,length*.2f,.24f,With(Color.white,.8f),With(tint,0),light:1,velocity:dir/length*6,drag:5,facing:Facing.Velocity,aspect:1,delay:i*.03f,fadeFrom:.3f);
+            Emit(Ring,toGround,.3f,1.1f,.36f,With(Color.white,.7f),With(tint,0),light:1,k1:1,facing:Facing.Ground,fadeFrom:.35f,delay:.18f);
+            for(var i=0;i<4;i++)Emit(Sparkle,toGround+Up*Range(.4f,1.2f)+Wide(Range(-.5f,.5f),Range(-.2f,.2f)),.16f,0,Range(.35f,.5f),Color.white,tint,light:1,delay:Range(.18f,.32f),spin:Range(-3,3));
+        }
+
         /// <summary>A heavy swing or a lunge cutting the air between two points.</summary>
         public void Swoosh(Vector3 from,Vector3 to,Color tint)
         {
