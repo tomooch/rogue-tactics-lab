@@ -155,9 +155,12 @@ namespace RogueTactics.Presentation
             {
                 var id=initiative[(start+i)%initiative.Count];var f=orderFrames[id];f.gameObject.SetActive(!dead.Contains(id));if(dead.Contains(id))continue;
                 f.rectTransform.anchoredPosition=new Vector2(slot*(Field.rect.width-24)/6,-19);slot++;
-                var actorLabel=f.transform.Find("Actor").GetComponent<Text>();actorLabel.gameObject.SetActive(DeveloperMode || id=="X" || id=="Y");
+                var actorLabel=f.transform.Find("Actor").GetComponent<Text>();actorLabel.gameObject.SetActive(id=="X" || id=="Y");
+                // The strip's tiles are 22 px: allies are told apart by their portrait, spirits by one glyph (developer mode too;
+                // a full name wraps to two lines there and overflows the tile).
+                actorLabel.text=id=="X" || id=="Y"?HqCreature.GlyphOf(id):HeroName(id);
                 if(!DeveloperMode)
-                {f.rectTransform.anchoredPosition=new Vector2((slot-1)*34,-19);f.rectTransform.sizeDelta=new Vector2(32,28);actorLabel.text=id=="X" || id=="Y"?HqCreature.GlyphOf(id):HeroName(id);actorLabel.rectTransform.anchoredPosition=Vector2.zero;actorLabel.rectTransform.sizeDelta=new Vector2(32,26);}
+                {f.rectTransform.anchoredPosition=new Vector2((slot-1)*34,-19);f.rectTransform.sizeDelta=new Vector2(32,28);actorLabel.rectTransform.anchoredPosition=Vector2.zero;actorLabel.rectTransform.sizeDelta=new Vector2(32,26);}
                 f.color=id==shownActor?new Color(.50f,.36f,.12f,.97f):new Color(.04f,.12f,.18f,.92f);
             }
             orderLabel.text=reaction!=""?reaction:relationActor!="" && relationTarget!=""?HeroName(relationActor)+" → "+HeroName(relationTarget)+" / "+PlanName(relationKind):"行動順  •  "+(shownActor==""?"開始":HeroName(shownActor)+" 行動中");orderLabel.rectTransform.sizeDelta=new Vector2(340,19);

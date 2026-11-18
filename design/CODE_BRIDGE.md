@@ -109,7 +109,7 @@ namespace RogueTactics.Presentation
 
 ## 4. 直す順番
 
-1つずつ。各段の後で EditMode と PlayMode を回し、**結果が変わらないこと**を確かめてください（いまは PlayMode 18/19。落ちている1件は [ROADMAP.md](ROADMAP.md) S1-1）。見た目が変わらない段は、`RT_GFX_CAPTURE` のコマが前と同じであることも見る。
+1つずつ。各段の後で EditMode と PlayMode を回し、**結果が変わらないこと**を確かめてください（いまは PlayMode 19/19。重なりの検査は「画素で顔が隠れないか」を見る。[ROADMAP.md](ROADMAP.md) S1-1）。見た目が変わらない段は、`RT_GFX_CAPTURE` のコマが前と同じであることも見る。
 
 | 段 | やること | 触るファイル | 変わってはいけないもの |
 |---|---|---|---|

@@ -143,4 +143,4 @@ root の契約文書で、古くなっている記述（直すのは Executor / 
 - `claude/hq-graphics-release` は Draft PR #23。base は `codex/hq-ref-vertical-slice`（Draft PR #21 の系列）。
 - 取り込むかどうか、どう取り込むかは Executor が決めます（[DECISIONS.md](DECISIONS.md) B15）。merge と Draft-to-Ready は Human の明示許可。
 - 取り込むときの注意: `design/` は丸ごと独立しています。コードの変更は `Presentation/Gfx/`、`Presentation/HqPose.cs`・`HqJuice.cs`・`HqMotion.cs`、`Resources/Gfx/`、`Tests/` に限られます。
-- PlayMode は 18/19。落ちている1件は本ブランチ以前からで、票 S1-1。
+- PlayMode は 19/19（2026-11-18 に S1-1 を解決、3回連続）。

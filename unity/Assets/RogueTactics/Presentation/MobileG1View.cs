@@ -181,7 +181,12 @@ namespace RogueTactics.Presentation
         }
 
         private void ResizeButton(string id,float x,float y,float width)
-        {var r=buttons[id].GetComponent<RectTransform>();r.anchoredPosition=new Vector2(x,-y);r.sizeDelta=new Vector2(width,48);buttons[id].GetComponentInChildren<Text>().rectTransform.sizeDelta=new Vector2(width-8,44);}
+        {
+            var r=buttons[id].GetComponent<RectTransform>();r.anchoredPosition=new Vector2(x,-y);r.sizeDelta=new Vector2(width,48);
+            // Keep the label's own left inset (4 by default, 44 beside a reference icon) and end it 4 inside the button,
+            // so a label laid out for the icon never runs past the button's right edge after a resize.
+            var label=buttons[id].GetComponentInChildren<Text>().rectTransform;label.sizeDelta=new Vector2(width-label.anchoredPosition.x-4,44);
+        }
         private void Update()
         {
             SampleFrame();

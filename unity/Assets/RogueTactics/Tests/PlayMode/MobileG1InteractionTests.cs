@@ -43,7 +43,7 @@ namespace RogueTactics.Tests
                 if(text.name=="Value" && text.transform.parent.name.StartsWith("HP "))Assert.That(text.preferredWidth,Is.LessThanOrEqualTo(text.rectTransform.rect.width),text.transform.parent.name+" fits HP text");
                 if(text.name=="Placeholder" || text.name=="Value")continue;
                 var c=new Vector3[4];text.rectTransform.GetWorldCorners(c);
-                foreach(var corner in c){var p=Camera.main.WorldToViewportPoint(corner);Assert.That(p.x,Is.InRange(-.005f,1.005f),text.name);Assert.That(p.y,Is.InRange(-.005f,1.005f),text.name);}
+                foreach(var corner in c){var p=Camera.main.WorldToViewportPoint(corner);Assert.That(p.x,Is.InRange(-.005f,1.005f),text.transform.parent.name+"/"+text.name+" : "+text.text);Assert.That(p.y,Is.InRange(-.005f,1.005f),text.transform.parent.name+"/"+text.name+" : "+text.text);}
             }
         }
         private static void CheckActorReadability(MobileG1View view)
@@ -62,15 +62,37 @@ namespace RogueTactics.Tests
                 Assert.That(rect.xMin,Is.GreaterThanOrEqualTo(2),renderer.name+" inside field");Assert.That(rect.xMax,Is.LessThanOrEqualTo(view.Field.rect.width-2));
                 Assert.That(rect.yMin,Is.GreaterThanOrEqualTo(-view.Field.rect.height+2));Assert.That(rect.yMax,Is.LessThanOrEqualTo(-2));
             }
-            var all=bodies.ToArray();for(var i=0;i<all.Length;i++)for(var j=i+1;j<all.Length;j++)
-                Assert.That(all[i].Value.Overlaps(all[j].Value),Is.False,"Silhouette separation "+all[i].Key+" / "+all[j].Key+" at step "+view.Session.Replay.State.Step+" rects "+all[i].Value+" / "+all[j].Value);
+            // Readability is about what the player sees, not about rectangles. In the diorama view neighbouring cells
+            // are 37-43 px apart on screen while each figure's board is 55 px wide, so boards of neighbours always
+            // overlap (design/ROADMAP.md S1-1). What must never happen is a figure standing in front covering the face
+            // of one behind it with its own painted pixels, or a foot HP badge covering any face.
+            var actors=bodies.Keys.ToDictionary(id=>id,id=>Actor.Of(view,id,bodies[id]));
+            // A face part stays readable when its centre is uncovered and at least half of it shows: a blade or a sleeve
+            // may clip a neighbour's eye, but never hide it. (Tightest case seen, 2026-11-18: Garu's crossguard over the right
+            // eye of the warden behind him at the start of encounter 1, 34/100 covered with the pupil clear; design/ROADMAP.md S1-1.)
+            foreach(var back in actors.Values)
+            {
+                var parts=back.FaceParts();
+                Assert.That(parts.Count,Is.GreaterThan(0),back.Id+" has a face to read");
+                foreach(var part in parts)Assert.That(part.Points.Count,Is.GreaterThan(4),back.Id+" "+part.Name+" sampling sees the figure's own pixels");
+                foreach(var front in actors.Values)
+                {
+                    if(front==back || front.Depth>=back.Depth)continue;
+                    foreach(var part in parts)
+                    {
+                        var covered=part.Points.Count(front.Opaque);
+                        Assert.That(front.Opaque(part.Centre) || covered*2>part.Points.Count,Is.False,front.Id+" hides the "+part.Name+" of "+back.Id+" ("+covered+"/"+part.Points.Count+" covered, centre "+(front.Opaque(part.Centre)?"covered":"clear")+") at step "+view.Session.Replay.State.Step+" rects "+front.Rect+" / "+back.Rect);
+                    }
+                }
+            }
             var hpRects=new List<Rect>();
             foreach(var badge in Object.FindObjectsByType<CanvasGroup>(FindObjectsSortMode.None).Where(c=>c.name.StartsWith("HP ") && c.gameObject.activeInHierarchy))
             {
                 var t=badge.GetComponent<RectTransform>();var r=new Rect(t.anchoredPosition.x,t.anchoredPosition.y-t.rect.height,t.rect.width,t.rect.height);var own=bodies[badge.name.Substring(3)];
                 Assert.That(r.yMax,Is.LessThanOrEqualTo(own.yMin-3),badge.name+" beneath body, never across head");
                 Assert.That(r.xMin,Is.GreaterThanOrEqualTo(0));Assert.That(r.xMax,Is.LessThanOrEqualTo(view.Field.rect.width));Assert.That(r.yMin,Is.GreaterThanOrEqualTo(-view.Field.rect.height));
-                foreach(var b in bodies)Assert.That(r.Overlaps(b.Value),Is.False,badge.name+" must not cover "+b.Key+" at step "+view.Session.Replay.State.Step+" rects "+r+" / "+b.Value);
+                // A badge the view has hidden (alpha 0, HqFootBadges: it would sit over another figure's upper body) covers nothing.
+                if(badge.alpha>.01f)foreach(var a in actors.Values)Assert.That(a.FaceParts().Sum(f=>f.Points.Count(r.Contains)),Is.Zero,badge.name+" must not cover the face of "+a.Id+" at step "+view.Session.Replay.State.Step+" rects "+r+" / "+a.Rect);
                 hpRects.Add(r);
             }
             foreach(var route in Object.FindObjectsByType<MobileRouteGraphic>(FindObjectsSortMode.None).Where(g=>g.gameObject.activeInHierarchy))
@@ -82,6 +104,88 @@ namespace RogueTactics.Tests
                     foreach(var b in bodies)Assert.That(new Rect(b.Value.x-4,b.Value.y-4,b.Value.width+8,b.Value.height+8).Contains(p),Is.False,route.name+" avoids "+b.Key+" at step "+view.Session.Replay.State.Step);
                     foreach(var r in hpRects)Assert.That(r.Contains(p),Is.False,route.name+" must not cross foot HP at step "+view.Session.Replay.State.Step);
                 }
+            }
+        }
+        // One figure as the player sees it: its projected board, its distance from the camera, and whether a point in
+        // Field pixels (x right, y down from 0 to -height) lands on its painted pixels.
+        private sealed class Actor
+        {
+            public string Id;public Rect Rect;public float Depth;
+            private Renderer renderer;private Camera camera;private Vector2 field;private Texture2D art;private bool mirrored;private List<Rect> spiritFace;private Rect companionFace;
+            private static readonly Dictionary<Texture,Texture2D> readable=new Dictionary<Texture,Texture2D>();
+            public static Actor Of(MobileG1View view,string id,Rect rect)
+            {
+                var r=GameObject.Find("Fixture "+id).GetComponentsInChildren<Renderer>().First(x=>x.name=="Private approved static skin" || x.name=="Fixture slime");
+                var cam=view.FieldCamera;var m=r.sharedMaterial;
+                return new Actor{Id=id,Rect=rect,renderer=r,camera=cam,field=new Vector2(view.Field.rect.width,view.Field.rect.height),
+                    Depth=Vector3.Dot(r.bounds.center-cam.transform.position,cam.transform.forward),
+                    art=r.name=="Private approved static skin" && m.mainTexture!=null?Readable(m.mainTexture):null,
+                    mirrored=m.HasProperty("_Mirror") && m.GetFloat("_Mirror")>.5f,spiritFace=SpiritFace(view,r.transform.parent),companionFace=CompanionFace(id)};
+            }
+            // A companion's face in image space (u right, v up), from the head bone the puppet rig authors for that image:
+            // from just below the bone's lower end to its middle, 60% of the head radius to each side (checked against Shiro's
+            // eyes at v .65 under her hat on 2026-11-18). Image x in the rig is (u-.5)*.75.
+            private static Rect CompanionFace(string id)
+            {
+                var index=id=="A"?0:id=="B"?1:id=="C"?2:id=="D"?3:-1;if(index<0)return Rect.zero;
+                var head=RogueTactics.Presentation.Gfx.HqPuppet.Authored(index).Bones[RogueTactics.Presentation.Gfx.HqPuppet.Head];
+                var u=head.A.x/.75f+.5f;var half=head.Radius*.6f/.75f;
+                return Rect.MinMaxRect(u-half,head.A.y-.05f,u+half,(head.A.y+head.B.y)/2);
+            }
+            // A spirit's face is built from parts under "Spirit face": each eye and the mouth, as projected (not the cheeks).
+            private static List<Rect> SpiritFace(MobileG1View view,Transform root)
+            {
+                var parts=new List<Rect>();var face=root.Find("Spirit face");if(face==null)return parts;
+                foreach(var part in face.GetComponentsInChildren<Renderer>().Where(x=>x.name=="Bright spirit eye" || x.name=="Smile"))
+                {
+                    var b=part.bounds;var points=new List<Vector2>();
+                    for(var k=0;k<8;k++)
+                    {
+                        var corner=new Vector3((k&1)==0?b.min.x:b.max.x,(k&2)==0?b.min.y:b.max.y,(k&4)==0?b.min.z:b.max.z);
+                        var v=view.FieldCamera.WorldToViewportPoint(corner);points.Add(new Vector2(v.x*view.Field.rect.width,(v.y-1)*view.Field.rect.height));
+                    }
+                    parts.Add(Rect.MinMaxRect(points.Min(p=>p.x),points.Min(p=>p.y),points.Max(p=>p.x),points.Max(p=>p.y)));
+                }
+                return parts;
+            }
+            // The approved originals are imported unreadable; copy each once through the GPU instead of touching its import settings.
+            private static Texture2D Readable(Texture texture)
+            {
+                if(readable.TryGetValue(texture,out var copy) && copy!=null)return copy;
+                var rt=RenderTexture.GetTemporary(texture.width,texture.height,0,RenderTextureFormat.ARGB32);Graphics.Blit(texture,rt);
+                var previous=RenderTexture.active;RenderTexture.active=rt;copy=new Texture2D(texture.width,texture.height,TextureFormat.RGBA32,false);
+                copy.ReadPixels(new Rect(0,0,texture.width,texture.height),0,0);copy.Apply();RenderTexture.active=previous;RenderTexture.ReleaseTemporary(rt);
+                return readable[texture]=copy;
+            }
+            public bool Opaque(Vector2 p)
+            {
+                if(!Rect.Contains(p))return false;
+                // A spirit is a rounded solid body: its inscribed ellipse.
+                if(art==null){var c=(p-Rect.center);var e=new Vector2(c.x/(Rect.width*.5f),c.y/(Rect.height*.5f));return e.sqrMagnitude<=1;}
+                var ray=camera.ViewportPointToRay(new Vector3(p.x/field.x,p.y/field.y+1,0));var t=renderer.transform;
+                if(!new Plane(t.forward,t.position).Raycast(ray,out var distance))return false;
+                var local=t.InverseTransformPoint(ray.GetPoint(distance));if(Mathf.Abs(local.x)>.5f || Mathf.Abs(local.y)>.5f)return false;
+                return art.GetPixelBilinear((mirrored?-local.x:local.x)+.5f,local.y+.5f).a>.5f;
+            }
+            // What the player reads a face by. A companion: its face from the rig's head bone, placed on the projected board
+            // (mirrored when the figure faces the other way). A spirit: each eye and the mouth. Each part is sampled on a grid;
+            // only the figure's own painted pixels count.
+            public List<(string Name,Vector2 Centre,List<Vector2> Points)> FaceParts()
+            {
+                var rects=spiritFace;
+                if(art!=null)
+                {
+                    var f=companionFace;var u0=mirrored?1-f.xMax:f.xMin;var u1=mirrored?1-f.xMin:f.xMax;
+                    rects=new List<Rect>{Rect.MinMaxRect(Rect.xMin+Rect.width*u0,Rect.yMin+Rect.height*f.yMin,Rect.xMin+Rect.width*u1,Rect.yMin+Rect.height*f.yMax)};
+                }
+                var parts=new List<(string,Vector2,List<Vector2>)>();var n=0;
+                foreach(var face in rects)
+                {
+                    var points=new List<Vector2>();
+                    for(var i=0;i<10;i++)for(var j=0;j<10;j++){var p=new Vector2(Mathf.Lerp(face.xMin,face.xMax,(i+.5f)/10),Mathf.Lerp(face.yMin,face.yMax,(j+.5f)/10));if(Opaque(p))points.Add(p);}
+                    parts.Add((art!=null?"face":n<2?"eye "+(n+1):"mouth",face.center,points));n++;
+                }
+                return parts;
             }
         }
         private static IEnumerator Capture(string name)
