@@ -30,7 +30,8 @@ namespace RogueTactics.Tests.PlayMode
         // A struck companion (the approved art): at its whitest, never more than CompanionPeak of the face, and over
         // the battle no more than CompanionMeanPeak on average. Spirit faces are not held to this: their bodies are pale
         // (darkest channel ~.85) and the real effects already whiten their eyes and mouth almost entirely for a few frames.
-        private const float CompanionPeak=.80f,CompanionMeanPeak=.65f;
+        // Tightened 2026-11-18 after the Human asked for a softer ram on companions (measured max .50, mean ~.32).
+        private const float CompanionPeak=.60f,CompanionMeanPeak=.40f;
         // How long after the landing is watched: the shown event holds .40 s (HqMotion.PresentEvent), then the next event
         // starts and its own light (a counter's charge on the struck figure, say) is not this blow's.
         private const float Window=.40f;
@@ -114,6 +115,8 @@ namespace RogueTactics.Tests.PlayMode
                 AsyncGPUReadback.WaitAllRequests();
                 var reference=rest.ToDictionary(p=>p.Key,p=>p.Value.Frames.Average(f=>f.Washed));
 
+                // The finished battle reports its frame times once; wait for it here so it never lands in the next test.
+                LogAssert.Expect(LogType.Log,new System.Text.RegularExpressions.Regex("^HQ_FRAME_METRICS \\{"));
                 view.Button("Attack").onClick.Invoke();view.Button("Start").onClick.Invoke();
                 var seen=view.DisplayedEvents.Count;var open=new List<Landing>();var deadline=Time.realtimeSinceStartup+120;
                 while((!view.DisplayedEvents.Any(e=>e.Kind==EventKind.End) || open.Count>0) && Time.realtimeSinceStartup<deadline)
@@ -140,6 +143,7 @@ namespace RogueTactics.Tests.PlayMode
                     }
                 }
                 AsyncGPUReadback.WaitAllRequests();
+                var settle=Time.realtimeSinceStartup+10;while(view.LastFrameReport==null && Time.realtimeSinceStartup<settle)yield return null;
                 Assert.That(view.DisplayedEvents.Any(e=>e.Kind==EventKind.End),Is.True,"Encounter "+encounter+" is shown to its end");
                 Assert.That(landings.Sum(l=>l.Pending),Is.Zero,"Every read-back came back");
             }
