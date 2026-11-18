@@ -71,7 +71,7 @@ Human は 2026-11-17 に「面白くなる方向には変更有り。コンセ�
 | 7 | 足元の HP や顔カードが、エフェクトに隠れる | エフェクトの大きさと位置 |
 | 8 | 測るもの（`"Private approved static skin"`、`"Fixture slime"`）の位置や大きさが動いた | 動きはシェーダーの頂点オフセットだけに |
 
-これらを自動で見張る検査は、まだありません。**作る価値があります**（票 S1-13）: 着弾のコマで、当たった側の矩形の中の「白に近い画素」の割合を数え、しきい値を超えたら落とす。矩形は `ProjectedBody` から取れます。
+#1 は自動で見張っています（票 S1-13、PlayMode `GfxReadabilityWatchdogTests`）: 着弾ごとに当たった側の顔の「白に近い画素」の割合を毎フレーム数え、しきい値を超えたら落とす。しきい値と実測は [CRAFT_HANDBOOK.md](CRAFT_HANDBOOK.md) §5.4.1。テストが通っても、コマを見る手順は省かない。ほかの項目の自動の見張りは、まだありません。
 
 ## 4. 素材の扱い
 
@@ -143,4 +143,4 @@ root の契約文書で、古くなっている記述（直すのは Executor / 
 - `claude/hq-graphics-release` は Draft PR #23。base は `codex/hq-ref-vertical-slice`（Draft PR #21 の系列）。
 - 取り込むかどうか、どう取り込むかは Executor が決めます（[DECISIONS.md](DECISIONS.md) B15）。merge と Draft-to-Ready は Human の明示許可。
 - 取り込むときの注意: `design/` は丸ごと独立しています。コードの変更は `Presentation/Gfx/`、`Presentation/HqPose.cs`・`HqJuice.cs`・`HqMotion.cs`・`HqCreature.cs`（敵の見た目と名前）・`HqReferenceHud.cs`（`SpiritPortraitGraphic`）・`HqProductHud.cs`・`HqGauntlet.cs`・`MobileG1View.cs`（`ResizeButton`、`ResetProjection` ほか小変更）、`Resources/Gfx/`、`Tests/PlayMode/`。確かめるには `git diff --stat $(git merge-base HEAD origin/codex/hq-ref-vertical-slice) HEAD -- unity`。
-- PlayMode は 19/19（2026-11-18 に S1-1 を解決、3回連続）。
+- PlayMode は 20/20（2026-11-18 に S1-1 を解決して 19/19 を3回連続、S1-13 の白飛びの見張りを足して 20 件）。
