@@ -353,7 +353,7 @@ RT_GFX_CAPTURE=3 [RT_GFX_ENCOUNTER=2] <Unity 6000.3.25f1> -batchmode -projectPat
 - 1枚絵を骨で動かす方式そのもの（髪・外套の揺れ、攻撃時の伸縮）が「うにょうにょ」「別人」に当たらないか。当たるなら §3.2 の許容範囲を狭める。
 - 当たりの強さ（暗い暈・放射線）が、やさしい絵柄に対して強すぎないか。
 - Simulator 用ビルドの手順（`$U`=`/Applications/Unity/Hub/Editor/6000.3.25f1/Unity.app/Contents/MacOS/Unity`、Unity を他で開いていないことを確かめてから）:
-  - **製品の流れ（探索あり）**: `"$U" -batchmode -quit -projectPath unity -buildTarget iOS -executeMethod RogueTactics.Editor.HqFloorSetup.ExportIosSimulator -logFile <out>.log`（出力は repo 直下 `build/ios-floor-simulator`）。**このコマンドは 2026-11-18 時点で未実行**。
+  - **製品の流れ（探索あり）**: `"$U" -batchmode -quit -projectPath unity -buildTarget iOS -executeMethod RogueTactics.Editor.HqFloorSetup.ExportIosSimulator -logFile <out>.log`（出力は repo 直下 `build/ios-floor-simulator`）。2026-11-18 に実行（head 26fc2c0）。iOS Simulator で、最初の部屋の戦闘を勝利まで → 「先へ進む」→ 探索で床を選んで隊列が移動・カメラが追う、までを確認（ボタンの文字の欠け・行動順の帯の崩れなし）。
   - **戦闘だけの検証用 scene `MobileG1`**: 同じ形で `RogueTactics.Editor.MobileG1Setup.ExportIosSimulator`（出力 `build/ios-simulator`）。2026-11-18 に実行して動作を確認。製品の流れの確認には使わない。
   - ビルド: `xcodebuild -project build/<出力>/Unity-iPhone.xcodeproj -scheme Unity-iPhone -configuration Debug -sdk iphonesimulator -destination id=<UDID> -derivedDataPath <dd> build` → `xcrun simctl install <UDID> <dd>/Build/Products/Debug-iphonesimulator/RogueTacticsLab.app` → 起動。
   - 書き出しは `ProjectSettings/ProjectSettings.asset`、`Assets/Settings/*`、`InternalIcon.png.meta` を書き換える。終わったら `git checkout --` で戻す。Codex の検証用 Simulator（Rogue Tactics G1 QA）には入れず、別の Simulator を使う。
