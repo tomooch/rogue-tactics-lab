@@ -47,12 +47,21 @@ namespace RogueTactics.Tests.PlayMode
                         if(kind==SpiritKind.Bat)Assert.That(names.Count(n=>n=="Bat wing"),Is.GreaterThanOrEqualTo(2));
                         if(kind==SpiritKind.Guardian)Assert.That(names,Does.Contain("Guardian rune"));
                     }
+                    var markRest=anims.Where(a=>a.Mark!=null).Select(a=>a.Mark.localScale.x).ToArray();
                     for(var frame=0;frame<48;frame++)
                     {
+                        // The guardian announces its blow (Telegraphing) from frame 12; the struck frames clear it.
+                        if(frame==12)foreach(var a in anims)a.Telegraphing=true;
+                        if(frame==29)
+                        {
+                            var marks=anims.Where(a=>a.Mark!=null).Select(a=>a.Mark.localScale.x).ToArray();
+                            for(var m=0;m<marks.Length;m++)Assert.That(marks[m],Is.GreaterThan(markRest[m]*1.3f),"The guardian's rune swells while it announces a blow");
+                            foreach(var a in anims)a.Telegraphing=false;
+                        }
                         if(frame==30)foreach(var a in anims){a.Play(PuppetClip.Hit,.5f,1);a.Flash(.25f);}
                         foreach(var a in anims)a.Tick(1/30f);
                         yield return null;
-                        if(capture && (frame==28 || frame==33))Save(rt,Path.Combine(directory,$"{kinds[0]}_{kinds[1]}_{(frame<30?"idle":"hit")}.jpg"));
+                        if(capture && (frame==10 || frame==28 || frame==33))Save(rt,Path.Combine(directory,$"{kinds[0]}_{kinds[1]}_{(frame==10?"idle":frame==28?"telegraph":"hit")}.jpg"));
                     }
                     for(var i=0;i<2;i++){Object.Destroy(roots[i].gameObject);originals[i].gameObject.SetActive(true);}
                     yield return null;

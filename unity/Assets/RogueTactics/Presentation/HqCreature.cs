@@ -137,7 +137,7 @@ namespace RogueTactics.Presentation
                         var dir=new Vector3(side*Mathf.Sin(angle*Mathf.Deg2Rad),Mathf.Cos(angle*Mathf.Deg2Rad),0);
                         Shape("Wing finger",dir*length*.5f,new Vector3(.10f,length,.05f),wing,w).localRotation=Quaternion.Euler(0,0,-side*angle);
                     }
-                    if(anim!=null)anim.Leaves.Add(w);
+                    if(anim!=null)anim.Wings.Add(w);
                 }
                 Shape("Little fang",Face(.05f,-.17f,.006f),new Vector3(.035f,.05f,.02f),cream);
             }
@@ -148,7 +148,9 @@ namespace RogueTactics.Presentation
                 var stone=Mat(new Color(.50f,.56f,.64f),new Color(.30f,.33f,.46f),0,.1f);var carve=Mat(new Color(.36f,.40f,.52f),new Color(.24f,.26f,.38f),1,0);var ivy=Mat(new Color(.40f,.70f,.32f),new Color(.20f,.44f,.24f),0,.25f);
                 var rune=Mat(GuardianAmber,new Color(1f,.58f,.22f),1,.9f);
                 Shape("Stone brow",Face(0,.20f,.02f),new Vector3(.62f,.10f,.10f),stone);
-                Shape("Guardian rune",Face(0,.33f,.03f),new Vector3(.17f,.17f,.04f),rune);
+                var mark=Shape("Guardian rune",Face(0,.33f,.03f),new Vector3(.17f,.17f,.04f),rune);if(anim!=null){anim.Mark=mark;anim.MarkMaterial=rune;}
+                // Hidden at rest; opens around the rune as a soft halo while the guardian announces its blow.
+                var halo=Shape("Rune halo",Face(0,.33f,.02f),new Vector3(.36f,.36f,.02f),Mat(new Color(1f,.90f,.62f),new Color(1f,.80f,.50f),1,0));halo.localScale=Vector3.zero;if(anim!=null)anim.Halo=halo;
                 foreach(var y in new[]{-.24f,-.36f})Shape("Carved band",Face(0,y,.012f),new Vector3(.80f,.035f,.04f),carve);
                 foreach(var (x,y) in new[]{(-.30f,-.30f),(.34f,-.42f),(.12f,-.30f)})Shape("Moss patch",Face(x,y,.016f),new Vector3(.16f,.07f,.04f),ivy);
                 Shape("Stone lintel",new Vector3(0,.04f,0),new Vector3(1.10f,.18f,.80f),stone,crown);

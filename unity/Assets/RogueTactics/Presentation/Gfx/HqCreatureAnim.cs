@@ -16,6 +16,10 @@ namespace RogueTactics.Presentation.Gfx
         public Transform Crown,Pivot;public Camera View;public float Phase;public Color Tint=Color.white;
         // Hover: how high a flier floats above its own shadow (it bobs around this). Jelly: how much the body squashes (stone is stiff).
         public float Hover,Jelly=1;
+        // Wings beat fast (a flier), apart from the slow leaf sway. Each wing's side is read from where it sits.
+        public readonly List<Transform> Wings=new List<Transform>();
+        // A telegraph mark (the guardian's rune): swells and glows while Telegraphing is set, so the coming blow is announced.
+        public Transform Mark,Halo;public Material MarkMaterial;public bool Telegraphing;
         public PuppetClip Clip{get;private set;}
         /// <summary>World offset a pounce carries the spirit toward its target.</summary>
         public Vector3 Dash;
@@ -25,12 +29,14 @@ namespace RogueTactics.Presentation.Gfx
         private static readonly int PivotId=Shader.PropertyToID("_CreaturePivot"),PoseId=Shader.PropertyToID("_CreaturePose"),RightId=Shader.PropertyToID("_CreatureRight"),
             DashId=Shader.PropertyToID("_CreatureDash"),FlashId=Shader.PropertyToID("_Flash"),DissolveId=Shader.PropertyToID("_Dissolve");
         private readonly List<Vector3> eyeScale=new List<Vector3>();private readonly List<Quaternion> leafRest=new List<Quaternion>();
-        private Vector3 crownRest;private float time,clipTime,clipLength=1,clipSide,flash,blinkAt=2,blink;
+        private readonly List<Quaternion> wingRest=new List<Quaternion>();private Vector3 crownRest,markScale,haloScale;private Color markColor;private float telegraph;private float time,clipTime,clipLength=1,clipSide,flash,blinkAt=2,blink;
 
         public void Capture()
         {
             foreach(var eye in Eyes)eyeScale.Add(eye.localScale);foreach(var leaf in Leaves)leafRest.Add(leaf.localRotation);
             if(Crown!=null)crownRest=Crown.localPosition;
+            foreach(var wing in Wings)wingRest.Add(wing.localRotation);
+            if(Mark!=null)markScale=Mark.localScale;if(Halo!=null)haloScale=new Vector3(.36f,.36f,.02f);if(MarkMaterial!=null)markColor=MarkMaterial.GetColor("_Color");
         }
         /// <param name="side">Screen side of the action: +1 right, -1 left, 0 straight up or down the screen.</param>
         public void Play(PuppetClip clip,float length,float side){Clip=clip;clipTime=0;clipLength=Mathf.Max(.05f,length);clipSide=side;}
@@ -101,6 +107,17 @@ namespace RogueTactics.Presentation.Gfx
                 Leaves[i].localRotation=leafRest[i]*Quaternion.Euler(0,0,(7*Mathf.Sin(t*2.1f+i*1.4f)+wobble*14*Mathf.Sin(time*30))*(i%2==0?1:-1));
             // The crown already follows the body through the shared shader pose; it only adds its own small bob.
             if(Crown!=null)Crown.localPosition=crownRest+Vector3.up*crownBob;
+            // Wingbeat: about three beats a second, faster and wider while it attacks.
+            for(var i=0;i<Wings.Count;i++)
+            {
+                var side=Mathf.Sign(Wings[i].localPosition.x);var beat=Mathf.Sin(t*(Clip==PuppetClip.Attack?26f:19f));
+                Wings[i].localRotation=wingRest[i]*Quaternion.Euler(0,side*22*beat,side*16*beat);
+            }
+            // Telegraph: ease in over .25 s, then a steady pulse until cleared.
+            telegraph=Mathf.MoveTowards(telegraph,Telegraphing?1:0,dt*4);
+            if(Mark!=null){var pulse=telegraph*(.75f+.25f*Mathf.Sin(time*9));Mark.localScale=markScale*(1+.6f*pulse);
+                if(Halo!=null)Halo.localScale=haloScale*(telegraph*(1+.3f*Mathf.Sin(time*9)));
+                if(MarkMaterial!=null)MarkMaterial.SetColor("_Color",Color.Lerp(markColor,new Color(1f,.97f,.80f),.65f*pulse));}
         }
 
         private void Apply(float squash,float lean,float lift,float wobble,float dissolve,Vector3 carried)
