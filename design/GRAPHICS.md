@@ -1,7 +1,7 @@
 # グラフィック仕様 — キャラクター・アニメーション・エフェクト
 
 - 版: 2026-11-16 / 作成: Claude Code（グラフィック担当）
-- 対象 branch: `claude/hq-graphics-release`。この文書の §2〜§5 は**実装済み**の仕様、§7 は提案です。
+- 対象 branch: `claude/hq-graphics-release`。**2026-11-16 時点の記録**です。その後の変更（1階の敵を番兵に、倒れた仲間が残って起き上がる、戦い方ごとの当たり、ヒットストップ 0.10 秒など）は反映していません。現行の作り方と数値は [CRAFT_HANDBOOK.md](CRAFT_HANDBOOK.md)、食い違ったらコードが正しい。
 - 全体設計は [GAME_DESIGN.md](GAME_DESIGN.md)、他領域は [IMPLEMENTATION_SPECS.md](IMPLEMENTATION_SPECS.md)。
 
 ## 1. 方針

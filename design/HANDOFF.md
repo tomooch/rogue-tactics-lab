@@ -64,7 +64,7 @@ Human は 2026-11-17 に「面白くなる方向には変更有り。コンセ�
 |---|---|---|
 | 1 | 着弾の瞬間に、当たった側の顔か輪郭が見えない | `HqVfx.Impact` の `Glow`・`Ring`（[specs/07](specs/07_UI_AND_CAMERA.md) §5 に経緯） |
 | 2 | 数字が読めない（切れる、体に被る、背景に溶ける） | `HqJuice`。枠を `Overflow` に。縁取りと影（[CRAFT_HANDBOOK.md](CRAFT_HANDBOOK.md) §6） |
-| 3 | 承認済みの4人が別人に見える（顔が歪む、目の位置が動く） | 顔まわりの骨の回転を ±0.06rad 以内に |
+| 3 | 承認済みの4人が別人に見える（顔が歪む、目の位置が動く。顔の中の変形） | 頭の骨の回転は待機・歩きで ±0.06rad、被弾・倒れ・起き上がりで ±0.2rad まで（いまの値）。超えたら Head の Strength を上げる |
 | 4 | 脚や腕がゴムのように伸び縮みする | 脚は変形させない。体全体の傾きと弾みで見せる |
 | 5 | 誰が誰に何をしたかが、1コマずつ追っても分からない | 予備動作が短い、または光が多すぎる |
 | 6 | 光が白い石の上で見えない | 先に暗い暈（`Veil`）を敷く |
@@ -92,11 +92,11 @@ Human は 2026-11-17 に「面白くなる方向には変更有り。コンセ�
 | 味方4人の骨と型（詠唱・盾・剣・弓） | 実装済み | — |
 | 踏み込み、のけぞり | 実装済み | — |
 | 敵（丸いトゥーン） | 番兵（1階）・苔・花の3種を実装済み。1階は番兵（2026-11-17） | 茸の番人、影こうもり、守護者 |
-| エフェクト 14 形・レシピ 16 | 実装済み | 遺物、泉、退く |
-| 命中の白い光 | 弱めた（2026-11-17） | 着弾の最初の1コマがまだ明るい |
-| 剣・鈍器・魔法・矢の見分け | 作り分けたが、縮尺が小さいと見分けにくい | 票 S1-2 |
-| 味方の戦闘不能 | 溶けて消える → その場に横たわって残る、に変更（2026-11-17）。コマで確認済み | 起き上がる演出（勝利の後） |
-| 勝利の演出 | 実装済みだが、拡大して確かめていない | 票 S1-3 |
+| エフェクト 14 形・レシピ 17 | 実装済み | 遺物、泉、退く |
+| 命中の白い光 | 弱めた（2026-11-17）。戦い方ごとに `Impact` を絞った（2026-11-18、CRAFT §5.3.1） | 自動の見張り（S1-13） |
+| 剣・鈍器・魔法・矢の見分け | 形で作り分け、2026-11-18 のコマで4種とも見分けを確認（矢は `RT_GFX_ENCOUNTER=2`） | 人が数字を隠して言い当てる確認（S1-2 の完了条件）は未実施 |
+| 味方の戦闘不能 | 空いている側へ倒れ、土煙と星、横たわって残る。戦闘だけの build では勝つと起き上がる（2026-11-18、コマで確認） | 製品の流れでの復帰（25%、S2-4）を Core に入れたら、起き上がりを製品の流れでも使う（CRAFT §3.3.1） |
+| 勝利の演出 | 実装済み。紙吹雪は控えめ。倒れる三拍は 0.72 秒で着地（コマ） | 紙吹雪を強めるかは試遊で |
 | ダメージ数字 | 実装済み | — |
 | 仲間が「気づく」演出 | 未実装 | [overall/05](overall/05_AGENCY.md) §3.6 |
 | 音 | 未実装 | [specs/05](specs/05_AUDIO.md) |
@@ -142,5 +142,5 @@ root の契約文書で、古くなっている記述（直すのは Executor / 
 
 - `claude/hq-graphics-release` は Draft PR #23。base は `codex/hq-ref-vertical-slice`（Draft PR #21 の系列）。
 - 取り込むかどうか、どう取り込むかは Executor が決めます（[DECISIONS.md](DECISIONS.md) B15）。merge と Draft-to-Ready は Human の明示許可。
-- 取り込むときの注意: `design/` は丸ごと独立しています。コードの変更は `Presentation/Gfx/`、`Presentation/HqPose.cs`・`HqJuice.cs`・`HqMotion.cs`、`Resources/Gfx/`、`Tests/` に限られます。
+- 取り込むときの注意: `design/` は丸ごと独立しています。コードの変更は `Presentation/Gfx/`、`Presentation/HqPose.cs`・`HqJuice.cs`・`HqMotion.cs`・`HqCreature.cs`（敵の見た目と名前）・`HqReferenceHud.cs`（`SpiritPortraitGraphic`）・`HqProductHud.cs`・`HqGauntlet.cs`・`MobileG1View.cs`（`ResizeButton`、`ResetProjection` ほか小変更）、`Resources/Gfx/`、`Tests/PlayMode/`。確かめるには `git diff --stat $(git merge-base HEAD origin/codex/hq-ref-vertical-slice) HEAD -- unity`。
 - PlayMode は 19/19（2026-11-18 に S1-1 を解決、3回連続）。

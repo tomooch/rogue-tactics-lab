@@ -34,7 +34,7 @@ Core（純 C#・決定的）  ──イベント列──▶  Presentation（Mob
                                           ├ HqJuice.cs    数字・HPバーの遅れ表示
                                           └ Gfx/          部品（規則を知らない）
                                               HqPuppet        味方の1枚絵を動かす
-                                              HqCreatureAnim  敵（庭の精）を動かす
+                                              HqCreatureAnim  敵（番兵・苔・花）を動かす
                                               HqVfx           エフェクト
 ```
 
@@ -70,7 +70,7 @@ t=duration     Display(e)     ここで初めて HP・状態の表示が変わ�
 | Damage | 0.62s | 溜め 70% → 振り抜き 30% |
 | Counter | 0.50s | 開始時に金色の「割込」の閃き |
 | Heal | 0.60s | 術者の足元に陣、対象に緑の柱 |
-| Death | 0.72s | 敵は 45% の時点で弾ける、味方は 30% で光になる |
+| Death | 0.72s | 敵は 45% の時点で弾ける。味方は倒れて横たわり、着地で写し（"Fallen rest <id>"）に替わり、土煙と星（§3.3.1） |
 | End | 0.20s | 勝利なら花びらと全員の小ジャンプ |
 
 **duration を変えるとき**: 当たりの瞬間は必ず `t=duration`。飛び道具は `After(duration*0.66, Shoot(..., duration*0.34))` のように、発射時刻 + 飛行時間 = duration になるように組む。
@@ -106,7 +106,8 @@ t=duration     Display(e)     ここで初めて HP・状態の表示が変わ�
 | Guard | 足を踏ん張り盾を前へ | 縦 −5%、盾 +14% |
 | Hit | `Knock` の向きへ 0.11（画像の高さ比）飛ばされ、小さく浮き、3回揺れて戻る | 減衰 e^(−5t)、0.7s で終了 |
 | Cheer | 小さく2回跳ねる | 高さ 0.045 |
-| Fall | よろけて倒れ、光に溶ける | 30% から溶け始める |
+| Fall | よろけて Root ごと約 72° 傾き、空いている側へ倒れる | 溶けない（§3.3.1）。向きは `Lean` |
+| Rise | 横たわった姿勢から押し上げて立ち、最後に1回跳ねる | 0.9 秒。0.63 秒で足元に回復の光。戦闘だけの build のみ（§3.3.1） |
 
 - **踏み込み量**（`HqPose.Lunge`）= 相手までの床上の距離 − 1.05、上限 2.8（world 単位。1マス = 2.5）。隣のマスなら約 1.45 進み、相手の体に少し重なる所で止まる。重なるくらいでないと「当てた」に見えない。
 - 踏み込むのは近接（Blade, Guardian）と敵だけ。Caster と Archer は `Dash = 0`（その場で撃つ）。
@@ -124,7 +125,7 @@ t=duration     Display(e)     ここで初めて HP・状態の表示が変わ�
 - 勝利の演出（`Cheer`）は、立っている仲間だけが行う。
 - **勝つと起き上がる**（2026-11-18）。`End`（勝利）を見せた瞬間に、写しごとに専用の `HqPuppet` を作り `Rise` クリップ（0.9 秒）を再生する（`RaiseFallen` / `TickRising`）。`Rise` は `Fall` の終わりの姿勢から、ゆっくり押し上げて直立し、最後に小さく1回跳ねる。同じ支点・同じ剛体の傾きだけを使い、手足は曲げない。立つ間に色を `RestTint` から白へ戻し、0.63 秒で足元に回復の光（`Heal`）を出す。
 - 写しが隠れている（誰かがそのマスに立っている）ときは起き上がらない。起き上がると回復の光がその人の足元に出て、別の人が癒やされたように見えるため（2026-11-18 のコマで発見）。次の戦闘で戻る。
-- 起き上がるのは**写し**。測られるコマは隠れたまま（Core ではこの戦闘の結果はまだ「倒れた」）。次の戦闘でコマが表示されると写しは消える。いまの build は戦闘ごとに全員満タンで始まるので、見た目と矛盾しない。25% 復帰（[specs/01](specs/01_CORE_RULES.md) §5）を Core に入れたら、立った写しの下に 25% の HP 表示を出すこと（S2-9）。
+- 起き上がるのは**写し**。測られるコマは隠れたまま（Core ではこの戦闘の結果はまだ「倒れた」）。やり直しと次の戦闘（`ResetProjection`）で写しは消える。**起き上がるのは戦闘だけの build（`ExplorationEnabled` が false）だけ**。製品の流れ（`HqExploration`）では、倒れた仲間は勝った後も隊から外れたまま（`FloorExplorationFlowTests.AttackHandoffDoesNotReviveOrMoveDeadCompanion`。立った写しが無いこともそこで assert）なので、横たわったまま残す（2026-11-18 の監査で発見して直した）。25% 復帰（[specs/01](specs/01_CORE_RULES.md) §5）を Core に入れたら、立った写しの下に 25% の HP 表示を出すこと（S2-9）。
 
 ### 3.4 新しい味方を足す手順
 
@@ -179,7 +180,7 @@ t=duration     Display(e)     ここで初めて HP・状態の表示が変わ�
 
 | レシピ | 使う場面 | 重ねているもの（描く順） |
 |---|---|---|
-| `Impact` | 攻撃が当たった | 暗い暈 → 放射線 → 白い芯 → 十字の閃き → 輪×2 → 火花16 → 欠片5 → 煙3 |
+| `Impact` | 攻撃が当たった | 暗い暈 → 放射線（`rays`）→ 白い芯 → 十字の閃き → 輪×2（`rings`）→ 火花 16×`rays` → きらめき6 → 欠片5 → 煙3。戦い方ごとの絞り方は §5.3.1 |
 | `Slash` | 剣の斬撃 | 暗い暈 → 色の三日月 → 白の三日月 → 細い芯 → 火花7 |
 | `Slam` | 鈍器（モモ）と敵の体当たりの着地 | 床を走る輪 → 砂煙8 |
 | `Cut` | 剣（ガル）が当たった | 斬った向きの硬い光の線×2 |
@@ -189,7 +190,10 @@ t=duration     Display(e)     ここで初めて HP・状態の表示が変わ�
 | `CastCircle` / `Charge` | 詠唱 | 床の陣 + 光の柱 + 集まる粒 |
 | `Shield` | 守護 | 六角模様の半球。打たれると波紋と破片 |
 | `Heal` | 回復 | 床の輪 → 緑の柱 → 昇る＋印と粒 |
-| `Vanish` | 撃破 | 敵: 暈 + 放射線 + 雲と花びら／味方: 昇る光 |
+| `Vanish` | 敵の撃破 | 暈 + 放射線 + 雲と花びら（味方には使わない） |
+| `KnockDown` | 味方の戦闘不能の着地 | 土煙6 → 床の輪 → 頭の上を回る星3 |
+| `Swoosh` | 敵の体当たり・鈍器の振り | 二点の間を走る軌跡 |
+| `Dust` | 移動の足元 | 砂ぼこり3 |
 | `Reaction` | 反撃の割込 | 金の閃き×2 + 輪 |
 | `Celebrate` | 勝利 | 花びら 26 + きらめき 14 |
 
@@ -199,7 +203,7 @@ t=duration     Display(e)     ここで初めて HP・状態の表示が変わ�
 
 1. **先に暗い暈（`Veil`）を敷く**。当たりの周囲だけ 0.3 秒、紺色（`Ink`）を 34〜42% 重ねる。その手前の光が初めて「光って」見える。強い出来事（命中・斬撃・撃破）だけに使う。回復や詠唱には使わない。
 2. **光は少しだけ後ろを覆う**。シェーダー末尾で、光のアルファを 0.36 にしている。0 にすると白飛びし、1 にすると濁る。
-3. **芯は白、外側はキャラの色**。全部白にしない。色は `TintOf(id)`（シロ=青、モモ=桃、ガル=白銀、ミャル=若葉、敵=苔色・紫）。
+3. **芯は白、外側はキャラの色**。全部白にしない。色は `TintOf(id)`（シロ=青、モモ=桃、ガル=白銀、ミャル=若葉。敵は `HqCreature.TintOf`: 金の番兵=金、碧の番兵=碧。苔の精=苔色、花の精=紫は2階以降）。
 
 ### 5.3.1 4つの戦い方を形で見分ける（2026-11-18）
 
@@ -254,13 +258,17 @@ t=duration     Display(e)     ここで初めて HP・状態の表示が変わ�
 
 ```bash
 # Unity を他で開いていないことを確認してから（同じ project を同時に開かない）
-RT_GFX_CAPTURE=1 <Unity 6000.3.25f1> -batchmode -projectPath unity \
-  -runTests -testPlatform PlayMode -testResults <out>.xml -logFile <out>.log
+RT_GFX_CAPTURE=3 [RT_GFX_ENCOUNTER=2] <Unity 6000.3.25f1> -batchmode -projectPath unity \
+  -runTests -testPlatform PlayMode -testFilter RogueTactics.Tests.PlayMode.GfxPresentationTests \
+  -testResults <out>.xml -logFile <out>.log
 ```
+
+- 撮るのは戦闘だけの検証用 scene `MobileG1`、方針は「攻める」固定。`RT_GFX_ENCOUNTER=<番号>` は撮るときだけ効き、その戦闘を最初の部屋で撮る（部屋の移動は飛ばすので流れの検査ではない。矢は 2 で撮れる）。
+- `unity/Logs/hq/private/gfx/` は**実行のたびに丸ごと消える**。残したいコマは先に移す。合否を見る全件の実行は撮影と別に回す（[HANDOFF.md](HANDOFF.md) §6）。
 
 - `RT_GFX_CAPTURE=N` で N フレームごとに `unity/Logs/hq/private/gfx/f####_e##_種別.jpg`（780×1688）を出す。Git には入らない場所。原画が写るので外へ出さない。
 - 見たい出来事のコマを並べて1枚にして見る（ffmpeg の `crop` + `tile`）。**JPEG のまま**並べる。PNG に落とすと色が潰れて判断を誤る。
-- 盤面は画面の y=410〜910 付近。まず実寸の全画面で見て、その後で拡大する。
+- 盤面は 390×844 基準で y=410〜910 付近（撮影画像は 2 倍の 780×1688 なので y=820〜1820）。まず実寸の全画面で見て、その後で拡大する。
 
 ### 7.2 絵を見るときの確認項目
 
@@ -276,7 +284,7 @@ RT_GFX_CAPTURE=1 <Unity 6000.3.25f1> -batchmode -projectPath unity \
 
 ### 7.3 自動テストの位置づけ
 
-- PlayMode 19 件中 18 件が通る状態が基準。残る1件（`JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults` の重なり検査）は演出を入れる前から落ちており、静止メッシュ同士の配置の問題。**演出の変更で直りも壊れもしない**（§2.2）。報告される組が実行ごとに変わるのは走査順が不定なため（推定）。
+- PlayMode は 19 件すべて通る状態が基準（2026-11-18、S1-1。重なりの検査を `MobileG1InteractionTests.CheckActorReadability`＝「手前の塗られた画素が奥の顔の部位の中心を隠さず、半分以上見える」に置き換え、19/19 を3回連続で確認）。1件でも落ちたら不具合として調べる。演出は顔の画素を覆いうるので、この検査は演出の変更で落ちることがある。
 - テストは「壊していないこと」しか保証しない。「良く見えること」は §7.2 と人の目でしか分からない。実機・Simulator・人の試遊は未実施。
 
 ---
@@ -304,7 +312,7 @@ RT_GFX_CAPTURE=1 <Unity 6000.3.25f1> -batchmode -projectPath unity \
 
 [GAME_DESIGN.md §12](GAME_DESIGN.md) の優先順位に従う。グラフィック面で次に効く順:
 
-1. **役割ごとの当たりの違いを詰める**: `LandPoses` で攻撃側の `Style` を見て、共通の `Impact` に `Cut`（剣）/ `Slam`（鈍器・敵）/ `Blast`（魔法）/ `Pierce`（矢）を重ねてある。ただし当たった瞬間は `Impact` の放射線が強く、差が見えにくい。役割ごとに `Impact` の強さ（いま矢 0.7、魔法 0.9、他 1.0）と放射線の有無を調整する余地がある。新しい戦い方を足すときは同じ形でレシピを1つ足す。
+1. **役割ごとの当たり**: 済み（§5.3.1）。新しい戦い方を足すときは、`Impact` の `power`/`rays`/`rings` を絞り、形のレシピを1つ足す。
 2. **意図の見せ方**: 次に動く仲間と狙う相手を、溜めより前に線と印で見せる（Core の Plan を描く。規則は足さない）。
 3. **正式な8コマ歩行**（Issue #13、原画待ち）: `HqPuppet.Tick` の歩きの塊だけ差し替える。
 4. **敵の種類**: §4 の手順で。形と色で役割が分かること。
@@ -316,5 +324,9 @@ RT_GFX_CAPTURE=1 <Unity 6000.3.25f1> -batchmode -projectPath unity \
 
 - 1枚絵を骨で動かす方式そのもの（髪・外套の揺れ、攻撃時の伸縮）が「うにょうにょ」「別人」に当たらないか。当たるなら §3.2 の許容範囲を狭める。
 - 当たりの強さ（暗い暈・放射線）が、やさしい絵柄に対して強すぎないか。
-- Simulator 用ビルドの手順: `MobileG1Setup.ExportIosSimulator` で `build/ios-simulator` に書き出し、`xcodebuild -scheme Unity-iPhone -sdk iphonesimulator` でビルドする。書き出しは `ProjectSettings` などを書き換えるので、終わったら差分を戻す。Codex の検証用 Simulator（Rogue Tactics G1 QA）には入れず、別の Simulator を使う。
+- Simulator 用ビルドの手順（`$U`=`/Applications/Unity/Hub/Editor/6000.3.25f1/Unity.app/Contents/MacOS/Unity`、Unity を他で開いていないことを確かめてから）:
+  - **製品の流れ（探索あり）**: `"$U" -batchmode -quit -projectPath unity -buildTarget iOS -executeMethod RogueTactics.Editor.HqFloorSetup.ExportIosSimulator -logFile <out>.log`（出力は repo 直下 `build/ios-floor-simulator`）。**このコマンドは 2026-11-18 時点で未実行**。
+  - **戦闘だけの検証用 scene `MobileG1`**: 同じ形で `RogueTactics.Editor.MobileG1Setup.ExportIosSimulator`（出力 `build/ios-simulator`）。2026-11-18 に実行して動作を確認。製品の流れの確認には使わない。
+  - ビルド: `xcodebuild -project build/<出力>/Unity-iPhone.xcodeproj -scheme Unity-iPhone -configuration Debug -sdk iphonesimulator -destination id=<UDID> -derivedDataPath <dd> build` → `xcrun simctl install <UDID> <dd>/Build/Products/Debug-iphonesimulator/RogueTacticsLab.app` → 起動。
+  - 書き出しは `ProjectSettings/ProjectSettings.asset`、`Assets/Settings/*`、`InternalIcon.png.meta` を書き換える。終わったら `git checkout --` で戻す。Codex の検証用 Simulator（Rogue Tactics G1 QA）には入れず、別の Simulator を使う。
 - 画面揺れを入れるか。入れるなら、矩形の計算をカメラから切り離す改修が先に要る（§2.2）。

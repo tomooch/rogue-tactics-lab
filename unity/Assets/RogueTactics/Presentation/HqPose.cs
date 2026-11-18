@@ -166,6 +166,7 @@ namespace RogueTactics.Presentation
             var r=copy.GetComponent<MeshRenderer>();r.sharedMaterial=skin;r.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
             fallenRest[id]=copy;
         }
+        private void ClearAllFallen(){foreach(var id in new List<string>(fallenRest.Keys))ClearFallen(id);}
         private void ClearFallen(string id)
         {if(fallenRest.TryGetValue(id,out var copy)){if(copy!=null)Destroy(copy);fallenRest.Remove(id);}rising.Remove(id);}
         private void RaiseFallen(string id)
@@ -174,6 +175,10 @@ namespace RogueTactics.Presentation
             // Someone now stands on the resting ally's cell, so the copy is hidden: rising there would put the mending light
             // at the other figure's feet and read as if they were healed. They simply rejoin at the next encounter.
             if(!copy.activeSelf)return;
+            // Only where a lost companion really comes back. In the floor flow (ExplorationEnabled) Core keeps them out of the
+            // party after the fight (FloorExplorationFlowTests.AttackHandoffDoesNotReviveOrMoveDeadCompanion), so they stay down
+            // until a retry or a later revival rule (design/specs/01 5.1, not yet in Core) says otherwise.
+            if(ExplorationEnabled)return;
             var skin=copy.GetComponent<MeshRenderer>().sharedMaterial;
             var puppet=new HqPuppet(pose.Puppet.Skeleton,skin,0){Mirrored=skin.GetFloat("_Mirror")>.5f,Lean=pose.Puppet.Lean};
             puppet.Play(PuppetClip.Rise,RiseSeconds,1);puppet.Tick(0,0,0,0);rising[id]=puppet;

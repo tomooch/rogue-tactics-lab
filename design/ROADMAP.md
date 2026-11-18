@@ -38,10 +38,10 @@
 | 票 | 範囲 | 読む設計 | 完了条件 | 確かめ方 |
 |---|---|---|---|---|
 | S1-0 | 表示から固定の前提（味方4人・敵2体・既存の盤）を抜く。見た目も結果も変えない作り直し | [CODE_BRIDGE.md](CODE_BRIDGE.md) §4 の段 1〜7 | [CODE_BRIDGE.md](CODE_BRIDGE.md) §5 の検索が 0 件。敵 3 体の盤で PlayMode が通る。hash 不変 | EditMode、PlayMode、コマ |
-| S1-1 | **済み（2026-11-18）** 表示の重なりの欠陥。PlayMode `JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults` が落ちる（落ちる組は実行ごとに変わる） | 下の注 | PlayMode 19/19 が連続3回。テストを緩めて通さない | PlayMode |
+| S1-1 | **済み（2026-11-18）** 表示の重なりの欠陥（旧検査は板の四角の重なりを見て、初期配置から `JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults` が落ちていた） | 下の注 | PlayMode 19/19 が連続3回。テストを緩めて通さない | PlayMode |
 | S1-2 | 命中の白い光を弱め、4つの戦い方を見分けられるようにする | [specs/07](specs/07_UI_AND_CAMERA.md) §5 | 着弾コマで対象の輪郭と顔が見える。数字を隠して4種を言い当てられる | コマ、Simulator |
 | S1-3 | 味方の戦闘不能と勝利の演出を拡大して確かめ、崩れを直す | [GRAPHICS.md §3〜4](GRAPHICS.md) | 三拍（予備動作・着弾・余韻）で読め、0.9 秒以内 | 味方が倒れる方針で撮ったコマ |
-| S1-4 | 表示へ渡す情報を型にする（守り・致命・挟撃） | [specs/01](specs/01_CORE_RULES.md) §6 | `HqPose` と `HqJuice` から `Detail` の文字列比較が無くなる。hash 不変 | EditMode、PlayMode |
+| S1-4 | 表示へ渡す情報を型にする（守り・致命・挟撃） | [specs/01](specs/01_CORE_RULES.md) §6 | 表示から `Detail` の文字列比較が無くなる（[CODE_BRIDGE.md](CODE_BRIDGE.md) §6 の検索で `Detail` が 0 件）。hash 不変 | EditMode、PlayMode |
 | S1-5 | 「なぜその手か」を出す | [specs/01](specs/01_CORE_RULES.md) §4、[specs/07](specs/07_UI_AND_CAMERA.md) §3 | 全 `Reason` に一言が対応。カードの一言と矢印が `Replay.Intents()` と一致 | EditMode、PlayMode |
 | S1-6 | 画面の割り付けを直す。カードを詰め、行動順を横の帯に | [specs/07](specs/07_UI_AND_CAMERA.md) §1 | 3つの画面サイズで重なりなし。盤が 55% 以上 | PlayMode、Simulator |
 | S1-7 | 戦闘中にカメラを寄せる | [specs/07](specs/07_UI_AND_CAMERA.md) §4 | 横幅 18.75・15.0・13.5 で `CheckVisibleHealth` が通る。カメラが動く間に一手が始まらない | PlayMode、コマ |

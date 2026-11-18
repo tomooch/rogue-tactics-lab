@@ -1,7 +1,7 @@
 # 既存コードから完成形への橋
 
 - 版: 2026-11-17 / 作成: Claude Code
-- 対象: `claude/hq-graphics-release` `5860523` の `unity/Assets/RogueTactics/`
+- 対象: `claude/hq-graphics-release` の 2026-11-18 の head（S1-1 の解決と倒れる演出の手直しの後）の `unity/Assets/RogueTactics/`
 - 目的: 詳細設計（[specs/](specs/)）は「完成形」を書いています。この文書は、**いまのコードのどこが、その完成形を妨げているか**と、**どの順番で直せば途中で壊れないか**を書きます。行番号は上の commit のものです。ずれていたら同じ検索をやり直してください（§6）。
 
 ## 1. 結論
@@ -22,7 +22,7 @@
 | `HqProductHud.cs:149` | カードの「HP x / y」の y を `Fixture.Baseline()` から読む | 最大 HP が部屋で違うと嘘の数字が出る |
 | `HqReferenceHud.cs:122`、`:212` | 敵味方の色分けと、カードの駒を既存の盤から引く | 3体目の敵で `Find` が null |
 | `HqReferenceTypography.cs:85` | HP の棒の長さの分母 | 同上 |
-| `MobileG1View.cs:100`、`:264` | 駒の見た目を既存の盤の駒の数だけ作る | 敵が増えても見た目が作られない |
+| `MobileG1View.cs:100`、`:269` | 駒の見た目を既存の盤の駒の数だけ作る | 敵が増えても見た目が作られない |
 | `HqExploration.cs:31`、`:66` | 探索の一行を既存の盤の駒から作る | 持ち越した HP が探索に反映されない |
 
 ### 2.2 ID を文字で直書きしている
@@ -32,11 +32,11 @@
 | `HqProductHud.cs:23` | カードの並び `{"A","D","C","B"}` |
 | `HqProductHud.cs:24` | 名前。味方4人は直書き、敵は `HqCreature.NameOf(id)`（敵の名前・手番の一文字 `GlyphOf`・色・顔は `HqCreature` の1か所。ただし種類の決め方 `KindOf` は ID 起点で、敵の定義データを持つ段で置き換える） |
 | `HqProductHud.cs:49`、`:53`、`:150`、`HqAutonomousHud.cs:121`、`HqReferenceHud.cs:111`、`:214`、`:218`、`HqReferenceTypography.cs:77`、`:91`、`:92` | 方針を持つのは B、という前提でカードの文言と大きさを変える |
-| `HqProductHud.cs:158`、`:160`、`HqExploration.cs:216` | 敵かどうかを `id=="X" || id=="Y"` で判定 |
-| `MobileG1View.cs:285`、`:288` | 敵の見た目を `u.Id=="Y"` で紫、それ以外を緑に |
-| `MobileG1View.cs:342`、`:351`、`:354`、`:384`、`HqMotion.cs:47` | 守りの線と盾を `"B"` から `"A"` へ固定で引く |
+| `HqProductHud.cs:158`、`:161`、`HqExploration.cs:216` | 敵かどうかを `id=="X" || id=="Y"` で判定 |
+| `MobileG1View.cs:290`、`:293` | 敵の見た目を `HqCreature.KindOf`/`AltOf`（ID 起点。`AltOf` は `id=="Y"`）で決める。旧い球は `u.Id=="X"` |
+| `MobileG1View.cs:347`、`:356`、`:359`、`:389`、`HqMotion.cs:47` | 守りの線と盾を `"B"` から `"A"` へ固定で引く |
 | `HqGauntlet.cs:171`〜`:190` | 狙いの指定の画面が X と Y の2択 |
-| `HqPose.cs:50` | エフェクトの色を ID から引く（グラフィック担当の書いたコード。同じ問題） |
+| `HqPose.cs:58` | エフェクトの色を ID から引く（グラフィック担当の書いたコード。同じ問題） |
 | `HqReferenceTypography.cs:73` | 顔の中心の位置をガルだけ変える |
 
 ### 2.3 数が固定
@@ -49,7 +49,7 @@
 
 ### 2.4 方針が2つ
 
-`MobileG1View.cs:115`、`:116`、`:403`、`:404`、`:420`、`:421`、`:433`、`HqProductHud.cs:150`、`HqReferenceHud.cs:214`、`:229`、`:242`、`HqAutonomousHud.cs:164`、`:165`、`:173`、`HqGauntlet.cs:289`。
+`MobileG1View.cs:115`、`:116`、`:408`、`:409`、`:425`、`:426`、`:438`、`HqProductHud.cs:150`、`HqReferenceHud.cs:214`、`:229`、`:242`、`HqAutonomousHud.cs:164`、`:165`、`:173`、`HqGauntlet.cs:289`。
 
 どれも `ProtectAnchor ? 文言A : 文言B` の形です。3つ目を足すと、バランスが「攻める」の文言で出ます。`HqGauntlet.cs:289` は危機のときの「逆の方針」を二択の反転で作っています。
 
@@ -57,8 +57,8 @@
 
 | 場所 | 判定 |
 |---|---|
-| `MobileG1View.cs:350`、`:361`、`HqRelations.cs:22`、`HqPose.cs:144` | `Detail.StartsWith("Guard")` で守りを判定 |
-| `MobileG1View.cs:366`、`HqPose.cs:127` | `Detail=="Victory"` で勝敗を判定 |
+| `MobileG1View.cs:355`、`:366`、`HqRelations.cs:22`、`HqPose.cs:230` | `Detail.StartsWith("Guard")` で守りを判定 |
+| `MobileG1View.cs:371`、`HqPose.cs:141` | `Detail=="Victory"` で勝敗を判定 |
 
 Core 側の文言を1文字変えると、表示が黙って守りを見落とします。[specs/01](specs/01_CORE_RULES.md) §6 の型（`EventTags`）で置き換えます。
 

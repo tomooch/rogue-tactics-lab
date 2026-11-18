@@ -17,7 +17,7 @@ root の [DESIGN.md](../DESIGN.md) / [VERIFICATION.md](../VERIFICATION.md) / [AG
 | 4 | [CRAFT_HANDBOOK.md](CRAFT_HANDBOOK.md) | どう作るか。考え方、アーキテクチャ、手法、数値の根拠、確かめ方、失敗と直し方 | 実装する人 |
 | 5 | [specs/](specs/) | **詳細設計**。作る単位ごとに、型・数値・手順・テストまで（下の表） | 実装する人 |
 | 6 | [IMPLEMENTATION_SPECS.md](IMPLEMENTATION_SPECS.md) | グラフィック以外の実装設計の概要（Core / フィールド / カメラ / UI / 音 / 保存 / 性能 / 公開）。specs/ と食い違ったら specs/ が新しい | 実装する人 |
-| 7 | [GRAPHICS.md](GRAPHICS.md) | キャラ・アニメーション・エフェクトの実装済み仕様の一覧 | 演出を触る人 |
+| 7 | [GRAPHICS.md](GRAPHICS.md) | キャラ・アニメーション・エフェクトの 2026-11-16 時点の一覧（現行は [CRAFT_HANDBOOK.md](CRAFT_HANDBOOK.md)） | 演出を触る人 |
 
 ## 総合設計（overall/）
 
@@ -59,6 +59,6 @@ root の [DESIGN.md](../DESIGN.md) / [VERIFICATION.md](../VERIFICATION.md) / [AG
 | 領域 | 場所 |
 |---|---|
 | 規則（pure C#） | `unity/Assets/RogueTactics/Core/` |
-| 表示 | `unity/Assets/RogueTactics/Presentation/`（`MobileG1View` の partial: `HqMotion` / `HqPose` / `HqJuice`） |
-| キャラ・敵・エフェクト | `unity/Assets/RogueTactics/Presentation/Gfx/`、シェーダーは `unity/Assets/RogueTactics/Resources/Gfx/` |
+| 表示 | `unity/Assets/RogueTactics/Presentation/`（`MobileG1View` とその partial `Hq*.cs`。演出は `HqMotion` / `HqPose` / `HqJuice`） |
+| キャラ・敵・エフェクト | `unity/Assets/RogueTactics/Presentation/Gfx/` と `Presentation/HqCreature.cs`（敵の造形・名前・色）、シェーダーは `unity/Assets/RogueTactics/Resources/Gfx/` |
 | 非公開の原画 | `unity/Assets/RogueTactics/Art/MobileG1/Private/`（Git に入れない） |

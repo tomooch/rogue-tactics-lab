@@ -39,7 +39,7 @@ hash の一致までは確かめていません（イベントの文字列を写
 cd design/sim && python3 floors.py
 ```
 
-`rooms.py` → `pick.py` → `catalog.py` → `floors.py` → `orders.py` の順に依存しています。部屋や数値を変えたら、変えたところから後ろを全部回し直してください。`rooms.py` は seed を固定しているので、同じ結果が出ます。
+`rooms.py` → `pick.py` → `catalog.py` → `floors.py` → `orders.py` の順に依存しています。部屋や数値を変えたら、変えたところから後ろを全部回し直してください。`rooms.py` は seed を固定しているので、同じ結果が出ます。`rooms.json` は Git に無いので、`pick.py` から回すときも先に `rooms.py`。時間の目安（2026-11-18、Mac）: core_sim 0.2 秒、floors 1.3 秒、relics 1.4 秒、routes 38 秒、orders 10 分前後。
 
 ## 限界
 
