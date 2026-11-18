@@ -165,6 +165,20 @@ t=duration     Display(e)     ここで初めて HP・状態の表示が変わ�
 
 ---
 
+### 4.x 後の階の敵の見た目（2026-11-18、Core 未対応）
+
+`HqCreature.Build(root, template, kind, alt, camera)` に `SpiritKind.Cap / Bat / Guardian` を渡せば立つ。`HqCreature.KindOf(id)` は今は全員 `Warden` のままなので、S2-2 / S2-10 / S3-2 で Core の敵の種類から `KindOf` を引くように変えるだけでよい（記号は `GlyphOf(kind, alt)`、名前は `NameOf(kind, alt)`、光の色は `TintOf(kind, alt)`）。
+
+| 種類 | 形で分かること | 作り | 動き |
+|---|---|---|---|
+| 茸の番人 `Cap` | 赤い傘が前へ傾き、盾に見える。白い斑点 | ずんぐりした体（`BodyOf` 幅 .62・高さ .34）、傘・ひだ・斑点 | 体のゆれ ×0.6（`Jelly`） |
+| 影こうもり `Bat` | 扇に開く羽（指の骨3本＋膜）、立った耳、小さな牙 | 小さい体（幅 .44） | 影から 0.55 浮き、ゆっくり上下（`Hover`） |
+| 遺跡の守護者 `Guardian` | 角ばった青灰の石。彫りの帯、苔、額の琥珀の紋 | 超楕円体（`Box` .45、高さ .86・中心 .96）、目は 1.3 倍 | 石なので体のゆれ ×0.25 |
+
+- 体の mesh 名は全種 `Fixture slime`（測る側の約束）。目は全種 `Bright spirit eye` 2つ（見張り S1-13 の顔の位置に使う）。
+- 確かめ方: PlayMode `GfxSpiritGalleryTests`（1戦目の盤で番兵2体の代わりに各組を立たせ、待機と被弾を撮る）。`RT_GFX_CAPTURE=1` で `unity/Logs/hq/private/gallery/` に出す。
+- 未確認: 実際の戦闘で動かしたときの見え方（Core に種類がないため）、守護者の予告の光、こうもりの羽ばたき（今は葉と同じゆっくりした揺れ）、2マス分の高さ（今は約1.5倍。測る側の板の大きさと合わせて決める）。
+
 ## 5. エフェクト（`HqVfx` + `HqVfx.shader`）
 
 ### 5.1 仕組み
@@ -312,7 +326,7 @@ RT_GFX_CAPTURE=3 [RT_GFX_ENCOUNTER=2] <Unity 6000.3.25f1> -batchmode -projectPat
 
 ### 7.3 自動テストの位置づけ
 
-- PlayMode は 20 件すべて通る状態が基準（2026-11-18、S1-1 と S1-13 の後。重なりの検査を `MobileG1InteractionTests.CheckActorReadability`＝「手前の塗られた画素が奥の顔の部位の中心を隠さず、半分以上見える」に置き換え、19/19 を3回連続で確認）。1件でも落ちたら不具合として調べる。演出は顔の画素を覆いうるので、この検査は演出の変更で落ちることがある。
+- PlayMode は 21 件すべて通る状態が基準（2026-11-18、S1-1・S1-13 と敵の見た目の一覧 `GfxSpiritGalleryTests` の後。重なりの検査を `MobileG1InteractionTests.CheckActorReadability`＝「手前の塗られた画素が奥の顔の部位の中心を隠さず、半分以上見える」に置き換え、19/19 を3回連続で確認）。1件でも落ちたら不具合として調べる。演出は顔の画素を覆いうるので、この検査は演出の変更で落ちることがある。
 - テストは「壊していないこと」しか保証しない。「良く見えること」は §7.2 と人の目でしか分からない。実機・Simulator・人の試遊は未実施。
 
 ---
@@ -354,6 +368,7 @@ RT_GFX_CAPTURE=3 [RT_GFX_ENCOUNTER=2] <Unity 6000.3.25f1> -batchmode -projectPat
 - 当たりの強さ（暗い暈・放射線）が、やさしい絵柄に対して強すぎないか。
 - Simulator 用ビルドの手順（`$U`=`/Applications/Unity/Hub/Editor/6000.3.25f1/Unity.app/Contents/MacOS/Unity`、Unity を他で開いていないことを確かめてから）:
   - **製品の流れ（探索あり）**: `"$U" -batchmode -quit -projectPath unity -buildTarget iOS -executeMethod RogueTactics.Editor.HqFloorSetup.ExportIosSimulator -logFile <out>.log`（出力は repo 直下 `build/ios-floor-simulator`）。2026-11-18 に実行（head 26fc2c0）。iOS Simulator で、最初の部屋の戦闘を勝利まで → 「先へ進む」→ 探索で床を選んで隊列が移動・カメラが追う、までを確認（ボタンの文字の欠け・行動順の帯の崩れなし）。
+  - **実機（探索あり）**: `"$U" -batchmode -quit -projectPath unity -buildTarget iOS -executeMethod RogueTactics.Editor.HqFloorSetup.ExportIos -logFile <out>.log`（出力 `build/ios-floor`、署名の設定は入れない）→ `xcodebuild -project build/ios-floor/Unity-iPhone.xcodeproj -scheme Unity-iPhone -configuration Release -destination generic/platform=iOS -derivedDataPath <dd> -allowProvisioningUpdates CODE_SIGN_STYLE=Automatic DEVELOPMENT_TEAM=<チーム> PRODUCT_BUNDLE_IDENTIFIER=com.tomooch.roguetacticslab build`（Xcode に登録済みの開発者アカウントで自動署名。鍵・プロファイルは repo に入れない）→ `xcrun devicectl device install app --device <UDID> <dd>/Build/Products/Release-iphoneos/RogueTacticsLab.app`。iPhone はロック解除・デベロッパモード・同じ Wi-Fi（初回は USB でつなぎ Xcode で「Connect via network」）。2026-11-18 に書き出しと署名付きビルドまで成功、**iPhone が「接続なし」で未インストール**。
   - **戦闘だけの検証用 scene `MobileG1`**: 同じ形で `RogueTactics.Editor.MobileG1Setup.ExportIosSimulator`（出力 `build/ios-simulator`）。2026-11-18 に実行して動作を確認。製品の流れの確認には使わない。
   - ビルド: `xcodebuild -project build/<出力>/Unity-iPhone.xcodeproj -scheme Unity-iPhone -configuration Debug -sdk iphonesimulator -destination id=<UDID> -derivedDataPath <dd> build` → `xcrun simctl install <UDID> <dd>/Build/Products/Debug-iphonesimulator/RogueTacticsLab.app` → 起動。
   - 書き出しは `ProjectSettings/ProjectSettings.asset`、`Assets/Settings/*`、`InternalIcon.png.meta` を書き換える。終わったら `git checkout --` で戻す。Codex の検証用 Simulator（Rogue Tactics G1 QA）には入れず、別の Simulator を使う。

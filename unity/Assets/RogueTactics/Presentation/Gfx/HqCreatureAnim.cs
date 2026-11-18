@@ -14,6 +14,8 @@ namespace RogueTactics.Presentation.Gfx
         public readonly List<Transform> Eyes=new List<Transform>();
         public readonly List<Transform> Leaves=new List<Transform>();
         public Transform Crown,Pivot;public Camera View;public float Phase;public Color Tint=Color.white;
+        // Hover: how high a flier floats above its own shadow (it bobs around this). Jelly: how much the body squashes (stone is stiff).
+        public float Hover,Jelly=1;
         public PuppetClip Clip{get;private set;}
         /// <summary>World offset a pounce carries the spirit toward its target.</summary>
         public Vector3 Dash;
@@ -87,7 +89,8 @@ namespace RogueTactics.Presentation.Gfx
                 }
             }
             flash=Mathf.MoveTowards(flash,0,dt*7f);
-            Apply(squash,lean,lift,wobble,dissolve,carried);
+            if(Hover>0)lift+=Hover*(1+.12f*Mathf.Sin(t*3.1f));
+            Apply(squash*Jelly,lean,lift,wobble*Jelly,dissolve,carried);
 
             // Blink: quick close, slower open, now and then twice.
             blinkAt-=dt;if(blinkAt<=0){blink=.16f;blinkAt=2.2f+Mathf.Abs(Mathf.Sin(t*3.7f))*3.2f;}
