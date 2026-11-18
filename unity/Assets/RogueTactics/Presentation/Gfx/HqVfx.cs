@@ -178,6 +178,20 @@ namespace RogueTactics.Presentation.Gfx
             for(var i=0;i<8;i++)Emit(Sparkle,at+Screen(Range(0,360),Range(.2f,1.1f)),.18f,0,Range(.35f,.7f),Color.white,tint,light:1,velocity:Up*Range(.3f,1.4f),delay:Range(0,.25f),spin:Range(-4,4));
         }
 
+        /// <summary>A companion knocked down (not gone: a won fight brings them back). Dust where the body meets the stone,
+        /// then a few small stars turning over where the head came to rest: the after-beat of the fall.</summary>
+        public void KnockDown(Vector3 ground,Vector3 head,Color tint)
+        {
+            for(var i=0;i<6;i++)
+            {var dir=Wide(Range(-1,1),Range(-.4f,.4f)).normalized;Emit(Puff,ground+Up*.12f+dir*.3f,.24f,.7f,Range(.35f,.5f),With(Cream,.7f),With(Cream,0),velocity:dir*Range(1,2.2f)+Up*Range(.2f,.6f),drag:3,k0:.05f,k1:1,seed:Range(0,1));}
+            Emit(Ring,ground,.3f,1.3f,.3f,With(Color.white,.7f),With(tint,0),light:1,k0:.3f,k1:1,facing:Facing.Ground,fadeFrom:.3f);
+            for(var i=0;i<3;i++)
+            {
+                var a=i*120f;
+                Emit(Sparkle,head+Up*.35f+Screen(a,.36f),.24f,.14f,.5f,Color.white,Gold,light:1,velocity:Screen(a+90,.9f),spin:Range(3,5),delay:.06f+i*.04f,fadeIn:.15f,fadeFrom:.6f);
+            }
+        }
+
         /// <summary>The flash of an answer: a reaction that interrupts the turn.</summary>
         public void Reaction(Vector3 at)
         {

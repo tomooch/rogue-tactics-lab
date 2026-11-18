@@ -122,9 +122,15 @@ namespace RogueTactics.Presentation
                 case EventKind.Death:
                 {
                     var fallen=PoseOf(e.Target);var away=side!=0?side:fallen!=null && fallen.Mirrored?-1:1;
-                    fallen?.Puppet?.Play(PuppetClip.Fall,duration,1);
+                    if(fallen?.Puppet!=null)
+                    {
+                        // Tip toward the side of the screen with more room, so the resting figure does not lie across a neighbour.
+                        var screenSide=FreeSide(e.Target,away);
+                        fallen.Puppet.Lean=screenSide*(fallen.Mirrored?-1:1);fallen.Puppet.Play(PuppetClip.Fall,duration,1);
+                    }
                     if(spirits.TryGetValue(e.Target,out var spirit))spirit.Play(PuppetClip.Fall,duration,away);
-                    if(vfx!=null){var gone=e.Target;var enemy=spirit!=null;vfx.After(duration*(enemy?.45f:.3f),()=>vfx.Vanish(Chest(gone),TintOf(gone),enemy));}
+                    // A spirit bursts and is gone; a companion is only knocked down (LandPoses shows the landing).
+                    if(vfx!=null && spirit!=null){var gone=e.Target;vfx.After(duration*.45f,()=>vfx.Vanish(Chest(gone),TintOf(gone),true));}
                     break;
                 }
                 case EventKind.Move:
@@ -165,8 +171,11 @@ namespace RogueTactics.Presentation
         private void RaiseFallen(string id)
         {
             var pose=PoseOf(id);if(pose?.Puppet==null || rising.ContainsKey(id) || !fallenRest.TryGetValue(id,out var copy) || copy==null)return;
+            // Someone now stands on the resting ally's cell, so the copy is hidden: rising there would put the mending light
+            // at the other figure's feet and read as if they were healed. They simply rejoin at the next encounter.
+            if(!copy.activeSelf)return;
             var skin=copy.GetComponent<MeshRenderer>().sharedMaterial;
-            var puppet=new HqPuppet(pose.Puppet.Skeleton,skin,0){Mirrored=skin.GetFloat("_Mirror")>.5f};
+            var puppet=new HqPuppet(pose.Puppet.Skeleton,skin,0){Mirrored=skin.GetFloat("_Mirror")>.5f,Lean=pose.Puppet.Lean};
             puppet.Play(PuppetClip.Rise,RiseSeconds,1);puppet.Tick(0,0,0,0);rising[id]=puppet;
             if(vfx!=null)vfx.After(RiseSeconds*.7f,()=>{if(fallenRest.ContainsKey(id))vfx.Heal(Ground(id));});
         }
@@ -181,10 +190,34 @@ namespace RogueTactics.Presentation
             }
         }
 
+        // Which screen side a fallen companion tips toward: +1 right, -1 left. A body lying at ground level hides whoever
+        // stands just behind it (higher on screen), while one in front merely hides the fallen; so a neighbour behind weighs
+        // 2 and one in front 1, and the lighter side wins. Anyone straight above or below is on neither side. Ties go to `prefer`.
+        private float FreeSide(string id,float prefer)
+        {
+            var at=pawns[id].position;var right=FieldCamera.transform.right;var up=FieldCamera.transform.up;int left=0,rightWeight=0;
+            foreach(var other in pawns)
+            {
+                if(other.Key==id || !other.Value.gameObject.activeInHierarchy)continue;
+                var d=other.Value.position-at;var dx=Vector3.Dot(d,right);var dy=Vector3.Dot(d,up);
+                if(Mathf.Abs(dx)<Cell*.3f || Mathf.Abs(dx)>Cell*1.2f || Mathf.Abs(dy)>Cell*.9f)continue;
+                var weight=dy>0?2:1;if(dx>0)rightWeight+=weight;else left+=weight;
+            }
+            return rightWeight<left?1:left<rightWeight?-1:(prefer>=0?1:-1);
+        }
+
         private void LandPoses(BattleEvent e,Vector3 actorAt,Vector3 targetAt)
         {
             actingId="";
-            if(e.Kind==EventKind.Death && poses.ContainsKey(e.Target??""))RestFallen(e.Target);
+            if(e.Kind==EventKind.Death && poses.ContainsKey(e.Target??""))
+            {
+                RestFallen(e.Target);
+                if(vfx!=null)
+                {
+                    var pose=PoseOf(e.Target);var lean=pose.Puppet!=null?pose.Puppet.Lean*(pose.Mirrored?-1:1):1;
+                    var ground=Ground(e.Target);vfx.KnockDown(ground+FieldCamera.transform.right*(.35f*lean),ground+FieldCamera.transform.right*(1.1f*lean)+FieldCamera.transform.up*.25f,TintOf(e.Target));
+                }
+            }
             if(!pawns.TryGetValue(e.Target??"",out var targetRoot) || !targetRoot.gameObject.activeInHierarchy)return;
             var side=ScreenSide(targetAt-actorAt);var target=PoseOf(e.Target);spirits.TryGetValue(e.Target,out var spirit);
             if(e.Kind==EventKind.Damage || e.Kind==EventKind.Counter)

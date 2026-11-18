@@ -52,6 +52,8 @@ namespace RogueTactics.Presentation.Gfx
         public Vector2 Dash;
         /// <summary>Screen direction a blow throws the figure (unit length), or zero to fall back to the facing.</summary>
         public Vector2 Knock;
+        /// <summary>Which way a fall tips in the art's own frame: +1 clockwise (head to the art's right), -1 the other way. Rise uses the same.</summary>
+        public float Lean=1;
         public PuppetClip Clip{get;private set;}
         public float ClipTime{get;private set;}
 
@@ -165,8 +167,8 @@ namespace RogueTactics.Presentation.Gfx
                         // (design/specs/01 5.1), so the figure stays whole and lies still; the view keeps a dimmed copy.
                         var e=Mathf.Clamp01(u);var tip=e*e;
                         var rest=u>=1?Mathf.Exp(-(ClipTime-clipLength)*10)*Mathf.Sin((ClipTime-clipLength)*22)*.04f:0;
-                        rot[Root]-=1.25f*tip+rest;tx[Root]+=.06f*OutCubic(e)*(h==0?.6f:1);sy[Root]-=.06f*tip;rot[Head]-=.2f*Mathf.Sin(e*Mathf.PI);
-                        rot[Weapon]-=.6f*tip;flare+=.5f*(1-e);
+                        rot[Root]-=(1.25f*tip+rest)*Lean;tx[Root]+=.06f*OutCubic(e)*(h==0?.6f:1)*Lean;sy[Root]-=.06f*tip;rot[Head]-=.2f*Mathf.Sin(e*Mathf.PI)*Lean;
+                        rot[Weapon]-=.6f*tip*Lean;flare+=.5f*(1-e);
                         break;
                     }
                     case PuppetClip.Rise:
@@ -174,8 +176,8 @@ namespace RogueTactics.Presentation.Gfx
                         // The fall played backwards from where it left them: a slow push up, upright, then one small hop
                         // as they find their feet. Same pivots and the same rigid tilt, so they read as the same person.
                         var e=Mathf.Clamp01(u/.72f);var lie=1-e*e*(3-2*e);
-                        rot[Root]-=1.25f*lie;tx[Root]+=.06f*lie*(h==0?.6f:1);sy[Root]-=.06f*lie;rot[Weapon]-=.6f*lie;
-                        rot[Head]+=.12f*Mathf.Sin(e*Mathf.PI);
+                        rot[Root]-=1.25f*lie*Lean;tx[Root]+=.06f*lie*(h==0?.6f:1)*Lean;sy[Root]-=.06f*lie;rot[Weapon]-=.6f*lie*Lean;
+                        rot[Head]+=.12f*Mathf.Sin(e*Mathf.PI)*Lean;
                         var hop=u>.72f?Mathf.Sin(Mathf.Clamp01((u-.72f)/.28f)*Mathf.PI):0;
                         ty[Root]+=.04f*hop;sy[Root]+=.03f*hop;flare+=.4f*hop+.3f*Mathf.Sin(e*Mathf.PI);
                         if(u>=1)Clip=PuppetClip.None;
