@@ -32,6 +32,9 @@ namespace RogueTactics.Tests.PlayMode
         // (darkest channel ~.85) and the real effects already whiten their eyes and mouth almost entirely for a few frames.
         // Tightened 2026-11-18 after the Human asked for a softer ram on companions (measured max .50, mean ~.32).
         private const float CompanionPeak=.60f,CompanionMeanPeak=.40f;
+        // Spirits (S1-2): blows on them land on the lower body with a softer bloom and flash. Per blow they still vary
+        // (a lunge's swoosh crosses some), so only their average is held: measured ~.47, ~.85 before the change.
+        private const float SpiritMeanPeak=.60f;
         // How long after the landing is watched: the shown event holds .40 s (HqMotion.PresentEvent), then the next event
         // starts and its own light (a counter's charge on the struck figure, say) is not this blow's.
         private const float Window=.40f;
@@ -82,6 +85,9 @@ namespace RogueTactics.Tests.PlayMode
                 Assert.That(l.Over,Is.LessThanOrEqualTo(WashedSeconds),what+$" washes over {Washed:P0} of the struck face white for {l.Over:0.000}s, longer than {WashedSeconds}s (peak {l.Peak:P0})");
                 if(!l.OnSpirit)Assert.That(l.Peak,Is.LessThanOrEqualTo(CompanionPeak),what+$" washes {l.Peak:P0} of the struck companion's face white at once");
             }
+            var spirits=landings.Where(l=>l.OnSpirit).ToList();var spiritMean=spirits.Count>0?spirits.Average(l=>l.Peak):0;
+            Debug.Log($"WATCHDOG spirits: {spirits.Count} landings, peak mean {spiritMean:0.000}");
+            Assert.That(spiritMean,Is.LessThanOrEqualTo(SpiritMeanPeak),$"Blows wash {spiritMean:P0} of the struck spirit's face white at their brightest, on average");
             Assert.That(meanPeak,Is.LessThanOrEqualTo(CompanionMeanPeak),$"Blows wash {meanPeak:P0} of the struck companion's face white at their brightest, on average");
         }
 

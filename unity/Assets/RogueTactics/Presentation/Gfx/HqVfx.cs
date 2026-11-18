@@ -67,27 +67,29 @@ namespace RogueTactics.Presentation.Gfx
         // carries both in full: the round white burst is the blunt hit's signature, so the other ways of fighting
         // turn it down and let their own shape (a line, a rune, a thin shaft) lead.
         // The centre stays small and brief so the struck character's outline and face remain readable.
-        public void Impact(Vector3 at,Color tint,float power=1,float rays=1,float rings=1)
+        public void Impact(Vector3 at,Color tint,float power=1,float rays=1,float rings=1,float white=1)
         {
+            // white: how white the hot parts start (1 = pure white). Lower it where the light would sit on a pale face.
+            var hot=Color.Lerp(tint,Color.white,white);
             // A dark halo first, so everything bright in front of it reads against the pale ruins.
             Emit(Veil,at,4.6f*power,5.6f*power,.34f,With(Ink,.42f),With(Ink,0),fadeFrom:.3f);
-            if(rays>.05f)Emit(Burst,at,2.0f*power,3.3f*power,.20f,With(Color.white,rays),With(tint,rays),light:1,k0:.25f,k1:1,seed:Range(0,1),fadeFrom:.5f);
-            Emit(Glow,at,.4f,.9f*power,.08f,With(Color.white,.6f),With(tint,.35f),light:1,fadeFrom:.15f);
-            Emit(Sparkle,at,1.2f*power,.6f*power,.13f,With(Color.white,.9f),tint,light:1,rotation:Range(-25,25),fadeFrom:.3f);
+            if(rays>.05f)Emit(Burst,at,2.0f*power,3.3f*power,.20f,With(hot,rays),With(tint,rays),light:1,k0:.25f,k1:1,seed:Range(0,1),fadeFrom:.5f);
+            Emit(Glow,at,.4f,.9f*power*Mathf.Lerp(.5f,1,white),.08f,With(hot,.6f*Mathf.Lerp(.5f,1,white)),With(tint,.35f),light:1,fadeFrom:.15f);
+            Emit(Sparkle,at,1.2f*power,.6f*power,.13f,With(hot,.9f),tint,light:1,rotation:Range(-25,25),fadeFrom:.3f);
             if(rings>.05f)
             {
-                Emit(Ring,at,.6f,2.3f*power,.30f,With(Color.white,.8f*rings),With(tint,rings),light:1,k0:.5f,k1:1,fadeFrom:.35f);
+                Emit(Ring,at,.6f,2.3f*power,.30f,With(hot,.8f*rings),With(tint,rings),light:1,k0:.5f,k1:1,fadeFrom:.35f);
                 Emit(Ring,at,.3f,1.5f*power,.36f,With(tint,.9f*rings),With(tint,0),light:1,k0:.5f,k1:1,fadeFrom:.3f,delay:.05f);
             }
             var streaks=Mathf.RoundToInt(16*Mathf.Clamp01(rays));
             for(var i=0;i<streaks;i++)
             {
                 var dir=Screen(i*360f/streaks+Range(-10,10),1);var speed=Range(7,14)*power;
-                Emit(Streak,at+dir*.2f,.46f,.06f,Range(.22f,.40f),Color.white,tint,light:1,velocity:dir*speed,drag:6,facing:Facing.Velocity,aspect:2.6f);
+                Emit(Streak,at+dir*.2f,.46f,.06f,Range(.22f,.40f),hot,tint,light:1,velocity:dir*speed,drag:6,facing:Facing.Velocity,aspect:2.6f);
             }
-            for(var i=0;i<6;i++)Emit(Sparkle,at+Screen(Range(0,360),Range(.5f,1.5f)*power),.34f,0,Range(.28f,.5f),Color.white,tint,light:1,spin:Range(-4,4),delay:Range(.03f,.14f));
+            for(var i=0;i<6;i++)Emit(Sparkle,at+Screen(Range(0,360),Range(.5f,1.5f)*power),.34f,0,Range(.28f,.5f),hot,tint,light:1,spin:Range(-4,4),delay:Range(.03f,.14f));
             for(var i=0;i<5;i++)
-            {var dir=Screen(Range(25,155),1);Emit(Shard,at+dir*.3f,.15f,.05f,Range(.45f,.7f),Color.white,tint,light:1,velocity:dir*Range(3,6.5f)*power,gravity:-11,drag:1,spin:Range(-12,12),rotation:Range(0,360),fadeFrom:.7f);}
+            {var dir=Screen(Range(25,155),1);Emit(Shard,at+dir*.3f,.15f,.05f,Range(.45f,.7f),hot,tint,light:1,velocity:dir*Range(3,6.5f)*power,gravity:-11,drag:1,spin:Range(-12,12),rotation:Range(0,360),fadeFrom:.7f);}
             for(var i=0;i<3;i++)
             {
                 var dir=Screen(Range(20,160),1);
@@ -233,11 +235,12 @@ namespace RogueTactics.Presentation.Gfx
         }
 
         /// <summary>A spell going off on its target: a ring of runes thrown open and crystal flung out of it.</summary>
-        public void Blast(Vector3 at,Color tint)
+        public void Blast(Vector3 at,Color tint,float soft=1)
         {
+            // soft < 1 dims the bloom where it would sit on a pale face (a spirit's), keeping the rune's shape.
             // Colour, not white, leads: the spell blooms in its caster's hue and the rune opens through it.
-            Emit(Glow,at,.8f,2.2f,.30f,With(tint,.65f),With(tint,0),light:1,fadeFrom:.2f);
-            Emit(Rune,at,.7f,2.3f,.42f,Color.Lerp(Color.white,tint,.35f),With(tint,.8f),light:1,k0:0,k1:.22f,fadeFrom:.35f);
+            Emit(Glow,at,.8f,2.2f*Mathf.Lerp(.6f,1,soft),.30f,With(tint,.65f*soft),With(tint,0),light:1,fadeFrom:.2f);
+            Emit(Rune,at,.7f,2.3f,.42f,With(Color.Lerp(Color.white,tint,Mathf.Lerp(1,.35f,soft)),Mathf.Lerp(.6f,1,soft)),With(tint,.8f*Mathf.Lerp(.6f,1,soft)),light:1,k0:0,k1:.22f,fadeFrom:.35f);
             Emit(Ring,at,.5f,2.6f,.34f,With(tint,.9f),With(tint,0),light:1,k0:.2f,k1:1,fadeFrom:.3f,delay:.04f);
             for(var i=0;i<10;i++)
             {var dir=Screen(i*36+Range(-12,12),1);Emit(Shard,at+dir*.35f,.24f,.05f,Range(.38f,.6f),Color.white,tint,light:1,velocity:dir*Range(4,8.5f),drag:3.2f,spin:Range(-10,10),rotation:Range(0,360),fadeFrom:.6f);}

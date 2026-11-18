@@ -236,22 +236,25 @@ namespace RogueTactics.Presentation
                 // A spirit ramming a companion: the blow lands lower and the body flash is softer, so the face stays readable.
                 var rammed=!guarded && target?.Puppet!=null && attackerStyle!=PuppetStyle.Archer && attackerStyle!=PuppetStyle.Caster && attackerStyle!=PuppetStyle.Blade;
                 if(target!=null){Face(target,-side);target.Puppet?.Play(PuppetClip.Hit,.5f,side!=0?1:0);target.Puppet?.Flash(guarded?new Color(.75f,.92f,1f):new Color(1f,.93f,.90f),guarded?.6f:rammed?.55f:1);}
-                if(spirit!=null){spirit.Play(PuppetClip.Hit,.5f,side);spirit.Flash();}
+                if(spirit!=null){spirit.Play(PuppetClip.Hit,.5f,side);spirit.Flash(.25f);}
                 if(vfx!=null)
                 {
                     if(guarded){vfx.Shield(Chest(e.Target),new Color(.55f,.86f,1f),true);vfx.Impact(Chest(e.Target),TintOf(e.Actor),.55f);}
                     else
                     {
                         // Each way of fighting lands differently, so the eye can tell who struck without reading.
-                        var at=Chest(e.Target);var tint=TintOf(e.Actor);var power=e.Kind==EventKind.Counter?.85f:1;
+                        // A spirit's eyes sit at its body's centre and its pale body whitens fast, so blows land on its lower body
+                        // and its face stays readable (S1-2, watchdog §5.4.1).
+                        var at=spirit!=null?Vector3.Lerp(Chest(e.Target),Ground(e.Target),.4f):Chest(e.Target);var tint=TintOf(e.Actor);var white=spirit!=null?.45f:1f;var power=e.Kind==EventKind.Counter?.85f:1;
                         // Shape tells them apart at phone size: blade = a line, magic = a coloured rune, arrow = a thin
                         // shaft, blunt (and every spirit) = the round white burst with a ring over the floor.
-                        if(attackerStyle==PuppetStyle.Archer){vfx.Impact(at,tint,power*.6f,0,0);vfx.Pierce(at,targetAt-actorAt,tint);}
-                        else if(attackerStyle==PuppetStyle.Caster){vfx.Impact(at,tint,power*.8f,0,0);vfx.Blast(at,tint);}
-                        else if(attackerStyle==PuppetStyle.Blade){vfx.Impact(at,tint,power*.8f,.3f,0);vfx.Cut(at,side>=0?-28:208,tint);}
+                        if(attackerStyle==PuppetStyle.Archer){vfx.Impact(at,tint,power*.6f,0,0,white);vfx.Pierce(at,targetAt-actorAt,tint);}
+                        else if(attackerStyle==PuppetStyle.Caster){vfx.Impact(at,tint,power*.8f,0,0,white);vfx.Blast(at,tint,spirit!=null?.5f:1);}
+                        else if(attackerStyle==PuppetStyle.Blade){vfx.Impact(at,tint,power*.8f,.3f,0,white);vfx.Cut(at,side>=0?-28:208,tint);}
                         // A companion's face must stay readable while it is hit (watchdog S1-13), so a ram on a companion
                         // keeps the round burst and floor ring but with fewer, softer white rays over the head.
                         else if(rammed){vfx.Impact(Vector3.Lerp(at,Ground(e.Target),.35f),tint,power*.85f,.45f,.55f);vfx.Slam(Ground(e.Target),tint);}
+                        else if(spirit!=null){vfx.Impact(at,tint,power*.85f,.6f,.5f,white);vfx.Slam(Ground(e.Target),tint);}
                         else {vfx.Impact(at,tint,power);vfx.Slam(Ground(e.Target),tint);}
                     }
                 }
