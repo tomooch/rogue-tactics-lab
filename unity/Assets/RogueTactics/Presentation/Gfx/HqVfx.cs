@@ -236,7 +236,9 @@ namespace RogueTactics.Presentation.Gfx
         {
             var forward=View.transform.forward;var d=direction-forward*Vector3.Dot(direction,forward);if(d.sqrMagnitude<1e-6f)d=Right;d.Normalize();
             // One thin shaft of light carried clean through and out the far side: small, quick, and straight.
-            Emit(Streak,at-d*.6f,.42f,.30f,.22f,Color.white,With(tint,0),light:1,velocity:d*18,drag:9,facing:Facing.Velocity,aspect:8,fadeFrom:.4f);
+            Emit(Streak,at-d*.6f,.62f,.40f,.26f,With(tint,.9f),With(tint,0),light:1,velocity:d*18,drag:9,facing:Facing.Velocity,aspect:7,fadeFrom:.4f);
+            Emit(Streak,at-d*.6f,.48f,.30f,.22f,Color.white,With(tint,0),light:1,velocity:d*18,drag:9,facing:Facing.Velocity,aspect:9,fadeFrom:.4f);
+            Emit(Glow,at,.3f,.9f,.16f,With(tint,.7f),With(tint,0),light:1,fadeFrom:.2f);
             Emit(Streak,at+d*.9f,.30f,.06f,.24f,Color.white,tint,light:1,velocity:d*8,drag:7,facing:Facing.Velocity,aspect:7,fadeFrom:.4f);
             for(var i=0;i<7;i++)
                 Emit(Petal,at,.15f,.08f,Range(.5f,.85f),Leaf,With(Leaf,0),velocity:d*Range(1.5f,4.5f)+Screen(Range(0,360),1.6f),gravity:-5,drag:1.5f,spin:Range(-10,10),rotation:Range(0,360),fadeFrom:.6f);

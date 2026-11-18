@@ -51,6 +51,14 @@ namespace RogueTactics.Tests.PlayMode
             var later=Skin("A").sharedMaterial.GetVectorArray(bones);
             Assert.That(Enumerable.Range(0,idle.Length).Any(i=>(idle[i]-later[i]).sqrMagnitude>1e-9f),Is.True,"A standing companion breathes");
 
+            // RT_GFX_ENCOUNTER=<index> captures another fixture encounter on the first room (e.g. 2: Myaru's arrows land).
+            // Capture only: it skips the walk between rooms, so it is not a flow check.
+            if(every>0 && int.TryParse(System.Environment.GetEnvironmentVariable("RT_GFX_ENCOUNTER"),out var encounter) && encounter>0)
+            {
+                view.Session.LoadEncounter(encounter);
+                typeof(MobileG1View).GetMethod("ResetProjection",System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic).Invoke(view,null);
+                yield return new WaitForSecondsRealtime(.5f);
+            }
             view.Button("Attack").onClick.Invoke();view.Button("Start").onClick.Invoke();
             var frame=0;var peakEffects=0;var sawFlash=false;var deadline=Time.realtimeSinceStartup+90;var directory=Path.GetFullPath("Logs/hq/private/gfx");
             if(every>0){if(Directory.Exists(directory))Directory.Delete(directory,true);Directory.CreateDirectory(directory);}

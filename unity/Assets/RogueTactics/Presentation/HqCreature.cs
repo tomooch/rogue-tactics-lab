@@ -17,6 +17,8 @@ namespace RogueTactics.Presentation
         public static bool AltOf(string id)=>id=="Y";
         public static readonly Color WardenGold=new Color(1f,.80f,.30f),WardenTeal=new Color(.36f,.92f,.86f);
         public static Color TintOf(string id)=>KindOf(id)==SpiritKind.Warden?(AltOf(id)?WardenTeal:WardenGold):AltOf(id)?HqVfx.Violet:HqVfx.Moss;
+        /// <summary>One character for the turn-order strip.</summary>
+        public static string GlyphOf(string id)=>KindOf(id)==SpiritKind.Warden?(AltOf(id)?"碧":"金"):AltOf(id)?"花":"苔";
         public static string NameOf(string id)=>KindOf(id)==SpiritKind.Warden?(AltOf(id)?"碧の番兵":"金の番兵"):AltOf(id)?"花の精":"苔の精";
 
         public static Renderer Build(Transform parent,Material template,SpiritKind kind,bool alt,Camera view=null)

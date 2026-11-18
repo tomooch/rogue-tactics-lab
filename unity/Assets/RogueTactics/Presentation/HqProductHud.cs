@@ -157,7 +157,7 @@ namespace RogueTactics.Presentation
                 f.rectTransform.anchoredPosition=new Vector2(slot*(Field.rect.width-24)/6,-19);slot++;
                 var actorLabel=f.transform.Find("Actor").GetComponent<Text>();actorLabel.gameObject.SetActive(DeveloperMode || id=="X" || id=="Y");
                 if(!DeveloperMode)
-                {f.rectTransform.anchoredPosition=new Vector2((slot-1)*34,-19);f.rectTransform.sizeDelta=new Vector2(32,28);actorLabel.text=id=="X"?"苔":id=="Y"?"花":HeroName(id);actorLabel.rectTransform.anchoredPosition=Vector2.zero;actorLabel.rectTransform.sizeDelta=new Vector2(32,26);}
+                {f.rectTransform.anchoredPosition=new Vector2((slot-1)*34,-19);f.rectTransform.sizeDelta=new Vector2(32,28);actorLabel.text=id=="X" || id=="Y"?HqCreature.GlyphOf(id):HeroName(id);actorLabel.rectTransform.anchoredPosition=Vector2.zero;actorLabel.rectTransform.sizeDelta=new Vector2(32,26);}
                 f.color=id==shownActor?new Color(.50f,.36f,.12f,.97f):new Color(.04f,.12f,.18f,.92f);
             }
             orderLabel.text=reaction!=""?reaction:relationActor!="" && relationTarget!=""?HeroName(relationActor)+" → "+HeroName(relationTarget)+" / "+PlanName(relationKind):"行動順  •  "+(shownActor==""?"開始":HeroName(shownActor)+" 行動中");orderLabel.rectTransform.sizeDelta=new Vector2(340,19);

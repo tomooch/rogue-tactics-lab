@@ -30,7 +30,7 @@
 | 場所 | 何をしているか |
 |---|---|
 | `HqProductHud.cs:23` | カードの並び `{"A","D","C","B"}` |
-| `HqProductHud.cs:24` | 名前。A/B/C/D/X 以外は**すべて「花の精」**になる |
+| `HqProductHud.cs:24` | 名前。味方4人は直書き、敵は `HqCreature.NameOf(id)`（敵の名前・手番の一文字 `GlyphOf`・色・顔は `HqCreature` の1か所。ただし種類の決め方 `KindOf` は ID 起点で、敵の定義データを持つ段で置き換える） |
 | `HqProductHud.cs:49`、`:53`、`:150`、`HqAutonomousHud.cs:121`、`HqReferenceHud.cs:111`、`:214`、`:218`、`HqReferenceTypography.cs:77`、`:91`、`:92` | 方針を持つのは B、という前提でカードの文言と大きさを変える |
 | `HqProductHud.cs:158`、`:160`、`HqExploration.cs:216` | 敵かどうかを `id=="X" || id=="Y"` で判定 |
 | `MobileG1View.cs:285`、`:288` | 敵の見た目を `u.Id=="Y"` で紫、それ以外を緑に |
