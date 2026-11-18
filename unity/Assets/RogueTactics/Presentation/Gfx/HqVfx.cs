@@ -63,17 +63,22 @@ namespace RogueTactics.Presentation.Gfx
             Gold=new Color(1f,.84f,.36f),Jade=new Color(.50f,1f,.68f),Moss=new Color(.72f,.95f,.35f),Violet=new Color(.80f,.52f,1f),Cream=new Color(1f,.96f,.86f),Ink=new Color(.05f,.07f,.22f);
 
         /// <summary>The moment a blow lands: flash, shock ring, sparks thrown outward, a little debris.</summary>
-        // rays: how much of the thrown-outward white the hit carries (blade and blunt 1, magic .6, arrow .3).
+        // rays: how much thrown-outward white the hit carries; rings: the white shock rings. Only a heavy blow
+        // carries both in full: the round white burst is the blunt hit's signature, so the other ways of fighting
+        // turn it down and let their own shape (a line, a rune, a thin shaft) lead.
         // The centre stays small and brief so the struck character's outline and face remain readable.
-        public void Impact(Vector3 at,Color tint,float power=1,float rays=1)
+        public void Impact(Vector3 at,Color tint,float power=1,float rays=1,float rings=1)
         {
             // A dark halo first, so everything bright in front of it reads against the pale ruins.
             Emit(Veil,at,4.6f*power,5.6f*power,.34f,With(Ink,.42f),With(Ink,0),fadeFrom:.3f);
             if(rays>.05f)Emit(Burst,at,2.0f*power,3.3f*power,.20f,With(Color.white,rays),With(tint,rays),light:1,k0:.25f,k1:1,seed:Range(0,1),fadeFrom:.5f);
             Emit(Glow,at,.4f,.9f*power,.08f,With(Color.white,.6f),With(tint,.35f),light:1,fadeFrom:.15f);
             Emit(Sparkle,at,1.2f*power,.6f*power,.13f,With(Color.white,.9f),tint,light:1,rotation:Range(-25,25),fadeFrom:.3f);
-            Emit(Ring,at,.6f,2.3f*power,.30f,With(Color.white,.8f),tint,light:1,k0:.5f,k1:1,fadeFrom:.35f);
-            Emit(Ring,at,.3f,1.5f*power,.36f,With(tint,.9f),With(tint,0),light:1,k0:.5f,k1:1,fadeFrom:.3f,delay:.05f);
+            if(rings>.05f)
+            {
+                Emit(Ring,at,.6f,2.3f*power,.30f,With(Color.white,.8f*rings),With(tint,rings),light:1,k0:.5f,k1:1,fadeFrom:.35f);
+                Emit(Ring,at,.3f,1.5f*power,.36f,With(tint,.9f*rings),With(tint,0),light:1,k0:.5f,k1:1,fadeFrom:.3f,delay:.05f);
+            }
             var streaks=Mathf.RoundToInt(16*Mathf.Clamp01(rays));
             for(var i=0;i<streaks;i++)
             {
@@ -196,18 +201,30 @@ namespace RogueTactics.Presentation.Gfx
             {var a=i*45+Range(-15,15);var dir=Wide(Mathf.Cos(a*Mathf.Deg2Rad),Mathf.Sin(a*Mathf.Deg2Rad));Emit(Puff,ground+Up*.15f+dir*.5f,.3f,.8f,Range(.4f,.65f),With(Cream,.75f),With(Cream,0),velocity:dir*Range(1.5f,3)+Up*Range(.4f,1),drag:3,k0:.05f,k1:1,seed:Range(0,1));}
         }
 
-        /// <summary>A blade's edge passing through the target: one hard bright line along the cut.</summary>
+        /// <summary>A blade's edge passing through the target: one long hard line drawn across it in an instant,
+        /// a thinner echo beside it, and sparks thrown along the cut. A line, not a ring, is what says "sword".</summary>
         public void Cut(Vector3 at,float degrees,Color tint)
         {
-            var dir=Screen(degrees,1);
-            Emit(Streak,at-dir*.2f,.62f,.18f,.28f,With(tint,.85f),With(tint,0),light:1,velocity:dir*.01f,facing:Facing.Velocity,aspect:5,fadeFrom:.3f);
-            Emit(Streak,at-dir*.2f,.34f,.08f,.20f,Color.white,tint,light:1,velocity:dir*.01f,facing:Facing.Velocity,aspect:8,fadeFrom:.4f);
+            var dir=Screen(degrees,1);var across=Screen(degrees+90,1);
+            Emit(Veil,at,3.4f,4.2f,.30f,With(Ink,.30f),With(Ink,0),fadeFrom:.3f);
+            // The line is born behind the target and shot through it, so its bright head ends past the far side.
+            Emit(Streak,at-dir*1.1f,.95f,.70f,.26f,With(tint,.95f),With(tint,0),light:1,velocity:dir*16,drag:14,facing:Facing.Velocity,aspect:4.2f,fadeFrom:.35f);
+            Emit(Streak,at-dir*1.1f,.62f,.40f,.20f,Color.white,With(Color.white,0),light:1,velocity:dir*16,drag:14,facing:Facing.Velocity,aspect:6,fadeFrom:.45f);
+            Emit(Streak,at-dir*.9f+across*.28f,.42f,.20f,.18f,With(Color.white,.7f),With(tint,0),light:1,velocity:dir*13,drag:14,facing:Facing.Velocity,aspect:6,fadeFrom:.4f,delay:.03f);
+            for(var i=0;i<9;i++)
+            {
+                var along=Range(-.8f,.8f);var spray=Screen(degrees+Range(-25,25),1);
+                Emit(Streak,at+dir*along,.22f,.04f,Range(.18f,.32f),Color.white,tint,light:1,velocity:spray*Range(5,11),drag:5,facing:Facing.Velocity,aspect:2.4f,delay:Range(0,.06f));
+            }
         }
 
         /// <summary>A spell going off on its target: a ring of runes thrown open and crystal flung out of it.</summary>
         public void Blast(Vector3 at,Color tint)
         {
-            Emit(Rune,at,.7f,2.1f,.36f,Color.white,tint,light:1,k0:0,k1:.22f,fadeFrom:.35f);
+            // Colour, not white, leads: the spell blooms in its caster's hue and the rune opens through it.
+            Emit(Glow,at,.8f,2.2f,.30f,With(tint,.65f),With(tint,0),light:1,fadeFrom:.2f);
+            Emit(Rune,at,.7f,2.3f,.42f,Color.Lerp(Color.white,tint,.35f),With(tint,.8f),light:1,k0:0,k1:.22f,fadeFrom:.35f);
+            Emit(Ring,at,.5f,2.6f,.34f,With(tint,.9f),With(tint,0),light:1,k0:.2f,k1:1,fadeFrom:.3f,delay:.04f);
             for(var i=0;i<10;i++)
             {var dir=Screen(i*36+Range(-12,12),1);Emit(Shard,at+dir*.35f,.24f,.05f,Range(.38f,.6f),Color.white,tint,light:1,velocity:dir*Range(4,8.5f),drag:3.2f,spin:Range(-10,10),rotation:Range(0,360),fadeFrom:.6f);}
             for(var i=0;i<6;i++)
@@ -218,6 +235,8 @@ namespace RogueTactics.Presentation.Gfx
         public void Pierce(Vector3 at,Vector3 direction,Color tint)
         {
             var forward=View.transform.forward;var d=direction-forward*Vector3.Dot(direction,forward);if(d.sqrMagnitude<1e-6f)d=Right;d.Normalize();
+            // One thin shaft of light carried clean through and out the far side: small, quick, and straight.
+            Emit(Streak,at-d*.6f,.42f,.30f,.22f,Color.white,With(tint,0),light:1,velocity:d*18,drag:9,facing:Facing.Velocity,aspect:8,fadeFrom:.4f);
             Emit(Streak,at+d*.9f,.30f,.06f,.24f,Color.white,tint,light:1,velocity:d*8,drag:7,facing:Facing.Velocity,aspect:7,fadeFrom:.4f);
             for(var i=0;i<7;i++)
                 Emit(Petal,at,.15f,.08f,Range(.5f,.85f),Leaf,With(Leaf,0),velocity:d*Range(1.5f,4.5f)+Screen(Range(0,360),1.6f),gravity:-5,drag:1.5f,spin:Range(-10,10),rotation:Range(0,360),fadeFrom:.6f);

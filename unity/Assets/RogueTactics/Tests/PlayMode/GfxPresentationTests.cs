@@ -54,7 +54,9 @@ namespace RogueTactics.Tests.PlayMode
             view.Button("Attack").onClick.Invoke();view.Button("Start").onClick.Invoke();
             var frame=0;var peakEffects=0;var sawFlash=false;var deadline=Time.realtimeSinceStartup+90;var directory=Path.GetFullPath("Logs/hq/private/gfx");
             if(every>0){if(Directory.Exists(directory))Directory.Delete(directory,true);Directory.CreateDirectory(directory);}
-            while(!view.DisplayedEvents.Any(e=>e.Kind==EventKind.End) && Time.realtimeSinceStartup<deadline)
+            // When capturing, keep going a little past the end so the victory (and any ally getting up) is recorded too.
+            var tail=-1f;
+            while((!view.DisplayedEvents.Any(e=>e.Kind==EventKind.End) || (every>0 && (tail<0?(tail=Time.realtimeSinceStartup+2.5f)>0:Time.realtimeSinceStartup<tail))) && Time.realtimeSinceStartup<deadline)
             {
                 yield return null;frame++;peakEffects=Mathf.Max(peakEffects,view.EffectCount);
                 foreach(var id in allies)if(Skin(id).sharedMaterial.GetColor("_Flash").a>.2f)sawFlash=true;
@@ -63,7 +65,7 @@ namespace RogueTactics.Tests.PlayMode
                     var previous=RenderTexture.active;RenderTexture.active=rt;var image=new Texture2D(rt.width,rt.height,TextureFormat.RGB24,false);
                     image.ReadPixels(new Rect(0,0,rt.width,rt.height),0,0);image.Apply();RenderTexture.active=previous;
                     var last=view.DisplayedEvents.LastOrDefault();
-                    File.WriteAllBytes(Path.Combine(directory,$"f{frame:0000}_e{view.DisplayedEvents.Count:00}_{(last==null?"none":last.Kind.ToString())}.jpg"),image.EncodeToJPG(88));Object.Destroy(image);
+                    File.WriteAllBytes(Path.Combine(directory,$"f{frame:0000}_e{view.DisplayedEvents.Count:00}_{(last==null?"none":last.Kind+"_"+last.Actor+last.Target)}.jpg"),image.EncodeToJPG(88));Object.Destroy(image);
                 }
             }
             Assert.That(view.DisplayedEvents.Any(e=>e.Kind==EventKind.End),Is.True,"The battle is shown to its end");

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace RogueTactics.Presentation.Gfx
 {
     public enum PuppetStyle { Caster, Guardian, Blade, Archer }
-    public enum PuppetClip { None, Attack, Hit, Guard, Cast, Cheer, Fall }
+    public enum PuppetClip { None, Attack, Hit, Guard, Cast, Cheer, Fall, Rise }
 
     /// <summary>
     /// Display-only puppet for one approved still image. A soft 2D skeleton is laid over the art and
@@ -167,6 +167,18 @@ namespace RogueTactics.Presentation.Gfx
                         var rest=u>=1?Mathf.Exp(-(ClipTime-clipLength)*10)*Mathf.Sin((ClipTime-clipLength)*22)*.04f:0;
                         rot[Root]-=1.25f*tip+rest;tx[Root]+=.06f*OutCubic(e)*(h==0?.6f:1);sy[Root]-=.06f*tip;rot[Head]-=.2f*Mathf.Sin(e*Mathf.PI);
                         rot[Weapon]-=.6f*tip;flare+=.5f*(1-e);
+                        break;
+                    }
+                    case PuppetClip.Rise:
+                    {
+                        // The fall played backwards from where it left them: a slow push up, upright, then one small hop
+                        // as they find their feet. Same pivots and the same rigid tilt, so they read as the same person.
+                        var e=Mathf.Clamp01(u/.72f);var lie=1-e*e*(3-2*e);
+                        rot[Root]-=1.25f*lie;tx[Root]+=.06f*lie*(h==0?.6f:1);sy[Root]-=.06f*lie;rot[Weapon]-=.6f*lie;
+                        rot[Head]+=.12f*Mathf.Sin(e*Mathf.PI);
+                        var hop=u>.72f?Mathf.Sin(Mathf.Clamp01((u-.72f)/.28f)*Mathf.PI):0;
+                        ty[Root]+=.04f*hop;sy[Root]+=.03f*hop;flare+=.4f*hop+.3f*Mathf.Sin(e*Mathf.PI);
+                        if(u>=1)Clip=PuppetClip.None;
                         break;
                     }
                 }

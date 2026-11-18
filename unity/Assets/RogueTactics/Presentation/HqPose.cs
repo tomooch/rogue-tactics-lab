@@ -23,6 +23,10 @@ namespace RogueTactics.Presentation
         // of its last pose keeps them lying on their cell until they stand again.
         private readonly Dictionary<string,GameObject> fallenRest=new Dictionary<string,GameObject>();
         private static readonly Color RestTint=new Color(.84f,.86f,.94f,1f);
+        // A won encounter lifts each resting ally back onto their feet (design/specs/01 5.1: they rejoin the next fight).
+        // The copy gets its own puppet for this; the measured pawn stays hidden as the projection left it.
+        private readonly Dictionary<string,HqPuppet> rising=new Dictionary<string,HqPuppet>();
+        private const float RiseSeconds=.9f;
         private readonly List<Mesh> puppetMeshes=new List<Mesh>();
         private HqVfx vfx;private float hitStop;private string actingId="";
         public bool PoseMirrored(string id)=>poses.TryGetValue(id,out var pose) && pose.Mirrored;
@@ -132,6 +136,7 @@ namespace RogueTactics.Presentation
                     {
                         if(vfx!=null)vfx.Celebrate(BattleCenter());
                         foreach(var pair in poses)if(pawns[pair.Key].gameObject.activeInHierarchy)pair.Value.Puppet?.Play(PuppetClip.Cheer,.7f,0);
+                        foreach(var resting in new List<string>(fallenRest.Keys))RaiseFallen(resting);
                     }
                     break;
             }
@@ -156,7 +161,25 @@ namespace RogueTactics.Presentation
             fallenRest[id]=copy;
         }
         private void ClearFallen(string id)
-        {if(fallenRest.TryGetValue(id,out var copy)){if(copy!=null)Destroy(copy);fallenRest.Remove(id);}}
+        {if(fallenRest.TryGetValue(id,out var copy)){if(copy!=null)Destroy(copy);fallenRest.Remove(id);}rising.Remove(id);}
+        private void RaiseFallen(string id)
+        {
+            var pose=PoseOf(id);if(pose?.Puppet==null || rising.ContainsKey(id) || !fallenRest.TryGetValue(id,out var copy) || copy==null)return;
+            var skin=copy.GetComponent<MeshRenderer>().sharedMaterial;
+            var puppet=new HqPuppet(pose.Puppet.Skeleton,skin,0){Mirrored=skin.GetFloat("_Mirror")>.5f};
+            puppet.Play(PuppetClip.Rise,RiseSeconds,1);puppet.Tick(0,0,0,0);rising[id]=puppet;
+            if(vfx!=null)vfx.After(RiseSeconds*.7f,()=>{if(fallenRest.ContainsKey(id))vfx.Heal(Ground(id));});
+        }
+        // The copy regains its colour as it stands.
+        private void TickRising(float dt)
+        {
+            foreach(var pair in rising)
+            {
+                var puppet=pair.Value;puppet.Tick(dt,0,0,0);
+                var up=puppet.Clip==PuppetClip.Rise?Mathf.Clamp01(puppet.ClipTime/RiseSeconds):1;
+                puppet.Skin.SetColor("_Color",Color.Lerp(RestTint,Color.white,up));
+            }
+        }
 
         private void LandPoses(BattleEvent e,Vector3 actorAt,Vector3 targetAt)
         {
@@ -181,9 +204,11 @@ namespace RogueTactics.Presentation
                     {
                         // Each way of fighting lands differently, so the eye can tell who struck without reading.
                         var at=Chest(e.Target);var tint=TintOf(e.Actor);var power=e.Kind==EventKind.Counter?.85f:1;
-                        if(attackerStyle==PuppetStyle.Archer){vfx.Impact(at,tint,power*.7f,.3f);vfx.Pierce(at,targetAt-actorAt,tint);}
-                        else if(attackerStyle==PuppetStyle.Caster){vfx.Impact(at,tint,power*.9f,.6f);vfx.Blast(at,tint);}
-                        else if(attackerStyle==PuppetStyle.Blade){vfx.Impact(at,tint,power);vfx.Cut(at,side>=0?-28:208,tint);}
+                        // Shape tells them apart at phone size: blade = a line, magic = a coloured rune, arrow = a thin
+                        // shaft, blunt (and every spirit) = the round white burst with a ring over the floor.
+                        if(attackerStyle==PuppetStyle.Archer){vfx.Impact(at,tint,power*.6f,0,0);vfx.Pierce(at,targetAt-actorAt,tint);}
+                        else if(attackerStyle==PuppetStyle.Caster){vfx.Impact(at,tint,power*.8f,0,0);vfx.Blast(at,tint);}
+                        else if(attackerStyle==PuppetStyle.Blade){vfx.Impact(at,tint,power*.8f,.3f,0);vfx.Cut(at,side>=0?-28:208,tint);}
                         else {vfx.Impact(at,tint,power);vfx.Slam(Ground(e.Target),tint);}
                     }
                 }
@@ -204,6 +229,7 @@ namespace RogueTactics.Presentation
             // Hit-stop: the cast holds its pose for a few frames when a blow lands.
             if(hitStop>0){hitStop-=frame;dt=0;}
             var right=FieldCamera.transform.right;
+            TickRising(dt);
             foreach(var pair in pawns)
             {
                 if(spirits.TryGetValue(pair.Key,out var spirit))
