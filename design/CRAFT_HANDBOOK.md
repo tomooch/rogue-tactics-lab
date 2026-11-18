@@ -167,7 +167,7 @@ t=duration     Display(e)     ここで初めて HP・状態の表示が変わ�
 
 ### 4.x 後の階の敵の見た目（2026-11-18、Core 未対応）
 
-`HqCreature.Build(root, template, kind, alt, camera)` に `SpiritKind.Cap / Bat / Guardian` を渡せば立つ。`HqCreature.KindOf(id)` は今は全員 `Warden` のままなので、S2-2 / S2-10 / S3-2 で Core の敵の種類から `KindOf` を引くように変えるだけでよい（記号は `GlyphOf(kind, alt)`、名前は `NameOf(kind, alt)`、光の色は `TintOf(kind, alt)`）。
+`HqCreature.Build(root, template, kind, alt, camera)` に `SpiritKind.Cap / Bat / Guardian` を渡せば立つ。`HqCreature.KindOf(id)` は今は全員 `Warden` のままなので、S2-2 / S2-10 / S3-2 で Core の敵の種類から `KindOf` を引くように変えるだけでよい（記号は `GlyphOf(kind, alt)`、名前は `NameOf(kind, alt)`、光の色は `TintOf(kind, alt)`）。対応: Core `EnemyKind.Hunter`→`SpiritKind.Warden`、Moss→Moss、Bloom→Bloom、Cap→Cap、Bat→Bat、Guardian→Guardian。`alt` は「同じ戦闘で同じ種類の2体目」（今の `AltOf` は ID が Y）。Warden だけ色（金／碧）が変わり、他の種類は動きの位相だけが変わる。
 
 | 種類 | 形で分かること | 作り | 動き |
 |---|---|---|---|
@@ -175,11 +175,12 @@ t=duration     Display(e)     ここで初めて HP・状態の表示が変わ�
 | 影こうもり `Bat` | 扇に開く羽（指の骨3本＋膜）、立った耳、小さな牙 | 小さい体（幅 .44） | 影から 0.55 浮き、ゆっくり上下（`Hover`） |
 | 遺跡の守護者 `Guardian` | 角ばった青灰の石。彫りの帯、苔、額の琥珀の紋 | 超楕円体（`Box` .45、高さ .86・中心 .96）、目は 1.3 倍 | 石なので体のゆれ ×0.25 |
 
-- 体の mesh 名は全種 `Fixture slime`（測る側の約束）。目は全種 `Bright spirit eye` 2つ（見張り S1-13 の顔の位置に使う）。
+- 体の mesh 名は全種 `Fixture slime`（測る側の約束）。目は全種 `Bright spirit eye` 2つ、口は全種 `Smile`。見張り（S1-13）と重なりの検査が目と口で顔を測るので、新しい種類でも名前を変えない。
 - 確かめ方: PlayMode `GfxSpiritGalleryTests`（1戦目の盤で番兵2体の代わりに各組を立たせ、待機と被弾を撮る）。`RT_GFX_CAPTURE=1` で `unity/Logs/hq/private/gallery/` に出す。
 - **予告**（守護者）: `HqCreatureAnim.Telegraphing = true` の間、額の紋（`Mark`）が 1.6 倍まで膨らんで白っぽく光り、後ろに光の輪（`Halo`、普段は大きさ 0）が開いて脈打つ。0.25 秒で立ち上がり、false で消える。Core の意図が「次に守護者が範囲を叩く」になったとき（specs/02 §6）に Presentation が立て、着弾で下ろす。範囲のマスの表示は意図の描画（線・アイコン・行き先）の側で作る。
 - **羽ばたき**（こうもり）: `HqCreatureAnim.Wings` に入れた羽は毎秒約3回（攻撃中は約4回）羽ばたく。葉の揺れとは別。
-- 未確認: 実際の戦闘で動かしたときの見え方（Core に種類がないため）、範囲のマスの予告表示、2マス分の高さ（今は約1.5倍。測る側の板の大きさと合わせて決める）。
+- 未確認: 実際の戦闘で動かしたときの見え方（Core に種類がないため）、範囲のマスの予告表示、2マス分の高さ（今は約1.5倍）。**S3-2 で守護者を部屋に出す前に、`MobileG1InteractionTests.CheckLayout` / `CheckActorReadability` を守護者の盤で回して板の高さを決め、specs/02 §6 に書く。決まらなければ Human に聞く。**
+- 見張り（S1-13）と重なりの検査は、まだ新しい3種を測っていない。S2-10 / S3-2 で部屋に出したら `GfxReadabilityWatchdogTests` の対象にその部屋を足して全件を回す。精の平均しきい値（0.60）を種類ごとに変える必要が出たら、コマを並べて Human に見せる（しきい値を黙って緩めない）。
 
 ## 5. エフェクト（`HqVfx` + `HqVfx.shader`）
 
@@ -191,6 +192,8 @@ t=duration     Display(e)     ここで初めて HP・状態の表示が変わ�
 - `Emit(形, 位置, 初期サイズ, 最終サイズ, 寿命, 初期色, 最終色, ...)`。サイズは world 単位の半径（キャラの背丈は約 3）。
 
 ### 5.2 レシピ（組み合わせ）
+
+（`CastCircle` と `Charge` は別の関数なので、表は16行でもレシピは 17）
 
 出来事ごとに、形を重ねた「レシピ」関数を呼ぶ。新しい演出は `Emit` を直接並べず、**レシピを1つ足して `HqPose` から呼ぶ**。
 
@@ -370,7 +373,7 @@ RT_GFX_CAPTURE=3 [RT_GFX_ENCOUNTER=2] <Unity 6000.3.25f1> -batchmode -projectPat
 - 当たりの強さ（暗い暈・放射線）が、やさしい絵柄に対して強すぎないか。
 - Simulator 用ビルドの手順（`$U`=`/Applications/Unity/Hub/Editor/6000.3.25f1/Unity.app/Contents/MacOS/Unity`、Unity を他で開いていないことを確かめてから）:
   - **製品の流れ（探索あり）**: `"$U" -batchmode -quit -projectPath unity -buildTarget iOS -executeMethod RogueTactics.Editor.HqFloorSetup.ExportIosSimulator -logFile <out>.log`（出力は repo 直下 `build/ios-floor-simulator`）。2026-11-18 に実行（head 26fc2c0）。iOS Simulator で、最初の部屋の戦闘を勝利まで → 「先へ進む」→ 探索で床を選んで隊列が移動・カメラが追う、までを確認（ボタンの文字の欠け・行動順の帯の崩れなし）。
-  - **実機（探索あり）**: `"$U" -batchmode -quit -projectPath unity -buildTarget iOS -executeMethod RogueTactics.Editor.HqFloorSetup.ExportIos -logFile <out>.log`（出力 `build/ios-floor`、署名の設定は入れない）→ `xcodebuild -project build/ios-floor/Unity-iPhone.xcodeproj -scheme Unity-iPhone -configuration Release -destination generic/platform=iOS -derivedDataPath <dd> -allowProvisioningUpdates CODE_SIGN_STYLE=Automatic DEVELOPMENT_TEAM=<チーム> PRODUCT_BUNDLE_IDENTIFIER=com.tomooch.roguetacticslab build`（Xcode に登録済みの開発者アカウントで自動署名。鍵・プロファイルは repo に入れない）→ `xcrun devicectl device install app --device <UDID> <dd>/Build/Products/Release-iphoneos/RogueTacticsLab.app`。iPhone はロック解除・デベロッパモード・同じ Wi-Fi（初回は USB でつなぎ Xcode で「Connect via network」）。2026-11-18 に書き出しと署名付きビルドまで成功、**iPhone が「接続なし」で未インストール**。
+  - **実機（探索あり）**: `"$U" -batchmode -quit -projectPath unity -buildTarget iOS -executeMethod RogueTactics.Editor.HqFloorSetup.ExportIos -logFile <out>.log`（出力 `build/ios-floor`。`MobileIosSigning.ConfigureExport` を呼ぶが、`ROGUE_IOS_SIGNING_SHA` / `ROGUE_IOS_PROFILE` を環境に置いた場合だけ署名を書く。鍵は repo に入れない）→ `xcodebuild -project build/ios-floor/Unity-iPhone.xcodeproj -scheme Unity-iPhone -configuration Release -destination generic/platform=iOS -derivedDataPath <dd> -allowProvisioningUpdates CODE_SIGN_STYLE=Automatic DEVELOPMENT_TEAM=<チーム> PRODUCT_BUNDLE_IDENTIFIER=com.tomooch.roguetacticslab build`（Xcode に登録済みの開発者アカウントで自動署名。鍵・プロファイルは repo に入れない）→ `xcrun devicectl device install app --device <UDID> <dd>/Build/Products/Release-iphoneos/RogueTacticsLab.app`。iPhone はロック解除・デベロッパモード・同じ Wi-Fi（初回は USB でつなぎ Xcode で「Connect via network」）。2026-11-18 に書き出しと署名付きビルドまで成功、**iPhone が「接続なし」で未インストール**。
   - **戦闘だけの検証用 scene `MobileG1`**: 同じ形で `RogueTactics.Editor.MobileG1Setup.ExportIosSimulator`（出力 `build/ios-simulator`）。2026-11-18 に実行して動作を確認。製品の流れの確認には使わない。
   - ビルド: `xcodebuild -project build/<出力>/Unity-iPhone.xcodeproj -scheme Unity-iPhone -configuration Debug -sdk iphonesimulator -destination id=<UDID> -derivedDataPath <dd> build` → `xcrun simctl install <UDID> <dd>/Build/Products/Debug-iphonesimulator/RogueTacticsLab.app` → 起動。
   - 書き出しは `ProjectSettings/ProjectSettings.asset`、`Assets/Settings/*`、`InternalIcon.png.meta` を書き換える。終わったら `git checkout --` で戻す。Codex の検証用 Simulator（Rogue Tactics G1 QA）には入れず、別の Simulator を使う。

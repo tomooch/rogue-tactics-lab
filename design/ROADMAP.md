@@ -53,7 +53,7 @@
 | S1-13 | **済み（2026-11-18）** 見た目の自動の見張り（着弾のコマで、当たった側が白で覆われていないか） | [HANDOFF.md](HANDOFF.md) §3.1、[CRAFT_HANDBOOK.md](CRAFT_HANDBOOK.md) §5.4.1 | わざと光を強くすると落ちる | PlayMode |
 
 - **S1-2 の現状**（2026-11-18）: 白い光を弱める分と、形での見分け（[CRAFT_HANDBOOK.md](CRAFT_HANDBOOK.md) §5.3.1）は実装済み。4種ともコマで見分けを確認（矢は3戦目で撮影）。Simulator で1戦目を勝利まで通して確認（2026-11-18、iOS Simulator、勝利・シロ HP 16/18）。着弾で顔が見えるかは、味方・精とも見張り（S1-13）で測って基準内（2026-11-18、CRAFT §5.4.1）。残るのは「数字を隠して4種を言い当てられる」を人が確かめること。
-- **S1-3 の現状**（2026-11-18）: 倒れた仲間が横たわったまま残り、勝つと起き上がる。倒れる向きは空いている側、着地で土煙と星（去っていく光はやめた）。三拍・0.72 秒で着地をコマで確認（1戦目と3戦目）。隠れた写しは起き上がらない。勝利の紙吹雪は控えめなまま（強めるかは試遊を見て）。
+- **S1-3 の現状**（2026-11-18）: 倒れた仲間が横たわったまま残り、勝つと起き上がる（戦闘だけの build のみ。製品の流れでは Core の死亡どおり残る。S2-4）。倒れる向きは空いている側、着地で土煙と星（去っていく光はやめた）。三拍・0.72 秒で着地をコマで確認（1戦目と3戦目）。隠れた写しは起き上がらない。勝利の紙吹雪は控えめなまま（強めるかは試遊を見て）。
 - **S1-12 済み**（2026-11-17）: 1階の2体は「金の番兵」「碧の番兵」（`HqCreature`）。
 - **見た目の改善候補**（未着手）: 1戦目の開始配置で、ガルの剣の鍔と袖が後ろの番兵の右目の外側にかかる（瞳は見える）。直すなら開始配置（Core の盤）か絵の構図で、表示だけの小手先では直らない。
 - **S1-13 済み**（2026-11-18）。PlayMode `GfxReadabilityWatchdogTests.ImpactsNeverWashTheStruckFigureOutInWhite`。しきい値と実測は [CRAFT_HANDBOOK.md](CRAFT_HANDBOOK.md) §5.4.1。
@@ -81,10 +81,10 @@
 | S2-4 | HP の持ち越し、戦闘後の回復、泉、階の移動 | [specs/01](specs/01_CORE_RULES.md) §5 | `sim/floors.py` の「よく考える人」の選択列で、同じ HP の推移になる | EditMode |
 | S2-5 | 遠征の進行（2階・3階）。**部屋の順番と泉の時機をプレイヤーが選ぶ** | [overall/05](overall/05_AGENCY.md) §3.3、[specs/03](specs/03_DUNGEON_AND_ROOMS.md) §1、§5〜6 | 初回は既定の道で3階まで通る。2回目以降は2部屋が見えて選べる。泉は階に1回 | EditMode、PlayMode |
 | S2-6 | 方針を選ぶ画面（3択）、2階で3つ目が増える | [specs/07](specs/07_UI_AND_CAMERA.md) §2 | 説明文が Core の定義と対応。選ぶと矢印が描き変わる | PlayMode |
-| S2-7 | 遺物（規則の集約 `RuleSet`、6種、2階の終わりの報酬） | [specs/04](specs/04_RELICS_AND_GEAR.md) §1〜5 | 遺物なしは hash 不変。危機の判定と実際の被害が全遺物・全部屋で一致 | EditMode、PlayMode |
+| S2-7 | 遺物（規則の集約 `RuleSet`、6種、2階の終わりの報酬）（遺物の絵は `HqRelicArt` 済み） | [specs/04](specs/04_RELICS_AND_GEAR.md) §1〜5 | 遺物なしは hash 不変。危機の判定と実際の被害が全遺物・全部屋で一致 | EditMode、PlayMode |
 | S2-8 | 保存（途中再開）と記録 | [specs/06](specs/06_SAVE_AND_SETTINGS.md) §2〜3、§5 | 途中再開しても最終の hash が一致。壊れた保存で落ちない | EditMode |
-| S2-9 | 画面のつながり（勝利後の回復を数字で見せる、泉、報酬） | [specs/07](specs/07_UI_AND_CAMERA.md) §7 | 回復の数字が Core の結果と一致。画面全体を覆う切り替えが無い | PlayMode、コマ |
-| S2-10 | 茸の番人と影こうもり。**先に計算で検証** | [specs/02](specs/02_ENEMIES.md) §4〜5 | 設計の「検証のやり方」の条件を満たす部屋が見つかり、Core の結果が計算と一致 | 計算、EditMode |
+| S2-9 | 画面のつながり（勝利後の回復を数字で見せる、泉、報酬）（泉の絵は `HqSpringProp` 済み。Core 接続と数字が仕事） | [specs/07](specs/07_UI_AND_CAMERA.md) §7 | 回復の数字が Core の結果と一致。画面全体を覆う切り替えが無い | PlayMode、コマ |
+| S2-10 | 茸の番人と影こうもり。**先に計算で検証** | [specs/02](specs/02_ENEMIES.md) §4〜5 | 設計の「検証のやり方」の条件を満たす部屋が見つかり、Core の結果が計算と一致。見張り（`GfxReadabilityWatchdogTests`）の対象に部屋を足す | 計算、EditMode |
 
 - S2-10 は S2 の中で最後に。数値が未検証なので、部屋が見つからなければ設計の数値を動かす（動かす範囲は設計に書いてある）。
 - S2 が終わったら、人の試遊 S2（§5 の C4）。
@@ -110,7 +110,7 @@ agent の自動検証で代用しないでください。
 
 | # | 仕事 | 誰が | いつ | 完了の証拠 |
 |---|---|---|---|---|
-| C1 | 最新 commit を実際の iPhone で動かす（署名は Human の資格情報。commit / log に入れない） | Human と Executor | S1 の後 | 対象 commit の実機記録 |
+| C1 | 最新 commit を実際の iPhone で動かす（署名は Human の資格情報。commit / log に入れない） | Human と Executor | S1 の後 | 対象 commit の実機記録。手順は [CRAFT_HANDBOOK.md](CRAFT_HANDBOOK.md) の「Simulator・実機の書き出し」。2026-11-18 に署名付きビルドまで成功、インストール未達 |
 | C2 | 実機で性能を測り、[GAME_DESIGN.md §11](GAME_DESIGN.md) の数値を確定する | Executor | C1 と同時 | `HQ_FRAME_METRICS` のログ（`HqFrameMetrics.cs`）。実機で取ったもの |
 | C3 | 非誘導の人の試遊 S1（3〜5人）。[GAME_DESIGN.md §1](GAME_DESIGN.md) の6つの問い | Human | S1 の後、S2 の前 | 初見の反応・発言・自発操作の記録 |
 | C4 | 人の試遊 S2。遺物を選んだ理由を自分から話すか、方針を変えたくなるか | Human | S2 の後 | 同上 |

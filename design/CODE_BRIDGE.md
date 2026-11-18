@@ -31,7 +31,7 @@
 |---|---|
 | `HqProductHud.cs:23` | カードの並び `{"A","D","C","B"}` |
 | `HqProductHud.cs:24` | 名前。味方4人は直書き、敵は `HqCreature.NameOf(id)`（敵の名前・手番の一文字 `GlyphOf`・色・顔は `HqCreature` の1か所。ただし種類の決め方 `KindOf` は ID 起点で、敵の定義データを持つ段で置き換える） |
-| `HqProductHud.cs:49`、`:53`、`:150`、`HqAutonomousHud.cs:121`、`HqReferenceHud.cs:111`、`:214`、`:218`、`HqReferenceTypography.cs:77`、`:91`、`:92` | 方針を持つのは B、という前提でカードの文言と大きさを変える |
+| `HqProductHud.cs:46`、`:49`、`:53`、`:150`、`HqAutonomousHud.cs:121`、`HqReferenceHud.cs:111`、`:214`、`:218`、`HqReferenceTypography.cs:77`、`:91`、`:92` | 方針を持つのは B、という前提でカードの文言と大きさを変える |
 | `HqProductHud.cs:158`、`:161`、`HqExploration.cs:216` | 敵かどうかを `id=="X" || id=="Y"` で判定 |
 | `MobileG1View.cs:290`、`:293` | 敵の見た目を `HqCreature.KindOf`/`AltOf`（ID 起点。`AltOf` は `id=="Y"`）で決める。旧い球は `u.Id=="X"` |
 | `MobileG1View.cs:347`、`:356`、`:359`、`:389`、`HqMotion.cs:47` | 守りの線と盾を `"B"` から `"A"` へ固定で引く |
@@ -109,7 +109,7 @@ namespace RogueTactics.Presentation
 
 ## 4. 直す順番
 
-1つずつ。各段の後で EditMode と PlayMode を回し、**結果が変わらないこと**を確かめてください（いまは PlayMode 20/20。重なりの検査は「画素で顔が隠れないか」を見る。[ROADMAP.md](ROADMAP.md) S1-1）。見た目が変わらない段は、`RT_GFX_CAPTURE` のコマが前と同じであることも見る。
+1つずつ。各段の後で EditMode と PlayMode を回し、**結果が変わらないこと**を確かめてください（いまは PlayMode 24 件、通常 23 通過 + 1 skipped。[HANDOFF.md](HANDOFF.md) §8。重なりの検査は「画素で顔が隠れないか」を見る。[ROADMAP.md](ROADMAP.md) S1-1）。見た目が変わらない段は、`RT_GFX_CAPTURE` のコマが前と同じであることも見る。
 
 | 段 | やること | 触るファイル | 変わってはいけないもの |
 |---|---|---|---|
@@ -141,6 +141,8 @@ cd unity/Assets/RogueTactics && grep -rnE 'Fixture\.Baseline\(\)|"[ABCDXY]"|Deta
 - 敵 3 体の盤（R03）で、名前・色・矢印・危機の印・カードがすべて正しく出る PlayMode が通る。
 - 最大 HP を変えた駒で、カードと足元の棒が正しい割合になる。
 - 既存の2つの hash が変わらない。
+
+- 既知の例外: `HqCreature.cs` の `AltOf`（`id=="Y"`）は段 1（Roster）まで残る1件。段 2 で Roster の `Alt` に置き換えて 0 件にする。
 
 ## 6. この一覧の作り方
 

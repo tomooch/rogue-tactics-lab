@@ -99,6 +99,7 @@ public sealed class RelicDef {
 
 - 持っている遺物は、盤の右上（小地図の下）に小さな印を縦に並べる。最大3つ。タップで1行の説明。
 - 遺物が効いた瞬間に、その印が 0.3 秒光る。出典は `BattleEvent` の派生値に足す `Relic`（効いた遺物の Id。無ければ空）。Presentation が「たぶんこの遺物」と推測しない。
+- 絵は実装済み（表示だけ、2026-11-19）: `Presentation/Gfx/HqRelicArt.cs`。`Icon(relicId)` が 132px（44pt×3）の Texture2D、`Sprite(relicId)` が UI 用、`Accent(relicId)` が縁の色。RelicDef.Id と `HqRelicArt.Ids` を一致させること（未知 id は `ArgumentException`。黙って別の絵を出さない）。確かめ: PlayMode `GfxRelicSpringGalleryTests.RelicIconsAreFilledAndToldApartBySilhouette`。
 - 演出の差し替えは [CRAFT_HANDBOOK.md §5](../CRAFT_HANDBOOK.md) のレシピを1つ足す形で。例: 見張りの灯は `Shield` の前に、モモからシロへ `Streak` を3本。
 
 ## 6. 装備（S3。未検証）
