@@ -272,6 +272,22 @@ namespace RogueTactics.Presentation.Gfx
             for(var i=0;i<4;i++)Emit(Sparkle,toGround+Up*Range(.4f,1.2f)+Wide(Range(-.5f,.5f),Range(-.2f,.2f)),.16f,0,Range(.35f,.5f),Color.white,tint,light:1,delay:Range(.18f,.32f),spin:Range(-3,3));
         }
 
+        /// <summary>Going down a floor, at one companion's feet: a ring opens on the stone, a soft column of light rises
+        /// and motes fall through it (down, not up: the party sinks to the next floor). Local light only, never the screen.</summary>
+        public void Descend(Vector3 ground,Color tint)
+        {
+            Emit(Ring,ground,.3f,1.6f,.5f,With(Color.white,.8f),With(tint,0),light:1,k1:1,facing:Facing.Ground,fadeFrom:.4f);
+            Emit(Pillar,ground+Up*1.4f,1.2f,1.5f,.7f,With(tint,.45f),With(tint,0),light:1,aspect:.55f,fadeIn:.2f,fadeFrom:.45f);
+            for(var i=0;i<8;i++)
+                Emit(Sparkle,ground+Wide(Range(-.6f,.6f),Range(-.25f,.25f))+Up*Range(1.6f,2.6f),.14f,.04f,Range(.5f,.7f),Color.white,tint,light:1,velocity:Up*-Range(2f,3.2f),delay:Range(0,.3f),spin:Range(-3,3),fadeIn:.15f);
+        }
+        /// <summary>Arriving on a floor: a ring and a little dust where a companion lands.</summary>
+        public void Land(Vector3 ground,Color tint)
+        {
+            Dust(ground,.9f);
+            Emit(Ring,ground,.4f,1.3f,.4f,With(Color.white,.7f),With(tint,0),light:1,k1:1,facing:Facing.Ground,fadeFrom:.35f);
+        }
+
         /// <summary>A small four-point twinkle on something precious (a relic on its pedestal, a pick-up).</summary>
         public void Glint(Vector3 at)
         {

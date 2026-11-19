@@ -150,6 +150,8 @@
 
 - 泉の絵は実装済み（2026-11-19）: `HqSpringProp.Build(parent, 床の位置, カメラ)`、`Drink(vfx, 隊の足元)` が各人の回復の光を 0.30 秒から 0.20 秒刻みで出し、**光が着く秒の配列を返す**。回復の数字（Core の結果）は同じ秒に出すこと。使用済みの見た目は `SetSpent(true)`。1 マスに収まり背が 0.56 以下（`SpringFitsOneCellShimmersAndShowsTheDrink` が確認）。
 
+- 階を下りる絵は実装済み（表示だけ、2026-11-19）: `HqFloorDescent.Play(vfx, 盤のカメラ, 次の階, 階段の床, 隊の足元の列)` が拍の秒（`Open` 0、`Taken[i]` 各人が光に入る秒、`Switch` 0.95 で `HqFloorLook.Apply(次の階)`、`Land` 1.25、`End` 1.7）を返す。階段に光の陣、各人に降りる光の柱（`HqVfx.Descend`）、着地に輪と土煙（`HqVfx.Land`）。仲間の移動と Core の階の更新は Executor が拍に合わせる。確かめ: PlayMode `GfxFloorDescentTests`（どのコマも白・黒が6割未満、測る物が動かない、`RT_GFX_CAPTURE=1` で `unity/Logs/hq/private/descent/`）。
+- 全滅とやり直しの絵は未実装（設計: 色を少し落とし、階の入口に光が集まり、そこで仲間が起き上がる。全面の黒は使わない）。
 - 白や黒で画面全体を覆う切り替えは使わない。盤はいつも見えている（探索と戦闘が同じ場で起きる、という確定事項のため）。
 - 勝利の後の「ひと息」と復帰は、Core の `PartyState.AfterVictory` の結果を**数字つきで見せる**。黙って HP が増えていると、持ち越しの規則が読めない。
 
