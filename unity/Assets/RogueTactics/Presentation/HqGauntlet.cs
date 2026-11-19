@@ -174,7 +174,7 @@ namespace RogueTactics.Presentation
             {
                 var button=buttons["DirectEnemy"+id];
                 var face=Rect(button.transform,"Spirit portrait",6,3,38,38).gameObject.AddComponent<SpiritPortraitGraphic>();
-                face.Violet=id=="Y";face.raycastTarget=false;
+                face.Kind=HqCreature.KindOf(id);face.Alt=HqCreature.AltOf(id);face.raycastTarget=false;
                 var label=button.transform.Find("Label").GetComponent<Text>();
                 label.fontSize=11;label.rectTransform.anchoredPosition=new Vector2(46,-2);label.rectTransform.sizeDelta=new Vector2(114,56);
             }

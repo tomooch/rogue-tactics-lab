@@ -25,7 +25,8 @@ namespace RogueTactics.Presentation
             var hasActor=pawns.TryGetValue(e.Actor,out var actor);var hasTarget=pawns.TryGetValue(e.Target,out var targetRoot);
             var original=hasActor?actor.position:Vector3.zero;
             var targetPosition=hasTarget?targetRoot.position:Vector3.zero;
-            var duration=e.Kind==EventKind.Move?.52f:e.Kind==EventKind.Death?.36f:.46f;
+            // Long enough to read the wind-up; the event still lands exactly at the end of this tween.
+            var duration=e.Kind==EventKind.Move?.52f:e.Kind==EventKind.Death?.72f:e.Kind==EventKind.Damage?.62f:e.Kind==EventKind.Heal?.60f:e.Kind==EventKind.End?.2f:.50f;
             KickPoses(e,hasActor && hasTarget?original:targetPosition,targetPosition,duration);
             var elapsedMotion=0f;visualTweenActive=true;
             if(e.Kind==EventKind.Counter){reaction=HeroName(e.Actor)+" 反撃（割込）";RefreshProductHud();}
@@ -36,14 +37,7 @@ namespace RogueTactics.Presentation
                     elapsedMotion+=Time.unscaledDeltaTime;var t=Mathf.Clamp01(elapsedMotion/duration);var pulse=Mathf.Sin(t*Mathf.PI);
                     if(e.Kind==EventKind.Move && hasActor)
                     {var destination=World(Shown(e.Position));actor.position=Vector3.Lerp(original,destination,t*t*(3-2*t))+Vector3.up*(pulse*.16f);}
-                    if((e.Kind==EventKind.Damage || e.Kind==EventKind.Counter) && hasActor && hasTarget)
-                    {
-                        actor.position=original+(targetPosition-original).normalized*(pulse*.12f);
-                        targetRoot.position=targetPosition+FieldCamera.transform.right*(Mathf.Sin(t*Mathf.PI*4)*.055f);
-                    }
-                    if(e.Kind==EventKind.Protect && hasActor)actor.position=original+Vector3.up*(pulse*.16f);
-                    if(e.Kind==EventKind.Heal && hasTarget)targetRoot.localScale=Vector3.one*(1+pulse*.055f);
-                    if(e.Kind==EventKind.Death && hasTarget)targetRoot.localScale=Vector3.one*(1-t*.65f);
+                    // Strikes, guards, mending and falls are posed by the puppets and spirits (HqPose); pawns stay on their cells.
                 }
                 // Geometry follows the visible pose while pause/resume retains the tween's exact phase.
                 bodyRects.Clear();
@@ -57,13 +51,9 @@ namespace RogueTactics.Presentation
             visualTweenActive=false;
             if(hasActor)actor.position=original;if(hasTarget){targetRoot.position=targetPosition;targetRoot.localScale=Vector3.one;}
             Display(e);Refresh();PopEventNumber(e);
-            if(e.Kind==EventKind.Damage || e.Kind==EventKind.Counter || e.Kind==EventKind.Heal || e.Kind==EventKind.Protect)
-            {
-                var targetId=e.Target;var renderer=bodies[targetId];var material=renderer.sharedMaterial;var before=material.color;
-                var tint=e.Kind==EventKind.Heal?new Color(.45f,1,.76f):e.Kind==EventKind.Protect?new Color(.5f,.85f,1):new Color(1,.68f,.57f);
-                // Multiplicative light flash only. The approved source texture RGB is never rewritten.
-                var elapsed=0f;while(elapsed<.22f){if(!Paused){elapsed+=Time.unscaledDeltaTime;material.color=Color.Lerp(tint,before,elapsed/.22f);}yield return null;}material.color=before;
-            }
+            LandPoses(e,hasActor && hasTarget?original:targetPosition,targetPosition);
+            // Leave the reaction (recoil, flash, burst) on screen before the next event starts.
+            if(e.Kind==EventKind.Damage || e.Kind==EventKind.Counter || e.Kind==EventKind.Heal || e.Kind==EventKind.Protect)yield return PresentationDelay(.26f);
             yield return PresentationDelay(.14f);
         }
         private IEnumerator PresentationDelay(float duration)

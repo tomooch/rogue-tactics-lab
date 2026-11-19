@@ -93,7 +93,7 @@ namespace RogueTactics.Presentation
             Label(SafeRoot,"Title","天空の遺跡",24,13,242,30,20);
             Label(SafeRoot,"Boundary","モモのカードで方針を選ぶ",24,44,242,18,11);
             MakeButton(SafeRoot,"Details","記録",322,6,56,44,()=>OpenDetails(false),14);
-            BuildStage();
+            BuildStage();BuildEffects();
             Field=Rect(SafeRoot,"Field",0,60,390,520);fieldImage=Field.gameObject.AddComponent<RawImage>();fieldImage.texture=fieldTarget;fieldImage.raycastTarget=false;Field.SetAsFirstSibling();
             guardLink=Strip(Field,"Guard link",Jade);actionLink=Strip(Field,"Core intention",Gold);
             ghost=Rect(Field,"Legal destination",0,0,34,18);ghost.gameObject.AddComponent<Image>().color=new Color(.8f,.95f,.8f,.25f);ghost.GetComponent<Image>().raycastTarget=false;
@@ -181,7 +181,12 @@ namespace RogueTactics.Presentation
         }
 
         private void ResizeButton(string id,float x,float y,float width)
-        {var r=buttons[id].GetComponent<RectTransform>();r.anchoredPosition=new Vector2(x,-y);r.sizeDelta=new Vector2(width,48);buttons[id].GetComponentInChildren<Text>().rectTransform.sizeDelta=new Vector2(width-8,44);}
+        {
+            var r=buttons[id].GetComponent<RectTransform>();r.anchoredPosition=new Vector2(x,-y);r.sizeDelta=new Vector2(width,48);
+            // Keep the label's own left inset (4 by default, 44 beside a reference icon) and end it 4 inside the button,
+            // so a label laid out for the icon never runs past the button's right edge after a resize.
+            var label=buttons[id].GetComponentInChildren<Text>().rectTransform;label.sizeDelta=new Vector2(width-label.anchoredPosition.x-4,44);
+        }
         private void Update()
         {
             SampleFrame();
@@ -273,7 +278,7 @@ namespace RogueTactics.Presentation
                     {
                         var quad=GameObject.CreatePrimitive(PrimitiveType.Quad);quad.name="Private approved static skin";quad.transform.SetParent(root,false);
                         quad.transform.localPosition=Vector3.up*.12f+FieldCamera.transform.up*1.5f;quad.transform.rotation=FieldCamera.transform.rotation;
-                        quad.transform.localScale=new Vector3(2.25f,3.0f,1);var m=new Material(SpriteTemplate);m.mainTexture=CharacterArt[index];materials.Add(m);quad.GetComponent<Renderer>().sharedMaterial=m;bodies[u.Id]=quad.GetComponent<Renderer>();
+                        quad.transform.localScale=new Vector3(2.25f,3.0f,1);var m=new Material(SpriteTemplate);m.mainTexture=CharacterArt[index];materials.Add(m);quad.GetComponent<Renderer>().sharedMaterial=m;bodies[u.Id]=quad.GetComponent<Renderer>();RigPuppet(u.Id,index,quad,CharacterArt[index]);
                     }
                     else {var missing=Sphere("Missing approved original (not final art)",Vector3.zero,new Vector3(.55f,.7f,.5f),new Color(.5f,.55f,.5f));missing.transform.SetParent(root,false);bodies[u.Id]=missing.GetComponent<Renderer>();}
                 }
@@ -282,7 +287,7 @@ namespace RogueTactics.Presentation
                     // Anchor the front contact edge to the cell, like the static portraits' feet.
                     // A centred sphere otherwise extends over the next row's portrait/foot HP.
                     if(!HqWorld)shadow.transform.localPosition+=Vector3.forward*.55f;
-                    if(HqWorld)bodies[u.Id]=HqCreature.Build(root,StoneTemplate,u.Id=="Y");
+                    if(HqWorld)bodies[u.Id]=HqCreature.Build(root,StoneTemplate,HqCreature.KindOf(u.Id),HqCreature.AltOf(u.Id),FieldCamera);
                     else
                     {
                     var body=Sphere("Fixture slime",Vector3.zero,new Vector3(1.2f,.8f,1.08f),u.Id=="X"?new Color(.4f,.65f,.57f):new Color(.63f,.40f,.63f));body.transform.SetParent(root,false);body.transform.localPosition=new Vector3(0,.45f,.55f);bodies[u.Id]=body.GetComponent<Renderer>();
@@ -307,7 +312,7 @@ namespace RogueTactics.Presentation
         { if(Busy)return;ResetFloorExploration();policyEditing=false;Auto=false;Paused=false;Session.Reset();Prediction.text="";ResetProjection();SetComparisonCamera(CameraPitch); }
         private void ResetProjection()
         {
-            ClearRelation();frameIntervals.Clear();LastFrameReport=null;displayed.Clear();captions.Clear();dead.Clear();hp.Clear();positions.Clear();terminalSeen=false;shownStep=0;shownActor="";reaction="";foreach(var u in Session.Replay.State.Units){hp[u.Id]=u.Hp;positions[u.Id]=Shown(u.Position);}crisisActive=false;orderedActor="";orderedTarget="";instructionReceiptText="";interruptRequested=false;requestedInstructionAlly="";if(instructionOverlay!=null)instructionOverlay.gameObject.SetActive(false);
+            ClearAllFallen();if(vfx!=null)vfx.Clear();hitStop=0;actingId="";ClearRelation();frameIntervals.Clear();LastFrameReport=null;displayed.Clear();captions.Clear();dead.Clear();hp.Clear();positions.Clear();terminalSeen=false;shownStep=0;shownActor="";reaction="";foreach(var u in Session.Replay.State.Units){hp[u.Id]=u.Hp;positions[u.Id]=Shown(u.Position);}crisisActive=false;orderedActor="";orderedTarget="";instructionReceiptText="";interruptRequested=false;requestedInstructionAlly="";if(instructionOverlay!=null)instructionOverlay.gameObject.SetActive(false);
             shield.gameObject.SetActive(false);guardLink.gameObject.SetActive(false);floating.text="";foreach(var b in badges.Values)b.alpha=1;
         }
         private void StartBattle() {if(Session.Started || Busy)return;policyEditing=false;Prediction.DeactivateInputField();SetComparisonCamera(CameraPitch);Session.Start(Prediction.text);Auto=!DeveloperMode;Next();}
@@ -500,7 +505,7 @@ namespace RogueTactics.Presentation
         {var t=Rect(parent,name,x,y,w,h).gameObject.AddComponent<Text>();t.font=JapaneseFont;t.fontSize=size;t.text=value;t.color=Ink;t.alignment=anchor;t.raycastTarget=false;t.horizontalOverflow=HorizontalWrapMode.Wrap;t.verticalOverflow=VerticalWrapMode.Truncate;return t;}
         private void MakeButton(Transform parent,string id,string name,float x,float y,float w,float h,UnityEngine.Events.UnityAction action,int size)
         {var r=Rect(parent,id,x,y,w,h);var i=r.gameObject.AddComponent<Image>();i.color=new Color(.12f,.24f,.26f);var b=r.gameObject.AddComponent<Button>();b.targetGraphic=i;b.onClick.AddListener(action);buttons[id]=b;Label(r,"Label",name,4,2,w-8,h-4,size,TextAnchor.MiddleCenter);}
-        private void OnDestroy(){if(knownPositionTexture!=null)Destroy(knownPositionTexture);if(contactTexture!=null)Destroy(contactTexture);if(runtimeProfile!=null)Destroy(runtimeProfile);if(fieldTarget!=null){fieldTarget.Release();Destroy(fieldTarget);}foreach(var m in materials)Destroy(m);}
+        private void OnDestroy(){if(knownPositionTexture!=null)Destroy(knownPositionTexture);if(contactTexture!=null)Destroy(contactTexture);if(runtimeProfile!=null)Destroy(runtimeProfile);if(fieldTarget!=null){fieldTarget.Release();Destroy(fieldTarget);}foreach(var m in materials)Destroy(m);foreach(var m in puppetMeshes)Destroy(m);}
     }
     // Draws only the supplied Presentation path; it never selects a gameplay target.
     [RequireComponent(typeof(CanvasRenderer))]

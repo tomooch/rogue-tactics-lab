@@ -177,6 +177,10 @@ namespace RogueTactics.Tests
             Assert.That(status.text,Is.EqualTo("戦闘不能"),"Death replaces the normal role, not just its icon");
             Assert.That(status.preferredWidth,Is.LessThanOrEqualTo(status.rectTransform.rect.width+.1f),"The complete death status must remain readable");
             Assert.That(unavailable.Find("Core role").gameObject.activeInHierarchy,Is.False,"Do not retain a live role badge on the unavailable companion");
+            // The display must not stand the lost companion back up either: no resting copy may have regained full colour.
+            yield return new WaitForSecondsRealtime(1.2f);
+            foreach(var copy in Object.FindObjectsByType<MeshRenderer>(FindObjectsSortMode.None).Where(r=>r.name=="Fallen rest A"))
+                Assert.That(copy.sharedMaterial.GetColor("_Color").r,Is.LessThan(.9f),"A lost companion stays down after the win in the floor flow");
             yield return Capture("floor-attack-result");Press(view,"Explore");yield return null;
             Assert.That(view.Exploration.Party.Count,Is.EqualTo(3));Assert.That(view.Exploration.Party.ContainsKey("A"),Is.False);
             Assert.That(Resources.FindObjectsOfTypeAll<Transform>().Single(t=>t.name=="Fixture A" && t.gameObject.scene.IsValid()).gameObject.activeSelf,Is.False);

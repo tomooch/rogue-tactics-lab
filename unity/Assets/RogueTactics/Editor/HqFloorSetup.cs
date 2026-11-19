@@ -31,6 +31,29 @@ namespace RogueTactics.Editor
             var result=UnityEditor.BuildPipeline.BuildPlayer(new BuildPlayerOptions{scenes=new[]{ScenePath},locationPathName=Path.GetFullPath("../build/Exploration.app"),target=BuildTarget.StandaloneOSX,options=BuildOptions.Development});
             if(result.summary.result!=UnityEditor.Build.Reporting.BuildResult.Succeeded)throw new Exception("Exploration preview build failed");
         }
+        /// <summary>The product flow (exploration) for a physical iPhone. Signing is applied by xcodebuild or by
+        /// MobileIosSigning's ROGUE_IOS_* variables, never stored here.</summary>
+        public static void ExportIos()
+        {
+            var sdk=PlayerSettings.iOS.sdkVersion;
+            var backend=PlayerSettings.GetScriptingBackend(UnityEditor.Build.NamedBuildTarget.iOS);
+            try
+            {
+#if UNITY_IOS
+                MobileIosSigning.PrepareIosIcons();
+#endif
+                PlayerSettings.SetScriptingBackend(UnityEditor.Build.NamedBuildTarget.iOS,ScriptingImplementation.IL2CPP);
+                PlayerSettings.iOS.sdkVersion=iOSSdkVersion.DeviceSDK;
+                var output=Path.GetFullPath("../build/ios-floor");
+                var result=BuildPipeline.BuildPlayer(new BuildPlayerOptions{scenes=new[]{ScenePath},locationPathName=output,target=BuildTarget.iOS,options=BuildOptions.None});
+                if(result.summary.result!=UnityEditor.Build.Reporting.BuildResult.Succeeded)throw new Exception("Exploration iOS export failed");
+#if UNITY_IOS
+                MobileIosSigning.ConfigureExport(output);
+#endif
+                Debug.Log("HQ_FLOOR_IOS_EXPORT_COMPLETE");
+            }
+            finally{PlayerSettings.iOS.sdkVersion=sdk;PlayerSettings.SetScriptingBackend(UnityEditor.Build.NamedBuildTarget.iOS,backend);}
+        }
         public static void ExportIosSimulator()
         {
             var sdk=PlayerSettings.iOS.sdkVersion;var architecture=PlayerSettings.iOS.simulatorSdkArchitecture;

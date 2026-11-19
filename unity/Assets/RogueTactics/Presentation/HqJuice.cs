@@ -21,12 +21,16 @@ namespace RogueTactics.Presentation
             if(e.Amount<=0 || (e.Kind!=EventKind.Damage && e.Kind!=EventKind.Counter && e.Kind!=EventKind.Heal))return;
             if(!bodies.TryGetValue(e.Target,out var renderer) || !renderer.gameObject.activeInHierarchy)return;
             var body=ProjectedBody(renderer);var heal=e.Kind==EventKind.Heal;
-            var label=Label(Field,"Event number",(heal?"+":"-")+e.Amount,0,0,64,30,heal?19:22,TextAnchor.MiddleCenter);
+            var label=Label(Field,"Event number",(heal?"+":"-")+e.Amount,0,0,110,48,heal?24:28,TextAnchor.MiddleCenter);
             label.fontStyle=FontStyle.Bold;label.raycastTarget=false;
-            label.color=heal?new Color(.62f,1,.66f):e.Kind==EventKind.Counter?new Color(1,.80f,.42f):new Color(1,.97f,.90f);
-            var outline=label.gameObject.AddComponent<Outline>();outline.effectDistance=new Vector2(1.6f,-1.6f);
-            outline.effectColor=heal?new Color(.02f,.25f,.08f,.95f):new Color(.42f,.04f,.03f,.95f);
-            eventNumbers.Add(new EventNumber{Label=label,From=new Vector2(body.center.x-32,body.yMax-body.height*.18f)});
+            // The damage figure was being clipped away by the label's own box; let it draw at any size.
+            label.verticalOverflow=VerticalWrapMode.Overflow;label.horizontalOverflow=HorizontalWrapMode.Overflow;
+            var allyHurt=poses.ContainsKey(e.Target);
+            label.color=heal?new Color(.62f,1,.66f):allyHurt?new Color(1,.50f,.42f):e.Kind==EventKind.Counter?new Color(1,.80f,.30f):new Color(1,.95f,.55f);
+            var outline=label.gameObject.AddComponent<Outline>();outline.effectDistance=new Vector2(2.4f,-2.4f);
+            var shade=label.gameObject.AddComponent<Shadow>();shade.effectDistance=new Vector2(0,-3.5f);shade.effectColor=new Color(.05f,.05f,.15f,.7f);
+            outline.effectColor=heal?new Color(.02f,.22f,.08f,1):new Color(.20f,.03f,.08f,1);
+            eventNumbers.Add(new EventNumber{Label=label,From=new Vector2(body.center.x-55,body.yMax+12)});
         }
 
         private void AnimateJuice()
@@ -37,8 +41,8 @@ namespace RogueTactics.Presentation
                 var n=eventNumbers[i];n.Age+=dt;var t=n.Age/.95f;
                 if(t>=1 || n.Label==null){if(n.Label!=null)Destroy(n.Label.gameObject);eventNumbers.RemoveAt(i);continue;}
                 // Pop in larger, settle, rise and fade.
-                var pop=t<.12f?Mathf.Lerp(.3f,1.35f,t/.12f):Mathf.Lerp(1.35f,1,Mathf.Clamp01((t-.12f)/.14f));
-                n.Label.rectTransform.anchoredPosition=n.From+Vector2.up*(Mathf.Sin(Mathf.Min(1,t*1.8f)*Mathf.PI*.5f)*28);
+                var pop=t<.10f?Mathf.Lerp(.3f,1.7f,t/.10f):Mathf.Lerp(1.7f,1,Mathf.Clamp01((t-.10f)/.16f));
+                n.Label.rectTransform.anchoredPosition=n.From+Vector2.up*(Mathf.Sin(Mathf.Min(1,t*1.8f)*Mathf.PI*.5f)*34);
                 n.Label.rectTransform.localScale=Vector3.one*pop;
                 var c=n.Label.color;c.a=t>.62f?1-(t-.62f)/.38f:1;n.Label.color=c;
             }
