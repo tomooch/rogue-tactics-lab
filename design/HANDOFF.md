@@ -94,7 +94,7 @@ Human は 2026-11-17 に「面白くなる方向には変更有り。コンセ�
 | 敵（丸いトゥーン） | 番兵（1階）・苔・花・茸の番人・影こうもり・守護者の6種の見た目を実装済み（後の3種は 2026-11-18〜19、Core 未接続。CRAFT §4.x） | 後の3種を Core の敵種に接続（S2-10・S3-2） |
 | エフェクト 14 形・レシピ 17 | 実装済み。退く（`HqVfx.Retreat`）と予告の範囲（`HqDangerTiles`）も表示だけ実装済み（2026-11-19） | Core の `RetreatOnce`・`Telegraphed` に接続（S3-2） |
 | 階ごとの景色 1〜5 階 | 表示だけ実装済み（2026-11-19、PR #25）。`HqFloorLook`、設計は specs/07 §8 | 階の移動（S2-5）で `Apply(floor)` を呼ぶ |
-| 遺物の絵 6 種、泉の絵 | 表示だけ実装済み（2026-11-19、PR #24）。`HqRelicArt`（`Icon/Sprite/Accent`、id は specs/04 §3 の表と同じ。未知 id は例外）、`HqSpringProp`（`Build`・`Drink`・`SetSpent`）。**Core には未接続** | 遺物の効いた瞬間の光（`BattleEvent.Relic`、S2-7）、泉の回復数字（S2-9）、`SetSpent` は保存の復元（S2-8）から |
+| 遺物の絵 6 種、泉の絵、報酬の台座 | 表示だけ実装済み（2026-11-19、PR #24。台座 `HqRewardAltar` は specs/04 §4）。`HqRelicArt`（`Icon/Sprite/Accent`、id は specs/04 §3 の表と同じ。未知 id は例外）、`HqSpringProp`（`Build`・`Drink`・`SetSpent`）。**Core には未接続** | 遺物の効いた瞬間の光（`BattleEvent.Relic`、S2-7）、泉の回復数字（S2-9）、`SetSpent` は保存の復元（S2-8）から |
 | 命中の白い光 | 弱めた（2026-11-17）。戦い方ごとに `Impact` を絞った（2026-11-18、CRAFT §5.3.1） | 自動の見張り（S1-13） |
 | 剣・鈍器・魔法・矢の見分け | 形で作り分け、2026-11-18 のコマで4種とも見分けを確認（矢は `RT_GFX_ENCOUNTER=2`） | 人が数字を隠して言い当てる確認（S1-2 の完了条件）は未実施 |
 | 味方の戦闘不能 | 空いている側へ倒れ、土煙と星、横たわって残る。戦闘だけの build では勝つと起き上がる（2026-11-18、コマで確認） | 製品の流れでの復帰（25%、S2-4）を Core に入れたら、起き上がりを製品の流れでも使う（CRAFT §3.3.1） |
@@ -145,4 +145,4 @@ root の契約文書で、古くなっている記述（直すのは Executor / 
 - `claude/hq-graphics-release` は Draft PR #23。base は `codex/hq-ref-vertical-slice`（Draft PR #21 の系列）。
 - 取り込むかどうか、どう取り込むかは Executor が決めます（[DECISIONS.md](DECISIONS.md) B15）。merge と Draft-to-Ready は Human の明示許可。
 - 取り込むときの注意: `design/` は丸ごと独立しています。コードの変更は `Presentation/Gfx/`、`Presentation/HqPose.cs`・`HqJuice.cs`・`HqMotion.cs`・`HqCreature.cs`（敵の見た目と名前）・`HqReferenceHud.cs`（`SpiritPortraitGraphic`）・`HqProductHud.cs`・`HqGauntlet.cs`・`MobileG1View.cs`（`ResizeButton`、`ResetProjection` ほか小変更）、`Resources/Gfx/`、`Editor/HqFloorSetup.cs`（実機用の `ExportIos` を追加）、`Tests/PlayMode/`。確かめるには `git diff --stat $(git merge-base HEAD origin/codex/hq-ref-vertical-slice) HEAD -- unity`。
-- PlayMode は 23 件合格・1件スキップ（撮影専用）（PR #24 取り込み後。2026-11-18 に S1-1 を解決して 19/19 を3回連続、S1-13 の白飛びの見張りを足して 20 件、後の階の敵の見た目の一覧 `GfxSpiritGalleryTests` を足して 21 件、遺物・泉の一覧 `GfxRelicSpringGalleryTests` 3件を足して 24 件。うち `CaptureSpringAndIconsOnTheBoard` は `RT_GFX_CAPTURE` 指定時だけ動き、通常は skipped で不具合ではない。2026-11-19 に 24 件を実行して 23 通過 + 1 skipped を確認。さらに階の景色 `GfxFloorLookGalleryTests`（PR #25）2件と予告の範囲・退く `GfxDangerRetreatTests` 1件で 27 件、26 通過 + 1 skipped）。
+- PlayMode は 23 件合格・1件スキップ（撮影専用）（PR #24 取り込み後。2026-11-18 に S1-1 を解決して 19/19 を3回連続、S1-13 の白飛びの見張りを足して 20 件、後の階の敵の見た目の一覧 `GfxSpiritGalleryTests` を足して 21 件、遺物・泉の一覧 `GfxRelicSpringGalleryTests` 3件を足して 24 件。うち `CaptureSpringAndIconsOnTheBoard` は `RT_GFX_CAPTURE` 指定時だけ動き、通常は skipped で不具合ではない。2026-11-19 に 24 件を実行して 23 通過 + 1 skipped を確認。さらに階の景色 `GfxFloorLookGalleryTests`（PR #25）2件と予告の範囲・退く `GfxDangerRetreatTests` 1件で 27 件、報酬の台座 `GfxRewardAltarTests` 1件で 28 件、27 通過 + 1 skipped）。

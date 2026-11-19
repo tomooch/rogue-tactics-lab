@@ -272,6 +272,13 @@ namespace RogueTactics.Presentation.Gfx
             for(var i=0;i<4;i++)Emit(Sparkle,toGround+Up*Range(.4f,1.2f)+Wide(Range(-.5f,.5f),Range(-.2f,.2f)),.16f,0,Range(.35f,.5f),Color.white,tint,light:1,delay:Range(.18f,.32f),spin:Range(-3,3));
         }
 
+        /// <summary>A small four-point twinkle on something precious (a relic on its pedestal, a pick-up).</summary>
+        public void Glint(Vector3 at)
+        {
+            Emit(Sparkle,at,.1f,.55f,.32f,Color.white,With(Gold,0),light:1,rotation:0,fadeFrom:.4f);
+            Emit(Sparkle,at,.1f,.32f,.36f,Color.white,With(Gold,0),light:1,rotation:45,fadeFrom:.4f,delay:.04f);
+        }
+
         /// <summary>A heavy swing or a lunge cutting the air between two points.</summary>
         public void Swoosh(Vector3 from,Vector3 to,Color tint)
         {
