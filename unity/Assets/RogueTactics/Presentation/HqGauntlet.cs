@@ -121,6 +121,7 @@ namespace RogueTactics.Presentation
         private bool interruptRequested;
         private string directedAlly="", directedEnemy="";
         private RectTransform instructionOverlay, instructionSheet;
+        private readonly Dictionary<string,Button> instructionEnemies=new Dictionary<string,Button>();
         private Text instructionSummary, instructionReceipt;
         private string orderedActor="", orderedTarget="", instructionReceiptText="";
         private void UpdateInstructionReceipt(ResolvedStep step)
@@ -188,30 +189,59 @@ namespace RogueTactics.Presentation
                 var name=button.transform.Find("Label").GetComponent<Text>();name.fontSize=12;name.rectTransform.anchoredPosition=new Vector2(2,-49);name.rectTransform.sizeDelta=new Vector2(76,25);
                 Label(button.transform,"HP", "",47,9,31,40,10,TextAnchor.MiddleCenter);
             }
-            MakeButton(instructionSheet,"DirectEnemyX",HeroName("X"),16,158,164,60,()=>{directedEnemy="X";RefreshInstruction();},15);
-            MakeButton(instructionSheet,"DirectEnemyY",HeroName("Y"),190,158,164,60,()=>{directedEnemy="Y";RefreshInstruction();},15);
-            foreach(var id in new[]{"X","Y"})
-            {
-                var button=buttons["DirectEnemy"+id];
-                var face=Rect(button.transform,"Spirit portrait",6,3,38,38).gameObject.AddComponent<SpiritPortraitGraphic>();
-                face.Kind=HqCreature.KindOf(id);face.Alt=HqCreature.AltOf(id);face.raycastTarget=false;
-                var label=button.transform.Find("Label").GetComponent<Text>();
-                label.fontSize=11;label.rectTransform.anchoredPosition=new Vector2(46,-2);label.rectTransform.sizeDelta=new Vector2(114,56);
-            }
             instructionSummary=Label(instructionSheet,"Selection","",16,223,338,40,12);
             MakeButton(instructionSheet,"DirectCancel","やめて任せる",16,266,164,44,CancelInstruction,15);
             MakeButton(instructionSheet,"DirectConfirm","この一手を託す",190,266,164,44,ConfirmInstruction,15);
             instructionOverlay.gameObject.SetActive(false);
         }
+        private void LayoutInstructionSheet()
+        {
+            var extraHeight=instructionSheet.sizeDelta.y-320;
+            instructionSheet.anchoredPosition=new Vector2(10,-(SafeRoot.rect.height-330-extraHeight));
+        }
+
+        private void RefreshInstructionEnemies()
+        {
+            var enemies=Session.Replay.State.Units.Where(unit=>unit.Enemy).ToArray();
+            foreach(var entry in instructionEnemies)
+                if(!enemies.Any(enemy=>enemy.Id==entry.Key))entry.Value.gameObject.SetActive(false);
+            var plans=Session.Replay.Intents().ToDictionary(plan=>plan.Actor);
+            for(var i=0;i<enemies.Length;i++)
+            {
+                var enemy=enemies[i];
+                var id=enemy.Id;
+                var key="DirectEnemy"+id;
+                if(!instructionEnemies.TryGetValue(id,out var button))
+                {
+                    MakeButton(instructionSheet,key,HeroName(id),16,158,164,60,()=>{directedEnemy=id;RefreshInstruction();},15);
+                    button=buttons[key];
+                    instructionEnemies.Add(id,button);
+                    var face=Rect(button.transform,"Spirit portrait",6,3,38,38).gameObject.AddComponent<SpiritPortraitGraphic>();
+                    face.Kind=HqCreature.KindOf(id);face.Alt=HqCreature.AltOf(id);face.raycastTarget=false;
+                    var label=button.transform.Find("Label").GetComponent<Text>();
+                    label.fontSize=11;label.rectTransform.anchoredPosition=new Vector2(46,-2);label.rectTransform.sizeDelta=new Vector2(114,56);
+                }
+                button.GetComponent<RectTransform>().anchoredPosition=new Vector2(16+i%2*174,-(158+i/2*66));
+                button.gameObject.SetActive(true);
+                button.interactable=enemy.Alive;
+                button.GetComponent<Image>().color=id==directedEnemy?new Color(.4f,.3f,.10f):new Color(.12f,.24f,.26f);
+                plans.TryGetValue(id,out var plan);
+                var intentText=!enemy.Alive?"戦闘不能":plan==null?"待機":PlanName(plan.Kind)+(plan.Target!=""?"→"+HeroName(plan.Target):"");
+                button.transform.Find("Label").GetComponent<Text>().text=HeroName(id)+"  HP "+enemy.Hp+"\n"+intentText;
+            }
+            var extraHeight=Mathf.Max(0,(enemies.Length-1)/2)*66;
+            instructionSheet.sizeDelta=new Vector2(370,320+extraHeight);
+            instructionSummary.rectTransform.anchoredPosition=new Vector2(16,-(223+extraHeight));
+            buttons["DirectCancel"].GetComponent<RectTransform>().anchoredPosition=new Vector2(16,-(266+extraHeight));
+            buttons["DirectConfirm"].GetComponent<RectTransform>().anchoredPosition=new Vector2(190,-(266+extraHeight));
+            LayoutInstructionSheet();
+        }
+
         private void RefreshInstruction()
         {
             foreach(var id in CardOrder)
             {var b=buttons["DirectAlly"+id];var u=Session.Replay.State.Find(id);b.interactable=u.Alive;b.transform.Find("HP").GetComponent<Text>().text="HP\n"+u.Hp;b.GetComponent<Image>().color=id==directedAlly?new Color(.4f,.3f,.10f):new Color(.12f,.24f,.26f);}
-            foreach(var id in new[]{"X","Y"})
-            {var b=buttons["DirectEnemy"+id];b.interactable=Session.Replay.State.Find(id).Alive;b.GetComponent<Image>().color=id==directedEnemy?new Color(.4f,.3f,.10f):new Color(.12f,.24f,.26f);var enemy=Session.Replay.State.Find(id);
-                var plan=Session.Replay.Intents().FirstOrDefault(p=>p.Actor==id);
-                var intentText=!enemy.Alive?"戦闘不能":plan==null?"待機":PlanName(plan.Kind)+(plan.Target!=""?"→"+HeroName(plan.Target):"");
-                b.transform.Find("Label").GetComponent<Text>().text=HeroName(id)+"  HP "+enemy.Hp+"\n"+intentText;}
+            RefreshInstructionEnemies();
             buttons["DirectConfirm"].interactable=directedAlly!="" && directedEnemy!="";
             instructionSummary.text=directedAlly==""?"誰に一手を託しますか？\n確定するまで回数は減りません":directedEnemy==""?HeroName(directedAlly)+"が狙う相手を選んでください":"";
             var usual=directedAlly==""?null:Session.Replay.Intents().FirstOrDefault(plan=>plan.Actor==directedAlly);
@@ -288,7 +318,7 @@ namespace RogueTactics.Presentation
             var challenge=buttons["Challenge"];challenge.gameObject.SetActive(CanChallenge && !enteringEncounter);
             if(challenge.gameObject.activeSelf)PositionReferenceAction("Challenge",12,h-268,w-24,"守り手に挑む（"+(NextEncounter+1)+" / "+Fixture.EncounterCount+"戦目）");
             instructionOverlay.sizeDelta=SafeRoot.rect.size;
-            instructionSheet.anchoredPosition=new Vector2(10,-(h-330));
+            LayoutInstructionSheet();
             var canDirect=Session.Started && !terminalSeen && !IsExploring && !modalObject.activeSelf && Session.Replay.CorrectionsLeft>0;
             buttons["Interrupt"].gameObject.SetActive(canDirect);
             foreach(var id in CardOrder)
