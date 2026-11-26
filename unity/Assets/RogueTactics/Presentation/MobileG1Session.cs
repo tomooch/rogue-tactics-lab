@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RogueTactics.Core;
 using RogueTactics.Core.G1;
+using RogueTactics.Core.Exploration;
 
 namespace RogueTactics.Presentation
 {
@@ -68,10 +69,10 @@ namespace RogueTactics.Presentation
             correction=new BattleInput(Replay.State.Step,actor,target);
         }
 
-        public BattleCheckpoint CaptureBattle()
+        public BattleCheckpoint CaptureBattle(FloorCheckpoint floor=null)
         {
             if(!Started)throw new InvalidOperationException("Start first");
-            return new BattleCheckpoint(EncounterIndex,Replay.InitialPreference,Replay.State.Step,Prediction,correction);
+            return new BattleCheckpoint(EncounterIndex,Replay.InitialPreference,Replay.State.Step,Prediction,correction,floor);
         }
 
         public void RestoreBattle(BattleCheckpoint checkpoint)
@@ -139,8 +140,9 @@ namespace RogueTactics.Presentation
         public int Steps { get; }
         public string Prediction { get; }
         public BattleInput Input { get; }
+        public FloorCheckpoint Floor { get; }
 
-        public BattleCheckpoint(int encounterIndex,Preference initialPreference,int steps,string prediction,BattleInput input)
+        public BattleCheckpoint(int encounterIndex,Preference initialPreference,int steps,string prediction,BattleInput input,FloorCheckpoint floor=null)
         {
             if(steps<0 || steps>Rules.ActionLimit)throw new ArgumentOutOfRangeException(nameof(steps));
             if(input!=null && (input.At<0 || input.At>steps))throw new ArgumentException("The correction must be within the saved battle",nameof(input));
@@ -149,6 +151,7 @@ namespace RogueTactics.Presentation
             Steps=steps;
             Prediction=prediction??"";
             Input=input;
+            Floor=floor;
         }
     }
 

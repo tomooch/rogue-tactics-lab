@@ -355,11 +355,19 @@ namespace RogueTactics.Presentation
             if(status==BattleCheckpointReadStatus.Loaded)
             {
                 MobileG1Session restored=null;
+                FloorTraveller restoredTravel=null;
                 try
                 {
                     restored=Session.EncounterCount==1?Session:new MobileG1Session();
                     if(restored.EncounterCount>1)restored.LoadEncounter(checkpoint.EncounterIndex);
                     restored.RestoreBattle(checkpoint);
+                    if(checkpoint.Floor!=null)
+                    {
+                        if(!ExplorationEnabled || restored.Replay.State.Outcome!=Outcome.Victory)
+                            throw new ArgumentException("Exploration requires a completed victory");
+                        var origin=GauntletRooms.Origin(floorMap,checkpoint.EncounterIndex);
+                        restoredTravel=FloorTraveller.Restore(floorMap,restored.Replay.State.Units,origin,checkpoint.Floor);
+                    }
                 }
                 catch(Exception error) when(error is ArgumentException || error is InvalidOperationException)
                 {
@@ -378,7 +386,8 @@ namespace RogueTactics.Presentation
                         floorScenery.Reveal(floorMap,displayedKnown);
                     }
                     ApplyRestoredBattle();
-                    if(floorMini!=null)floorMini.Configure(floorMap,displayedKnown,KnownMapActors());
+                    if(restoredTravel!=null)EnterExploration(restoredTravel);
+                    else if(floorMini!=null)floorMini.Configure(floorMap,displayedKnown,KnownMapActors());
                     return;
                 }
             }
@@ -387,8 +396,8 @@ namespace RogueTactics.Presentation
 
         private void SaveSettledBattle()
         {
-            if(battleStore==null || !Session.Started || Busy || IsExploring)return;
-            if(!battleStore.TryWrite(Session.CaptureBattle()))
+            if(battleStore==null || !Session.Started || Busy || visualTweenActive)return;
+            if(!battleStore.TryWrite(Session.CaptureBattle(IsExploring?traveller.Capture():null)))
                 SafeRoot.Find("Boundary").GetComponent<Text>().text="戦闘を保存できませんでした";
         }
 

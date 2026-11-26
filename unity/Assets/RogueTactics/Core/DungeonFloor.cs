@@ -82,6 +82,21 @@ namespace RogueTactics.Core.Exploration
         public TravelStop Stop { get; }
         internal FloorStep(List<FloorMove> moves,TravelStop stop){Moves=moves.AsReadOnly();Stop=stop;}
     }
+    public sealed class FloorCheckpoint
+    {
+        public IReadOnlyDictionary<string,GridPosition> Party { get; }
+        public IReadOnlyList<GridPosition> KnownCells { get; }
+        public IReadOnlyList<int> DiscoveredRooms { get; }
+
+        public FloorCheckpoint(IEnumerable<KeyValuePair<string,GridPosition>> party,
+            IEnumerable<GridPosition> knownCells,IEnumerable<int> discoveredRooms)
+        {
+            Party=new System.Collections.ObjectModel.ReadOnlyDictionary<string,GridPosition>(
+                party.ToDictionary(entry=>entry.Key,entry=>entry.Value));
+            KnownCells=Array.AsReadOnly(knownCells.ToArray());
+            DiscoveredRooms=Array.AsReadOnly(discoveredRooms.ToArray());
+        }
+    }
     public sealed class FloorTraveller
     {
         private readonly Dictionary<string,GridPosition> party=new Dictionary<string,GridPosition>();
@@ -107,6 +122,29 @@ namespace RogueTactics.Core.Exploration
             {var at=unit.Position.Offset(origin.X,origin.Y);if(!map.Walkable(at) || party.ContainsValue(at))throw new ArgumentException("Invalid floor handoff");party.Add(unit.Id,at);health.Add(unit.Id,unit.Hp);}
             if(party.Count==0)throw new ArgumentException("No living explorers");Reveal();
         }
+        public FloorCheckpoint Capture()=>new FloorCheckpoint(party,KnownCells,rooms.OrderBy(room=>room));
+
+        public static FloorTraveller Restore(FloorMap map,IEnumerable<Unit> survivors,GridPosition origin,FloorCheckpoint checkpoint)
+        {
+            if(checkpoint==null)throw new ArgumentNullException(nameof(checkpoint));
+            var traveller=new FloorTraveller(map,survivors,origin);
+            var savedKnown=new HashSet<GridPosition>(checkpoint.KnownCells);
+            var savedRooms=new HashSet<int>(checkpoint.DiscoveredRooms);
+            if(!savedRooms.Contains(0) || !savedRooms.IsSubsetOf(map.Rooms.Select(room=>room.Id))
+                || !new HashSet<string>(traveller.party.Keys).SetEquals(checkpoint.Party.Keys)
+                || checkpoint.Party.Values.Distinct().Count()!=checkpoint.Party.Count
+                || checkpoint.Party.Values.Any(position=>!savedKnown.Contains(position))
+                || savedKnown.Any(position=>!map.Walkable(position))
+                || map.Cells.Any(position=>savedRooms.Contains(map.RoomAt(position)) && !savedKnown.Contains(position)))
+                throw new ArgumentException("Invalid exploration checkpoint",nameof(checkpoint));
+            foreach(var entry in checkpoint.Party)traveller.party[entry.Key]=entry.Value;
+            traveller.known.Clear();
+            traveller.known.UnionWith(savedKnown);
+            traveller.rooms.Clear();
+            traveller.rooms.UnionWith(savedRooms);
+            return traveller;
+        }
+
         private void Reveal()
         {
             foreach(var room in Map.Rooms)

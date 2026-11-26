@@ -1,5 +1,9 @@
 using System;
 using System.IO;
+using System.Linq;
+using System.Collections.Generic;
+using RogueTactics.Core;
+using RogueTactics.Core.Exploration;
 using RogueTactics.Core.G1;
 using UnityEngine;
 
@@ -29,6 +33,8 @@ namespace RogueTactics.Presentation
                 policy=(int)checkpoint.InitialPreference,
                 steps=checkpoint.Steps,
                 note=checkpoint.Prediction,
+                exploring=checkpoint.Floor!=null,
+                exploration=checkpoint.Floor==null?null:new SavedExploration(checkpoint.Floor),
                 inputs=checkpoint.Input==null?Array.Empty<SavedInput>():new[]{new SavedInput(checkpoint.Input)}
             };
             var temporary=path+"."+Guid.NewGuid().ToString("N")+".tmp";
@@ -69,7 +75,9 @@ namespace RogueTactics.Presentation
                     throw new ArgumentException("Invalid or unsupported saved battle");
                 var input=record.inputs.Length==0?null:record.inputs[0]?.ToBattleInput()
                     ?? throw new ArgumentException("Missing saved battle input");
-                checkpoint=new BattleCheckpoint(record.room,(Preference)record.policy,record.steps,record.note,input);
+                checkpoint=new BattleCheckpoint(record.room,(Preference)record.policy,record.steps,record.note,input,record.exploring
+                    ? (record.exploration ?? throw new ArgumentException("Missing saved exploration")).ToFloorCheckpoint()
+                    : null);
                 return BattleCheckpointReadStatus.Loaded;
             }
             catch(ArgumentException)
@@ -105,6 +113,48 @@ namespace RogueTactics.Presentation
             public int steps=-1;
             public string note;
             public SavedInput[] inputs;
+            public bool exploring;
+            public SavedExploration exploration;
+        }
+
+        [Serializable]
+        private sealed class SavedExploration
+        {
+            public SavedCell[] party;
+            public SavedCell[] known;
+            public int[] rooms;
+
+            public SavedExploration(FloorCheckpoint floor)
+            {
+                party=floor.Party.Select(entry=>new SavedCell(entry.Value,entry.Key)).ToArray();
+                known=floor.KnownCells.Select(cell=>new SavedCell(cell,"")).ToArray();
+                rooms=floor.DiscoveredRooms.ToArray();
+            }
+
+            public FloorCheckpoint ToFloorCheckpoint()
+            {
+                if(party==null || known==null || rooms==null || party.Any(cell=>cell==null || string.IsNullOrEmpty(cell.actor))
+                    || known.Any(cell=>cell==null))
+                    throw new ArgumentException("Invalid saved exploration");
+                return new FloorCheckpoint(party.Select(cell=>new KeyValuePair<string,GridPosition>(cell.actor,cell.Position)),
+                    known.Select(cell=>cell.Position),rooms);
+            }
+        }
+
+        [Serializable]
+        private sealed class SavedCell
+        {
+            public string actor;
+            public int x;
+            public int y;
+            public GridPosition Position=>new GridPosition(x,y);
+
+            public SavedCell(GridPosition position,string actor)
+            {
+                this.actor=actor;
+                x=position.X;
+                y=position.Y;
+            }
         }
 
         [Serializable]

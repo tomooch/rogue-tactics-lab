@@ -74,13 +74,24 @@ namespace RogueTactics.Presentation
         public void BeginExploration()
         {
             if(!ExplorationEnabled || IsExploring || Busy || !terminalSeen || Session.Replay.State.Outcome!=Outcome.Victory)return;
-            traveller=new FloorTraveller(floorMap,Session.Replay.State.Units,battleOrigin);
+            EnterExploration(new FloorTraveller(floorMap,Session.Replay.State.Units,battleOrigin));
+            SaveSettledBattle();
+        }
+
+        private void EnterExploration(FloorTraveller entered)
+        {
+            traveller=entered;
             // This handoff uses the exact post-fight positions/HP/survivors. No formation
             // reset, revival, separate scene, or camera cut at the exploration boundary.
             IsExploring=true;Auto=false;Paused=false;modalObject.SetActive(false);ClearRelation();
-            cameraFromParty=FieldCamera.transform.position-PartyCenter();travelMessage="見えている床・通路を選ぶ";
+            var entryCenter=PartyCenter();
+            cameraFromParty=FieldCamera.transform.position-entryCenter;
+            travelMessage="見えている床・通路を選ぶ";
             // After a later encounter the party may stand at a board edge: frame them from the board's own offset.
             if(Session.EncounterIndex>0)cameraFromParty=FieldCamera.transform.position-World(Shown(new GridPosition(2,2)));
+            foreach(var entry in traveller.Party)positions[entry.Key]=entry.Value;
+            RefreshActors();
+            if(PartyCenter()!=entryCenter)FieldCamera.transform.position=PartyCenter()+cameraFromParty;
             SyncDiscoveredTerrain();Refresh();
         }
         private Vector3 PartyCenter()
@@ -131,7 +142,7 @@ namespace RogueTactics.Presentation
                     }
                     pawns[move.Actor].position=to;positions[move.Actor]=move.To;
                 }
-                visualTweenActive=false;SyncDiscoveredTerrain();RefreshActors();
+                visualTweenActive=false;SyncDiscoveredTerrain();RefreshActors();SaveSettledBattle();
                 if(step.Stop!=TravelStop.None)
                     travelMessage=step.Stop==TravelStop.NewRoom?"新しい部屋を見つけた":step.Stop==TravelStop.Arrived?"目的地に到着": "ここからは進めない";
             }
