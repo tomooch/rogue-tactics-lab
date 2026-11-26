@@ -135,6 +135,24 @@ namespace RogueTactics.Core.G1
         { State = state; Plan = plan; Events = events.AsReadOnly(); }
     }
 
+    public static class PartyRecovery
+    {
+        public static IReadOnlyDictionary<string,int> AfterVictory(EncounterState battle,int revivalPercent)
+        {
+            if(battle==null)throw new ArgumentNullException(nameof(battle));
+            if(battle.Outcome!=Outcome.Victory)throw new InvalidOperationException("Recovery requires a victory");
+            if(revivalPercent<1 || revivalPercent>100)throw new ArgumentOutOfRangeException(nameof(revivalPercent));
+            return new System.Collections.ObjectModel.ReadOnlyDictionary<string,int>(
+                battle.Units.Where(unit=>!unit.Enemy).ToDictionary(unit=>unit.Id,unit=>
+                {
+                    var baseHp=unit.Alive?unit.Hp:RoundedPercent(unit.MaxHp,revivalPercent);
+                    return (int)Math.Min(unit.MaxHp,(long)baseHp+RoundedPercent(unit.MaxHp,25));
+                }));
+        }
+
+        private static int RoundedPercent(int maxHp,int percent)=>(int)(((long)maxHp*percent+99)/100);
+    }
+
     public static class EncounterBuilder
     {
         public static EncounterState Build(EncounterState room, IReadOnlyDictionary<string,int> partyHp)

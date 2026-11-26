@@ -48,6 +48,27 @@ namespace RogueTactics.Tests
             Assert.That(session.Replay.State.Serialize(),Is.EqualTo(entry));
         }
 
+        [TestCase(25,10)]
+        [TestCase(50,14)]
+        public void VictoryRecoveryMatchesTheSimulationAndLeavesTheReplayUntouched(int revivalPercent,int expectedAnchorHp)
+        {
+            var replay=new Replay(Fixture.Baseline(),Preference.DirectAttack);
+            while(replay.State.Outcome==Outcome.Active)replay.Advance();
+            Assert.That(replay.State.Find("A").Hp,Is.Zero);
+            var hash=replay.Hash();
+            var recovered=PartyRecovery.AfterVictory(replay.State,revivalPercent);
+            Assert.That(recovered.Keys,Is.EquivalentTo(new[]{"A","B","C","D"}));
+            Assert.That(recovered["A"],Is.EqualTo(expectedAnchorHp));
+            Assert.That(recovered["B"],Is.EqualTo(16));
+            Assert.That(recovered["C"],Is.EqualTo(12));
+            Assert.That(recovered["D"],Is.EqualTo(10));
+            Assert.That(replay.Hash(),Is.EqualTo(hash));
+            var next=EncounterBuilder.Build(Fixture.Encounter(1),recovered);
+            Assert.That(next.Find("A").Hp,Is.EqualTo(expectedAnchorHp));
+            Assert.That(next.Find("A").MaxHp,Is.EqualTo(18));
+            Assert.That(()=>PartyRecovery.AfterVictory(next,revivalPercent),Throws.InvalidOperationException);
+        }
+
         [Test]
         public void InvalidCarriedHealthDoesNotReplaceTheCurrentEncounter()
         {
