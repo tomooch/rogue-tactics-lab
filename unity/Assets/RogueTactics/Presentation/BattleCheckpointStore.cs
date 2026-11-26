@@ -14,7 +14,8 @@ namespace RogueTactics.Presentation
     public sealed class BattleCheckpointStore
     {
         private const int FormatVersion = 1;
-        private const int RulesVersion = 1;
+        private const int FixedBattleRules = 1;
+        private const int CarriedHealthRules = 2;
         private readonly string path;
 
         public BattleCheckpointStore(string path)
@@ -28,7 +29,8 @@ namespace RogueTactics.Presentation
             var record=new SavedBattle
             {
                 format=FormatVersion,
-                rules=RulesVersion,
+                rules=checkpoint.EntryHealth==null?FixedBattleRules:CarriedHealthRules,
+                entryHealth=checkpoint.EntryHealth?.Select(entry=>new SavedHealth{actor=entry.Key,hp=entry.Value}).ToArray(),
                 room=checkpoint.EncounterIndex,
                 policy=(int)checkpoint.InitialPreference,
                 steps=checkpoint.Steps,
@@ -70,14 +72,22 @@ namespace RogueTactics.Presentation
             {
                 var record=new SavedBattle();
                 JsonUtility.FromJsonOverwrite(json,record);
-                if(record.format!=FormatVersion || record.rules!=RulesVersion || record.room<0
+                if(record.format!=FormatVersion || (record.rules!=FixedBattleRules && record.rules!=CarriedHealthRules) || record.room<0
                     || !Enum.IsDefined(typeof(Preference),record.policy) || record.inputs==null || record.inputs.Length>1)
                     throw new ArgumentException("Invalid or unsupported saved battle");
                 var input=record.inputs.Length==0?null:record.inputs[0]?.ToBattleInput()
                     ?? throw new ArgumentException("Missing saved battle input");
+                IReadOnlyDictionary<string,int> health=null;
+                if(record.rules==CarriedHealthRules)
+                {
+                    if(record.entryHealth==null || record.entryHealth.Length!=4
+                        || record.entryHealth.Any(entry=>entry==null || string.IsNullOrEmpty(entry.actor) || entry.hp<=0))
+                        throw new ArgumentException("Invalid entry health");
+                    health=record.entryHealth.ToDictionary(entry=>entry.actor,entry=>entry.hp);
+                }
                 checkpoint=new BattleCheckpoint(record.room,(Preference)record.policy,record.steps,record.note,input,record.exploring
                     ? (record.exploration ?? throw new ArgumentException("Missing saved exploration")).ToFloorCheckpoint()
-                    : null);
+                    : null,health);
                 return BattleCheckpointReadStatus.Loaded;
             }
             catch(ArgumentException)
@@ -113,8 +123,16 @@ namespace RogueTactics.Presentation
             public int steps=-1;
             public string note;
             public SavedInput[] inputs;
+            public SavedHealth[] entryHealth;
             public bool exploring;
             public SavedExploration exploration;
+        }
+
+        [Serializable]
+        private sealed class SavedHealth
+        {
+            public string actor;
+            public int hp;
         }
 
         [Serializable]

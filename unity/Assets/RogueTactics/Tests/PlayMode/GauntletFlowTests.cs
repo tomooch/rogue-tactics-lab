@@ -268,7 +268,7 @@ namespace RogueTactics.Tests
             yield return Capture("choice-directed-four-survivors");
         }
         private static IEnumerator ReopenSavedBattle(BattleCheckpointStore store,RenderTexture target,
-            System.Action<MobileG1View> opened)
+            System.Action<MobileG1View> opened,bool recovery=false)
         {
             yield return SceneManager.LoadSceneAsync("HqExploration");
             var original=SceneManager.GetActiveScene();
@@ -280,6 +280,7 @@ namespace RogueTactics.Tests
             var camera=Object.Instantiate(Camera.main);
             camera.targetTexture=target;
             view.ConfigureBattlePersistence(store);
+            view.UseVictoryRecovery=recovery;
             yield return SceneManager.UnloadSceneAsync(original);
             host.SetActive(true);
             view.SetTestSafeArea(new Rect(0,34,390,763),390,844);
@@ -376,6 +377,54 @@ namespace RogueTactics.Tests
                 Assert.That(store.Read(out var instructed),Is.EqualTo(BattleCheckpointReadStatus.Loaded));
                 Assert.That(instructed.Steps,Is.EqualTo(instructionStep));
                 Assert.That(instructed.Input.Target,Is.EqualTo("Y"));
+            }
+            finally
+            {
+                if(view!=null)view.gameObject.SetActive(false);
+                if(Camera.main!=null)Camera.main.targetTexture=null;
+                Object.Destroy(target);
+                if(Directory.Exists(folder))Directory.Delete(folder,true);
+            }
+        }
+
+        [UnityTest]
+        public IEnumerator ExpeditionChallengeCarriesRecoveredHealthThroughStartup()
+        {
+            var folder=Path.Combine(Path.GetTempPath(),System.Guid.NewGuid().ToString("N"));
+            var store=new BattleCheckpointStore(Path.Combine(folder,"battle.json"));
+            var source=new MobileG1Session();
+            source.Select(Preference.DirectAttack);
+            source.Start("");
+            while(source.Replay.State.Outcome==Outcome.Active)source.Advance();
+            var map=new FloorMap();
+            var room=map.Rooms[1];
+            var party=source.Replay.State.Units.Where(unit=>!unit.Enemy && unit.Alive)
+                .Select((unit,index)=>new KeyValuePair<string,GridPosition>(unit.Id,new GridPosition(room.X+index,room.Y)));
+            var floor=new FloorCheckpoint(party,map.Cells,map.Rooms.Select(item=>item.Id));
+            var target=new RenderTexture(390,844,24);
+            MobileG1View view=null;
+            try
+            {
+                Assert.That(store.TryWrite(source.CaptureBattle(floor)),Is.True);
+                yield return ReopenSavedBattle(store,target,opened=>view=opened,true);
+                Assert.That(view.ChallengeAvailable,Is.True);
+                Press(view,"Challenge");
+                var deadline=Time.realtimeSinceStartup+15;
+                while((!view.Button("Start").gameObject.activeInHierarchy || !view.Button("Start").interactable) && Time.realtimeSinceStartup<deadline)yield return null;
+                yield return null;yield return null;
+                Assert.That(view.Session.EncounterIndex,Is.EqualTo(1));
+                Assert.That(view.Session.Replay.State.Find("A").Hp,Is.EqualTo(10));
+                var card=view.SafeRoot.Find("Companion portraits/Companion A/Actual HP").GetComponent<Text>();
+                Assert.That(card.text,Is.EqualTo("HP 10 / 18"));
+                var entryHash=view.Session.Replay.Hash();
+                Press(view,"Start");
+                Assert.That(store.Read(out var checkpoint),Is.EqualTo(BattleCheckpointReadStatus.Loaded));
+                Assert.That(checkpoint.EntryHealth["A"],Is.EqualTo(10));
+                view.gameObject.SetActive(false);
+                Camera.main.targetTexture=null;
+                yield return ReopenSavedBattle(store,target,opened=>view=opened,true);
+                Assert.That(view.Session.Replay.Hash(),Is.EqualTo(entryHash));
+                Assert.That(view.Paused,Is.True);
             }
             finally
             {

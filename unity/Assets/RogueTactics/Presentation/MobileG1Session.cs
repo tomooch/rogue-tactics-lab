@@ -17,6 +17,7 @@ namespace RogueTactics.Presentation
         public int EncounterIndex { get; private set; }
         public int EncounterCount { get; }
         private EncounterState entryState;
+        private IReadOnlyDictionary<string,int> entryHealth;
         private BattleInput correction;
         public Dictionary<Preference, MobileTrial> Trials { get; } = new Dictionary<Preference, MobileTrial>();
         public MobileG1Session()
@@ -48,6 +49,7 @@ namespace RogueTactics.Presentation
             if(index<0 || index>=EncounterCount) throw new ArgumentOutOfRangeException(nameof(index));
             var room=EncounterCount==1?entryState:Fixture.Encounter(index);
             var next=partyHp==null?room:EncounterBuilder.Build(room,partyHp);
+            entryHealth=partyHp==null?null:next.Units.Where(unit=>!unit.Enemy).ToDictionary(unit=>unit.Id,unit=>unit.Hp);
             entryState=next;
             EncounterIndex=index;
             Trials.Clear();
@@ -72,7 +74,7 @@ namespace RogueTactics.Presentation
         public BattleCheckpoint CaptureBattle(FloorCheckpoint floor=null)
         {
             if(!Started)throw new InvalidOperationException("Start first");
-            return new BattleCheckpoint(EncounterIndex,Replay.InitialPreference,Replay.State.Step,Prediction,correction,floor);
+            return new BattleCheckpoint(EncounterIndex,Replay.InitialPreference,Replay.State.Step,Prediction,correction,floor,entryHealth);
         }
 
         public void RestoreBattle(BattleCheckpoint checkpoint)
@@ -141,8 +143,9 @@ namespace RogueTactics.Presentation
         public string Prediction { get; }
         public BattleInput Input { get; }
         public FloorCheckpoint Floor { get; }
+        public IReadOnlyDictionary<string,int> EntryHealth { get; }
 
-        public BattleCheckpoint(int encounterIndex,Preference initialPreference,int steps,string prediction,BattleInput input,FloorCheckpoint floor=null)
+        public BattleCheckpoint(int encounterIndex,Preference initialPreference,int steps,string prediction,BattleInput input,FloorCheckpoint floor=null,IReadOnlyDictionary<string,int> entryHealth=null)
         {
             if(steps<0 || steps>Rules.ActionLimit)throw new ArgumentOutOfRangeException(nameof(steps));
             if(input!=null && (input.At<0 || input.At>steps))throw new ArgumentException("The correction must be within the saved battle",nameof(input));
@@ -152,6 +155,7 @@ namespace RogueTactics.Presentation
             Prediction=prediction??"";
             Input=input;
             Floor=floor;
+            EntryHealth=entryHealth==null?null:new System.Collections.ObjectModel.ReadOnlyDictionary<string,int>(entryHealth.ToDictionary(entry=>entry.Key,entry=>entry.Value));
         }
     }
 

@@ -100,7 +100,8 @@ namespace RogueTactics.Presentation
             var from=pawns.ToDictionary(p=>p.Key,p=>p.Value.position);var cameraFrom=FieldCamera.transform.position;
             traveller.Cancel();traveller=null;IsExploring=false;TravelSelection=null;selectedFloorMarker.gameObject.SetActive(false);
             battleOrigin=GauntletRooms.Origin(floorMap,index);
-            Session.LoadEncounter(index);Auto=false;Paused=false;policyEditing=false;Prediction.text="";ResetProjection();
+            var recovered=UseVictoryRecovery?PartyRecovery.AfterVictory(Session.Replay.State,25):null;
+            Session.LoadEncounter(index,recovered);Auto=false;Paused=false;policyEditing=false;Prediction.text="";ResetProjection();
             SetComparisonCamera(CameraPitch);var cameraTo=FieldCamera.transform.position;
             // Allies walk into the room's formation; guardians rise where Core placed them.
             visualTweenActive=true;

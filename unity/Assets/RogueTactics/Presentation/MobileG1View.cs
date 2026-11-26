@@ -30,6 +30,7 @@ namespace RogueTactics.Presentation
         // Private textures supplied locally by setup; never public-Git originals.
         public Texture2D[] CharacterArt = new Texture2D[4]; // A Shiro / B Momo / C Garu / D Myaru: temporary skins only
         public MobileG1Session Session { get; private set; } = new MobileG1Session();
+        public bool UseVictoryRecovery { get; set; }
         public bool Busy { get; private set; }
         public bool Auto { get; private set; }
         public bool Paused { get; private set; }
@@ -102,6 +103,7 @@ namespace RogueTactics.Presentation
             if(HqWorld)foreach(var button in buttons.Values)button.gameObject.AddComponent<HudPress>();
             if(battleStore==null && Session.EncounterCount>1 && AutonomousProduct && Application.isMobilePlatform && !Application.isEditor)
                 battleStore=new BattleCheckpointStore(System.IO.Path.Combine(Application.persistentDataPath,"battle.json"));
+            UseVictoryRecovery |= AutonomousProduct && Application.isMobilePlatform && !Application.isEditor;
             RestoreBattleOnStartup();
         }
         private void Build()
@@ -359,7 +361,7 @@ namespace RogueTactics.Presentation
                 try
                 {
                     restored=Session.EncounterCount==1?Session:new MobileG1Session();
-                    if(restored.EncounterCount>1)restored.LoadEncounter(checkpoint.EncounterIndex);
+                    if(restored.EncounterCount>1)restored.LoadEncounter(checkpoint.EncounterIndex,checkpoint.EntryHealth);
                     restored.RestoreBattle(checkpoint);
                     if(checkpoint.Floor!=null)
                     {
@@ -466,7 +468,7 @@ namespace RogueTactics.Presentation
             ClearAllFallen();if(vfx!=null)vfx.Clear();hitStop=0;actingId="";ClearRelation();frameIntervals.Clear();LastFrameReport=null;displayed.Clear();captions.Clear();dead.Clear();hp.Clear();positions.Clear();terminalSeen=false;shownStep=0;shownActor="";reaction="";foreach(var u in Session.Replay.State.Units){hp[u.Id]=u.Hp;positions[u.Id]=Shown(u.Position);}crisisActive=false;orderedActor="";orderedTarget="";instructionReceiptText="";interruptRequested=false;requestedInstructionAlly="";if(instructionOverlay!=null)instructionOverlay.gameObject.SetActive(false);
             ClearShownGuard();floating.text="";foreach(var b in badges.Values)b.alpha=1;
         }
-        private void StartBattle() {if(Session.Started || Busy)return;policyEditing=false;Prediction.DeactivateInputField();SetComparisonCamera(CameraPitch);Session.Start(Prediction.text);SaveSettledBattle();Auto=!DeveloperMode;Next();}
+        private void StartBattle() {if(Session.Started || Busy || enteringEncounter)return;policyEditing=false;Prediction.DeactivateInputField();SetComparisonCamera(CameraPitch);Session.Start(Prediction.text);SaveSettledBattle();Auto=!DeveloperMode;Next();}
         private void Next() {if(Busy || !Session.Started || Session.Replay.State.Outcome!=Outcome.Active)return;StartCoroutine(ResolveAndDisplay());}
         private void ToggleAuto()
         { if(IsExploring){ToggleFloorPause();return;}if(!Session.Started || terminalSeen)return;Auto=!Auto;Paused=!Auto;Refresh();if(Auto && !Busy)Next(); }
@@ -567,6 +569,7 @@ namespace RogueTactics.Presentation
                 ghost.gameObject.SetActive(p?.Kind==ActionKind.Move);
                 if(p!=null){Link(actionLink,positions[p.Actor],p.Kind==ActionKind.Move?Shown(p.Destination):(p.Target!=""?positions[p.Target]:positions[p.Actor]));if(p.Kind==ActionKind.Move)ghost.anchoredPosition=Point(Shown(p.Destination),.05f)+new Vector2(-17,9);}
             }
+            buttons["Start"].interactable=!enteringEncounter;
             buttons["Next"].interactable=active && Session.Replay.State.Outcome==Outcome.Active && !Busy && !Auto;
             buttons["Play"].interactable=active && !terminalSeen;buttons["Play"].GetComponentInChildren<Text>().text=Auto?"一時停止":"続けて見る";
             buttons["Reset"].interactable=!Busy;buttons["Compare"].interactable=Session.Trials.Count>0 && !Busy;
