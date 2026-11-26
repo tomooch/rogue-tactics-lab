@@ -9,7 +9,7 @@ namespace RogueTactics.Core.G1
 {
     // Anonymous experiment roles. These are NOT the approved named character roster.
     public enum Role { Anchor, Protector, Flanker, Support, Enemy }
-    public enum Preference { ProtectAnchor, DirectAttack }
+    public enum Preference { ProtectAnchor=0, DirectAttack=1, Balanced=2 }
     public enum ActionKind { Maintain, Move, Attack, Protect, Heal }
     public enum IntentReason { Protect, ApproachToProtect, HealLowest, ApproachWounded, FlankAttack,
         AttackAdjacent, ApproachEnemy, Blocked, NoTarget, Ordered }
@@ -269,7 +269,9 @@ namespace RogueTactics.Core.G1
         private static Plan PlanFor(EncounterState s, Unit actor, Command command)
         {
             var a = s.Find("A");
-            if (actor.Role == Role.Protector && command.Preference == Preference.ProtectAnchor && a != null && a.Alive)
+            var protect=command.Preference==Preference.ProtectAnchor ||
+                (command.Preference==Preference.Balanced && a!=null && a.Hp<=a.MaxHp/2);
+            if (actor.Role == Role.Protector && protect && a != null && a.Alive)
             {
                 if (Distance(actor.Position, a.Position) == 1)
                     return new Plan(actor, ActionKind.Protect, a, actor.Position, "Protect preference; adjacent living A", IntentReason.Protect);

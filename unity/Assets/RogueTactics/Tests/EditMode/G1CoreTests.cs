@@ -20,6 +20,32 @@ namespace RogueTactics.Tests
                 Assert.That(a.Serialize(),Is.EqualTo(b.Serialize())); Assert.That(a.Hash(),Is.EqualTo(b.Hash()));
             } finally { CultureInfo.CurrentCulture = before; }
         }
+        [TestCase(10,Preference.DirectAttack)]
+        [TestCase(9,Preference.ProtectAnchor)]
+        [TestCase(8,Preference.ProtectAnchor)]
+        public void BalancedDefendsAtHalfHealthAndBelow(int anchorHp,Preference equivalent)
+        {
+            var room=Fixture.Baseline();
+            var hp=room.Units.Where(unit=>!unit.Enemy).ToDictionary(unit=>unit.Id,unit=>unit.Hp);
+            hp["A"]=anchorHp;
+            var state=EncounterBuilder.Build(room,hp);
+            var intents=Rules.Intents(state,new Command(Preference.Balanced)).Select(plan=>plan.Serialize());
+            var expected=Rules.Intents(state,new Command(equivalent)).Select(plan=>plan.Serialize());
+            Assert.That(intents,Is.EqualTo(expected));
+        }
+
+        [Test]
+        public void BalancedThirdEncounterMatchesThePythonSimulation()
+        {
+            var replay=new Replay(Fixture.Encounter(2),Preference.Balanced);
+            while(replay.State.Outcome==Outcome.Active)replay.Advance();
+            var allies=replay.State.Units.Where(unit=>!unit.Enemy).ToArray();
+            Assert.That(replay.State.Outcome,Is.EqualTo(Outcome.Victory));
+            Assert.That(replay.State.Step,Is.EqualTo(29));
+            Assert.That(allies.All(unit=>unit.Alive),Is.True);
+            Assert.That(allies.Sum(unit=>unit.Hp),Is.EqualTo(39));
+        }
+
         [Test]
         public void ReasonsDistinguishProtectionAndAPlayerDirectedAttack()
         {

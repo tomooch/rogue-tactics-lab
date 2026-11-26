@@ -73,7 +73,7 @@ namespace RogueTactics.Presentation
                 var record=new SavedBattle();
                 JsonUtility.FromJsonOverwrite(json,record);
                 if(record.format!=FormatVersion || (record.rules!=FixedBattleRules && record.rules!=CarriedHealthRules) || record.room<0
-                    || !Enum.IsDefined(typeof(Preference),record.policy) || record.inputs==null || record.inputs.Length>1)
+                    || !IsSavedPolicy(record.policy) || record.inputs==null || record.inputs.Length>1)
                     throw new ArgumentException("Invalid or unsupported saved battle");
                 var input=record.inputs.Length==0?null:record.inputs[0]?.ToBattleInput()
                     ?? throw new ArgumentException("Missing saved battle input");
@@ -109,6 +109,9 @@ namespace RogueTactics.Presentation
             catch(DirectoryNotFoundException) { return true; }
             catch(Exception error) when(IsFileAccessError(error)) { return false; }
         }
+
+        private static bool IsSavedPolicy(int value)
+            =>value==(int)Preference.ProtectAnchor || value==(int)Preference.DirectAttack;
 
         private static bool IsFileAccessError(Exception error)
             => error is IOException || error is UnauthorizedAccessException || error is NotSupportedException;
@@ -199,7 +202,7 @@ namespace RogueTactics.Presentation
 
             public BattleInput ToBattleInput()
             {
-                if(kind=="correct" && Enum.IsDefined(typeof(Preference),policy))
+                if(kind=="correct" && IsSavedPolicy(policy))
                     return new BattleInput(at,(Preference)policy);
                 if(kind=="target" && !string.IsNullOrEmpty(actor) && !string.IsNullOrEmpty(target))
                     return new BattleInput(at,actor,target);
