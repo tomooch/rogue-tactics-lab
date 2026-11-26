@@ -546,6 +546,59 @@ namespace RogueTactics.Tests
         }
 
         [UnityTest,Timeout(900000)]
+        public IEnumerator FirstFloorMatchesSimulationThroughThreeBattlesAndSpring()
+        {
+            yield return SceneManager.LoadSceneAsync("HqExploration");
+            yield return null;yield return null;
+            var view=Object.FindFirstObjectByType<MobileG1View>();
+            var target=new RenderTexture(390,844,24);
+            Camera.main.targetTexture=target;
+            view.SetTestSafeArea(new Rect(0,34,390,763),390,844);
+            view.UseVictoryRecovery=true;
+            view.Select(Preference.DirectAttack);
+            var entryHp=new[]{18,10,15};
+            var exitHp=new[]{0,1,0};
+            try
+            {
+                for(var encounter=0;encounter<3;encounter++)
+                {
+                    if(encounter>0)
+                    {
+                        var room=view.Exploration.Map.Rooms[GauntletRooms.Room[encounter]];
+                        yield return WalkTo(view,room.Center);
+                        yield return null;yield return null;
+                        Assert.That(view.Exploration.SpringUsed,Is.EqualTo(encounter==2));
+                        Press(view,"Challenge");
+                        var deadline=Time.realtimeSinceStartup+15;
+                        while((view.IsExploring || !view.Button("Start").interactable) && Time.realtimeSinceStartup<deadline)
+                            yield return null;
+                        yield return null;yield return null;
+                    }
+                    Assert.That(view.Session.EncounterIndex,Is.EqualTo(encounter));
+                    Assert.That(view.Session.Replay.State.Find("A").Hp,Is.EqualTo(entryHp[encounter]));
+                    Press(view,"Start");
+                    yield return WaitBattle(view,false);
+                    Assert.That(view.Busy,Is.False);
+                    Assert.That(view.Session.Replay.State.Outcome,Is.EqualTo(Outcome.Victory));
+                    Assert.That(view.Session.Replay.State.Find("A").Hp,Is.EqualTo(exitHp[encounter]));
+                    if(encounter==2)break;
+                    Press(view,"Explore");
+                    var recoveryDeadline=Time.realtimeSinceStartup+10;
+                    while(!view.IsExploring && Time.realtimeSinceStartup<recoveryDeadline)yield return null;
+                    Assert.That(view.IsExploring,Is.True);
+                }
+                yield return null;yield return null;
+                Assert.That(view.SafeRoot.Find("Boundary").GetComponent<Text>().text,
+                    Does.Contain("3つの戦いを越えた"));
+            }
+            finally
+            {
+                if(Camera.main!=null)Camera.main.targetTexture=null;
+                Object.Destroy(target);
+            }
+        }
+
+        [UnityTest,Timeout(900000)]
         public IEnumerator ConsecutiveEncountersWithVoluntaryTargetInstruction()
         {
             yield return SceneManager.LoadSceneAsync("HqExploration");yield return null;yield return null;
