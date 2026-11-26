@@ -58,8 +58,8 @@ namespace RogueTactics.Presentation
             journey.Find("Phase backing").GetComponent<RectTransform>().anchoredPosition=new Vector2(w-104,36);
             ReferenceText(journeyStatus,w-104,-36,72,24,11,TextAnchor.MiddleRight);journeyStatus.fontStyle=FontStyle.Bold;
             roster.anchoredPosition=new Vector2(9,-(h-212));roster.sizeDelta=new Vector2(w-18,144);
-            var width=(w-36)/4;
-            for(var i=0;i<4;i++)
+            var width=(w-36)/CardOrder.Length;
+            for(var i=0;i<CardOrder.Length;i++)
             {
                 var id=CardOrder[i];var card=cardValues[id].transform.parent.GetComponent<RectTransform>();
                 card.sizeDelta=new Vector2(width,144);

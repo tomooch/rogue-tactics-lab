@@ -64,7 +64,7 @@ namespace RogueTactics.Presentation
         {
             roster.anchoredPosition=new Vector2(12,-(h-150));roster.sizeDelta=new Vector2(w-24,88);
             for(var i=0;i<CardOrder.Length;i++)
-            {var r=cardValues[CardOrder[i]].transform.parent.GetComponent<RectTransform>();r.anchoredPosition=new Vector2(i*(w-20)/4,0);r.sizeDelta=new Vector2((w-36)/4,88);}
+            {var r=cardValues[CardOrder[i]].transform.parent.GetComponent<RectTransform>();r.anchoredPosition=new Vector2(i*(w-20)/CardOrder.Length,0);r.sizeDelta=new Vector2((w-36)/CardOrder.Length,88);}
             controls.anchoredPosition=new Vector2(0,-(h-54));
             SafeRoot.Find("Title").GetComponent<RectTransform>().sizeDelta=new Vector2(242,30);
             var boundary=SafeRoot.Find("Boundary").GetComponent<Text>();boundary.rectTransform.anchoredPosition=new Vector2(24,-44);boundary.rectTransform.sizeDelta=new Vector2(242,18);boundary.fontSize=11;
@@ -154,7 +154,7 @@ namespace RogueTactics.Presentation
             for(var i=0;i<initiative.Count;i++)
             {
                 var id=initiative[(start+i)%initiative.Count];var f=orderFrames[id];f.gameObject.SetActive(!dead.Contains(id));if(dead.Contains(id))continue;
-                f.rectTransform.anchoredPosition=new Vector2(slot*(Field.rect.width-24)/6,-19);slot++;
+                f.rectTransform.anchoredPosition=new Vector2(slot*(Field.rect.width-24)/initiative.Count,-19);slot++;
                 var actorLabel=f.transform.Find("Actor").GetComponent<Text>();actorLabel.gameObject.SetActive(id=="X" || id=="Y");
                 // The strip's tiles are 22 px: allies are told apart by their portrait, spirits by one glyph (developer mode too;
                 // a full name wraps to two lines there and overflows the tile).

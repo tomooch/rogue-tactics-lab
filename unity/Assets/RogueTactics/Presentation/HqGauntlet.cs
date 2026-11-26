@@ -39,11 +39,9 @@ namespace RogueTactics.Presentation
             MakeButton(SafeRoot,"Correct","",12,0,366,48,RequestInstruction,13);
             StyleReferenceButton("Correct",HudSymbol.Shield,new Color(1,.46f,.42f));
             PrimaryFill("Correct",new Color(1,.26f,.26f),new Color(1,.66f,.60f));
-            for(var i=0;i<6;i++)
-            {var strip=Strip(Field,"Round intent "+i,Color.white);var g=strip.GetComponent<MobileRouteGraphic>();g.Glow=true;strip.gameObject.SetActive(false);roundIntents.Add(g);}
+            EnsureRoundIntentCapacity(Session.Replay.State.Initiative.Count);
             nextIntentMark=Glyph(Field,"Next intent mark",HudSymbol.Swords,0,0,16,Color.white,true,true);nextIntentMark.gameObject.SetActive(false);
-            // Threatened allies get a red alert gem above the head while the crisis stop waits for a choice.
-            for(var i=0;i<4;i++){var mark=Glyph(Field,"Crisis mark "+i,HudSymbol.Alert,0,0,16,new Color(1,.28f,.26f),true,true);mark.rectTransform.pivot=new Vector2(.5f,.5f);mark.gameObject.SetActive(false);crisisMarks.Add(mark);}
+            EnsureCrisisMarkCapacity(Session.Replay.State.Units.Count(unit=>!unit.Enemy));
             // Encounter result: a gold banner between the board and the cards. Display only; Core decided the outcome.
             resultBanner=Rect(SafeRoot,"Result banner",12,0,366,66);
             Frame(resultBanner,new Color(.08f,.065f,.03f,.95f),Gold,16).TopFill=new Color(.24f,.17f,.06f,.95f);
@@ -53,6 +51,28 @@ namespace RogueTactics.Presentation
             var titleShadow=resultTitle.gameObject.AddComponent<Shadow>();titleShadow.effectColor=new Color(.10f,.05f,0,.95f);titleShadow.effectDistance=new Vector2(1.5f,-1.5f);
             resultDetail=Label(resultBanner,"Result detail","",60,39,246,22,12,TextAnchor.MiddleCenter);
             resultBanner.gameObject.SetActive(false);
+        }
+        private void EnsureRoundIntentCapacity(int count)
+        {
+            while(roundIntents.Count<count)
+            {
+                var strip=Strip(Field,"Round intent "+roundIntents.Count,Color.white);
+                var graphic=strip.GetComponent<MobileRouteGraphic>();
+                graphic.Glow=true;
+                strip.gameObject.SetActive(false);
+                roundIntents.Add(graphic);
+            }
+        }
+
+        private void EnsureCrisisMarkCapacity(int count)
+        {
+            while(crisisMarks.Count<count)
+            {
+                var mark=Glyph(Field,"Crisis mark "+crisisMarks.Count,HudSymbol.Alert,0,0,16,new Color(1,.28f,.26f),true,true);
+                mark.rectTransform.pivot=new Vector2(.5f,.5f);
+                mark.gameObject.SetActive(false);
+                crisisMarks.Add(mark);
+            }
         }
         private void RetryCurrentEncounter()
         {
@@ -220,7 +240,7 @@ namespace RogueTactics.Presentation
         }
         private void RefreshRoundIntents()
         {
-            if(roundIntents.Count==0)return;
+            if(nextIntentMark==null)return;
             var show=GauntletRules && Session.Started && !Busy && !terminalSeen && !modalObject.activeSelf && !IsExploring;
             var plans=show?Session.Replay.Intents().Where(p=>p.Kind!=ActionKind.Maintain).ToList():new List<Plan>();
             if(InstructionOpen)
@@ -232,6 +252,7 @@ namespace RogueTactics.Presentation
                     if(selected.Kind!=ActionKind.Maintain)plans.Add(selected);
                 }
             }
+            EnsureRoundIntentCapacity(plans.Count);
             nextIntentMark.gameObject.SetActive(false);
             for(var i=0;i<roundIntents.Count;i++)
             {
@@ -305,6 +326,7 @@ namespace RogueTactics.Presentation
                 resultDetail.rectTransform.sizeDelta=new Vector2(w-48,hasReceipt?44:22);
             }
             RefreshEventShelf();
+            EnsureCrisisMarkCapacity(crisisAllies.Count);
             var pulse=1+.12f*Mathf.Sin(Time.unscaledTime*6);
             for(var i=0;i<crisisMarks.Count;i++)
             {

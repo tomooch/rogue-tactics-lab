@@ -90,8 +90,8 @@ namespace RogueTactics.Presentation
             referenceFooter.anchorMin=referenceFooter.anchorMax=Vector2.zero;referenceFooter.pivot=Vector2.zero;referenceFooter.anchoredPosition=Vector2.zero;
             var gradient=referenceFooter.gameObject.AddComponent<HudGradientGraphic>();gradient.raycastTarget=false;
             referenceFooter.SetAsFirstSibling();
-            companionFrames=new HudPanelGraphic[4];
-            for(var i=0;i<4;i++)
+            companionFrames=new HudPanelGraphic[CardOrder.Length];
+            for(var i=0;i<CardOrder.Length;i++)
             {
                 var id=CardOrder[i];var r=cardValues[id].transform.parent.GetComponent<RectTransform>();
                 r.GetComponent<Image>().color=Color.clear;var outline=r.GetComponent<Outline>();outline.enabled=false;
@@ -166,8 +166,8 @@ namespace RogueTactics.Presentation
             SafeRoot.Find("Observed journey").GetComponent<RectTransform>().anchoredPosition=new Vector2(w-72,-70);
             referenceFooter.anchoredPosition=Vector2.zero;referenceFooter.sizeDelta=new Vector2(canvas.GetComponent<RectTransform>().rect.width,230);
             roster.anchoredPosition=new Vector2(9,-(h-192));roster.sizeDelta=new Vector2(w-18,124);
-            var width=(w-36)/4;
-            for(var i=0;i<4;i++)
+            var width=(w-36)/CardOrder.Length;
+            for(var i=0;i<CardOrder.Length;i++)
             {
                 var id=CardOrder[i];var r=cardValues[id].transform.parent.GetComponent<RectTransform>();r.anchoredPosition=new Vector2(i*(width+6),0);r.sizeDelta=new Vector2(width,124);
                 var art=r.Find("Approved portrait").GetComponent<RectTransform>();art.anchoredPosition=new Vector2(5,-5);art.sizeDelta=new Vector2(width-10,60);
@@ -207,12 +207,12 @@ namespace RogueTactics.Presentation
             LayoutReferenceHud(SafeRoot.rect.width,SafeRoot.rect.height);
             var w=SafeRoot.rect.width;
             if(policyEditing)setup.anchoredPosition=new Vector2(0,298);
-            for(var i=0;i<4;i++)
+            for(var i=0;i<CardOrder.Length;i++)
             {
                 var id=CardOrder[i];var unit=Session.Replay.State.Find(id);var r=cardValues[id].transform.parent;
                 r.Find("Name").GetComponent<Text>().text=HeroName(id);
                 r.Find("Role meaning").GetComponent<Text>().text=dead.Contains(id)?"戦闘不能":id=="B"?(Session.Preference==Preference.ProtectAnchor?"シロを守る":"敵を攻める"):CoreRoles[i];
-                cardHealth[id].rectTransform.sizeDelta=new Vector2(((w-36)/4-14)*hp[id]/unit.MaxHp,5);
+                cardHealth[id].rectTransform.sizeDelta=new Vector2(((w-36)/CardOrder.Length-14)*hp[id]/unit.MaxHp,5);
                 r.Find("Approved portrait").GetComponent<RawImage>().color=dead.Contains(id)?new Color(.45f,.45f,.48f):Color.white;
                 companionFrames[i].Border=dead.Contains(id)?new Color(.32f,.36f,.42f):CompanionColors[i];companionFrames[i].SetVerticesDirty();
                 if(id=="B")
