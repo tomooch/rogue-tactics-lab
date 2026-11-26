@@ -39,7 +39,7 @@ namespace RogueTactics.Tests
             var party=checkpoint.Party.ToDictionary(entry=>entry.Key,entry=>entry.Value);
             party["A"]=new GridPosition(999,999);
             var invalid=new FloorCheckpoint(party,checkpoint.KnownCells,checkpoint.DiscoveredRooms);
-            Assert.That(()=>FloorTraveller.Restore(map,state.Units,new GridPosition(0,0),invalid),
+            Assert.That(()=>FloorTraveller.Restore(map,state,new GridPosition(0,0),invalid),
                 Throws.TypeOf<System.ArgumentException>());
         }
 

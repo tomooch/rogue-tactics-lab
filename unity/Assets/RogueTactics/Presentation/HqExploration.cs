@@ -74,22 +74,45 @@ namespace RogueTactics.Presentation
         public void BeginExploration()
         {
             if(!ExplorationEnabled || IsExploring || Busy || !terminalSeen || Session.Replay.State.Outcome!=Outcome.Victory)return;
+            if(UseVictoryRecovery)
+            {
+                StartCoroutine(RecoverAndExplore());
+                return;
+            }
             EnterExploration(new FloorTraveller(floorMap,Session.Replay.State.Units,battleOrigin));
+            SaveSettledBattle();
+        }
+
+        private IEnumerator RecoverAndExplore()
+        {
+            var recovered=FloorTraveller.AfterVictory(floorMap,Session.Replay.State,battleOrigin,25);
+            Busy=true;
+            Refresh();
+            foreach(var id in dead)
+                if(recovered.Party.TryGetValue(id,out var cell) && cell.Equals(positions[id]))
+                    RaiseFallen(id,true);
+            if(rising.Count>0)yield return new WaitForSecondsRealtime(RiseSeconds);
+            Busy=false;
+            EnterExploration(recovered);
             SaveSettledBattle();
         }
 
         private void EnterExploration(FloorTraveller entered)
         {
             traveller=entered;
-            // This handoff uses the exact post-fight positions/HP/survivors. No formation
-            // reset, revival, separate scene, or camera cut at the exploration boundary.
+            // Projection follows the Core party while the battle replay keeps its final snapshot.
             IsExploring=true;Auto=false;Paused=false;modalObject.SetActive(false);ClearRelation();
             var entryCenter=PartyCenter();
             cameraFromParty=FieldCamera.transform.position-entryCenter;
             travelMessage="見えている床・通路を選ぶ";
             // After a later encounter the party may stand at a board edge: frame them from the board's own offset.
             if(Session.EncounterIndex>0)cameraFromParty=FieldCamera.transform.position-World(Shown(new GridPosition(2,2)));
-            foreach(var entry in traveller.Party)positions[entry.Key]=entry.Value;
+            foreach(var entry in traveller.Party)
+            {
+                positions[entry.Key]=entry.Value;
+                hp[entry.Key]=traveller.Health[entry.Key];
+                if(dead.Remove(entry.Key))ClearFallen(entry.Key);
+            }
             RefreshActors();
             if(PartyCenter()!=entryCenter)FieldCamera.transform.position=PartyCenter()+cameraFromParty;
             SyncDiscoveredTerrain();Refresh();
@@ -169,6 +192,7 @@ namespace RogueTactics.Presentation
             var w=SafeRoot.rect.width;var h=SafeRoot.rect.height;
             var explore=buttons["Explore"].GetComponent<RectTransform>();explore.anchoredPosition=new Vector2(12,-(h-205));explore.sizeDelta=new Vector2(w-24,44);
             explore.GetComponentInChildren<Text>().rectTransform.sizeDelta=new Vector2(w-32,40);
+            buttons["Explore"].interactable=!Busy;
             explore.gameObject.SetActive(!IsExploring && terminalSeen && Session.Replay.State.Outcome==Outcome.Victory);
             floorMini.transform.parent.GetComponent<RectTransform>().anchoredPosition=new Vector2(w-136,-65);
             if(!IsExploring){RefreshReferenceFloorUi();return;}

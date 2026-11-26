@@ -368,7 +368,7 @@ namespace RogueTactics.Presentation
                         if(!ExplorationEnabled || restored.Replay.State.Outcome!=Outcome.Victory)
                             throw new ArgumentException("Exploration requires a completed victory");
                         var origin=GauntletRooms.Origin(floorMap,checkpoint.EncounterIndex);
-                        restoredTravel=FloorTraveller.Restore(floorMap,restored.Replay.State.Units,origin,checkpoint.Floor);
+                        restoredTravel=FloorTraveller.Restore(floorMap,restored.Replay.State,origin,checkpoint.Floor);
                     }
                 }
                 catch(Exception error) when(error is ArgumentException || error is InvalidOperationException)

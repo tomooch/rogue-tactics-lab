@@ -396,17 +396,29 @@ namespace RogueTactics.Tests
             source.Select(Preference.DirectAttack);
             source.Start("");
             while(source.Replay.State.Outcome==Outcome.Active)source.Advance();
-            var map=new FloorMap();
-            var room=map.Rooms[1];
-            var party=source.Replay.State.Units.Where(unit=>!unit.Enemy && unit.Alive)
-                .Select((unit,index)=>new KeyValuePair<string,GridPosition>(unit.Id,new GridPosition(room.X+index,room.Y)));
-            var floor=new FloorCheckpoint(party,map.Cells,map.Rooms.Select(item=>item.Id));
             var target=new RenderTexture(390,844,24);
             MobileG1View view=null;
             try
             {
-                Assert.That(store.TryWrite(source.CaptureBattle(floor)),Is.True);
+                Assert.That(store.TryWrite(source.CaptureBattle()),Is.True);
                 yield return ReopenSavedBattle(store,target,opened=>view=opened,true);
+                Press(view,"Explore");
+                var recoveryDeadline=Time.realtimeSinceStartup+8;
+                while(!view.IsExploring && Time.realtimeSinceStartup<recoveryDeadline)yield return null;
+                Assert.That(view.IsExploring,Is.True);
+                Assert.That(view.Exploration.Health["A"],Is.EqualTo(10));
+                Assert.That(GameObject.Find("Fixture A"),Is.Not.Null);
+                Assert.That(store.Read(out var recovered),Is.EqualTo(BattleCheckpointReadStatus.Loaded));
+                Assert.That(recovered.Floor.VictoryRestApplied,Is.True);
+                var map=view.Exploration.Map;
+                var room=map.Rooms[1];
+                var party=view.Exploration.Party.Keys.Select((id,index)=>
+                    new KeyValuePair<string,GridPosition>(id,new GridPosition(room.X+index,room.Y)));
+                var floor=new FloorCheckpoint(party,map.Cells,map.Rooms.Select(item=>item.Id),true);
+                Assert.That(store.TryWrite(source.CaptureBattle(floor)),Is.True);
+                Camera.main.targetTexture=null;
+                yield return ReopenSavedBattle(store,target,opened=>view=opened,true);
+                Assert.That(view.Exploration.Health["A"],Is.EqualTo(10));
                 Assert.That(view.ChallengeAvailable,Is.True);
                 Press(view,"Challenge");
                 var deadline=Time.realtimeSinceStartup+15;

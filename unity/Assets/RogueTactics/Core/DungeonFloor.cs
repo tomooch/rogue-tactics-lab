@@ -87,14 +87,16 @@ namespace RogueTactics.Core.Exploration
         public IReadOnlyDictionary<string,GridPosition> Party { get; }
         public IReadOnlyList<GridPosition> KnownCells { get; }
         public IReadOnlyList<int> DiscoveredRooms { get; }
+        public bool VictoryRestApplied { get; }
 
         public FloorCheckpoint(IEnumerable<KeyValuePair<string,GridPosition>> party,
-            IEnumerable<GridPosition> knownCells,IEnumerable<int> discoveredRooms)
+            IEnumerable<GridPosition> knownCells,IEnumerable<int> discoveredRooms,bool victoryRestApplied=false)
         {
             Party=new System.Collections.ObjectModel.ReadOnlyDictionary<string,GridPosition>(
                 party.ToDictionary(entry=>entry.Key,entry=>entry.Value));
             KnownCells=Array.AsReadOnly(knownCells.ToArray());
             DiscoveredRooms=Array.AsReadOnly(discoveredRooms.ToArray());
+            VictoryRestApplied=victoryRestApplied;
         }
     }
     public sealed class FloorTraveller
@@ -110,6 +112,7 @@ namespace RogueTactics.Core.Exploration
         public IReadOnlyDictionary<string,int> Health=>new System.Collections.ObjectModel.ReadOnlyDictionary<string,int>(health);
         public IEnumerable<GridPosition> KnownCells=>known.OrderBy(p=>p.Y).ThenBy(p=>p.X);
         public int DiscoveredRooms=>rooms.Count;
+        public bool VictoryRestApplied { get; private set; }
         public bool Moving { get; private set; }
         public bool Paused { get; private set; }
         public TravelStop Stop { get; private set; }
@@ -122,12 +125,34 @@ namespace RogueTactics.Core.Exploration
             {var at=unit.Position.Offset(origin.X,origin.Y);if(!map.Walkable(at) || party.ContainsValue(at))throw new ArgumentException("Invalid floor handoff");party.Add(unit.Id,at);health.Add(unit.Id,unit.Hp);}
             if(party.Count==0)throw new ArgumentException("No living explorers");Reveal();
         }
-        public FloorCheckpoint Capture()=>new FloorCheckpoint(party,KnownCells,rooms.OrderBy(room=>room));
+        public static FloorTraveller AfterVictory(FloorMap map,EncounterState victory,GridPosition origin,int revivalPercent)
+        {
+            var recovered=PartyRecovery.AfterVictory(victory,revivalPercent);
+            var traveller=new FloorTraveller(map,victory.Units,origin);
+            foreach(var ally in victory.Units.Where(unit=>!unit.Enemy))
+            {
+                if(!ally.Alive)
+                {
+                    var cell=ally.Position.Offset(origin.X,origin.Y);
+                    if(traveller.party.ContainsValue(cell))
+                        cell=map.Cells.Where(position=>!traveller.party.ContainsValue(position))
+                            .OrderBy(position=>Rules.Distance(position,cell)).First();
+                    traveller.party.Add(ally.Id,cell);
+                }
+                traveller.health[ally.Id]=recovered[ally.Id];
+            }
+            traveller.VictoryRestApplied=true;
+            traveller.Reveal();
+            return traveller;
+        }
 
-        public static FloorTraveller Restore(FloorMap map,IEnumerable<Unit> survivors,GridPosition origin,FloorCheckpoint checkpoint)
+        public FloorCheckpoint Capture()=>new FloorCheckpoint(party,KnownCells,rooms.OrderBy(room=>room),VictoryRestApplied);
+
+        public static FloorTraveller Restore(FloorMap map,EncounterState battle,GridPosition origin,FloorCheckpoint checkpoint)
         {
             if(checkpoint==null)throw new ArgumentNullException(nameof(checkpoint));
-            var traveller=new FloorTraveller(map,survivors,origin);
+            var traveller=checkpoint.VictoryRestApplied?AfterVictory(map,battle,origin,25):
+                new FloorTraveller(map,battle.Units,origin);
             var savedKnown=new HashSet<GridPosition>(checkpoint.KnownCells);
             var savedRooms=new HashSet<int>(checkpoint.DiscoveredRooms);
             if(!savedRooms.Contains(0) || !savedRooms.IsSubsetOf(map.Rooms.Select(room=>room.Id))
