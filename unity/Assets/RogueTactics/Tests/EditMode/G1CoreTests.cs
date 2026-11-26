@@ -30,8 +30,12 @@ namespace RogueTactics.Tests
             Assert.That(a.State.Outcome,Is.EqualTo(Outcome.Victory)); Assert.That(b.State.Outcome,Is.EqualTo(Outcome.Victory));
             Assert.That(a.Events.Any(e=>e.Kind==EventKind.Protect),Is.True);
             Assert.That(a.Events.Any(e=>e.Kind==EventKind.Heal),Is.True);
-            Assert.That(a.Events.Any(e=>e.Kind==EventKind.Counter),Is.True);
-            Assert.That(a.Events.Any(e=>e.Detail=="Flank +2"),Is.True);
+            Assert.That(a.Events.Any(e=>e.Kind==EventKind.Counter && e.Tags.HasFlag(EventTags.Counter)),Is.True);
+            var guarded = a.Events.First(e=>e.Kind==EventKind.Damage && e.Tags.HasFlag(EventTags.Guarded));
+            Assert.That(guarded.Guardian,Is.EqualTo("B"));
+            Assert.That(guarded.Prevented,Is.EqualTo(3));
+            Assert.That(a.Events.Last().Result,Is.EqualTo(Outcome.Victory));
+            Assert.That(a.Events.Any(e=>e.Detail=="Flank +2" && e.Tags.HasFlag(EventTags.Flanked)),Is.True);
         }
         [TestCase(Preference.ProtectAnchor)] [TestCase(Preference.DirectAttack)]
         public void EveryActionLegalAndNoDeadActorOrTargetCanActOrHeal(Preference p)
@@ -65,6 +69,8 @@ namespace RogueTactics.Tests
                 new Unit("X",Role.Enemy,20,6,new GridPosition(2,3)) });
             var first=Rules.Resolve(s,new Command(Preference.DirectAttack));
             var hit=Rules.Resolve(first.State,new Command(Preference.DirectAttack));
+            var damage = hit.Events.Single(e=>e.Kind==EventKind.Damage);
+            Assert.That(damage.Tags,Is.EqualTo(EventTags.Lethal | EventTags.Overkill));
             Assert.That(hit.Events.Any(e=>e.Kind==EventKind.Death && e.Target=="A"),Is.True);
             Assert.That(hit.Events.Any(e=>e.Kind==EventKind.Counter),Is.False);
             Assert.That(s.Find("A").Hp,Is.EqualTo(1),"source snapshot must not mutate");

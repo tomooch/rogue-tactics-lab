@@ -352,7 +352,7 @@ namespace RogueTactics.Presentation
                     hp[e.Target]=e.HpAfter;ShowImpactRelation(e);floating.text=HeroName(e.Target)+"  "+(e.Kind==EventKind.Heal?"+":"−")+e.Amount;floating.color=e.Kind==EventKind.Heal?Jade:e.Kind==EventKind.Counter?Gold:new Color(1,.65f,.56f);
                     floatUntil=Time.unscaledTime+1;
                     actionLink.gameObject.SetActive(!EventMotion);if(!EventMotion)Link(actionLink,positions[e.Actor],positions[e.Target]);
-                    if(e.Detail.StartsWith("Guard"))captions.Add("守護でダメージ軽減");break;
+                    if((e.Tags & EventTags.Guarded)!=0)captions.Add("守護でダメージ軽減");break;
                 case EventKind.Death:dead.Add(e.Target);actionLink.gameObject.SetActive(false);ghost.gameObject.SetActive(false);if(e.Target=="A" || e.Target=="B"){shield.gameObject.SetActive(false);guardLink.gameObject.SetActive(false);}hp[e.Target]=0;pawns[e.Target].gameObject.SetActive(false);badges[e.Target].alpha=.45f;break;
             }
             if(e.Kind!=EventKind.Action)captions.Add(Describe(e));
@@ -363,12 +363,12 @@ namespace RogueTactics.Presentation
             switch(e.Kind)
             {
                 case EventKind.Protect:return HeroName(e.Actor)+" → "+HeroName(e.Target)+" を守る（軽減 "+e.Amount+"）";
-                case EventKind.Damage:return HeroName(e.Actor)+" → "+HeroName(e.Target)+" 攻撃  −"+e.Amount+(e.Detail.StartsWith("Guard")?"（守護で軽減）":"");
+                case EventKind.Damage:return HeroName(e.Actor)+" → "+HeroName(e.Target)+" 攻撃  −"+e.Amount+((e.Tags & EventTags.Guarded)!=0?"（守護で軽減）":"");
                 case EventKind.Counter:return HeroName(e.Actor)+" → "+HeroName(e.Target)+" 反撃  −"+e.Amount;
                 case EventKind.Heal:return HeroName(e.Actor)+" → "+HeroName(e.Target)+" 回復  ＋"+e.Amount;
                 case EventKind.Death:return HeroName(e.Target)+" は戦闘不能";
                 case EventKind.Move:return HeroName(e.Actor)+" が移動";
-                case EventKind.End:return "戦闘終了："+(e.Detail=="Victory"?"勝利":e.Detail=="Defeat"?"敗北":"上限");
+                case EventKind.End:return "戦闘終了："+(e.Result==Outcome.Victory?"勝利":e.Result==Outcome.Defeat?"敗北":"上限");
                 default:return "";
             }
         }

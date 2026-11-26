@@ -12,6 +12,8 @@ namespace RogueTactics.Core.G1
     public enum Preference { ProtectAnchor, DirectAttack }
     public enum ActionKind { Maintain, Move, Attack, Protect, Heal }
     public enum EventKind { Action, Move, Protect, Damage, Heal, Counter, Death, End }
+    [Flags]
+    public enum EventTags { None=0, Guarded=1, Lethal=2, Flanked=4, Counter=8, Overkill=16 }
     public enum Outcome { Active, Victory, Defeat, Limit }
 
     public sealed class Unit
@@ -101,8 +103,17 @@ namespace RogueTactics.Core.G1
         public int HpAfter { get; }
         public GridPosition Position { get; }
         public string Detail { get; }
-        internal BattleEvent(int step, EventKind kind, string actor, string target, int amount, int hp, GridPosition position, string detail)
-        { Step = step; Kind = kind; Actor = actor; Target = target; Amount = amount; HpAfter = hp; Position = position; Detail = detail; }
+        public EventTags Tags { get; }
+        public int Prevented { get; }
+        public string Guardian { get; }
+        public Outcome Result { get; }
+        internal BattleEvent(int step, EventKind kind, string actor, string target, int amount, int hp, GridPosition position, string detail,
+            EventTags tags = EventTags.None, int prevented = 0, string guardian = "", Outcome result = Outcome.Active)
+        {
+            Step = step; Kind = kind; Actor = actor; Target = target; Amount = amount; HpAfter = hp; Position = position; Detail = detail;
+            Tags = tags; Prevented = prevented; Guardian = guardian; Result = result;
+        }
+        // Keep the existing replay representation stable. The typed fields are derived during resolution.
         public string Serialize() => string.Join(",", Step.ToString(CultureInfo.InvariantCulture), (int)Kind, Actor, Target,
             Amount.ToString(CultureInfo.InvariantCulture), HpAfter.ToString(CultureInfo.InvariantCulture), Position.X.ToString(CultureInfo.InvariantCulture), Position.Y.ToString(CultureInfo.InvariantCulture), Detail);
     }
@@ -293,26 +304,35 @@ namespace RogueTactics.Core.G1
                     var healed = Math.Min(4,t.MaxHp-t.Hp); t.Hp += healed; s.HealCharges--;
                     emit(EventKind.Heal,u.Id,t.Id,healed,t.Hp,t.Position,"Heal charge spent"); break;
                 case ActionKind.Attack:
-                    var damage = u.Attack + (Flank(s,u,t) ? 2 : 0);
+                    var flanked = Flank(s,u,t);
+                    var damage = u.Attack + (flanked ? 2 : 0);
                     var protector = s.Find("B");
                     var guarded = t.Id == "A" && s.Guard && protector != null && protector.Alive && Distance(protector.Position,t.Position) == 1;
-                    if (guarded) damage = Math.Max(0,damage-3);
-                    Hit(s,events,u,t,damage,EventKind.Damage,guarded ? "Guard reduced damage by 3" : (Flank(s,u,t) ? "Flank +2" : "Attack"));
-                    if (t.Alive && t.Role == Role.Anchor && u.Alive && damage > 0)
-                        Hit(s,events,t,u,2,EventKind.Counter,"Living A counters a surviving adjacent hit");
+                    var adjustedDamage = guarded ? Math.Max(0,damage-3) : damage;
+                    var prevented = Math.Max(0, damage-adjustedDamage);
+                    var tags = flanked ? EventTags.Flanked : EventTags.None;
+                    if (guarded) tags |= EventTags.Guarded;
+                    Hit(s,events,u,t,adjustedDamage,EventKind.Damage,guarded ? "Guard reduced damage by 3" : (flanked ? "Flank +2" : "Attack"),
+                        tags, prevented, guarded ? protector.Id : "");
+                    if (t.Alive && t.Role == Role.Anchor && u.Alive && adjustedDamage > 0)
+                        Hit(s,events,t,u,2,EventKind.Counter,"Living A counters a surviving adjacent hit",EventTags.Counter);
                     break;
             }
             s.Cursor = (s.Initiative.ToList().IndexOf(u.Id)+1) % s.Initiative.Count;
             if (!s.Units.Any(x=>x.Enemy && x.Alive)) s.Outcome = Outcome.Victory;
             else if (!s.Units.Any(x=>!x.Enemy && x.Alive)) s.Outcome = Outcome.Defeat;
             else if (s.Step >= ActionLimit) s.Outcome = Outcome.Limit;
-            if (s.Outcome != Outcome.Active) emit(EventKind.End,"","",0,0,new GridPosition(0,0),s.Outcome.ToString());
+            if (s.Outcome != Outcome.Active)
+                events.Add(new BattleEvent(s.Step,EventKind.End,"","",0,0,new GridPosition(0,0),s.Outcome.ToString(),result: s.Outcome));
             return new ResolvedStep(s,plan,events);
         }
-        private static void Hit(EncounterState s, List<BattleEvent> events, Unit actor, Unit target, int amount, EventKind kind, string detail)
+        private static void Hit(EncounterState s, List<BattleEvent> events, Unit actor, Unit target, int amount, EventKind kind, string detail,
+            EventTags tags, int prevented = 0, string guardian = "")
         {
+            if (amount > target.Hp) tags |= EventTags.Overkill;
             var actual = Math.Min(target.Hp, amount); target.Hp -= actual;
-            events.Add(new BattleEvent(s.Step,kind,actor.Id,target.Id,actual,target.Hp,target.Position,detail));
+            if (!target.Alive) tags |= EventTags.Lethal;
+            events.Add(new BattleEvent(s.Step,kind,actor.Id,target.Id,actual,target.Hp,target.Position,detail,tags,prevented,guardian));
             if (!target.Alive) events.Add(new BattleEvent(s.Step,EventKind.Death,actor.Id,target.Id,0,0,target.Position,"Lethal resolution"));
         }
     }

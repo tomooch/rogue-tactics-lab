@@ -138,7 +138,7 @@ namespace RogueTactics.Presentation
                     if(vfx!=null && pawns.ContainsKey(e.Actor))vfx.Dust(Ground(e.Actor));
                     break;
                 case EventKind.End:
-                    if(e.Detail==Outcome.Victory.ToString())
+                    if(e.Result==Outcome.Victory)
                     {
                         if(vfx!=null)vfx.Celebrate(BattleCenter());
                         foreach(var pair in poses)if(pawns[pair.Key].gameObject.activeInHierarchy)pair.Value.Puppet?.Play(PuppetClip.Cheer,.7f,0);
@@ -227,7 +227,7 @@ namespace RogueTactics.Presentation
             var side=ScreenSide(targetAt-actorAt);var target=PoseOf(e.Target);spirits.TryGetValue(e.Target,out var spirit);
             if(e.Kind==EventKind.Damage || e.Kind==EventKind.Counter)
             {
-                var guarded=e.Detail!=null && e.Detail.StartsWith("Guard");
+                var guarded=(e.Tags & EventTags.Guarded)!=0;
                 // The target turns to the blow and is thrown back from it.
                 var thrown=targetAt-actorAt;thrown.y=0;thrown=thrown.sqrMagnitude<1e-4f?Vector3.zero:thrown.normalized;
                 if(target?.Puppet!=null)target.Puppet.Knock=OnScreen(thrown).normalized*(guarded?.45f:1);

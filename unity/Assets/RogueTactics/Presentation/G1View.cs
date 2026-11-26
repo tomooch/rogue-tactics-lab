@@ -249,7 +249,7 @@ namespace RogueTactics.Presentation
         { var v=fieldCamera.WorldToViewportPoint(new Vector3(p.X,.6f,p.Y)); return new Vector2(v.x*358,(1-v.y)*244); }
         public static string Describe(BattleEvent e)
         {
-            if(e.Kind==EventKind.Damage || e.Kind==EventKind.Counter) return e.Step+" "+e.Actor+" -> "+e.Target+" "+e.Kind+" -"+e.Amount+" (HP "+e.HpAfter+") "+(e.Detail.StartsWith("Guard") ? "[guard]" : e.Detail=="Flank +2" ? "[flank]" : "");
+            if(e.Kind==EventKind.Damage || e.Kind==EventKind.Counter) return e.Step+" "+e.Actor+" -> "+e.Target+" "+e.Kind+" -"+e.Amount+" (HP "+e.HpAfter+") "+((e.Tags & EventTags.Guarded)!=0 ? "[guard]" : (e.Tags & EventTags.Flanked)!=0 ? "[flank]" : "");
             if(e.Kind==EventKind.Heal) return e.Step+" "+e.Actor+" -> "+e.Target+" Heal +"+e.Amount+" (HP "+e.HpAfter+")";
             if(e.Kind==EventKind.Move) return e.Step+" "+e.Actor+" Move ("+e.Position.X+","+e.Position.Y+")";
             if(e.Kind==EventKind.Protect) return e.Step+" "+e.Actor+" -> "+e.Target+" Protect / reduction "+e.Amount;
