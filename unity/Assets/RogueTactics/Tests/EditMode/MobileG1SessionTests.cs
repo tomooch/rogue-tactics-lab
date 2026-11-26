@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
+using RogueTactics.Core;
 using RogueTactics.Core.G1;
 using RogueTactics.Presentation;
 
@@ -58,6 +59,54 @@ namespace RogueTactics.Tests
             Assert.That(()=>session.LoadEncounter(1,hp),Throws.TypeOf<System.ArgumentException>());
             Assert.That(session.EncounterIndex,Is.Zero);
             Assert.That(session.Replay,Is.SameAs(replay));
+        }
+        [TestCase(false)]
+        [TestCase(true)]
+        public void RestoreImmediatelyAfterCorrectionPreservesInputAndTheRemainingReplay(bool targetOnce)
+        {
+            var original=new MobileG1Session();
+            original.Start("戦いの前の予想");
+            original.Advance();
+            if(targetOnce)original.TargetOnce("C","Y");
+            else original.Correct(Preference.DirectAttack);
+
+            var restored=new MobileG1Session();
+            restored.RestoreBattle(original.CaptureBattle());
+            Assert.That(restored.Replay.CorrectionsLeft,Is.Zero);
+            Assert.That(restored.Replay.PendingTarget,Is.EqualTo(original.Replay.PendingTarget));
+            Assert.That(restored.Preference,Is.EqualTo(original.Preference));
+            Assert.That(restored.Prediction,Is.EqualTo(original.Prediction));
+            Assert.That(restored.Replay.State.Serialize(),Is.EqualTo(original.Replay.State.Serialize()));
+            while(original.Replay.State.Outcome==Outcome.Active)original.Advance();
+            while(restored.Replay.State.Outcome==Outcome.Active)restored.Advance();
+            Assert.That(restored.Replay.Hash(),Is.EqualTo(original.Replay.Hash()));
+
+            var terminal=new MobileG1Session();
+            terminal.RestoreBattle(restored.CaptureBattle());
+            Assert.That(terminal.Replay.State.Outcome,Is.EqualTo(Outcome.Victory));
+            Assert.That(terminal.Trials[original.Replay.InitialPreference].Hash,Is.EqualTo(original.Replay.Hash()));
+        }
+
+        [Test]
+        public void RestoreDefeatAndRejectCheckpointThatContinuesPastTheEnd()
+        {
+            var room=new EncounterState(3,3,new[]{
+                new Unit("A",Role.Anchor,1,1,new GridPosition(1,1)),
+                new Unit("X",Role.Enemy,20,6,new GridPosition(1,2))
+            },new[]{"X","A"});
+            var original=new MobileG1Session(room);
+            original.Start("");
+            original.Advance();
+            Assert.That(original.Replay.State.Outcome,Is.EqualTo(Outcome.Defeat));
+
+            var restored=new MobileG1Session(room);
+            restored.RestoreBattle(original.CaptureBattle());
+            Assert.That(restored.Replay.Hash(),Is.EqualTo(original.Replay.Hash()));
+            Assert.That(restored.Replay.State.Outcome,Is.EqualTo(Outcome.Defeat));
+            var before=restored.Replay;
+            var invalid=new BattleCheckpoint(0,Preference.ProtectAnchor,2,"",null);
+            Assert.That(()=>restored.RestoreBattle(invalid),Throws.InvalidOperationException);
+            Assert.That(restored.Replay,Is.SameAs(before));
         }
     }
 }

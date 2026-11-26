@@ -262,7 +262,7 @@ namespace RogueTactics.Presentation
         private void ConfirmInstruction()
         {
             if(directedAlly=="" || directedEnemy=="" || Busy)return;
-            Session.Replay.TargetOnce(directedAlly,directedEnemy);
+            Session.TargetOnce(directedAlly,directedEnemy);
             orderedActor=directedAlly;orderedTarget=directedEnemy;
             instructionReceiptText=HeroName(orderedActor)+" → "+HeroName(orderedTarget)+" · 次の行動を待っています";
             captions.Add(HeroName(directedAlly)+"に指示："+HeroName(directedEnemy)+"を狙う（次の1行動）");
