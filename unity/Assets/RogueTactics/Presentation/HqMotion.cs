@@ -44,7 +44,7 @@ namespace RogueTactics.Presentation
                 foreach(var unit in Session.Replay.State.Units)if(!dead.Contains(unit.Id))
                 {bodyRects[unit.Id]=ProjectedBody(bodies[unit.Id]);}
                 LayoutFootBadges();RefreshRelationCues();
-                if(guardLink.gameObject.activeSelf)Link(guardLink,positions["B"],positions["A"]);
+                RefreshShownGuard();
                 if(actionLink.gameObject.activeSelf && hasActor && hasTarget)Link(actionLink,positions[e.Actor],positions[e.Target]);
                 yield return null;
             }

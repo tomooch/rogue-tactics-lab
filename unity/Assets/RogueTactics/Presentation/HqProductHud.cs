@@ -149,16 +149,18 @@ namespace RogueTactics.Presentation
             {var u=Session.Replay.State.Find(id);cardValues[id].text="HP "+hp[id]+" / "+u.MaxHp;cardHealth[id].rectTransform.sizeDelta=new Vector2(74f*hp[id]/u.MaxHp,2);}
             cardValues["B"].transform.parent.Find("Name").GetComponent<Text>().text=Session.Preference==Preference.ProtectAnchor?"モモ：守る":"モモ：攻める";
             orderStrip.gameObject.SetActive(active && !terminalSeen);
-            var initiative=Session.Replay.State.Initiative;
+            var state=Session.Replay.State;
+            var initiative=state.Initiative;
             var start=initiative.ToList().IndexOf(shownActor);if(start<0)start=0;var slot=0;
             for(var i=0;i<initiative.Count;i++)
             {
                 var id=initiative[(start+i)%initiative.Count];var f=orderFrames[id];f.gameObject.SetActive(!dead.Contains(id));if(dead.Contains(id))continue;
                 f.rectTransform.anchoredPosition=new Vector2(slot*(Field.rect.width-24)/initiative.Count,-19);slot++;
-                var actorLabel=f.transform.Find("Actor").GetComponent<Text>();actorLabel.gameObject.SetActive(id=="X" || id=="Y");
+                var enemy=state.Find(id).Enemy;
+                var actorLabel=f.transform.Find("Actor").GetComponent<Text>();actorLabel.gameObject.SetActive(enemy);
                 // The strip's tiles are 22 px: allies are told apart by their portrait, spirits by one glyph (developer mode too;
                 // a full name wraps to two lines there and overflows the tile).
-                actorLabel.text=id=="X" || id=="Y"?HqCreature.GlyphOf(id):HeroName(id);
+                actorLabel.text=enemy?HqCreature.GlyphOf(id):HeroName(id);
                 if(!DeveloperMode)
                 {f.rectTransform.anchoredPosition=new Vector2((slot-1)*34,-19);f.rectTransform.sizeDelta=new Vector2(32,28);actorLabel.rectTransform.anchoredPosition=Vector2.zero;actorLabel.rectTransform.sizeDelta=new Vector2(32,26);}
                 f.color=id==shownActor?new Color(.50f,.36f,.12f,.97f):new Color(.04f,.12f,.18f,.92f);

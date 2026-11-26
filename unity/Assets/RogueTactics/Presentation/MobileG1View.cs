@@ -55,6 +55,7 @@ namespace RogueTactics.Presentation
         private RenderTexture fieldTarget;
         private VolumeProfile runtimeProfile;
         private bool visualTweenActive;
+        private BattleEvent shownGuard;
         private RectTransform controls, setup, battleControls, modal, detailsViewport, guardLink, actionLink, ghost, shield;
         private Text phase, intent, eventCaption, modalText, headline, floating;
         private Text artNotice;
@@ -313,7 +314,7 @@ namespace RogueTactics.Presentation
         private void ResetProjection()
         {
             ClearAllFallen();if(vfx!=null)vfx.Clear();hitStop=0;actingId="";ClearRelation();frameIntervals.Clear();LastFrameReport=null;displayed.Clear();captions.Clear();dead.Clear();hp.Clear();positions.Clear();terminalSeen=false;shownStep=0;shownActor="";reaction="";foreach(var u in Session.Replay.State.Units){hp[u.Id]=u.Hp;positions[u.Id]=Shown(u.Position);}crisisActive=false;orderedActor="";orderedTarget="";instructionReceiptText="";interruptRequested=false;requestedInstructionAlly="";if(instructionOverlay!=null)instructionOverlay.gameObject.SetActive(false);
-            shield.gameObject.SetActive(false);guardLink.gameObject.SetActive(false);floating.text="";foreach(var b in badges.Values)b.alpha=1;
+            ClearShownGuard();floating.text="";foreach(var b in badges.Values)b.alpha=1;
         }
         private void StartBattle() {if(Session.Started || Busy)return;policyEditing=false;Prediction.DeactivateInputField();SetComparisonCamera(CameraPitch);Session.Start(Prediction.text);Auto=!DeveloperMode;Next();}
         private void Next() {if(Busy || !Session.Started || Session.Replay.State.Outcome!=Outcome.Active)return;StartCoroutine(ResolveAndDisplay());}
@@ -344,8 +345,9 @@ namespace RogueTactics.Presentation
             {
                 case EventKind.Move:positions[e.Target]=Shown(e.Position);
                     actionLink.gameObject.SetActive(false);ghost.gameObject.SetActive(false);
-                    if(e.Actor=="A" || e.Actor=="B"){shield.gameObject.SetActive(false);guardLink.gameObject.SetActive(false);}break;
+                    if(e.Actor==shownGuard?.Actor || e.Actor==shownGuard?.Target)ClearShownGuard();break;
                 case EventKind.Protect:
+                    shownGuard=e;
                     shield.gameObject.SetActive(!EventMotion);ShowRelation(e.Actor,e.Target,ActionKind.Protect,false);shield.anchoredPosition=(BodyRect(positions[e.Actor]).center+BodyRect(positions[e.Target]).center)/2+new Vector2(-12,12);
                     guardLink.gameObject.SetActive(!EventMotion);if(!EventMotion)Link(guardLink,positions[e.Actor],positions[e.Target]);break;
                 case EventKind.Damage:case EventKind.Counter:case EventKind.Heal:
@@ -353,11 +355,24 @@ namespace RogueTactics.Presentation
                     floatUntil=Time.unscaledTime+1;
                     actionLink.gameObject.SetActive(!EventMotion);if(!EventMotion)Link(actionLink,positions[e.Actor],positions[e.Target]);
                     if((e.Tags & EventTags.Guarded)!=0)captions.Add("守護でダメージ軽減");break;
-                case EventKind.Death:dead.Add(e.Target);actionLink.gameObject.SetActive(false);ghost.gameObject.SetActive(false);if(e.Target=="A" || e.Target=="B"){shield.gameObject.SetActive(false);guardLink.gameObject.SetActive(false);}hp[e.Target]=0;pawns[e.Target].gameObject.SetActive(false);badges[e.Target].alpha=.45f;break;
+                case EventKind.Death:dead.Add(e.Target);actionLink.gameObject.SetActive(false);ghost.gameObject.SetActive(false);if(e.Target==shownGuard?.Actor || e.Target==shownGuard?.Target)ClearShownGuard();hp[e.Target]=0;pawns[e.Target].gameObject.SetActive(false);badges[e.Target].alpha=.45f;break;
             }
             if(e.Kind!=EventKind.Action)captions.Add(Describe(e));
-            if(e.Kind==EventKind.Action && e.Actor=="B"){shield.gameObject.SetActive(false);guardLink.gameObject.SetActive(false);}
+            if(e.Kind==EventKind.Action && e.Actor==shownGuard?.Actor)ClearShownGuard();
         }
+        private void ClearShownGuard()
+        {
+            shownGuard=null;
+            shield.gameObject.SetActive(false);
+            guardLink.gameObject.SetActive(false);
+        }
+
+        private void RefreshShownGuard()
+        {
+            if(shownGuard!=null && guardLink.gameObject.activeSelf)
+                Link(guardLink,positions[shownGuard.Actor],positions[shownGuard.Target]);
+        }
+
         public static string Describe(BattleEvent e)
         {
             switch(e.Kind)
@@ -386,7 +401,7 @@ namespace RogueTactics.Presentation
         }
         private void Refresh()
         {
-            RefreshActors();if(guardLink.gameObject.activeSelf)Link(guardLink,positions["B"],positions["A"]);var active=Session.Started;setup.gameObject.SetActive(!active);battleControls.gameObject.SetActive(active);
+            RefreshActors();RefreshShownGuard();var active=Session.Started;setup.gameObject.SetActive(!active);battleControls.gameObject.SetActive(active);
             phase.text=active?"行動 "+shownStep+"  /  "+(!terminalSeen?"観察中":"戦闘終了"):"Bの選好だけを変える  /  同じ初期戦況";
             if(active)
             {
