@@ -124,8 +124,12 @@ namespace RogueTactics.Presentation
             controls=Rect(SafeRoot,"Controls",0,580,390,244);
             phase=Label(controls,"Phase","",16,0,358,22,14);
             setup=Rect(controls,"Setup",0,26,390,162);
-            MakeButton(setup,"Protect","B：Aを守る",12,0,180,46,()=>Select(Preference.ProtectAnchor),17);
-            MakeButton(setup,"Attack","B：直接攻撃",198,0,180,46,()=>Select(Preference.DirectAttack),17);
+            var policyIndex=0;
+            foreach(var preference in Policies)
+            {
+                var label=PolicyLabels[preference];
+                MakeButton(setup,label.Button,label.LegacyButton,12+186*policyIndex++,0,180,46,()=>Select(preference),17);
+            }
             var input=Rect(setup,"Prediction",12,54,366,44);input.gameObject.AddComponent<Image>().color=new Color(.1f,.16f,.19f);
             Prediction=input.gameObject.AddComponent<InputField>();var value=Label(input,"Value","",10,2,346,40,16);value.supportRichText=false;
             Prediction.textComponent=value;Prediction.placeholder=Label(input,"Placeholder","自分の予想（任意）",10,2,346,40,16);Prediction.placeholder.color=new Color(.61f,.71f,.70f);
@@ -431,8 +435,8 @@ namespace RogueTactics.Presentation
             buttons["Next"].interactable=active && Session.Replay.State.Outcome==Outcome.Active && !Busy && !Auto;
             buttons["Play"].interactable=active && !terminalSeen;buttons["Play"].GetComponentInChildren<Text>().text=Auto?"一時停止":"続けて見る";
             buttons["Reset"].interactable=!Busy;buttons["Compare"].interactable=Session.Trials.Count>0 && !Busy;
-            buttons["Protect"].GetComponent<Image>().color=Session.Preference==Preference.ProtectAnchor?new Color(.22f,.40f,.39f):new Color(.12f,.24f,.26f);
-            buttons["Attack"].GetComponent<Image>().color=Session.Preference==Preference.DirectAttack?new Color(.22f,.40f,.39f):new Color(.12f,.24f,.26f);
+            foreach(var policy in PolicyLabels)
+                buttons[policy.Value.Button].GetComponent<Image>().color=Session.Preference==policy.Key?new Color(.22f,.40f,.39f):new Color(.12f,.24f,.26f);
             RefreshProductHud();
             RefreshFloorUi();
             RefreshRoundIntents();
@@ -448,8 +452,8 @@ namespace RogueTactics.Presentation
             if(trials)
             {
                 headline.text="結果と事前予想";
-                modalText.text=string.Join("\n\n",new[]{Preference.ProtectAnchor,Preference.DirectAttack}.Where(p=>Session.Trials.ContainsKey(p)).Select(p=>{
-                    var t=Session.Trials[p];return (p==Preference.ProtectAnchor?"モモ：シロのそばで守る":"モモ：近くの敵を攻める")+"\n"+(t.Outcome==Outcome.Victory?"勝利":"終了")+" / "+t.Actions+"行動 / 生存 "+t.Alive+"人\nHP "+t.Hp.Replace("A:","シロ:").Replace("B:","モモ:").Replace("C:","ガル:").Replace("D:","ミャル:")+"\n回復残数 "+t.Heals+"\n予想："+(t.Prediction==""?"（未入力）":t.Prediction)+(DeveloperMode?"\nSHA "+t.Hash.Substring(0,16):"");
+                modalText.text=string.Join("\n\n",Policies.Where(p=>Session.Trials.ContainsKey(p)).Select(p=>{
+                    var t=Session.Trials[p];return "モモ："+PolicyLabels[p].Detail+"\n"+(t.Outcome==Outcome.Victory?"勝利":"終了")+" / "+t.Actions+"行動 / 生存 "+t.Alive+"人\nHP "+t.Hp.Replace("A:","シロ:").Replace("B:","モモ:").Replace("C:","ガル:").Replace("D:","ミャル:")+"\n回復残数 "+t.Heals+"\n予想："+(t.Prediction==""?"（未入力）":t.Prediction)+(DeveloperMode?"\nSHA "+t.Hash.Substring(0,16):"");
                 }));
             }
             else
@@ -461,7 +465,7 @@ namespace RogueTactics.Presentation
             {
                 headline.text="旅の記録";
                 var ownPrediction=Prediction.text;
-                modalText.text="今回の方針：モモが"+(Session.Preference==Preference.ProtectAnchor?"シロを守る":"近くの敵を攻める")+
+                modalText.text="今回の方針：モモが"+PolicyLabels[Session.Preference].LegacyAction+
                     (string.IsNullOrWhiteSpace(ownPrediction)?"":"\n自分の予想："+ownPrediction)+
                     (captions.Count==0?"":"\n\n見た出来事\n"+string.Join("\n",captions.Skip(Mathf.Max(0,captions.Count-6))))+
                     "\n\n仲間に戦いを託す\nモモの方針を選び、予想を残して戦闘開始。仲間は自分で動きます。どちらの方針も同じ初期状態から試せます。\n\n仲間の動き\nシロ：生きて被弾すると、隣の敵へ反撃2。\nモモ：隣のシロを守ると被害を3軽減。もう一つの方針では近くの敵へ攻めます。\nガル：シロと同じ敵に隣接すると攻撃に2追加。\nミャル：体力が4以上減った生存仲間を、距離2以内で4回復。初回は2回分。\n\n戦いを見比べる\n終わったら予想と結果を比べ、同じ戦闘を別の方針で試せます。\n\n遺跡を探索する\n見えている床や通路を選ぶと仲間が進みます。地図や記録を開いた戦い・移動は停止し、閉じた後に再開できます。";

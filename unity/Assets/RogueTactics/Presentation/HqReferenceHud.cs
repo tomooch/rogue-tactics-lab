@@ -211,7 +211,7 @@ namespace RogueTactics.Presentation
             {
                 var id=CardOrder[i];var unit=Session.Replay.State.Find(id);var r=cardValues[id].transform.parent;
                 r.Find("Name").GetComponent<Text>().text=HeroName(id);
-                r.Find("Role meaning").GetComponent<Text>().text=dead.Contains(id)?"戦闘不能":id=="B"?(Session.Preference==Preference.ProtectAnchor?"シロを守る":"敵を攻める"):CoreRoles[i];
+                r.Find("Role meaning").GetComponent<Text>().text=dead.Contains(id)?"戦闘不能":id=="B"?PolicyLabels[Session.Preference].Action:CoreRoles[i];
                 cardHealth[id].rectTransform.sizeDelta=new Vector2(((w-36)/CardOrder.Length-14)*hp[id]/unit.MaxHp,5);
                 r.Find("Approved portrait").GetComponent<RawImage>().color=dead.Contains(id)?new Color(.45f,.45f,.48f):Color.white;
                 companionFrames[i].Border=dead.Contains(id)?new Color(.32f,.36f,.42f):CompanionColors[i];companionFrames[i].SetVerticesDirty();
@@ -226,7 +226,7 @@ namespace RogueTactics.Presentation
                 SafeRoot.Find("Boundary").GetComponent<Text>().text="モモの方針を選び、仲間に戦いを託す";
                 buttons["Start"].GetComponent<Image>().color=Color.clear;
                 if(policyEditing){PositionReferenceAction("Start",12,0,w-24,"この方針で戦闘開始");}
-                else{PositionReferenceAction("PolicyShortcut",12,0,(w-30)/2,Session.Preference==Preference.ProtectAnchor?"モモ：シロを守る":"モモ：敵を攻める");PositionReferenceAction("Start",18+(w-30)/2,0,(w-30)/2,"戦闘開始");}
+                else{PositionReferenceAction("PolicyShortcut",12,0,(w-30)/2,"モモ："+PolicyLabels[Session.Preference].Action);PositionReferenceAction("Start",18+(w-30)/2,0,(w-30)/2,"戦闘開始");}
                 eventBackdrop.gameObject.SetActive(false);eventCaption.gameObject.SetActive(false);
             }
             else if(!IsExploring)
@@ -236,12 +236,16 @@ namespace RogueTactics.Presentation
                 else
                 {PositionReferenceAction("Play",w-116,0,104,Auto?"一時停止":"再開");}
             }
-            PositionReferenceAction("Protect",12,46,(w-30)/2,"シロを守る");PositionReferenceAction("Attack",18+(w-30)/2,46,(w-30)/2,"敵へ攻める");
-            foreach(var id in new[]{"Protect","Attack"})
+            var policyX=12f;
+            foreach(var preference in Policies)
             {
-                var selected=(id=="Protect")== (Session.Preference==Preference.ProtectAnchor);var panel=buttons[id].GetComponentInChildren<HudPanelGraphic>();
+                var policy=PolicyLabels[preference];
+                var selected=Session.Preference==preference;
+                var width=(w-30)/2;
+                PositionReferenceAction(policy.Button,policyX,46,width,selected?"選択中\n"+policy.Action:policy.Choice);
+                policyX+=width+6;
+                var panel=buttons[policy.Button].GetComponentInChildren<HudPanelGraphic>();
                 panel.Border=selected?Gold:new Color(.40f,.50f,.60f);panel.Fill=selected?new Color(.12f,.22f,.28f,.99f):new Color(.035f,.07f,.12f,.96f);panel.SetVerticesDirty();
-                if(selected)buttons[id].transform.Find("Label").GetComponent<Text>().text=id=="Protect"?"選択中\nシロを守る":"選択中\n敵を攻める";
             }
             PositionReferenceAction("Details",w-68,6,56,"");
             var book=buttons["Details"].transform.Find("Action symbol").GetComponent<RectTransform>();book.anchoredPosition=new Vector2(18,-6);

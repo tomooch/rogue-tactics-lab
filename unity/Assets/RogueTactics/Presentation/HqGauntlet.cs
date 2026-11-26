@@ -337,7 +337,7 @@ namespace RogueTactics.Presentation
             if(correct.gameObject.activeSelf)
             {
                 var names=string.Join("・",crisisAllies.Select(HeroName));
-                PositionReferenceAction("Correct",12,h-268,w-24,names+"が危ない！ モモを「"+(Session.Preference==Preference.ProtectAnchor?"敵を攻める":"シロを守る")+"」に変える（残り1回）");
+                PositionReferenceAction("Correct",12,h-268,w-24,names+"が危ない！ モモを「"+PolicyLabels[Policies.First(preference=>preference!=Session.Preference)].Action+"」に変える（残り1回）");
                 correct.transform.Find("Label").GetComponent<Text>().fontSize=12;
             }
             var alive=CardOrder.Count(id=>!dead.Contains(id));

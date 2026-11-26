@@ -20,6 +20,13 @@ namespace RogueTactics.Presentation
         private bool policyEditing;
         private Text policyHeading;
         private Image policyBackdrop, eventBackdrop;
+        private static readonly Dictionary<Preference,(string Button, string LegacyButton, string Short, string Action, string Choice, string Detail, string LegacyAction)> PolicyLabels =
+            new Dictionary<Preference,(string, string, string, string, string, string, string)>
+            {
+                {Preference.ProtectAnchor,("Protect","B：Aを守る","守る","シロを守る","シロを守る","シロのそばで守る","シロを守る")},
+                {Preference.DirectAttack,("Attack","B：直接攻撃","攻める","敵を攻める","敵へ攻める","近くの敵を攻める","近くの敵を攻める")}
+            };
+        private static readonly Preference[] Policies=PolicyLabels.Keys.OrderBy(preference=>preference).ToArray();
         private static readonly string[] CardOrder={"A","D","C","B"};
         private static string HeroName(string id)=>id=="A"?"シロ":id=="D"?"ミャル":id=="C"?"ガル":id=="B"?"モモ":HqCreature.NameOf(id);
         public void SetDeveloperMode(bool enabled){DeveloperMode=enabled;policyEditing=false;ApplySafeArea(safeRect,screenW,screenH);SetComparisonCamera(CameraPitch);}
@@ -126,7 +133,7 @@ namespace RogueTactics.Presentation
                 ResizeButton("Compare",18+(SafeRoot.rect.width-30)/2,0,(SafeRoot.rect.width-30)/2);buttons["Compare"].GetComponentInChildren<Text>().text="予想と結果を比べる";
                 buttons["Play"].GetComponentInChildren<Text>().text=Auto?"一時停止":"再開する";
                 ResizeButton("Protect",12,46,(SafeRoot.rect.width-30)/2);ResizeButton("Attack",18+(SafeRoot.rect.width-30)/2,46,(SafeRoot.rect.width-30)/2);
-                buttons["Protect"].GetComponentInChildren<Text>().text="シロのそばで守る";buttons["Attack"].GetComponentInChildren<Text>().text="近くの敵を攻める";
+                foreach(var policy in PolicyLabels.Values)buttons[policy.Button].GetComponentInChildren<Text>().text=policy.Detail;
                 buttons["Protect"].GetComponentInChildren<Text>().fontSize=14;buttons["Attack"].GetComponentInChildren<Text>().fontSize=14;
                 Prediction.GetComponent<RectTransform>().anchoredPosition=new Vector2(12,-102);Prediction.GetComponent<RectTransform>().sizeDelta=new Vector2(SafeRoot.rect.width-24,44);
                 Prediction.textComponent.rectTransform.sizeDelta=new Vector2(SafeRoot.rect.width-44,40);Prediction.placeholder.GetComponent<RectTransform>().sizeDelta=new Vector2(SafeRoot.rect.width-44,40);Prediction.placeholder.GetComponent<Text>().text="戦いの予想を残す（任意）";
@@ -147,7 +154,7 @@ namespace RogueTactics.Presentation
             if(!DeveloperMode)roster.gameObject.SetActive(true);
             foreach(var id in CardOrder)
             {var u=Session.Replay.State.Find(id);cardValues[id].text="HP "+hp[id]+" / "+u.MaxHp;cardHealth[id].rectTransform.sizeDelta=new Vector2(74f*hp[id]/u.MaxHp,2);}
-            cardValues["B"].transform.parent.Find("Name").GetComponent<Text>().text=Session.Preference==Preference.ProtectAnchor?"モモ：守る":"モモ：攻める";
+            cardValues["B"].transform.parent.Find("Name").GetComponent<Text>().text="モモ："+PolicyLabels[Session.Preference].Short;
             orderStrip.gameObject.SetActive(active && !terminalSeen);
             var state=Session.Replay.State;
             var initiative=state.Initiative;

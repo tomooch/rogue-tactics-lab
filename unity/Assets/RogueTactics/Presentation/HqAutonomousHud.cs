@@ -161,8 +161,8 @@ namespace RogueTactics.Presentation
             if(trials)
             {
                 headline.text="戦いの記録";
-                modalText.text=string.Join("\n\n",new[]{Preference.ProtectAnchor,Preference.DirectAttack}.Where(p=>Session.Trials.ContainsKey(p)).Select(p=>{
-                    var t=Session.Trials[p];return (p==Preference.ProtectAnchor?"モモがシロを守る":"モモが敵を攻める")+"\n"+
+                modalText.text=string.Join("\n\n",Policies.Where(p=>Session.Trials.ContainsKey(p)).Select(p=>{
+                    var t=Session.Trials[p];return "モモが"+PolicyLabels[p].Action+"\n"+
                         (t.Outcome==Outcome.Victory?"勝利":"戦闘終了")+"・"+t.Alive+"人が生還\nHP "+t.Hp.Replace("A:","シロ:").Replace("B:","モモ:").Replace("C:","ガル:").Replace("D:","ミャル:")+
                         (string.IsNullOrWhiteSpace(t.Prediction)?"":"\nメモ："+t.Prediction);
                 }));
@@ -170,7 +170,7 @@ namespace RogueTactics.Presentation
             else
             {
                 headline.text="旅の記録";
-                modalText.text="モモの方針："+(Session.Preference==Preference.ProtectAnchor?"シロを守る":"敵を攻める")+
+                modalText.text="モモの方針："+PolicyLabels[Session.Preference].Action+
                     (!Session.Started || string.IsNullOrWhiteSpace(Prediction.text)?"":"\nメモ："+Prediction.text)+
                     (captions.Count==0?"\n\n仲間の動きや、気になった出来事をここで見返せます。":"\n\n見た出来事\n"+string.Join("\n",captions.Skip(Mathf.Max(0,captions.Count-6))));
             }
