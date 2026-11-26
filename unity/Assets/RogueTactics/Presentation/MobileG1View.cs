@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RogueTactics.Core;
 using RogueTactics.Core.G1;
+using RogueTactics.Core.Exploration;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
@@ -56,6 +57,7 @@ namespace RogueTactics.Presentation
         private VolumeProfile runtimeProfile;
         private bool visualTweenActive;
         private BattleEvent shownGuard;
+        private BattleCheckpointStore battleStore;
         private RectTransform controls, setup, battleControls, modal, detailsViewport, guardLink, actionLink, ghost, shield;
         private Text phase, intent, eventCaption, modalText, headline, floating;
         private Text artNotice;
@@ -86,12 +88,21 @@ namespace RogueTactics.Presentation
             Session=new MobileG1Session(encounter);
         }
 
+        public void ConfigureBattlePersistence(BattleCheckpointStore store)
+        {
+            if(canvas!=null)throw new InvalidOperationException("Configure persistence before the view initializes");
+            battleStore=store ?? throw new ArgumentNullException(nameof(store));
+        }
+
         private void Awake()
         {
             if(AmbientOcclusion!=null)AmbientOcclusion.SetActive(true);
             Application.targetFrameRate=60;
-            Build(); ResetBaseline();if(ExplorationEnabled)BuildFloorUi();
+            Build(); ResetBattleView();if(ExplorationEnabled)BuildFloorUi();
             if(HqWorld)foreach(var button in buttons.Values)button.gameObject.AddComponent<HudPress>();
+            if(battleStore==null && Session.EncounterCount>1 && AutonomousProduct && Application.isMobilePlatform && !Application.isEditor)
+                battleStore=new BattleCheckpointStore(System.IO.Path.Combine(Application.persistentDataPath,"battle.json"));
+            RestoreBattleOnStartup();
         }
         private void Build()
         {
@@ -325,13 +336,86 @@ namespace RogueTactics.Presentation
         }
         public void Select(Preference p) {if(Session.Started || Busy)return;Session.Select(p);ResetProjection();if(!AutonomousProduct)Prediction.text="";Refresh();}
         public void ResetBaseline()
-        { if(Busy)return;Session.Reset();ResetFloorExploration();policyEditing=false;Auto=false;Paused=false;Prediction.text="";ResetProjection();SetComparisonCamera(CameraPitch); }
+        {
+            if(Busy)return;
+            ResetBattleView();
+            ClearSavedBattle();
+        }
+
+        private void ResetBattleView()
+        {
+            Session.Reset();ResetFloorExploration();policyEditing=false;Auto=false;Paused=false;
+            Prediction.text="";ResetProjection();SetComparisonCamera(CameraPitch);
+        }
+        private void RestoreBattleOnStartup()
+        {
+            if(battleStore==null)return;
+            var status=battleStore.Read(out var checkpoint);
+            if(status==BattleCheckpointReadStatus.Missing)return;
+            if(status==BattleCheckpointReadStatus.Loaded)
+            {
+                MobileG1Session restored=null;
+                try
+                {
+                    restored=Session.EncounterCount==1?Session:new MobileG1Session();
+                    if(restored.EncounterCount>1)restored.LoadEncounter(checkpoint.EncounterIndex);
+                    restored.RestoreBattle(checkpoint);
+                }
+                catch(Exception error) when(error is ArgumentException || error is InvalidOperationException)
+                {
+                    restored=null;
+                    battleStore.RejectCurrent();
+                }
+
+                if(restored!=null)
+                {
+                    Session=restored;
+                    if(ExplorationEnabled && checkpoint.EncounterIndex>0)
+                    {
+                        battleOrigin=GauntletRooms.Origin(floorMap,checkpoint.EncounterIndex);
+                        var currentRoom=new FloorTraveller(floorMap,Session.Replay.State.Units,battleOrigin);
+                        displayedKnown.UnionWith(currentRoom.KnownCells);
+                        floorScenery.Reveal(floorMap,displayedKnown);
+                    }
+                    ApplyRestoredBattle();
+                    if(floorMini!=null)floorMini.Configure(floorMap,displayedKnown,KnownMapActors());
+                    return;
+                }
+            }
+            SafeRoot.Find("Boundary").GetComponent<Text>().text="保存を読み込めませんでした";
+        }
+
+        private void SaveSettledBattle()
+        {
+            if(battleStore==null || !Session.Started || Busy || IsExploring)return;
+            if(!battleStore.TryWrite(Session.CaptureBattle()))
+                SafeRoot.Find("Boundary").GetComponent<Text>().text="戦闘を保存できませんでした";
+        }
+
+        private void ClearSavedBattle()
+        {
+            if(battleStore!=null && !battleStore.TryClear())
+                SafeRoot.Find("Boundary").GetComponent<Text>().text="保存した戦闘を消去できませんでした";
+        }
+
+        private void OnApplicationPause(bool paused)
+        {
+            if(paused)SaveSettledBattle();
+        }
+
+        private void OnApplicationQuit() => SaveSettledBattle();
+
         public void RestoreBattle(BattleCheckpoint checkpoint)
         {
             if(canvas==null || Session.Started || Busy || IsExploring)
                 throw new InvalidOperationException("Restore into a prepared battle before it starts");
 
             Session.RestoreBattle(checkpoint);
+            ApplyRestoredBattle();
+        }
+
+        private void ApplyRestoredBattle()
+        {
             ResetProjection();
             Auto=false;
             terminalSeen=Session.Replay.State.Outcome!=Outcome.Active;
@@ -373,7 +457,7 @@ namespace RogueTactics.Presentation
             ClearAllFallen();if(vfx!=null)vfx.Clear();hitStop=0;actingId="";ClearRelation();frameIntervals.Clear();LastFrameReport=null;displayed.Clear();captions.Clear();dead.Clear();hp.Clear();positions.Clear();terminalSeen=false;shownStep=0;shownActor="";reaction="";foreach(var u in Session.Replay.State.Units){hp[u.Id]=u.Hp;positions[u.Id]=Shown(u.Position);}crisisActive=false;orderedActor="";orderedTarget="";instructionReceiptText="";interruptRequested=false;requestedInstructionAlly="";if(instructionOverlay!=null)instructionOverlay.gameObject.SetActive(false);
             ClearShownGuard();floating.text="";foreach(var b in badges.Values)b.alpha=1;
         }
-        private void StartBattle() {if(Session.Started || Busy)return;policyEditing=false;Prediction.DeactivateInputField();SetComparisonCamera(CameraPitch);Session.Start(Prediction.text);Auto=!DeveloperMode;Next();}
+        private void StartBattle() {if(Session.Started || Busy)return;policyEditing=false;Prediction.DeactivateInputField();SetComparisonCamera(CameraPitch);Session.Start(Prediction.text);SaveSettledBattle();Auto=!DeveloperMode;Next();}
         private void Next() {if(Busy || !Session.Started || Session.Replay.State.Outcome!=Outcome.Active)return;StartCoroutine(ResolveAndDisplay());}
         private void ToggleAuto()
         { if(IsExploring){ToggleFloorPause();return;}if(!Session.Started || terminalSeen)return;Auto=!Auto;Paused=!Auto;Refresh();if(Auto && !Busy)Next(); }
@@ -387,7 +471,7 @@ namespace RogueTactics.Presentation
             foreach(var u in Session.Replay.State.Units)
                 if(hp[u.Id]!=u.Hp || !positions[u.Id].Equals(Shown(u.Position)))throw new InvalidOperationException("Mobile event projection mismatch");
             UpdateInstructionReceipt(result);
-            Busy=false;Refresh();
+            Busy=false;Refresh();SaveSettledBattle();
             if(Session.Replay.State.Outcome!=Outcome.Active){Auto=false;FinishFrameReport();Debug.Log("MOBILE_G1_RESULT "+Session.Preference+" "+Session.Replay.Hash());}
             else if(interruptRequested)OpenInstruction();
             else if(Auto)Next();

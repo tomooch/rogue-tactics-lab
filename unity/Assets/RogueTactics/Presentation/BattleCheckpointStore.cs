@@ -74,10 +74,22 @@ namespace RogueTactics.Presentation
             }
             catch(ArgumentException)
             {
-                try { File.Move(path,path+".rejected."+Guid.NewGuid().ToString("N")); }
-                catch(Exception error) when(IsFileAccessError(error)) { return BattleCheckpointReadStatus.Unavailable; }
-                return BattleCheckpointReadStatus.Rejected;
+                return RejectCurrent();
             }
+        }
+
+        internal BattleCheckpointReadStatus RejectCurrent()
+        {
+            try { File.Move(path,path+".rejected."+Guid.NewGuid().ToString("N")); }
+            catch(Exception error) when(IsFileAccessError(error)) { return BattleCheckpointReadStatus.Unavailable; }
+            return BattleCheckpointReadStatus.Rejected;
+        }
+
+        internal bool TryClear()
+        {
+            try { File.Delete(path); return true; }
+            catch(DirectoryNotFoundException) { return true; }
+            catch(Exception error) when(IsFileAccessError(error)) { return false; }
         }
 
         private static bool IsFileAccessError(Exception error)

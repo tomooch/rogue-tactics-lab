@@ -80,7 +80,7 @@ namespace RogueTactics.Presentation
             previousResultEncounter=Session.EncounterIndex;
             previousSurvivors=Session.Replay.State.Units.Count(u=>!u.Enemy && u.Alive);
             Auto=false;Paused=false;policyEditing=false;
-            Session.Reset();Prediction.text="";ResetProjection();SetComparisonCamera(CameraPitch);
+            Session.Reset();Prediction.text="";ResetProjection();SetComparisonCamera(CameraPitch);ClearSavedBattle();
         }
         private int NextEncounter=>Session.EncounterIndex+1;
         private bool PartyInRoom(int room)
@@ -264,6 +264,7 @@ namespace RogueTactics.Presentation
         {
             if(directedAlly=="" || directedEnemy=="" || Busy)return;
             Session.TargetOnce(directedAlly,directedEnemy);
+            SaveSettledBattle();
             orderedActor=directedAlly;orderedTarget=directedEnemy;
             instructionReceiptText=HeroName(orderedActor)+" → "+HeroName(orderedTarget)+" · 次の行動を待っています";
             captions.Add(HeroName(directedAlly)+"に指示："+HeroName(directedEnemy)+"を狙う（次の1行動）");

@@ -267,6 +267,26 @@ namespace RogueTactics.Tests
             Assert.That(view.SafeRoot.Find("Result banner/Result detail").GetComponent<Text>().text,Does.Contain("4人が生還（前回3人）"));
             yield return Capture("choice-directed-four-survivors");
         }
+        private static IEnumerator ReopenSavedBattle(BattleCheckpointStore store,RenderTexture target,
+            System.Action<MobileG1View> opened)
+        {
+            yield return SceneManager.LoadSceneAsync("HqExploration");
+            var original=SceneManager.GetActiveScene();
+            var template=Object.FindFirstObjectByType<MobileG1View>();
+            SceneManager.SetActiveScene(SceneManager.CreateScene("Resume with a battle checkpoint"));
+            var host=new GameObject("Battle before initialization");
+            host.SetActive(false);
+            var view=Object.Instantiate(template,host.transform);
+            var camera=Object.Instantiate(Camera.main);
+            camera.targetTexture=target;
+            view.ConfigureBattlePersistence(store);
+            yield return SceneManager.UnloadSceneAsync(original);
+            host.SetActive(true);
+            view.SetTestSafeArea(new Rect(0,34,390,763),390,844);
+            yield return null;yield return null;
+            opened(view);
+        }
+
         [UnityTest]
         public IEnumerator DiskCheckpointRestoresPausedHudAndTerminalResult()
         {
@@ -279,17 +299,11 @@ namespace RogueTactics.Tests
             source.Advance();
             source.TargetOnce("C","X");
             var target=new RenderTexture(390,844,24);
+            MobileG1View view=null;
             try
             {
                 Assert.That(store.TryWrite(source.CaptureBattle()),Is.True);
-                Assert.That(store.Read(out var saved),Is.EqualTo(BattleCheckpointReadStatus.Loaded));
-                yield return SceneManager.LoadSceneAsync("HqExploration");
-                yield return null;yield return null;
-                var view=Object.FindFirstObjectByType<MobileG1View>();
-                Camera.main.targetTexture=target;
-                view.SetTestSafeArea(new Rect(0,34,390,763),390,844);
-                view.RestoreBattle(saved);
-                yield return null;yield return null;
+                yield return ReopenSavedBattle(store,target,opened=>view=opened);
                 Assert.That(view.Session.Replay.Hash(),Is.EqualTo(source.Replay.Hash()));
                 Assert.That(view.DisplayedEvents.Select(e=>e.Serialize()),Is.EqualTo(source.Replay.Events.Select(e=>e.Serialize())));
                 Assert.That(view.Session.Replay.CorrectionsLeft,Is.Zero);
@@ -298,34 +312,55 @@ namespace RogueTactics.Tests
                 Assert.That(ally.Hp,Is.LessThan(ally.MaxHp));
                 var hpLabel=view.SafeRoot.Find("Companion portraits/Companion A/Actual HP").GetComponent<Text>();
                 Assert.That(hpLabel.text,Is.EqualTo("HP "+ally.Hp+" / "+ally.MaxHp));
-                Assert.That(view.EffectCount,Is.Zero);
+                Assert.That(view.Busy,Is.False,"Starting from a checkpoint does not play historical events");
                 var previousStep=view.Session.Replay.State.Step;
                 Press(view,"Play");
                 Assert.That(view.Session.Replay.State.Step,Is.EqualTo(previousStep+1));
+                Assert.That(view.Busy,Is.True);
+                view.SendMessage("OnApplicationPause",true);
+                Assert.That(store.Read(out var saved),Is.EqualTo(BattleCheckpointReadStatus.Loaded));
+                Assert.That(saved.Steps,Is.EqualTo(previousStep),"Interruption during animation keeps the last fully shown step");
 
                 // Restore a finished battle into a different fresh view as though restarted.
                 var finished=new MobileG1Session();
-                finished.Select(Preference.DirectAttack);
+                finished.LoadEncounter(1);
                 finished.Start("");
                 while(finished.Replay.State.Outcome==Outcome.Active)finished.Advance();
                 Assert.That(store.TryWrite(finished.CaptureBattle()),Is.True);
-                Assert.That(store.Read(out saved),Is.EqualTo(BattleCheckpointReadStatus.Loaded));
                 Camera.main.targetTexture=null;
-                yield return SceneManager.LoadSceneAsync("HqExploration");
-                yield return null;yield return null;
-                view=Object.FindFirstObjectByType<MobileG1View>();
-                Camera.main.targetTexture=target;
-                view.SetTestSafeArea(new Rect(0,34,390,763),390,844);
-                view.RestoreBattle(saved);
-                yield return null;yield return null;
+                yield return ReopenSavedBattle(store,target,opened=>view=opened);
                 Assert.That(view.Session.Replay.Hash(),Is.EqualTo(finished.Replay.Hash()));
+                Assert.That(view.Session.EncounterIndex,Is.EqualTo(1));
+                var roomOrigin=GauntletRooms.Origin(new FloorMap(),1);
+                var position=finished.Replay.State.Find("B").Position.Offset(roomOrigin.X,roomOrigin.Y);
+                var pawn=GameObject.Find("Fixture B").transform.position;
+                Assert.That(pawn,Is.EqualTo(new Vector3(position.X*2.5f,0,position.Y*2.5f)));
                 Assert.That(view.Button("Explore").gameObject.activeInHierarchy,Is.True);
                 Assert.That(GameObject.Find("Fixture A"),Is.Null);
                 Assert.That(GameObject.Find("Fallen rest A"),Is.Not.Null);
-                Assert.That(view.EffectCount,Is.Zero);
+                Assert.That(view.Busy,Is.False,"Starting from a checkpoint does not play historical events");
+                view.ResetBaseline();
+                Assert.That(store.Read(out _),Is.EqualTo(BattleCheckpointReadStatus.Missing));
+                yield return null;yield return null;
+                Press(view,"Start");
+                Assert.That(store.Read(out var started),Is.EqualTo(BattleCheckpointReadStatus.Loaded));
+                Assert.That(started.Steps,Is.Zero);
+                view.RequestInstruction();
+                var deadline=Time.realtimeSinceStartup+15;
+                while(!view.InstructionOpen && Time.realtimeSinceStartup<deadline)yield return null;
+                Assert.That(view.InstructionOpen,Is.True);
+                yield return null;yield return null;
+                Press(view,"DirectAllyC");
+                Press(view,"DirectEnemyY");
+                var instructionStep=view.Session.Replay.State.Step;
+                Press(view,"DirectConfirm");
+                Assert.That(store.Read(out var instructed),Is.EqualTo(BattleCheckpointReadStatus.Loaded));
+                Assert.That(instructed.Steps,Is.EqualTo(instructionStep));
+                Assert.That(instructed.Input.Target,Is.EqualTo("Y"));
             }
             finally
             {
+                if(view!=null)view.gameObject.SetActive(false);
                 if(Camera.main!=null)Camera.main.targetTexture=null;
                 Object.Destroy(target);
                 if(Directory.Exists(folder))Directory.Delete(folder,true);
