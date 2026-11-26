@@ -255,6 +255,9 @@ namespace RogueTactics.Tests
             Assert.That(view.InstructionOpen,Is.True);yield return null;yield return null;
             Assert.That(view.SafeRoot.Find("Instruction overlay/Instruction sheet/Help").GetComponent<Text>().text,Does.Contain("ガル"),"Portrait selects the requested living ally after the action boundary");
             Press(view,"DirectEnemyY");
+            var reason=view.SafeRoot.Find("Companion portraits/Companion C/Role meaning").GetComponent<Text>();
+            Assert.That(reason.text,Is.EqualTo("指示に従う"));
+            Assert.That(reason.preferredWidth,Is.LessThanOrEqualTo(reason.rectTransform.rect.width+.1f));
             Assert.That(view.SafeRoot.Find("Instruction overlay/Instruction sheet/Selection").GetComponent<Text>().text,Does.Contain("攻撃"));
             yield return Capture("choice-garu-flower-selection");
             Press(view,"DirectConfirm");yield return WaitBattle(view,false);yield return null;

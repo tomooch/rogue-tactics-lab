@@ -255,6 +255,7 @@ namespace RogueTactics.Presentation
                 var action=p.Kind==ActionKind.Attack?"攻撃":p.Kind==ActionKind.Move?"1マス接近":"進路が塞がれて待機";
                 instructionSummary.text=HeroName(directedAlly)+" → "+HeroName(directedEnemy)+"：今なら"+action+"\n"+(same?"今の自動行動と同じです。":"次の1行動だけ変更。")+"順番までに状況は変わります。";
             }
+            RefreshCompanionReasons();
             RefreshRoundIntents();
         }
         private void CancelInstruction()
@@ -268,20 +269,18 @@ namespace RogueTactics.Presentation
             captions.Add(HeroName(directedAlly)+"に指示："+HeroName(directedEnemy)+"を狙う（次の1行動）");
             CancelInstruction();
         }
+        private IReadOnlyList<Plan> CurrentVisibleIntents()
+        {
+            if(!InstructionOpen)return Session.Replay.Intents();
+            if(directedAlly=="" || directedEnemy=="")return System.Array.Empty<Plan>();
+            return new[]{Rules.Preview(Session.Replay.State,new Command(Session.Preference),directedAlly,directedEnemy)};
+        }
+
         private void RefreshRoundIntents()
         {
             if(nextIntentMark==null)return;
             var show=GauntletRules && Session.Started && !Busy && !terminalSeen && !modalObject.activeSelf && !IsExploring;
-            var plans=show?Session.Replay.Intents().Where(p=>p.Kind!=ActionKind.Maintain).ToList():new List<Plan>();
-            if(InstructionOpen)
-            {
-                plans.Clear();
-                if(directedAlly!="" && directedEnemy!="")
-                {
-                    var selected=Rules.Preview(Session.Replay.State,new Command(Session.Preference),directedAlly,directedEnemy);
-                    if(selected.Kind!=ActionKind.Maintain)plans.Add(selected);
-                }
-            }
+            var plans=(show || InstructionOpen)?CurrentVisibleIntents().Where(p=>p.Kind!=ActionKind.Maintain).ToList():new List<Plan>();
             EnsureRoundIntentCapacity(plans.Count);
             nextIntentMark.gameObject.SetActive(false);
             for(var i=0;i<roundIntents.Count;i++)

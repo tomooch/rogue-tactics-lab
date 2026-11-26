@@ -197,6 +197,38 @@ namespace RogueTactics.Presentation
             label.rectTransform.anchoredPosition=new Vector2(left+34,-2);
             label.rectTransform.sizeDelta=new Vector2(labelWidth,44);
         }
+        private static string IntentReasonText(Plan plan) => plan.Why switch
+        {
+            IntentReason.Protect => HeroName(plan.Target)+"を守る",
+            IntentReason.ApproachToProtect => HeroName(plan.Target)+"のそばへ",
+            IntentReason.HealLowest => HeroName(plan.Target)+"を癒やす",
+            IntentReason.ApproachWounded => HeroName(plan.Target)+"のもとへ",
+            IntentReason.FlankAttack => "挟み撃ち",
+            IntentReason.AttackAdjacent => "目の前を討つ",
+            IntentReason.ApproachEnemy => "敵へ向かう",
+            IntentReason.Blocked => "道がない",
+            IntentReason.NoTarget => "様子を見る",
+            IntentReason.Ordered => "指示に従う",
+            _ => throw new System.ArgumentOutOfRangeException(nameof(plan))
+        };
+
+        private void RefreshCompanionReasons()
+        {
+            var show=Session.Started && !Busy && !terminalSeen && !IsExploring;
+            var intents=show?CurrentVisibleIntents():null;
+            for(var i=0;i<CardOrder.Length;i++)
+            {
+                var id=CardOrder[i];
+                var plan=intents?.FirstOrDefault(candidate=>candidate.Actor==id);
+                var label=cardValues[id].transform.parent.Find("Role meaning").GetComponent<Text>();
+                label.resizeTextForBestFit=plan!=null;
+                label.resizeTextMinSize=9;
+                label.resizeTextMaxSize=11;
+                label.text=dead.Contains(id)?"戦闘不能":plan!=null?IntentReasonText(plan):
+                    id=="B"?PolicyLabels[Session.Preference].Action:CoreRoles[i];
+            }
+        }
+
         private void RefreshReferenceHud()
         {
             if(referenceFooter==null)return;
@@ -211,7 +243,6 @@ namespace RogueTactics.Presentation
             {
                 var id=CardOrder[i];var unit=Session.Replay.State.Find(id);var r=cardValues[id].transform.parent;
                 r.Find("Name").GetComponent<Text>().text=HeroName(id);
-                r.Find("Role meaning").GetComponent<Text>().text=dead.Contains(id)?"戦闘不能":id=="B"?PolicyLabels[Session.Preference].Action:CoreRoles[i];
                 cardHealth[id].rectTransform.sizeDelta=new Vector2(((w-36)/CardOrder.Length-14)*hp[id]/unit.MaxHp,5);
                 r.Find("Approved portrait").GetComponent<RawImage>().color=dead.Contains(id)?new Color(.45f,.45f,.48f):Color.white;
                 companionFrames[i].Border=dead.Contains(id)?new Color(.32f,.36f,.42f):CompanionColors[i];companionFrames[i].SetVerticesDirty();
@@ -255,6 +286,7 @@ namespace RogueTactics.Presentation
             SetTransportSymbol(!Auto);
             var phaseGlyph=journeyStatus.transform.parent.Find("Journey emblem").GetComponent<HudGlyphGraphic>();phaseGlyph.Symbol=IsExploring?HudSymbol.Steps:Session.Started?HudSymbol.Swords:HudSymbol.Compass;phaseGlyph.SetVerticesDirty();
             if(!ExplorationEnabled)orderStrip.anchoredPosition=(Vector2)Field.InverseTransformPoint(SafeRoot.TransformPoint(new Vector3(12,-96,0)));
+            RefreshCompanionReasons();
             RefreshReferenceOrder();
             LayoutReferenceTypography(w,SafeRoot.rect.height);RefreshAutonomousHud();
         }

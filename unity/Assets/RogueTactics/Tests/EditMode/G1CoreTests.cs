@@ -20,6 +20,14 @@ namespace RogueTactics.Tests
                 Assert.That(a.Serialize(),Is.EqualTo(b.Serialize())); Assert.That(a.Hash(),Is.EqualTo(b.Hash()));
             } finally { CultureInfo.CurrentCulture = before; }
         }
+        [Test]
+        public void ReasonsDistinguishProtectionAndAPlayerDirectedAttack()
+        {
+            var replay=new Replay(Fixture.Baseline(),Preference.ProtectAnchor);
+            Assert.That(replay.Preview().Why,Is.EqualTo(IntentReason.Protect));
+            replay.TargetOnce("C","Y");
+            Assert.That(replay.Intents().Single(plan=>plan.Actor=="C").Why,Is.EqualTo(IntentReason.Ordered));
+        }
         [Test] public void SinglePreferenceForkChangesRealPlanAndOutcomeMeasures()
         {
             var baseline = Fixture.Baseline().Serialize(); var a = Complete(Preference.ProtectAnchor); var b = Complete(Preference.DirectAttack);
@@ -82,6 +90,7 @@ namespace RogueTactics.Tests
                 new Unit("C",Role.Flanker,10,4,new GridPosition(1,2)),new Unit("D",Role.Support,10,2,new GridPosition(2,1))});
             var step=Rules.Resolve(s,new Command(Preference.DirectAttack));
             Assert.That(step.Plan.Kind,Is.EqualTo(ActionKind.Maintain));
+            Assert.That(step.Plan.Why,Is.EqualTo(IntentReason.Blocked));
             Assert.That(step.State.Find("B").Position,Is.EqualTo(s.Find("B").Position));
             Assert.That(()=>new EncounterState(1,1,new[] {new Unit("A",Role.Anchor,1,1,new GridPosition(2,2))}),Throws.ArgumentException);
             Assert.That(()=>new Command((Preference)99),Throws.TypeOf<ArgumentOutOfRangeException>());

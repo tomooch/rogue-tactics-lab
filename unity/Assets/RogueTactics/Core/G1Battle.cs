@@ -11,6 +11,8 @@ namespace RogueTactics.Core.G1
     public enum Role { Anchor, Protector, Flanker, Support, Enemy }
     public enum Preference { ProtectAnchor, DirectAttack }
     public enum ActionKind { Maintain, Move, Attack, Protect, Heal }
+    public enum IntentReason { Protect, ApproachToProtect, HealLowest, ApproachWounded, FlankAttack,
+        AttackAdjacent, ApproachEnemy, Blocked, NoTarget, Ordered }
     public enum EventKind { Action, Move, Protect, Damage, Heal, Counter, Death, End }
     [Flags]
     public enum EventTags { None=0, Guarded=1, Lethal=2, Flanked=4, Counter=8, Overkill=16 }
@@ -95,8 +97,9 @@ namespace RogueTactics.Core.G1
         public ActionKind Kind { get; }
         public GridPosition Destination { get; }
         public string Reason { get; }
-        internal Plan(Unit actor, ActionKind kind, Unit target, GridPosition destination, string reason)
-        { Actor = actor.Id; Kind = kind; Target = target?.Id ?? ""; Destination = destination; Reason = reason; }
+        public IntentReason Why { get; }
+        internal Plan(Unit actor, ActionKind kind, Unit target, GridPosition destination, string reason, IntentReason why)
+        { Actor = actor.Id; Kind = kind; Target = target?.Id ?? ""; Destination = destination; Reason = reason; Why = why; }
         public string Serialize() => string.Join(",", Actor, (int)Kind, Target, Destination.X.ToString(CultureInfo.InvariantCulture), Destination.Y.ToString(CultureInfo.InvariantCulture), Reason);
     }
     public sealed class BattleEvent
@@ -210,8 +213,8 @@ namespace RogueTactics.Core.G1
             if (actor == null || !actor.Alive || target == null || !target.Alive || actor.Enemy || !target.Enemy)
                 return Preview(s, command);
             if (Distance(actor.Position, target.Position) == 1)
-                return new Plan(actor, ActionKind.Attack, target, actor.Position, "Intervention: attack selected enemy");
-            return MoveOrMaintain(s, actor, target, "Intervention: approach selected enemy");
+                return new Plan(actor, ActionKind.Attack, target, actor.Position, "Intervention: attack selected enemy", IntentReason.Ordered);
+            return MoveOrMaintain(s, actor, target, "Intervention: approach selected enemy", IntentReason.Ordered);
         }
         public static Plan Preview(EncounterState s, Command command, string actorId, string targetId) => PreviewTarget(s, command, actorId, targetId);
         public static IReadOnlyList<Plan> Intents(EncounterState s, Command command, string actorId, string targetId)
@@ -251,8 +254,8 @@ namespace RogueTactics.Core.G1
             if (actor.Role == Role.Protector && command.Preference == Preference.ProtectAnchor && a != null && a.Alive)
             {
                 if (Distance(actor.Position, a.Position) == 1)
-                    return new Plan(actor, ActionKind.Protect, a, actor.Position, "Protect preference; adjacent living A");
-                return MoveOrMaintain(s, actor, a, "Approach living A to protect");
+                    return new Plan(actor, ActionKind.Protect, a, actor.Position, "Protect preference; adjacent living A", IntentReason.Protect);
+                return MoveOrMaintain(s, actor, a, "Approach living A to protect", IntentReason.ApproachToProtect);
             }
             if (actor.Role == Role.Support && s.HealCharges > 0)
             {
@@ -261,25 +264,30 @@ namespace RogueTactics.Core.G1
                 if (wounded != null)
                 {
                     if (Distance(actor.Position, wounded.Position) <= 2)
-                        return new Plan(actor, ActionKind.Heal, wounded, actor.Position, "Lowest HP ally in heal range; charge available");
-                    return MoveOrMaintain(s, actor, wounded, "Approach wounded ally");
+                        return new Plan(actor, ActionKind.Heal, wounded, actor.Position, "Lowest HP ally in heal range; charge available", IntentReason.HealLowest);
+                    return MoveOrMaintain(s, actor, wounded, "Approach wounded ally", IntentReason.ApproachWounded);
                 }
             }
             // Opponents prefer living A; deterministic fallback uses distance, then stable ID.
             var target = actor.Enemy && a != null && a.Alive ? a : s.Units.Where(u => u.Alive && u.Enemy != actor.Enemy)
                 .OrderBy(u => Distance(actor.Position, u.Position)).ThenBy(u => u.Id, StringComparer.Ordinal).FirstOrDefault();
-            if (target == null) return new Plan(actor, ActionKind.Maintain, null, actor.Position, "No living opponent");
+            if (target == null) return new Plan(actor, ActionKind.Maintain, null, actor.Position, "No living opponent", IntentReason.NoTarget);
             if (Distance(actor.Position, target.Position) == 1)
-                return new Plan(actor, ActionKind.Attack, target, actor.Position, Flank(s, actor, target) ? "Adjacent attack; complementary flank +2" : "Adjacent living opponent");
-            return MoveOrMaintain(s, actor, target, "Approach opponent by legal unoccupied step");
+            {
+                var flanked=Flank(s,actor,target);
+                return new Plan(actor,ActionKind.Attack,target,actor.Position,
+                    flanked?"Adjacent attack; complementary flank +2":"Adjacent living opponent",
+                    flanked?IntentReason.FlankAttack:IntentReason.AttackAdjacent);
+            }
+            return MoveOrMaintain(s, actor, target, "Approach opponent by legal unoccupied step", IntentReason.ApproachEnemy);
         }
-        private static Plan MoveOrMaintain(EncounterState s, Unit actor, Unit target, string reason)
+        private static Plan MoveOrMaintain(EncounterState s, Unit actor, Unit target, string reason, IntentReason why)
         {
             // Stable N/E/S/W tie break; no routing/product traversal semantics are implied.
             foreach (var p in new[] { actor.Position.Offset(0,1), actor.Position.Offset(1,0), actor.Position.Offset(0,-1), actor.Position.Offset(-1,0) })
                 if (s.Empty(p) && Distance(p, target.Position) < Distance(actor.Position, target.Position))
-                    return new Plan(actor, ActionKind.Move, target, p, reason);
-            return new Plan(actor, ActionKind.Maintain, target, actor.Position, "No empty step reduces distance");
+                    return new Plan(actor, ActionKind.Move, target, p, reason, why);
+            return new Plan(actor, ActionKind.Maintain, target, actor.Position, "No empty step reduces distance", IntentReason.Blocked);
         }
         private static bool Flank(EncounterState s, Unit actor, Unit target)
         {
