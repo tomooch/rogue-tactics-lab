@@ -25,10 +25,13 @@ namespace RogueTactics.Presentation
         public bool IsExploring { get; private set; }
         public FloorTraveller Exploration=>traveller;
         public bool TravelAnimating=>travelRoutine!=null;
+        private IEnumerable<(GridPosition Position,bool Enemy)> KnownMapActors()
+            =>positions.Where(entry=>!dead.Contains(entry.Key))
+                .Select(entry=>(entry.Value,Session.Replay.State.Find(entry.Key).Enemy));
         private void BuildFloorScenery(GameObject startingRuins)
         {
             floorMap=new FloorMap();floorScenery=HqFloorScenery.Build(floorMap,EnvironmentMeshes,RuinsTemplate,startingRuins);
-            displayedKnown=new HashSet<GridPosition>(new FloorTraveller(floorMap,Fixture.Baseline().Units).KnownCells);
+            displayedKnown=new HashSet<GridPosition>(new FloorTraveller(floorMap,Session.Replay.State.Units).KnownCells);
             floorScenery.Reveal(floorMap,displayedKnown);
         }
         private void BuildFloorUi()
@@ -38,7 +41,7 @@ namespace RogueTactics.Presentation
             map.gameObject.AddComponent<Image>().color=new Color(.035f,.09f,.13f,.87f);
             Label(map,"Known map caption","周辺地図",5,2,114,18,11);
             floorMini=Rect(map,"Known terrain",5,22,114,76).gameObject.AddComponent<FloorMapGraphic>();floorMini.raycastTarget=false;
-            floorMini.Configure(floorMap,displayedKnown,positions.Where(p=>!dead.Contains(p.Key)));
+            floorMini.Configure(floorMap,displayedKnown,KnownMapActors());
             ConfigureReferenceMap(map);
             fieldImage.raycastTarget=true;Field.gameObject.AddComponent<FloorPointer>().View=this;
             // A local ground outline for the player's accepted known tile. No route,
@@ -63,9 +66,9 @@ namespace RogueTactics.Presentation
             // A later gauntlet retry keeps the floor the party has already uncovered.
             if(floorMap!=null && Session.EncounterIndex==0)
             {
-                displayedKnown=new HashSet<GridPosition>(new FloorTraveller(floorMap,Fixture.Baseline().Units).KnownCells);
+                displayedKnown=new HashSet<GridPosition>(new FloorTraveller(floorMap,Session.Replay.State.Units).KnownCells);
                 floorScenery.Reveal(floorMap,displayedKnown);
-                if(floorMini!=null)floorMini.Configure(floorMap,displayedKnown,positions.Where(p=>!dead.Contains(p.Key)));
+                if(floorMini!=null)floorMini.Configure(floorMap,displayedKnown,KnownMapActors());
             }
         }
         public void BeginExploration()
@@ -88,7 +91,7 @@ namespace RogueTactics.Presentation
         private void SyncDiscoveredTerrain()
         {
             displayedKnown=new HashSet<GridPosition>(traveller.KnownCells);floorScenery.Reveal(floorMap,displayedKnown);
-            floorMini.Configure(floorMap,displayedKnown,positions.Where(p=>!dead.Contains(p.Key)));
+            floorMini.Configure(floorMap,displayedKnown,KnownMapActors());
         }
         public bool EntrustTravel(GridPosition target)
         {
@@ -145,7 +148,7 @@ namespace RogueTactics.Presentation
                 FieldCamera.transform.position=Session.EncounterIndex>0?Vector3.Lerp(FieldCamera.transform.position,follow,1-Mathf.Exp(-Time.deltaTime*5)):follow;
                 RefreshActors();
             }
-            floorMini.SetParty(positions.Where(p=>!dead.Contains(p.Key)));
+            floorMini.SetParty(KnownMapActors());
             RefreshFloorUi();
         }
         private void RefreshFloorUi()
@@ -180,10 +183,10 @@ namespace RogueTactics.Presentation
     public sealed class FloorMapGraphic : MaskableGraphic
     {
         private FloorMap map;private HashSet<GridPosition> known=new HashSet<GridPosition>();
-        private KeyValuePair<string,GridPosition>[] party=new KeyValuePair<string,GridPosition>[0];
-        public void Configure(FloorMap floor,IEnumerable<GridPosition> discovered,IEnumerable<KeyValuePair<string,GridPosition>> actors)
+        private (GridPosition Position,bool Enemy)[] party=System.Array.Empty<(GridPosition,bool)>();
+        public void Configure(FloorMap floor,IEnumerable<GridPosition> discovered,IEnumerable<(GridPosition Position,bool Enemy)> actors)
         {map=floor;known=new HashSet<GridPosition>(discovered);SetParty(actors);}
-        public void SetParty(IEnumerable<KeyValuePair<string,GridPosition>> actors)
+        public void SetParty(IEnumerable<(GridPosition Position,bool Enemy)> actors)
         {party=actors.ToArray();SetVerticesDirty();}
         protected override void OnPopulateMesh(VertexHelper helper)
         {
@@ -211,10 +214,10 @@ namespace RogueTactics.Presentation
             foreach(var p in known){var c=origin+new Vector2(p.X-minX+.5f,p.Y-minY+.62f)*size;var start=helper.currentVertCount;
                 foreach(var q in new[]{new Vector2(-.43f,-.3f),new Vector2(-.43f,.31f),new Vector2(.43f,.31f),new Vector2(.43f,-.3f)})helper.AddVert(c+q*size,new Color(.78f,.75f,.65f),Vector2.zero);
                 helper.AddTriangle(start,start+1,start+2);helper.AddTriangle(start,start+2,start+3);}
-            foreach(var a in party.Where(p=>known.Contains(p.Value)))
+            foreach(var a in party.Where(p=>known.Contains(p.Position)))
             {
-                var enemy=a.Key=="X" || a.Key=="Y";var tint=enemy?new Color(1,.40f,.38f):new Color(.36f,.86f,1);
-                Disc(a.Value,new Color(tint.r,tint.g,tint.b,.35f),size*.62f);Disc(a.Value,new Color(.02f,.04f,.08f,.95f),size*.40f);Disc(a.Value,tint,size*.32f);
+                var tint=a.Enemy?new Color(1,.40f,.38f):new Color(.36f,.86f,1);
+                Disc(a.Position,new Color(tint.r,tint.g,tint.b,.35f),size*.62f);Disc(a.Position,new Color(.02f,.04f,.08f,.95f),size*.40f);Disc(a.Position,tint,size*.32f);
             }
         }
     }

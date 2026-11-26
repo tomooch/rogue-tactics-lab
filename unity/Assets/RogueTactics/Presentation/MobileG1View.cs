@@ -28,7 +28,7 @@ namespace RogueTactics.Presentation
         public ScriptableRendererFeature AmbientOcclusion;
         // Private textures supplied locally by setup; never public-Git originals.
         public Texture2D[] CharacterArt = new Texture2D[4]; // A Shiro / B Momo / C Garu / D Myaru: temporary skins only
-        public MobileG1Session Session { get; } = new MobileG1Session();
+        public MobileG1Session Session { get; private set; } = new MobileG1Session();
         public bool Busy { get; private set; }
         public bool Auto { get; private set; }
         public bool Paused { get; private set; }
@@ -75,6 +75,17 @@ namespace RogueTactics.Presentation
         private static readonly Color Ink=new Color(.93f,.94f,.88f), Gold=new Color(.96f,.79f,.40f), Jade=new Color(.35f,.85f,.76f);
         public Button Button(string id) => buttons[id];
         public bool HasAllArt => CharacterArt.Length==4 && CharacterArt.All(t=>t!=null);
+        public void ConfigureEncounter(EncounterState encounter)
+        {
+            if(canvas!=null)throw new InvalidOperationException("Configure the encounter before the view initializes");
+            if(encounter==null)throw new ArgumentNullException(nameof(encounter));
+            var allies=encounter.Units.Where(unit=>!unit.Enemy).Select(unit=>unit.Id);
+            var enemyCount=encounter.Units.Count(unit=>unit.Enemy);
+            if(encounter.Width!=5 || encounter.Height!=5 || !new HashSet<string>(CardOrder).SetEquals(allies) || enemyCount<1 || enemyCount>4)
+                throw new ArgumentException("The battle view requires a 5 by 5 board, the four companions and one to four enemies",nameof(encounter));
+            Session=new MobileG1Session(encounter);
+        }
+
         private void Awake()
         {
             if(AmbientOcclusion!=null)AmbientOcclusion.SetActive(true);
@@ -310,7 +321,7 @@ namespace RogueTactics.Presentation
         }
         public void Select(Preference p) {if(Session.Started || Busy)return;Session.Select(p);ResetProjection();if(!AutonomousProduct)Prediction.text="";Refresh();}
         public void ResetBaseline()
-        { if(Busy)return;ResetFloorExploration();policyEditing=false;Auto=false;Paused=false;Session.Reset();Prediction.text="";ResetProjection();SetComparisonCamera(CameraPitch); }
+        { if(Busy)return;Session.Reset();ResetFloorExploration();policyEditing=false;Auto=false;Paused=false;Prediction.text="";ResetProjection();SetComparisonCamera(CameraPitch); }
         private void ResetProjection()
         {
             ClearAllFallen();if(vfx!=null)vfx.Clear();hitStop=0;actingId="";ClearRelation();frameIntervals.Clear();LastFrameReport=null;displayed.Clear();captions.Clear();dead.Clear();hp.Clear();positions.Clear();terminalSeen=false;shownStep=0;shownActor="";reaction="";foreach(var u in Session.Replay.State.Units){hp[u.Id]=u.Hp;positions[u.Id]=Shown(u.Position);}crisisActive=false;orderedActor="";orderedTarget="";instructionReceiptText="";interruptRequested=false;requestedInstructionAlly="";if(instructionOverlay!=null)instructionOverlay.gameObject.SetActive(false);

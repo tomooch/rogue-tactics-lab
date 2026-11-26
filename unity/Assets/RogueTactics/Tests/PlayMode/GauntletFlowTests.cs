@@ -264,6 +264,59 @@ namespace RogueTactics.Tests
             Assert.That(view.SafeRoot.Find("Result banner/Result detail").GetComponent<Text>().text,Does.Contain("4人が生還（前回3人）"));
             yield return Capture("choice-directed-four-survivors");
         }
+        [UnityTest]
+        public IEnumerator ThreeEnemiesAppearOnBoardAndCanBeSelected()
+        {
+            yield return SceneManager.LoadSceneAsync("HqExploration");
+            var original=SceneManager.GetActiveScene();
+            var template=Object.FindFirstObjectByType<MobileG1View>();
+            var testScene=SceneManager.CreateScene("Three-enemy presentation");
+            SceneManager.SetActiveScene(testScene);
+            var host=new GameObject("Encounter before initialization");
+            host.SetActive(false);
+            var view=Object.Instantiate(template,host.transform);
+            var camera=Object.Instantiate(Camera.main);
+            var target=new RenderTexture(390,844,24);
+            camera.targetTexture=target;
+            yield return SceneManager.UnloadSceneAsync(original);
+            var party=Fixture.Baseline().Units.Where(unit=>!unit.Enemy);
+            // R03 geometry and initiative exercise three targets with the existing G1 enemy rules.
+            var positions=new[]{new GridPosition(3,1),new GridPosition(2,0),new GridPosition(3,4),new GridPosition(3,0)};
+            var units=party.Select((unit,index)=>new Unit(unit.Id,unit.Role,unit.MaxHp,unit.Attack,positions[index])).Concat(new[]{
+                new Unit("X",Role.Enemy,10,4,new GridPosition(1,3)),
+                new Unit("Y",Role.Enemy,12,5,new GridPosition(2,2)),
+                new Unit("Z",Role.Enemy,18,6,new GridPosition(4,2))
+            });
+            view.ConfigureEncounter(new EncounterState(5,5,units,new[]{"B","Z","C","Y","A","X","D"}));
+            try
+            {
+                host.SetActive(true);
+                view.SetTestSafeArea(new Rect(0,34,390,763),390,844);
+                yield return null;
+                Assert.That(GameObject.Find("Fixture Z").transform.Find("Fixture slime"),Is.Not.Null);
+                Assert.That(view.Field.Find("HP Z/HP bar").gameObject.activeInHierarchy,Is.True);
+                Press(view,"Start");
+                view.RequestInstruction();
+                var deadline=Time.realtimeSinceStartup+15;
+                while(!view.InstructionOpen && Time.realtimeSinceStartup<deadline)yield return null;
+                Assert.That(view.InstructionOpen,Is.True);
+                yield return null;yield return null;
+                Assert.That(view.Field.Find("Discrete actor order/Order Z").gameObject.activeSelf,Is.True);
+                Press(view,"DirectAllyC");
+                Press(view,"DirectEnemyZ");
+                Assert.That(view.Button("DirectEnemyZ").GetComponentInChildren<Text>().text,Does.Contain("HP 18"));
+                Assert.That(view.Session.Replay.CorrectionsLeft,Is.EqualTo(1));
+                Press(view,"DirectConfirm");
+                Assert.That(view.Session.Replay.CorrectionsLeft,Is.Zero);
+                Assert.That(view.Session.Replay.Serialize(),Does.Contain("target:C,Z"));
+            }
+            finally
+            {
+                camera.targetTexture=null;
+                Object.Destroy(target);
+            }
+        }
+
         [UnityTest,Timeout(900000)]
         public IEnumerator ConsecutiveEncountersWithVoluntaryTargetInstruction()
         {

@@ -308,7 +308,7 @@ namespace RogueTactics.Presentation
             buttons["Effects"].gameObject.SetActive(false);buttons["Diagnostics"].gameObject.SetActive(false);
             buttons["PresentationSettings"].gameObject.SetActive(false);
             buttons["RecordUp"].gameObject.SetActive(false);buttons["RecordDown"].gameObject.SetActive(false);
-            expandedKnownMap.Configure(floorMap,displayedKnown,positions.Where(p=>!dead.Contains(p.Key)));expandedKnownMap.gameObject.SetActive(true);
+            expandedKnownMap.Configure(floorMap,displayedKnown,KnownMapActors());expandedKnownMap.gameObject.SetActive(true);
             modalObject.SetActive(true);modalObject.transform.SetAsLastSibling();RefreshFloorUi();
             SyncReferenceModal();
         }

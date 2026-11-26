@@ -86,7 +86,7 @@ namespace RogueTactics.Presentation
         private bool PartyInRoom(int room)
             =>traveller!=null && traveller.Party.Values.Any(p=>floorMap.RoomAt(p)==room);
         private bool CanChallenge=>ExplorationEnabled && IsExploring && travelRoutine==null && !modalObject.activeSelf &&
-            NextEncounter<Fixture.EncounterCount && PartyInRoom(GauntletRooms.Room[NextEncounter]);
+            NextEncounter<Session.EncounterCount && PartyInRoom(GauntletRooms.Room[NextEncounter]);
         public bool ChallengeAvailable=>CanChallenge;
 
         public void ChallengeNextEncounter()
@@ -316,7 +316,7 @@ namespace RogueTactics.Presentation
             EnsureGauntletUi();EnsureInstructionUi();
             var w=SafeRoot.rect.width;var h=SafeRoot.rect.height;
             var challenge=buttons["Challenge"];challenge.gameObject.SetActive(CanChallenge && !enteringEncounter);
-            if(challenge.gameObject.activeSelf)PositionReferenceAction("Challenge",12,h-268,w-24,"守り手に挑む（"+(NextEncounter+1)+" / "+Fixture.EncounterCount+"戦目）");
+            if(challenge.gameObject.activeSelf)PositionReferenceAction("Challenge",12,h-268,w-24,"守り手に挑む（"+(NextEncounter+1)+" / "+Session.EncounterCount+"戦目）");
             instructionOverlay.sizeDelta=SafeRoot.rect.size;
             LayoutInstructionSheet();
             var canDirect=Session.Started && !terminalSeen && !IsExploring && !modalObject.activeSelf && Session.Replay.CorrectionsLeft>0;
@@ -349,9 +349,9 @@ namespace RogueTactics.Presentation
                 var bannerHeight=hasReceipt?88:66;
                 resultBanner.anchoredPosition=new Vector2(12,-(h-218-bannerHeight));resultBanner.sizeDelta=new Vector2(w-24,bannerHeight);
                 resultBanner.Find("Right star").GetComponent<RectTransform>().anchoredPosition=new Vector2(w-24-44,-21);
-                var won=Session.Replay.State.Outcome==Outcome.Victory;var final=won && Session.EncounterIndex==Fixture.EncounterCount-1;
+                var won=Session.Replay.State.Outcome==Outcome.Victory;var final=won && Session.EncounterCount>1 && Session.EncounterIndex==Session.EncounterCount-1;
                 resultTitle.text=won?"勝利！":"戦闘終了";resultTitle.rectTransform.sizeDelta=new Vector2(w-24-120,36);
-                resultDetail.text=(final?"3つの戦いを越えた・":"")+alive+"人が生還"+(previousResultEncounter==Session.EncounterIndex?"（前回"+previousSurvivors+"人）":"")+(hasReceipt?"\n"+instructionReceiptText:"");
+                resultDetail.text=(final?Session.EncounterCount+"つの戦いを越えた・":"")+alive+"人が生還"+(previousResultEncounter==Session.EncounterIndex?"（前回"+previousSurvivors+"人）":"")+(hasReceipt?"\n"+instructionReceiptText:"");
                 resultDetail.rectTransform.anchoredPosition=new Vector2(12,-39);
                 resultDetail.rectTransform.sizeDelta=new Vector2(w-48,hasReceipt?44:22);
             }
@@ -370,7 +370,7 @@ namespace RogueTactics.Presentation
                 var boundary=SafeRoot.Find("Boundary").GetComponent<Text>();
                 if(CrisisPaused)boundary.text="危機で停止中：変えるか、そのまま再開する";
                 else if(CanChallenge)boundary.text="守り手の気配がする部屋だ";
-                else if(Session.EncounterIndex==Fixture.EncounterCount-1 && terminalSeen && Session.Replay.State.Outcome==Outcome.Victory)boundary.text="3つの戦いを越えた！";
+                else if(Session.EncounterCount>1 && Session.EncounterIndex==Session.EncounterCount-1 && terminalSeen && Session.Replay.State.Outcome==Outcome.Victory)boundary.text=Session.EncounterCount+"つの戦いを越えた！";
                 else if(GauntletRules && !Session.Started)boundary.text=(Session.EncounterIndex+1)+"戦目：モモの方針を選んで託す";
                 else if(GauntletRules && Session.Started && !terminalSeen)boundary.text="修正 残り"+Session.Replay.CorrectionsLeft+"回・任意に指示できる";
             }

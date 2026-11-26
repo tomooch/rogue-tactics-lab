@@ -14,14 +14,21 @@ namespace RogueTactics.Presentation
         public bool Started { get; private set; }
         public string Prediction { get; private set; } = "";
         public int EncounterIndex { get; private set; }
+        public int EncounterCount => standaloneEncounter == null ? Fixture.EncounterCount : 1;
+        private readonly EncounterState standaloneEncounter;
         public Dictionary<Preference, MobileTrial> Trials { get; } = new Dictionary<Preference, MobileTrial>();
         public MobileG1Session() => Reset();
+        public MobileG1Session(EncounterState encounter)
+        {
+            standaloneEncounter=encounter ?? throw new ArgumentNullException(nameof(encounter));
+            Reset();
+        }
         public void Select(Preference preference)
         { if(Started) throw new InvalidOperationException("Reset before changing preference"); Preference=preference; Reset(); }
-        public void Reset() { Replay=new Replay(Fixture.Encounter(EncounterIndex),Preference); Started=false; Prediction=""; }
+        public void Reset() { Replay=new Replay(standaloneEncounter ?? Fixture.Encounter(EncounterIndex),Preference); Started=false; Prediction=""; }
         public void LoadEncounter(int index)
         {
-            if(index<0 || index>=Fixture.EncounterCount) throw new ArgumentOutOfRangeException(nameof(index));
+            if(index<0 || index>=EncounterCount) throw new ArgumentOutOfRangeException(nameof(index));
             EncounterIndex=index; Trials.Clear(); Reset();
         }
         // The encounter's one correction changes B's preference for the remaining steps.
