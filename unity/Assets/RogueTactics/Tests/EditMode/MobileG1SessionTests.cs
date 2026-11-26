@@ -1,3 +1,5 @@
+using System;
+using System.IO;
 using System.Collections.Generic;
 using System.Linq;
 using NUnit.Framework;
@@ -107,6 +109,69 @@ namespace RogueTactics.Tests
             var invalid=new BattleCheckpoint(0,Preference.ProtectAnchor,2,"",null);
             Assert.That(()=>restored.RestoreBattle(invalid),Throws.InvalidOperationException);
             Assert.That(restored.Replay,Is.SameAs(before));
+        }
+        [TestCase(false)]
+        [TestCase(true)]
+        public void DiskCheckpointOverwritesAndRestoresImmediatelyAfterCorrection(bool targetOnce)
+        {
+            var folder=Path.Combine(Path.GetTempPath(),Guid.NewGuid().ToString("N"));
+            var path=Path.Combine(folder,"battle.json");
+            var store=new BattleCheckpointStore(path);
+            try
+            {
+                Assert.That(store.Read(out _),Is.EqualTo(BattleCheckpointReadStatus.Missing));
+                var session=new MobileG1Session();
+                session.Start("任せる前の予想");
+                session.Advance();
+                Assert.That(store.TryWrite(session.CaptureBattle()),Is.True);
+                Assert.That(store.Read(out var initial),Is.EqualTo(BattleCheckpointReadStatus.Loaded));
+                Assert.That(initial.Input,Is.Null);
+                if(targetOnce)session.TargetOnce("C","Y");
+                else session.Correct(Preference.DirectAttack);
+                Assert.That(store.TryWrite(session.CaptureBattle()),Is.True);
+                Assert.That(Directory.GetFiles(folder),Is.EqualTo(new[]{path}));
+                var reopened=new BattleCheckpointStore(path);
+                Assert.That(reopened.Read(out var saved),Is.EqualTo(BattleCheckpointReadStatus.Loaded));
+                var restored=new MobileG1Session();
+                restored.RestoreBattle(saved);
+                Assert.That(restored.Replay.CorrectionsLeft,Is.Zero);
+                Assert.That(restored.Replay.PendingTarget,Is.EqualTo(session.Replay.PendingTarget));
+                Assert.That(restored.Preference,Is.EqualTo(session.Preference));
+                Assert.That(restored.Prediction,Is.EqualTo(session.Prediction));
+                while(session.Replay.State.Outcome==Outcome.Active)session.Advance();
+                while(restored.Replay.State.Outcome==Outcome.Active)restored.Advance();
+                Assert.That(restored.Replay.Hash(),Is.EqualTo(session.Replay.Hash()));
+            }
+            finally
+            {
+                if(Directory.Exists(folder))Directory.Delete(folder,true);
+            }
+        }
+
+        [TestCase("{")]
+        [TestCase("{\"format\":2,\"rules\":1,\"room\":0,\"policy\":0,\"steps\":0,\"inputs\":[]}")]
+        [TestCase("{\"format\":1,\"rules\":2,\"room\":0,\"policy\":0,\"steps\":0,\"inputs\":[]}")]
+        [TestCase("{\"format\":1,\"rules\":1,\"room\":0,\"steps\":0,\"inputs\":[]}")]
+        public void RejectedCheckpointIsPreservedOutsideTheActiveSlot(string json)
+        {
+            var folder=Path.Combine(Path.GetTempPath(),Guid.NewGuid().ToString("N"));
+            var path=Path.Combine(folder,"battle.json");
+            Directory.CreateDirectory(folder);
+            try
+            {
+                File.WriteAllText(path,json);
+                var store=new BattleCheckpointStore(path);
+                Assert.That(store.Read(out var checkpoint),Is.EqualTo(BattleCheckpointReadStatus.Rejected));
+                Assert.That(checkpoint,Is.Null);
+                Assert.That(File.Exists(path),Is.False);
+                var rejected=Directory.GetFiles(folder,"battle.json.rejected.*").Single();
+                Assert.That(File.ReadAllText(rejected),Is.EqualTo(json));
+                Assert.That(store.Read(out _),Is.EqualTo(BattleCheckpointReadStatus.Missing));
+            }
+            finally
+            {
+                Directory.Delete(folder,true);
+            }
         }
     }
 }
