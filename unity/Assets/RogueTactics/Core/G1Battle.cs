@@ -219,6 +219,36 @@ namespace RogueTactics.Core.G1
         public const int EncounterCount = 3;
     }
 
+    public static class FloorTwoRooms
+    {
+        public static EncounterState Build(string id) => id switch
+        {
+            "R01" => Room((0,1),(4,0),(0,0),(3,1),
+                new Unit("X",Role.Enemy,14,5,new GridPosition(2,0),EnemyKind.Moss),
+                new Unit("Y",Role.Enemy,10,5,new GridPosition(2,2),EnemyKind.Bloom),
+                new[]{"C","X","D","A","B","Y"}),
+            "R04" => Room((0,0),(1,4),(3,1),(2,2),
+                new Unit("X",Role.Enemy,13,5,new GridPosition(0,2),EnemyKind.Bloom),
+                new Unit("Y",Role.Enemy,15,5,new GridPosition(1,1),EnemyKind.Moss),
+                new[]{"C","D","X","Y","A","B"}),
+            "R09" => Room((3,3),(0,2),(4,0),(1,3),
+                new Unit("X",Role.Enemy,15,6,new GridPosition(2,2),EnemyKind.Moss),
+                new Unit("Y",Role.Enemy,14,4,new GridPosition(3,1),EnemyKind.Bloom),
+                new[]{"D","Y","A","B","X","C"}),
+            _ => throw new ArgumentOutOfRangeException(nameof(id))
+        };
+
+        private static EncounterState Room((int X,int Y) a,(int X,int Y) b,(int X,int Y) c,(int X,int Y) d,
+            Unit firstEnemy,Unit secondEnemy,string[] initiative)
+        {
+            var positions=new[]{a,b,c,d};
+            var party=Fixture.Baseline().Units.Where(unit=>!unit.Enemy).OrderBy(unit=>unit.Id,StringComparer.Ordinal)
+                .Select((unit,index)=>new Unit(unit.Id,unit.Role,unit.MaxHp,unit.Attack,
+                    new GridPosition(positions[index].X,positions[index].Y)));
+            return new EncounterState(5,5,party.Concat(new[]{firstEnemy,secondEnemy}),initiative);
+        }
+    }
+
     public static class Rules
     {
         public const int ActionLimit = 120; // fixture stop condition only

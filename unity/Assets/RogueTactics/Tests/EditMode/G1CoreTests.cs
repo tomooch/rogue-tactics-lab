@@ -20,6 +20,24 @@ namespace RogueTactics.Tests
                 Assert.That(a.Serialize(),Is.EqualTo(b.Serialize())); Assert.That(a.Hash(),Is.EqualTo(b.Hash()));
             } finally { CultureInfo.CurrentCulture = before; }
         }
+        [TestCase("R01",Preference.ProtectAnchor,20,18,11,5,10)]
+        [TestCase("R01",Preference.DirectAttack,20,18,16,0,10)]
+        [TestCase("R01",Preference.Balanced,20,18,16,0,10)]
+        [TestCase("R04",Preference.ProtectAnchor,22,8,16,11,0)]
+        [TestCase("R04",Preference.DirectAttack,18,8,16,11,4)]
+        [TestCase("R04",Preference.Balanced,22,8,16,11,0)]
+        [TestCase("R09",Preference.ProtectAnchor,25,12,16,12,0)]
+        [TestCase("R09",Preference.DirectAttack,23,18,0,12,10)]
+        [TestCase("R09",Preference.Balanced,23,18,0,12,10)]
+        public void FloorTwoRoomsMatchThePythonSimulation(string room,Preference preference,int steps,int a,int b,int c,int d)
+        {
+            var replay=new Replay(FloorTwoRooms.Build(room),preference);
+            while(replay.State.Outcome==Outcome.Active)replay.Advance();
+            Assert.That(replay.State.Outcome,Is.EqualTo(Outcome.Victory));
+            Assert.That(replay.State.Step,Is.EqualTo(steps));
+            Assert.That(replay.State.Units.Where(unit=>!unit.Enemy).Select(unit=>unit.Hp),Is.EqualTo(new[]{a,b,c,d}));
+        }
+
         [TestCase(EnemyKind.Hunter,"A")]
         [TestCase(EnemyKind.Moss,"B")]
         [TestCase(EnemyKind.Bloom,"D")]
