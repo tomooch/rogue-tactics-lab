@@ -28,6 +28,12 @@ namespace RogueTactics.Core.G1
         public bool Alive => Hp > 0;
         public Unit(string id, Role role, int hp, int attack, GridPosition position)
         { Id = id; Role = role; Hp = MaxHp = hp; Attack = attack; Position = position; }
+        internal Unit(string id, Role role, int maxHp, int hp, int attack, GridPosition position)
+            : this(id, role, maxHp, attack, position)
+        {
+            if(hp<=0 || hp>maxHp)throw new ArgumentOutOfRangeException(nameof(hp));
+            Hp=hp;
+        }
         internal Unit Copy() => new Unit(Id, Role, MaxHp, Attack, Position) { Hp = Hp };
     }
 
@@ -124,6 +130,23 @@ namespace RogueTactics.Core.G1
         public IReadOnlyList<BattleEvent> Events { get; }
         internal ResolvedStep(EncounterState state, Plan plan, List<BattleEvent> events)
         { State = state; Plan = plan; Events = events.AsReadOnly(); }
+    }
+
+    public static class EncounterBuilder
+    {
+        public static EncounterState Build(EncounterState room, IReadOnlyDictionary<string,int> partyHp)
+        {
+            if(room==null)throw new ArgumentNullException(nameof(room));
+            if(partyHp==null)throw new ArgumentNullException(nameof(partyHp));
+            var allies=room.Units.Where(unit=>!unit.Enemy).ToArray();
+            if(partyHp.Count!=allies.Length || allies.Any(unit=>!partyHp.ContainsKey(unit.Id)))
+                throw new ArgumentException("Health is required for exactly the allies in the room",nameof(partyHp));
+
+            var units=room.Units.Select(unit=>unit.Enemy
+                ? unit
+                : new Unit(unit.Id,unit.Role,unit.MaxHp,partyHp[unit.Id],unit.Attack,unit.Position));
+            return new EncounterState(room.Width,room.Height,units,room.Initiative);
+        }
     }
 
     public static class Fixture

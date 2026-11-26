@@ -14,22 +14,36 @@ namespace RogueTactics.Presentation
         public bool Started { get; private set; }
         public string Prediction { get; private set; } = "";
         public int EncounterIndex { get; private set; }
-        public int EncounterCount => standaloneEncounter == null ? Fixture.EncounterCount : 1;
-        private readonly EncounterState standaloneEncounter;
+        public int EncounterCount { get; }
+        private EncounterState entryState;
         public Dictionary<Preference, MobileTrial> Trials { get; } = new Dictionary<Preference, MobileTrial>();
-        public MobileG1Session() => Reset();
-        public MobileG1Session(EncounterState encounter)
+        public MobileG1Session()
         {
-            standaloneEncounter=encounter ?? throw new ArgumentNullException(nameof(encounter));
+            EncounterCount=Fixture.EncounterCount;
+            entryState=Fixture.Encounter(0);
             Reset();
         }
+
+        public MobileG1Session(EncounterState encounter)
+        {
+            EncounterCount=1;
+            entryState=encounter ?? throw new ArgumentNullException(nameof(encounter));
+            Reset();
+        }
+
         public void Select(Preference preference)
         { if(Started) throw new InvalidOperationException("Reset before changing preference"); Preference=preference; Reset(); }
-        public void Reset() { Replay=new Replay(standaloneEncounter ?? Fixture.Encounter(EncounterIndex),Preference); Started=false; Prediction=""; }
-        public void LoadEncounter(int index)
+        public void Reset() { Replay=new Replay(entryState,Preference); Started=false; Prediction=""; }
+        public void LoadEncounter(int index) => LoadEncounter(index,null);
+        public void LoadEncounter(int index,IReadOnlyDictionary<string,int> partyHp)
         {
             if(index<0 || index>=EncounterCount) throw new ArgumentOutOfRangeException(nameof(index));
-            EncounterIndex=index; Trials.Clear(); Reset();
+            var room=EncounterCount==1?entryState:Fixture.Encounter(index);
+            var next=partyHp==null?room:EncounterBuilder.Build(room,partyHp);
+            entryState=next;
+            EncounterIndex=index;
+            Trials.Clear();
+            Reset();
         }
         // The encounter's one correction changes B's preference for the remaining steps.
         public void Correct(Preference preference)
