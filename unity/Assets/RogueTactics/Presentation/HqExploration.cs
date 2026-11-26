@@ -15,6 +15,7 @@ namespace RogueTactics.Presentation
         private FloorMap floorMap;
         private HqFloorScenery floorScenery;
         private FloorTraveller traveller;
+        private Gfx.HqSpringProp floorSpring;
         private HashSet<GridPosition> displayedKnown=new HashSet<GridPosition>();
         private FloorMapGraphic floorMini;
         private Coroutine travelRoutine;
@@ -60,7 +61,8 @@ namespace RogueTactics.Presentation
         {
             if(!ExplorationEnabled)return;
             if(travelRoutine!=null){StopCoroutine(travelRoutine);travelRoutine=null;}
-            traveller?.Cancel();traveller=null;IsExploring=false;visualTweenActive=false;
+            traveller?.Cancel();traveller=null;IsExploring=false;
+            if(floorSpring!=null)floorSpring.gameObject.SetActive(false);visualTweenActive=false;
             TravelSelection=null;if(selectedFloorMarker!=null)selectedFloorMarker.gameObject.SetActive(false);
             if(eventBackdrop!=null){eventBackdrop.rectTransform.anchoredPosition=new Vector2(12,0);eventBackdrop.rectTransform.sizeDelta=new Vector2(SafeRoot.rect.width-140,48);}
             // A later gauntlet retry keeps the floor the party has already uncovered.
@@ -125,6 +127,14 @@ namespace RogueTactics.Presentation
         private void SyncDiscoveredTerrain()
         {
             displayedKnown=new HashSet<GridPosition>(traveller.KnownCells);floorScenery.Reveal(floorMap,displayedKnown);
+            var springVisible=UseVictoryRecovery && Session.EncounterIndex==1 && displayedKnown.Contains(GauntletRooms.Spring);
+            if(springVisible && floorSpring==null)
+                floorSpring=Gfx.HqSpringProp.Build(floorScenery.transform,World(GauntletRooms.Spring),FieldCamera);
+            if(floorSpring!=null)
+            {
+                floorSpring.gameObject.SetActive(springVisible);
+                if(springVisible && traveller.SpringUsed!=floorSpring.Spent)floorSpring.SetSpent(traveller.SpringUsed);
+            }
             floorMini.Configure(floorMap,displayedKnown,KnownMapActors());
         }
         public bool EntrustTravel(GridPosition target)
@@ -165,12 +175,40 @@ namespace RogueTactics.Presentation
                     }
                     pawns[move.Actor].position=to;positions[move.Actor]=move.To;
                 }
-                visualTweenActive=false;SyncDiscoveredTerrain();RefreshActors();SaveSettledBattle();
+                visualTweenActive=false;SyncDiscoveredTerrain();RefreshActors();
+                if(floorSpring!=null && floorSpring.gameObject.activeSelf && traveller.TryDrinkSpring())
+                {
+                    traveller.Cancel();
+                    SaveSettledBattle();
+                    yield return PresentSpringRecovery();
+                    break;
+                }
+                SaveSettledBattle();
                 if(step.Stop!=TravelStop.None)
                     travelMessage=step.Stop==TravelStop.NewRoom?"新しい部屋を見つけた":step.Stop==TravelStop.Arrived?"目的地に到着": "ここからは進めない";
             }
             travelRoutine=null;RefreshFloorUi();
         }
+        private IEnumerator PresentSpringRecovery()
+        {
+            travelMessage="泉で体力を回復";
+            RefreshFloorUi();
+            var actors=traveller.Party.Keys.ToArray();
+            var times=floorSpring.Drink(vfx,actors.Select(id=>World(positions[id])).ToArray());
+            var shownAt=0f;
+            for(var i=0;i<actors.Length;i++)
+            {
+                yield return new WaitForSecondsRealtime(times[i]-shownAt);
+                shownAt=times[i];
+                var id=actors[i];
+                var restored=traveller.Health[id];
+                PopEventNumber(id,EventKind.Heal,restored-hp[id]);
+                hp[id]=restored;
+                RefreshActors();
+                RefreshProductHud();
+            }
+        }
+
         private void ToggleFloorPause()
         {if(traveller==null || travelRoutine==null)return;traveller.SetPaused(!traveller.Paused);RefreshFloorUi();}
         private void TickExploration()

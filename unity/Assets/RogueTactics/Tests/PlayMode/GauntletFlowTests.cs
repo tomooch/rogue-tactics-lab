@@ -448,6 +448,51 @@ namespace RogueTactics.Tests
         }
 
         [UnityTest]
+        public IEnumerator SpringHealsOnceAndRestoresSpentAppearance()
+        {
+            var folder=Path.Combine(Path.GetTempPath(),System.Guid.NewGuid().ToString("N"));
+            var store=new BattleCheckpointStore(Path.Combine(folder,"battle.json"));
+            var source=new MobileG1Session();
+            source.LoadEncounter(1);
+            source.Start("");
+            while(source.Replay.State.Outcome==Outcome.Active)source.Advance();
+            var map=new FloorMap();
+            var party=source.Replay.State.Units.Where(unit=>!unit.Enemy)
+                .Select((unit,index)=>new KeyValuePair<string,GridPosition>(unit.Id,new GridPosition(20-index,4)));
+            var floor=new FloorCheckpoint(party,map.Cells,map.Rooms.Select(room=>room.Id),true);
+            var target=new RenderTexture(390,844,24);
+            MobileG1View view=null;
+            try
+            {
+                Assert.That(store.TryWrite(source.CaptureBattle(floor)),Is.True);
+                yield return ReopenSavedBattle(store,target,opened=>view=opened,true);
+                Assert.That(view.Exploration.Health["A"],Is.EqualTo(10));
+                Assert.That(GameObject.Find("Floor spring"),Is.Not.Null);
+                Assert.That(view.EntrustTravel(GauntletRooms.Spring),Is.True);
+                var deadline=Time.realtimeSinceStartup+15;
+                while(view.TravelAnimating && Time.realtimeSinceStartup<deadline)yield return null;
+                Assert.That(view.TravelAnimating,Is.False);
+                Assert.That(view.Exploration.SpringUsed,Is.True);
+                Assert.That(view.Exploration.Health["A"],Is.EqualTo(18));
+                Assert.That(view.Exploration.TryDrinkSpring(),Is.False);
+                var card=view.SafeRoot.Find("Companion portraits/Companion A/Actual HP").GetComponent<Text>();
+                Assert.That(card.text,Is.EqualTo("HP 18 / 18"));
+                Camera.main.targetTexture=null;
+                yield return ReopenSavedBattle(store,target,opened=>view=opened,true);
+                Assert.That(view.Exploration.SpringUsed,Is.True);
+                Assert.That(view.Exploration.Health["A"],Is.EqualTo(18));
+                Assert.That(Object.FindFirstObjectByType<RogueTactics.Presentation.Gfx.HqSpringProp>().Spent,Is.True);
+            }
+            finally
+            {
+                if(view!=null)view.gameObject.SetActive(false);
+                if(Camera.main!=null)Camera.main.targetTexture=null;
+                Object.Destroy(target);
+                if(Directory.Exists(folder))Directory.Delete(folder,true);
+            }
+        }
+
+        [UnityTest]
         public IEnumerator ThreeEnemiesAppearOnBoardAndCanBeSelected()
         {
             yield return SceneManager.LoadSceneAsync("HqExploration");

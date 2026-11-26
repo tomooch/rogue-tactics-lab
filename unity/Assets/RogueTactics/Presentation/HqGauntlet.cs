@@ -101,6 +101,7 @@ namespace RogueTactics.Presentation
             var recovered=UseVictoryRecovery?(traveller.VictoryRestApplied?traveller.Health:
                 PartyRecovery.AfterVictory(Session.Replay.State,25)):null;
             traveller.Cancel();traveller=null;IsExploring=false;TravelSelection=null;selectedFloorMarker.gameObject.SetActive(false);
+            if(floorSpring!=null)floorSpring.gameObject.SetActive(false);
             battleOrigin=GauntletRooms.Origin(floorMap,index);
             Session.LoadEncounter(index,recovered);Auto=false;Paused=false;policyEditing=false;Prediction.text="";ResetProjection();
             SetComparisonCamera(CameraPitch);var cameraTo=FieldCamera.transform.position;

@@ -142,6 +142,7 @@ namespace RogueTactics.Presentation
             public SavedCell[] known;
             public int[] rooms;
             public bool victoryRestApplied;
+            public bool springUsed;
 
             public SavedExploration(FloorCheckpoint floor)
             {
@@ -149,6 +150,7 @@ namespace RogueTactics.Presentation
                 known=floor.KnownCells.Select(cell=>new SavedCell(cell,"")).ToArray();
                 rooms=floor.DiscoveredRooms.ToArray();
                 victoryRestApplied=floor.VictoryRestApplied;
+                springUsed=floor.SpringUsed;
             }
 
             public FloorCheckpoint ToFloorCheckpoint()
@@ -157,7 +159,7 @@ namespace RogueTactics.Presentation
                     || known.Any(cell=>cell==null))
                     throw new ArgumentException("Invalid saved exploration");
                 return new FloorCheckpoint(party.Select(cell=>new KeyValuePair<string,GridPosition>(cell.actor,cell.Position)),
-                    known.Select(cell=>cell.Position),rooms,victoryRestApplied);
+                    known.Select(cell=>cell.Position),rooms,victoryRestApplied,springUsed);
             }
         }
 

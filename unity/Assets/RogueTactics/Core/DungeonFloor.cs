@@ -21,6 +21,7 @@ namespace RogueTactics.Core.Exploration
     public static class GauntletRooms
     {
         public static readonly int[] Room={0,1,2};
+        public static readonly GridPosition Spring=new GridPosition(22,4);
         public static GridPosition Origin(FloorMap map,int encounter)
         {var r=map.Rooms[Room[encounter]];return encounter==0?new GridPosition(0,0):new GridPosition(r.X+(r.Width-5)/2,r.Y+(r.Height-5)/2);}
     }
@@ -88,20 +89,23 @@ namespace RogueTactics.Core.Exploration
         public IReadOnlyList<GridPosition> KnownCells { get; }
         public IReadOnlyList<int> DiscoveredRooms { get; }
         public bool VictoryRestApplied { get; }
+        public bool SpringUsed { get; }
 
         public FloorCheckpoint(IEnumerable<KeyValuePair<string,GridPosition>> party,
-            IEnumerable<GridPosition> knownCells,IEnumerable<int> discoveredRooms,bool victoryRestApplied=false)
+            IEnumerable<GridPosition> knownCells,IEnumerable<int> discoveredRooms,bool victoryRestApplied=false,bool springUsed=false)
         {
             Party=new System.Collections.ObjectModel.ReadOnlyDictionary<string,GridPosition>(
                 party.ToDictionary(entry=>entry.Key,entry=>entry.Value));
             KnownCells=Array.AsReadOnly(knownCells.ToArray());
             DiscoveredRooms=Array.AsReadOnly(discoveredRooms.ToArray());
             VictoryRestApplied=victoryRestApplied;
+            SpringUsed=springUsed;
         }
     }
     public sealed class FloorTraveller
     {
         private readonly Dictionary<string,GridPosition> party=new Dictionary<string,GridPosition>();
+        private readonly Dictionary<string,int> maxHealth=new Dictionary<string,int>();
         private readonly Dictionary<string,int> health=new Dictionary<string,int>();
         private readonly HashSet<int> rooms=new HashSet<int>{0};
         private readonly HashSet<GridPosition> known=new HashSet<GridPosition>();
@@ -113,6 +117,7 @@ namespace RogueTactics.Core.Exploration
         public IEnumerable<GridPosition> KnownCells=>known.OrderBy(p=>p.Y).ThenBy(p=>p.X);
         public int DiscoveredRooms=>rooms.Count;
         public bool VictoryRestApplied { get; private set; }
+        public bool SpringUsed { get; private set; }
         public bool Moving { get; private set; }
         public bool Paused { get; private set; }
         public TravelStop Stop { get; private set; }
@@ -122,7 +127,7 @@ namespace RogueTactics.Core.Exploration
         {
             Map=map??throw new ArgumentNullException(nameof(map));
             foreach(var unit in survivors.Where(u=>!u.Enemy && u.Alive).OrderBy(u=>u.Id,StringComparer.Ordinal))
-            {var at=unit.Position.Offset(origin.X,origin.Y);if(!map.Walkable(at) || party.ContainsValue(at))throw new ArgumentException("Invalid floor handoff");party.Add(unit.Id,at);health.Add(unit.Id,unit.Hp);}
+            {var at=unit.Position.Offset(origin.X,origin.Y);if(!map.Walkable(at) || party.ContainsValue(at))throw new ArgumentException("Invalid floor handoff");party.Add(unit.Id,at);health.Add(unit.Id,unit.Hp);maxHealth.Add(unit.Id,unit.MaxHp);}
             if(party.Count==0)throw new ArgumentException("No living explorers");Reveal();
         }
         public static FloorTraveller AfterVictory(FloorMap map,EncounterState victory,GridPosition origin,int revivalPercent)
@@ -140,13 +145,29 @@ namespace RogueTactics.Core.Exploration
                     traveller.party.Add(ally.Id,cell);
                 }
                 traveller.health[ally.Id]=recovered[ally.Id];
+                traveller.maxHealth[ally.Id]=ally.MaxHp;
             }
             traveller.VictoryRestApplied=true;
             traveller.Reveal();
             return traveller;
         }
 
-        public FloorCheckpoint Capture()=>new FloorCheckpoint(party,KnownCells,rooms.OrderBy(room=>room),VictoryRestApplied);
+        public FloorCheckpoint Capture()=>new FloorCheckpoint(party,KnownCells,rooms.OrderBy(room=>room),VictoryRestApplied,SpringUsed);
+
+        public bool TryDrinkSpring()
+        {
+            if(!VictoryRestApplied || SpringUsed || !known.Contains(GauntletRooms.Spring)
+                || !party.Values.Any(position=>Rules.Distance(position,GauntletRooms.Spring)<=1))return false;
+            ApplySpring();
+            return true;
+        }
+
+        private void ApplySpring()
+        {
+            foreach(var actor in party.Keys)
+                health[actor]=(int)Math.Min(maxHealth[actor],health[actor]+((long)maxHealth[actor]+1)/2);
+            SpringUsed=true;
+        }
 
         public static FloorTraveller Restore(FloorMap map,EncounterState battle,GridPosition origin,FloorCheckpoint checkpoint)
         {
@@ -167,6 +188,12 @@ namespace RogueTactics.Core.Exploration
             traveller.known.UnionWith(savedKnown);
             traveller.rooms.Clear();
             traveller.rooms.UnionWith(savedRooms);
+            if(checkpoint.SpringUsed)
+            {
+                if(!checkpoint.VictoryRestApplied || !savedKnown.Contains(GauntletRooms.Spring))
+                    throw new ArgumentException("Invalid used spring",nameof(checkpoint));
+                traveller.ApplySpring();
+            }
             return traveller;
         }
 

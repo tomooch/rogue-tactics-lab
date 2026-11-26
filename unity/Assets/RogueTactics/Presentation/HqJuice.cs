@@ -19,14 +19,20 @@ namespace RogueTactics.Presentation
         private void PopEventNumber(BattleEvent e)
         {
             if(e.Amount<=0 || (e.Kind!=EventKind.Damage && e.Kind!=EventKind.Counter && e.Kind!=EventKind.Heal))return;
-            if(!bodies.TryGetValue(e.Target,out var renderer) || !renderer.gameObject.activeInHierarchy)return;
-            var body=ProjectedBody(renderer);var heal=e.Kind==EventKind.Heal;
-            var label=Label(Field,"Event number",(heal?"+":"-")+e.Amount,0,0,110,48,heal?24:28,TextAnchor.MiddleCenter);
+            PopEventNumber(e.Target,e.Kind,e.Amount);
+        }
+
+        private void PopEventNumber(string target,EventKind kind,int amount)
+        {
+            if(amount<=0)return;
+            if(!bodies.TryGetValue(target,out var renderer) || !renderer.gameObject.activeInHierarchy)return;
+            var body=ProjectedBody(renderer);var heal=kind==EventKind.Heal;
+            var label=Label(Field,"Event number",(heal?"+":"-")+amount,0,0,110,48,heal?24:28,TextAnchor.MiddleCenter);
             label.fontStyle=FontStyle.Bold;label.raycastTarget=false;
             // The damage figure was being clipped away by the label's own box; let it draw at any size.
             label.verticalOverflow=VerticalWrapMode.Overflow;label.horizontalOverflow=HorizontalWrapMode.Overflow;
-            var allyHurt=poses.ContainsKey(e.Target);
-            label.color=heal?new Color(.62f,1,.66f):allyHurt?new Color(1,.50f,.42f):e.Kind==EventKind.Counter?new Color(1,.80f,.30f):new Color(1,.95f,.55f);
+            var allyHurt=poses.ContainsKey(target);
+            label.color=heal?new Color(.62f,1,.66f):allyHurt?new Color(1,.50f,.42f):kind==EventKind.Counter?new Color(1,.80f,.30f):new Color(1,.95f,.55f);
             var outline=label.gameObject.AddComponent<Outline>();outline.effectDistance=new Vector2(2.4f,-2.4f);
             var shade=label.gameObject.AddComponent<Shadow>();shade.effectDistance=new Vector2(0,-3.5f);shade.effectColor=new Color(.05f,.05f,.15f,.7f);
             outline.effectColor=heal?new Color(.02f,.22f,.08f,1):new Color(.20f,.03f,.08f,1);
