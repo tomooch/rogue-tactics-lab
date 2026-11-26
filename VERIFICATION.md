@@ -34,6 +34,7 @@
 - 1階の通し検証 `83ca5573d6b12255876aa0dd2f4d9c99206daf2a` は `FirstFloorMatchesSimulationThroughThreeBattlesAndSpring` 1/1。画面の到達可能な床をレイキャストして移動し、挑戦・戦闘開始・探索復帰を操作。攻める方針で3勝し、Python と同じシロの入場HP18→10→15、終了時HP0→1→0、泉の利用、3戦勝利の表示を確認。報酬と階段はこの検証の対象外。
 - バランス方針の Core `6b8d3bc0274ee5c31f593bdb000e3a7bfbac4857` は EditMode 51/51。シロのHP10で攻める相当、9・8で慎重相当。既存の第3戦を同条件で実行し、Python と同じ29手・4人生存・合計HP39。画面での方針解放は未実施。固定リプレイのIDと内容を保持。
 - `f2a668e` の全回帰は EditMode 51/51、PlayMode 33通過・撮影専用1スキップ・失敗0。苔・花のAIと既存美術の接続 `ec25321b0d04d3b8de6e122a85dc4ff61b1ea91f` は EditMode 54/54（同Core）と対象 PlayMode 1/1。R03 の慎重27手・他29手と、各方針の味方HPがPythonと一致。苔と花の名前・外見の割り当て、互いに異なる標的、任意指示を確認。R03 は通常の遠征に未配置。
+- 敵AI導入後 `00881f2` の全回帰は EditMode 54/54、PlayMode 33通過・撮影専用1スキップ・失敗0。2階の R01・R04・R09 の定義 `e799a3a4d9db9027d97898f6d7ee098e2bf7b39c` は EditMode 63/63。満タン開始・修正なしの3部屋×3方針で、勝敗・手数・各人の終了HPがPythonと一致。遠征の画面から2階へ降りる処理は未接続。
 - Local Mac では同じ Unity patch と iOS / Android モジュール、Xcode 27.0、iOS 27.0 Simulator を確認。物理 iPhone は unavailable。原画・派生・撮影データは所有者のローカル環境に保持する。
 - [DECISIONS](design/DECISIONS.md) B1〜B15 と最新の Human 指示を実装方向として参照する。例えば3方針とHP持ち越しは採用済み。1階でのバランス解放、倒れた仲間の復帰条件、射程は未決。 [AGENCY](design/overall/05_AGENCY.md) の提案、人の試遊で評価する仮説、Core の現挙動をそれぞれ区別する。
 - 先に S1-0 の固定前提を除き、実際の1階を探索・連戦・進行・再開まで通してから2〜3階、4〜5階へ進む。既存戦闘のハッシュと390×844の表示を回帰確認する。未決事項は依存する箇所を保留し、独立した作業を続ける。
