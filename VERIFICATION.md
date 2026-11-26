@@ -1,5 +1,16 @@
 ## 2026-10-27 — Terra 操作UIの誤タップ対策
 
+## 2026-11-26 — FABLE 引き継ぎの基準
+
+- GitHub `main` は `67ce8bd8f9f8f86dbf0965cbbc4d3eeaf1e5cde3`。ゲーム実装は [#15](https://github.com/tomooch/rogue-tactics-lab/pull/15) `aa1fc05` → [#17](https://github.com/tomooch/rogue-tactics-lab/pull/17) `ce4ffac` → [#21](https://github.com/tomooch/rogue-tactics-lab/pull/21) `ad263c6` → [#23](https://github.com/tomooch/rogue-tactics-lab/pull/23) `9e207e79abd56c0b4808b17e14bf079a46ce1dbc` の Draft 系列。Codex の変更は #23 の HEAD を親に持つ `codex/fable-gameplay` でレビューする。
+- 現行試作では2方針、決定論的戦闘、任意指示、同じ盤面での探索と最大3戦の試行が動く。次の戦闘の準備は固定 fixture から始まり、HP持ち越し、端末内保存・復元、遠征の階移動は未実装。後続の敵、泉、遺物、報酬台座、階の景観と下降演出は既存の描画部品からゲームの状態・イベントへの接続が必要。
+- #23 が記録した `9e207e7` の結果は Unity 6000.3.25f1、EditMode 32/32、PlayMode 28通過・撮影専用1スキップ。探索入り iOS Simulator の戦闘勝利・探索タップ・隊列移動の記録は `26fc2c0`。両コミットを区別する。関連の4 Draft に GitHub checks は0件。
+- 同 HEAD の Local Mac 再実行も EditMode 32/32、PlayMode 28通過・撮影専用1スキップ、Unity 両プロセス exit 0。4キャラの原画を設定済み。初回の環境参照部材は未配置だった。NUnit の集約値 `Skipped:Ignored` により旧 `verify_hq.py` が exit 1 を返したため、実行結果の集計を修正する。
+- HUD 接続変更 `a29b523` は参照部材も設定した同 Editor で EditMode 32/32、PlayMode 3/3。対象は `ReferencePartsKeepRealOwnershipAndKnownOnlyMap`、`CompanionHealthNumbersHaveRenderedGlyphsAtPhoneScales`、`JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults`。 `-batchmode -runTests -testPlatform` を使用し、PlayMode のみ3件を `-testFilter` で指定。390×844、承認ポートレート、HP数値と当たり判定、固定2戦術のイベント・ハッシュを検証した。集計スクリプトは実測XML（撮影1スキップと28通過）および失敗あり・通過0件のXMLで受理・拒否を検証。
+- Local Mac では同じ Unity patch と iOS / Android モジュール、Xcode 27.0、iOS 27.0 Simulator を確認。物理 iPhone は unavailable。原画・派生・撮影データは所有者のローカル環境に保持する。
+- [DECISIONS](design/DECISIONS.md) B1〜B15 と最新の Human 指示を実装方向として参照する。例えば3方針とHP持ち越しは採用済み。1階でのバランス解放、倒れた仲間の復帰条件、射程は未決。 [AGENCY](design/overall/05_AGENCY.md) の提案、人の試遊で評価する仮説、Core の現挙動をそれぞれ区別する。
+- 先に S1-0 の固定前提を除き、実際の1階を探索・連戦・進行・再開まで通してから2〜3階、4〜5階へ進む。既存戦闘のハッシュと390×844の表示を回帰確認する。未決事項は依存する箇所を保留し、独立した作業を続ける。
+
 実行source `e12bbb013e5af88aeec28901f62eac01e558f0db`。開始・探索のアイコンと文字をまとめ、勝利後の探索を旧停止位置から分離。Unity 6000.3.25f1 Edit21/21、Play12/13（既存step0 sprite矩形重複FAIL、今回B/A・前回X/C）、探索4/4、両固定hash一致。旧停止位置の境界と勝利を跨ぐ押下はEditor Input Systemで検証。fresh iOS27 QA Simulatorで開始・停止・再開・勝利後3位置tap・探索遷移を実観測。source63 SHA一致。実iPhone/Human/新TestFlightは未検証、R2 V0 FAIL。詳細は [操作UI review](evidence/hq-ref/transport-ui-review.md) と [実行証拠](evidence/hq-ref/transport-ui-evidence.json)。
 
 # 現在の実装・検証状況

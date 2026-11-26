@@ -51,8 +51,16 @@ def main():
         summary['configured_scene_sha256'] = hashlib.sha256(scene.read_bytes()).hexdigest()
         (output / 'source-and-results.json').write_text(json.dumps(summary, indent=2) + '\n')
         print(name + '_COMPLETE', result.returncode, flush=True)
-        if result.returncode or name != 'configure' and record.get('tests', {}).get('result') != 'Passed':
-            return result.returncode or 1
+        if result.returncode:
+            return result.returncode
+        if name != 'configure':
+            tests = record.get('tests', {})
+            # NUnit can label the entire run Skipped:Ignored when an opt-in capture is ignored.
+            if (tests.get('result') not in {'Passed', 'Skipped:Ignored'}
+                    or tests.get('failed') != '0'
+                    or tests.get('inconclusive') != '0'
+                    or int(tests.get('passed', '0')) == 0):
+                return 1
     return 0
 
 
