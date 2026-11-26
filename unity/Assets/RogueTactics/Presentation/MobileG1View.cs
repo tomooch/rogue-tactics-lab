@@ -97,7 +97,7 @@ namespace RogueTactics.Presentation
             Field=Rect(SafeRoot,"Field",0,60,390,520);fieldImage=Field.gameObject.AddComponent<RawImage>();fieldImage.texture=fieldTarget;fieldImage.raycastTarget=false;Field.SetAsFirstSibling();
             guardLink=Strip(Field,"Guard link",Jade);actionLink=Strip(Field,"Core intention",Gold);
             ghost=Rect(Field,"Legal destination",0,0,34,18);ghost.gameObject.AddComponent<Image>().color=new Color(.8f,.95f,.8f,.25f);ghost.GetComponent<Image>().raycastTarget=false;
-            foreach(var u in Fixture.Baseline().Units)
+            foreach(var u in Session.Replay.State.Units)
             {
                 // 22pt wide: square cells put diagonal neighbours close, and a 24pt strip grazed the head in front.
                 var r=Rect(Field,"HP "+u.Id,0,0,22,6);var track=r.gameObject.AddComponent<Image>();track.color=new Color(.025f,.06f,.065f,.96f);track.raycastTarget=false;
@@ -266,7 +266,7 @@ namespace RogueTactics.Presentation
                 Box("Fallen rock",new Vector3(x+.2f,.25f,z+.38f),new Vector3(.4f,.4f,.5f),new Color(.35f,.45f,.42f)).transform.rotation=Quaternion.Euler(12,i*31,18);
             }
             }
-            foreach(var u in Fixture.Baseline().Units)
+            foreach(var u in Session.Replay.State.Units)
             {
                 var root=new GameObject("Fixture "+u.Id).transform;pawns[u.Id]=root;
                 if(HqWorld)MakeKnownPositionMarker(root,u.Enemy);

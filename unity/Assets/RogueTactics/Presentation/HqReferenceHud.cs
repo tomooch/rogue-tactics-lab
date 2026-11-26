@@ -119,7 +119,7 @@ namespace RogueTactics.Presentation
             // Foot health: brighter fills with a top gloss, same geometry as before.
             foreach(var entry in hpBars)
             {
-                entry.Value.color=Fixture.Baseline().Find(entry.Key).Enemy?new Color(1,.42f,.38f):new Color(.36f,.95f,.52f);
+                entry.Value.color=Session.Replay.State.Find(entry.Key).Enemy?new Color(1,.42f,.38f):new Color(.36f,.95f,.52f);
                 var gloss=Rect(entry.Value.transform,"HP gloss",0,0,1,1);gloss.anchorMin=new Vector2(0,.5f);gloss.anchorMax=Vector2.one;gloss.offsetMin=gloss.offsetMax=Vector2.zero;
                 var shine=gloss.gameObject.AddComponent<Image>();shine.color=new Color(1,1,1,.38f);shine.raycastTarget=false;
             }
@@ -209,7 +209,7 @@ namespace RogueTactics.Presentation
             if(policyEditing)setup.anchoredPosition=new Vector2(0,298);
             for(var i=0;i<4;i++)
             {
-                var id=CardOrder[i];var unit=Fixture.Baseline().Find(id);var r=cardValues[id].transform.parent;
+                var id=CardOrder[i];var unit=Session.Replay.State.Find(id);var r=cardValues[id].transform.parent;
                 r.Find("Name").GetComponent<Text>().text=HeroName(id);
                 r.Find("Role meaning").GetComponent<Text>().text=dead.Contains(id)?"戦闘不能":id=="B"?(Session.Preference==Preference.ProtectAnchor?"シロを守る":"敵を攻める"):CoreRoles[i];
                 cardHealth[id].rectTransform.sizeDelta=new Vector2(((w-36)/4-14)*hp[id]/unit.MaxHp,5);

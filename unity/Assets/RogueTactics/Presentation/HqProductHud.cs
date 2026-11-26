@@ -34,7 +34,7 @@ namespace RogueTactics.Presentation
             var orderBackdrop=orderStrip.gameObject.AddComponent<Image>();orderBackdrop.color=new Color(.035f,.09f,.13f,.96f);orderBackdrop.raycastTarget=false;
             orderLabel=Label(orderStrip,"Order caption","行動順",0,0,53,20,12);
             // One tile per actor; the order shown is read from the current encounter's Core state on refresh.
-            foreach(var id in Fixture.Baseline().Initiative)
+            foreach(var id in Session.Replay.State.Initiative)
             {
                 var r=Rect(orderStrip,"Order "+id,0,17,57,30);var frame=r.gameObject.AddComponent<Image>();frame.color=new Color(.06f,.14f,.19f,.9f);frame.raycastTarget=false;orderFrames[id]=frame;
                 if(id.Length==1 && id[0]>='A' && id[0]<='D'){var icon=Rect(r,"Actor portrait",0,0,24,28).gameObject.AddComponent<RawImage>();var art=CharacterArt[id[0]-'A'];icon.texture=art;var uvWidth=.5f*24/28*art.height/art.width;icon.uvRect=new Rect(.5f-uvWidth/2,.43f,uvWidth,.5f);icon.raycastTarget=false;}
@@ -146,7 +146,7 @@ namespace RogueTactics.Presentation
             }
             if(!DeveloperMode)roster.gameObject.SetActive(true);
             foreach(var id in CardOrder)
-            {var u=Fixture.Baseline().Find(id);cardValues[id].text="HP "+hp[id]+" / "+u.MaxHp;cardHealth[id].rectTransform.sizeDelta=new Vector2(74f*hp[id]/u.MaxHp,2);}
+            {var u=Session.Replay.State.Find(id);cardValues[id].text="HP "+hp[id]+" / "+u.MaxHp;cardHealth[id].rectTransform.sizeDelta=new Vector2(74f*hp[id]/u.MaxHp,2);}
             cardValues["B"].transform.parent.Find("Name").GetComponent<Text>().text=Session.Preference==Preference.ProtectAnchor?"モモ：守る":"モモ：攻める";
             orderStrip.gameObject.SetActive(active && !terminalSeen);
             var initiative=Session.Replay.State.Initiative;

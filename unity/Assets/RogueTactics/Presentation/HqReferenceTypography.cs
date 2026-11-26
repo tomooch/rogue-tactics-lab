@@ -82,7 +82,7 @@ namespace RogueTactics.Presentation
                 ReferenceText(cardValues[id],7,95,width-14,20,11,TextAnchor.MiddleLeft);cardValues[id].fontStyle=FontStyle.Bold;
                 var track=card.Find("Health track").GetComponent<RectTransform>();
                 track.anchoredPosition=new Vector2(7,-115);track.sizeDelta=new Vector2(width-14,7);
-                var maxHp=RogueTactics.Core.G1.Fixture.Baseline().Find(id).MaxHp;
+                var maxHp=Session.Replay.State.Find(id).MaxHp;
                 var shownHp=hp.TryGetValue(id,out var displayedHp)?displayedHp:maxHp;
                 cardHealth[id].rectTransform.anchoredPosition=new Vector2(7,-115);
                 cardHealth[id].rectTransform.sizeDelta=new Vector2((width-14)*shownHp/maxHp,7);
