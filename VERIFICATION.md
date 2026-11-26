@@ -11,6 +11,7 @@
 - 型付きイベント `cc1b289c2ae02ceeefcae3ebd5d23899b2193ac1` は EditMode 32/32、PlayMode 2/2。390×844の両戦術と既存ハッシュ、着弾時の顔の視認性を確認。守護の軽減量・守り手、挟撃・反撃・致命・過剰ダメージと勝敗を Core が解決時に付与し、表示が参照する。リプレイの直列化は既存の形式を維持。
 - `a25fd51eaf3b2581e4f64f554055ea3859c2e02a` の全回帰を `tools/verify_hq.py` で実施。Unity 6000.3.25f1 の EditMode 32/32、PlayMode 28通過・撮影専用1スキップ・失敗0。Unity と集計スクリプトはいずれも exit 0。
 - 表示枠の駒数対応 `4e2d33b53105ee623386db0392c1ba78fa7be8c6` は Unity 6000.3.25f1 で EditMode 32/32、対象 PlayMode 5/5。連戦・任意指示・HPの文字・既存の描画診断・探索HUDを確認。敵3体の統合検証は未実施。
+- 守護線と行動順の陣営表示 `41ac7ee0880d9ee4b81e3847adae4d6df9bb3a47` は Unity 6000.3.25f1 で `JapaneseSafeAreaBattlePreservesFrozenEventsAndBothResults` が通過し、両方針の固定ハッシュとイベント列が一致。簡易守護線を有効化した構成での個別描画は未確認。
 - Local Mac では同じ Unity patch と iOS / Android モジュール、Xcode 27.0、iOS 27.0 Simulator を確認。物理 iPhone は unavailable。原画・派生・撮影データは所有者のローカル環境に保持する。
 - [DECISIONS](design/DECISIONS.md) B1〜B15 と最新の Human 指示を実装方向として参照する。例えば3方針とHP持ち越しは採用済み。1階でのバランス解放、倒れた仲間の復帰条件、射程は未決。 [AGENCY](design/overall/05_AGENCY.md) の提案、人の試遊で評価する仮説、Core の現挙動をそれぞれ区別する。
 - 先に S1-0 の固定前提を除き、実際の1階を探索・連戦・進行・再開まで通してから2〜3階、4〜5階へ進む。既存戦闘のハッシュと390×844の表示を回帰確認する。未決事項は依存する箇所を保留し、独立した作業を続ける。
