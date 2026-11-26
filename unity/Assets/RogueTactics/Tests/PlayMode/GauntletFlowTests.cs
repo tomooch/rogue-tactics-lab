@@ -268,6 +268,71 @@ namespace RogueTactics.Tests
             yield return Capture("choice-directed-four-survivors");
         }
         [UnityTest]
+        public IEnumerator DiskCheckpointRestoresPausedHudAndTerminalResult()
+        {
+            var folder=Path.Combine(Path.GetTempPath(),System.Guid.NewGuid().ToString("N"));
+            var store=new BattleCheckpointStore(Path.Combine(folder,"battle.json"));
+            var source=new MobileG1Session();
+            source.Select(Preference.DirectAttack);
+            source.Start("復元する予想");
+            source.Advance();
+            source.Advance();
+            source.TargetOnce("C","X");
+            var target=new RenderTexture(390,844,24);
+            try
+            {
+                Assert.That(store.TryWrite(source.CaptureBattle()),Is.True);
+                Assert.That(store.Read(out var saved),Is.EqualTo(BattleCheckpointReadStatus.Loaded));
+                yield return SceneManager.LoadSceneAsync("HqExploration");
+                yield return null;yield return null;
+                var view=Object.FindFirstObjectByType<MobileG1View>();
+                Camera.main.targetTexture=target;
+                view.SetTestSafeArea(new Rect(0,34,390,763),390,844);
+                view.RestoreBattle(saved);
+                yield return null;yield return null;
+                Assert.That(view.Session.Replay.Hash(),Is.EqualTo(source.Replay.Hash()));
+                Assert.That(view.DisplayedEvents.Select(e=>e.Serialize()),Is.EqualTo(source.Replay.Events.Select(e=>e.Serialize())));
+                Assert.That(view.Session.Replay.CorrectionsLeft,Is.Zero);
+                Assert.That(view.Paused,Is.True);
+                var ally=source.Replay.State.Find("A");
+                Assert.That(ally.Hp,Is.LessThan(ally.MaxHp));
+                var hpLabel=view.SafeRoot.Find("Companion portraits/Companion A/Actual HP").GetComponent<Text>();
+                Assert.That(hpLabel.text,Is.EqualTo("HP "+ally.Hp+" / "+ally.MaxHp));
+                Assert.That(view.EffectCount,Is.Zero);
+                var previousStep=view.Session.Replay.State.Step;
+                Press(view,"Play");
+                Assert.That(view.Session.Replay.State.Step,Is.EqualTo(previousStep+1));
+
+                // Restore a finished battle into a different fresh view as though restarted.
+                var finished=new MobileG1Session();
+                finished.Select(Preference.DirectAttack);
+                finished.Start("");
+                while(finished.Replay.State.Outcome==Outcome.Active)finished.Advance();
+                Assert.That(store.TryWrite(finished.CaptureBattle()),Is.True);
+                Assert.That(store.Read(out saved),Is.EqualTo(BattleCheckpointReadStatus.Loaded));
+                Camera.main.targetTexture=null;
+                yield return SceneManager.LoadSceneAsync("HqExploration");
+                yield return null;yield return null;
+                view=Object.FindFirstObjectByType<MobileG1View>();
+                Camera.main.targetTexture=target;
+                view.SetTestSafeArea(new Rect(0,34,390,763),390,844);
+                view.RestoreBattle(saved);
+                yield return null;yield return null;
+                Assert.That(view.Session.Replay.Hash(),Is.EqualTo(finished.Replay.Hash()));
+                Assert.That(view.Button("Explore").gameObject.activeInHierarchy,Is.True);
+                Assert.That(GameObject.Find("Fixture A"),Is.Null);
+                Assert.That(GameObject.Find("Fallen rest A"),Is.Not.Null);
+                Assert.That(view.EffectCount,Is.Zero);
+            }
+            finally
+            {
+                if(Camera.main!=null)Camera.main.targetTexture=null;
+                Object.Destroy(target);
+                if(Directory.Exists(folder))Directory.Delete(folder,true);
+            }
+        }
+
+        [UnityTest]
         public IEnumerator ThreeEnemiesAppearOnBoardAndCanBeSelected()
         {
             yield return SceneManager.LoadSceneAsync("HqExploration");

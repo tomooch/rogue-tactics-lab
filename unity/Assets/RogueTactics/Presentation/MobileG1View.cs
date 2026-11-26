@@ -326,6 +326,48 @@ namespace RogueTactics.Presentation
         public void Select(Preference p) {if(Session.Started || Busy)return;Session.Select(p);ResetProjection();if(!AutonomousProduct)Prediction.text="";Refresh();}
         public void ResetBaseline()
         { if(Busy)return;Session.Reset();ResetFloorExploration();policyEditing=false;Auto=false;Paused=false;Prediction.text="";ResetProjection();SetComparisonCamera(CameraPitch); }
+        public void RestoreBattle(BattleCheckpoint checkpoint)
+        {
+            if(canvas==null || Session.Started || Busy || IsExploring)
+                throw new InvalidOperationException("Restore into a prepared battle before it starts");
+
+            Session.RestoreBattle(checkpoint);
+            ResetProjection();
+            Auto=false;
+            terminalSeen=Session.Replay.State.Outcome!=Outcome.Active;
+            Paused=!terminalSeen;
+            Prediction.text=Session.Prediction;
+            shownStep=Session.Replay.State.Step;
+            orderedActor=Session.Replay.PendingTargetActor??"";
+            orderedTarget=Session.Replay.PendingTarget??"";
+
+            foreach(var e in Session.Replay.Events)
+            {
+                displayed.Add(e);
+                if(e.Kind==EventKind.Action)
+                {
+                    shownActor=e.Actor;
+                    reaction="";
+                }
+                if(e.Kind==EventKind.Counter)reaction=HeroName(e.Actor)+" 反撃（割込）";
+                if(e.Kind!=EventKind.Action)captions.Add(Describe(e));
+                if(e.Kind==EventKind.Death)dead.Add(e.Target);
+            }
+
+            SetComparisonCamera(CameraPitch);
+            // Sample the same fall clip at its landing without playing any past motion or effects.
+            foreach(var id in dead)
+            {
+                var pose=PoseOf(id);
+                if(pose?.Puppet==null)continue;
+                pose.Puppet.Lean=FreeSide(id,1)*(pose.Mirrored?-1:1);
+                pose.Puppet.Play(Gfx.PuppetClip.Fall,.05f,1);
+                pose.Puppet.Tick(.05f,0,0,0);
+                RestFallen(id);
+            }
+            if(!terminalSeen)SafeRoot.Find("Boundary").GetComponent<Text>().text="続きから";
+        }
+
         private void ResetProjection()
         {
             ClearAllFallen();if(vfx!=null)vfx.Clear();hitStop=0;actingId="";ClearRelation();frameIntervals.Clear();LastFrameReport=null;displayed.Clear();captions.Clear();dead.Clear();hp.Clear();positions.Clear();terminalSeen=false;shownStep=0;shownActor="";reaction="";foreach(var u in Session.Replay.State.Units){hp[u.Id]=u.Hp;positions[u.Id]=Shown(u.Position);}crisisActive=false;orderedActor="";orderedTarget="";instructionReceiptText="";interruptRequested=false;requestedInstructionAlly="";if(instructionOverlay!=null)instructionOverlay.gameObject.SetActive(false);
