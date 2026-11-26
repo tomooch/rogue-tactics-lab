@@ -316,7 +316,7 @@ namespace RogueTactics.Presentation
                     // Anchor the front contact edge to the cell, like the static portraits' feet.
                     // A centred sphere otherwise extends over the next row's portrait/foot HP.
                     if(!HqWorld)shadow.transform.localPosition+=Vector3.forward*.55f;
-                    if(HqWorld)bodies[u.Id]=HqCreature.Build(root,StoneTemplate,HqCreature.KindOf(u.Id),HqCreature.AltOf(u.Id),FieldCamera);
+                    if(HqWorld)bodies[u.Id]=HqCreature.Build(root,StoneTemplate,SpiritOf(u.Id),HqCreature.AltOf(u.Id),FieldCamera);
                     else
                     {
                     var body=Sphere("Fixture slime",Vector3.zero,new Vector3(1.2f,.8f,1.08f),u.Id=="X"?new Color(.4f,.65f,.57f):new Color(.63f,.40f,.63f));body.transform.SetParent(root,false);body.transform.localPosition=new Vector3(0,.45f,.55f);bodies[u.Id]=body.GetComponent<Renderer>();
@@ -445,7 +445,7 @@ namespace RogueTactics.Presentation
                     reaction="";
                 }
                 if(e.Kind==EventKind.Counter)reaction=HeroName(e.Actor)+" 反撃（割込）";
-                if(e.Kind!=EventKind.Action)captions.Add(Describe(e));
+                if(e.Kind!=EventKind.Action)captions.Add(Describe(e,HeroName));
                 if(e.Kind==EventKind.Death)dead.Add(e.Target);
             }
 
@@ -509,7 +509,7 @@ namespace RogueTactics.Presentation
                     if((e.Tags & EventTags.Guarded)!=0)captions.Add("守護でダメージ軽減");break;
                 case EventKind.Death:dead.Add(e.Target);actionLink.gameObject.SetActive(false);ghost.gameObject.SetActive(false);if(e.Target==shownGuard?.Actor || e.Target==shownGuard?.Target)ClearShownGuard();hp[e.Target]=0;pawns[e.Target].gameObject.SetActive(false);badges[e.Target].alpha=.45f;break;
             }
-            if(e.Kind!=EventKind.Action)captions.Add(Describe(e));
+            if(e.Kind!=EventKind.Action)captions.Add(Describe(e,HeroName));
             if(e.Kind==EventKind.Action && e.Actor==shownGuard?.Actor)ClearShownGuard();
         }
         private void ClearShownGuard()
@@ -525,16 +525,17 @@ namespace RogueTactics.Presentation
                 Link(guardLink,positions[shownGuard.Actor],positions[shownGuard.Target]);
         }
 
-        public static string Describe(BattleEvent e)
+        public static string Describe(BattleEvent e)=>Describe(e,LegacyHeroName);
+        private static string Describe(BattleEvent e,Func<string,string> name)
         {
             switch(e.Kind)
             {
-                case EventKind.Protect:return HeroName(e.Actor)+" → "+HeroName(e.Target)+" を守る（軽減 "+e.Amount+"）";
-                case EventKind.Damage:return HeroName(e.Actor)+" → "+HeroName(e.Target)+" 攻撃  −"+e.Amount+((e.Tags & EventTags.Guarded)!=0?"（守護で軽減）":"");
-                case EventKind.Counter:return HeroName(e.Actor)+" → "+HeroName(e.Target)+" 反撃  −"+e.Amount;
-                case EventKind.Heal:return HeroName(e.Actor)+" → "+HeroName(e.Target)+" 回復  ＋"+e.Amount;
-                case EventKind.Death:return HeroName(e.Target)+" は戦闘不能";
-                case EventKind.Move:return HeroName(e.Actor)+" が移動";
+                case EventKind.Protect:return name(e.Actor)+" → "+name(e.Target)+" を守る（軽減 "+e.Amount+"）";
+                case EventKind.Damage:return name(e.Actor)+" → "+name(e.Target)+" 攻撃  −"+e.Amount+((e.Tags & EventTags.Guarded)!=0?"（守護で軽減）":"");
+                case EventKind.Counter:return name(e.Actor)+" → "+name(e.Target)+" 反撃  −"+e.Amount;
+                case EventKind.Heal:return name(e.Actor)+" → "+name(e.Target)+" 回復  ＋"+e.Amount;
+                case EventKind.Death:return name(e.Target)+" は戦闘不能";
+                case EventKind.Move:return name(e.Actor)+" が移動";
                 case EventKind.End:return "戦闘終了："+(e.Result==Outcome.Victory?"勝利":e.Result==Outcome.Defeat?"敗北":"上限");
                 default:return "";
             }

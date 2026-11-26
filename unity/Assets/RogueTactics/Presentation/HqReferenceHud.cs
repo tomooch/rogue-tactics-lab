@@ -197,7 +197,7 @@ namespace RogueTactics.Presentation
             label.rectTransform.anchoredPosition=new Vector2(left+34,-2);
             label.rectTransform.sizeDelta=new Vector2(labelWidth,44);
         }
-        private static string IntentReasonText(Plan plan) => plan.Why switch
+        private string IntentReasonText(Plan plan) => plan.Why switch
         {
             IntentReason.Protect => HeroName(plan.Target)+"を守る",
             IntentReason.ApproachToProtect => HeroName(plan.Target)+"のそばへ",

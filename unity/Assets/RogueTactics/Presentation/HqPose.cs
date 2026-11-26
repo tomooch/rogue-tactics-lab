@@ -55,7 +55,7 @@ namespace RogueTactics.Presentation
         // Screen-horizontal side of a world direction: +1 right, -1 left, 0 when straight up/down the screen.
         private float ScreenSide(Vector3 direction){var x=Vector3.Dot(direction,FieldCamera.transform.right);return Mathf.Abs(x)<.05f?0:Mathf.Sign(x);}
         private void Face(Pose pose,float side){if(side!=0)pose.Mirrored=side>0;}
-        private static Color TintOf(string id)=>id=="A"?HqVfx.Azure:id=="B"?HqVfx.Rose:id=="C"?HqVfx.Steel:id=="D"?HqVfx.Leaf:HqCreature.TintOf(id);
+        private Color TintOf(string id)=>id=="A"?HqVfx.Azure:id=="B"?HqVfx.Rose:id=="C"?HqVfx.Steel:id=="D"?HqVfx.Leaf:HqCreature.TintOf(SpiritOf(id),HqCreature.AltOf(id));
         private Vector3 Ground(string id)=>pawns[id].position;
         // Where a blow lands on, or leaves, a body.
         private Vector3 Chest(string id)

@@ -220,7 +220,7 @@ namespace RogueTactics.Presentation
                     button=buttons[key];
                     instructionEnemies.Add(id,button);
                     var face=Rect(button.transform,"Spirit portrait",6,3,38,38).gameObject.AddComponent<SpiritPortraitGraphic>();
-                    face.Kind=HqCreature.KindOf(id);face.Alt=HqCreature.AltOf(id);face.raycastTarget=false;
+                    face.Kind=SpiritOf(id);face.Alt=HqCreature.AltOf(id);face.raycastTarget=false;
                     var label=button.transform.Find("Label").GetComponent<Text>();
                     label.fontSize=11;label.rectTransform.anchoredPosition=new Vector2(46,-2);label.rectTransform.sizeDelta=new Vector2(114,56);
                 }

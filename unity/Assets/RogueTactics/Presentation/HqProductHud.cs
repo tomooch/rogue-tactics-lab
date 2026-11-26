@@ -28,7 +28,16 @@ namespace RogueTactics.Presentation
             };
         private static readonly Preference[] Policies=PolicyLabels.Keys.OrderBy(preference=>preference).ToArray();
         private static readonly string[] CardOrder={"A","D","C","B"};
-        private static string HeroName(string id)=>id=="A"?"シロ":id=="D"?"ミャル":id=="C"?"ガル":id=="B"?"モモ":HqCreature.NameOf(id);
+        private static string LegacyHeroName(string id)=>id=="A"?"シロ":id=="D"?"ミャル":id=="C"?"ガル":id=="B"?"モモ":HqCreature.NameOf(id);
+        private SpiritKind SpiritOf(string id) => Session.Replay.State.Find(id)?.Kind switch
+        {
+            EnemyKind.Moss => SpiritKind.Moss,
+            EnemyKind.Bloom => SpiritKind.Bloom,
+            _ => SpiritKind.Warden
+        };
+        private string HeroName(string id)=>Session.Replay.State.Find(id)?.Enemy==true
+            ? HqCreature.NameOf(SpiritOf(id),HqCreature.AltOf(id))
+            : LegacyHeroName(id);
         public void SetDeveloperMode(bool enabled){DeveloperMode=enabled;policyEditing=false;ApplySafeArea(safeRect,screenW,screenH);SetComparisonCamera(CameraPitch);}
         private void BuildProductHud()
         {
@@ -167,7 +176,7 @@ namespace RogueTactics.Presentation
                 var actorLabel=f.transform.Find("Actor").GetComponent<Text>();actorLabel.gameObject.SetActive(enemy);
                 // The strip's tiles are 22 px: allies are told apart by their portrait, spirits by one glyph (developer mode too;
                 // a full name wraps to two lines there and overflows the tile).
-                actorLabel.text=enemy?HqCreature.GlyphOf(id):HeroName(id);
+                actorLabel.text=enemy?HqCreature.GlyphOf(SpiritOf(id),HqCreature.AltOf(id)):HeroName(id);
                 if(!DeveloperMode)
                 {f.rectTransform.anchoredPosition=new Vector2((slot-1)*34,-19);f.rectTransform.sizeDelta=new Vector2(32,28);actorLabel.rectTransform.anchoredPosition=Vector2.zero;actorLabel.rectTransform.sizeDelta=new Vector2(32,26);}
                 f.color=id==shownActor?new Color(.50f,.36f,.12f,.97f):new Color(.04f,.12f,.18f,.92f);

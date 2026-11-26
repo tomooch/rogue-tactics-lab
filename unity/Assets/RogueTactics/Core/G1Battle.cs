@@ -8,11 +8,12 @@ using System.Text;
 namespace RogueTactics.Core.G1
 {
     // Anonymous experiment roles. These are NOT the approved named character roster.
+    public enum EnemyKind { Hunter=0, Moss=1, Bloom=2 }
     public enum Role { Anchor, Protector, Flanker, Support, Enemy }
     public enum Preference { ProtectAnchor=0, DirectAttack=1, Balanced=2 }
     public enum ActionKind { Maintain, Move, Attack, Protect, Heal }
     public enum IntentReason { Protect, ApproachToProtect, HealLowest, ApproachWounded, FlankAttack,
-        AttackAdjacent, ApproachEnemy, Blocked, NoTarget, Ordered }
+        AttackAdjacent, ApproachEnemy, Blocked, NoTarget, Ordered, HuntNearest, HuntWeakest }
     public enum EventKind { Action, Move, Protect, Damage, Heal, Counter, Death, End }
     [Flags]
     public enum EventTags { None=0, Guarded=1, Lethal=2, Flanked=4, Counter=8, Overkill=16 }
@@ -22,6 +23,7 @@ namespace RogueTactics.Core.G1
     {
         public string Id { get; }
         public Role Role { get; }
+        public EnemyKind Kind { get; }
         public bool Enemy => Role == Role.Enemy;
         public int MaxHp { get; }
         public int Attack { get; }
@@ -29,14 +31,20 @@ namespace RogueTactics.Core.G1
         public GridPosition Position { get; internal set; }
         public bool Alive => Hp > 0;
         public Unit(string id, Role role, int hp, int attack, GridPosition position)
-        { Id = id; Role = role; Hp = MaxHp = hp; Attack = attack; Position = position; }
+            : this(id,role,hp,attack,position,EnemyKind.Hunter) {}
+        public Unit(string id, Role role, int hp, int attack, GridPosition position, EnemyKind kind)
+        {
+            if(!Enum.IsDefined(typeof(EnemyKind),kind) || (role!=Role.Enemy && kind!=EnemyKind.Hunter))
+                throw new ArgumentOutOfRangeException(nameof(kind));
+            Id=id; Role=role; Hp=MaxHp=hp; Attack=attack; Position=position; Kind=kind;
+        }
         internal Unit(string id, Role role, int maxHp, int hp, int attack, GridPosition position)
             : this(id, role, maxHp, attack, position)
         {
             if(hp<=0 || hp>maxHp)throw new ArgumentOutOfRangeException(nameof(hp));
             Hp=hp;
         }
-        internal Unit Copy() => new Unit(Id, Role, MaxHp, Attack, Position) { Hp = Hp };
+        internal Unit Copy() => new Unit(Id, Role, MaxHp, Attack, Position, Kind) { Hp = Hp };
     }
 
     public sealed class EncounterState
@@ -79,6 +87,9 @@ namespace RogueTactics.Core.G1
                 b.AppendFormat(CultureInfo.InvariantCulture, "|{0},{1},{2},{3},{4},{5},{6}", u.Id, (int)u.Role, u.MaxHp, u.Hp, u.Attack, u.Position.X, u.Position.Y);
             // The frozen G1 order is implied, which keeps existing G1 serializations and hashes byte-identical.
             if (!initiative.SequenceEqual(Fixture.Initiative)) b.Append("|order:").Append(string.Join(",", initiative));
+            var kinds=units.Where(unit=>unit.Kind!=EnemyKind.Hunter).OrderBy(unit=>unit.Id,StringComparer.Ordinal)
+                .Select(unit=>unit.Id+"="+((int)unit.Kind).ToString(CultureInfo.InvariantCulture)).ToArray();
+            if(kinds.Length>0)b.Append("|kinds:").Append(string.Join(",",kinds));
             return b.ToString();
         }
     }
@@ -288,18 +299,22 @@ namespace RogueTactics.Core.G1
                     return MoveOrMaintain(s, actor, wounded, "Approach wounded ally", IntentReason.ApproachWounded);
                 }
             }
-            // Opponents prefer living A; deterministic fallback uses distance, then stable ID.
-            var target = actor.Enemy && a != null && a.Alive ? a : s.Units.Where(u => u.Alive && u.Enemy != actor.Enemy)
-                .OrderBy(u => Distance(actor.Position, u.Position)).ThenBy(u => u.Id, StringComparer.Ordinal).FirstOrDefault();
+            var opponents=s.Units.Where(unit=>unit.Alive && unit.Enemy!=actor.Enemy);
+            var target=actor.Enemy && actor.Kind==EnemyKind.Hunter && a!=null && a.Alive
+                ? a
+                : opponents.OrderBy(unit=>actor.Kind==EnemyKind.Bloom?unit.Hp:0)
+                    .ThenBy(unit=>Distance(actor.Position,unit.Position)).ThenBy(unit=>unit.Id,StringComparer.Ordinal).FirstOrDefault();
+            var hunt=actor.Kind==EnemyKind.Bloom?IntentReason.HuntWeakest:
+                actor.Kind==EnemyKind.Moss?IntentReason.HuntNearest:(IntentReason?)null;
             if (target == null) return new Plan(actor, ActionKind.Maintain, null, actor.Position, "No living opponent", IntentReason.NoTarget);
             if (Distance(actor.Position, target.Position) == 1)
             {
                 var flanked=Flank(s,actor,target);
                 return new Plan(actor,ActionKind.Attack,target,actor.Position,
                     flanked?"Adjacent attack; complementary flank +2":"Adjacent living opponent",
-                    flanked?IntentReason.FlankAttack:IntentReason.AttackAdjacent);
+                    hunt ?? (flanked?IntentReason.FlankAttack:IntentReason.AttackAdjacent));
             }
-            return MoveOrMaintain(s, actor, target, "Approach opponent by legal unoccupied step", IntentReason.ApproachEnemy);
+            return MoveOrMaintain(s, actor, target, "Approach opponent by legal unoccupied step", hunt ?? IntentReason.ApproachEnemy);
         }
         private static Plan MoveOrMaintain(EncounterState s, Unit actor, Unit target, string reason, IntentReason why)
         {

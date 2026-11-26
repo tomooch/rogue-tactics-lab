@@ -20,6 +20,26 @@ namespace RogueTactics.Tests
                 Assert.That(a.Serialize(),Is.EqualTo(b.Serialize())); Assert.That(a.Hash(),Is.EqualTo(b.Hash()));
             } finally { CultureInfo.CurrentCulture = before; }
         }
+        [TestCase(EnemyKind.Hunter,"A")]
+        [TestCase(EnemyKind.Moss,"B")]
+        [TestCase(EnemyKind.Bloom,"D")]
+        public void OpponentsSelectTheirDistinctTargetFromCurrentState(EnemyKind kind,string expected)
+        {
+            var room=new EncounterState(5,5,new[]{
+                new Unit("A",Role.Anchor,18,5,new GridPosition(4,4)),
+                new Unit("B",Role.Protector,16,4,new GridPosition(1,2)),
+                new Unit("C",Role.Flanker,12,4,new GridPosition(2,1)),
+                new Unit("D",Role.Support,10,2,new GridPosition(0,0)),
+                new Unit("X",Role.Enemy,18,6,new GridPosition(1,1),kind)
+            },new[]{"X","A","B","C","D"});
+            var replay=new Replay(room,Preference.DirectAttack);
+            var next=replay.Preview();
+            Assert.That(next.Target,Is.EqualTo(expected));
+            Assert.That(Rules.IsLegal(room,next),Is.True);
+            Assert.That(replay.State.Find("X").Kind,Is.EqualTo(kind));
+            Assert.That(room.Serialize().Contains("|kinds:"),Is.EqualTo(kind!=EnemyKind.Hunter));
+        }
+
         [TestCase(10,Preference.DirectAttack)]
         [TestCase(9,Preference.ProtectAnchor)]
         [TestCase(8,Preference.ProtectAnchor)]
