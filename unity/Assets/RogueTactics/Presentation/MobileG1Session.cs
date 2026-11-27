@@ -16,19 +16,24 @@ namespace RogueTactics.Presentation
         public string Prediction { get; private set; } = "";
         public int EncounterIndex { get; private set; }
         public int EncounterCount { get; }
+        public int FloorNumber { get; }
+        private static readonly string[] SecondFloorRooms={"R01","R04","R09"};
         private EncounterState entryState;
         private IReadOnlyDictionary<string,int> entryHealth;
         private BattleInput correction;
         public Dictionary<Preference, MobileTrial> Trials { get; } = new Dictionary<Preference, MobileTrial>();
-        public MobileG1Session()
+        public MobileG1Session(int floorNumber=1)
         {
-            EncounterCount=Fixture.EncounterCount;
-            entryState=Fixture.Encounter(0);
+            if(floorNumber!=1 && floorNumber!=2)throw new ArgumentOutOfRangeException(nameof(floorNumber));
+            FloorNumber=floorNumber;
+            EncounterCount=floorNumber==1?Fixture.EncounterCount:SecondFloorRooms.Length;
+            entryState=Room(0);
             Reset();
         }
 
         public MobileG1Session(EncounterState encounter)
         {
+            FloorNumber=1;
             EncounterCount=1;
             entryState=encounter ?? throw new ArgumentNullException(nameof(encounter));
             Reset();
@@ -43,11 +48,14 @@ namespace RogueTactics.Presentation
             Prediction="";
             correction=null;
         }
+        private EncounterState Room(int index)
+            => FloorNumber==1?Fixture.Encounter(index):FloorTwoRooms.Build(SecondFloorRooms[index]);
+
         public void LoadEncounter(int index) => LoadEncounter(index,null);
         public void LoadEncounter(int index,IReadOnlyDictionary<string,int> partyHp)
         {
             if(index<0 || index>=EncounterCount) throw new ArgumentOutOfRangeException(nameof(index));
-            var room=EncounterCount==1?entryState:Fixture.Encounter(index);
+            var room=EncounterCount==1?entryState:Room(index);
             var next=partyHp==null?room:EncounterBuilder.Build(room,partyHp);
             entryHealth=partyHp==null?null:next.Units.Where(unit=>!unit.Enemy).ToDictionary(unit=>unit.Id,unit=>unit.Hp);
             entryState=next;
@@ -73,14 +81,14 @@ namespace RogueTactics.Presentation
 
         public BattleCheckpoint CaptureBattle(FloorCheckpoint floor=null)
         {
-            if(!Started)throw new InvalidOperationException("Start first");
-            return new BattleCheckpoint(EncounterIndex,Replay.InitialPreference,Replay.State.Step,Prediction,correction,floor,entryHealth);
+            if(!Started && FloorNumber==1)throw new InvalidOperationException("Start first");
+            return new BattleCheckpoint(EncounterIndex,Replay.InitialPreference,Replay.State.Step,Prediction,correction,floor,entryHealth,FloorNumber,Started);
         }
 
         public void RestoreBattle(BattleCheckpoint checkpoint)
         {
             if(checkpoint==null)throw new ArgumentNullException(nameof(checkpoint));
-            if(checkpoint.EncounterIndex!=EncounterIndex)throw new ArgumentException("Load the saved encounter before restoring its battle",nameof(checkpoint));
+            if(checkpoint.FloorNumber!=FloorNumber || checkpoint.EncounterIndex!=EncounterIndex)throw new ArgumentException("Load the saved encounter before restoring its battle",nameof(checkpoint));
 
             var restored=new Replay(entryState,checkpoint.InitialPreference);
             for(var step=0;step<=checkpoint.Steps;step++)
@@ -93,7 +101,7 @@ namespace RogueTactics.Presentation
             Preference=restored.Preference;
             Prediction=checkpoint.Prediction;
             correction=checkpoint.Input;
-            Started=true;
+            Started=checkpoint.Started;
             if(restored.State.Outcome!=Outcome.Active)
                 Trials[restored.InitialPreference]=new MobileTrial(restored,Prediction);
         }
@@ -144,11 +152,18 @@ namespace RogueTactics.Presentation
         public BattleInput Input { get; }
         public FloorCheckpoint Floor { get; }
         public IReadOnlyDictionary<string,int> EntryHealth { get; }
+        public int FloorNumber { get; }
+        public bool Started { get; }
 
-        public BattleCheckpoint(int encounterIndex,Preference initialPreference,int steps,string prediction,BattleInput input,FloorCheckpoint floor=null,IReadOnlyDictionary<string,int> entryHealth=null)
+        public BattleCheckpoint(int encounterIndex,Preference initialPreference,int steps,string prediction,BattleInput input,FloorCheckpoint floor=null,IReadOnlyDictionary<string,int> entryHealth=null,int floorNumber=1,bool started=true)
         {
             if(steps<0 || steps>Rules.ActionLimit)throw new ArgumentOutOfRangeException(nameof(steps));
             if(input!=null && (input.At<0 || input.At>steps))throw new ArgumentException("The correction must be within the saved battle",nameof(input));
+            if(floorNumber!=1 && floorNumber!=2)throw new ArgumentOutOfRangeException(nameof(floorNumber));
+            if(!started && (floorNumber==1 || steps!=0 || input!=null || floor!=null))
+                throw new ArgumentException("Invalid battle preparation checkpoint");
+            FloorNumber=floorNumber;
+            Started=started;
             EncounterIndex=encounterIndex;
             InitialPreference=initialPreference;
             Steps=steps;

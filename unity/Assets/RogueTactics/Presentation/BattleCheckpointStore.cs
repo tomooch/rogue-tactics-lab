@@ -32,6 +32,8 @@ namespace RogueTactics.Presentation
                 rules=checkpoint.EntryHealth==null?FixedBattleRules:CarriedHealthRules,
                 entryHealth=checkpoint.EntryHealth?.Select(entry=>new SavedHealth{actor=entry.Key,hp=entry.Value}).ToArray(),
                 room=checkpoint.EncounterIndex,
+                floor=checkpoint.FloorNumber,
+                preparing=!checkpoint.Started,
                 policy=(int)checkpoint.InitialPreference,
                 steps=checkpoint.Steps,
                 note=checkpoint.Prediction,
@@ -73,9 +75,9 @@ namespace RogueTactics.Presentation
                 var record=new SavedBattle();
                 JsonUtility.FromJsonOverwrite(json,record);
                 if(record.format!=FormatVersion || (record.rules!=FixedBattleRules && record.rules!=CarriedHealthRules) || record.room<0
-                    || !IsSavedPolicy(record.policy) || record.inputs==null || record.inputs.Length>1)
+                    || !IsSavedPolicy(record.policy,record.floor) || record.inputs==null || record.inputs.Length>1)
                     throw new ArgumentException("Invalid or unsupported saved battle");
-                var input=record.inputs.Length==0?null:record.inputs[0]?.ToBattleInput()
+                var input=record.inputs.Length==0?null:record.inputs[0]?.ToBattleInput(record.floor)
                     ?? throw new ArgumentException("Missing saved battle input");
                 IReadOnlyDictionary<string,int> health=null;
                 if(record.rules==CarriedHealthRules)
@@ -87,7 +89,7 @@ namespace RogueTactics.Presentation
                 }
                 checkpoint=new BattleCheckpoint(record.room,(Preference)record.policy,record.steps,record.note,input,record.exploring
                     ? (record.exploration ?? throw new ArgumentException("Missing saved exploration")).ToFloorCheckpoint()
-                    : null,health);
+                    : null,health,record.floor,!record.preparing);
                 return BattleCheckpointReadStatus.Loaded;
             }
             catch(ArgumentException)
@@ -110,8 +112,8 @@ namespace RogueTactics.Presentation
             catch(Exception error) when(IsFileAccessError(error)) { return false; }
         }
 
-        private static bool IsSavedPolicy(int value)
-            =>value==(int)Preference.ProtectAnchor || value==(int)Preference.DirectAttack;
+        private static bool IsSavedPolicy(int value,int floor)
+            =>value==(int)Preference.ProtectAnchor || value==(int)Preference.DirectAttack || (floor==2 && value==(int)Preference.Balanced);
 
         private static bool IsFileAccessError(Exception error)
             => error is IOException || error is UnauthorizedAccessException || error is NotSupportedException;
@@ -122,6 +124,8 @@ namespace RogueTactics.Presentation
             public int format;
             public int rules;
             public int room=-1;
+            public int floor=1;
+            public bool preparing;
             public int policy=-1;
             public int steps=-1;
             public string note;
@@ -200,9 +204,9 @@ namespace RogueTactics.Presentation
                 target=input.Target;
             }
 
-            public BattleInput ToBattleInput()
+            public BattleInput ToBattleInput(int floor)
             {
-                if(kind=="correct" && IsSavedPolicy(policy))
+                if(kind=="correct" && IsSavedPolicy(policy,floor))
                     return new BattleInput(at,(Preference)policy);
                 if(kind=="target" && !string.IsNullOrEmpty(actor) && !string.IsNullOrEmpty(target))
                     return new BattleInput(at,actor,target);

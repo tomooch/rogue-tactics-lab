@@ -23,7 +23,7 @@ namespace RogueTactics.Core.Exploration
         public static readonly int[] Room={0,1,2};
         public static readonly GridPosition Spring=new GridPosition(22,4);
         public static GridPosition Origin(FloorMap map,int encounter)
-        {var r=map.Rooms[Room[encounter]];return encounter==0?new GridPosition(0,0):new GridPosition(r.X+(r.Width-5)/2,r.Y+(r.Height-5)/2);}
+        {var r=map.Rooms[Room[encounter]];return map.Number==1 && encounter==0?new GridPosition(0,0):new GridPosition(r.X+(r.Width-5)/2,r.Y+(r.Height-5)/2);}
     }
 
     // A deterministic exploration experiment, independent of the frozen G1 fixture.
@@ -36,8 +36,22 @@ namespace RogueTactics.Core.Exploration
         public int Width=>cells.Max(p=>p.X)-cells.Min(p=>p.X)+1;
         public int Height=>cells.Max(p=>p.Y)-cells.Min(p=>p.Y)+1;
         private static readonly GridPosition[] Directions={new GridPosition(1,0),new GridPosition(0,1),new GridPosition(-1,0),new GridPosition(0,-1)};
-        public FloorMap()
+        public int Number { get; }
+        public GridPosition Spring => Number==1?GauntletRooms.Spring:rooms[3].Center;
+        public GridPosition Stairs => rooms[Number==1?3:4].Center;
+
+        public FloorMap(int number=1)
         {
+            Number=number;
+            if(number==2)
+            {
+                rooms=new[]{new FloorRoom(0,-1,-1,7,7),new FloorRoom(1,0,11,7,7),
+                    new FloorRoom(2,13,11,7,7),new FloorRoom(3,0,23,7,7),new FloorRoom(4,13,23,7,7)};
+                foreach(var r in rooms)Add(r.X,r.Y,r.Width,r.Height);
+                Add(2,5,2,7);Add(6,13,8,2);Add(2,17,2,7);Add(15,17,2,7);
+                return;
+            }
+            if(number!=1)throw new ArgumentOutOfRangeException(nameof(number));
             // Exploration ground surrounds the unchanged G1 battle fixture. G1
             // still owns its original 5x5 legal combat board and initial actors.
             rooms=new[]{new FloorRoom(0,-3,-3,8,8),new FloorRoom(1,10,0,7,7),new FloorRoom(2,23,2,7,7),
@@ -156,16 +170,27 @@ namespace RogueTactics.Core.Exploration
 
         public bool TryDrinkSpring()
         {
-            if(!VictoryRestApplied || SpringUsed || !known.Contains(GauntletRooms.Spring)
-                || !party.Values.Any(position=>Rules.Distance(position,GauntletRooms.Spring)<=1))return false;
+            if(!VictoryRestApplied || SpringUsed || !known.Contains(Map.Spring)
+                || !party.Values.Any(position=>Rules.Distance(position,Map.Spring)<=1))return false;
             ApplySpring();
             return true;
         }
 
+        public IReadOnlyDictionary<string,int> HealthAfterDescent()
+        {
+            if(!VictoryRestApplied || !known.Contains(Map.Stairs) ||
+                !party.Values.Any(position=>Rules.Distance(position,Map.Stairs)<=1))
+                throw new InvalidOperationException("The party must reach the stairs after battle");
+            return health.ToDictionary(entry=>entry.Key,entry=>Recovery(entry.Key,entry.Value));
+        }
+
+        private int Recovery(string actor,int hp)
+            => (int)Math.Min(maxHealth[actor],hp+((long)maxHealth[actor]+1)/2);
+
         private void ApplySpring()
         {
             foreach(var actor in party.Keys)
-                health[actor]=(int)Math.Min(maxHealth[actor],health[actor]+((long)maxHealth[actor]+1)/2);
+                health[actor]=Recovery(actor,health[actor]);
             SpringUsed=true;
         }
 
@@ -190,7 +215,7 @@ namespace RogueTactics.Core.Exploration
             traveller.rooms.UnionWith(savedRooms);
             if(checkpoint.SpringUsed)
             {
-                if(!checkpoint.VictoryRestApplied || !savedKnown.Contains(GauntletRooms.Spring))
+                if(!checkpoint.VictoryRestApplied || !savedKnown.Contains(map.Spring))
                     throw new ArgumentException("Invalid used spring",nameof(checkpoint));
                 traveller.ApplySpring();
             }

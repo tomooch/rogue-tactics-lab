@@ -13,6 +13,8 @@ namespace RogueTactics.Presentation
     public sealed partial class MobileG1View
     {
         private FloorMap floorMap;
+        private bool descending;
+        private GameObject firstFloorRuins;
         private HqFloorScenery floorScenery;
         private FloorTraveller traveller;
         private Gfx.HqSpringProp floorSpring;
@@ -31,13 +33,16 @@ namespace RogueTactics.Presentation
                 .Select(entry=>(entry.Value,Session.Replay.State.Find(entry.Key).Enemy));
         private void BuildFloorScenery(GameObject startingRuins)
         {
+            firstFloorRuins=startingRuins;
             floorMap=new FloorMap();floorScenery=HqFloorScenery.Build(floorMap,EnvironmentMeshes,RuinsTemplate,startingRuins);
-            displayedKnown=new HashSet<GridPosition>(new FloorTraveller(floorMap,Session.Replay.State.Units).KnownCells);
+            displayedKnown=new HashSet<GridPosition>(new FloorTraveller(floorMap,Session.Replay.State.Units,battleOrigin).KnownCells);
             floorScenery.Reveal(floorMap,displayedKnown);
         }
         private void BuildFloorUi()
         {
             MakeButton(SafeRoot,"Explore","探索を続ける",12,590,366,44,BeginExploration,16);
+            MakeButton(SafeRoot,"Descend","2階へ降りる",12,590,366,48,Descend,16);
+            StyleReferenceButton("Descend",HudSymbol.Descend,Gold);PrimaryFill("Descend");
             var map=Rect(SafeRoot,"Explored floor map",254,65,124,104);
             map.gameObject.AddComponent<Image>().color=new Color(.035f,.09f,.13f,.87f);
             Label(map,"Known map caption","周辺地図",5,2,114,18,11);
@@ -68,7 +73,7 @@ namespace RogueTactics.Presentation
             // A later gauntlet retry keeps the floor the party has already uncovered.
             if(floorMap!=null && Session.EncounterIndex==0)
             {
-                displayedKnown=new HashSet<GridPosition>(new FloorTraveller(floorMap,Session.Replay.State.Units).KnownCells);
+                displayedKnown=new HashSet<GridPosition>(new FloorTraveller(floorMap,Session.Replay.State.Units,battleOrigin).KnownCells);
                 floorScenery.Reveal(floorMap,displayedKnown);
                 if(floorMini!=null)floorMini.Configure(floorMap,displayedKnown,KnownMapActors());
             }
@@ -106,7 +111,8 @@ namespace RogueTactics.Presentation
             IsExploring=true;Auto=false;Paused=false;modalObject.SetActive(false);ClearRelation();
             var entryCenter=PartyCenter();
             cameraFromParty=FieldCamera.transform.position-entryCenter;
-            travelMessage="見えている床・通路を選ぶ";
+            travelMessage=Session.FloorNumber==1 && NextEncounter==Session.EncounterCount && UseVictoryRecovery
+                ?"通路の先に下り階段を探す":"見えている床・通路を選ぶ";
             // After a later encounter the party may stand at a board edge: frame them from the board's own offset.
             if(Session.EncounterIndex>0)cameraFromParty=FieldCamera.transform.position-World(Shown(new GridPosition(2,2)));
             foreach(var entry in traveller.Party)
@@ -119,6 +125,66 @@ namespace RogueTactics.Presentation
             if(PartyCenter()!=entryCenter)FieldCamera.transform.position=PartyCenter()+cameraFromParty;
             SyncDiscoveredTerrain();Refresh();
         }
+        public bool DescentAvailable=>UseVictoryRecovery && IsExploring && !Busy && travelRoutine==null
+            && !modalObject.activeSelf && Session.FloorNumber==1 && NextEncounter==Session.EncounterCount
+            && displayedKnown.Contains(floorMap.Stairs)
+            && traveller.Party.Values.Any(cell=>Rules.Distance(cell,floorMap.Stairs)<=1);
+
+        public void Descend()
+        {
+            if(DescentAvailable)StartCoroutine(DescendToSecondFloor());
+        }
+
+        private IEnumerator DescendToSecondFloor()
+        {
+            var next=new MobileG1Session(2);
+            next.LoadEncounter(0,traveller.HealthAfterDescent());
+            next.Select(Session.Preference);
+            Busy=true;descending=true;
+            var allies=traveller.Party.Keys.ToArray();
+            var landing=next.Replay.State.Units.Where(unit=>!unit.Enemy)
+                .Select(unit=>World(unit.Position)).ToArray();
+            var beats=Gfx.HqFloorDescent.Play(vfx,FieldCamera,2,World(floorMap.Stairs),
+                allies.Select(id=>pawns[id].position).ToArray(),landing,applyLook:false);
+            Refresh();
+            var elapsed=0f;
+            while(elapsed<beats.Switch)
+            {
+                elapsed+=Time.unscaledDeltaTime;
+                for(var i=0;i<allies.Length;i++)
+                    if(elapsed>=beats.Taken[i])pawns[allies[i]].gameObject.SetActive(false);
+                yield return null;
+            }
+            traveller.Cancel();traveller=null;
+            descending=false;IsExploring=false;TravelSelection=null;selectedFloorMarker.gameObject.SetActive(false);
+            Session=next;
+            SwitchToSecondFloor();
+            ResetProjection(false);
+            floorMini.Configure(floorMap,displayedKnown,KnownMapActors());
+            SetComparisonCamera(CameraPitch);
+            foreach(var id in allies)pawns[id].gameObject.SetActive(false);
+            yield return new WaitForSecondsRealtime(beats.Land-beats.Switch);
+            foreach(var id in allies)pawns[id].gameObject.SetActive(true);
+            yield return new WaitForSecondsRealtime(beats.End-beats.Land);
+            Busy=false;
+            Refresh();
+            SaveSettledBattle();
+        }
+
+        private void SwitchToSecondFloor()
+        {
+            floorScenery.gameObject.SetActive(false);
+            Destroy(floorScenery.gameObject);
+            floorSpring=null;
+            firstFloorRuins.SetActive(false);
+            floorMap=new FloorMap(2);
+            battleOrigin=GauntletRooms.Origin(floorMap,Session.EncounterIndex);
+            displayedKnown=new HashSet<GridPosition>(new FloorTraveller(floorMap,Session.Replay.State.Units,battleOrigin).KnownCells);
+            floorScenery=HqFloorScenery.Build(floorMap,EnvironmentMeshes,RuinsTemplate,null);
+            floorScenery.Reveal(floorMap,displayedKnown);
+            Gfx.HqFloorLook.Apply(2,FieldCamera);
+        }
+
         private Vector3 PartyCenter()
         {
             var ids=traveller?.Party.Keys.ToArray()??new string[0];if(ids.Length==0)return World(new GridPosition(2,2));
@@ -127,9 +193,9 @@ namespace RogueTactics.Presentation
         private void SyncDiscoveredTerrain()
         {
             displayedKnown=new HashSet<GridPosition>(traveller.KnownCells);floorScenery.Reveal(floorMap,displayedKnown);
-            var springVisible=UseVictoryRecovery && Session.EncounterIndex==1 && displayedKnown.Contains(GauntletRooms.Spring);
+            var springVisible=UseVictoryRecovery && Session.EncounterIndex==1 && displayedKnown.Contains(floorMap.Spring);
             if(springVisible && floorSpring==null)
-                floorSpring=Gfx.HqSpringProp.Build(floorScenery.transform,World(GauntletRooms.Spring),FieldCamera);
+                floorSpring=Gfx.HqSpringProp.Build(floorScenery.transform,World(floorMap.Spring),FieldCamera);
             if(floorSpring!=null)
             {
                 floorSpring.gameObject.SetActive(springVisible);
@@ -139,7 +205,7 @@ namespace RogueTactics.Presentation
         }
         public bool EntrustTravel(GridPosition target)
         {
-            if(!IsExploring || travelRoutine!=null || modalObject.activeSelf)return false;
+            if(!IsExploring || Busy || travelRoutine!=null || modalObject.activeSelf)return false;
             if(!traveller.Entrust(target)){travelMessage="見えている床・通路を選ぶ";return false;}
             TravelSelection=target;var at=World(target,.04f);
             selectedFloorMarker.SetPositions(new[]{at+new Vector3(-.95f,0,-1.2f),at+new Vector3(-.95f,0,1.2f),at+new Vector3(.95f,0,1.2f),at+new Vector3(.95f,0,-1.2f)});
@@ -214,7 +280,7 @@ namespace RogueTactics.Presentation
         private void TickExploration()
         {
             if(!ExplorationEnabled || floorMini==null)return;
-            if(IsExploring)
+            if(IsExploring && !descending)
             {
                 var follow=PartyCenter()+cameraFromParty;
                 FieldCamera.transform.position=Session.EncounterIndex>0?Vector3.Lerp(FieldCamera.transform.position,follow,1-Mathf.Exp(-Time.deltaTime*5)):follow;
@@ -226,6 +292,8 @@ namespace RogueTactics.Presentation
         private void RefreshFloorUi()
         {
             if(!ExplorationEnabled || !buttons.ContainsKey("Explore"))return;
+            buttons["Descend"].gameObject.SetActive(DescentAvailable);
+            if(DescentAvailable)PositionReferenceAction("Descend",12,SafeRoot.rect.height-268,SafeRoot.rect.width-24,"2階へ降りる");
             floorMini.transform.parent.gameObject.SetActive(!policyEditing && !modalObject.activeSelf);
             var w=SafeRoot.rect.width;var h=SafeRoot.rect.height;
             var explore=buttons["Explore"].GetComponent<RectTransform>();explore.anchoredPosition=new Vector2(12,-(h-205));explore.sizeDelta=new Vector2(w-24,44);

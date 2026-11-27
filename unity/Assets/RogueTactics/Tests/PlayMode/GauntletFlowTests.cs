@@ -448,6 +448,69 @@ namespace RogueTactics.Tests
         }
 
         [UnityTest]
+        public IEnumerator FloorDescentCarriesRecoveryAndRestoresPreparedSecondFloor()
+        {
+            var folder=Path.Combine(Path.GetTempPath(),System.Guid.NewGuid().ToString("N"));
+            var store=new BattleCheckpointStore(Path.Combine(folder,"battle.json"));
+            var source=new MobileG1Session();
+            source.LoadEncounter(2);
+            source.Start("");
+            while(source.Replay.State.Outcome==Outcome.Active)source.Advance();
+            Assert.That(source.Replay.State.Outcome,Is.EqualTo(Outcome.Victory));
+            var map=new FloorMap();
+            var party=source.Replay.State.Units.Where(unit=>!unit.Enemy).Select((unit,index)=>
+                new KeyValuePair<string,GridPosition>(unit.Id,map.Stairs.Offset(index-1,0)));
+            var atStairs=new FloorCheckpoint(party,map.Cells,map.Rooms.Select(room=>room.Id),true);
+            var target=new RenderTexture(390,844,24);
+            MobileG1View view=null;
+            try
+            {
+                Assert.That(store.TryWrite(source.CaptureBattle(atStairs)),Is.True);
+                yield return ReopenSavedBattle(store,target,opened=>view=opened,true);
+                Assert.That(view.DescentAvailable,Is.True);
+                Assert.That(view.Button("Balance").gameObject.activeSelf,Is.False);
+                var health=view.Exploration.HealthAfterDescent();
+                Press(view,"Descend");
+                var deadline=Time.realtimeSinceStartup+12;
+                while(view.Busy && Time.realtimeSinceStartup<deadline)yield return null;
+                Assert.That(view.Busy,Is.False);
+                Assert.That(view.Session.FloorNumber,Is.EqualTo(2));
+                Assert.That(view.Session.Started,Is.False);
+                Assert.That(view.Session.Replay.State.Find("X").Kind,Is.EqualTo(EnemyKind.Moss));
+                Assert.That(view.Session.Replay.State.Find("Y").Kind,Is.EqualTo(EnemyKind.Bloom));
+                Assert.That(view.Button("Balance").gameObject.activeSelf,Is.True);
+                Press(view,"Policy");
+                Press(view,"Balance");
+                Assert.That(view.Session.Preference,Is.EqualTo(Preference.Balanced));
+                Assert.That(store.Read(out var prepared),Is.EqualTo(BattleCheckpointReadStatus.Loaded));
+                Assert.That(prepared.EntryHealth,Is.EqualTo(health));
+                Assert.That(prepared.Started,Is.False);
+
+                Camera.main.targetTexture=null;
+                yield return ReopenSavedBattle(store,target,opened=>view=opened,true);
+                Assert.That(view.Session.FloorNumber,Is.EqualTo(2));
+                Assert.That(view.Session.Preference,Is.EqualTo(Preference.Balanced));
+                Assert.That(view.Session.Started,Is.False);
+                Assert.That(view.Button("Start").gameObject.activeInHierarchy,Is.True);
+                Assert.That(Object.FindFirstObjectByType<RogueTactics.Presentation.Gfx.HqFloorLook>().Floor,Is.EqualTo(2));
+                Press(view,"Start");
+                Assert.That(view.Session.Started,Is.True);
+                Assert.That(view.Session.Replay.State.Step,Is.EqualTo(1));
+                Assert.That(view.Session.Replay.State.Find("Y").Kind,Is.EqualTo(EnemyKind.Bloom));
+                Assert.That(store.Read(out var started),Is.EqualTo(BattleCheckpointReadStatus.Loaded));
+                Assert.That(started.Started,Is.True);
+                Assert.That(started.FloorNumber,Is.EqualTo(2));
+            }
+            finally
+            {
+                if(view!=null)view.gameObject.SetActive(false);
+                if(Camera.main!=null)Camera.main.targetTexture=null;
+                Object.Destroy(target);
+                if(Directory.Exists(folder))Directory.Delete(folder,true);
+            }
+        }
+
+        [UnityTest]
         public IEnumerator SpringHealsOnceAndRestoresSpentAppearance()
         {
             var folder=Path.Combine(Path.GetTempPath(),System.Guid.NewGuid().ToString("N"));

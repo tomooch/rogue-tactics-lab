@@ -24,7 +24,7 @@ namespace RogueTactics.Presentation
         private Text resultTitle, resultDetail;
         private int previousResultEncounter=-1, previousSurvivors;
         private readonly List<HudGlyphGraphic> crisisMarks=new List<HudGlyphGraphic>();
-        private bool GauntletRules=>ExplorationEnabled && Session.EncounterIndex>0;
+        private bool GauntletRules=>ExplorationEnabled && (Session.FloorNumber>1 || Session.EncounterIndex>0);
         private GridPosition Shown(GridPosition core)=>core.Offset(battleOrigin.X,battleOrigin.Y);
         private Vector3 BattleCenter()
             =>new Vector3(2*Cell,HqWorld?-2f-(!DeveloperMode && policyEditing?3.5f:0):-1.4f,2*Cell*DepthSpacing-.4f)+World(battleOrigin);
@@ -80,7 +80,8 @@ namespace RogueTactics.Presentation
             previousResultEncounter=Session.EncounterIndex;
             previousSurvivors=Session.Replay.State.Units.Count(u=>!u.Enemy && u.Alive);
             Auto=false;Paused=false;policyEditing=false;
-            Session.Reset();Prediction.text="";ResetProjection();SetComparisonCamera(CameraPitch);ClearSavedBattle();
+            Session.Reset();Prediction.text="";ResetProjection();SetComparisonCamera(CameraPitch);
+            if(Session.FloorNumber==1)ClearSavedBattle();else SaveSettledBattle();
         }
         private int NextEncounter=>Session.EncounterIndex+1;
         private bool PartyInRoom(int room)
@@ -120,6 +121,7 @@ namespace RogueTactics.Presentation
                 yield return null;
             }
             visualTweenActive=false;FieldCamera.transform.position=cameraTo;enteringEncounter=false;Refresh();
+            if(Session.FloorNumber>1)SaveSettledBattle();
         }
         private bool interruptRequested;
         private string directedAlly="", directedEnemy="";
@@ -220,10 +222,12 @@ namespace RogueTactics.Presentation
                     button=buttons[key];
                     instructionEnemies.Add(id,button);
                     var face=Rect(button.transform,"Spirit portrait",6,3,38,38).gameObject.AddComponent<SpiritPortraitGraphic>();
-                    face.Kind=SpiritOf(id);face.Alt=HqCreature.AltOf(id);face.raycastTarget=false;
+                    face.raycastTarget=false;
                     var label=button.transform.Find("Label").GetComponent<Text>();
                     label.fontSize=11;label.rectTransform.anchoredPosition=new Vector2(46,-2);label.rectTransform.sizeDelta=new Vector2(114,56);
                 }
+                var portrait=button.GetComponentInChildren<SpiritPortraitGraphic>();
+                portrait.Kind=SpiritOf(id);portrait.Alt=HqCreature.AltOf(id);portrait.SetVerticesDirty();
                 button.GetComponent<RectTransform>().anchoredPosition=new Vector2(16+i%2*174,-(158+i/2*66));
                 button.gameObject.SetActive(true);
                 button.interactable=enemy.Alive;

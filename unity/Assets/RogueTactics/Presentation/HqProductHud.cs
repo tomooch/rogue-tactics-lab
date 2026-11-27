@@ -24,7 +24,8 @@ namespace RogueTactics.Presentation
             new Dictionary<Preference,(string, string, string, string, string, string, string)>
             {
                 {Preference.ProtectAnchor,("Protect","B：Aを守る","守る","シロを守る","シロを守る","シロのそばで守る","シロを守る")},
-                {Preference.DirectAttack,("Attack","B：直接攻撃","攻める","敵を攻める","敵へ攻める","近くの敵を攻める","近くの敵を攻める")}
+                {Preference.DirectAttack,("Attack","B：直接攻撃","攻める","敵を攻める","敵へ攻める","近くの敵を攻める","近くの敵を攻める")},
+                {Preference.Balanced,("Balance","バランス","バランス","バランス","バランス","仲間の危険と敵の隙を見て動く","バランス")}
             };
         private static readonly Preference[] Policies=PolicyLabels.Keys.OrderBy(preference=>preference).ToArray();
         private static readonly string[] CardOrder={"A","D","C","B"};

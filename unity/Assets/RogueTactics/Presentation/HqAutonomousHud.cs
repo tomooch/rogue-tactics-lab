@@ -123,7 +123,8 @@ namespace RogueTactics.Presentation
             if(!RecordMemoVisible)Prediction.gameObject.SetActive(false);
             if(!Session.Started)
             {
-                SafeRoot.Find("Boundary").GetComponent<Text>().text="仲間は自動で戦う・方針はモモから";
+                SafeRoot.Find("Boundary").GetComponent<Text>().text=Session.FloorNumber==2 && Session.EncounterIndex==0?
+                    "モモが新しい戦い方を覚えた":"仲間は自動で戦う・方針はモモから";
                 PositionReferenceAction("Start",12,0,SafeRoot.rect.width-24,"仲間に任せて戦う");
                 CenterPrimaryAction("Start");
                 if(policyEditing){setup.sizeDelta=new Vector2(SafeRoot.rect.width,104);setup.anchoredPosition=new Vector2(0,270);}

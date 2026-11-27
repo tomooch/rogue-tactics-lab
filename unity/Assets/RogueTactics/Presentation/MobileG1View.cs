@@ -142,6 +142,7 @@ namespace RogueTactics.Presentation
             {
                 var label=PolicyLabels[preference];
                 MakeButton(setup,label.Button,label.LegacyButton,12+186*policyIndex++,0,180,46,()=>Select(preference),17);
+                if(preference==Preference.Balanced)buttons[label.Button].gameObject.SetActive(false);
             }
             var input=Rect(setup,"Prediction",12,54,366,44);input.gameObject.AddComponent<Image>().color=new Color(.1f,.16f,.19f);
             Prediction=input.gameObject.AddComponent<InputField>();var value=Label(input,"Value","",10,2,346,40,16);value.supportRichText=false;
@@ -316,7 +317,11 @@ namespace RogueTactics.Presentation
                     // Anchor the front contact edge to the cell, like the static portraits' feet.
                     // A centred sphere otherwise extends over the next row's portrait/foot HP.
                     if(!HqWorld)shadow.transform.localPosition+=Vector3.forward*.55f;
-                    if(HqWorld)bodies[u.Id]=HqCreature.Build(root,StoneTemplate,SpiritOf(u.Id),HqCreature.AltOf(u.Id),FieldCamera);
+                    if(HqWorld)
+                    {
+                        bodies[u.Id]=HqCreature.Build(root,StoneTemplate,SpiritOf(u.Id),HqCreature.AltOf(u.Id),FieldCamera);
+                        enemyVisualKinds[u.Id]=SpiritOf(u.Id);
+                    }
                     else
                     {
                     var body=Sphere("Fixture slime",Vector3.zero,new Vector3(1.2f,.8f,1.08f),u.Id=="X"?new Color(.4f,.65f,.57f):new Color(.63f,.40f,.63f));body.transform.SetParent(root,false);body.transform.localPosition=new Vector3(0,.45f,.55f);bodies[u.Id]=body.GetComponent<Renderer>();
@@ -329,6 +334,33 @@ namespace RogueTactics.Presentation
                 }
             }
         }
+        private readonly Dictionary<string,SpiritKind> enemyVisualKinds=new Dictionary<string,SpiritKind>();
+        private void SyncEnemyVisuals()
+        {
+            if(!HqWorld)return;
+            foreach(var enemy in Session.Replay.State.Units.Where(unit=>unit.Enemy))
+            {
+                var id=enemy.Id;
+                var kind=SpiritOf(id);
+                if(enemyVisualKinds.TryGetValue(id,out var current) && current==kind)continue;
+                var root=new GameObject("Fixture "+id).transform;
+                if(pawns.TryGetValue(id,out var previous))
+                {
+                    root.SetParent(previous.parent,false);
+                    previous.gameObject.SetActive(false);
+                    Destroy(previous.gameObject);
+                }
+                pawns[id]=root;
+                MakeKnownPositionMarker(root,true);
+                MakeContactShadow(root,true).transform.SetParent(root,false);
+                bodies[id]=HqCreature.Build(root,StoneTemplate,kind,HqCreature.AltOf(id),FieldCamera);
+                enemyVisualKinds[id]=kind;
+                var anim=root.GetComponent<Gfx.HqCreatureAnim>();
+                if(anim!=null)spirits[id]=anim;
+                else spirits.Remove(id);
+            }
+        }
+
         private GameObject Box(string name,Vector3 p,Vector3 scale,Color color) => Shape(PrimitiveType.Cube,name,p,scale,color);
         private GameObject Sphere(string name,Vector3 p,Vector3 scale,Color color) => Shape(PrimitiveType.Sphere,name,p,scale,color);
         private GameObject Shape(PrimitiveType kind,string name,Vector3 p,Vector3 scale,Color color)
@@ -336,12 +368,13 @@ namespace RogueTactics.Presentation
             var obj=GameObject.CreatePrimitive(kind);obj.name=name;obj.transform.position=p;obj.transform.localScale=scale;
             var m=new Material(StoneTemplate);m.color=color;materials.Add(m);obj.GetComponent<Renderer>().sharedMaterial=m;Destroy(obj.GetComponent<Collider>());return obj;
         }
-        public void Select(Preference p) {if(Session.Started || Busy)return;Session.Select(p);ResetProjection();if(!AutonomousProduct)Prediction.text="";Refresh();}
+        public void Select(Preference p) {if(Session.Started || Busy || (p==Preference.Balanced && Session.FloorNumber==1))return;Session.Select(p);ResetProjection();if(!AutonomousProduct)Prediction.text="";Refresh();if(Session.FloorNumber>1)SaveSettledBattle();}
         public void ResetBaseline()
         {
             if(Busy)return;
             ResetBattleView();
-            ClearSavedBattle();
+            if(Session.FloorNumber==1)ClearSavedBattle();
+            else SaveSettledBattle();
         }
 
         private void ResetBattleView()
@@ -360,15 +393,18 @@ namespace RogueTactics.Presentation
                 FloorTraveller restoredTravel=null;
                 try
                 {
-                    restored=Session.EncounterCount==1?Session:new MobileG1Session();
+                    if(checkpoint.FloorNumber>1 && (!ExplorationEnabled || Session.EncounterCount==1))
+                        throw new ArgumentException("Saved floor requires expedition mode");
+                    restored=Session.EncounterCount==1?Session:new MobileG1Session(checkpoint.FloorNumber);
                     if(restored.EncounterCount>1)restored.LoadEncounter(checkpoint.EncounterIndex,checkpoint.EntryHealth);
                     restored.RestoreBattle(checkpoint);
                     if(checkpoint.Floor!=null)
                     {
                         if(!ExplorationEnabled || restored.Replay.State.Outcome!=Outcome.Victory)
                             throw new ArgumentException("Exploration requires a completed victory");
-                        var origin=GauntletRooms.Origin(floorMap,checkpoint.EncounterIndex);
-                        restoredTravel=FloorTraveller.Restore(floorMap,restored.Replay.State,origin,checkpoint.Floor);
+                        var savedMap=checkpoint.FloorNumber==1?floorMap:new FloorMap(checkpoint.FloorNumber);
+                        var origin=GauntletRooms.Origin(savedMap,checkpoint.EncounterIndex);
+                        restoredTravel=FloorTraveller.Restore(savedMap,restored.Replay.State,origin,checkpoint.Floor);
                     }
                 }
                 catch(Exception error) when(error is ArgumentException || error is InvalidOperationException)
@@ -380,7 +416,8 @@ namespace RogueTactics.Presentation
                 if(restored!=null)
                 {
                     Session=restored;
-                    if(ExplorationEnabled && checkpoint.EncounterIndex>0)
+                    if(checkpoint.FloorNumber==2)SwitchToSecondFloor();
+                    else if(ExplorationEnabled && checkpoint.EncounterIndex>0)
                     {
                         battleOrigin=GauntletRooms.Origin(floorMap,checkpoint.EncounterIndex);
                         var currentRoom=new FloorTraveller(floorMap,Session.Replay.State.Units,battleOrigin);
@@ -398,7 +435,7 @@ namespace RogueTactics.Presentation
 
         private void SaveSettledBattle()
         {
-            if(battleStore==null || !Session.Started || Busy || visualTweenActive)return;
+            if(battleStore==null || (!Session.Started && Session.FloorNumber==1) || Busy || visualTweenActive)return;
             if(!battleStore.TryWrite(Session.CaptureBattle(IsExploring?traveller.Capture():null)))
                 SafeRoot.Find("Boundary").GetComponent<Text>().text="戦闘を保存できませんでした";
         }
@@ -430,7 +467,7 @@ namespace RogueTactics.Presentation
             ResetProjection();
             Auto=false;
             terminalSeen=Session.Replay.State.Outcome!=Outcome.Active;
-            Paused=!terminalSeen;
+            Paused=Session.Started && !terminalSeen;
             Prediction.text=Session.Prediction;
             shownStep=Session.Replay.State.Step;
             orderedActor=Session.Replay.PendingTargetActor??"";
@@ -463,9 +500,9 @@ namespace RogueTactics.Presentation
             if(!terminalSeen)SafeRoot.Find("Boundary").GetComponent<Text>().text="続きから";
         }
 
-        private void ResetProjection()
+        private void ResetProjection(bool clearEffects=true)
         {
-            ClearAllFallen();if(vfx!=null)vfx.Clear();hitStop=0;actingId="";ClearRelation();frameIntervals.Clear();LastFrameReport=null;displayed.Clear();captions.Clear();dead.Clear();hp.Clear();positions.Clear();terminalSeen=false;shownStep=0;shownActor="";reaction="";foreach(var u in Session.Replay.State.Units){hp[u.Id]=u.Hp;positions[u.Id]=Shown(u.Position);}crisisActive=false;orderedActor="";orderedTarget="";instructionReceiptText="";interruptRequested=false;requestedInstructionAlly="";if(instructionOverlay!=null)instructionOverlay.gameObject.SetActive(false);
+            ClearAllFallen();SyncEnemyVisuals();if(clearEffects && vfx!=null)vfx.Clear();hitStop=0;actingId="";ClearRelation();frameIntervals.Clear();LastFrameReport=null;displayed.Clear();captions.Clear();dead.Clear();hp.Clear();positions.Clear();terminalSeen=false;shownStep=0;shownActor="";reaction="";foreach(var u in Session.Replay.State.Units){hp[u.Id]=u.Hp;positions[u.Id]=Shown(u.Position);}crisisActive=false;orderedActor="";orderedTarget="";instructionReceiptText="";interruptRequested=false;requestedInstructionAlly="";if(instructionOverlay!=null)instructionOverlay.gameObject.SetActive(false);
             ClearShownGuard();floating.text="";foreach(var b in badges.Values)b.alpha=1;
         }
         private void StartBattle() {if(Session.Started || Busy || enteringEncounter)return;policyEditing=false;Prediction.DeactivateInputField();SetComparisonCamera(CameraPitch);Session.Start(Prediction.text);SaveSettledBattle();Auto=!DeveloperMode;Next();}

@@ -131,6 +131,7 @@ namespace RogueTactics.Presentation
             StyleReferenceButton("Start",HudSymbol.Play,Gold);PrimaryFill("Start");StyleReferenceButton("Play",HudSymbol.Pause,Gold);
             StyleReferenceButton("Reset",HudSymbol.Reset,new Color(.62f,.74f,.84f));StyleReferenceButton("Compare",HudSymbol.Compare,Gold);
             StyleReferenceButton("Protect",HudSymbol.Shield,new Color(.48f,.83f,1));StyleReferenceButton("Attack",HudSymbol.Swords,new Color(1,.60f,.48f));
+            StyleReferenceButton("Balance",HudSymbol.Compare,Jade);
             MakeButton(controls,"PolicyShortcut","モモの方針",12,0,160,48,()=>{if(!Session.Started){policyEditing=true;SetComparisonCamera(CameraPitch);}},14);
             StyleReferenceButton("PolicyShortcut",HudSymbol.Shield,CompanionColors[3]);
             policyBackdrop.color=Color.clear;Frame(setup,new Color(.035f,.07f,.12f,.98f),new Color(.76f,.68f,.58f),14);
@@ -272,7 +273,11 @@ namespace RogueTactics.Presentation
             {
                 var policy=PolicyLabels[preference];
                 var selected=Session.Preference==preference;
-                var width=(w-30)/2;
+                var unlocked=Session.FloorNumber>1;
+                var available=preference!=Preference.Balanced || unlocked;
+                buttons[policy.Button].gameObject.SetActive(available);
+                if(!available)continue;
+                var width=(w-(unlocked?36:30))/(unlocked?3:2);
                 PositionReferenceAction(policy.Button,policyX,46,width,selected?"選択中\n"+policy.Action:policy.Choice);
                 policyX+=width+6;
                 var panel=buttons[policy.Button].GetComponentInChildren<HudPanelGraphic>();
@@ -373,7 +378,7 @@ namespace RogueTactics.Presentation
             var map=floorMini.transform.parent.GetComponent<RectTransform>();map.anchoredPosition=new Vector2(12,-82);map.sizeDelta=new Vector2(110,102);
             floorMini.rectTransform.anchoredPosition=new Vector2(6,-20);floorMini.rectTransform.sizeDelta=new Vector2(98,74);
             var discovered=floorMap.Rooms.Count(r=>displayedKnown.Any(p=>r.Contains(p)));
-            discoveredStatus.text="発見 "+discovered+"室";
+            discoveredStatus.text=(Session.FloorNumber>1?Session.FloorNumber+"階 · ":"")+"発見 "+discovered+"室";
             SafeRoot.Find("Observed journey").gameObject.SetActive(!DeveloperMode && !policyEditing && !modalObject.activeSelf);
             if(expandedKnownMap!=null && !modalObject.activeSelf)expandedKnownMap.gameObject.SetActive(false);
             var w=SafeRoot.rect.width;var h=SafeRoot.rect.height;
