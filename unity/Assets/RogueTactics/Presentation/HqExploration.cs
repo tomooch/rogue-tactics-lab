@@ -15,6 +15,7 @@ namespace RogueTactics.Presentation
         private FloorMap floorMap;
         private bool descending;
         private GameObject firstFloorRuins;
+        private HqFloorScenery firstFloorScenery;
         private HqFloorScenery floorScenery;
         private FloorTraveller traveller;
         private Gfx.HqSpringProp floorSpring;
@@ -35,6 +36,7 @@ namespace RogueTactics.Presentation
         {
             firstFloorRuins=startingRuins;
             floorMap=new FloorMap();floorScenery=HqFloorScenery.Build(floorMap,EnvironmentMeshes,RuinsTemplate,startingRuins);
+            firstFloorScenery=floorScenery;
             displayedKnown=new HashSet<GridPosition>(new FloorTraveller(floorMap,Session.Replay.State.Units,battleOrigin).KnownCells);
             floorScenery.Reveal(floorMap,displayedKnown);
         }
@@ -285,10 +287,41 @@ namespace RogueTactics.Presentation
             SaveSettledBattle();
         }
 
+        private bool ExpeditionSaveError;
+        private bool ExpeditionCleared=>Session.FloorNumber==5 && NextEncounter==Session.EncounterCount &&
+            Session.Replay.State.Outcome==Outcome.Victory;
+
+        private void BeginNewExpedition()
+        {
+            if(!ExpeditionCleared || !terminalSeen || Busy || IsExploring || modalObject.activeSelf)return;
+            if(battleStore!=null && !battleStore.TryClear())
+            {
+                ExpeditionSaveError=true;
+                Refresh();
+                return;
+            }
+
+            ExpeditionSaveError=false;
+            floorScenery.gameObject.SetActive(false);
+            Destroy(floorScenery.gameObject);
+            floorSpring=null;
+            firstFloorRuins.SetActive(true);
+            floorScenery=firstFloorScenery;
+            floorScenery.gameObject.SetActive(true);
+            floorMap=new FloorMap();
+            battleOrigin=default;
+            Session=new MobileG1Session();
+            previousResultEncounter=-1;
+            showHeldRelicInfo=false;
+            Gfx.HqFloorLook.Apply(1,FieldCamera);
+            ResetProjection();
+            ResetBattleView();
+        }
+
         private void SwitchFloor()
         {
             floorScenery.gameObject.SetActive(false);
-            Destroy(floorScenery.gameObject);
+            if(floorScenery!=firstFloorScenery)Destroy(floorScenery.gameObject);
             floorSpring=null;
             firstFloorRuins.SetActive(false);
             floorMap=new FloorMap(Session.FloorNumber);
@@ -414,7 +447,7 @@ namespace RogueTactics.Presentation
             var explore=buttons["Explore"].GetComponent<RectTransform>();explore.anchoredPosition=new Vector2(12,-(h-205));explore.sizeDelta=new Vector2(w-24,44);
             explore.GetComponentInChildren<Text>().rectTransform.sizeDelta=new Vector2(w-32,40);
             buttons["Explore"].interactable=!Busy;
-            explore.gameObject.SetActive(!(Session.FloorNumber==5 && NextEncounter==Session.EncounterCount) && !IsExploring && terminalSeen && Session.Replay.State.Outcome==Outcome.Victory);
+            explore.gameObject.SetActive(!ExpeditionCleared && !IsExploring && terminalSeen && Session.Replay.State.Outcome==Outcome.Victory);
             floorMini.transform.parent.GetComponent<RectTransform>().anchoredPosition=new Vector2(w-136,-65);
             if(!IsExploring){RefreshReferenceFloorUi();return;}
             setup.gameObject.SetActive(false);orderStrip.gameObject.SetActive(false);buttons["Start"].gameObject.SetActive(false);

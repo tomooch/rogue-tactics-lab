@@ -566,6 +566,44 @@ namespace RogueTactics.Tests
         }
 
         [UnityTest]
+        public IEnumerator GuardianVictoryCanStartANewExpedition()
+        {
+            var folder=Path.Combine(Path.GetTempPath(),System.Guid.NewGuid().ToString("N"));
+            var store=new BattleCheckpointStore(Path.Combine(folder,"battle.json"));
+            var source=new MobileG1Session(5);
+            source.LoadEncounter(2);
+            source.Select(Preference.DirectAttack);
+            source.Start("");
+            while(source.Replay.State.Outcome==Outcome.Active)source.Advance();
+            Assert.That(source.Replay.State.Outcome,Is.EqualTo(Outcome.Victory));
+            var target=new RenderTexture(390,844,24);
+            MobileG1View view=null;
+            try
+            {
+                Assert.That(store.TryWrite(source.CaptureBattle()),Is.True);
+                yield return ReopenSavedBattle(store,target,opened=>view=opened,true);
+                Assert.That(view.Button("Explore").gameObject.activeInHierarchy,Is.False);
+                Press(view,"NewExpedition");
+                Assert.That(view.Session.FloorNumber,Is.EqualTo(1));
+                Assert.That(view.Session.EncounterIndex,Is.EqualTo(0));
+                Assert.That(view.Session.Started,Is.False);
+                Assert.That(view.Session.Replay.State.Serialize(),Is.EqualTo(Fixture.Baseline().Serialize()));
+                Assert.That(store.Read(out _),Is.EqualTo(BattleCheckpointReadStatus.Missing));
+                Assert.That(GameObject.Find("HQ Sky Ruins Environment"),Is.Not.Null);
+                yield return null;
+                Press(view,"Start");
+                Assert.That(view.Session.Replay.State.Step,Is.EqualTo(1));
+            }
+            finally
+            {
+                if(view!=null)view.gameObject.SetActive(false);
+                if(Camera.main!=null)Camera.main.targetTexture=null;
+                Object.Destroy(target);
+                if(Directory.Exists(folder))Directory.Delete(folder,true);
+            }
+        }
+
+        [UnityTest]
         public IEnumerator GuardianWarningRestoresItsTilesAndAcceptsRetreat()
         {
             var folder=Path.Combine(Path.GetTempPath(),System.Guid.NewGuid().ToString("N"));
