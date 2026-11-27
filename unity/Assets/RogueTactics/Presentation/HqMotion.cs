@@ -37,7 +37,8 @@ namespace RogueTactics.Presentation
                 {
                     elapsedMotion+=Time.unscaledDeltaTime;var t=Mathf.Clamp01(elapsedMotion/duration);var pulse=Mathf.Sin(t*Mathf.PI);
                     if(e.Kind==EventKind.Move && hasActor)
-                    {var destination=World(Shown(e.Position));actor.position=Vector3.Lerp(original,destination,t*t*(3-2*t))+Vector3.up*(pulse*.16f);}
+                    {var destination=World(Shown(e.Position));var lift=executingPlan.Why==IntentReason.Leap?.95f:.16f;
+                        actor.position=Vector3.Lerp(original,destination,t*t*(3-2*t))+Vector3.up*(pulse*lift);}
                     // Strikes, guards, mending and falls are posed by the puppets and spirits (HqPose); pawns stay on their cells.
                 }
                 // Geometry follows the visible pose while pause/resume retains the tween's exact phase.

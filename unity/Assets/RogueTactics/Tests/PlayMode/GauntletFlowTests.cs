@@ -566,6 +566,46 @@ namespace RogueTactics.Tests
         }
 
         [UnityTest]
+        public IEnumerator FourthFloorDescentKeepsTheRelicAndLoadsTheCap()
+        {
+            var folder=Path.Combine(Path.GetTempPath(),System.Guid.NewGuid().ToString("N"));
+            var store=new BattleCheckpointStore(Path.Combine(folder,"battle.json"));
+            var source=new MobileG1Session(3,BattleRules.ThornCharm);
+            source.LoadEncounter(2);
+            source.Start("");
+            while(source.Replay.State.Outcome==Outcome.Active)source.Advance();
+            Assert.That(source.Replay.State.Outcome,Is.EqualTo(Outcome.Victory));
+            var map=new FloorMap(3);
+            var party=source.Replay.State.Units.Where(unit=>!unit.Enemy).Select((unit,index)=>
+                new KeyValuePair<string,GridPosition>(unit.Id,map.Stairs.Offset(index-1,0)));
+            var floor=new FloorCheckpoint(party,map.Cells,map.Rooms.Select(room=>room.Id),true);
+            var target=new RenderTexture(390,844,24);
+            MobileG1View view=null;
+            try
+            {
+                Assert.That(store.TryWrite(source.CaptureBattle(floor)),Is.True);
+                yield return ReopenSavedBattle(store,target,opened=>view=opened,true);
+                Press(view,"Descend");
+                var deadline=Time.realtimeSinceStartup+12;
+                while(view.Busy && Time.realtimeSinceStartup<deadline)yield return null;
+                Assert.That(view.Busy,Is.False);
+                Assert.That(view.Session.FloorNumber,Is.EqualTo(4));
+                Assert.That(view.Session.Replay.State.Find("X").Kind,Is.EqualTo(EnemyKind.Cap));
+                Assert.That(GameObject.Find("Fixture X").transform.Find("Fixture slime"),Is.Not.Null);
+                Assert.That(store.Read(out var prepared),Is.EqualTo(BattleCheckpointReadStatus.Loaded));
+                Assert.That(prepared.FloorNumber,Is.EqualTo(4));
+                Assert.That(prepared.Relic,Is.EqualTo(BattleRules.ThornCharm));
+            }
+            finally
+            {
+                if(view!=null)view.gameObject.SetActive(false);
+                if(Camera.main!=null)Camera.main.targetTexture=null;
+                Object.Destroy(target);
+                if(Directory.Exists(folder))Directory.Delete(folder,true);
+            }
+        }
+
+        [UnityTest]
         public IEnumerator LaterThirdFloorRoomRestoresAllThreeEnemyPawns()
         {
             var folder=Path.Combine(Path.GetTempPath(),System.Guid.NewGuid().ToString("N"));

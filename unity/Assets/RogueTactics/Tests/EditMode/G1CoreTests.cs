@@ -58,6 +58,37 @@ namespace RogueTactics.Tests
                 Is.EqualTo(new[]{a,b,c,d}));
         }
 
+        [Test]
+        public void PrioritizingTheCapInR08CanSaveACompanion()
+        {
+            var normal=new Replay(FloorFourRooms.Build("R08"),Preference.ProtectAnchor);
+            var directed=new Replay(FloorFourRooms.Build("R08"),Preference.ProtectAnchor);
+            directed.TargetOnce("B","X");
+            while(normal.State.Outcome==Outcome.Active)normal.Advance();
+            while(directed.State.Outcome==Outcome.Active)directed.Advance();
+            Assert.That(normal.Events.Any(e=>e.Guardian=="X"),Is.True);
+            Assert.That(normal.State.Outcome,Is.EqualTo(Outcome.Victory));
+            Assert.That(normal.State.Units.Count(unit=>!unit.Enemy && unit.Alive),Is.EqualTo(3));
+            Assert.That(directed.State.Outcome,Is.EqualTo(Outcome.Victory));
+            Assert.That(directed.State.Units.Count(unit=>!unit.Enemy && unit.Alive),Is.EqualTo(4));
+        }
+
+        [Test]
+        public void BatCanLeapAcrossAnOccupiedCellTowardLowestMaximumHealth()
+        {
+            var room=new EncounterState(5,5,new[]{
+                new Unit("A",Role.Anchor,18,5,new GridPosition(3,2)),
+                new Unit("D",Role.Support,10,2,new GridPosition(0,0)),
+                new Unit("Y",Role.Enemy,15,4,new GridPosition(2,0),EnemyKind.Moss),
+                new Unit("Z",Role.Enemy,8,4,new GridPosition(3,0),EnemyKind.Bat)
+            },new[]{"Z","Y","D","A"});
+            var next=Rules.Resolve(room,new Command(Preference.DirectAttack));
+            Assert.That(next.Plan.Why,Is.EqualTo(IntentReason.Leap));
+            Assert.That(next.Plan.Target,Is.EqualTo("D"));
+            Assert.That(next.State.Find("Z").Position,Is.EqualTo(new GridPosition(1,0)));
+            Assert.That(next.State.Find("Y").Position,Is.EqualTo(new GridPosition(2,0)));
+        }
+
         private static Replay Complete(Preference p)
         { var r = new Replay(Fixture.Baseline(),p); while(r.State.Outcome == Outcome.Active) r.Advance(); return r; }
         [TestCase(Preference.ProtectAnchor)] [TestCase(Preference.DirectAttack)]

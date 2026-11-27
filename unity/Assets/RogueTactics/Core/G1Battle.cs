@@ -8,12 +8,12 @@ using System.Text;
 namespace RogueTactics.Core.G1
 {
     // Anonymous experiment roles. These are NOT the approved named character roster.
-    public enum EnemyKind { Hunter=0, Moss=1, Bloom=2 }
+    public enum EnemyKind { Hunter=0, Moss=1, Bloom=2, Cap=3, Bat=4 }
     public enum Role { Anchor, Protector, Flanker, Support, Enemy }
     public enum Preference { ProtectAnchor=0, DirectAttack=1, Balanced=2 }
     public enum ActionKind { Maintain, Move, Attack, Protect, Heal }
     public enum IntentReason { Protect, ApproachToProtect, HealLowest, ApproachWounded, FlankAttack,
-        AttackAdjacent, ApproachEnemy, Blocked, NoTarget, Ordered, HuntNearest, HuntWeakest }
+        AttackAdjacent, ApproachEnemy, Blocked, NoTarget, Ordered, HuntNearest, HuntWeakest, GuardNeighbour, Leap }
     public enum EventKind { Action, Move, Protect, Damage, Heal, Counter, Death, End }
     [Flags]
     public enum EventTags { None=0, Guarded=1, Lethal=2, Flanked=4, Counter=8, Overkill=16 }
@@ -78,6 +78,7 @@ namespace RogueTactics.Core.G1
         public int HealCharges { get; internal set; } = 2;
         public BattleRules RuleSet { get; }
         public bool Guard { get; internal set; }
+        public string EnemyGuard { get; internal set; } = "";
         public Outcome Outcome { get; internal set; }
         private readonly string[] initiative;
         public IReadOnlyList<string> Initiative => Array.AsReadOnly(initiative);
@@ -99,7 +100,7 @@ namespace RogueTactics.Core.G1
         public bool Empty(GridPosition p) => Inside(p) && !units.Any(u => u.Alive && u.Position.Equals(p));
         private EncounterState(EncounterState source)
         { Width = source.Width; Height = source.Height; units = source.units.Select(u => u.Copy()).ToArray(); initiative = source.initiative;
-          RuleSet = source.RuleSet; Step = source.Step; Cursor = source.Cursor; HealCharges = source.HealCharges; Guard = source.Guard; Outcome = source.Outcome; }
+          RuleSet = source.RuleSet; Step = source.Step; Cursor = source.Cursor; HealCharges = source.HealCharges; Guard = source.Guard; EnemyGuard = source.EnemyGuard; Outcome = source.Outcome; }
         public EncounterState Copy() => new EncounterState(this);
         public string Serialize()
         {
@@ -112,6 +113,7 @@ namespace RogueTactics.Core.G1
             var kinds=units.Where(unit=>unit.Kind!=EnemyKind.Hunter).OrderBy(unit=>unit.Id,StringComparer.Ordinal)
                 .Select(unit=>unit.Id+"="+((int)unit.Kind).ToString(CultureInfo.InvariantCulture)).ToArray();
             if(kinds.Length>0)b.Append("|kinds:").Append(string.Join(",",kinds));
+            if(EnemyGuard!="")b.Append("|enemyGuard:").Append(EnemyGuard);
             if(RuleSet.Relic!="")b.Append("|relic:").Append(RuleSet.Relic);
             return b.ToString();
         }
@@ -296,6 +298,27 @@ namespace RogueTactics.Core.G1
         };
     }
 
+    public static class FloorFourRooms
+    {
+        public static EncounterState Build(string id, BattleRules rules=null) => id switch
+        {
+            "R08" => FloorTwoRooms.BuildRoom(new[]{(0,3),(3,4),(1,1),(1,0)},new[]{
+                new Unit("X",Role.Enemy,20,3,new GridPosition(4,2),EnemyKind.Cap),
+                new Unit("Y",Role.Enemy,14,5,new GridPosition(3,2),EnemyKind.Moss)},
+                new[]{"C","A","D","B","Y","X"},rules),
+            "R06" => FloorTwoRooms.BuildRoom(new[]{(1,1),(2,0),(0,1),(0,3)},new[]{
+                new Unit("X",Role.Enemy,18,6,new GridPosition(2,3),EnemyKind.Moss),
+                new Unit("Y",Role.Enemy,8,4,new GridPosition(4,1),EnemyKind.Bat)},
+                new[]{"B","A","Y","X","C","D"},rules),
+            "R10" => FloorTwoRooms.BuildRoom(new[]{(3,3),(1,4),(2,2),(3,2)},new[]{
+                new Unit("X",Role.Enemy,14,6,new GridPosition(3,0),EnemyKind.Moss),
+                new Unit("Y",Role.Enemy,18,5,new GridPosition(4,1),EnemyKind.Moss),
+                new Unit("Z",Role.Enemy,12,4,new GridPosition(1,1),EnemyKind.Bloom)},
+                new[]{"Y","A","B","C","Z","D","X"},rules),
+            _ => throw new ArgumentOutOfRangeException(nameof(id))
+        };
+    }
+
     public static class Rules
     {
         public const int ActionLimit = 120; // fixture stop condition only
@@ -378,6 +401,29 @@ namespace RogueTactics.Core.G1
                 }
             }
             var opponents=s.Units.Where(unit=>unit.Alive && unit.Enemy!=actor.Enemy);
+            if(actor.Kind==EnemyKind.Cap)
+            {
+                var adjacent=opponents.Where(unit=>Distance(actor.Position,unit.Position)==1)
+                    .OrderBy(unit=>unit.Id,StringComparer.Ordinal).FirstOrDefault();
+                if(adjacent!=null)return new Plan(actor,ActionKind.Attack,adjacent,actor.Position,
+                    "Adjacent opponent",IntentReason.AttackAdjacent);
+                var neighbour=GuardNeighbour(s,actor);
+                return neighbour!=null
+                    ?new Plan(actor,ActionKind.Protect,neighbour,actor.Position,"Shelter adjacent enemies",IntentReason.GuardNeighbour)
+                    :new Plan(actor,ActionKind.Maintain,null,actor.Position,"No adjacent ally to shelter",IntentReason.NoTarget);
+            }
+            if(actor.Kind==EnemyKind.Bat)
+            {
+                var weakest=opponents.OrderBy(unit=>unit.MaxHp).ThenBy(unit=>unit.Id,StringComparer.Ordinal).FirstOrDefault();
+                if(weakest==null)return new Plan(actor,ActionKind.Maintain,null,actor.Position,"No living opponent",IntentReason.NoTarget);
+                if(Distance(actor.Position,weakest.Position)==1)
+                    return new Plan(actor,ActionKind.Attack,weakest,actor.Position,"Target the lowest maximum HP",IntentReason.AttackAdjacent);
+                var landing=LeapCells(actor.Position).Where(s.Empty).OrderBy(cell=>Distance(cell,weakest.Position))
+                    .Select(cell=>(GridPosition?)cell).FirstOrDefault();
+                return landing.HasValue
+                    ?new Plan(actor,ActionKind.Move,weakest,landing.Value,"Leap toward the lowest maximum HP",IntentReason.Leap)
+                    :new Plan(actor,ActionKind.Maintain,weakest,actor.Position,"No empty landing",IntentReason.Blocked);
+            }
             var target=actor.Enemy && actor.Kind==EnemyKind.Hunter && a!=null && a.Alive
                 ? a
                 : opponents.OrderBy(unit=>actor.Kind==EnemyKind.Bloom?unit.Hp:0)
@@ -394,6 +440,21 @@ namespace RogueTactics.Core.G1
             }
             return MoveOrMaintain(s, actor, target, "Approach opponent by legal unoccupied step", hunt ?? IntentReason.ApproachEnemy);
         }
+        private static Unit GuardNeighbour(EncounterState s,Unit cap)
+            => s.Units.Where(unit=>unit.Enemy && unit.Alive && Distance(cap.Position,unit.Position)==1)
+                .OrderBy(unit=>unit.Id,StringComparer.Ordinal).FirstOrDefault();
+
+        private static IEnumerable<GridPosition> LeapCells(GridPosition from)
+        {
+            for(var distance=1;distance<=2;distance++)
+            {
+                yield return from.Offset(0,distance);
+                yield return from.Offset(distance,0);
+                yield return from.Offset(0,-distance);
+                yield return from.Offset(-distance,0);
+            }
+        }
+
         private static Plan MoveOrMaintain(EncounterState s, Unit actor, Unit target, string reason, IntentReason why)
         {
             // Stable N/E/S/W tie break; no routing/product traversal semantics are implied.
@@ -415,9 +476,10 @@ namespace RogueTactics.Core.G1
             if (u == null || !u.Alive || Next(s)?.Id != u.Id) return false;
             switch (p.Kind)
             {
-                case ActionKind.Move: return Distance(u.Position, p.Destination) == 1 && s.Empty(p.Destination);
+                case ActionKind.Move: return s.Empty(p.Destination) && (u.Kind==EnemyKind.Bat?LeapCells(u.Position).Contains(p.Destination):
+                    u.Kind!=EnemyKind.Cap && Distance(u.Position,p.Destination)==1);
                 case ActionKind.Attack: return t != null && t.Alive && u.Enemy != t.Enemy && Distance(u.Position,t.Position) == 1;
-                case ActionKind.Protect: return u.Role == Role.Protector && t?.Id == "A" && t.Alive && Distance(u.Position,t.Position) <= s.RuleSet.ProtectRange;
+                case ActionKind.Protect: return u.Kind==EnemyKind.Cap ? t!=null && GuardNeighbour(s,u)==t : u.Role == Role.Protector && t?.Id == "A" && t.Alive && Distance(u.Position,t.Position) <= s.RuleSet.ProtectRange;
                 case ActionKind.Heal: return u.Role == Role.Support && t != null && t.Alive && !t.Enemy && t.Hp < t.MaxHp && s.HealCharges > 0 && Distance(u.Position,t.Position) <= 2;
                 case ActionKind.Maintain: return true;
                 default: return false;
@@ -437,12 +499,19 @@ namespace RogueTactics.Core.G1
             Action<EventKind,string,string,int,int,GridPosition,string> emit = (k,actor,target,n,hp,p,d) =>
                 events.Add(new BattleEvent(s.Step,k,actor,target,n,hp,p,d));
             if (u.Role == Role.Protector) s.Guard = false;
+            if (s.EnemyGuard==u.Id) s.EnemyGuard="";
             emit(EventKind.Action,u.Id,plan.Target,0,u.Hp,u.Position,plan.Kind + ": " + plan.Reason);
             switch (plan.Kind)
             {
                 case ActionKind.Move:
                     u.Position = plan.Destination; emit(EventKind.Move,u.Id,u.Id,0,u.Hp,u.Position,"Legal step"); break;
                 case ActionKind.Protect:
+                    if(u.Kind==EnemyKind.Cap)
+                    {
+                        s.EnemyGuard=u.Id;
+                        emit(EventKind.Protect,u.Id,t.Id,2,t.Hp,t.Position,"Reduce damage to adjacent enemies by 2");
+                        break;
+                    }
                     s.Guard = true;
                     events.Add(new BattleEvent(s.Step,EventKind.Protect,u.Id,t.Id,3,t.Hp,t.Position,
                         "Reduce incoming damage by 3 until B acts",relic: Distance(u.Position,t.Position)>1?BattleRules.WatchLantern:""));
@@ -478,9 +547,22 @@ namespace RogueTactics.Core.G1
         private static void Hit(EncounterState s, List<BattleEvent> events, Unit actor, Unit target, int amount, EventKind kind, string detail,
             EventTags tags, int prevented = 0, string guardian = "", string relic = "")
         {
+            var cap=s.Find(s.EnemyGuard);
+            if(target.Enemy && cap!=null && cap.Alive && Distance(cap.Position,target.Position)==1)
+            {
+                prevented=Math.Min(2,amount);
+                amount-=prevented;
+                tags|=EventTags.Guarded;
+                guardian=cap.Id;
+                detail="Cap reduced damage by 2";
+            }
             if (amount > target.Hp) tags |= EventTags.Overkill;
             var actual = Math.Min(target.Hp, amount); target.Hp -= actual;
-            if (!target.Alive) tags |= EventTags.Lethal;
+            if (!target.Alive)
+            {
+                tags |= EventTags.Lethal;
+                if (s.EnemyGuard==target.Id)s.EnemyGuard="";
+            }
             events.Add(new BattleEvent(s.Step,kind,actor.Id,target.Id,actual,target.Hp,target.Position,detail,tags,prevented,guardian,relic:relic));
             if (!target.Alive) events.Add(new BattleEvent(s.Step,EventKind.Death,actor.Id,target.Id,0,0,target.Position,"Lethal resolution"));
         }

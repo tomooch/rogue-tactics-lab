@@ -113,7 +113,7 @@ namespace RogueTactics.Presentation
             IsExploring=true;Auto=false;Paused=false;modalObject.SetActive(false);ClearRelation();
             var entryCenter=PartyCenter();
             cameraFromParty=FieldCamera.transform.position-entryCenter;
-            travelMessage=Session.FloorNumber<3 && NextEncounter==Session.EncounterCount && UseVictoryRecovery
+            travelMessage=Session.FloorNumber<4 && NextEncounter==Session.EncounterCount && UseVictoryRecovery
                 ?"通路の先に下り階段を探す":"見えている床・通路を選ぶ";
             // After a later encounter the party may stand at a board edge: frame them from the board's own offset.
             if(Session.EncounterIndex>0)cameraFromParty=FieldCamera.transform.position-World(Shown(new GridPosition(2,2)));
@@ -228,7 +228,7 @@ namespace RogueTactics.Presentation
         }
 
         public bool DescentAvailable=>UseVictoryRecovery && IsExploring && !Busy && travelRoutine==null
-            && !modalObject.activeSelf && Session.FloorNumber<3 && NextEncounter==Session.EncounterCount
+            && !modalObject.activeSelf && Session.FloorNumber<4 && NextEncounter==Session.EncounterCount
             && !RewardPending
             && displayedKnown.Contains(floorMap.Stairs)
             && traveller.Party.Values.Any(cell=>Rules.Distance(cell,floorMap.Stairs)<=1);

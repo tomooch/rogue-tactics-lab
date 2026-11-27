@@ -546,6 +546,11 @@ namespace RogueTactics.Presentation
                     actionLink.gameObject.SetActive(false);ghost.gameObject.SetActive(false);
                     if(e.Actor==shownGuard?.Actor || e.Actor==shownGuard?.Target)ClearShownGuard();break;
                 case EventKind.Protect:
+                    if(Session.Replay.State.Find(e.Actor).Enemy)
+                    {
+                        ShowRelation(e.Actor,e.Target,ActionKind.Protect,false);
+                        break;
+                    }
                     shownGuard=e;
                     shield.gameObject.SetActive(!EventMotion);ShowRelation(e.Actor,e.Target,ActionKind.Protect,false);shield.anchoredPosition=(BodyRect(positions[e.Actor]).center+BodyRect(positions[e.Target]).center)/2+new Vector2(-12,12);
                     guardLink.gameObject.SetActive(!EventMotion);if(!EventMotion)Link(guardLink,positions[e.Actor],positions[e.Target]);break;
