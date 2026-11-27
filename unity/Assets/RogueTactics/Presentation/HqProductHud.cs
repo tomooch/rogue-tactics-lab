@@ -36,6 +36,7 @@ namespace RogueTactics.Presentation
             EnemyKind.Bloom => SpiritKind.Bloom,
             EnemyKind.Cap => SpiritKind.Cap,
             EnemyKind.Bat => SpiritKind.Bat,
+            EnemyKind.Guardian => SpiritKind.Guardian,
             _ => SpiritKind.Warden
         };
         private string HeroName(string id)=>Session.Replay.State.Find(id)?.Enemy==true

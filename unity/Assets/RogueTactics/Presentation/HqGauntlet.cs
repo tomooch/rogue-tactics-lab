@@ -36,6 +36,9 @@ namespace RogueTactics.Presentation
             if(buttons.ContainsKey("Challenge") || !ExplorationEnabled || !HqWorld)return;
             MakeButton(SafeRoot,"Challenge","守り手に挑む",12,0,366,48,ChallengeNextEncounter,15);
             StyleReferenceButton("Challenge",HudSymbol.Swords,Gold);PrimaryFill("Challenge");
+            MakeButton(SafeRoot,"Retreat","危険な床から退く",12,0,366,48,RetreatFromWarning,15);
+            StyleReferenceButton("Retreat",HudSymbol.Steps,Gold);
+            buttons["Retreat"].gameObject.SetActive(false);
             MakeButton(SafeRoot,"Correct","",12,0,366,48,RequestInstruction,13);
             StyleReferenceButton("Correct",HudSymbol.Shield,new Color(1,.46f,.42f));
             PrimaryFill("Correct",new Color(1,.26f,.26f),new Color(1,.66f,.60f));
@@ -288,7 +291,7 @@ namespace RogueTactics.Presentation
         {
             if(nextIntentMark==null)return;
             var show=GauntletRules && Session.Started && !Busy && !terminalSeen && !modalObject.activeSelf && !IsExploring;
-            var plans=(show || InstructionOpen)?CurrentVisibleIntents().Where(p=>p.Kind!=ActionKind.Maintain).ToList():new List<Plan>();
+            var plans=(show || InstructionOpen)?CurrentVisibleIntents().Where(p=>p.Kind==ActionKind.Move || p.Target!="").ToList():new List<Plan>();
             EnsureRoundIntentCapacity(plans.Count);
             nextIntentMark.gameObject.SetActive(false);
             for(var i=0;i<roundIntents.Count;i++)
@@ -317,6 +320,18 @@ namespace RogueTactics.Presentation
                 nextIntentMark.rectTransform.anchoredPosition=apex+new Vector2(-8,8);nextIntentMark.gameObject.SetActive(true);nextIntentMark.transform.SetAsLastSibling();
             }
         }
+        private bool CanRetreat=>Session.Started && !Busy && !IsExploring && !terminalSeen &&
+            Session.Replay.CorrectionsLeft>0 && Session.Replay.State.Telegraphed.Count>0 &&
+            !modalObject.activeSelf && !InstructionOpen;
+
+        private void RetreatFromWarning()
+        {
+            if(!CanRetreat)return;
+            Session.RetreatOnce();
+            SaveSettledBattle();
+            Paused=false;Auto=true;Refresh();Next();
+        }
+
         private void RefreshGauntletUi()
         {
             if(!ExplorationEnabled || !HqWorld || DeveloperMode)return;
@@ -335,7 +350,9 @@ namespace RogueTactics.Presentation
                 direct.GetComponent<RectTransform>().sizeDelta=direct.transform.parent.GetComponent<RectTransform>().rect.size;
             }
 
-            PositionReferenceAction("Interrupt",12,h-268,w-24,interruptRequested?"行動が終わるのを待っています…":"指示する · 残り1回（顔からも）");
+            buttons["Retreat"].gameObject.SetActive(CanRetreat);
+            if(CanRetreat)PositionReferenceAction("Retreat",12,h-268,w-24,"危険な床から退く · 残り1回");
+            PositionReferenceAction("Interrupt",12,h-(CanRetreat?322:268),w-24,interruptRequested?"行動が終わるのを待っています…":"指示する · 残り1回（顔からも）");
             buttons["Interrupt"].interactable=!interruptRequested;
             instructionReceipt.transform.parent.GetComponent<RectTransform>().anchoredPosition=new Vector2(12,-(h-268));
             instructionReceipt.text=instructionReceiptText;
@@ -379,6 +396,7 @@ namespace RogueTactics.Presentation
                 else if(CanChallenge)boundary.text="守り手の気配がする部屋だ";
                 else if(Session.EncounterCount>1 && Session.EncounterIndex==Session.EncounterCount-1 && terminalSeen && Session.Replay.State.Outcome==Outcome.Victory)boundary.text=Session.EncounterCount+"つの戦いを越えた！";
                 else if(GauntletRules && !Session.Started)boundary.text=(Session.EncounterIndex+1)+"戦目：モモの方針を選んで託す";
+                else if(CanRetreat && Paused)boundary.text="守護者が危険な床を予告した";
                 else if(GauntletRules && Session.Started && !terminalSeen)boundary.text="修正 残り"+Session.Replay.CorrectionsLeft+"回・任意に指示できる";
             }
         }

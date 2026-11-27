@@ -202,7 +202,7 @@ namespace RogueTactics.Presentation
             public SavedInput(BattleInput input)
             {
                 at=input.At;
-                kind=input.Policy.HasValue?"correct":"target";
+                kind=input.IsRetreat?"retreat":input.Policy.HasValue?"correct":"target";
                 policy=input.Policy.HasValue?(int)input.Policy.Value:-1;
                 actor=input.Actor;
                 target=input.Target;
@@ -210,6 +210,7 @@ namespace RogueTactics.Presentation
 
             public BattleInput ToBattleInput(int floor)
             {
+                if(kind=="retreat" && floor==5)return new BattleInput(at);
                 if(kind=="correct" && IsSavedPolicy(policy,floor))
                     return new BattleInput(at,(Preference)policy);
                 if(kind=="target" && !string.IsNullOrEmpty(actor) && !string.IsNullOrEmpty(target))

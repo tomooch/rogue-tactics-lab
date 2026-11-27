@@ -89,6 +89,26 @@ namespace RogueTactics.Tests
             Assert.That(next.State.Find("Y").Position,Is.EqualTo(new GridPosition(2,0)));
         }
 
+        [TestCase(0,1)]
+        [TestCase(1,3)]
+        [TestCase(2,4)]
+        public void GuardianWarningTimingChangesWhoSurvives(int retreatWarning,int survivors)
+        {
+            var replay=new Replay(FloorFiveRooms.Build(2,BattleRules.Default),Preference.DirectAttack);
+            var warnings=0;
+            while(replay.State.Outcome==Outcome.Active)
+            {
+                var step=replay.Advance();
+                if(step.Plan.Kind!=ActionKind.Telegraph)continue;
+                Assert.That(step.Events.All(e=>e.Kind!=EventKind.Damage),Is.True);
+                if(++warnings==retreatWarning)replay.RetreatOnce();
+            }
+            Assert.That(replay.State.Outcome,Is.EqualTo(Outcome.Victory));
+            Assert.That(replay.State.Units.Count(unit=>!unit.Enemy && unit.Alive),Is.EqualTo(survivors));
+            Assert.That(replay.Events.Where(e=>e.Kind==EventKind.Strike).All(e=>e.Area.Count>0),Is.True);
+            Assert.That(replay.Events.Any(e=>e.Kind==EventKind.Counter && e.Target=="X"),Is.False);
+        }
+
         private static Replay Complete(Preference p)
         { var r = new Replay(Fixture.Baseline(),p); while(r.State.Outcome == Outcome.Active) r.Advance(); return r; }
         [TestCase(Preference.ProtectAnchor)] [TestCase(Preference.DirectAttack)]

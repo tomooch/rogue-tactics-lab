@@ -566,6 +566,43 @@ namespace RogueTactics.Tests
         }
 
         [UnityTest]
+        public IEnumerator GuardianWarningRestoresItsTilesAndAcceptsRetreat()
+        {
+            var folder=Path.Combine(Path.GetTempPath(),System.Guid.NewGuid().ToString("N"));
+            var store=new BattleCheckpointStore(Path.Combine(folder,"battle.json"));
+            var source=new MobileG1Session(5);
+            source.LoadEncounter(2);
+            source.Start("");
+            source.Advance();
+            var target=new RenderTexture(390,844,24);
+            MobileG1View view=null;
+            try
+            {
+                Assert.That(store.TryWrite(source.CaptureBattle()),Is.True);
+                yield return ReopenSavedBattle(store,target,opened=>view=opened,true);
+                var tiles=view.FieldCamera.GetComponent<RogueTactics.Presentation.Gfx.HqDangerTiles>();
+                Assert.That(tiles.Count,Is.EqualTo(source.Replay.State.Telegraphed.Count));
+                Assert.That(view.Paused,Is.True);
+                Press(view,"Retreat");
+                Assert.That(view.Session.Replay.CorrectionsLeft,Is.EqualTo(0));
+                Assert.That(store.Read(out var saved),Is.EqualTo(BattleCheckpointReadStatus.Loaded));
+                Assert.That(saved.Input.IsRetreat,Is.True);
+                source.RetreatOnce();
+                var restored=new MobileG1Session(5);
+                restored.LoadEncounter(2);
+                restored.RestoreBattle(saved);
+                Assert.That(restored.Advance().Plan.Serialize(),Is.EqualTo(source.Advance().Plan.Serialize()));
+            }
+            finally
+            {
+                if(view!=null)view.gameObject.SetActive(false);
+                if(Camera.main!=null)Camera.main.targetTexture=null;
+                Object.Destroy(target);
+                if(Directory.Exists(folder))Directory.Delete(folder,true);
+            }
+        }
+
+        [UnityTest]
         public IEnumerator FourthFloorDescentKeepsTheRelicAndLoadsTheCap()
         {
             var folder=Path.Combine(Path.GetTempPath(),System.Guid.NewGuid().ToString("N"));

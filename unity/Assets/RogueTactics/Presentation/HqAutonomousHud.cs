@@ -135,7 +135,7 @@ namespace RogueTactics.Presentation
                 if(!IsExploring)
                 {
                     var alive=CardOrder.Count(id=>!dead.Contains(id));
-                    SafeRoot.Find("Boundary").GetComponent<Text>().text=(Session.Replay.State.Outcome==Outcome.Victory?"勝利":"戦闘終了")+"・"+alive+"人が生還";
+                    SafeRoot.Find("Boundary").GetComponent<Text>().text=(Session.FloorNumber==5 && Session.EncounterIndex==Session.EncounterCount-1 && Session.Replay.State.Outcome==Outcome.Victory?"遠征踏破！":Session.Replay.State.Outcome==Outcome.Victory?"勝利":"戦闘終了")+"・"+alive+"人が生還";
                     eventCaption.gameObject.SetActive(false);eventBackdrop.gameObject.SetActive(false);
                     if(buttons.ContainsKey("Explore"))
                     {

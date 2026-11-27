@@ -210,6 +210,13 @@ namespace RogueTactics.Presentation
             IntentReason.Blocked => "道がない",
             IntentReason.NoTarget => "様子を見る",
             IntentReason.Ordered => "指示に従う",
+            IntentReason.HuntNearest => "近くの相手を狙う",
+            IntentReason.HuntWeakest => "弱った相手を狙う",
+            IntentReason.GuardNeighbour => "隣の仲間をかばう",
+            IntentReason.Leap => "飛び越えて近づく",
+            IntentReason.Telegraph => "攻撃範囲を予告する",
+            IntentReason.Strike => "予告した床を叩く",
+            IntentReason.Retreat => "危険な床から退く",
             _ => throw new System.ArgumentOutOfRangeException(nameof(plan))
         };
 

@@ -113,7 +113,7 @@ namespace RogueTactics.Presentation
             IsExploring=true;Auto=false;Paused=false;modalObject.SetActive(false);ClearRelation();
             var entryCenter=PartyCenter();
             cameraFromParty=FieldCamera.transform.position-entryCenter;
-            travelMessage=Session.FloorNumber<4 && NextEncounter==Session.EncounterCount && UseVictoryRecovery
+            travelMessage=Session.FloorNumber<5 && NextEncounter==Session.EncounterCount && UseVictoryRecovery
                 ?"通路の先に下り階段を探す":"見えている床・通路を選ぶ";
             // After a later encounter the party may stand at a board edge: frame them from the board's own offset.
             if(Session.EncounterIndex>0)cameraFromParty=FieldCamera.transform.position-World(Shown(new GridPosition(2,2)));
@@ -131,9 +131,11 @@ namespace RogueTactics.Presentation
             (BattleRules.WatchLantern,"見張りの灯","モモが2マス先からシロを守れる"),
             (BattleRules.ThornCharm,"荊棘の護符","シロの反撃が2から3になる"),
             (BattleRules.PetalCrest,"花盾の紋","モモの守りの軽減が3から4になる"),
-            (BattleRules.RingOfAccord,"連携の輪","ガルは誰とでも挟撃できる")
+            (BattleRules.RingOfAccord,"連携の輪","ガルは誰とでも挟撃できる"),
+            (BattleRules.DawnDew,"朝露の雫","ミャルの回復が1回・6になる"),
+            (BattleRules.PilgrimBell,"巡礼の鈴","ミャルの回復が3回・3になる")
         };
-        private int RewardOffset=>Session.FloorNumber==3?2:0;
+        private int RewardOffset=>(Session.FloorNumber-2)*2;
         private Gfx.HqRewardAltar rewardAltar;
         private RectTransform rewardPanel;
         private RawImage heldRelicIcon;
@@ -143,7 +145,7 @@ namespace RogueTactics.Presentation
         private string flashingRelic;
         private int selectedRelic=-1;
         private bool resolvingReward;
-        public bool RewardPending=>IsExploring && (Session.FloorNumber==2 || Session.FloorNumber==3) &&
+        public bool RewardPending=>IsExploring && Session.FloorNumber>=2 && Session.FloorNumber<=4 &&
             NextEncounter==Session.EncounterCount && !Session.RewardResolved;
 
         private void BuildRewardUi()
@@ -237,7 +239,7 @@ namespace RogueTactics.Presentation
         }
 
         public bool DescentAvailable=>UseVictoryRecovery && IsExploring && !Busy && travelRoutine==null
-            && !modalObject.activeSelf && Session.FloorNumber<4 && NextEncounter==Session.EncounterCount
+            && !modalObject.activeSelf && Session.FloorNumber<5 && NextEncounter==Session.EncounterCount
             && !RewardPending
             && displayedKnown.Contains(floorMap.Stairs)
             && traveller.Party.Values.Any(cell=>Rules.Distance(cell,floorMap.Stairs)<=1);
@@ -412,7 +414,7 @@ namespace RogueTactics.Presentation
             var explore=buttons["Explore"].GetComponent<RectTransform>();explore.anchoredPosition=new Vector2(12,-(h-205));explore.sizeDelta=new Vector2(w-24,44);
             explore.GetComponentInChildren<Text>().rectTransform.sizeDelta=new Vector2(w-32,40);
             buttons["Explore"].interactable=!Busy;
-            explore.gameObject.SetActive(!IsExploring && terminalSeen && Session.Replay.State.Outcome==Outcome.Victory);
+            explore.gameObject.SetActive(!(Session.FloorNumber==5 && NextEncounter==Session.EncounterCount) && !IsExploring && terminalSeen && Session.Replay.State.Outcome==Outcome.Victory);
             floorMini.transform.parent.GetComponent<RectTransform>().anchoredPosition=new Vector2(w-136,-65);
             if(!IsExploring){RefreshReferenceFloorUi();return;}
             setup.gameObject.SetActive(false);orderStrip.gameObject.SetActive(false);buttons["Start"].gameObject.SetActive(false);

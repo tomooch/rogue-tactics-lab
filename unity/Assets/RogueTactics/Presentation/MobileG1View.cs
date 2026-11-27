@@ -494,6 +494,7 @@ namespace RogueTactics.Presentation
                 if(e.Kind==EventKind.Death)dead.Add(e.Target);
             }
 
+            ShowDanger(Session.Replay.State.Telegraphed);
             SetComparisonCamera(CameraPitch);
             // Sample the same fall clip at its landing without playing any past motion or effects.
             foreach(var id in dead)
@@ -508,10 +509,22 @@ namespace RogueTactics.Presentation
             if(!terminalSeen)SafeRoot.Find("Boundary").GetComponent<Text>().text="続きから";
         }
 
+        private Gfx.HqDangerTiles dangerTiles;
+        private void ShowDanger(IReadOnlyList<GridPosition> area)
+        {
+            if(!HqWorld)return;
+            if(dangerTiles==null && area.Count>0)dangerTiles=FieldCamera.gameObject.AddComponent<Gfx.HqDangerTiles>();
+            if(area.Count==0)dangerTiles?.Clear();
+            else dangerTiles.Show(area.Select(cell=>World(Shown(cell))),Cell);
+            foreach(var spirit in spirits)
+                if(Session.Replay.State.Find(spirit.Key)?.Kind==EnemyKind.Guardian)spirit.Value.Telegraphing=area.Count>0;
+        }
+
         private void ResetProjection()=>ProjectEncounter(true);
 
         private void ProjectEncounter(bool clearEffects)
         {
+            ShowDanger(Array.Empty<GridPosition>());
             ClearAllFallen();SyncEnemyVisuals();if(clearEffects && vfx!=null)vfx.Clear();hitStop=0;actingId="";ClearRelation();frameIntervals.Clear();LastFrameReport=null;displayed.Clear();captions.Clear();dead.Clear();hp.Clear();positions.Clear();terminalSeen=false;shownStep=0;shownActor="";reaction="";foreach(var u in Session.Replay.State.Units){hp[u.Id]=u.Hp;positions[u.Id]=Shown(u.Position);}crisisActive=false;orderedActor="";orderedTarget="";instructionReceiptText="";interruptRequested=false;requestedInstructionAlly="";if(instructionOverlay!=null)instructionOverlay.gameObject.SetActive(false);
             ClearShownGuard();floating.text="";foreach(var b in badges.Values)b.alpha=1;
         }
@@ -529,6 +542,8 @@ namespace RogueTactics.Presentation
             foreach(var u in Session.Replay.State.Units)
                 if(hp[u.Id]!=u.Hp || !positions[u.Id].Equals(Shown(u.Position)))throw new InvalidOperationException("Mobile event projection mismatch");
             UpdateInstructionReceipt(result);
+            if(result.Plan.Kind==ActionKind.Telegraph && displayed.Count(e=>e.Kind==EventKind.Telegraph)==1)
+            {Auto=false;Paused=true;}
             Busy=false;Refresh();SaveSettledBattle();
             if(Session.Replay.State.Outcome!=Outcome.Active){Auto=false;FinishFrameReport();Debug.Log("MOBILE_G1_RESULT "+Session.Preference+" "+Session.Replay.Hash());}
             else if(interruptRequested)OpenInstruction();
@@ -542,6 +557,11 @@ namespace RogueTactics.Presentation
             if(e.Kind==EventKind.End)terminalSeen=true;
             switch(e.Kind)
             {
+                case EventKind.Telegraph:ShowDanger(e.Area);break;
+                case EventKind.Strike:
+                    dangerTiles?.Strike();
+                    if(spirits.TryGetValue(e.Actor,out var guardian))guardian.Telegraphing=false;
+                    break;
                 case EventKind.Move:positions[e.Target]=Shown(e.Position);
                     actionLink.gameObject.SetActive(false);ghost.gameObject.SetActive(false);
                     if(e.Actor==shownGuard?.Actor || e.Actor==shownGuard?.Target)ClearShownGuard();break;
@@ -559,7 +579,7 @@ namespace RogueTactics.Presentation
                     floatUntil=Time.unscaledTime+1;
                     actionLink.gameObject.SetActive(!EventMotion);if(!EventMotion)Link(actionLink,positions[e.Actor],positions[e.Target]);
                     if((e.Tags & EventTags.Guarded)!=0)captions.Add("守護でダメージ軽減");break;
-                case EventKind.Death:dead.Add(e.Target);actionLink.gameObject.SetActive(false);ghost.gameObject.SetActive(false);if(e.Target==shownGuard?.Actor || e.Target==shownGuard?.Target)ClearShownGuard();hp[e.Target]=0;pawns[e.Target].gameObject.SetActive(false);badges[e.Target].alpha=.45f;break;
+                case EventKind.Death:if(Session.Replay.State.Find(e.Target)?.Kind==EnemyKind.Guardian)ShowDanger(Array.Empty<GridPosition>());dead.Add(e.Target);actionLink.gameObject.SetActive(false);ghost.gameObject.SetActive(false);if(e.Target==shownGuard?.Actor || e.Target==shownGuard?.Target)ClearShownGuard();hp[e.Target]=0;pawns[e.Target].gameObject.SetActive(false);badges[e.Target].alpha=.45f;break;
             }
             if(e.Kind!=EventKind.Action)captions.Add(Describe(e,HeroName));
             if(e.Kind==EventKind.Action && e.Actor==shownGuard?.Actor)ClearShownGuard();
@@ -588,6 +608,8 @@ namespace RogueTactics.Presentation
                 case EventKind.Heal:return name(e.Actor)+" → "+name(e.Target)+" 回復  ＋"+e.Amount;
                 case EventKind.Death:return name(e.Target)+" は戦闘不能";
                 case EventKind.Move:return name(e.Actor)+" が移動";
+                case EventKind.Telegraph:return "守護者が危険な床を予告した";
+                case EventKind.Strike:return "守護者が予告した床を叩いた";
                 case EventKind.End:return "戦闘終了："+(e.Result==Outcome.Victory?"勝利":e.Result==Outcome.Defeat?"敗北":"上限");
                 default:return "";
             }
@@ -632,7 +654,7 @@ namespace RogueTactics.Presentation
             RefreshFloorUi();
             RefreshRoundIntents();
         }
-        private static string PlanName(ActionKind kind) => kind==ActionKind.Protect?"守護":kind==ActionKind.Attack?"攻撃":kind==ActionKind.Heal?"回復":kind==ActionKind.Move?"移動":"待機";
+        private static string PlanName(ActionKind kind) => kind==ActionKind.Protect?"守護":kind==ActionKind.Attack?"攻撃":kind==ActionKind.Heal?"回復":kind==ActionKind.Move?"移動":kind==ActionKind.Telegraph?"予告":kind==ActionKind.Strike?"範囲攻撃":"待機";
         private void OpenDetails(bool trials)
         {
             CloseReferenceMemo();

@@ -29,6 +29,8 @@ namespace RogueTactics.Presentation
             // Long enough to read the wind-up; the event still lands exactly at the end of this tween.
             var duration=e.Kind==EventKind.Move?.52f:e.Kind==EventKind.Death?.72f:e.Kind==EventKind.Damage?.62f:e.Kind==EventKind.Heal?.60f:e.Kind==EventKind.End?.2f:.50f;
             KickPoses(e,hasActor && hasTarget?original:targetPosition,targetPosition,duration);
+            if(e.Kind==EventKind.Move && executingPlan.Why==IntentReason.Retreat)
+                vfx?.Retreat(original,World(Shown(e.Position)),TintOf(e.Actor));
             var elapsedMotion=0f;visualTweenActive=true;
             if(e.Kind==EventKind.Counter){reaction=HeroName(e.Actor)+" 反撃（割込）";RefreshProductHud();}
             while(elapsedMotion<duration)
