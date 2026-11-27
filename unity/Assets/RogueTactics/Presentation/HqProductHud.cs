@@ -20,8 +20,28 @@ namespace RogueTactics.Presentation
         private bool policyEditing;
         private Text policyHeading;
         private Image policyBackdrop, eventBackdrop;
+        private static readonly Dictionary<Preference,(string Button, string LegacyButton, string Short, string Action, string Choice, string Detail, string LegacyAction)> PolicyLabels =
+            new Dictionary<Preference,(string, string, string, string, string, string, string)>
+            {
+                {Preference.ProtectAnchor,("Protect","B：Aを守る","守る","シロを守る","シロを守る","シロのそばで守る","シロを守る")},
+                {Preference.DirectAttack,("Attack","B：直接攻撃","攻める","敵を攻める","敵へ攻める","近くの敵を攻める","近くの敵を攻める")},
+                {Preference.Balanced,("Balance","バランス","バランス","バランス","バランス","仲間の危険と敵の隙を見て動く","バランス")}
+            };
+        private static readonly Preference[] Policies=PolicyLabels.Keys.OrderBy(preference=>preference).ToArray();
         private static readonly string[] CardOrder={"A","D","C","B"};
-        private static string HeroName(string id)=>id=="A"?"シロ":id=="D"?"ミャル":id=="C"?"ガル":id=="B"?"モモ":HqCreature.NameOf(id);
+        private static string LegacyHeroName(string id)=>id=="A"?"シロ":id=="D"?"ミャル":id=="C"?"ガル":id=="B"?"モモ":HqCreature.NameOf(id);
+        private SpiritKind SpiritOf(string id) => Session.Replay.State.Find(id)?.Kind switch
+        {
+            EnemyKind.Moss => SpiritKind.Moss,
+            EnemyKind.Bloom => SpiritKind.Bloom,
+            EnemyKind.Cap => SpiritKind.Cap,
+            EnemyKind.Bat => SpiritKind.Bat,
+            EnemyKind.Guardian => SpiritKind.Guardian,
+            _ => SpiritKind.Warden
+        };
+        private string HeroName(string id)=>Session.Replay.State.Find(id)?.Enemy==true
+            ? HqCreature.NameOf(SpiritOf(id),HqCreature.AltOf(id))
+            : LegacyHeroName(id);
         public void SetDeveloperMode(bool enabled){DeveloperMode=enabled;policyEditing=false;ApplySafeArea(safeRect,screenW,screenH);SetComparisonCamera(CameraPitch);}
         private void BuildProductHud()
         {
@@ -34,12 +54,7 @@ namespace RogueTactics.Presentation
             var orderBackdrop=orderStrip.gameObject.AddComponent<Image>();orderBackdrop.color=new Color(.035f,.09f,.13f,.96f);orderBackdrop.raycastTarget=false;
             orderLabel=Label(orderStrip,"Order caption","行動順",0,0,53,20,12);
             // One tile per actor; the order shown is read from the current encounter's Core state on refresh.
-            foreach(var id in Fixture.Baseline().Initiative)
-            {
-                var r=Rect(orderStrip,"Order "+id,0,17,57,30);var frame=r.gameObject.AddComponent<Image>();frame.color=new Color(.06f,.14f,.19f,.9f);frame.raycastTarget=false;orderFrames[id]=frame;
-                if(id.Length==1 && id[0]>='A' && id[0]<='D'){var icon=Rect(r,"Actor portrait",0,0,24,28).gameObject.AddComponent<RawImage>();var art=CharacterArt[id[0]-'A'];icon.texture=art;var uvWidth=.5f*24/28*art.height/art.width;icon.uvRect=new Rect(.5f-uvWidth/2,.43f,uvWidth,.5f);icon.raycastTarget=false;}
-                Label(r,"Actor",HeroName(id),24,3,31,23,10,TextAnchor.MiddleCenter);
-            }
+            foreach(var id in Session.Replay.State.Initiative)BuildOrderTile(id);
             roster=Rect(SafeRoot,"Companion portraits",12,0,366,88);
             foreach(var id in CardOrder)
             {
@@ -64,7 +79,7 @@ namespace RogueTactics.Presentation
         {
             roster.anchoredPosition=new Vector2(12,-(h-150));roster.sizeDelta=new Vector2(w-24,88);
             for(var i=0;i<CardOrder.Length;i++)
-            {var r=cardValues[CardOrder[i]].transform.parent.GetComponent<RectTransform>();r.anchoredPosition=new Vector2(i*(w-20)/4,0);r.sizeDelta=new Vector2((w-36)/4,88);}
+            {var r=cardValues[CardOrder[i]].transform.parent.GetComponent<RectTransform>();r.anchoredPosition=new Vector2(i*(w-20)/CardOrder.Length,0);r.sizeDelta=new Vector2((w-36)/CardOrder.Length,88);}
             controls.anchoredPosition=new Vector2(0,-(h-54));
             SafeRoot.Find("Title").GetComponent<RectTransform>().sizeDelta=new Vector2(242,30);
             var boundary=SafeRoot.Find("Boundary").GetComponent<Text>();boundary.rectTransform.anchoredPosition=new Vector2(24,-44);boundary.rectTransform.sizeDelta=new Vector2(242,18);boundary.fontSize=11;
@@ -97,6 +112,16 @@ namespace RogueTactics.Presentation
             }
             LayoutAutonomousJournal();
         }
+        private Image BuildOrderTile(string id)
+        {
+            var r=Rect(orderStrip,"Order "+id,0,17,57,30);var frame=r.gameObject.AddComponent<Image>();frame.color=new Color(.06f,.14f,.19f,.9f);frame.raycastTarget=false;orderFrames[id]=frame;
+            if(id.Length==1 && id[0]>='A' && id[0]<='D'){var icon=Rect(r,"Actor portrait",0,0,24,28).gameObject.AddComponent<RawImage>();var art=CharacterArt[id[0]-'A'];icon.texture=art;var uvWidth=.5f*24/28*art.height/art.width;icon.uvRect=new Rect(.5f-uvWidth/2,.43f,uvWidth,.5f);icon.raycastTarget=false;}
+            Label(r,"Actor",HeroName(id),24,3,31,23,10,TextAnchor.MiddleCenter);
+            if(referenceFooter!=null)
+                Frame(r,new Color(.05f,.10f,.16f,.95f),new Color(.40f,.50f,.60f),6);
+            return frame;
+        }
+
         private void RefreshProductHud()
         {
             if(roster==null)return;
@@ -126,7 +151,7 @@ namespace RogueTactics.Presentation
                 ResizeButton("Compare",18+(SafeRoot.rect.width-30)/2,0,(SafeRoot.rect.width-30)/2);buttons["Compare"].GetComponentInChildren<Text>().text="予想と結果を比べる";
                 buttons["Play"].GetComponentInChildren<Text>().text=Auto?"一時停止":"再開する";
                 ResizeButton("Protect",12,46,(SafeRoot.rect.width-30)/2);ResizeButton("Attack",18+(SafeRoot.rect.width-30)/2,46,(SafeRoot.rect.width-30)/2);
-                buttons["Protect"].GetComponentInChildren<Text>().text="シロのそばで守る";buttons["Attack"].GetComponentInChildren<Text>().text="近くの敵を攻める";
+                foreach(var policy in PolicyLabels.Values)buttons[policy.Button].GetComponentInChildren<Text>().text=policy.Detail;
                 buttons["Protect"].GetComponentInChildren<Text>().fontSize=14;buttons["Attack"].GetComponentInChildren<Text>().fontSize=14;
                 Prediction.GetComponent<RectTransform>().anchoredPosition=new Vector2(12,-102);Prediction.GetComponent<RectTransform>().sizeDelta=new Vector2(SafeRoot.rect.width-24,44);
                 Prediction.textComponent.rectTransform.sizeDelta=new Vector2(SafeRoot.rect.width-44,40);Prediction.placeholder.GetComponent<RectTransform>().sizeDelta=new Vector2(SafeRoot.rect.width-44,40);Prediction.placeholder.GetComponent<Text>().text="戦いの予想を残す（任意）";
@@ -146,19 +171,23 @@ namespace RogueTactics.Presentation
             }
             if(!DeveloperMode)roster.gameObject.SetActive(true);
             foreach(var id in CardOrder)
-            {var u=Fixture.Baseline().Find(id);cardValues[id].text="HP "+hp[id]+" / "+u.MaxHp;cardHealth[id].rectTransform.sizeDelta=new Vector2(74f*hp[id]/u.MaxHp,2);}
-            cardValues["B"].transform.parent.Find("Name").GetComponent<Text>().text=Session.Preference==Preference.ProtectAnchor?"モモ：守る":"モモ：攻める";
+            {var u=Session.Replay.State.Find(id);cardValues[id].text="HP "+hp[id]+" / "+u.MaxHp;cardHealth[id].rectTransform.sizeDelta=new Vector2(74f*hp[id]/u.MaxHp,2);}
+            cardValues["B"].transform.parent.Find("Name").GetComponent<Text>().text="モモ："+PolicyLabels[Session.Preference].Short;
             orderStrip.gameObject.SetActive(active && !terminalSeen);
-            var initiative=Session.Replay.State.Initiative;
+            var state=Session.Replay.State;
+            var initiative=state.Initiative;
+            foreach(var tile in orderFrames)
+                if(!initiative.Contains(tile.Key))tile.Value.gameObject.SetActive(false);
             var start=initiative.ToList().IndexOf(shownActor);if(start<0)start=0;var slot=0;
             for(var i=0;i<initiative.Count;i++)
             {
-                var id=initiative[(start+i)%initiative.Count];var f=orderFrames[id];f.gameObject.SetActive(!dead.Contains(id));if(dead.Contains(id))continue;
-                f.rectTransform.anchoredPosition=new Vector2(slot*(Field.rect.width-24)/6,-19);slot++;
-                var actorLabel=f.transform.Find("Actor").GetComponent<Text>();actorLabel.gameObject.SetActive(id=="X" || id=="Y");
+                var id=initiative[(start+i)%initiative.Count];var f=orderFrames.TryGetValue(id,out var existing)?existing:BuildOrderTile(id);f.gameObject.SetActive(!dead.Contains(id));if(dead.Contains(id))continue;
+                f.rectTransform.anchoredPosition=new Vector2(slot*(Field.rect.width-24)/initiative.Count,-19);slot++;
+                var enemy=state.Find(id).Enemy;
+                var actorLabel=f.transform.Find("Actor").GetComponent<Text>();actorLabel.gameObject.SetActive(enemy);
                 // The strip's tiles are 22 px: allies are told apart by their portrait, spirits by one glyph (developer mode too;
                 // a full name wraps to two lines there and overflows the tile).
-                actorLabel.text=id=="X" || id=="Y"?HqCreature.GlyphOf(id):HeroName(id);
+                actorLabel.text=enemy?HqCreature.GlyphOf(SpiritOf(id),HqCreature.AltOf(id)):HeroName(id);
                 if(!DeveloperMode)
                 {f.rectTransform.anchoredPosition=new Vector2((slot-1)*34,-19);f.rectTransform.sizeDelta=new Vector2(32,28);actorLabel.rectTransform.anchoredPosition=Vector2.zero;actorLabel.rectTransform.sizeDelta=new Vector2(32,26);}
                 f.color=id==shownActor?new Color(.50f,.36f,.12f,.97f):new Color(.04f,.12f,.18f,.92f);

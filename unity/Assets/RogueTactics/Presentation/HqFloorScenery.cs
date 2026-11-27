@@ -17,7 +17,7 @@ namespace RogueTactics.Presentation
         public static HqFloorScenery Build(FloorMap map,Mesh[] authored,Material template,GameObject startingRuins)
         {
             var owner=new GameObject("Connected sky ruins floor").AddComponent<HqFloorScenery>();
-            owner.JoinStartingGround(startingRuins);
+            if(startingRuins!=null)owner.JoinStartingGround(startingRuins);
             var court=authored.First(m=>m.name=="Courtyard");
             var roomSurfaces=authored.Where(m=>m.name=="Courtyard" || m.name=="Cliff" || m.name=="Foliage" || m.name=="Flowers").Select(mesh=>
             {
@@ -32,7 +32,7 @@ namespace RogueTactics.Presentation
                     {keep.Add(triangles[i]);keep.Add(triangles[i+1]);keep.Add(triangles[i+2]);}
                 lower.SetTriangles(keep,0);lower.RecalculateBounds();owner.ownedMeshes.Add(lower);return lower;
             }).ToArray();
-            foreach(var room in map.Rooms.Where(r=>r.Id!=0))
+            foreach(var room in map.Rooms.Where(r=>r.Id!=0 || startingRuins==null))
             {
                 var root=new GameObject("Exploration room "+room.Id);root.transform.SetParent(owner.transform,false);
                 root.transform.position=new Vector3((room.X+(room.Width-1)*.5f)*2.5f,0,(room.Y+(room.Height-1)*.5f)*2.5f);
@@ -49,7 +49,7 @@ namespace RogueTactics.Presentation
             var stone=owner.Material(template,true);
             // The original island cap is smaller than a complete5x5 tile rectangle.
             // Door aprons cover its transition to the two real passage entrances.
-            foreach(var p in map.Cells.Where(p=>map.RoomAt(p)<0 || (map.RoomAt(p)==0 &&
+            foreach(var p in map.Cells.Where(p=>map.RoomAt(p)<0 || (startingRuins!=null && map.RoomAt(p)==0 &&
                 (p.X<=0 || p.Y<=0 || (p.Y==4 && (p.X==2 || p.X==3)) || (p.X==4 && (p.Y==2 || p.Y==3))))))
             {
                 var root=new GameObject("Stone passage "+p.X+","+p.Y);root.transform.SetParent(owner.transform,false);

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using RogueTactics.Core;
 using RogueTactics.Core.G1;
+using RogueTactics.Core.Exploration;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem.UI;
@@ -28,7 +29,8 @@ namespace RogueTactics.Presentation
         public ScriptableRendererFeature AmbientOcclusion;
         // Private textures supplied locally by setup; never public-Git originals.
         public Texture2D[] CharacterArt = new Texture2D[4]; // A Shiro / B Momo / C Garu / D Myaru: temporary skins only
-        public MobileG1Session Session { get; } = new MobileG1Session();
+        public MobileG1Session Session { get; private set; } = new MobileG1Session();
+        public bool UseVictoryRecovery { get; set; }
         public bool Busy { get; private set; }
         public bool Auto { get; private set; }
         public bool Paused { get; private set; }
@@ -55,6 +57,8 @@ namespace RogueTactics.Presentation
         private RenderTexture fieldTarget;
         private VolumeProfile runtimeProfile;
         private bool visualTweenActive;
+        private BattleEvent shownGuard;
+        private BattleCheckpointStore battleStore;
         private RectTransform controls, setup, battleControls, modal, detailsViewport, guardLink, actionLink, ghost, shield;
         private Text phase, intent, eventCaption, modalText, headline, floating;
         private Text artNotice;
@@ -74,12 +78,33 @@ namespace RogueTactics.Presentation
         private static readonly Color Ink=new Color(.93f,.94f,.88f), Gold=new Color(.96f,.79f,.40f), Jade=new Color(.35f,.85f,.76f);
         public Button Button(string id) => buttons[id];
         public bool HasAllArt => CharacterArt.Length==4 && CharacterArt.All(t=>t!=null);
+        public void ConfigureEncounter(EncounterState encounter)
+        {
+            if(canvas!=null)throw new InvalidOperationException("Configure the encounter before the view initializes");
+            if(encounter==null)throw new ArgumentNullException(nameof(encounter));
+            var allies=encounter.Units.Where(unit=>!unit.Enemy).Select(unit=>unit.Id);
+            var enemyCount=encounter.Units.Count(unit=>unit.Enemy);
+            if(encounter.Width!=5 || encounter.Height!=5 || !new HashSet<string>(CardOrder).SetEquals(allies) || enemyCount<1 || enemyCount>4)
+                throw new ArgumentException("The battle view requires a 5 by 5 board, the four companions and one to four enemies",nameof(encounter));
+            Session=new MobileG1Session(encounter);
+        }
+
+        public void ConfigureBattlePersistence(BattleCheckpointStore store)
+        {
+            if(canvas!=null)throw new InvalidOperationException("Configure persistence before the view initializes");
+            battleStore=store ?? throw new ArgumentNullException(nameof(store));
+        }
+
         private void Awake()
         {
             if(AmbientOcclusion!=null)AmbientOcclusion.SetActive(true);
             Application.targetFrameRate=60;
-            Build(); ResetBaseline();if(ExplorationEnabled)BuildFloorUi();
+            Build(); ResetBattleView();if(ExplorationEnabled)BuildFloorUi();
             if(HqWorld)foreach(var button in buttons.Values)button.gameObject.AddComponent<HudPress>();
+            if(battleStore==null && Session.EncounterCount>1 && AutonomousProduct && Application.isMobilePlatform && !Application.isEditor)
+                battleStore=new BattleCheckpointStore(System.IO.Path.Combine(Application.persistentDataPath,"battle.json"));
+            UseVictoryRecovery |= AutonomousProduct && Application.isMobilePlatform && !Application.isEditor;
+            RestoreBattleOnStartup();
         }
         private void Build()
         {
@@ -97,14 +122,7 @@ namespace RogueTactics.Presentation
             Field=Rect(SafeRoot,"Field",0,60,390,520);fieldImage=Field.gameObject.AddComponent<RawImage>();fieldImage.texture=fieldTarget;fieldImage.raycastTarget=false;Field.SetAsFirstSibling();
             guardLink=Strip(Field,"Guard link",Jade);actionLink=Strip(Field,"Core intention",Gold);
             ghost=Rect(Field,"Legal destination",0,0,34,18);ghost.gameObject.AddComponent<Image>().color=new Color(.8f,.95f,.8f,.25f);ghost.GetComponent<Image>().raycastTarget=false;
-            foreach(var u in Fixture.Baseline().Units)
-            {
-                // 22pt wide: square cells put diagonal neighbours close, and a 24pt strip grazed the head in front.
-                var r=Rect(Field,"HP "+u.Id,0,0,22,6);var track=r.gameObject.AddComponent<Image>();track.color=new Color(.025f,.06f,.065f,.96f);track.raycastTarget=false;
-                badges[u.Id]=r.gameObject.AddComponent<CanvasGroup>();badges[u.Id].blocksRaycasts=false;
-                var bar=Rect(r,"HP bar",1,1,20,4).gameObject.AddComponent<Image>();bar.color=u.Enemy?new Color(.92f,.44f,.38f):Jade;bar.raycastTarget=false;
-                hpBars[u.Id]=bar;
-            }
+            foreach(var unit in Session.Replay.State.Units)BuildHpBadge(unit);
             shield=Rect(Field,"Protect",0,0,24,24);shield.gameObject.AddComponent<Image>().color=new Color(.035f,.20f,.22f,.98f);
             Label(shield,"Shield","守",0,0,24,24,16,TextAnchor.MiddleCenter);
             floating=Label(Field,"Event feedback","",0,0,110,40,23,TextAnchor.MiddleCenter);floating.gameObject.SetActive(!EventMotion);
@@ -112,8 +130,13 @@ namespace RogueTactics.Presentation
             controls=Rect(SafeRoot,"Controls",0,580,390,244);
             phase=Label(controls,"Phase","",16,0,358,22,14);
             setup=Rect(controls,"Setup",0,26,390,162);
-            MakeButton(setup,"Protect","B：Aを守る",12,0,180,46,()=>Select(Preference.ProtectAnchor),17);
-            MakeButton(setup,"Attack","B：直接攻撃",198,0,180,46,()=>Select(Preference.DirectAttack),17);
+            var policyIndex=0;
+            foreach(var preference in Policies)
+            {
+                var label=PolicyLabels[preference];
+                MakeButton(setup,label.Button,label.LegacyButton,12+186*policyIndex++,0,180,46,()=>Select(preference),17);
+                if(preference==Preference.Balanced)buttons[label.Button].gameObject.SetActive(false);
+            }
             var input=Rect(setup,"Prediction",12,54,366,44);input.gameObject.AddComponent<Image>().color=new Color(.1f,.16f,.19f);
             Prediction=input.gameObject.AddComponent<InputField>();var value=Label(input,"Value","",10,2,346,40,16);value.supportRichText=false;
             Prediction.textComponent=value;Prediction.placeholder=Label(input,"Placeholder","自分の予想（任意）",10,2,346,40,16);Prediction.placeholder.color=new Color(.61f,.71f,.70f);
@@ -266,7 +289,7 @@ namespace RogueTactics.Presentation
                 Box("Fallen rock",new Vector3(x+.2f,.25f,z+.38f),new Vector3(.4f,.4f,.5f),new Color(.35f,.45f,.42f)).transform.rotation=Quaternion.Euler(12,i*31,18);
             }
             }
-            foreach(var u in Fixture.Baseline().Units)
+            foreach(var u in Session.Replay.State.Units)
             {
                 var root=new GameObject("Fixture "+u.Id).transform;pawns[u.Id]=root;
                 if(HqWorld)MakeKnownPositionMarker(root,u.Enemy);
@@ -287,7 +310,11 @@ namespace RogueTactics.Presentation
                     // Anchor the front contact edge to the cell, like the static portraits' feet.
                     // A centred sphere otherwise extends over the next row's portrait/foot HP.
                     if(!HqWorld)shadow.transform.localPosition+=Vector3.forward*.55f;
-                    if(HqWorld)bodies[u.Id]=HqCreature.Build(root,StoneTemplate,HqCreature.KindOf(u.Id),HqCreature.AltOf(u.Id),FieldCamera);
+                    if(HqWorld)
+                    {
+                        bodies[u.Id]=HqCreature.Build(root,StoneTemplate,SpiritOf(u.Id),HqCreature.AltOf(u.Id),FieldCamera);
+                        enemyVisualKinds[u.Id]=SpiritOf(u.Id);
+                    }
                     else
                     {
                     var body=Sphere("Fixture slime",Vector3.zero,new Vector3(1.2f,.8f,1.08f),u.Id=="X"?new Color(.4f,.65f,.57f):new Color(.63f,.40f,.63f));body.transform.SetParent(root,false);body.transform.localPosition=new Vector3(0,.45f,.55f);bodies[u.Id]=body.GetComponent<Renderer>();
@@ -300,6 +327,48 @@ namespace RogueTactics.Presentation
                 }
             }
         }
+        private void BuildHpBadge(Unit u)
+        {
+            // 22pt wide: square cells put diagonal neighbours close, and a 24pt strip grazed the head in front.
+            var r=Rect(Field,"HP "+u.Id,0,0,22,6);var track=r.gameObject.AddComponent<Image>();track.color=new Color(.025f,.06f,.065f,.96f);track.raycastTarget=false;
+            badges[u.Id]=r.gameObject.AddComponent<CanvasGroup>();badges[u.Id].blocksRaycasts=false;
+            var bar=Rect(r,"HP bar",1,1,20,4).gameObject.AddComponent<Image>();bar.color=u.Enemy?new Color(.92f,.44f,.38f):Jade;bar.raycastTarget=false;
+            hpBars[u.Id]=bar;
+        }
+
+        private readonly Dictionary<string,SpiritKind> enemyVisualKinds=new Dictionary<string,SpiritKind>();
+        private void SyncEnemyVisuals()
+        {
+            if(!HqWorld)return;
+            foreach(var id in enemyVisualKinds.Keys.Where(id=>Session.Replay.State.Find(id)==null))
+            {
+                pawns[id].gameObject.SetActive(false);
+                badges[id].gameObject.SetActive(false);
+            }
+            foreach(var enemy in Session.Replay.State.Units.Where(unit=>unit.Enemy))
+            {
+                var id=enemy.Id;
+                if(!badges.ContainsKey(id))BuildHpBadge(enemy);
+                var kind=SpiritOf(id);
+                if(enemyVisualKinds.TryGetValue(id,out var current) && current==kind)continue;
+                var root=new GameObject("Fixture "+id).transform;
+                if(pawns.TryGetValue(id,out var previous))
+                {
+                    root.SetParent(previous.parent,false);
+                    previous.gameObject.SetActive(false);
+                    Destroy(previous.gameObject);
+                }
+                pawns[id]=root;
+                MakeKnownPositionMarker(root,true);
+                MakeContactShadow(root,true).transform.SetParent(root,false);
+                bodies[id]=HqCreature.Build(root,StoneTemplate,kind,HqCreature.AltOf(id),FieldCamera);
+                enemyVisualKinds[id]=kind;
+                var anim=root.GetComponent<Gfx.HqCreatureAnim>();
+                if(anim!=null)spirits[id]=anim;
+                else spirits.Remove(id);
+            }
+        }
+
         private GameObject Box(string name,Vector3 p,Vector3 scale,Color color) => Shape(PrimitiveType.Cube,name,p,scale,color);
         private GameObject Sphere(string name,Vector3 p,Vector3 scale,Color color) => Shape(PrimitiveType.Sphere,name,p,scale,color);
         private GameObject Shape(PrimitiveType kind,string name,Vector3 p,Vector3 scale,Color color)
@@ -307,15 +376,159 @@ namespace RogueTactics.Presentation
             var obj=GameObject.CreatePrimitive(kind);obj.name=name;obj.transform.position=p;obj.transform.localScale=scale;
             var m=new Material(StoneTemplate);m.color=color;materials.Add(m);obj.GetComponent<Renderer>().sharedMaterial=m;Destroy(obj.GetComponent<Collider>());return obj;
         }
-        public void Select(Preference p) {if(Session.Started || Busy)return;Session.Select(p);ResetProjection();if(!AutonomousProduct)Prediction.text="";Refresh();}
+        public void Select(Preference p) {if(Session.Started || Busy || (p==Preference.Balanced && Session.FloorNumber==1))return;Session.Select(p);ResetProjection();if(!AutonomousProduct)Prediction.text="";Refresh();if(Session.FloorNumber>1)SaveSettledBattle();}
         public void ResetBaseline()
-        { if(Busy)return;ResetFloorExploration();policyEditing=false;Auto=false;Paused=false;Session.Reset();Prediction.text="";ResetProjection();SetComparisonCamera(CameraPitch); }
-        private void ResetProjection()
         {
-            ClearAllFallen();if(vfx!=null)vfx.Clear();hitStop=0;actingId="";ClearRelation();frameIntervals.Clear();LastFrameReport=null;displayed.Clear();captions.Clear();dead.Clear();hp.Clear();positions.Clear();terminalSeen=false;shownStep=0;shownActor="";reaction="";foreach(var u in Session.Replay.State.Units){hp[u.Id]=u.Hp;positions[u.Id]=Shown(u.Position);}crisisActive=false;orderedActor="";orderedTarget="";instructionReceiptText="";interruptRequested=false;requestedInstructionAlly="";if(instructionOverlay!=null)instructionOverlay.gameObject.SetActive(false);
-            shield.gameObject.SetActive(false);guardLink.gameObject.SetActive(false);floating.text="";foreach(var b in badges.Values)b.alpha=1;
+            if(Busy)return;
+            ResetBattleView();
+            if(Session.FloorNumber==1)ClearSavedBattle();
+            else SaveSettledBattle();
         }
-        private void StartBattle() {if(Session.Started || Busy)return;policyEditing=false;Prediction.DeactivateInputField();SetComparisonCamera(CameraPitch);Session.Start(Prediction.text);Auto=!DeveloperMode;Next();}
+
+        private void ResetBattleView()
+        {
+            Session.Reset();ResetFloorExploration();policyEditing=false;Auto=false;Paused=false;
+            Prediction.text="";ResetProjection();SetComparisonCamera(CameraPitch);
+        }
+        private void RestoreBattleOnStartup()
+        {
+            if(battleStore==null)return;
+            var status=battleStore.Read(out var checkpoint);
+            if(status==BattleCheckpointReadStatus.Missing)return;
+            if(status==BattleCheckpointReadStatus.Loaded)
+            {
+                MobileG1Session restored=null;
+                FloorTraveller restoredTravel=null;
+                try
+                {
+                    if(checkpoint.FloorNumber>1 && (!ExplorationEnabled || Session.EncounterCount==1))
+                        throw new ArgumentException("Saved floor requires expedition mode");
+                    restored=Session.EncounterCount==1?Session:new MobileG1Session(checkpoint.FloorNumber,checkpoint.EntryRelic);
+                    if(restored.EncounterCount>1)restored.LoadEncounter(checkpoint.EncounterIndex,checkpoint.EntryHealth);
+                    restored.RestoreBattle(checkpoint);
+                    if(checkpoint.Floor!=null)
+                    {
+                        if(!ExplorationEnabled || restored.Replay.State.Outcome!=Outcome.Victory)
+                            throw new ArgumentException("Exploration requires a completed victory");
+                        var savedMap=checkpoint.FloorNumber==1?floorMap:new FloorMap(checkpoint.FloorNumber);
+                        var origin=GauntletRooms.Origin(savedMap,checkpoint.EncounterIndex);
+                        restoredTravel=FloorTraveller.Restore(savedMap,restored.Replay.State,origin,checkpoint.Floor);
+                    }
+                }
+                catch(Exception error) when(error is ArgumentException || error is InvalidOperationException)
+                {
+                    restored=null;
+                    battleStore.RejectCurrent();
+                }
+
+                if(restored!=null)
+                {
+                    Session=restored;
+                    if(checkpoint.FloorNumber>1)SwitchFloor();
+                    else if(ExplorationEnabled && checkpoint.EncounterIndex>0)
+                    {
+                        battleOrigin=GauntletRooms.Origin(floorMap,checkpoint.EncounterIndex);
+                        var currentRoom=new FloorTraveller(floorMap,Session.Replay.State.Units,battleOrigin);
+                        displayedKnown.UnionWith(currentRoom.KnownCells);
+                        floorScenery.Reveal(floorMap,displayedKnown);
+                    }
+                    ApplyRestoredBattle();
+                    if(restoredTravel!=null)EnterExploration(restoredTravel);
+                    else if(floorMini!=null)floorMini.Configure(floorMap,displayedKnown,KnownMapActors());
+                    return;
+                }
+            }
+            SafeRoot.Find("Boundary").GetComponent<Text>().text="保存を読み込めませんでした";
+        }
+
+        private void SaveSettledBattle()
+        {
+            if(battleStore==null || (!Session.Started && Session.FloorNumber==1) || Busy || visualTweenActive)return;
+            if(!battleStore.TryWrite(Session.CaptureBattle(IsExploring?traveller.Capture():null)))
+                SafeRoot.Find("Boundary").GetComponent<Text>().text="戦闘を保存できませんでした";
+        }
+
+        private void ClearSavedBattle()
+        {
+            if(battleStore!=null && !battleStore.TryClear())
+                SafeRoot.Find("Boundary").GetComponent<Text>().text="保存した戦闘を消去できませんでした";
+        }
+
+        private void OnApplicationPause(bool paused)
+        {
+            if(paused)SaveSettledBattle();
+        }
+
+        private void OnApplicationQuit() => SaveSettledBattle();
+
+        public void RestoreBattle(BattleCheckpoint checkpoint)
+        {
+            if(canvas==null || Session.Started || Busy || IsExploring)
+                throw new InvalidOperationException("Restore into a prepared battle before it starts");
+
+            Session.RestoreBattle(checkpoint);
+            ApplyRestoredBattle();
+        }
+
+        private void ApplyRestoredBattle()
+        {
+            ResetProjection();
+            Auto=false;
+            terminalSeen=Session.Replay.State.Outcome!=Outcome.Active;
+            Paused=Session.Started && !terminalSeen;
+            Prediction.text=Session.Prediction;
+            shownStep=Session.Replay.State.Step;
+            orderedActor=Session.Replay.PendingTargetActor??"";
+            orderedTarget=Session.Replay.PendingTarget??"";
+
+            foreach(var e in Session.Replay.Events)
+            {
+                displayed.Add(e);
+                if(e.Kind==EventKind.Action)
+                {
+                    shownActor=e.Actor;
+                    reaction="";
+                }
+                if(e.Kind==EventKind.Counter)reaction=HeroName(e.Actor)+" 反撃（割込）";
+                if(e.Kind!=EventKind.Action)captions.Add(Describe(e,HeroName));
+                if(e.Kind==EventKind.Death)dead.Add(e.Target);
+            }
+
+            ShowDanger(Session.Replay.State.Telegraphed);
+            SetComparisonCamera(CameraPitch);
+            // Sample the same fall clip at its landing without playing any past motion or effects.
+            foreach(var id in dead)
+            {
+                var pose=PoseOf(id);
+                if(pose?.Puppet==null)continue;
+                pose.Puppet.Lean=FreeSide(id,1)*(pose.Mirrored?-1:1);
+                pose.Puppet.Play(Gfx.PuppetClip.Fall,.05f,1);
+                pose.Puppet.Tick(.05f,0,0,0);
+                RestFallen(id);
+            }
+            if(!terminalSeen)SafeRoot.Find("Boundary").GetComponent<Text>().text="続きから";
+        }
+
+        private Gfx.HqDangerTiles dangerTiles;
+        private void ShowDanger(IReadOnlyList<GridPosition> area)
+        {
+            if(!HqWorld)return;
+            if(dangerTiles==null && area.Count>0)dangerTiles=FieldCamera.gameObject.AddComponent<Gfx.HqDangerTiles>();
+            if(area.Count==0)dangerTiles?.Clear();
+            else dangerTiles.Show(area.Select(cell=>World(Shown(cell))),Cell);
+            foreach(var spirit in spirits)
+                if(Session.Replay.State.Find(spirit.Key)?.Kind==EnemyKind.Guardian)spirit.Value.Telegraphing=area.Count>0;
+        }
+
+        private void ResetProjection()=>ProjectEncounter(true);
+
+        private void ProjectEncounter(bool clearEffects)
+        {
+            ShowDanger(Array.Empty<GridPosition>());
+            ClearAllFallen();SyncEnemyVisuals();if(clearEffects && vfx!=null)vfx.Clear();hitStop=0;actingId="";ClearRelation();frameIntervals.Clear();LastFrameReport=null;displayed.Clear();captions.Clear();dead.Clear();hp.Clear();positions.Clear();terminalSeen=false;shownStep=0;shownActor="";reaction="";foreach(var u in Session.Replay.State.Units){hp[u.Id]=u.Hp;positions[u.Id]=Shown(u.Position);}crisisActive=false;orderedActor="";orderedTarget="";instructionReceiptText="";interruptRequested=false;requestedInstructionAlly="";if(instructionOverlay!=null)instructionOverlay.gameObject.SetActive(false);
+            ClearShownGuard();floating.text="";foreach(var b in badges.Values)b.alpha=1;
+        }
+        private void StartBattle() {if(Session.Started || Busy || enteringEncounter)return;policyEditing=false;Prediction.DeactivateInputField();SetComparisonCamera(CameraPitch);Session.Start(Prediction.text);SaveSettledBattle();Auto=!DeveloperMode;Next();}
         private void Next() {if(Busy || !Session.Started || Session.Replay.State.Outcome!=Outcome.Active)return;StartCoroutine(ResolveAndDisplay());}
         private void ToggleAuto()
         { if(IsExploring){ToggleFloorPause();return;}if(!Session.Started || terminalSeen)return;Auto=!Auto;Paused=!Auto;Refresh();if(Auto && !Busy)Next(); }
@@ -329,7 +542,9 @@ namespace RogueTactics.Presentation
             foreach(var u in Session.Replay.State.Units)
                 if(hp[u.Id]!=u.Hp || !positions[u.Id].Equals(Shown(u.Position)))throw new InvalidOperationException("Mobile event projection mismatch");
             UpdateInstructionReceipt(result);
-            Busy=false;Refresh();
+            if(result.Plan.Kind==ActionKind.Telegraph && displayed.Count(e=>e.Kind==EventKind.Telegraph)==1)
+            {Auto=false;Paused=true;}
+            Busy=false;Refresh();SaveSettledBattle();
             if(Session.Replay.State.Outcome!=Outcome.Active){Auto=false;FinishFrameReport();Debug.Log("MOBILE_G1_RESULT "+Session.Preference+" "+Session.Replay.Hash());}
             else if(interruptRequested)OpenInstruction();
             else if(Auto)Next();
@@ -342,33 +557,60 @@ namespace RogueTactics.Presentation
             if(e.Kind==EventKind.End)terminalSeen=true;
             switch(e.Kind)
             {
+                case EventKind.Telegraph:ShowDanger(e.Area);break;
+                case EventKind.Strike:
+                    dangerTiles?.Strike();
+                    if(spirits.TryGetValue(e.Actor,out var guardian))guardian.Telegraphing=false;
+                    break;
                 case EventKind.Move:positions[e.Target]=Shown(e.Position);
                     actionLink.gameObject.SetActive(false);ghost.gameObject.SetActive(false);
-                    if(e.Actor=="A" || e.Actor=="B"){shield.gameObject.SetActive(false);guardLink.gameObject.SetActive(false);}break;
+                    if(e.Actor==shownGuard?.Actor || e.Actor==shownGuard?.Target)ClearShownGuard();break;
                 case EventKind.Protect:
+                    if(Session.Replay.State.Find(e.Actor).Enemy)
+                    {
+                        ShowRelation(e.Actor,e.Target,ActionKind.Protect,false);
+                        break;
+                    }
+                    shownGuard=e;
                     shield.gameObject.SetActive(!EventMotion);ShowRelation(e.Actor,e.Target,ActionKind.Protect,false);shield.anchoredPosition=(BodyRect(positions[e.Actor]).center+BodyRect(positions[e.Target]).center)/2+new Vector2(-12,12);
                     guardLink.gameObject.SetActive(!EventMotion);if(!EventMotion)Link(guardLink,positions[e.Actor],positions[e.Target]);break;
                 case EventKind.Damage:case EventKind.Counter:case EventKind.Heal:
                     hp[e.Target]=e.HpAfter;ShowImpactRelation(e);floating.text=HeroName(e.Target)+"  "+(e.Kind==EventKind.Heal?"+":"−")+e.Amount;floating.color=e.Kind==EventKind.Heal?Jade:e.Kind==EventKind.Counter?Gold:new Color(1,.65f,.56f);
                     floatUntil=Time.unscaledTime+1;
                     actionLink.gameObject.SetActive(!EventMotion);if(!EventMotion)Link(actionLink,positions[e.Actor],positions[e.Target]);
-                    if(e.Detail.StartsWith("Guard"))captions.Add("守護でダメージ軽減");break;
-                case EventKind.Death:dead.Add(e.Target);actionLink.gameObject.SetActive(false);ghost.gameObject.SetActive(false);if(e.Target=="A" || e.Target=="B"){shield.gameObject.SetActive(false);guardLink.gameObject.SetActive(false);}hp[e.Target]=0;pawns[e.Target].gameObject.SetActive(false);badges[e.Target].alpha=.45f;break;
+                    if((e.Tags & EventTags.Guarded)!=0)captions.Add("守護でダメージ軽減");break;
+                case EventKind.Death:if(Session.Replay.State.Find(e.Target)?.Kind==EnemyKind.Guardian)ShowDanger(Array.Empty<GridPosition>());dead.Add(e.Target);actionLink.gameObject.SetActive(false);ghost.gameObject.SetActive(false);if(e.Target==shownGuard?.Actor || e.Target==shownGuard?.Target)ClearShownGuard();hp[e.Target]=0;pawns[e.Target].gameObject.SetActive(false);badges[e.Target].alpha=.45f;break;
             }
-            if(e.Kind!=EventKind.Action)captions.Add(Describe(e));
-            if(e.Kind==EventKind.Action && e.Actor=="B"){shield.gameObject.SetActive(false);guardLink.gameObject.SetActive(false);}
+            if(e.Kind!=EventKind.Action)captions.Add(Describe(e,HeroName));
+            if(e.Kind==EventKind.Action && e.Actor==shownGuard?.Actor)ClearShownGuard();
         }
-        public static string Describe(BattleEvent e)
+        private void ClearShownGuard()
+        {
+            shownGuard=null;
+            shield.gameObject.SetActive(false);
+            guardLink.gameObject.SetActive(false);
+        }
+
+        private void RefreshShownGuard()
+        {
+            if(shownGuard!=null && guardLink.gameObject.activeSelf)
+                Link(guardLink,positions[shownGuard.Actor],positions[shownGuard.Target]);
+        }
+
+        public static string Describe(BattleEvent e)=>Describe(e,LegacyHeroName);
+        private static string Describe(BattleEvent e,Func<string,string> name)
         {
             switch(e.Kind)
             {
-                case EventKind.Protect:return HeroName(e.Actor)+" → "+HeroName(e.Target)+" を守る（軽減 "+e.Amount+"）";
-                case EventKind.Damage:return HeroName(e.Actor)+" → "+HeroName(e.Target)+" 攻撃  −"+e.Amount+(e.Detail.StartsWith("Guard")?"（守護で軽減）":"");
-                case EventKind.Counter:return HeroName(e.Actor)+" → "+HeroName(e.Target)+" 反撃  −"+e.Amount;
-                case EventKind.Heal:return HeroName(e.Actor)+" → "+HeroName(e.Target)+" 回復  ＋"+e.Amount;
-                case EventKind.Death:return HeroName(e.Target)+" は戦闘不能";
-                case EventKind.Move:return HeroName(e.Actor)+" が移動";
-                case EventKind.End:return "戦闘終了："+(e.Detail=="Victory"?"勝利":e.Detail=="Defeat"?"敗北":"上限");
+                case EventKind.Protect:return name(e.Actor)+" → "+name(e.Target)+" を守る（軽減 "+e.Amount+"）";
+                case EventKind.Damage:return name(e.Actor)+" → "+name(e.Target)+" 攻撃  −"+e.Amount+((e.Tags & EventTags.Guarded)!=0?"（守護で軽減）":"");
+                case EventKind.Counter:return name(e.Actor)+" → "+name(e.Target)+" 反撃  −"+e.Amount;
+                case EventKind.Heal:return name(e.Actor)+" → "+name(e.Target)+" 回復  ＋"+e.Amount;
+                case EventKind.Death:return name(e.Target)+" は戦闘不能";
+                case EventKind.Move:return name(e.Actor)+" が移動";
+                case EventKind.Telegraph:return "守護者が危険な床を予告した";
+                case EventKind.Strike:return "守護者が予告した床を叩いた";
+                case EventKind.End:return "戦闘終了："+(e.Result==Outcome.Victory?"勝利":e.Result==Outcome.Defeat?"敗北":"上限");
                 default:return "";
             }
         }
@@ -386,7 +628,7 @@ namespace RogueTactics.Presentation
         }
         private void Refresh()
         {
-            RefreshActors();if(guardLink.gameObject.activeSelf)Link(guardLink,positions["B"],positions["A"]);var active=Session.Started;setup.gameObject.SetActive(!active);battleControls.gameObject.SetActive(active);
+            RefreshActors();RefreshShownGuard();var active=Session.Started;setup.gameObject.SetActive(!active);battleControls.gameObject.SetActive(active);
             phase.text=active?"行動 "+shownStep+"  /  "+(!terminalSeen?"観察中":"戦闘終了"):"Bの選好だけを変える  /  同じ初期戦況";
             if(active)
             {
@@ -402,16 +644,17 @@ namespace RogueTactics.Presentation
                 ghost.gameObject.SetActive(p?.Kind==ActionKind.Move);
                 if(p!=null){Link(actionLink,positions[p.Actor],p.Kind==ActionKind.Move?Shown(p.Destination):(p.Target!=""?positions[p.Target]:positions[p.Actor]));if(p.Kind==ActionKind.Move)ghost.anchoredPosition=Point(Shown(p.Destination),.05f)+new Vector2(-17,9);}
             }
+            buttons["Start"].interactable=!enteringEncounter;
             buttons["Next"].interactable=active && Session.Replay.State.Outcome==Outcome.Active && !Busy && !Auto;
             buttons["Play"].interactable=active && !terminalSeen;buttons["Play"].GetComponentInChildren<Text>().text=Auto?"一時停止":"続けて見る";
             buttons["Reset"].interactable=!Busy;buttons["Compare"].interactable=Session.Trials.Count>0 && !Busy;
-            buttons["Protect"].GetComponent<Image>().color=Session.Preference==Preference.ProtectAnchor?new Color(.22f,.40f,.39f):new Color(.12f,.24f,.26f);
-            buttons["Attack"].GetComponent<Image>().color=Session.Preference==Preference.DirectAttack?new Color(.22f,.40f,.39f):new Color(.12f,.24f,.26f);
+            foreach(var policy in PolicyLabels)
+                buttons[policy.Value.Button].GetComponent<Image>().color=Session.Preference==policy.Key?new Color(.22f,.40f,.39f):new Color(.12f,.24f,.26f);
             RefreshProductHud();
             RefreshFloorUi();
             RefreshRoundIntents();
         }
-        private static string PlanName(ActionKind kind) => kind==ActionKind.Protect?"守護":kind==ActionKind.Attack?"攻撃":kind==ActionKind.Heal?"回復":kind==ActionKind.Move?"移動":"待機";
+        private static string PlanName(ActionKind kind) => kind==ActionKind.Protect?"守護":kind==ActionKind.Attack?"攻撃":kind==ActionKind.Heal?"回復":kind==ActionKind.Move?"移動":kind==ActionKind.Telegraph?"予告":kind==ActionKind.Strike?"範囲攻撃":"待機";
         private void OpenDetails(bool trials)
         {
             CloseReferenceMemo();
@@ -422,8 +665,8 @@ namespace RogueTactics.Presentation
             if(trials)
             {
                 headline.text="結果と事前予想";
-                modalText.text=string.Join("\n\n",new[]{Preference.ProtectAnchor,Preference.DirectAttack}.Where(p=>Session.Trials.ContainsKey(p)).Select(p=>{
-                    var t=Session.Trials[p];return (p==Preference.ProtectAnchor?"モモ：シロのそばで守る":"モモ：近くの敵を攻める")+"\n"+(t.Outcome==Outcome.Victory?"勝利":"終了")+" / "+t.Actions+"行動 / 生存 "+t.Alive+"人\nHP "+t.Hp.Replace("A:","シロ:").Replace("B:","モモ:").Replace("C:","ガル:").Replace("D:","ミャル:")+"\n回復残数 "+t.Heals+"\n予想："+(t.Prediction==""?"（未入力）":t.Prediction)+(DeveloperMode?"\nSHA "+t.Hash.Substring(0,16):"");
+                modalText.text=string.Join("\n\n",Policies.Where(p=>Session.Trials.ContainsKey(p)).Select(p=>{
+                    var t=Session.Trials[p];return "モモ："+PolicyLabels[p].Detail+"\n"+(t.Outcome==Outcome.Victory?"勝利":"終了")+" / "+t.Actions+"行動 / 生存 "+t.Alive+"人\nHP "+t.Hp.Replace("A:","シロ:").Replace("B:","モモ:").Replace("C:","ガル:").Replace("D:","ミャル:")+"\n回復残数 "+t.Heals+"\n予想："+(t.Prediction==""?"（未入力）":t.Prediction)+(DeveloperMode?"\nSHA "+t.Hash.Substring(0,16):"");
                 }));
             }
             else
@@ -435,7 +678,7 @@ namespace RogueTactics.Presentation
             {
                 headline.text="旅の記録";
                 var ownPrediction=Prediction.text;
-                modalText.text="今回の方針：モモが"+(Session.Preference==Preference.ProtectAnchor?"シロを守る":"近くの敵を攻める")+
+                modalText.text="今回の方針：モモが"+PolicyLabels[Session.Preference].LegacyAction+
                     (string.IsNullOrWhiteSpace(ownPrediction)?"":"\n自分の予想："+ownPrediction)+
                     (captions.Count==0?"":"\n\n見た出来事\n"+string.Join("\n",captions.Skip(Mathf.Max(0,captions.Count-6))))+
                     "\n\n仲間に戦いを託す\nモモの方針を選び、予想を残して戦闘開始。仲間は自分で動きます。どちらの方針も同じ初期状態から試せます。\n\n仲間の動き\nシロ：生きて被弾すると、隣の敵へ反撃2。\nモモ：隣のシロを守ると被害を3軽減。もう一つの方針では近くの敵へ攻めます。\nガル：シロと同じ敵に隣接すると攻撃に2追加。\nミャル：体力が4以上減った生存仲間を、距離2以内で4回復。初回は2回分。\n\n戦いを見比べる\n終わったら予想と結果を比べ、同じ戦闘を別の方針で試せます。\n\n遺跡を探索する\n見えている床や通路を選ぶと仲間が進みます。地図や記録を開いた戦い・移動は停止し、閉じた後に再開できます。";

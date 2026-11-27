@@ -90,8 +90,8 @@ namespace RogueTactics.Presentation
             referenceFooter.anchorMin=referenceFooter.anchorMax=Vector2.zero;referenceFooter.pivot=Vector2.zero;referenceFooter.anchoredPosition=Vector2.zero;
             var gradient=referenceFooter.gameObject.AddComponent<HudGradientGraphic>();gradient.raycastTarget=false;
             referenceFooter.SetAsFirstSibling();
-            companionFrames=new HudPanelGraphic[4];
-            for(var i=0;i<4;i++)
+            companionFrames=new HudPanelGraphic[CardOrder.Length];
+            for(var i=0;i<CardOrder.Length;i++)
             {
                 var id=CardOrder[i];var r=cardValues[id].transform.parent.GetComponent<RectTransform>();
                 r.GetComponent<Image>().color=Color.clear;var outline=r.GetComponent<Outline>();outline.enabled=false;
@@ -119,7 +119,7 @@ namespace RogueTactics.Presentation
             // Foot health: brighter fills with a top gloss, same geometry as before.
             foreach(var entry in hpBars)
             {
-                entry.Value.color=Fixture.Baseline().Find(entry.Key).Enemy?new Color(1,.42f,.38f):new Color(.36f,.95f,.52f);
+                entry.Value.color=Session.Replay.State.Find(entry.Key).Enemy?new Color(1,.42f,.38f):new Color(.36f,.95f,.52f);
                 var gloss=Rect(entry.Value.transform,"HP gloss",0,0,1,1);gloss.anchorMin=new Vector2(0,.5f);gloss.anchorMax=Vector2.one;gloss.offsetMin=gloss.offsetMax=Vector2.zero;
                 var shine=gloss.gameObject.AddComponent<Image>();shine.color=new Color(1,1,1,.38f);shine.raycastTarget=false;
             }
@@ -131,6 +131,7 @@ namespace RogueTactics.Presentation
             StyleReferenceButton("Start",HudSymbol.Play,Gold);PrimaryFill("Start");StyleReferenceButton("Play",HudSymbol.Pause,Gold);
             StyleReferenceButton("Reset",HudSymbol.Reset,new Color(.62f,.74f,.84f));StyleReferenceButton("Compare",HudSymbol.Compare,Gold);
             StyleReferenceButton("Protect",HudSymbol.Shield,new Color(.48f,.83f,1));StyleReferenceButton("Attack",HudSymbol.Swords,new Color(1,.60f,.48f));
+            StyleReferenceButton("Balance",HudSymbol.Compare,Jade);
             MakeButton(controls,"PolicyShortcut","モモの方針",12,0,160,48,()=>{if(!Session.Started){policyEditing=true;SetComparisonCamera(CameraPitch);}},14);
             StyleReferenceButton("PolicyShortcut",HudSymbol.Shield,CompanionColors[3]);
             policyBackdrop.color=Color.clear;Frame(setup,new Color(.035f,.07f,.12f,.98f),new Color(.76f,.68f,.58f),14);
@@ -166,8 +167,8 @@ namespace RogueTactics.Presentation
             SafeRoot.Find("Observed journey").GetComponent<RectTransform>().anchoredPosition=new Vector2(w-72,-70);
             referenceFooter.anchoredPosition=Vector2.zero;referenceFooter.sizeDelta=new Vector2(canvas.GetComponent<RectTransform>().rect.width,230);
             roster.anchoredPosition=new Vector2(9,-(h-192));roster.sizeDelta=new Vector2(w-18,124);
-            var width=(w-36)/4;
-            for(var i=0;i<4;i++)
+            var width=(w-36)/CardOrder.Length;
+            for(var i=0;i<CardOrder.Length;i++)
             {
                 var id=CardOrder[i];var r=cardValues[id].transform.parent.GetComponent<RectTransform>();r.anchoredPosition=new Vector2(i*(width+6),0);r.sizeDelta=new Vector2(width,124);
                 var art=r.Find("Approved portrait").GetComponent<RectTransform>();art.anchoredPosition=new Vector2(5,-5);art.sizeDelta=new Vector2(width-10,60);
@@ -197,6 +198,45 @@ namespace RogueTactics.Presentation
             label.rectTransform.anchoredPosition=new Vector2(left+34,-2);
             label.rectTransform.sizeDelta=new Vector2(labelWidth,44);
         }
+        private string IntentReasonText(Plan plan) => plan.Why switch
+        {
+            IntentReason.Protect => HeroName(plan.Target)+"を守る",
+            IntentReason.ApproachToProtect => HeroName(plan.Target)+"のそばへ",
+            IntentReason.HealLowest => HeroName(plan.Target)+"を癒やす",
+            IntentReason.ApproachWounded => HeroName(plan.Target)+"のもとへ",
+            IntentReason.FlankAttack => "挟み撃ち",
+            IntentReason.AttackAdjacent => "目の前を討つ",
+            IntentReason.ApproachEnemy => "敵へ向かう",
+            IntentReason.Blocked => "道がない",
+            IntentReason.NoTarget => "様子を見る",
+            IntentReason.Ordered => "指示に従う",
+            IntentReason.HuntNearest => "近くの相手を狙う",
+            IntentReason.HuntWeakest => "弱った相手を狙う",
+            IntentReason.GuardNeighbour => "隣の仲間をかばう",
+            IntentReason.Leap => "飛び越えて近づく",
+            IntentReason.Telegraph => "攻撃範囲を予告する",
+            IntentReason.Strike => "予告した床を叩く",
+            IntentReason.Retreat => "危険な床から退く",
+            _ => throw new System.ArgumentOutOfRangeException(nameof(plan))
+        };
+
+        private void RefreshCompanionReasons()
+        {
+            var show=Session.Started && !Busy && !terminalSeen && !IsExploring;
+            var intents=show?CurrentVisibleIntents():null;
+            for(var i=0;i<CardOrder.Length;i++)
+            {
+                var id=CardOrder[i];
+                var plan=intents?.FirstOrDefault(candidate=>candidate.Actor==id);
+                var label=cardValues[id].transform.parent.Find("Role meaning").GetComponent<Text>();
+                label.resizeTextForBestFit=plan!=null;
+                label.resizeTextMinSize=9;
+                label.resizeTextMaxSize=11;
+                label.text=dead.Contains(id)?"戦闘不能":plan!=null?IntentReasonText(plan):
+                    id=="B"?PolicyLabels[Session.Preference].Action:CoreRoles[i];
+            }
+        }
+
         private void RefreshReferenceHud()
         {
             if(referenceFooter==null)return;
@@ -207,12 +247,11 @@ namespace RogueTactics.Presentation
             LayoutReferenceHud(SafeRoot.rect.width,SafeRoot.rect.height);
             var w=SafeRoot.rect.width;
             if(policyEditing)setup.anchoredPosition=new Vector2(0,298);
-            for(var i=0;i<4;i++)
+            for(var i=0;i<CardOrder.Length;i++)
             {
-                var id=CardOrder[i];var unit=Fixture.Baseline().Find(id);var r=cardValues[id].transform.parent;
+                var id=CardOrder[i];var unit=Session.Replay.State.Find(id);var r=cardValues[id].transform.parent;
                 r.Find("Name").GetComponent<Text>().text=HeroName(id);
-                r.Find("Role meaning").GetComponent<Text>().text=dead.Contains(id)?"戦闘不能":id=="B"?(Session.Preference==Preference.ProtectAnchor?"シロを守る":"敵を攻める"):CoreRoles[i];
-                cardHealth[id].rectTransform.sizeDelta=new Vector2(((w-36)/4-14)*hp[id]/unit.MaxHp,5);
+                cardHealth[id].rectTransform.sizeDelta=new Vector2(((w-36)/CardOrder.Length-14)*hp[id]/unit.MaxHp,5);
                 r.Find("Approved portrait").GetComponent<RawImage>().color=dead.Contains(id)?new Color(.45f,.45f,.48f):Color.white;
                 companionFrames[i].Border=dead.Contains(id)?new Color(.32f,.36f,.42f):CompanionColors[i];companionFrames[i].SetVerticesDirty();
                 if(id=="B")
@@ -226,7 +265,7 @@ namespace RogueTactics.Presentation
                 SafeRoot.Find("Boundary").GetComponent<Text>().text="モモの方針を選び、仲間に戦いを託す";
                 buttons["Start"].GetComponent<Image>().color=Color.clear;
                 if(policyEditing){PositionReferenceAction("Start",12,0,w-24,"この方針で戦闘開始");}
-                else{PositionReferenceAction("PolicyShortcut",12,0,(w-30)/2,Session.Preference==Preference.ProtectAnchor?"モモ：シロを守る":"モモ：敵を攻める");PositionReferenceAction("Start",18+(w-30)/2,0,(w-30)/2,"戦闘開始");}
+                else{PositionReferenceAction("PolicyShortcut",12,0,(w-30)/2,"モモ："+PolicyLabels[Session.Preference].Action);PositionReferenceAction("Start",18+(w-30)/2,0,(w-30)/2,"戦闘開始");}
                 eventBackdrop.gameObject.SetActive(false);eventCaption.gameObject.SetActive(false);
             }
             else if(!IsExploring)
@@ -236,12 +275,20 @@ namespace RogueTactics.Presentation
                 else
                 {PositionReferenceAction("Play",w-116,0,104,Auto?"一時停止":"再開");}
             }
-            PositionReferenceAction("Protect",12,46,(w-30)/2,"シロを守る");PositionReferenceAction("Attack",18+(w-30)/2,46,(w-30)/2,"敵へ攻める");
-            foreach(var id in new[]{"Protect","Attack"})
+            var policyX=12f;
+            foreach(var preference in Policies)
             {
-                var selected=(id=="Protect")== (Session.Preference==Preference.ProtectAnchor);var panel=buttons[id].GetComponentInChildren<HudPanelGraphic>();
+                var policy=PolicyLabels[preference];
+                var selected=Session.Preference==preference;
+                var unlocked=Session.FloorNumber>1;
+                var available=preference!=Preference.Balanced || unlocked;
+                buttons[policy.Button].gameObject.SetActive(available);
+                if(!available)continue;
+                var width=(w-(unlocked?36:30))/(unlocked?3:2);
+                PositionReferenceAction(policy.Button,policyX,46,width,selected?"選択中\n"+policy.Action:policy.Choice);
+                policyX+=width+6;
+                var panel=buttons[policy.Button].GetComponentInChildren<HudPanelGraphic>();
                 panel.Border=selected?Gold:new Color(.40f,.50f,.60f);panel.Fill=selected?new Color(.12f,.22f,.28f,.99f):new Color(.035f,.07f,.12f,.96f);panel.SetVerticesDirty();
-                if(selected)buttons[id].transform.Find("Label").GetComponent<Text>().text=id=="Protect"?"選択中\nシロを守る":"選択中\n敵を攻める";
             }
             PositionReferenceAction("Details",w-68,6,56,"");
             var book=buttons["Details"].transform.Find("Action symbol").GetComponent<RectTransform>();book.anchoredPosition=new Vector2(18,-6);
@@ -251,6 +298,7 @@ namespace RogueTactics.Presentation
             SetTransportSymbol(!Auto);
             var phaseGlyph=journeyStatus.transform.parent.Find("Journey emblem").GetComponent<HudGlyphGraphic>();phaseGlyph.Symbol=IsExploring?HudSymbol.Steps:Session.Started?HudSymbol.Swords:HudSymbol.Compass;phaseGlyph.SetVerticesDirty();
             if(!ExplorationEnabled)orderStrip.anchoredPosition=(Vector2)Field.InverseTransformPoint(SafeRoot.TransformPoint(new Vector3(12,-96,0)));
+            RefreshCompanionReasons();
             RefreshReferenceOrder();
             LayoutReferenceTypography(w,SafeRoot.rect.height);RefreshAutonomousHud();
         }
@@ -308,7 +356,7 @@ namespace RogueTactics.Presentation
             buttons["Effects"].gameObject.SetActive(false);buttons["Diagnostics"].gameObject.SetActive(false);
             buttons["PresentationSettings"].gameObject.SetActive(false);
             buttons["RecordUp"].gameObject.SetActive(false);buttons["RecordDown"].gameObject.SetActive(false);
-            expandedKnownMap.Configure(floorMap,displayedKnown,positions.Where(p=>!dead.Contains(p.Key)));expandedKnownMap.gameObject.SetActive(true);
+            expandedKnownMap.Configure(floorMap,displayedKnown,KnownMapActors());expandedKnownMap.gameObject.SetActive(true);
             modalObject.SetActive(true);modalObject.transform.SetAsLastSibling();RefreshFloorUi();
             SyncReferenceModal();
         }
@@ -337,7 +385,7 @@ namespace RogueTactics.Presentation
             var map=floorMini.transform.parent.GetComponent<RectTransform>();map.anchoredPosition=new Vector2(12,-82);map.sizeDelta=new Vector2(110,102);
             floorMini.rectTransform.anchoredPosition=new Vector2(6,-20);floorMini.rectTransform.sizeDelta=new Vector2(98,74);
             var discovered=floorMap.Rooms.Count(r=>displayedKnown.Any(p=>r.Contains(p)));
-            discoveredStatus.text="発見 "+discovered+"室";
+            discoveredStatus.text=(Session.FloorNumber>1?Session.FloorNumber+"階 · ":"")+"発見 "+discovered+"室";
             SafeRoot.Find("Observed journey").gameObject.SetActive(!DeveloperMode && !policyEditing && !modalObject.activeSelf);
             if(expandedKnownMap!=null && !modalObject.activeSelf)expandedKnownMap.gameObject.SetActive(false);
             var w=SafeRoot.rect.width;var h=SafeRoot.rect.height;

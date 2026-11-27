@@ -24,7 +24,7 @@ namespace RogueTactics.Presentation
         private Text resultTitle, resultDetail;
         private int previousResultEncounter=-1, previousSurvivors;
         private readonly List<HudGlyphGraphic> crisisMarks=new List<HudGlyphGraphic>();
-        private bool GauntletRules=>ExplorationEnabled && Session.EncounterIndex>0;
+        private bool GauntletRules=>ExplorationEnabled && (Session.FloorNumber>1 || Session.EncounterIndex>0);
         private GridPosition Shown(GridPosition core)=>core.Offset(battleOrigin.X,battleOrigin.Y);
         private Vector3 BattleCenter()
             =>new Vector3(2*Cell,HqWorld?-2f-(!DeveloperMode && policyEditing?3.5f:0):-1.4f,2*Cell*DepthSpacing-.4f)+World(battleOrigin);
@@ -36,14 +36,15 @@ namespace RogueTactics.Presentation
             if(buttons.ContainsKey("Challenge") || !ExplorationEnabled || !HqWorld)return;
             MakeButton(SafeRoot,"Challenge","守り手に挑む",12,0,366,48,ChallengeNextEncounter,15);
             StyleReferenceButton("Challenge",HudSymbol.Swords,Gold);PrimaryFill("Challenge");
+            MakeButton(SafeRoot,"Retreat","危険な床から退く",12,0,366,48,RetreatFromWarning,15);
+            StyleReferenceButton("Retreat",HudSymbol.Steps,Gold);
+            buttons["Retreat"].gameObject.SetActive(false);
             MakeButton(SafeRoot,"Correct","",12,0,366,48,RequestInstruction,13);
             StyleReferenceButton("Correct",HudSymbol.Shield,new Color(1,.46f,.42f));
             PrimaryFill("Correct",new Color(1,.26f,.26f),new Color(1,.66f,.60f));
-            for(var i=0;i<6;i++)
-            {var strip=Strip(Field,"Round intent "+i,Color.white);var g=strip.GetComponent<MobileRouteGraphic>();g.Glow=true;strip.gameObject.SetActive(false);roundIntents.Add(g);}
+            EnsureRoundIntentCapacity(Session.Replay.State.Initiative.Count);
             nextIntentMark=Glyph(Field,"Next intent mark",HudSymbol.Swords,0,0,16,Color.white,true,true);nextIntentMark.gameObject.SetActive(false);
-            // Threatened allies get a red alert gem above the head while the crisis stop waits for a choice.
-            for(var i=0;i<4;i++){var mark=Glyph(Field,"Crisis mark "+i,HudSymbol.Alert,0,0,16,new Color(1,.28f,.26f),true,true);mark.rectTransform.pivot=new Vector2(.5f,.5f);mark.gameObject.SetActive(false);crisisMarks.Add(mark);}
+            EnsureCrisisMarkCapacity(Session.Replay.State.Units.Count(unit=>!unit.Enemy));
             // Encounter result: a gold banner between the board and the cards. Display only; Core decided the outcome.
             resultBanner=Rect(SafeRoot,"Result banner",12,0,366,66);
             Frame(resultBanner,new Color(.08f,.065f,.03f,.95f),Gold,16).TopFill=new Color(.24f,.17f,.06f,.95f);
@@ -54,6 +55,28 @@ namespace RogueTactics.Presentation
             resultDetail=Label(resultBanner,"Result detail","",60,39,246,22,12,TextAnchor.MiddleCenter);
             resultBanner.gameObject.SetActive(false);
         }
+        private void EnsureRoundIntentCapacity(int count)
+        {
+            while(roundIntents.Count<count)
+            {
+                var strip=Strip(Field,"Round intent "+roundIntents.Count,Color.white);
+                var graphic=strip.GetComponent<MobileRouteGraphic>();
+                graphic.Glow=true;
+                strip.gameObject.SetActive(false);
+                roundIntents.Add(graphic);
+            }
+        }
+
+        private void EnsureCrisisMarkCapacity(int count)
+        {
+            while(crisisMarks.Count<count)
+            {
+                var mark=Glyph(Field,"Crisis mark "+crisisMarks.Count,HudSymbol.Alert,0,0,16,new Color(1,.28f,.26f),true,true);
+                mark.rectTransform.pivot=new Vector2(.5f,.5f);
+                mark.gameObject.SetActive(false);
+                crisisMarks.Add(mark);
+            }
+        }
         private void RetryCurrentEncounter()
         {
             if(Busy || IsExploring || !terminalSeen)return;
@@ -61,12 +84,13 @@ namespace RogueTactics.Presentation
             previousSurvivors=Session.Replay.State.Units.Count(u=>!u.Enemy && u.Alive);
             Auto=false;Paused=false;policyEditing=false;
             Session.Reset();Prediction.text="";ResetProjection();SetComparisonCamera(CameraPitch);
+            if(Session.FloorNumber==1)ClearSavedBattle();else SaveSettledBattle();
         }
         private int NextEncounter=>Session.EncounterIndex+1;
         private bool PartyInRoom(int room)
             =>traveller!=null && traveller.Party.Values.Any(p=>floorMap.RoomAt(p)==room);
         private bool CanChallenge=>ExplorationEnabled && IsExploring && travelRoutine==null && !modalObject.activeSelf &&
-            NextEncounter<Fixture.EncounterCount && PartyInRoom(GauntletRooms.Room[NextEncounter]);
+            NextEncounter<Session.EncounterCount && PartyInRoom(GauntletRooms.Room[NextEncounter]);
         public bool ChallengeAvailable=>CanChallenge;
 
         public void ChallengeNextEncounter()
@@ -78,9 +102,12 @@ namespace RogueTactics.Presentation
         {
             enteringEncounter=true;
             var from=pawns.ToDictionary(p=>p.Key,p=>p.Value.position);var cameraFrom=FieldCamera.transform.position;
+            var recovered=UseVictoryRecovery?(traveller.VictoryRestApplied?traveller.Health:
+                PartyRecovery.AfterVictory(Session.Replay.State,25)):null;
             traveller.Cancel();traveller=null;IsExploring=false;TravelSelection=null;selectedFloorMarker.gameObject.SetActive(false);
+            if(floorSpring!=null)floorSpring.gameObject.SetActive(false);
             battleOrigin=GauntletRooms.Origin(floorMap,index);
-            Session.LoadEncounter(index);Auto=false;Paused=false;policyEditing=false;Prediction.text="";ResetProjection();
+            Session.LoadEncounter(index,recovered);Auto=false;Paused=false;policyEditing=false;Prediction.text="";ResetProjection();
             SetComparisonCamera(CameraPitch);var cameraTo=FieldCamera.transform.position;
             // Allies walk into the room's formation; guardians rise where Core placed them.
             visualTweenActive=true;
@@ -97,10 +124,12 @@ namespace RogueTactics.Presentation
                 yield return null;
             }
             visualTweenActive=false;FieldCamera.transform.position=cameraTo;enteringEncounter=false;Refresh();
+            if(Session.FloorNumber>1)SaveSettledBattle();
         }
         private bool interruptRequested;
         private string directedAlly="", directedEnemy="";
         private RectTransform instructionOverlay, instructionSheet;
+        private readonly Dictionary<string,Button> instructionEnemies=new Dictionary<string,Button>();
         private Text instructionSummary, instructionReceipt;
         private string orderedActor="", orderedTarget="", instructionReceiptText="";
         private void UpdateInstructionReceipt(ResolvedStep step)
@@ -168,30 +197,61 @@ namespace RogueTactics.Presentation
                 var name=button.transform.Find("Label").GetComponent<Text>();name.fontSize=12;name.rectTransform.anchoredPosition=new Vector2(2,-49);name.rectTransform.sizeDelta=new Vector2(76,25);
                 Label(button.transform,"HP", "",47,9,31,40,10,TextAnchor.MiddleCenter);
             }
-            MakeButton(instructionSheet,"DirectEnemyX",HeroName("X"),16,158,164,60,()=>{directedEnemy="X";RefreshInstruction();},15);
-            MakeButton(instructionSheet,"DirectEnemyY",HeroName("Y"),190,158,164,60,()=>{directedEnemy="Y";RefreshInstruction();},15);
-            foreach(var id in new[]{"X","Y"})
-            {
-                var button=buttons["DirectEnemy"+id];
-                var face=Rect(button.transform,"Spirit portrait",6,3,38,38).gameObject.AddComponent<SpiritPortraitGraphic>();
-                face.Kind=HqCreature.KindOf(id);face.Alt=HqCreature.AltOf(id);face.raycastTarget=false;
-                var label=button.transform.Find("Label").GetComponent<Text>();
-                label.fontSize=11;label.rectTransform.anchoredPosition=new Vector2(46,-2);label.rectTransform.sizeDelta=new Vector2(114,56);
-            }
             instructionSummary=Label(instructionSheet,"Selection","",16,223,338,40,12);
             MakeButton(instructionSheet,"DirectCancel","やめて任せる",16,266,164,44,CancelInstruction,15);
             MakeButton(instructionSheet,"DirectConfirm","この一手を託す",190,266,164,44,ConfirmInstruction,15);
             instructionOverlay.gameObject.SetActive(false);
         }
+        private void LayoutInstructionSheet()
+        {
+            var extraHeight=instructionSheet.sizeDelta.y-320;
+            instructionSheet.anchoredPosition=new Vector2(10,-(SafeRoot.rect.height-330-extraHeight));
+        }
+
+        private void RefreshInstructionEnemies()
+        {
+            var enemies=Session.Replay.State.Units.Where(unit=>unit.Enemy).ToArray();
+            foreach(var entry in instructionEnemies)
+                if(!enemies.Any(enemy=>enemy.Id==entry.Key))entry.Value.gameObject.SetActive(false);
+            var plans=Session.Replay.Intents().ToDictionary(plan=>plan.Actor);
+            for(var i=0;i<enemies.Length;i++)
+            {
+                var enemy=enemies[i];
+                var id=enemy.Id;
+                var key="DirectEnemy"+id;
+                if(!instructionEnemies.TryGetValue(id,out var button))
+                {
+                    MakeButton(instructionSheet,key,HeroName(id),16,158,164,60,()=>{directedEnemy=id;RefreshInstruction();},15);
+                    button=buttons[key];
+                    instructionEnemies.Add(id,button);
+                    var face=Rect(button.transform,"Spirit portrait",6,3,38,38).gameObject.AddComponent<SpiritPortraitGraphic>();
+                    face.raycastTarget=false;
+                    var label=button.transform.Find("Label").GetComponent<Text>();
+                    label.fontSize=11;label.rectTransform.anchoredPosition=new Vector2(46,-2);label.rectTransform.sizeDelta=new Vector2(114,56);
+                }
+                var portrait=button.GetComponentInChildren<SpiritPortraitGraphic>();
+                portrait.Kind=SpiritOf(id);portrait.Alt=HqCreature.AltOf(id);portrait.SetVerticesDirty();
+                button.GetComponent<RectTransform>().anchoredPosition=new Vector2(16+i%2*174,-(158+i/2*66));
+                button.gameObject.SetActive(true);
+                button.interactable=enemy.Alive;
+                button.GetComponent<Image>().color=id==directedEnemy?new Color(.4f,.3f,.10f):new Color(.12f,.24f,.26f);
+                plans.TryGetValue(id,out var plan);
+                var intentText=!enemy.Alive?"戦闘不能":plan==null?"待機":PlanName(plan.Kind)+(plan.Target!=""?"→"+HeroName(plan.Target):"");
+                button.transform.Find("Label").GetComponent<Text>().text=HeroName(id)+"  HP "+enemy.Hp+"\n"+intentText;
+            }
+            var extraHeight=Mathf.Max(0,(enemies.Length-1)/2)*66;
+            instructionSheet.sizeDelta=new Vector2(370,320+extraHeight);
+            instructionSummary.rectTransform.anchoredPosition=new Vector2(16,-(223+extraHeight));
+            buttons["DirectCancel"].GetComponent<RectTransform>().anchoredPosition=new Vector2(16,-(266+extraHeight));
+            buttons["DirectConfirm"].GetComponent<RectTransform>().anchoredPosition=new Vector2(190,-(266+extraHeight));
+            LayoutInstructionSheet();
+        }
+
         private void RefreshInstruction()
         {
             foreach(var id in CardOrder)
             {var b=buttons["DirectAlly"+id];var u=Session.Replay.State.Find(id);b.interactable=u.Alive;b.transform.Find("HP").GetComponent<Text>().text="HP\n"+u.Hp;b.GetComponent<Image>().color=id==directedAlly?new Color(.4f,.3f,.10f):new Color(.12f,.24f,.26f);}
-            foreach(var id in new[]{"X","Y"})
-            {var b=buttons["DirectEnemy"+id];b.interactable=Session.Replay.State.Find(id).Alive;b.GetComponent<Image>().color=id==directedEnemy?new Color(.4f,.3f,.10f):new Color(.12f,.24f,.26f);var enemy=Session.Replay.State.Find(id);
-                var plan=Session.Replay.Intents().FirstOrDefault(p=>p.Actor==id);
-                var intentText=!enemy.Alive?"戦闘不能":plan==null?"待機":PlanName(plan.Kind)+(plan.Target!=""?"→"+HeroName(plan.Target):"");
-                b.transform.Find("Label").GetComponent<Text>().text=HeroName(id)+"  HP "+enemy.Hp+"\n"+intentText;}
+            RefreshInstructionEnemies();
             buttons["DirectConfirm"].interactable=directedAlly!="" && directedEnemy!="";
             instructionSummary.text=directedAlly==""?"誰に一手を託しますか？\n確定するまで回数は減りません":directedEnemy==""?HeroName(directedAlly)+"が狙う相手を選んでください":"";
             var usual=directedAlly==""?null:Session.Replay.Intents().FirstOrDefault(plan=>plan.Actor==directedAlly);
@@ -205,6 +265,7 @@ namespace RogueTactics.Presentation
                 var action=p.Kind==ActionKind.Attack?"攻撃":p.Kind==ActionKind.Move?"1マス接近":"進路が塞がれて待機";
                 instructionSummary.text=HeroName(directedAlly)+" → "+HeroName(directedEnemy)+"：今なら"+action+"\n"+(same?"今の自動行動と同じです。":"次の1行動だけ変更。")+"順番までに状況は変わります。";
             }
+            RefreshCompanionReasons();
             RefreshRoundIntents();
         }
         private void CancelInstruction()
@@ -212,26 +273,26 @@ namespace RogueTactics.Presentation
         private void ConfirmInstruction()
         {
             if(directedAlly=="" || directedEnemy=="" || Busy)return;
-            Session.Replay.TargetOnce(directedAlly,directedEnemy);
+            Session.TargetOnce(directedAlly,directedEnemy);
+            SaveSettledBattle();
             orderedActor=directedAlly;orderedTarget=directedEnemy;
             instructionReceiptText=HeroName(orderedActor)+" → "+HeroName(orderedTarget)+" · 次の行動を待っています";
             captions.Add(HeroName(directedAlly)+"に指示："+HeroName(directedEnemy)+"を狙う（次の1行動）");
             CancelInstruction();
         }
+        private IReadOnlyList<Plan> CurrentVisibleIntents()
+        {
+            if(!InstructionOpen)return Session.Replay.Intents();
+            if(directedAlly=="" || directedEnemy=="")return System.Array.Empty<Plan>();
+            return new[]{Rules.Preview(Session.Replay.State,new Command(Session.Preference),directedAlly,directedEnemy)};
+        }
+
         private void RefreshRoundIntents()
         {
-            if(roundIntents.Count==0)return;
+            if(nextIntentMark==null)return;
             var show=GauntletRules && Session.Started && !Busy && !terminalSeen && !modalObject.activeSelf && !IsExploring;
-            var plans=show?Session.Replay.Intents().Where(p=>p.Kind!=ActionKind.Maintain).ToList():new List<Plan>();
-            if(InstructionOpen)
-            {
-                plans.Clear();
-                if(directedAlly!="" && directedEnemy!="")
-                {
-                    var selected=Rules.Preview(Session.Replay.State,new Command(Session.Preference),directedAlly,directedEnemy);
-                    if(selected.Kind!=ActionKind.Maintain)plans.Add(selected);
-                }
-            }
+            var plans=(show || InstructionOpen)?CurrentVisibleIntents().Where(p=>p.Kind==ActionKind.Move || p.Target!="").ToList():new List<Plan>();
+            EnsureRoundIntentCapacity(plans.Count);
             nextIntentMark.gameObject.SetActive(false);
             for(var i=0;i<roundIntents.Count;i++)
             {
@@ -259,15 +320,27 @@ namespace RogueTactics.Presentation
                 nextIntentMark.rectTransform.anchoredPosition=apex+new Vector2(-8,8);nextIntentMark.gameObject.SetActive(true);nextIntentMark.transform.SetAsLastSibling();
             }
         }
+        private bool CanRetreat=>Session.Started && !Busy && !IsExploring && !terminalSeen &&
+            Session.Replay.CorrectionsLeft>0 && Session.Replay.State.Telegraphed.Count>0 &&
+            !modalObject.activeSelf && !InstructionOpen;
+
+        private void RetreatFromWarning()
+        {
+            if(!CanRetreat)return;
+            Session.RetreatOnce();
+            SaveSettledBattle();
+            Paused=false;Auto=true;Refresh();Next();
+        }
+
         private void RefreshGauntletUi()
         {
             if(!ExplorationEnabled || !HqWorld || DeveloperMode)return;
             EnsureGauntletUi();EnsureInstructionUi();
             var w=SafeRoot.rect.width;var h=SafeRoot.rect.height;
             var challenge=buttons["Challenge"];challenge.gameObject.SetActive(CanChallenge && !enteringEncounter);
-            if(challenge.gameObject.activeSelf)PositionReferenceAction("Challenge",12,h-268,w-24,"守り手に挑む（"+(NextEncounter+1)+" / "+Fixture.EncounterCount+"戦目）");
+            if(challenge.gameObject.activeSelf)PositionReferenceAction("Challenge",12,h-268,w-24,"守り手に挑む（"+(NextEncounter+1)+" / "+Session.EncounterCount+"戦目）");
             instructionOverlay.sizeDelta=SafeRoot.rect.size;
-            instructionSheet.anchoredPosition=new Vector2(10,-(h-330));
+            LayoutInstructionSheet();
             var canDirect=Session.Started && !terminalSeen && !IsExploring && !modalObject.activeSelf && Session.Replay.CorrectionsLeft>0;
             buttons["Interrupt"].gameObject.SetActive(canDirect);
             foreach(var id in CardOrder)
@@ -277,7 +350,9 @@ namespace RogueTactics.Presentation
                 direct.GetComponent<RectTransform>().sizeDelta=direct.transform.parent.GetComponent<RectTransform>().rect.size;
             }
 
-            PositionReferenceAction("Interrupt",12,h-268,w-24,interruptRequested?"行動が終わるのを待っています…":"指示する · 残り1回（顔からも）");
+            buttons["Retreat"].gameObject.SetActive(CanRetreat);
+            if(CanRetreat)PositionReferenceAction("Retreat",12,h-268,w-24,"危険な床から退く · 残り1回");
+            PositionReferenceAction("Interrupt",12,h-(CanRetreat?322:268),w-24,interruptRequested?"行動が終わるのを待っています…":"指示する · 残り1回（顔からも）");
             buttons["Interrupt"].interactable=!interruptRequested;
             instructionReceipt.transform.parent.GetComponent<RectTransform>().anchoredPosition=new Vector2(12,-(h-268));
             instructionReceipt.text=instructionReceiptText;
@@ -286,7 +361,7 @@ namespace RogueTactics.Presentation
             if(correct.gameObject.activeSelf)
             {
                 var names=string.Join("・",crisisAllies.Select(HeroName));
-                PositionReferenceAction("Correct",12,h-268,w-24,names+"が危ない！ モモを「"+(Session.Preference==Preference.ProtectAnchor?"敵を攻める":"シロを守る")+"」に変える（残り1回）");
+                PositionReferenceAction("Correct",12,h-268,w-24,names+"が危ない！ モモを「"+PolicyLabels[Policies.First(preference=>preference!=Session.Preference)].Action+"」に変える（残り1回）");
                 correct.transform.Find("Label").GetComponent<Text>().fontSize=12;
             }
             var alive=CardOrder.Count(id=>!dead.Contains(id));
@@ -298,13 +373,14 @@ namespace RogueTactics.Presentation
                 var bannerHeight=hasReceipt?88:66;
                 resultBanner.anchoredPosition=new Vector2(12,-(h-218-bannerHeight));resultBanner.sizeDelta=new Vector2(w-24,bannerHeight);
                 resultBanner.Find("Right star").GetComponent<RectTransform>().anchoredPosition=new Vector2(w-24-44,-21);
-                var won=Session.Replay.State.Outcome==Outcome.Victory;var final=won && Session.EncounterIndex==Fixture.EncounterCount-1;
+                var won=Session.Replay.State.Outcome==Outcome.Victory;var final=won && Session.EncounterCount>1 && Session.EncounterIndex==Session.EncounterCount-1;
                 resultTitle.text=won?"勝利！":"戦闘終了";resultTitle.rectTransform.sizeDelta=new Vector2(w-24-120,36);
-                resultDetail.text=(final?"3つの戦いを越えた・":"")+alive+"人が生還"+(previousResultEncounter==Session.EncounterIndex?"（前回"+previousSurvivors+"人）":"")+(hasReceipt?"\n"+instructionReceiptText:"");
+                resultDetail.text=(final?Session.EncounterCount+"つの戦いを越えた・":"")+alive+"人が生還"+(previousResultEncounter==Session.EncounterIndex?"（前回"+previousSurvivors+"人）":"")+(hasReceipt?"\n"+instructionReceiptText:"");
                 resultDetail.rectTransform.anchoredPosition=new Vector2(12,-39);
                 resultDetail.rectTransform.sizeDelta=new Vector2(w-48,hasReceipt?44:22);
             }
             RefreshEventShelf();
+            EnsureCrisisMarkCapacity(crisisAllies.Count);
             var pulse=1+.12f*Mathf.Sin(Time.unscaledTime*6);
             for(var i=0;i<crisisMarks.Count;i++)
             {
@@ -318,8 +394,9 @@ namespace RogueTactics.Presentation
                 var boundary=SafeRoot.Find("Boundary").GetComponent<Text>();
                 if(CrisisPaused)boundary.text="危機で停止中：変えるか、そのまま再開する";
                 else if(CanChallenge)boundary.text="守り手の気配がする部屋だ";
-                else if(Session.EncounterIndex==Fixture.EncounterCount-1 && terminalSeen && Session.Replay.State.Outcome==Outcome.Victory)boundary.text="3つの戦いを越えた！";
+                else if(Session.EncounterCount>1 && Session.EncounterIndex==Session.EncounterCount-1 && terminalSeen && Session.Replay.State.Outcome==Outcome.Victory)boundary.text=Session.EncounterCount+"つの戦いを越えた！";
                 else if(GauntletRules && !Session.Started)boundary.text=(Session.EncounterIndex+1)+"戦目：モモの方針を選んで託す";
+                else if(CanRetreat && Paused)boundary.text="守護者が危険な床を予告した";
                 else if(GauntletRules && Session.Started && !terminalSeen)boundary.text="修正 残り"+Session.Replay.CorrectionsLeft+"回・任意に指示できる";
             }
         }

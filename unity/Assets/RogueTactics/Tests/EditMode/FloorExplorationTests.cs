@@ -31,6 +31,19 @@ namespace RogueTactics.Tests
                 else Assert.That(floor.Party.ContainsKey(unit.Id),Is.False);
         }
         [Test]
+        public void RestoreRejectsAnExplorerOutsideSavedTerrain()
+        {
+            var map=new FloorMap();
+            var state=Finish(Preference.ProtectAnchor);
+            var checkpoint=new FloorTraveller(map,state.Units).Capture();
+            var party=checkpoint.Party.ToDictionary(entry=>entry.Key,entry=>entry.Value);
+            party["A"]=new GridPosition(999,999);
+            var invalid=new FloorCheckpoint(party,checkpoint.KnownCells,checkpoint.DiscoveredRooms);
+            Assert.That(()=>FloorTraveller.Restore(map,state,new GridPosition(0,0),invalid),
+                Throws.TypeOf<System.ArgumentException>());
+        }
+
+        [Test]
         public void UnknownDestinationIsRejectedAndInitialKnowledgeDoesNotContainFarRooms()
         {
             var floor=new FloorTraveller(new FloorMap(),Fixture.Baseline().Units);

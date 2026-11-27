@@ -9,6 +9,7 @@ namespace RogueTactics.Presentation
         private IEnumerator PresentEvent(BattleEvent e)
         {
             while(Paused)yield return null;
+            if(e.Relic!=""){flashingRelic=e.Relic;relicFlashUntil=Time.unscaledTime+.3f;}
             if(!EventMotion){Display(e);Refresh();PopEventNumber(e);yield return PresentationDelay(e.Kind==EventKind.Action?.22f:.42f);yield break;}
             // Every motion is caused by this queued Core event; visible state changes at the impact/end boundary.
             if(e.Kind==EventKind.Action)
@@ -28,6 +29,8 @@ namespace RogueTactics.Presentation
             // Long enough to read the wind-up; the event still lands exactly at the end of this tween.
             var duration=e.Kind==EventKind.Move?.52f:e.Kind==EventKind.Death?.72f:e.Kind==EventKind.Damage?.62f:e.Kind==EventKind.Heal?.60f:e.Kind==EventKind.End?.2f:.50f;
             KickPoses(e,hasActor && hasTarget?original:targetPosition,targetPosition,duration);
+            if(e.Kind==EventKind.Move && executingPlan.Why==IntentReason.Retreat)
+                vfx?.Retreat(original,World(Shown(e.Position)),TintOf(e.Actor));
             var elapsedMotion=0f;visualTweenActive=true;
             if(e.Kind==EventKind.Counter){reaction=HeroName(e.Actor)+" 反撃（割込）";RefreshProductHud();}
             while(elapsedMotion<duration)
@@ -36,7 +39,8 @@ namespace RogueTactics.Presentation
                 {
                     elapsedMotion+=Time.unscaledDeltaTime;var t=Mathf.Clamp01(elapsedMotion/duration);var pulse=Mathf.Sin(t*Mathf.PI);
                     if(e.Kind==EventKind.Move && hasActor)
-                    {var destination=World(Shown(e.Position));actor.position=Vector3.Lerp(original,destination,t*t*(3-2*t))+Vector3.up*(pulse*.16f);}
+                    {var destination=World(Shown(e.Position));var lift=executingPlan.Why==IntentReason.Leap?.95f:.16f;
+                        actor.position=Vector3.Lerp(original,destination,t*t*(3-2*t))+Vector3.up*(pulse*lift);}
                     // Strikes, guards, mending and falls are posed by the puppets and spirits (HqPose); pawns stay on their cells.
                 }
                 // Geometry follows the visible pose while pause/resume retains the tween's exact phase.
@@ -44,7 +48,7 @@ namespace RogueTactics.Presentation
                 foreach(var unit in Session.Replay.State.Units)if(!dead.Contains(unit.Id))
                 {bodyRects[unit.Id]=ProjectedBody(bodies[unit.Id]);}
                 LayoutFootBadges();RefreshRelationCues();
-                if(guardLink.gameObject.activeSelf)Link(guardLink,positions["B"],positions["A"]);
+                RefreshShownGuard();
                 if(actionLink.gameObject.activeSelf && hasActor && hasTarget)Link(actionLink,positions[e.Actor],positions[e.Target]);
                 yield return null;
             }

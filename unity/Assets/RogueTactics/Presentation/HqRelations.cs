@@ -19,7 +19,7 @@ namespace RogueTactics.Presentation
         private void ShowRelation(string actor,string target,ActionKind kind,bool preview)
         {relationActor=actor;relationTarget=target;relationKind=kind;relationPreview=preview;guardImpact=counterImpact=false;RefreshRelationCues();}
         private void ShowImpactRelation(BattleEvent e)
-        {ShowRelation(e.Actor,e.Target,e.Kind==EventKind.Heal?ActionKind.Heal:ActionKind.Attack,false);guardImpact=e.Detail.StartsWith("Guard");counterImpact=e.Kind==EventKind.Counter;RefreshRelationCues();}
+        {ShowRelation(e.Actor,e.Target,e.Kind==EventKind.Heal?ActionKind.Heal:ActionKind.Attack,false);guardImpact=(e.Tags & EventTags.Guarded)!=0;counterImpact=e.Kind==EventKind.Counter;RefreshRelationCues();}
         private void ClearRelation(){relationActor=relationTarget="";RefreshRelationCues();}
         private void RefreshRelationCues()
         {

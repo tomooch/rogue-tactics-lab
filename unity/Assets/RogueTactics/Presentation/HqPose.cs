@@ -55,7 +55,7 @@ namespace RogueTactics.Presentation
         // Screen-horizontal side of a world direction: +1 right, -1 left, 0 when straight up/down the screen.
         private float ScreenSide(Vector3 direction){var x=Vector3.Dot(direction,FieldCamera.transform.right);return Mathf.Abs(x)<.05f?0:Mathf.Sign(x);}
         private void Face(Pose pose,float side){if(side!=0)pose.Mirrored=side>0;}
-        private static Color TintOf(string id)=>id=="A"?HqVfx.Azure:id=="B"?HqVfx.Rose:id=="C"?HqVfx.Steel:id=="D"?HqVfx.Leaf:HqCreature.TintOf(id);
+        private Color TintOf(string id)=>id=="A"?HqVfx.Azure:id=="B"?HqVfx.Rose:id=="C"?HqVfx.Steel:id=="D"?HqVfx.Leaf:HqCreature.TintOf(SpiritOf(id),HqCreature.AltOf(id));
         private Vector3 Ground(string id)=>pawns[id].position;
         // Where a blow lands on, or leaves, a body.
         private Vector3 Chest(string id)
@@ -138,7 +138,7 @@ namespace RogueTactics.Presentation
                     if(vfx!=null && pawns.ContainsKey(e.Actor))vfx.Dust(Ground(e.Actor));
                     break;
                 case EventKind.End:
-                    if(e.Detail==Outcome.Victory.ToString())
+                    if(e.Result==Outcome.Victory)
                     {
                         if(vfx!=null)vfx.Celebrate(BattleCenter());
                         foreach(var pair in poses)if(pawns[pair.Key].gameObject.activeInHierarchy)pair.Value.Puppet?.Play(PuppetClip.Cheer,.7f,0);
@@ -169,16 +169,13 @@ namespace RogueTactics.Presentation
         private void ClearAllFallen(){foreach(var id in new List<string>(fallenRest.Keys))ClearFallen(id);}
         private void ClearFallen(string id)
         {if(fallenRest.TryGetValue(id,out var copy)){if(copy!=null)Destroy(copy);fallenRest.Remove(id);}rising.Remove(id);}
-        private void RaiseFallen(string id)
+        private void RaiseFallen(string id,bool rejoiningExploration=false)
         {
             var pose=PoseOf(id);if(pose?.Puppet==null || rising.ContainsKey(id) || !fallenRest.TryGetValue(id,out var copy) || copy==null)return;
             // Someone now stands on the resting ally's cell, so the copy is hidden: rising there would put the mending light
             // at the other figure's feet and read as if they were healed. They simply rejoin at the next encounter.
             if(!copy.activeSelf)return;
-            // Only where a lost companion really comes back. In the floor flow (ExplorationEnabled) Core keeps them out of the
-            // party after the fight (FloorExplorationFlowTests.AttackHandoffDoesNotReviveOrMoveDeadCompanion), so they stay down
-            // until a retry or a later revival rule (design/specs/01 5.1, not yet in Core) says otherwise.
-            if(ExplorationEnabled)return;
+            if(ExplorationEnabled && !rejoiningExploration)return;
             var skin=copy.GetComponent<MeshRenderer>().sharedMaterial;
             var puppet=new HqPuppet(pose.Puppet.Skeleton,skin,0){Mirrored=skin.GetFloat("_Mirror")>.5f,Lean=pose.Puppet.Lean};
             puppet.Play(PuppetClip.Rise,RiseSeconds,1);puppet.Tick(0,0,0,0);rising[id]=puppet;
@@ -227,7 +224,7 @@ namespace RogueTactics.Presentation
             var side=ScreenSide(targetAt-actorAt);var target=PoseOf(e.Target);spirits.TryGetValue(e.Target,out var spirit);
             if(e.Kind==EventKind.Damage || e.Kind==EventKind.Counter)
             {
-                var guarded=e.Detail!=null && e.Detail.StartsWith("Guard");
+                var guarded=(e.Tags & EventTags.Guarded)!=0;
                 // The target turns to the blow and is thrown back from it.
                 var thrown=targetAt-actorAt;thrown.y=0;thrown=thrown.sqrMagnitude<1e-4f?Vector3.zero:thrown.normalized;
                 if(target?.Puppet!=null)target.Puppet.Knock=OnScreen(thrown).normalized*(guarded?.45f:1);

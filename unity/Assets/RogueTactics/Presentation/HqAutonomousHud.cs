@@ -28,6 +28,10 @@ namespace RogueTactics.Presentation
             MakeButton(SafeRoot,"RetryEncounter","同じ戦い",0,0,104,48,RetryCurrentEncounter,13);
             StyleReferenceButton("RetryEncounter",HudSymbol.Reset,new Color(.62f,.74f,.84f));
             buttons["RetryEncounter"].gameObject.SetActive(false);
+            MakeButton(SafeRoot,"NewExpedition","新しい遠征",0,0,104,48,BeginNewExpedition,15);
+            StyleReferenceButton("NewExpedition",HudSymbol.Compass,Gold);
+            PrimaryFill("NewExpedition");
+            buttons["NewExpedition"].gameObject.SetActive(false);
             MakeButton(modal,"RecordCompare","戦いの記録",218,6,134,48,()=>OpenDetails(true),13);
             MakeButton(modal,"RecordRetry","もう一度試す",190,570,162,48,()=>{CloseReferenceMemo();modalObject.SetActive(false);SyncReferenceModal();ResetBaseline();},13);
             StyleReferenceButton("RecordCompare",HudSymbol.Compare,Gold);
@@ -113,7 +117,14 @@ namespace RogueTactics.Presentation
                 terminalTransportReserve.gameObject.SetActive(AutonomousProduct && terminalSeen && !IsExploring && !modalObject.activeSelf && Session.Replay.State.Outcome==Outcome.Victory);
             if(buttons.ContainsKey("RetryEncounter"))
             {
-                buttons["RetryEncounter"].gameObject.SetActive(AutonomousProduct && terminalSeen && !Busy && !IsExploring && !modalObject.activeSelf);
+                var showResultActions=AutonomousProduct && terminalSeen && !Busy && !IsExploring && !modalObject.activeSelf;
+                buttons["RetryEncounter"].gameObject.SetActive(showResultActions && !ExpeditionCleared);
+                buttons["NewExpedition"].gameObject.SetActive(showResultActions && ExpeditionCleared);
+                if(showResultActions && ExpeditionCleared)
+                {
+                    PositionReferenceAction("NewExpedition",12,SafeRoot.rect.height-58,SafeRoot.rect.width-140,"新しい遠征");
+                    CenterPrimaryAction("NewExpedition");
+                }
                 PositionReferenceAction("RetryEncounter",12,SafeRoot.rect.height-58,110,"同じ戦い");
             }
             if(!AutonomousProduct)return;
@@ -123,7 +134,8 @@ namespace RogueTactics.Presentation
             if(!RecordMemoVisible)Prediction.gameObject.SetActive(false);
             if(!Session.Started)
             {
-                SafeRoot.Find("Boundary").GetComponent<Text>().text="仲間は自動で戦う・方針はモモから";
+                SafeRoot.Find("Boundary").GetComponent<Text>().text=Session.FloorNumber==2 && Session.EncounterIndex==0?
+                    "モモが新しい戦い方を覚えた":"仲間は自動で戦う・方針はモモから";
                 PositionReferenceAction("Start",12,0,SafeRoot.rect.width-24,"仲間に任せて戦う");
                 CenterPrimaryAction("Start");
                 if(policyEditing){setup.sizeDelta=new Vector2(SafeRoot.rect.width,104);setup.anchoredPosition=new Vector2(0,270);}
@@ -134,7 +146,7 @@ namespace RogueTactics.Presentation
                 if(!IsExploring)
                 {
                     var alive=CardOrder.Count(id=>!dead.Contains(id));
-                    SafeRoot.Find("Boundary").GetComponent<Text>().text=(Session.Replay.State.Outcome==Outcome.Victory?"勝利":"戦闘終了")+"・"+alive+"人が生還";
+                    SafeRoot.Find("Boundary").GetComponent<Text>().text=ExpeditionSaveError?"保存を更新できません。もう一度試してください":(ExpeditionCleared?"遠征踏破！":Session.Replay.State.Outcome==Outcome.Victory?"勝利":"戦闘終了")+"・"+alive+"人が生還";
                     eventCaption.gameObject.SetActive(false);eventBackdrop.gameObject.SetActive(false);
                     if(buttons.ContainsKey("Explore"))
                     {
@@ -161,8 +173,8 @@ namespace RogueTactics.Presentation
             if(trials)
             {
                 headline.text="戦いの記録";
-                modalText.text=string.Join("\n\n",new[]{Preference.ProtectAnchor,Preference.DirectAttack}.Where(p=>Session.Trials.ContainsKey(p)).Select(p=>{
-                    var t=Session.Trials[p];return (p==Preference.ProtectAnchor?"モモがシロを守る":"モモが敵を攻める")+"\n"+
+                modalText.text=string.Join("\n\n",Policies.Where(p=>Session.Trials.ContainsKey(p)).Select(p=>{
+                    var t=Session.Trials[p];return "モモが"+PolicyLabels[p].Action+"\n"+
                         (t.Outcome==Outcome.Victory?"勝利":"戦闘終了")+"・"+t.Alive+"人が生還\nHP "+t.Hp.Replace("A:","シロ:").Replace("B:","モモ:").Replace("C:","ガル:").Replace("D:","ミャル:")+
                         (string.IsNullOrWhiteSpace(t.Prediction)?"":"\nメモ："+t.Prediction);
                 }));
@@ -170,7 +182,7 @@ namespace RogueTactics.Presentation
             else
             {
                 headline.text="旅の記録";
-                modalText.text="モモの方針："+(Session.Preference==Preference.ProtectAnchor?"シロを守る":"敵を攻める")+
+                modalText.text="モモの方針："+PolicyLabels[Session.Preference].Action+
                     (!Session.Started || string.IsNullOrWhiteSpace(Prediction.text)?"":"\nメモ："+Prediction.text)+
                     (captions.Count==0?"\n\n仲間の動きや、気になった出来事をここで見返せます。":"\n\n見た出来事\n"+string.Join("\n",captions.Skip(Mathf.Max(0,captions.Count-6))));
             }

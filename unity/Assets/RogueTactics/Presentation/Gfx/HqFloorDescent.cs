@@ -20,7 +20,7 @@ namespace RogueTactics.Presentation.Gfx
         public static readonly Color Light=new Color(.62f,.86f,1f);
 
         /// <param name="partyGrounds">Each companion's feet, in the order they go down.</param>
-        public static Beats Play(HqVfx vfx,Camera field,int nextFloor,Vector3 stairGround,IReadOnlyList<Vector3> partyGrounds)
+        public static Beats Play(HqVfx vfx,Camera field,int nextFloor,Vector3 stairGround,IReadOnlyList<Vector3> partyGrounds,IReadOnlyList<Vector3> landingGrounds=null,bool applyLook=true)
         {
             var beats=new Beats{Open=0,Taken=new float[partyGrounds.Count],Switch=SwitchAt,Land=LandAt,End=EndAt};
             if(vfx==null)return beats;
@@ -30,8 +30,8 @@ namespace RogueTactics.Presentation.Gfx
                 var at=partyGrounds[i];var when=.3f+i*Stagger;beats.Taken[i]=when+.2f;
                 vfx.After(when,()=>vfx.Descend(at,Light));
             }
-            vfx.After(SwitchAt,()=>HqFloorLook.Apply(nextFloor,field));
-            for(var i=0;i<partyGrounds.Count;i++){var at=partyGrounds[i];vfx.After(LandAt+i*.06f,()=>vfx.Land(at,Light));}
+            if(applyLook)vfx.After(SwitchAt,()=>HqFloorLook.Apply(nextFloor,field));
+            for(var i=0;i<partyGrounds.Count;i++){var at=landingGrounds==null?partyGrounds[i]:landingGrounds[i];vfx.After(LandAt+i*.06f,()=>vfx.Land(at,Light));}
             return beats;
         }
     }
