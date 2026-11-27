@@ -403,7 +403,7 @@ namespace RogueTactics.Presentation
                 {
                     if(checkpoint.FloorNumber>1 && (!ExplorationEnabled || Session.EncounterCount==1))
                         throw new ArgumentException("Saved floor requires expedition mode");
-                    restored=Session.EncounterCount==1?Session:new MobileG1Session(checkpoint.FloorNumber,checkpoint.FloorNumber>=3?checkpoint.Relic:"");
+                    restored=Session.EncounterCount==1?Session:new MobileG1Session(checkpoint.FloorNumber,checkpoint.EntryRelic);
                     if(restored.EncounterCount>1)restored.LoadEncounter(checkpoint.EncounterIndex,checkpoint.EntryHealth);
                     restored.RestoreBattle(checkpoint);
                     if(checkpoint.Floor!=null)

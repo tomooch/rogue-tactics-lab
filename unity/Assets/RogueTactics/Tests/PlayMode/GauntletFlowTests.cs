@@ -585,6 +585,14 @@ namespace RogueTactics.Tests
             {
                 Assert.That(store.TryWrite(source.CaptureBattle(floor)),Is.True);
                 yield return ReopenSavedBattle(store,target,opened=>view=opened,true);
+                Press(view,"Relic0");
+                Press(view,"KeepRelic");
+                var rewardDeadline=Time.realtimeSinceStartup+10;
+                while(view.Busy && Time.realtimeSinceStartup<rewardDeadline)yield return null;
+                Assert.That(view.Session.Relic,Is.EqualTo(BattleRules.ThornCharm+","+BattleRules.PetalCrest));
+                yield return ReopenSavedBattle(store,target,opened=>view=opened,true);
+                Assert.That(view.RewardPending,Is.False);
+                Assert.That(view.Session.Replay.State.RuleSet.GuardReduction,Is.EqualTo(3));
                 Press(view,"Descend");
                 var deadline=Time.realtimeSinceStartup+12;
                 while(view.Busy && Time.realtimeSinceStartup<deadline)yield return null;
@@ -594,7 +602,8 @@ namespace RogueTactics.Tests
                 Assert.That(GameObject.Find("Fixture X").transform.Find("Fixture slime"),Is.Not.Null);
                 Assert.That(store.Read(out var prepared),Is.EqualTo(BattleCheckpointReadStatus.Loaded));
                 Assert.That(prepared.FloorNumber,Is.EqualTo(4));
-                Assert.That(prepared.Relic,Is.EqualTo(BattleRules.ThornCharm));
+                Assert.That(prepared.Relic,Is.EqualTo(BattleRules.ThornCharm+","+BattleRules.PetalCrest));
+                Assert.That(view.Session.Replay.State.RuleSet.GuardReduction,Is.EqualTo(4));
             }
             finally
             {

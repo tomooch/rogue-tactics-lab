@@ -51,20 +51,28 @@ namespace RogueTactics.Core.G1
     {
         public const string WatchLantern = "watch_lantern";
         public const string ThornCharm = "thorn_charm";
+        public const string PetalCrest = "petal_crest";
+        public const string RingOfAccord = "ring_of_accord";
         public static BattleRules Default { get; } = new BattleRules("");
         public string Relic { get; }
-        public int ProtectRange => Relic==WatchLantern ? 2 : 1;
-        public int CounterDamage => Relic==ThornCharm ? 3 : 2;
+        private readonly string[] relics;
+        public bool Has(string id) => relics.Contains(id);
+        public int ProtectRange => Has(WatchLantern) ? 2 : 1;
+        public int CounterDamage => Has(ThornCharm) ? 3 : 2;
+        public int GuardReduction => Has(PetalCrest) ? 4 : 3;
 
-        private BattleRules(string relic) { Relic=relic; }
-
-        public static BattleRules WithRelic(string relic) => relic switch
+        private BattleRules(string relic)
         {
-            "" => Default,
-            WatchLantern => new BattleRules(WatchLantern),
-            ThornCharm => new BattleRules(ThornCharm),
-            _ => throw new ArgumentException("Unknown battle relic",nameof(relic))
-        };
+            Relic=relic;
+            relics=relic==""?Array.Empty<string>():relic.Split(',');
+            if(relics.Any(id=>id!=WatchLantern && id!=ThornCharm && id!=PetalCrest && id!=RingOfAccord) ||
+                relics.Count(id=>id==WatchLantern || id==ThornCharm)>1 ||
+                relics.Count(id=>id==PetalCrest || id==RingOfAccord)>1)
+                throw new ArgumentException("Invalid expedition relics",nameof(relic));
+        }
+
+        public static BattleRules WithRelic(string relic) => relic==""?Default:new BattleRules(relic);
+
     }
 
     public sealed class EncounterState
@@ -373,7 +381,7 @@ namespace RogueTactics.Core.G1
                 if (!actor.Enemy || target.Enemy) continue;
                 var protector = s.Find("B");
                 var guarded = target.Id == "A" && s.Guard && protector != null && protector.Alive && Distance(protector.Position, target.Position) <= s.RuleSet.ProtectRange;
-                incoming[target.Id] = (incoming.TryGetValue(target.Id, out var sum) ? sum : 0) + Math.Max(0, actor.Attack - (guarded ? 3 : 0));
+                incoming[target.Id] = (incoming.TryGetValue(target.Id, out var sum) ? sum : 0) + Math.Max(0, actor.Attack - (guarded ? s.RuleSet.GuardReduction : 0));
             }
             return s.Units.Where(u => !u.Enemy && u.Alive && incoming.TryGetValue(u.Id, out var n) && n >= u.Hp).Select(u => u.Id).ToList().AsReadOnly();
         }
@@ -463,12 +471,17 @@ namespace RogueTactics.Core.G1
                     return new Plan(actor, ActionKind.Move, target, p, reason, why);
             return new Plan(actor, ActionKind.Maintain, target, actor.Position, "No empty step reduces distance", IntentReason.Blocked);
         }
-        private static bool Flank(EncounterState s, Unit actor, Unit target)
+        private static bool AnchorFlank(EncounterState s,Unit actor,Unit target)
         {
-            var a = s.Find("A");
-            return actor.Role == Role.Flanker && a != null && a.Alive && Distance(a.Position, target.Position) == 1 &&
-                Distance(actor.Position, target.Position) == 1 && !actor.Position.Equals(a.Position);
+            var anchor=s.Find("A");
+            return anchor!=null && anchor.Alive && actor!=anchor && Distance(anchor.Position,target.Position)==1;
         }
+
+        private static bool Flank(EncounterState s, Unit actor, Unit target)
+            => actor.Role==Role.Flanker && Distance(actor.Position,target.Position)==1 &&
+                (s.RuleSet.Has(BattleRules.RingOfAccord)
+                    ?s.Units.Any(ally=>!ally.Enemy && ally.Alive && ally!=actor && Distance(ally.Position,target.Position)==1)
+                    :AnchorFlank(s,actor,target));
         public static bool IsLegal(EncounterState s, Plan p)
         {
             if (p == null || s.Outcome != Outcome.Active) return false;
@@ -513,8 +526,8 @@ namespace RogueTactics.Core.G1
                         break;
                     }
                     s.Guard = true;
-                    events.Add(new BattleEvent(s.Step,EventKind.Protect,u.Id,t.Id,3,t.Hp,t.Position,
-                        "Reduce incoming damage by 3 until B acts",relic: Distance(u.Position,t.Position)>1?BattleRules.WatchLantern:""));
+                    events.Add(new BattleEvent(s.Step,EventKind.Protect,u.Id,t.Id,s.RuleSet.GuardReduction,t.Hp,t.Position,
+                        "Reduce incoming damage by "+s.RuleSet.GuardReduction+" until B acts",relic: Distance(u.Position,t.Position)>1?BattleRules.WatchLantern:s.RuleSet.Has(BattleRules.PetalCrest)?BattleRules.PetalCrest:""));
                     break;
                 case ActionKind.Heal:
                     var healed = Math.Min(4,t.MaxHp-t.Hp); t.Hp += healed; s.HealCharges--;
@@ -524,13 +537,15 @@ namespace RogueTactics.Core.G1
                     var damage = u.Attack + (flanked ? 2 : 0);
                     var protector = s.Find("B");
                     var guarded = t.Id == "A" && s.Guard && protector != null && protector.Alive && Distance(protector.Position,t.Position) <= s.RuleSet.ProtectRange;
-                    var adjustedDamage = guarded ? Math.Max(0,damage-3) : damage;
+                    var adjustedDamage = guarded ? Math.Max(0,damage-s.RuleSet.GuardReduction) : damage;
                     var prevented = Math.Max(0, damage-adjustedDamage);
                     var tags = flanked ? EventTags.Flanked : EventTags.None;
                     if (guarded) tags |= EventTags.Guarded;
-                    Hit(s,events,u,t,adjustedDamage,EventKind.Damage,guarded ? "Guard reduced damage by 3" : (flanked ? "Flank +2" : "Attack"),
+                    Hit(s,events,u,t,adjustedDamage,EventKind.Damage,guarded ? "Guard reduced damage by "+s.RuleSet.GuardReduction : (flanked ? "Flank +2" : "Attack"),
                         tags, prevented, guarded ? protector.Id : "",
-                        guarded && Distance(protector.Position,t.Position)>1?BattleRules.WatchLantern:"");
+                        guarded && s.RuleSet.Has(BattleRules.PetalCrest)?BattleRules.PetalCrest:
+                        guarded && Distance(protector.Position,t.Position)>1?BattleRules.WatchLantern:
+                        flanked && s.RuleSet.Has(BattleRules.RingOfAccord) && !AnchorFlank(s,u,t)?BattleRules.RingOfAccord:"");
                     if (t.Alive && t.Role == Role.Anchor && u.Alive && adjustedDamage > 0)
                         Hit(s,events,t,u,s.RuleSet.CounterDamage,EventKind.Counter,"Living A counters a surviving adjacent hit",
                             EventTags.Counter,relic:s.RuleSet.CounterDamage>2?BattleRules.ThornCharm:"");

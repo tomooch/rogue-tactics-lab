@@ -127,29 +127,34 @@ namespace RogueTactics.Presentation
             if(PartyCenter()!=entryCenter)FieldCamera.transform.position=PartyCenter()+cameraFromParty;
             SyncDiscoveredTerrain();Refresh();
         }
-        private static readonly string[] SecondFloorRelics={BattleRules.WatchLantern,BattleRules.ThornCharm};
-        private static readonly string[] SecondFloorRelicNames={"見張りの灯","荊棘の護符"};
-        private static readonly string[] SecondFloorRelicRules={"モモが2マス先からシロを守れる","シロの反撃が2から3になる"};
+        private static readonly (string Id,string Name,string Rule)[] ExpeditionRelics={
+            (BattleRules.WatchLantern,"見張りの灯","モモが2マス先からシロを守れる"),
+            (BattleRules.ThornCharm,"荊棘の護符","シロの反撃が2から3になる"),
+            (BattleRules.PetalCrest,"花盾の紋","モモの守りの軽減が3から4になる"),
+            (BattleRules.RingOfAccord,"連携の輪","ガルは誰とでも挟撃できる")
+        };
+        private int RewardOffset=>Session.FloorNumber==3?2:0;
         private Gfx.HqRewardAltar rewardAltar;
         private RectTransform rewardPanel;
         private RawImage heldRelicIcon;
         private Text heldRelicInfo;
         private bool showHeldRelicInfo;
         private float relicFlashUntil;
+        private string flashingRelic;
         private int selectedRelic=-1;
         private bool resolvingReward;
-        public bool RewardPending=>IsExploring && Session.FloorNumber==2 &&
+        public bool RewardPending=>IsExploring && (Session.FloorNumber==2 || Session.FloorNumber==3) &&
             NextEncounter==Session.EncounterCount && !Session.RewardResolved;
 
         private void BuildRewardUi()
         {
             rewardPanel=Rect(SafeRoot,"Expedition reward choice",12,0,366,170);
             Frame(rewardPanel,new Color(.035f,.065f,.11f,.98f),new Color(.60f,.72f,.84f),12);
-            for(var i=0;i<SecondFloorRelics.Length;i++)
+            for(var i=0;i<2;i++)
             {
                 var option=i;
                 var key="Relic"+option;
-                MakeButton(rewardPanel,key,SecondFloorRelicNames[i]+"\n"+SecondFloorRelicRules[i],
+                MakeButton(rewardPanel,key,"",
                     8+i*175,8,173,90,()=>{selectedRelic=option;RefreshRewardUi();},12);
             }
             MakeButton(rewardPanel,"KeepRelic","これを持つ",8,112,173,48,()=>StartCoroutine(ResolveReward(selectedRelic)),15);
@@ -173,16 +178,18 @@ namespace RogueTactics.Presentation
                 var center=PartyCenter()+Vector3.ProjectOnPlane(FieldCamera.transform.up,Vector3.up).normalized*2.5f;
                 var right=FieldCamera.transform.right*2.1f;
                 rewardAltar=Gfx.HqRewardAltar.Build(floorScenery.transform,center-right,center+right,
-                    SecondFloorRelics[0],SecondFloorRelics[1],FieldCamera,vfx);
+                    ExpeditionRelics[RewardOffset].Id,ExpeditionRelics[RewardOffset+1].Id,FieldCamera,vfx);
             }
             var width=SafeRoot.rect.width-24;
             var optionWidth=(width-20)/2;
             rewardPanel.anchoredPosition=new Vector2(12,-(SafeRoot.rect.height-382));
             rewardPanel.sizeDelta=new Vector2(width,170);
-            for(var i=0;i<SecondFloorRelics.Length;i++)
+            for(var i=0;i<2;i++)
             {
                 var key="Relic"+i;
                 ResizeButton(key,8+i*(optionWidth+4),8,optionWidth);
+                var relic=ExpeditionRelics[RewardOffset+i];
+                buttons[key].GetComponentInChildren<Text>().text=relic.Name+"\n"+relic.Rule;
                 buttons[key].GetComponent<Image>().color=i==selectedRelic?new Color(.25f,.30f,.37f):new Color(.12f,.19f,.24f);
             }
             ResizeButton("KeepRelic",8,112,optionWidth);
@@ -192,19 +199,21 @@ namespace RogueTactics.Presentation
 
         private void RefreshHeldRelic()
         {
-            var index=System.Array.IndexOf(SecondFloorRelics,Session.Relic);
-            var visible=index>=0 && Session.FloorNumber>=3 && !modalObject.activeSelf && !policyEditing;
+            var held=Session.Relic.Split(',');
+            var visible=Session.Relic!="" && Session.FloorNumber>=3 && !modalObject.activeSelf && !policyEditing;
             var button=buttons["HeldRelic"];
             button.gameObject.SetActive(visible);
             heldRelicInfo.gameObject.SetActive(visible && showHeldRelicInfo);
             if(!visible)return;
             button.GetComponent<RectTransform>().anchoredPosition=new Vector2(SafeRoot.rect.width-56,-190);
-            var texture=Gfx.HqRelicArt.Icon(Session.Relic);
+            var flash=Time.unscaledTime<relicFlashUntil && held.Contains(flashingRelic);
+            var iconId=flash?flashingRelic:held.Last();
+            var texture=Gfx.HqRelicArt.Icon(iconId);
             if(heldRelicIcon.texture!=texture)heldRelicIcon.texture=texture;
-            button.GetComponent<Image>().color=Time.unscaledTime<relicFlashUntil
-                ?Gfx.HqRelicArt.Accent(Session.Relic):new Color(.12f,.19f,.24f);
+            button.GetComponent<Image>().color=flash
+                ?Gfx.HqRelicArt.Accent(iconId):new Color(.12f,.19f,.24f);
             heldRelicInfo.rectTransform.anchoredPosition=new Vector2(SafeRoot.rect.width-198,-237);
-            heldRelicInfo.text=SecondFloorRelicNames[index]+"\n"+SecondFloorRelicRules[index];
+            heldRelicInfo.text=string.Join("\n",ExpeditionRelics.Where(relic=>held.Contains(relic.Id)).Select(relic=>relic.Name+" · "+relic.Rule));
         }
 
         private IEnumerator ResolveReward(int option)
@@ -213,7 +222,7 @@ namespace RogueTactics.Presentation
             resolvingReward=true;Busy=true;Refresh();
             var delay=option<0?rewardAltar.Decline():rewardAltar.Choose(option,PartyCenter());
             yield return new WaitForSecondsRealtime(delay);
-            Session.ResolveReward(option<0?"":SecondFloorRelics[option]);
+            Session.ResolveReward(option<0?"":ExpeditionRelics[RewardOffset+option].Id);
             ClearRewardAltar();
             Busy=false;
             travelMessage="通路の先に下り階段を探す";

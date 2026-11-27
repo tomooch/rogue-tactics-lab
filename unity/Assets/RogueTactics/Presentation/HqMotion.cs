@@ -9,7 +9,7 @@ namespace RogueTactics.Presentation
         private IEnumerator PresentEvent(BattleEvent e)
         {
             while(Paused)yield return null;
-            if(e.Relic!="")relicFlashUntil=Time.unscaledTime+.3f;
+            if(e.Relic!=""){flashingRelic=e.Relic;relicFlashUntil=Time.unscaledTime+.3f;}
             if(!EventMotion){Display(e);Refresh();PopEventNumber(e);yield return PresentationDelay(e.Kind==EventKind.Action?.22f:.42f);yield break;}
             // Every motion is caused by this queued Core event; visible state changes at the impact/end boundary.
             if(e.Kind==EventKind.Action)

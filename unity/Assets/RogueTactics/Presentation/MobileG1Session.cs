@@ -49,7 +49,7 @@ namespace RogueTactics.Presentation
         { if(Started) throw new InvalidOperationException("Reset before changing preference"); Preference=preference; Reset(); }
         public void Reset()
         {
-            if(FloorNumber==2){RewardResolved=false;Relic="";}
+            if(FloorNumber==2 || FloorNumber==3){RewardResolved=false;Relic=entryState.RuleSet.Relic;}
             Replay=new Replay(entryState,Preference);
             Started=false;
             Prediction="";
@@ -66,9 +66,12 @@ namespace RogueTactics.Presentation
 
         public void ResolveReward(string relic)
         {
-            if(FloorNumber!=2 || EncounterIndex!=EncounterCount-1 || Replay.State.Outcome!=Outcome.Victory || RewardResolved)
+            if((FloorNumber!=2 && FloorNumber!=3) || EncounterIndex!=EncounterCount-1 || Replay.State.Outcome!=Outcome.Victory || RewardResolved)
                 throw new InvalidOperationException("No pending expedition reward");
-            Relic=BattleRules.WithRelic(relic).Relic;
+            if(relic!="" && !(FloorNumber==2?relic==BattleRules.WatchLantern || relic==BattleRules.ThornCharm:
+                relic==BattleRules.PetalCrest || relic==BattleRules.RingOfAccord))
+                throw new ArgumentException("Relic is unavailable on this floor",nameof(relic));
+            if(relic!="")Relic=BattleRules.WithRelic(Relic==""?relic:Relic+","+relic).Relic;
             RewardResolved=true;
         }
 
@@ -120,7 +123,7 @@ namespace RogueTactics.Presentation
 
             if(checkpoint.RewardResolved && (EncounterIndex!=EncounterCount-1 || restored.State.Outcome!=Outcome.Victory))
                 throw new ArgumentException("Saved reward requires the final victory",nameof(checkpoint));
-            if(FloorNumber>=3 && checkpoint.Relic!=Relic)
+            if(FloorNumber>=3 && checkpoint.EntryRelic!=Relic)
                 throw new ArgumentException("Load the saved relic before restoring its battle",nameof(checkpoint));
             Relic=checkpoint.Relic;
             RewardResolved=checkpoint.RewardResolved;
@@ -184,6 +187,9 @@ namespace RogueTactics.Presentation
         public bool Started { get; }
         public string Relic { get; }
         public bool RewardResolved { get; }
+        public string EntryRelic => FloorNumber<3?"":FloorNumber==3?EntryRelicForThirdFloor(Relic):Relic;
+        private static string EntryRelicForThirdFloor(string relic)
+            => string.Join(",",relic.Split(',').Where(id=>id==BattleRules.WatchLantern || id==BattleRules.ThornCharm));
 
         public BattleCheckpoint(int encounterIndex,Preference initialPreference,int steps,string prediction,BattleInput input,FloorCheckpoint floor=null,IReadOnlyDictionary<string,int> entryHealth=null,int floorNumber=1,bool started=true,string relic="",bool rewardResolved=false)
         {
@@ -192,10 +198,12 @@ namespace RogueTactics.Presentation
             if(floorNumber<1 || floorNumber>4)throw new ArgumentOutOfRangeException(nameof(floorNumber));
             if(!started && (floorNumber==1 || steps!=0 || input!=null || floor!=null))
                 throw new ArgumentException("Invalid battle preparation checkpoint");
-            if((rewardResolved && (floorNumber!=2 || !started)) ||
+            if((rewardResolved && ((floorNumber!=2 && floorNumber!=3) || !started)) ||
                 (relic!="" && floorNumber<3 && !rewardResolved))
                 throw new ArgumentException("Relic is inconsistent with floor progress");
             Relic=BattleRules.WithRelic(relic).Relic;
+            if((floorNumber<3 || (floorNumber==3 && !rewardResolved)) && EntryRelicForThirdFloor(Relic)!=Relic)
+                throw new ArgumentException("Relic is unavailable before the floor reward");
             RewardResolved=rewardResolved;
             FloorNumber=floorNumber;
             Started=started;
