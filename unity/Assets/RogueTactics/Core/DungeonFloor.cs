@@ -43,6 +43,14 @@ namespace RogueTactics.Core.Exploration
         public FloorMap(int number=1)
         {
             Number=number;
+            if(number==3)
+            {
+                rooms=new[]{new FloorRoom(0,-1,-1,7,7),new FloorRoom(1,11,0,7,7),
+                    new FloorRoom(2,11,13,7,7),new FloorRoom(3,23,0,7,7),new FloorRoom(4,23,13,7,7)};
+                foreach(var r in rooms)Add(r.X,r.Y,r.Width,r.Height);
+                Add(5,2,7,2);Add(13,6,2,8);Add(17,2,7,2);Add(17,15,7,2);
+                return;
+            }
             if(number==2)
             {
                 rooms=new[]{new FloorRoom(0,-1,-1,7,7),new FloorRoom(1,0,11,7,7),

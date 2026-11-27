@@ -122,14 +122,7 @@ namespace RogueTactics.Presentation
             Field=Rect(SafeRoot,"Field",0,60,390,520);fieldImage=Field.gameObject.AddComponent<RawImage>();fieldImage.texture=fieldTarget;fieldImage.raycastTarget=false;Field.SetAsFirstSibling();
             guardLink=Strip(Field,"Guard link",Jade);actionLink=Strip(Field,"Core intention",Gold);
             ghost=Rect(Field,"Legal destination",0,0,34,18);ghost.gameObject.AddComponent<Image>().color=new Color(.8f,.95f,.8f,.25f);ghost.GetComponent<Image>().raycastTarget=false;
-            foreach(var u in Session.Replay.State.Units)
-            {
-                // 22pt wide: square cells put diagonal neighbours close, and a 24pt strip grazed the head in front.
-                var r=Rect(Field,"HP "+u.Id,0,0,22,6);var track=r.gameObject.AddComponent<Image>();track.color=new Color(.025f,.06f,.065f,.96f);track.raycastTarget=false;
-                badges[u.Id]=r.gameObject.AddComponent<CanvasGroup>();badges[u.Id].blocksRaycasts=false;
-                var bar=Rect(r,"HP bar",1,1,20,4).gameObject.AddComponent<Image>();bar.color=u.Enemy?new Color(.92f,.44f,.38f):Jade;bar.raycastTarget=false;
-                hpBars[u.Id]=bar;
-            }
+            foreach(var unit in Session.Replay.State.Units)BuildHpBadge(unit);
             shield=Rect(Field,"Protect",0,0,24,24);shield.gameObject.AddComponent<Image>().color=new Color(.035f,.20f,.22f,.98f);
             Label(shield,"Shield","守",0,0,24,24,16,TextAnchor.MiddleCenter);
             floating=Label(Field,"Event feedback","",0,0,110,40,23,TextAnchor.MiddleCenter);floating.gameObject.SetActive(!EventMotion);
@@ -334,13 +327,28 @@ namespace RogueTactics.Presentation
                 }
             }
         }
+        private void BuildHpBadge(Unit u)
+        {
+            // 22pt wide: square cells put diagonal neighbours close, and a 24pt strip grazed the head in front.
+            var r=Rect(Field,"HP "+u.Id,0,0,22,6);var track=r.gameObject.AddComponent<Image>();track.color=new Color(.025f,.06f,.065f,.96f);track.raycastTarget=false;
+            badges[u.Id]=r.gameObject.AddComponent<CanvasGroup>();badges[u.Id].blocksRaycasts=false;
+            var bar=Rect(r,"HP bar",1,1,20,4).gameObject.AddComponent<Image>();bar.color=u.Enemy?new Color(.92f,.44f,.38f):Jade;bar.raycastTarget=false;
+            hpBars[u.Id]=bar;
+        }
+
         private readonly Dictionary<string,SpiritKind> enemyVisualKinds=new Dictionary<string,SpiritKind>();
         private void SyncEnemyVisuals()
         {
             if(!HqWorld)return;
+            foreach(var id in enemyVisualKinds.Keys.Where(id=>Session.Replay.State.Find(id)==null))
+            {
+                pawns[id].gameObject.SetActive(false);
+                badges[id].gameObject.SetActive(false);
+            }
             foreach(var enemy in Session.Replay.State.Units.Where(unit=>unit.Enemy))
             {
                 var id=enemy.Id;
+                if(!badges.ContainsKey(id))BuildHpBadge(enemy);
                 var kind=SpiritOf(id);
                 if(enemyVisualKinds.TryGetValue(id,out var current) && current==kind)continue;
                 var root=new GameObject("Fixture "+id).transform;
@@ -395,7 +403,7 @@ namespace RogueTactics.Presentation
                 {
                     if(checkpoint.FloorNumber>1 && (!ExplorationEnabled || Session.EncounterCount==1))
                         throw new ArgumentException("Saved floor requires expedition mode");
-                    restored=Session.EncounterCount==1?Session:new MobileG1Session(checkpoint.FloorNumber);
+                    restored=Session.EncounterCount==1?Session:new MobileG1Session(checkpoint.FloorNumber,checkpoint.FloorNumber>=3?checkpoint.Relic:"");
                     if(restored.EncounterCount>1)restored.LoadEncounter(checkpoint.EncounterIndex,checkpoint.EntryHealth);
                     restored.RestoreBattle(checkpoint);
                     if(checkpoint.Floor!=null)
@@ -416,7 +424,7 @@ namespace RogueTactics.Presentation
                 if(restored!=null)
                 {
                     Session=restored;
-                    if(checkpoint.FloorNumber==2)SwitchToSecondFloor();
+                    if(checkpoint.FloorNumber>1)SwitchFloor();
                     else if(ExplorationEnabled && checkpoint.EncounterIndex>0)
                     {
                         battleOrigin=GauntletRooms.Origin(floorMap,checkpoint.EncounterIndex);
@@ -500,7 +508,9 @@ namespace RogueTactics.Presentation
             if(!terminalSeen)SafeRoot.Find("Boundary").GetComponent<Text>().text="続きから";
         }
 
-        private void ResetProjection(bool clearEffects=true)
+        private void ResetProjection()=>ProjectEncounter(true);
+
+        private void ProjectEncounter(bool clearEffects)
         {
             ClearAllFallen();SyncEnemyVisuals();if(clearEffects && vfx!=null)vfx.Clear();hitStop=0;actingId="";ClearRelation();frameIntervals.Clear();LastFrameReport=null;displayed.Clear();captions.Clear();dead.Clear();hp.Clear();positions.Clear();terminalSeen=false;shownStep=0;shownActor="";reaction="";foreach(var u in Session.Replay.State.Units){hp[u.Id]=u.Hp;positions[u.Id]=Shown(u.Position);}crisisActive=false;orderedActor="";orderedTarget="";instructionReceiptText="";interruptRequested=false;requestedInstructionAlly="";if(instructionOverlay!=null)instructionOverlay.gameObject.SetActive(false);
             ClearShownGuard();floating.text="";foreach(var b in badges.Values)b.alpha=1;

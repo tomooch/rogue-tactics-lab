@@ -34,6 +34,8 @@ namespace RogueTactics.Presentation
                 room=checkpoint.EncounterIndex,
                 floor=checkpoint.FloorNumber,
                 preparing=!checkpoint.Started,
+                relic=checkpoint.Relic,
+                rewardResolved=checkpoint.RewardResolved,
                 policy=(int)checkpoint.InitialPreference,
                 steps=checkpoint.Steps,
                 note=checkpoint.Prediction,
@@ -89,7 +91,7 @@ namespace RogueTactics.Presentation
                 }
                 checkpoint=new BattleCheckpoint(record.room,(Preference)record.policy,record.steps,record.note,input,record.exploring
                     ? (record.exploration ?? throw new ArgumentException("Missing saved exploration")).ToFloorCheckpoint()
-                    : null,health,record.floor,!record.preparing);
+                    : null,health,record.floor,!record.preparing,record.relic??"",record.rewardResolved);
                 return BattleCheckpointReadStatus.Loaded;
             }
             catch(ArgumentException)
@@ -113,7 +115,7 @@ namespace RogueTactics.Presentation
         }
 
         private static bool IsSavedPolicy(int value,int floor)
-            =>value==(int)Preference.ProtectAnchor || value==(int)Preference.DirectAttack || (floor==2 && value==(int)Preference.Balanced);
+            =>value==(int)Preference.ProtectAnchor || value==(int)Preference.DirectAttack || (floor>=2 && value==(int)Preference.Balanced);
 
         private static bool IsFileAccessError(Exception error)
             => error is IOException || error is UnauthorizedAccessException || error is NotSupportedException;
@@ -126,6 +128,8 @@ namespace RogueTactics.Presentation
             public int room=-1;
             public int floor=1;
             public bool preparing;
+            public string relic;
+            public bool rewardResolved;
             public int policy=-1;
             public int steps=-1;
             public string note;

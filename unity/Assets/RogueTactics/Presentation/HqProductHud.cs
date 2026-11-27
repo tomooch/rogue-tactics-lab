@@ -51,12 +51,7 @@ namespace RogueTactics.Presentation
             var orderBackdrop=orderStrip.gameObject.AddComponent<Image>();orderBackdrop.color=new Color(.035f,.09f,.13f,.96f);orderBackdrop.raycastTarget=false;
             orderLabel=Label(orderStrip,"Order caption","行動順",0,0,53,20,12);
             // One tile per actor; the order shown is read from the current encounter's Core state on refresh.
-            foreach(var id in Session.Replay.State.Initiative)
-            {
-                var r=Rect(orderStrip,"Order "+id,0,17,57,30);var frame=r.gameObject.AddComponent<Image>();frame.color=new Color(.06f,.14f,.19f,.9f);frame.raycastTarget=false;orderFrames[id]=frame;
-                if(id.Length==1 && id[0]>='A' && id[0]<='D'){var icon=Rect(r,"Actor portrait",0,0,24,28).gameObject.AddComponent<RawImage>();var art=CharacterArt[id[0]-'A'];icon.texture=art;var uvWidth=.5f*24/28*art.height/art.width;icon.uvRect=new Rect(.5f-uvWidth/2,.43f,uvWidth,.5f);icon.raycastTarget=false;}
-                Label(r,"Actor",HeroName(id),24,3,31,23,10,TextAnchor.MiddleCenter);
-            }
+            foreach(var id in Session.Replay.State.Initiative)BuildOrderTile(id);
             roster=Rect(SafeRoot,"Companion portraits",12,0,366,88);
             foreach(var id in CardOrder)
             {
@@ -114,6 +109,16 @@ namespace RogueTactics.Presentation
             }
             LayoutAutonomousJournal();
         }
+        private Image BuildOrderTile(string id)
+        {
+            var r=Rect(orderStrip,"Order "+id,0,17,57,30);var frame=r.gameObject.AddComponent<Image>();frame.color=new Color(.06f,.14f,.19f,.9f);frame.raycastTarget=false;orderFrames[id]=frame;
+            if(id.Length==1 && id[0]>='A' && id[0]<='D'){var icon=Rect(r,"Actor portrait",0,0,24,28).gameObject.AddComponent<RawImage>();var art=CharacterArt[id[0]-'A'];icon.texture=art;var uvWidth=.5f*24/28*art.height/art.width;icon.uvRect=new Rect(.5f-uvWidth/2,.43f,uvWidth,.5f);icon.raycastTarget=false;}
+            Label(r,"Actor",HeroName(id),24,3,31,23,10,TextAnchor.MiddleCenter);
+            if(referenceFooter!=null)
+                Frame(r,new Color(.05f,.10f,.16f,.95f),new Color(.40f,.50f,.60f),6);
+            return frame;
+        }
+
         private void RefreshProductHud()
         {
             if(roster==null)return;
@@ -168,10 +173,12 @@ namespace RogueTactics.Presentation
             orderStrip.gameObject.SetActive(active && !terminalSeen);
             var state=Session.Replay.State;
             var initiative=state.Initiative;
+            foreach(var tile in orderFrames)
+                if(!initiative.Contains(tile.Key))tile.Value.gameObject.SetActive(false);
             var start=initiative.ToList().IndexOf(shownActor);if(start<0)start=0;var slot=0;
             for(var i=0;i<initiative.Count;i++)
             {
-                var id=initiative[(start+i)%initiative.Count];var f=orderFrames[id];f.gameObject.SetActive(!dead.Contains(id));if(dead.Contains(id))continue;
+                var id=initiative[(start+i)%initiative.Count];var f=orderFrames.TryGetValue(id,out var existing)?existing:BuildOrderTile(id);f.gameObject.SetActive(!dead.Contains(id));if(dead.Contains(id))continue;
                 f.rectTransform.anchoredPosition=new Vector2(slot*(Field.rect.width-24)/initiative.Count,-19);slot++;
                 var enemy=state.Find(id).Enemy;
                 var actorLabel=f.transform.Find("Actor").GetComponent<Text>();actorLabel.gameObject.SetActive(enemy);

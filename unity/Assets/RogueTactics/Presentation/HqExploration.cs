@@ -43,6 +43,7 @@ namespace RogueTactics.Presentation
             MakeButton(SafeRoot,"Explore","探索を続ける",12,590,366,44,BeginExploration,16);
             MakeButton(SafeRoot,"Descend","2階へ降りる",12,590,366,48,Descend,16);
             StyleReferenceButton("Descend",HudSymbol.Descend,Gold);PrimaryFill("Descend");
+            BuildRewardUi();
             var map=Rect(SafeRoot,"Explored floor map",254,65,124,104);
             map.gameObject.AddComponent<Image>().color=new Color(.035f,.09f,.13f,.87f);
             Label(map,"Known map caption","周辺地図",5,2,114,18,11);
@@ -66,6 +67,7 @@ namespace RogueTactics.Presentation
         {
             if(!ExplorationEnabled)return;
             if(travelRoutine!=null){StopCoroutine(travelRoutine);travelRoutine=null;}
+            ClearRewardAltar();
             traveller?.Cancel();traveller=null;IsExploring=false;
             if(floorSpring!=null)floorSpring.gameObject.SetActive(false);visualTweenActive=false;
             TravelSelection=null;if(selectedFloorMarker!=null)selectedFloorMarker.gameObject.SetActive(false);
@@ -111,7 +113,7 @@ namespace RogueTactics.Presentation
             IsExploring=true;Auto=false;Paused=false;modalObject.SetActive(false);ClearRelation();
             var entryCenter=PartyCenter();
             cameraFromParty=FieldCamera.transform.position-entryCenter;
-            travelMessage=Session.FloorNumber==1 && NextEncounter==Session.EncounterCount && UseVictoryRecovery
+            travelMessage=Session.FloorNumber<3 && NextEncounter==Session.EncounterCount && UseVictoryRecovery
                 ?"通路の先に下り階段を探す":"見えている床・通路を選ぶ";
             // After a later encounter the party may stand at a board edge: frame them from the board's own offset.
             if(Session.EncounterIndex>0)cameraFromParty=FieldCamera.transform.position-World(Shown(new GridPosition(2,2)));
@@ -125,26 +127,127 @@ namespace RogueTactics.Presentation
             if(PartyCenter()!=entryCenter)FieldCamera.transform.position=PartyCenter()+cameraFromParty;
             SyncDiscoveredTerrain();Refresh();
         }
+        private static readonly string[] SecondFloorRelics={BattleRules.WatchLantern,BattleRules.ThornCharm};
+        private static readonly string[] SecondFloorRelicNames={"見張りの灯","荊棘の護符"};
+        private static readonly string[] SecondFloorRelicRules={"モモが2マス先からシロを守れる","シロの反撃が2から3になる"};
+        private Gfx.HqRewardAltar rewardAltar;
+        private RectTransform rewardPanel;
+        private RawImage heldRelicIcon;
+        private Text heldRelicInfo;
+        private bool showHeldRelicInfo;
+        private float relicFlashUntil;
+        private int selectedRelic=-1;
+        private bool resolvingReward;
+        public bool RewardPending=>IsExploring && Session.FloorNumber==2 &&
+            NextEncounter==Session.EncounterCount && !Session.RewardResolved;
+
+        private void BuildRewardUi()
+        {
+            rewardPanel=Rect(SafeRoot,"Expedition reward choice",12,0,366,170);
+            Frame(rewardPanel,new Color(.035f,.065f,.11f,.98f),new Color(.60f,.72f,.84f),12);
+            for(var i=0;i<SecondFloorRelics.Length;i++)
+            {
+                var option=i;
+                var key="Relic"+option;
+                MakeButton(rewardPanel,key,SecondFloorRelicNames[i]+"\n"+SecondFloorRelicRules[i],
+                    8+i*175,8,173,90,()=>{selectedRelic=option;RefreshRewardUi();},12);
+            }
+            MakeButton(rewardPanel,"KeepRelic","これを持つ",8,112,173,48,()=>StartCoroutine(ResolveReward(selectedRelic)),15);
+            MakeButton(rewardPanel,"DeclineRelic","持たずに進む",185,112,173,48,()=>StartCoroutine(ResolveReward(-1)),15);
+            rewardPanel.gameObject.SetActive(false);
+            MakeButton(SafeRoot,"HeldRelic","",0,190,44,44,()=>showHeldRelicInfo=!showHeldRelicInfo,12);
+            heldRelicIcon=Rect(buttons["HeldRelic"].transform,"Relic art",2,2,40,40).gameObject.AddComponent<RawImage>();
+            heldRelicIcon.raycastTarget=false;
+            heldRelicInfo=Label(SafeRoot,"Held relic rule","",0,237,186,48,12,TextAnchor.MiddleRight);
+        }
+
+        private void RefreshRewardUi()
+        {
+            if(rewardPanel==null)return;
+            RefreshHeldRelic();
+            var visible=RewardPending && !modalObject.activeSelf && !resolvingReward;
+            rewardPanel.gameObject.SetActive(visible);
+            if(!visible)return;
+            if(rewardAltar==null)
+            {
+                var center=PartyCenter()+Vector3.ProjectOnPlane(FieldCamera.transform.up,Vector3.up).normalized*2.5f;
+                var right=FieldCamera.transform.right*2.1f;
+                rewardAltar=Gfx.HqRewardAltar.Build(floorScenery.transform,center-right,center+right,
+                    SecondFloorRelics[0],SecondFloorRelics[1],FieldCamera,vfx);
+            }
+            var width=SafeRoot.rect.width-24;
+            var optionWidth=(width-20)/2;
+            rewardPanel.anchoredPosition=new Vector2(12,-(SafeRoot.rect.height-382));
+            rewardPanel.sizeDelta=new Vector2(width,170);
+            for(var i=0;i<SecondFloorRelics.Length;i++)
+            {
+                var key="Relic"+i;
+                ResizeButton(key,8+i*(optionWidth+4),8,optionWidth);
+                buttons[key].GetComponent<Image>().color=i==selectedRelic?new Color(.25f,.30f,.37f):new Color(.12f,.19f,.24f);
+            }
+            ResizeButton("KeepRelic",8,112,optionWidth);
+            ResizeButton("DeclineRelic",12+optionWidth,112,optionWidth);
+            buttons["KeepRelic"].interactable=selectedRelic>=0;
+        }
+
+        private void RefreshHeldRelic()
+        {
+            var index=System.Array.IndexOf(SecondFloorRelics,Session.Relic);
+            var visible=index>=0 && Session.FloorNumber>=3 && !modalObject.activeSelf && !policyEditing;
+            var button=buttons["HeldRelic"];
+            button.gameObject.SetActive(visible);
+            heldRelicInfo.gameObject.SetActive(visible && showHeldRelicInfo);
+            if(!visible)return;
+            button.GetComponent<RectTransform>().anchoredPosition=new Vector2(SafeRoot.rect.width-56,-190);
+            var texture=Gfx.HqRelicArt.Icon(Session.Relic);
+            if(heldRelicIcon.texture!=texture)heldRelicIcon.texture=texture;
+            button.GetComponent<Image>().color=Time.unscaledTime<relicFlashUntil
+                ?Gfx.HqRelicArt.Accent(Session.Relic):new Color(.12f,.19f,.24f);
+            heldRelicInfo.rectTransform.anchoredPosition=new Vector2(SafeRoot.rect.width-198,-237);
+            heldRelicInfo.text=SecondFloorRelicNames[index]+"\n"+SecondFloorRelicRules[index];
+        }
+
+        private IEnumerator ResolveReward(int option)
+        {
+            if(!RewardPending || Busy || resolvingReward || rewardAltar==null)yield break;
+            resolvingReward=true;Busy=true;Refresh();
+            var delay=option<0?rewardAltar.Decline():rewardAltar.Choose(option,PartyCenter());
+            yield return new WaitForSecondsRealtime(delay);
+            Session.ResolveReward(option<0?"":SecondFloorRelics[option]);
+            ClearRewardAltar();
+            Busy=false;
+            travelMessage="通路の先に下り階段を探す";
+            SaveSettledBattle();
+            Refresh();
+        }
+
+        private void ClearRewardAltar()
+        {
+            if(rewardAltar!=null){rewardAltar.gameObject.SetActive(false);Destroy(rewardAltar.gameObject);}
+            rewardAltar=null;selectedRelic=-1;resolvingReward=false;
+        }
+
         public bool DescentAvailable=>UseVictoryRecovery && IsExploring && !Busy && travelRoutine==null
-            && !modalObject.activeSelf && Session.FloorNumber==1 && NextEncounter==Session.EncounterCount
+            && !modalObject.activeSelf && Session.FloorNumber<3 && NextEncounter==Session.EncounterCount
+            && !RewardPending
             && displayedKnown.Contains(floorMap.Stairs)
             && traveller.Party.Values.Any(cell=>Rules.Distance(cell,floorMap.Stairs)<=1);
 
         public void Descend()
         {
-            if(DescentAvailable)StartCoroutine(DescendToSecondFloor());
+            if(DescentAvailable)StartCoroutine(DescendToNextFloor());
         }
 
-        private IEnumerator DescendToSecondFloor()
+        private IEnumerator DescendToNextFloor()
         {
-            var next=new MobileG1Session(2);
+            var next=new MobileG1Session(Session.FloorNumber+1,Session.Relic);
             next.LoadEncounter(0,traveller.HealthAfterDescent());
             next.Select(Session.Preference);
             Busy=true;descending=true;
             var allies=traveller.Party.Keys.ToArray();
             var landing=next.Replay.State.Units.Where(unit=>!unit.Enemy)
                 .Select(unit=>World(unit.Position)).ToArray();
-            var beats=Gfx.HqFloorDescent.Play(vfx,FieldCamera,2,World(floorMap.Stairs),
+            var beats=Gfx.HqFloorDescent.Play(vfx,FieldCamera,next.FloorNumber,World(floorMap.Stairs),
                 allies.Select(id=>pawns[id].position).ToArray(),landing,applyLook:false);
             Refresh();
             var elapsed=0f;
@@ -158,8 +261,8 @@ namespace RogueTactics.Presentation
             traveller.Cancel();traveller=null;
             descending=false;IsExploring=false;TravelSelection=null;selectedFloorMarker.gameObject.SetActive(false);
             Session=next;
-            SwitchToSecondFloor();
-            ResetProjection(false);
+            SwitchFloor();
+            ProjectEncounter(false);
             floorMini.Configure(floorMap,displayedKnown,KnownMapActors());
             SetComparisonCamera(CameraPitch);
             foreach(var id in allies)pawns[id].gameObject.SetActive(false);
@@ -171,18 +274,18 @@ namespace RogueTactics.Presentation
             SaveSettledBattle();
         }
 
-        private void SwitchToSecondFloor()
+        private void SwitchFloor()
         {
             floorScenery.gameObject.SetActive(false);
             Destroy(floorScenery.gameObject);
             floorSpring=null;
             firstFloorRuins.SetActive(false);
-            floorMap=new FloorMap(2);
+            floorMap=new FloorMap(Session.FloorNumber);
             battleOrigin=GauntletRooms.Origin(floorMap,Session.EncounterIndex);
             displayedKnown=new HashSet<GridPosition>(new FloorTraveller(floorMap,Session.Replay.State.Units,battleOrigin).KnownCells);
             floorScenery=HqFloorScenery.Build(floorMap,EnvironmentMeshes,RuinsTemplate,null);
             floorScenery.Reveal(floorMap,displayedKnown);
-            Gfx.HqFloorLook.Apply(2,FieldCamera);
+            Gfx.HqFloorLook.Apply(Session.FloorNumber,FieldCamera);
         }
 
         private Vector3 PartyCenter()
@@ -205,7 +308,7 @@ namespace RogueTactics.Presentation
         }
         public bool EntrustTravel(GridPosition target)
         {
-            if(!IsExploring || Busy || travelRoutine!=null || modalObject.activeSelf)return false;
+            if(!IsExploring || Busy || travelRoutine!=null || modalObject.activeSelf || RewardPending)return false;
             if(!traveller.Entrust(target)){travelMessage="見えている床・通路を選ぶ";return false;}
             TravelSelection=target;var at=World(target,.04f);
             selectedFloorMarker.SetPositions(new[]{at+new Vector3(-.95f,0,-1.2f),at+new Vector3(-.95f,0,1.2f),at+new Vector3(.95f,0,1.2f),at+new Vector3(.95f,0,-1.2f)});
@@ -292,8 +395,9 @@ namespace RogueTactics.Presentation
         private void RefreshFloorUi()
         {
             if(!ExplorationEnabled || !buttons.ContainsKey("Explore"))return;
+            RefreshRewardUi();
             buttons["Descend"].gameObject.SetActive(DescentAvailable);
-            if(DescentAvailable)PositionReferenceAction("Descend",12,SafeRoot.rect.height-268,SafeRoot.rect.width-24,"2階へ降りる");
+            if(DescentAvailable)PositionReferenceAction("Descend",12,SafeRoot.rect.height-268,SafeRoot.rect.width-24,(Session.FloorNumber+1)+"階へ降りる");
             floorMini.transform.parent.gameObject.SetActive(!policyEditing && !modalObject.activeSelf);
             var w=SafeRoot.rect.width;var h=SafeRoot.rect.height;
             var explore=buttons["Explore"].GetComponent<RectTransform>();explore.anchoredPosition=new Vector2(12,-(h-205));explore.sizeDelta=new Vector2(w-24,44);

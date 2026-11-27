@@ -9,6 +9,55 @@ namespace RogueTactics.Tests
 {
     public class G1CoreTests
     {
+        [Test]
+        public void WatchLanternProtectsAtRangeTwoAndChangesThreatDetection()
+        {
+            var room=new EncounterState(4,4,new[]{
+                new Unit("A",Role.Anchor,5,3,new GridPosition(1,1)),
+                new Unit("B",Role.Protector,8,2,new GridPosition(3,1)),
+                new Unit("X",Role.Enemy,10,6,new GridPosition(1,2))
+            },new[]{"B","X","A"},BattleRules.WithRelic(BattleRules.WatchLantern));
+            var command=new Command(Preference.ProtectAnchor);
+            Assert.That(Rules.Threatened(room,command),Does.Contain("A"));
+            var prepared=Rules.Resolve(room,command);
+            Assert.That(prepared.Plan.Kind,Is.EqualTo(ActionKind.Protect));
+            Assert.That(prepared.Events.Single(e=>e.Kind==EventKind.Protect).Relic,Is.EqualTo(BattleRules.WatchLantern));
+            Assert.That(Rules.Threatened(prepared.State,command),Does.Not.Contain("A"));
+            var hit=Rules.Resolve(prepared.State,command).Events.Single(e=>e.Kind==EventKind.Damage);
+            Assert.That(hit.Amount,Is.EqualTo(3));
+            Assert.That(hit.Relic,Is.EqualTo(BattleRules.WatchLantern));
+        }
+
+        [Test]
+        public void ThornCharmStrengthensARealCounterAfterCarryingHealth()
+        {
+            var room=new EncounterState(3,3,new[]{
+                new Unit("A",Role.Anchor,8,3,new GridPosition(1,1)),
+                new Unit("X",Role.Enemy,10,2,new GridPosition(1,2))
+            },new[]{"X","A"},BattleRules.WithRelic(BattleRules.ThornCharm));
+            var entry=EncounterBuilder.Build(room,new System.Collections.Generic.Dictionary<string,int>{{"A",6}});
+            var replay=new Replay(entry,Preference.DirectAttack);
+            var counter=replay.Advance().Events.Single(e=>e.Kind==EventKind.Counter);
+            Assert.That(counter.Amount,Is.EqualTo(3));
+            Assert.That(counter.Relic,Is.EqualTo(BattleRules.ThornCharm));
+            Assert.That(replay.State.Find("A").Hp,Is.EqualTo(4));
+            Assert.That(replay.State.Find("X").Hp,Is.EqualTo(7));
+        }
+
+        [TestCase("R07",BattleRules.WatchLantern,Preference.ProtectAnchor,17,6,16,12,10)]
+        [TestCase("R02","",Preference.ProtectAnchor,22,6,16,8,10)]
+        [TestCase("R05",BattleRules.ThornCharm,Preference.DirectAttack,32,2,8,12,10)]
+        public void ThirdFloorRoomAndRelicMatchPython(string room,string relic,Preference policy,
+            int steps,int a,int b,int c,int d)
+        {
+            var replay=new Replay(FloorThreeRooms.Build(room,BattleRules.WithRelic(relic)),policy);
+            while(replay.State.Outcome==Outcome.Active)replay.Advance();
+            Assert.That(replay.State.Outcome,Is.EqualTo(Outcome.Victory));
+            Assert.That(replay.State.Step,Is.EqualTo(steps));
+            Assert.That(replay.State.Units.Where(unit=>!unit.Enemy).Select(unit=>unit.Hp),
+                Is.EqualTo(new[]{a,b,c,d}));
+        }
+
         private static Replay Complete(Preference p)
         { var r = new Replay(Fixture.Baseline(),p); while(r.State.Outcome == Outcome.Active) r.Advance(); return r; }
         [TestCase(Preference.ProtectAnchor)] [TestCase(Preference.DirectAttack)]
